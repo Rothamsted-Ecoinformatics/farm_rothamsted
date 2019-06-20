@@ -17,6 +17,15 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     '#tree' => TRUE,
   );
 
+  // Area selection (autocomplete).
+  $form['fertiliser']['area'] = array(
+    '#type' => 'textfield',
+    '#title' => t( 'Area'),
+    '#description' => t('Select the area that fertiliser is being applied to.'),
+    '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_area',
+    '#required' => TRUE,
+  );
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',
