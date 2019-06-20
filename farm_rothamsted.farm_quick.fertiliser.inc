@@ -167,6 +167,16 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  // Fertiliser rate.
+  $form['fertiliser']['rate'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Rate of application (kg/ha)'),
+    '#input_group' => TRUE,
+    '#field_suffix' => t('kg/ha'),
+    '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
+  );
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',
