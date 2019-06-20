@@ -146,6 +146,27 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     }
   }
 
+  // Load fertiliser options (sub-terms of the "Fertiliser" material term).
+  $fertiliser_terms = taxonomy_get_term_by_name('Fertilisers', 'farm_materials');
+  $fertiliser_term = reset($fertiliser_terms);
+  $fertiliser_options = array();
+  if (!empty($fertiliser_term->tid)) {
+    $fertilisers = taxonomy_get_children($fertiliser_term->tid);
+    if (!empty($fertilisers)) {
+      foreach ($fertilisers as $fertiliser) {
+        $fertiliser_options[$fertiliser->tid] = entity_label('taxonomy_term', $fertiliser);
+      }
+    }
+  }
+
+  // Fertiliser select list.
+  $form['fertiliser']['fertiliser'] = array(
+    '#type' => 'select',
+    '#title' => t('Fertiliser'),
+    '#options' => $fertiliser_options,
+    '#required' => TRUE,
+  );
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',

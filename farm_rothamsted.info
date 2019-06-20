@@ -6,3 +6,4 @@ dependencies[] = farm_group
 dependencies[] = farm_movement
 dependencies[] = farm_quick
 dependencies[] = farm_term
+dependencies[] = taxonomy
