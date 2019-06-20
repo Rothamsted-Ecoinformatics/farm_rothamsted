@@ -75,13 +75,76 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
       }
 
       // Experiments selection (group assets).
-      $form['fertiliser']['experiments']['#type'] = 'checkboxes';
-      $form['fertiliser']['experiments'] += array(
+      $form['fertiliser']['experiments']['experiments'] = array(
+        '#type' => 'checkboxes',
         '#title' => t('Experiments'),
         '#options' => $experiment_options,
         '#default_value' => array_keys($experiment_options),
         '#required' => TRUE,
+        '#ajax' => array(
+          'callback' => 'farm_rothamsted_fertiliser_quick_form_plantings_ajax',
+          'wrapper' => 'plantings',
+        ),
       );
+
+      // Create a container for plantings.
+      $form['fertiliser']['experiments']['plantings'] = array(
+        '#type' => 'container',
+        '#prefix' => '<div id="plantings">',
+        '#suffix' => '</div>',
+      );
+
+      // If the user selected experiments, or if default experiments were selected,
+      // load them.
+      $selected_experiments = array();
+      $experiments = array();
+      if (!empty($form_values['experiments']['experiments'])) {
+        $selected_experiments = $form_values['experiments']['experiments'];
+      } elseif (!empty($form['fertiliser']['experiments']['experiments']['#default_value'])) {
+        $selected_experiments = $form['fertiliser']['experiments']['experiments']['#default_value'];
+      }
+
+      // Load selected experiments.
+      if (!empty($selected_experiments)) {
+        foreach ($selected_experiments as $group_id) {
+          $group = farm_asset_load($group_id);
+          if (!empty($group)) {
+            $experiments[$group_id] = $group;
+          }
+        }
+      }
+
+      // If there are experiments, build the list of plantings.
+      if (!empty($experiments)) {
+
+        // Load planting assets that are in the selected groups.
+        $plantings = array();
+        foreach ($experiments as $group_id => $group) {
+          $assets = farm_group_members($group);
+          foreach ($assets as $id => $asset) {
+            if ($asset->type == 'planting') {
+              $plantings[$id] = $asset;
+            }
+          }
+        }
+
+        // Build a list of planting select list options.
+        $planting_options = array();
+        foreach ($plantings as $id => $planting) {
+          $planting_label = entity_label('farm_asset', $planting);
+          $planting_url = entity_uri('farm_asset', $planting);
+          $planting_options[$id] = l($planting_label, $planting_url['path']);
+        }
+
+        // Plantings selection.
+        $form['fertiliser']['experiments']['plantings']['#type'] = 'checkboxes';
+        $form['fertiliser']['experiments']['plantings'] += array(
+          '#title' => t('Plantings'),
+          '#options' => $planting_options,
+          '#default_value' => array_keys($planting_options),
+          '#required' => TRUE,
+        );
+      }
     }
   }
 
@@ -100,6 +163,13 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
  */
 function farm_rothamsted_fertiliser_quick_form_experiments_ajax($form, &$form_state) {
   return $form['fertiliser']['experiments'];
+}
+
+/**
+ * Fertiliser quick form plantings ajax callback.
+ */
+function farm_rothamsted_fertiliser_quick_form_plantings_ajax($form, &$form_state) {
+  return $form['fertiliser']['experiments']['plantings'];
 }
 
 /**
