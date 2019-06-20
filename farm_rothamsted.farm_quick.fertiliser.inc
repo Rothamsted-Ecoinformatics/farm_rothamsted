@@ -177,6 +177,26 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  // Load equipment options.
+  $equipment = entity_load('farm_asset', FALSE, array('type' => 'equipment'));
+  $equipment_options = array();
+  if (!empty($equipment)) {
+    foreach ($equipment as $id => $asset) {
+      $asset_label = entity_label('farm_asset', $asset);
+      $asset_url = entity_uri('farm_asset', $asset);
+      $equipment_options[$id] = l($asset_label, $asset_url['path']);
+    }
+  }
+
+  // Equipment reference.
+  if (!empty($equipment_options)) {
+    $form['fertiliser']['equipment'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Equipment'),
+      '#options' => $equipment_options,
+    );
+  }
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',
