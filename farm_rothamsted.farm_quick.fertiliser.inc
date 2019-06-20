@@ -197,6 +197,34 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     );
   }
 
+  // Load people options.
+  $users = entity_load('user');
+  $user_options = array();
+  foreach ($users as $uid => $user) {
+
+    // Skip user 0 (anonymous) and user 1 (admin).
+    if ($uid <= 1) {
+      continue;
+    }
+
+    // Skip blocked users.
+    if (empty($user->status)) {
+      continue;
+    }
+
+    // Add them to the options.
+    $user_options[$uid] = entity_label('user', $user);
+  }
+
+  // User reference.
+  if (!empty($user_options)) {
+    $form['fertiliser']['users'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Operator'),
+      '#options' => $user_options,
+    );
+  }
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',
