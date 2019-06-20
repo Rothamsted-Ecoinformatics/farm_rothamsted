@@ -283,6 +283,19 @@ function farm_rothamsted_fertiliser_quick_form_plantings_ajax($form, &$form_stat
  */
 function farm_rothamsted_fertiliser_quick_form_validate($form, &$form_state) {
 
+  // Alias $form_state['values']['fertiliser'] for easier use.
+  $form_values = array();
+  if (!empty($form_state['values']['fertiliser'])) {
+    $form_values = &$form_state['values']['fertiliser'];
+  }
+
+  // Load the area, and save it to the form state storage. Throw an error if
+  // there isn't one.
+  $area = farm_term($form_values['area'], 'farm_areas', FALSE);
+  if (empty($area)) {
+    form_set_error('fertiliser][area', t('The selected area could not be found.'));
+  }
+  $form_state['storage']['area'] = $area;
 }
 
 /**
@@ -290,4 +303,97 @@ function farm_rothamsted_fertiliser_quick_form_validate($form, &$form_state) {
  */
 function farm_rothamsted_fertiliser_quick_form_submit($form, &$form_state) {
 
+  // Alias $form_state['values']['fertiliser'] for easier use.
+  $form_values = array();
+  if (!empty($form_state['values']['fertiliser'])) {
+    $form_values = &$form_state['values']['fertiliser'];
+  }
+
+  // Get the timestamp.
+  $timestamp = strtotime($form_values['date']);
+
+  // Get the area from form state storage.
+  $area = $form_state['storage']['area'];
+
+  // The log type will be an input.
+  $log_type = 'farm_input';
+
+  // Initialize an empty measurements array.
+  $measurements = array();
+
+  // Add the rate of application.
+  $fertiliser_rate = array(
+    'measure' => 'rate',
+    'value' => $form_values['rate'],
+    'units' => 'kg/ha',
+  );
+  $measurements[] = $fertiliser_rate;
+
+  // Load the selected material term.
+  $material_id = $form_values['fertiliser'];
+  $material_term = taxonomy_term_load($material_id);
+  $material_label = entity_label('taxonomy_term', $material_term);
+
+  // Set log name.
+  $args = array(
+    '@qty' => $fertiliser_rate['value'],
+    '@units' => $fertiliser_rate['units'],
+    '@material' => $material_label,
+    '@area' => entity_label('taxonomy_term', $area),
+  );
+  $log_name = t('Fertiliser application: @qty @units @material into @area', $args);
+
+  // Create a new farm quantity log.
+  $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
+
+  // Get the log entity wrapper.
+  $log_wrapper = entity_metadata_wrapper('log', $log);
+
+  // Add the area reference.
+  $log_wrapper->field_farm_area[] = $area;
+
+  // Add the material.
+  $log_wrapper->field_farm_material[] = $material_term;
+
+  // Set the purpose to "Fertiliser".
+  $log_wrapper->field_farm_input_purpose->set(t('Fertiliser'));
+
+  // If plantings were selected, reference them in the "Assets" field.
+  if (!empty($form_values['experiments']['plantings'])) {
+    $planting_ids = array_values(array_filter($form_values['experiments']['plantings']));
+    if (!empty($planting_ids)) {
+      $log_wrapper->field_farm_asset->set($planting_ids);
+    }
+  }
+
+  // If equipment was selected, reference them in the "Equipment Used" field.
+  if (!empty($form_values['equipment'])) {
+    $equipment_ids = array_values(array_filter($form_values['equipment']));
+    if (!empty($equipment_ids)) {
+      $log_wrapper->field_farm_equipment->set($equipment_ids);
+    }
+  }
+
+  // If users were selected, reference them in the "Log Owner" field.
+  if (!empty($form_values['users'])) {
+    $user_ids = array_values(array_filter($form_values['users']));
+    if (!empty($user_ids)) {
+      $log_wrapper->field_farm_log_owner->set($user_ids);
+    }
+  }
+
+  // Add notes.
+  if (!empty($form_values['notes']['value'])) {
+    $notes = check_plain($form_values['notes']['value']);
+    $log_wrapper->field_farm_notes->value->set($notes);
+    $log_wrapper->field_farm_notes->format->set($form_values['notes']['format']);
+  }
+
+  // Save the log (via its wrapper).
+  $log_wrapper->save();
+
+  // Link the log to the quick form.
+  if (function_exists('farm_quick_entity_link')) {
+    farm_quick_entity_link('farm_rothamsted_fertiliser_quick_form', 'log', $log);
+  }
 }
