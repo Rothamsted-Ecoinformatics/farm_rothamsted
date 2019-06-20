@@ -80,7 +80,6 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
         '#title' => t('Experiments'),
         '#options' => $experiment_options,
         '#default_value' => array_keys($experiment_options),
-        '#required' => TRUE,
         '#ajax' => array(
           'callback' => 'farm_rothamsted_fertiliser_quick_form_plantings_ajax',
           'wrapper' => 'plantings',
@@ -142,7 +141,6 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
           '#title' => t('Plantings'),
           '#options' => $planting_options,
           '#default_value' => array_keys($planting_options),
-          '#required' => TRUE,
         );
       }
     }
