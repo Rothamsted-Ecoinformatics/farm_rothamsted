@@ -225,6 +225,35 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     );
   }
 
+  // Application date.
+  $date_format = 'Y-m-d';
+  $form['fertiliser']['date'] = array(
+    '#type' => 'date_select',
+    '#title' => t('Date'),
+    '#date_format' => $date_format,
+    '#date_label_position' => 'within',
+    '#date_year_range' => '-3:+10',
+    '#default_value' => REQUEST_TIME,
+    '#required' => TRUE,
+  );
+
+  // Time spent.
+  $form['fertiliser']['time'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Hours spent'),
+    '#input_group' => TRUE,
+    '#field_suffix' => t('hours'),
+    '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
+  );
+
+  // Notes.
+  $form['fertiliser']['notes'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Notes'),
+    '#format' => 'farm_format',
+  );
+
   // Submit button.
   $form['fertiliser']['submit'] = array(
     '#type' => 'submit',
