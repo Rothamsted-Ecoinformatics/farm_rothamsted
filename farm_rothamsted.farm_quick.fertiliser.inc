@@ -10,6 +10,12 @@
  */
 function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
 
+  // Alias $form_state['values']['fertiliser'] for easier use.
+  $form_values = array();
+  if (!empty($form_state['values']['fertiliser'])) {
+    $form_values = &$form_state['values']['fertiliser'];
+  }
+
   // Wrapper fieldset.
   $form['fertiliser'] = array(
     '#type' => 'fieldset',
@@ -24,7 +30,60 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
     '#description' => t('Select the area that fertiliser is being applied to.'),
     '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_area',
     '#required' => TRUE,
+    '#ajax' => array(
+      'callback' => 'farm_rothamsted_fertiliser_quick_form_experiments_ajax',
+      'wrapper' => 'experiments',
+    ),
   );
+
+  // Create a container for experiments.
+  $form['fertiliser']['experiments'] = array(
+    '#type' => 'container',
+    '#prefix' => '<div id="experiments">',
+    '#suffix' => '</div>',
+  );
+
+  // If an area is selected, load experiments in it (active group assets).
+  if (!empty($form_values['area'])) {
+
+    // Load the area.
+    $area = farm_term(check_plain($form_values['area']), 'farm_areas', FALSE);
+
+    // If the area couldn't be loaded, bail with an error.
+    if (empty($area)) {
+      drupal_set_message(t('The selected area could not be found.'), 'error');
+    }
+
+    // Otherwise, build the list of experiments.
+    else {
+
+      // Load group assets that are present in the selected area.
+      $assets = farm_movement_area_assets($area);
+      $groups = array();
+      foreach ($assets as $id => $asset) {
+        if ($asset->type == 'group') {
+          $groups[$id] = $asset;
+        }
+      }
+
+      // Build a list of group select list options.
+      $experiment_options = array();
+      foreach ($groups as $id => $group) {
+        $group_label = entity_label('farm_asset', $group);
+        $group_url = entity_uri('farm_asset', $group);
+        $experiment_options[$id] = l($group_label, $group_url['path']);
+      }
+
+      // Experiments selection (group assets).
+      $form['fertiliser']['experiments']['#type'] = 'checkboxes';
+      $form['fertiliser']['experiments'] += array(
+        '#title' => t('Experiments'),
+        '#options' => $experiment_options,
+        '#default_value' => array_keys($experiment_options),
+        '#required' => TRUE,
+      );
+    }
+  }
 
   // Submit button.
   $form['fertiliser']['submit'] = array(
@@ -34,6 +93,13 @@ function farm_rothamsted_fertiliser_quick_form($form, &$form_state) {
 
   // Return the form.
   return $form;
+}
+
+/**
+ * Fertiliser quick form experiments ajax callback.
+ */
+function farm_rothamsted_fertiliser_quick_form_experiments_ajax($form, &$form_state) {
+  return $form['fertiliser']['experiments'];
 }
 
 /**
