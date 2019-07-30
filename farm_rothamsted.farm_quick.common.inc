@@ -15,8 +15,11 @@
  *   The form array passed in by the form builder function.
  * @param $form_state
  *   The form state passed in by the form builder function.
+ * @param $select_plantings
+ *   Boolean: whether or not to display a list of plantings associated with
+ *   experiments and link created logs to them. Defaults to TRUE.
  */
-function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state) {
+function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $select_plantings = TRUE) {
 
   // Store the machine name for future use.
   $form['name'] = array(
@@ -96,68 +99,74 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state) {
         '#title' => t('Experiments'),
         '#options' => $experiment_options,
         '#default_value' => array_keys($experiment_options),
-        '#ajax' => array(
+      );
+
+      // If we want to allow the user to select plantings...
+      if ($select_plantings) {
+
+        // Add AJAX to the experiments field.
+        $form[$name]['experiments']['experiments']['#ajax'] = array(
           'callback' => 'farm_rothamsted_quick_form_base_plantings_ajax',
           'wrapper' => 'plantings',
-        ),
-      );
+        );
 
-      // Create a container for plantings.
-      $form[$name]['experiments']['plantings'] = array(
-        '#type' => 'container',
-        '#prefix' => '<div id="plantings">',
-        '#suffix' => '</div>',
-      );
+        // Create a container for plantings.
+        $form[$name]['experiments']['plantings'] = array(
+          '#type' => 'container',
+          '#prefix' => '<div id="plantings">',
+          '#suffix' => '</div>',
+        );
 
-      // If the user selected experiments, or if default experiments were selected,
-      // load them.
-      $selected_experiments = array();
-      $experiments = array();
-      if (!empty($form_values['experiments']['experiments'])) {
-        $selected_experiments = $form_values['experiments']['experiments'];
-      } elseif (!empty($form[$name]['experiments']['experiments']['#default_value'])) {
-        $selected_experiments = $form[$name]['experiments']['experiments']['#default_value'];
-      }
-
-      // Load selected experiments.
-      if (!empty($selected_experiments)) {
-        foreach ($selected_experiments as $group_id) {
-          $group = farm_asset_load($group_id);
-          if (!empty($group)) {
-            $experiments[$group_id] = $group;
-          }
+        // If the user selected experiments, or if default experiments were selected,
+        // load them.
+        $selected_experiments = array();
+        $experiments = array();
+        if (!empty($form_values['experiments']['experiments'])) {
+          $selected_experiments = $form_values['experiments']['experiments'];
+        } elseif (!empty($form[$name]['experiments']['experiments']['#default_value'])) {
+          $selected_experiments = $form[$name]['experiments']['experiments']['#default_value'];
         }
-      }
 
-      // If there are experiments, build the list of plantings.
-      if (!empty($experiments)) {
-
-        // Load planting assets that are in the selected groups.
-        $plantings = array();
-        foreach ($experiments as $group_id => $group) {
-          $assets = farm_group_members($group);
-          foreach ($assets as $id => $asset) {
-            if ($asset->type == 'planting') {
-              $plantings[$id] = $asset;
+        // Load selected experiments.
+        if (!empty($selected_experiments)) {
+          foreach ($selected_experiments as $group_id) {
+            $group = farm_asset_load($group_id);
+            if (!empty($group)) {
+              $experiments[$group_id] = $group;
             }
           }
         }
 
-        // Build a list of planting select list options.
-        $planting_options = array();
-        foreach ($plantings as $id => $planting) {
-          $planting_label = entity_label('farm_asset', $planting);
-          $planting_url = entity_uri('farm_asset', $planting);
-          $planting_options[$id] = l($planting_label, $planting_url['path']);
-        }
+        // If there are experiments, build the list of plantings.
+        if (!empty($experiments)) {
 
-        // Plantings selection.
-        $form[$name]['experiments']['plantings']['#type'] = 'checkboxes';
-        $form[$name]['experiments']['plantings'] += array(
-          '#title' => t('Plantings'),
-          '#options' => $planting_options,
-          '#default_value' => array_keys($planting_options),
-        );
+          // Load planting assets that are in the selected groups.
+          $plantings = array();
+          foreach ($experiments as $group_id => $group) {
+            $assets = farm_group_members($group);
+            foreach ($assets as $id => $asset) {
+              if ($asset->type == 'planting') {
+                $plantings[$id] = $asset;
+              }
+            }
+          }
+
+          // Build a list of planting select list options.
+          $planting_options = array();
+          foreach ($plantings as $id => $planting) {
+            $planting_label = entity_label('farm_asset', $planting);
+            $planting_url = entity_uri('farm_asset', $planting);
+            $planting_options[$id] = l($planting_label, $planting_url['path']);
+          }
+
+          // Plantings selection.
+          $form[$name]['experiments']['plantings']['#type'] = 'checkboxes';
+          $form[$name]['experiments']['plantings'] += array(
+            '#title' => t('Plantings'),
+            '#options' => $planting_options,
+            '#default_value' => array_keys($planting_options),
+          );
+        }
       }
     }
   }
