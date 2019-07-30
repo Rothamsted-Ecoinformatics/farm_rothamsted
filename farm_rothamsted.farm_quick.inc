@@ -27,5 +27,11 @@ function farm_rothamsted_farm_quick_forms() {
       'form' => 'farm_rothamsted_cultivation_quick_form',
       'file' => 'farm_rothamsted.farm_quick.cultivation.inc',
     ),
+    'spraying' => array(
+      'label' => t('Spraying'),
+      'permission' => 'create farm_input log entities',
+      'form' => 'farm_rothamsted_spraying_quick_form',
+      'file' => 'farm_rothamsted.farm_quick.spraying.inc',
+    ),
   );
 }

@@ -4,3 +4,15 @@
  * @file
  * farmOS Rothamsted module.
  */
+
+/**
+ * Implements hook_theme
+ */
+function farm_rothamsted_theme() {
+  return array(
+    'farm_rothamsted_spraying_chemicals_fieldset' => array(
+      'render element' => 'fieldset',
+      'file' => 'farm_rothamsted.farm_quick.spraying.inc',
+    ),
+  );
+}
