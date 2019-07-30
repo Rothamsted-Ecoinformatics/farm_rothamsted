@@ -15,5 +15,11 @@ function farm_rothamsted_farm_quick_forms() {
       'form' => 'farm_rothamsted_fertiliser_quick_form',
       'file' => 'farm_rothamsted.farm_quick.fertiliser.inc',
     ),
+    'cultivation' => array(
+      'label' => t('Cultivation'),
+      'permission' => 'create farm_activity log entities',
+      'form' => 'farm_rothamsted_cultivation_quick_form',
+      'file' => 'farm_rothamsted.farm_quick.cultivation.inc',
+    ),
   );
 }
