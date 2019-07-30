@@ -15,6 +15,12 @@ function farm_rothamsted_farm_quick_forms() {
       'form' => 'farm_rothamsted_fertiliser_quick_form',
       'file' => 'farm_rothamsted.farm_quick.fertiliser.inc',
     ),
+    'drilling' => array(
+      'label' => t('Drilling'),
+      'permission' => 'create farm_seeding log entities',
+      'form' => 'farm_rothamsted_drilling_quick_form',
+      'file' => 'farm_rothamsted.farm_quick.drilling.inc',
+    ),
     'cultivation' => array(
       'label' => t('Cultivation'),
       'permission' => 'create farm_activity log entities',
