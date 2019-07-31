@@ -333,7 +333,18 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state) {
   $area = $form_state['storage']['area'];
 
   // Add the area reference.
-  $log_wrapper->field_farm_area[] = $area;
+  // If this is a seeding log, then it needs to be added as a movement field
+  // collection. Otherwise it can just be added to field_farm_area.
+  if ($log->type == 'farm_seeding') {
+    $movement = entity_create('field_collection_item', array('field_name' => 'field_farm_movement'));
+    $movement->setHostEntity('log', $log);
+    $movement_wrapper = entity_metadata_wrapper('field_collection_item', $movement);
+    $movement_wrapper->field_farm_move_to[] = $area;
+    $movement_wrapper->save();
+  }
+  else {
+    $log_wrapper->field_farm_area[] = $area;
+  }
 
   // If plantings were selected, reference them in the "Assets" field.
   if (!empty($form_values['experiments']['plantings'])) {
