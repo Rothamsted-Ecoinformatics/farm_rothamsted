@@ -33,5 +33,11 @@ function farm_rothamsted_farm_quick_forms() {
       'form' => 'farm_rothamsted_spraying_quick_form',
       'file' => 'farm_rothamsted.farm_quick.spraying.inc',
     ),
+    'harvest' => array(
+      'label' => t('Harvest'),
+      'permission' => 'create farm_harvest log entities',
+      'form' => 'farm_rothamsted_harvest_quick_form',
+      'file' => 'farm_rothamsted.farm_quick.harvest.inc',
+    ),
   );
 }
