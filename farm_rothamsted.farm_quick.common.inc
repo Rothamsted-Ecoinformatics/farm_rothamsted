@@ -309,13 +309,17 @@ function farm_rothamsted_quick_form_base_validate($form, &$form_state) {
  *
  * @param $log
  *   The log object created by the submit function.
+ * @param $form_state
+ *   The form state passed in from the submit function.
+ * @param array $notes
+ *   Optionally an array of additional notes to add to the log.
  *
  * @return \EntityMetadataWrapper
  *   Returns an Entity Metadata Wrapper object for the log. The submit function
  *   should call save() on this object to complete the process (after performing
  *   its own modifications).
  */
-function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state) {
+function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $notes = array()) {
 
   // Get the machine name.
   $name = $form_state['values']['name'];
@@ -372,8 +376,17 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state) {
 
   // Add notes.
   if (!empty($form_values['notes']['value'])) {
-    $notes = check_plain($form_values['notes']['value']);
-    $log_wrapper->field_farm_notes->value->set($notes);
+    $notes[] = $form_values['notes']['value'];
+  }
+  if (!empty($notes)) {
+    $notes_text = '';
+    foreach ($notes as $note) {
+      if (!empty($notes_text)) {
+        $notes_text .= "\n\n";
+      }
+      $notes_text .= check_plain($note);
+    }
+    $log_wrapper->field_farm_notes->value->set($notes_text);
     $log_wrapper->field_farm_notes->format->set($form_values['notes']['format']);
   }
 

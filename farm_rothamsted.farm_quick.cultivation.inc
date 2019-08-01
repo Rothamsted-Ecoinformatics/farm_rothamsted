@@ -118,39 +118,22 @@ function farm_rothamsted_cultivation_quick_form_submit($form, &$form_state) {
   // Create a new farm quantity log.
   $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
 
-  // Call the Rothamsted quick form helper function, which generates a log
-  // metadata wrapper.
-  $log_wrapper = farm_rothamsted_quick_form_base_submit_helper($log, $form_state);
-
-  // We may want to add some text to the notes, so first get the existing notes.
-  $notes = '';
-  $save_notes = FALSE;
-  if (!empty($log_wrapper->field_farm_notes->value())) {
-    $notes = $log_wrapper->field_farm_notes->value->value();
-  }
+  // Assemble extra notes.
+  $extra_notes = array();
 
   // Add the direction of work to notes.
   if (!empty($form_values['direction'])) {
-    if (!empty($notes)) {
-      $notes .= "\n\n";
-    }
-    $notes .= 'Direction of work (driven): ' . $form_values['direction'];
-    $save_notes = TRUE;
+    $extra_notes[] = 'Direction of work (driven): ' . $form_values['direction'];
   }
 
   // Add the plough thrown to notes.
   if (!empty($form_values['thrown'])) {
-    if (!empty($notes)) {
-      $notes .= "\n\n";
-    }
-    $notes .= 'Plough thrown: ' . $form_values['thrown'];
-    $save_notes = TRUE;
+    $extra_notes[] = 'Plough thrown: ' . $form_values['thrown'];
   }
 
-  // Save the notes, if they have been modified.
-  if ($save_notes) {
-    $log_wrapper->field_farm_notes->value->set($notes);
-  }
+  // Call the Rothamsted quick form helper function, which generates a log
+  // metadata wrapper.
+  $log_wrapper = farm_rothamsted_quick_form_base_submit_helper($log, $form_state, $extra_notes);
 
   // Save the log (via its wrapper).
   $log_wrapper->save();
