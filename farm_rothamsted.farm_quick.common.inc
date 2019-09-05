@@ -44,7 +44,7 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $s
   $form[$name]['area'] = array(
     '#type' => 'textfield',
     '#title' => t( 'Area'),
-    '#description' => t('Select the area that this pertains to.'),
+    '#description' => t('Select the area that this pertains to. This will present you with a list of experiments in the area (and in child areas), which you can select all or some of.'),
     '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_area',
     '#required' => TRUE,
     '#ajax' => array(
@@ -62,35 +62,46 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $s
     '#weight' => -40,
   );
 
-  // If an area is selected, load experiments in it (active group assets).
+  // If an area is selected, load experiments (active group assets) in it, and
+  // in child areas.
   if (!empty($form_values['area'])) {
 
-    // Load the area.
-    $area = farm_term(check_plain($form_values['area']), 'farm_areas', FALSE);
+    // Start an empty array of areas (parent and children).
+    $areas = array();
+
+    // Load the parent area.
+    $parent_area = farm_term(check_plain($form_values['area']), 'farm_areas', FALSE);
 
     // If the area couldn't be loaded, bail with an error.
-    if (empty($area)) {
+    if (empty($parent_area)) {
       drupal_set_message(t('The selected area could not be found.'), 'error');
     }
 
     // Otherwise, build the list of experiments.
     else {
 
-      // Load group assets that are present in the selected area.
-      $assets = farm_movement_area_assets($area);
-      $groups = array();
-      foreach ($assets as $id => $asset) {
-        if ($asset->type == 'group') {
-          $groups[$id] = $asset;
-        }
-      }
-
-      // Build a list of group select list options.
+      // Start an empty array of experiment options.
       $experiment_options = array();
-      foreach ($groups as $id => $group) {
-        $group_label = entity_label('farm_asset', $group);
-        $group_url = entity_uri('farm_asset', $group);
-        $experiment_options[$id] = l($group_label, $group_url['path']);
+
+      // Add the parent area to the list of areas.
+      $areas[] = $parent_area;
+
+      // Load all child areas.
+      $child_areas = taxonomy_get_children($parent_area->tid);
+      $areas = array_merge($areas, $child_areas);
+
+      // Iterate through all areas, load group assets that are present, and add
+      // them to the options list.
+      foreach ($areas as $area) {
+        $assets = farm_movement_area_assets($area);
+        foreach ($assets as $id => $asset) {
+          if ($asset->type != 'group') {
+            continue;
+          }
+          $group_label = entity_label('farm_asset', $asset);
+          $group_url = entity_uri('farm_asset', $asset);
+          $experiment_options[$id] = l($group_label, $group_url['path']);
+        }
       }
 
       // Experiments selection (group assets).
@@ -333,29 +344,44 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $note
   // Get the log entity wrapper.
   $log_wrapper = entity_metadata_wrapper('log', $log);
 
-  // Get the area from form state storage.
-  $area = $form_state['storage']['area'];
+  // If plantings were selected, reference them in the "Assets" field.
+  $planting_ids = array();
+  if (!empty($form_values['experiments']['plantings'])) {
+    $planting_ids = array_values(array_filter($form_values['experiments']['plantings']));
+    if (!empty($planting_ids)) {
+      $log_wrapper->field_farm_asset->set($planting_ids);
+    }
+  }
 
-  // Add the area reference.
+  // Load the locations of all selected plantings
+  $areas = array();
+  if (!empty($planting_ids)) {
+    $plantings = entity_load('farm_asset', $planting_ids);
+    foreach ($plantings as $planting) {
+      $locations = farm_movement_asset_location($planting);
+      if (!empty($locations)) {
+        $areas = array_merge($areas, $locations);
+      }
+    }
+  }
+
+  // If no areas were found, use the area from form state storage.
+  if (empty($areas)) {
+    $areas[] = $form_state['storage']['area'];
+  }
+
+  // Add the area references.
   // If this is a seeding log, then it needs to be added as a movement field
   // collection. Otherwise it can just be added to field_farm_area.
   if ($log->type == 'farm_seeding') {
     $movement = entity_create('field_collection_item', array('field_name' => 'field_farm_movement'));
     $movement->setHostEntity('log', $log);
     $movement_wrapper = entity_metadata_wrapper('field_collection_item', $movement);
-    $movement_wrapper->field_farm_move_to[] = $area;
+    $movement_wrapper->field_farm_move_to = $areas;
     $movement_wrapper->save();
   }
   else {
-    $log_wrapper->field_farm_area[] = $area;
-  }
-
-  // If plantings were selected, reference them in the "Assets" field.
-  if (!empty($form_values['experiments']['plantings'])) {
-    $planting_ids = array_values(array_filter($form_values['experiments']['plantings']));
-    if (!empty($planting_ids)) {
-      $log_wrapper->field_farm_asset->set($planting_ids);
-    }
+    $log_wrapper->field_farm_area = $areas;
   }
 
   // If equipment was selected, reference them in the "Equipment Used" field.
