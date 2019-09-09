@@ -45,8 +45,14 @@ function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
   // Define direction options.
   $direction_options = array(
     '',
-    'North',
-    'South',
+    'N',
+    'NE',
+    'E',
+    'SE',
+    'S',
+    'SW',
+    'W',
+    'NW',
   );
 
   // Direction of work (driven).
