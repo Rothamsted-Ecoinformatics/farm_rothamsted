@@ -345,7 +345,6 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $note
   $log_wrapper = entity_metadata_wrapper('log', $log);
 
   // If plantings were selected, reference them in the "Assets" field.
-  $planting_ids = array();
   if (!empty($form_values['experiments']['plantings'])) {
     $planting_ids = array_values(array_filter($form_values['experiments']['plantings']));
     if (!empty($planting_ids)) {
@@ -353,12 +352,13 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $note
     }
   }
 
-  // Load the locations of all selected plantings
+  // Load the locations of all selected experiments.
   $areas = array();
-  if (!empty($planting_ids)) {
-    $plantings = entity_load('farm_asset', $planting_ids);
-    foreach ($plantings as $planting) {
-      $locations = farm_movement_asset_location($planting);
+  if (!empty($form_values['experiments']['experiments'])) {
+    $experiment_ids = array_values(array_filter($form_values['experiments']['experiments']));
+    $experiments = entity_load('farm_asset', $experiment_ids);
+    foreach ($experiments as $experiment) {
+      $locations = farm_movement_asset_location($experiment);
       if (!empty($locations)) {
         $areas = array_merge($areas, $locations);
       }
