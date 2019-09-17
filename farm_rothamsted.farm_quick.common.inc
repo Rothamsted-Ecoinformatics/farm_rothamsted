@@ -400,6 +400,14 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $note
     }
   }
 
+  // Add time spent.
+  $time_spent = array(
+    'measure' => 'time',
+    'value' => $form_values['time'],
+    'units' => 'hours',
+  );
+  farm_quantity_log_add_measurements($log, array($time_spent));
+
   // Add notes.
   if (!empty($form_values['notes']['value'])) {
     $notes[] = $form_values['notes']['value'];
