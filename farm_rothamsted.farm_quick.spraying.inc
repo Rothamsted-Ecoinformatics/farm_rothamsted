@@ -94,12 +94,12 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#element_validate' => array('element_validate_number'),
   );
 
-  // Wind speed (mph).
+  // Wind speed (kph).
   $form[$name]['wind_speed'] = array(
     '#type' => 'textfield',
-    '#title' => t('Wind speed (mph)'),
+    '#title' => t('Wind speed (kph)'),
     '#input_group' => TRUE,
-    '#field_suffix' => t('mph'),
+    '#field_suffix' => t('kph'),
     '#element_validate' => array('element_validate_number'),
   );
 
@@ -312,7 +312,7 @@ function farm_rothamsted_spraying_quick_form_submit($form, &$form_state) {
   if (!empty($form_values['wind_speed']) || !empty($form_values['wind_direction'])) {
     $note = 'Wind:';
     if (!empty($form_values['wind_speed'])) {
-      $note .= ' ' . $form_values['wind_speed'] . ' mph';
+      $note .= ' ' . $form_values['wind_speed'] . ' kph';
     }
     if (!empty($form_values['wind_direction'])) {
       $note .= ' ' . $form_values['wind_direction'];
