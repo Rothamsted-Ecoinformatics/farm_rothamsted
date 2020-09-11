@@ -203,8 +203,17 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $s
     );
   }
 
-  // Load people options.
-  $users = entity_load('user');
+  // Load the farm operator role.
+  $operator_role = user_role_load_by_name('Farm Operator');
+
+  // Load uids of users that have the farm operator role.
+  $query = 'SELECT DISTINCT(ur.uid) FROM {users_roles} as ur WHERE ur.rid = ' . $operator_role->rid;
+  $result = db_query($query);
+  $uids = $result->fetchCol();
+
+  // Load users.
+  $users = user_load_multiple($uids);
+
   $user_options = array();
   foreach ($users as $uid => $user) {
 
