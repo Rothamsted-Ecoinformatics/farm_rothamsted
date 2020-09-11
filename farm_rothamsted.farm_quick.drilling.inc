@@ -16,7 +16,8 @@ function farm_rothamsted_drilling_quick_form($form, &$form_state) {
   // Create a base Rothamsted quick form.
   $name = 'drilling';
   $title = t('Drilling Form');
-  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, FALSE);
+  $equipment_group_names = ['Tractor Equipment', 'Drilling Equipment'];
+  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names, FALSE);
 
   // Alias $form_state['values'][$name] for easier use.
   $form_values = array();

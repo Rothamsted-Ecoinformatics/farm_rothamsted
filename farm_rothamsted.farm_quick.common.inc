@@ -15,11 +15,14 @@
  *   The form array passed in by the form builder function.
  * @param $form_state
  *   The form state passed in by the form builder function.
+ * @param $equipment_group_names
+ *   Array: Array of group asset names to load equipment assets from.
+ *   Defaults to an empty array that will not display equipment assets.
  * @param $select_plantings
  *   Boolean: whether or not to display a list of plantings associated with
  *   experiments and link created logs to them. Defaults to TRUE.
  */
-function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $select_plantings = TRUE) {
+function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $equipment_group_names = [], $select_plantings = TRUE) {
 
   // Store the machine name for future use.
   $form['name'] = array(
@@ -182,14 +185,24 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $s
     }
   }
 
-  // Load equipment options.
-  $equipment = entity_load('farm_asset', FALSE, array('type' => 'equipment'));
+  // Load specified equipment groups.
+  $groups = entity_load('farm_asset', FALSE, array('type' => 'group', 'name' => $equipment_group_names));
+
+  // Load group members.
+  $equipment = array();
+  foreach ($groups as $group) {
+    $equipment += farm_group_members($group);
+  }
+
+  // Create equipment options.
   $equipment_options = array();
   if (!empty($equipment)) {
     foreach ($equipment as $id => $asset) {
-      $asset_label = entity_label('farm_asset', $asset);
-      $asset_url = entity_uri('farm_asset', $asset);
-      $equipment_options[$id] = l($asset_label, $asset_url['path']);
+      if ($asset->type == 'equipment') {
+        $asset_label = entity_label('farm_asset', $asset);
+        $asset_url = entity_uri('farm_asset', $asset);
+        $equipment_options[$id] = l($asset_label, $asset_url['path']);
+      }
     }
   }
 

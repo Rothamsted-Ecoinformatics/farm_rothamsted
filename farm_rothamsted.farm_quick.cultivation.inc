@@ -16,7 +16,8 @@ function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
   // Create a base Rothamsted quick form.
   $name = 'cultivation';
   $title = t('Cultivation Form');
-  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, FALSE);
+  $equipment_group_names = ['Tractor Equipment', 'Cultivation Equipment'];
+  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names, FALSE);
 
   // Cultivation type.
   $cultivation_type_options = array(

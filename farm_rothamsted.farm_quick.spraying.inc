@@ -16,7 +16,8 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
   // Create a base Rothamsted quick form.
   $name = 'spraying';
   $title = t('Spraying Form');
-  farm_rothamsted_quick_form_base($name, $title, $form, $form_state);
+  $equipment_group_names = ['Tractor Equipment', 'Input Equipment'];
+  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names);
 
   // Chemicals fieldset.
   $form[$name]['chemicals'] = array(

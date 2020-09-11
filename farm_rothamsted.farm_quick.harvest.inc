@@ -16,7 +16,8 @@ function farm_rothamsted_harvest_quick_form($form, &$form_state) {
   // Create a base Rothamsted quick form.
   $name = 'harvest';
   $title = t('Harvest Form');
-  farm_rothamsted_quick_form_base($name, $title, $form, $form_state);
+  $equipment_group_names = ['Tractor Equipment', 'Harvest Machinery Equipment'];
+  farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names);
 
   // Quantity measure (weight or volume).
   $form[$name]['quantity']['measure'] = array(
