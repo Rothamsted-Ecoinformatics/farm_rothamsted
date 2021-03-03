@@ -261,7 +261,7 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $e
     '#title' => t('Date'),
     '#date_format' => $date_format,
     '#date_label_position' => 'within',
-    '#date_year_range' => '-3:+10',
+    '#date_year_range' => '-15:+10',
     '#default_value' => REQUEST_TIME,
     '#required' => TRUE,
     '#weight' => 30,
