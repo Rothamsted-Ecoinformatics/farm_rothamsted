@@ -1,0 +1,5 @@
+name: farmOS Rothamsted
+description: Custom farmOS features for Rothamsted Research.
+type: module
+package: farmOS Contrib
+core_version_requirement: ^9

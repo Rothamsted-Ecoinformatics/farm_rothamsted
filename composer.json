@@ -1,0 +1,11 @@
+{
+  "name": "farmier/farm_rothamsted",
+  "description": "Custom farmOS features for Rothamsted Research.",
+  "type": "drupal-module",
+  "authors": [
+      {
+          "name": "Michael Stenta",
+          "email": "mike@farmier.com"
+      }
+  ]
+}
