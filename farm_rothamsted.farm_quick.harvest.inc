@@ -19,32 +19,79 @@ function farm_rothamsted_harvest_quick_form($form, &$form_state) {
   $equipment_group_names = ['Tractor Equipment', 'Harvest Machinery Equipment'];
   farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names);
 
-  // Quantity measure (weight or volume).
-  $form[$name]['quantity']['measure'] = array(
+  // Number of quantities to create.
+  $form[$name]['quantity']['count'] = array(
     '#type' => 'select',
-    '#title' => t('Quantity measure'),
-    '#options' => array(
-      'weight' => t('Weight'),
-      'volume' => t('Volume'),
+    '#title' => t('How many quantities are associated with this harvest?'),
+    '#options' => drupal_map_assoc(range(1, 5)),
+    '#default_value' => 1,
+    '#ajax' => array(
+      'callback' => 'farm_rothamsted_harvest_quick_form_quantities_ajax',
+      'wrapper' => 'farm-rothamsted-harvest-quantities',
     ),
   );
 
-  // Quantity value.
-  $form[$name]['quantity']['value'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Quantity value'),
-    '#element_validate' => array('element_validate_number'),
+  // Create a wrapper around all quantity fields, for AJAX replacement.
+  $form[$name]['quantity']['quantities'] = array(
+    '#prefix' => '<div id="farm-rothamsted-harvest-quantities">',
+    '#suffix' => '</div>',
   );
 
-  // Quantity units.
-  $form[$name]['quantity']['units'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Quantity units'),
-    '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_quantity_units',
-  );
+  // Add fields for each quantity.
+  $quantities = 1;
+  if (!empty($form_state['values'][$name]['quantity']['count'])) {
+    $quantities = $form_state['values'][$name]['quantity']['count'];
+  }
+  for ($i = 0; $i < $quantities; $i++) {
+
+    // Fieldset for each quantity.
+    $form[$name]['quantity']['quantities'][$i] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Quantity @number', array('@number' => $i + 1)),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+
+    // Quantity measure (weight or volume).
+    $form[$name]['quantity']['quantities'][$i]['measure'] = array(
+      '#type' => 'select',
+      '#title' => t('Quantity measure'),
+      '#options' => array(
+        'weight' => t('Weight'),
+        'volume' => t('Volume'),
+      ),
+    );
+
+    // Quantity value.
+    $form[$name]['quantity']['quantities'][$i]['value'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Quantity value'),
+      '#element_validate' => array('element_validate_number'),
+    );
+
+    // Quantity units.
+    $form[$name]['quantity']['quantities'][$i]['units'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Quantity units'),
+      '#autocomplete_path' => 'taxonomy/autocomplete/field_farm_quantity_units',
+    );
+
+    // Quantity label.
+    $form[$name]['quantity']['quantities'][$i]['label'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Label'),
+    );
+  }
 
   // Return the form.
   return $form;
+}
+
+/**
+ * Form ajax function for harvest quick form quantities.
+ */
+function farm_rothamsted_harvest_quick_form_quantities_ajax($form, &$form_state) {
+  return $form['harvest']['quantity']['quantities'];
 }
 
 /**
@@ -73,12 +120,13 @@ function farm_rothamsted_harvest_quick_form_submit($form, &$form_state) {
   // Initialize an empty measurements array.
   $measurements = array();
 
-  // Add the harvest quantity.
-  if (!empty($form_values['quantity']['value'])) {
+  // Add the harvest quantities.
+  foreach ($form_values['quantity']['quantities'] as $quantity) {
     $measurements[] = array(
-      'measure' => $form_values['quantity']['measure'],
-      'value' => $form_values['quantity']['value'],
-      'units' => $form_values['quantity']['units'],
+      'measure' => $quantity['measure'],
+      'value' => $quantity['value'],
+      'units' => $quantity['units'],
+      'label' => $quantity['label'],
     );
   }
 
