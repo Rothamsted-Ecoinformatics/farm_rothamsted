@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted
+id: rothamsted_experiment
+label: 'Experiment'
+description: ''
+workflow: plan_default
+new_revision: true
