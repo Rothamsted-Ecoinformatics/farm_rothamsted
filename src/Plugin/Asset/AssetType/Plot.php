@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_plot\Plugin\Asset\AssetType;
+namespace Drupal\farm_rothamsted\Plugin\Asset\AssetType;
 
 use Drupal\farm_entity\Plugin\Asset\AssetType\FarmAssetType;
 
