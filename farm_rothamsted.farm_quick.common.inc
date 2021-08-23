@@ -108,11 +108,13 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $e
       }
 
       // Experiments selection (group assets).
+      // Do not check experiments checkboxes unless there is only 1 option.
+      $default_value = count($experiment_options) == 1 ? array_keys($experiment_options) : NULL;
       $form[$name]['experiments']['experiments'] = array(
         '#type' => 'checkboxes',
         '#title' => t('Experiments'),
         '#options' => $experiment_options,
-        '#default_value' => array_keys($experiment_options),
+        '#default_value' => $default_value,
       );
 
       // If we want to allow the user to select plantings...
@@ -174,11 +176,13 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $e
           }
 
           // Plantings selection.
+          // Do not check plantings checkboxes unless there is only 1 option.
+          $default_value = count($planting_options) == 1 ? array_keys($planting_options) : NULL;
           $form[$name]['experiments']['plantings']['#type'] = 'checkboxes';
           $form[$name]['experiments']['plantings'] += array(
             '#title' => t('Plantings'),
             '#options' => $planting_options,
-            '#default_value' => array_keys($planting_options),
+            '#default_value' => $default_value,
           );
         }
       }
