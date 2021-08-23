@@ -22,7 +22,7 @@ function farm_rothamsted_farm_quick_forms() {
       'file' => 'farm_rothamsted.farm_quick.drilling.inc',
     ),
     'cultivation' => array(
-      'label' => t('Cultivation'),
+      'label' => t('Operations'),
       'permission' => 'create farm_activity log entities',
       'form' => 'farm_rothamsted_cultivation_quick_form',
       'file' => 'farm_rothamsted.farm_quick.cultivation.inc',

@@ -14,8 +14,11 @@ include_once('farm_rothamsted.farm_quick.common.inc');
 function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
 
   // Create a base Rothamsted quick form.
+  // This quickform is used for more general "operations" records,
+  // but we maintain the existing quickform ID as "cultivation".
   $name = 'cultivation';
-  $title = t('Cultivation Form');
+
+  $title = t('Operations Form');
   $equipment_group_names = ['Tractor Equipment', 'Cultivation Equipment'];
   farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names, FALSE);
 
