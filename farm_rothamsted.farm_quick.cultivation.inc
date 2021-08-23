@@ -22,16 +22,53 @@ function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
   $equipment_group_names = ['Tractor Equipment', 'Cultivation Equipment'];
   farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names, FALSE);
 
-  // Cultivation type.
-  $cultivation_type_options = array(
-    'Sub Tillage',
-    'Ploughed Tillage',
-    'Minimum Tillage',
+  // Build associate arrays of task options.
+  $grass_harvest_options = drupal_map_assoc(array(
+    'Mowing',
+    'Silage pick up',
+    'Bailing',
+    'Tedding/Spreading grass',
+    'Rowing up',
+    'Hay turning',
+  ));
+  $grassland_options = drupal_map_assoc(array(
+    'Flat roll',
+    'Chain harrow',
+    'Aeration',
+    'Topping',
+  ));
+  $cultivation_options = drupal_map_assoc(array(
+    'Plough',
+    'Power harrow',
+    'Rolling',
+    'Rotavate',
+    'Sub soil/ripping',
+    'Mole plough',
+    'Cultivate/level',
+    'Hoeing',
+    'Hand weeding',
+  ));
+  $other_options = drupal_map_assoc(array(
+    'Hedge trimming',
+    'Drain trim',
+    'Drain burn',
+    'Irrigation',
+    'Treatment',
+  ));
+
+  // Combine all options into option groups.
+  $operation_task_options = array(
+    'Grass harvest' => $grass_harvest_options,
+    'Grassland maintenance' => $grassland_options,
+    'Cultivations' => $cultivation_options,
+    'Other' => $other_options,
   );
-  $form[$name]['cultivation_type'] = array(
+
+  // Add a select element for the operation task.
+  $form[$name]['operation_task'] = array(
     '#type' => 'select',
-    '#title' => t('Cultivation type'),
-    '#options' => drupal_map_assoc($cultivation_type_options),
+    '#title' => t('Task'),
+    '#options' => $operation_task_options,
     '#required' => TRUE,
   );
 
@@ -113,14 +150,14 @@ function farm_rothamsted_cultivation_quick_form_submit($form, &$form_state) {
   );
   $measurements[] = $cultivation_depth;
 
-  // Load the selected cultivation type.
-  $cultivation_type = $form_values['cultivation_type'];
+  // Load the selected operation task.
+  $operation_task = $form_values['operation_task'];
 
   // Set log name.
   $args = array(
     '@qty' => $cultivation_depth['value'],
     '@units' => $cultivation_depth['units'],
-    '@type' => $cultivation_type,
+    '@type' => $operation_task,
     '@area' => entity_label('taxonomy_term', $area),
   );
   $log_name = t('Cultivation: @type @qty @units in @area', $args);
