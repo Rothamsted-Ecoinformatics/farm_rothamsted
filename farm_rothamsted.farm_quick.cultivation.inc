@@ -160,7 +160,7 @@ function farm_rothamsted_cultivation_quick_form_submit($form, &$form_state) {
     '@type' => $operation_task,
     '@area' => entity_label('taxonomy_term', $area),
   );
-  $log_name = t('Cultivation: @type @qty @units in @area', $args);
+  $log_name = t('Operation: @type @qty @units in @area', $args);
 
   // Create a new farm quantity log.
   $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
