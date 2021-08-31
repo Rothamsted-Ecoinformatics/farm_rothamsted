@@ -79,7 +79,6 @@ function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('centimeters'),
     '#element_validate' => array('element_validate_number'),
-    '#required' => TRUE,
     '#weight' => 11,
   );
 
@@ -142,25 +141,35 @@ function farm_rothamsted_cultivation_quick_form_submit($form, &$form_state) {
   // Initialize an empty measurements array.
   $measurements = array();
 
-  // Add the cultivation depth.
-  $cultivation_depth = array(
-    'measure' => 'length',
-    'value' => $form_values['depth'],
-    'units' => 'cm',
-  );
-  $measurements[] = $cultivation_depth;
-
   // Load the selected operation task.
   $operation_task = $form_values['operation_task'];
 
-  // Set log name.
-  $args = array(
-    '@qty' => $cultivation_depth['value'],
-    '@units' => $cultivation_depth['units'],
-    '@type' => $operation_task,
-    '@area' => entity_label('taxonomy_term', $area),
-  );
-  $log_name = t('Operation: @type @qty @units in @area', $args);
+  // Add the cultivation depth if provided.
+  if (!empty($form_values['depth'])) {
+    $cultivation_depth = array(
+      'measure' => 'length',
+      'value' => $form_values['depth'],
+      'units' => 'cm',
+    );
+    $measurements[] = $cultivation_depth;
+
+    // Build a log name with the cultivation measurement.
+    $args = array(
+      '@type' => $operation_task,
+      '@area' => entity_label('taxonomy_term', $area),
+      '@qty' => $cultivation_depth['value'],
+      '@units' => $cultivation_depth['units'],
+    );
+    $log_name = t('Operation: @type @qty @units in @area', $args);
+  }
+  // Else build the log name without cultivation measurement.
+  else {
+    $args = array(
+      '@type' => $operation_task,
+      '@area' => entity_label('taxonomy_term', $area),
+    );
+    $log_name = t('Operation: @type in @area', $args);
+  }
 
   // Create a new farm quantity log.
   $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
