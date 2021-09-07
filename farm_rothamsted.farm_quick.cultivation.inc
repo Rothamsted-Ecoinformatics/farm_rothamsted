@@ -76,6 +76,7 @@ function farm_rothamsted_cultivation_quick_form($form, &$form_state) {
   $form[$name]['depth'] = array(
     '#type' => 'textfield',
     '#title' => t('Depth worked (centimeters)'),
+    '#description' => t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
     '#input_group' => TRUE,
     '#field_suffix' => t('centimeters'),
     '#element_validate' => array('element_validate_number'),
