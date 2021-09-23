@@ -1,0 +1,8 @@
+farm_rothamsted.upload_experiment_form:
+  path: '/farm-rothamsted/upload-experiment'
+  defaults:
+    _form:  '\Drupal\farm_rothamsted\Form\UploadExperimentForm'
+    _title: 'Upload Experiment'
+  requirements:
+    _permission: 'access content'
+
