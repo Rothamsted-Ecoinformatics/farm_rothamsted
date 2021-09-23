@@ -11,10 +11,10 @@ use Drupal\asset\Entity\Asset;
 use Drupal\plan\Entity\Plan;
 
 /**
- * Implements the SimpleForm form controller.
+ * Rothamsted experiment upload form 
  *
- * This example demonstrates a simple form with a single text input element. We
- * extend FormBase which is the simplest form base class used in Drupal.
+ * Form with file upload to generate an experiment with plots based upon
+ * the geoJson file uploaded
  *
  * @see \Drupal\Core\Form\FormBase
  */
@@ -28,7 +28,7 @@ class UploadExperimentForm extends FormBase {
   protected $entityTypeManager;
 
   /**
-   * Constructs new barnaby form.
+   * Constructs new experiment form.
    *
    * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
@@ -47,10 +47,7 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
-   * Build the simple form.
-   *
-   * A build form method constructs an array that defines how markup and
-   * other form elements are included in an HTML form.
+   * Build the upload form.
    *
    * @param array $form
    *   Default form array structure.
@@ -78,9 +75,6 @@ class UploadExperimentForm extends FormBase {
       '#upload_location' => 'public://',
     ];
 
-    // Group submit handlers in an actions element with a key of "actions" so
-    // that it gets styled correctly, and so that other modules may add actions
-    // to the form. This is not required, but is convention.
     $form['actions'] = [
       '#type' => 'actions',
     ];
@@ -97,10 +91,6 @@ class UploadExperimentForm extends FormBase {
   /**
    * Getter method for Form ID.
    *
-   * The form ID is used in implementations of hook_form_alter() to allow other
-   * modules to alter the render array built by this form controller. It must be
-   * unique site wide. It normally starts with the providing module's name.
-   *
    * @return string
    *   The unique ID of the form defined by this class.
    */
@@ -113,16 +103,20 @@ class UploadExperimentForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
+    // get id of the submitted file
     $fileIds = $form_state->getValue('json_file_upload', []);
     if (empty($fileIds)) {
       return $form;
     }
 
+    // get reference to file
     $file = $this->entityTypeManager->getStorage('file')->load(reset($fileIds));
 
+    // get file contents and convert the json to php arrays
     $data = file_get_contents($file->getFileUri());
     $json = Json::decode($data);
 
+    // create and save new plan based on crs name
     $plan = Plan::create(
           [
             'type' => 'rothamsted_experiment',
@@ -132,13 +126,18 @@ class UploadExperimentForm extends FormBase {
       );
     $plan->save();
 
+    // iterate each of the saved features from the file
     foreach ($json['features'] as $feature) {
+      // re-encode the data into json
       $featureJson = Json::encode($feature);
 
+      // extract the intrinsic geometry references
       $wkt = \geoPHP::load($featureJson, 'json')->out('wkt');
 
+      // extract the plot name from the feature data
       $plotName = sprintf('ID: %03d Serial: %s', $feature['properties']['plot_id'], $feature['properties']['Serial']);
 
+      create and save plot assets
       $asset = Asset::create(
             [
               'type' => 'plot',
@@ -152,6 +151,7 @@ class UploadExperimentForm extends FormBase {
       $asset->save();
     }
 
+    // feedback of the number of features found - assumes all saved successfully
     $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
 
   }
