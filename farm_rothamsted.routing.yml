@@ -5,4 +5,3 @@ farm_rothamsted.upload_experiment_form:
     _title: 'Upload Experiment'
   requirements:
     _permission: 'access content'
-
