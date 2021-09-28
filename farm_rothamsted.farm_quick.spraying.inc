@@ -84,6 +84,7 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('L'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Area sprayed.
@@ -93,6 +94,7 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('Ha'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Wind speed (kph).
@@ -102,12 +104,14 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('kph'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Wind direction.
   $form[$name]['wind_direction'] = array(
     '#type' => 'textfield',
     '#title' => t('Wind direction'),
+    '#required' => TRUE,
   );
 
   // Weather.
