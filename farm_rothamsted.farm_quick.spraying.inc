@@ -24,6 +24,13 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     $form[$name]['users']['#required'] = TRUE;
   }
 
+  // Allow date and time to be specified.
+  // The "within" date_label_position breaks formatting when hours and minutes
+  // are included. Hyphens render behind input elements and the minutes input
+  // is moved to a separate line.
+  $form[$name]['date']['#date_label_position'] = 'above';
+  $form[$name]['date']['#date_format'] = 'M j Y H:i';
+
   // Chemicals fieldset.
   $form[$name]['chemicals'] = array(
     '#type' => 'fieldset',
