@@ -19,6 +19,11 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
   $equipment_group_names = ['Tractor Equipment', 'Pesticide Equipment'];
   farm_rothamsted_quick_form_base($name, $title, $form, $form_state, $equipment_group_names);
 
+  // Require the operator field.
+  if (!empty($form[$name]['users'])) {
+    $form[$name]['users']['#required'] = TRUE;
+  }
+
   // Chemicals fieldset.
   $form[$name]['chemicals'] = array(
     '#type' => 'fieldset',
@@ -84,6 +89,7 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('L'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Area sprayed.
@@ -93,6 +99,7 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('Ha'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Wind speed (kph).
@@ -102,12 +109,14 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#input_group' => TRUE,
     '#field_suffix' => t('kph'),
     '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
   );
 
   // Wind direction.
   $form[$name]['wind_direction'] = array(
     '#type' => 'textfield',
     '#title' => t('Wind direction'),
+    '#required' => TRUE,
   );
 
   // Weather.
@@ -194,6 +203,11 @@ function farm_rothamsted_spraying_quick_form_validate($form, &$form_state) {
       if (empty($item['units'])) {
         form_set_error($name_prefix . 'units', t('Chemical units are required.'));
       }
+    }
+    // At least one chemical is required.
+    else if ($key === 0) {
+      $name_prefix = $name . '][chemicals][' . $key . '][';
+      form_set_error($name_prefix . 'name', t('At least one chemical is required.'));
     }
   }
 }

@@ -54,6 +54,8 @@ function farm_rothamsted_drilling_quick_form($form, &$form_state) {
   $form[$name]['crop']['variety'] = array(
     '#type' => 'container',
     '#title' => t('Variety'),
+    '#description' => t('Please select "unknown" if you do not know the variety, "as per plan" if you are drilling complex variety trials or "not applicable" where necessary.'),
+    '#required' => TRUE,
     '#prefix' => '<div id="crop-variety">',
     '#suffix' => '</div>',
   );
