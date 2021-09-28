@@ -271,15 +271,34 @@ function farm_rothamsted_quick_form_base($name, $title, &$form, &$form_state, $e
     '#weight' => 30,
   );
 
-  // Time spent.
+  // Time spent wrapper.
   $form[$name]['time'] = array(
+    '#type' => 'container',
+    '#weight' => 40,
+    '#attributes' => array('class' => array('row')),
+  );
+
+  // Time spent value.
+  $form[$name]['time']['value'] = array(
     '#type' => 'textfield',
-    '#title' => t('Hours spent'),
-    '#input_group' => TRUE,
-    '#field_suffix' => t('hours'),
+    '#title' => t('Time spent'),
+    '#description' => t('For trials work please round the amount of time spent to the nearest fifteen minutes so it can be costed and recharged to the grant holder.'),
     '#element_validate' => array('element_validate_number'),
     '#required' => TRUE,
-    '#weight' => 40,
+    '#wrapper_attributes' => array('class' => array('col-sm-6')),
+  );
+
+  // Time spent units.
+  $form[$name]['time']['units'] = array(
+    '#type' => 'select',
+    '#title' => t('Units'),
+    '#options' => array(
+      'minutes' => t('Minutes'),
+      'hours' => t('Hours'),
+    ),
+    '#default_value' => 'minutes',
+    '#required' => TRUE,
+    '#wrapper_attributes' => array('class' => array('col-sm-6')),
   );
 
   // Notes.
@@ -429,8 +448,8 @@ function farm_rothamsted_quick_form_base_submit_helper($log, &$form_state, $note
   // Add time spent.
   $time_spent = array(
     'measure' => 'time',
-    'value' => $form_values['time'],
-    'units' => 'hours',
+    'value' => $form_values['time']['value'],
+    'units' => $form_values['time']['units'],
   );
   farm_quantity_log_add_measurements($log, array($time_spent));
 
