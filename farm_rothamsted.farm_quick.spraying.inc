@@ -199,6 +199,11 @@ function farm_rothamsted_spraying_quick_form_validate($form, &$form_state) {
         form_set_error($name_prefix . 'units', t('Chemical units are required.'));
       }
     }
+    // At least one chemical is required.
+    else if ($key === 0) {
+      $name_prefix = $name . '][chemicals][' . $key . '][';
+      form_set_error($name_prefix . 'name', t('At least one chemical is required.'));
+    }
   }
 }
 
