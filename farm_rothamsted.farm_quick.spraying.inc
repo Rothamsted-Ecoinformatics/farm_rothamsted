@@ -141,6 +141,14 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#element_validate' => array('element_validate_number'),
   );
 
+  // Recommendation number.
+  $form[$name]['recommendation_number'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Recommendation number'),
+    '#description' => t('Please enter NA if there is no recommendation for this task.'),
+    '#required' => TRUE,
+  );
+
   // Rinsed 3 times.
   $form[$name]['rinsed'] = array(
     '#type' => 'checkbox',
@@ -328,8 +336,8 @@ function farm_rothamsted_spraying_quick_form_submit($form, &$form_state) {
   // Create a new farm quantity log.
   $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
 
-  // Add to notes: wind speed, wind direction, weather, temperature, rinsed, all
-  // clear washed.
+  // Add to notes: wind speed, wind direction, weather, temperature,
+  // recommendation number, rinsed, all clear washed.
   $extra_notes = array();
   if (!empty($form_values['wind_speed']) || !empty($form_values['wind_direction'])) {
     $note = 'Wind:';
@@ -346,6 +354,9 @@ function farm_rothamsted_spraying_quick_form_submit($form, &$form_state) {
   }
   if (!empty($form_values['temperature'])) {
     $extra_notes[] = 'Temperature: ' . $form_values['temperature'] . ' C';
+  }
+  if (!empty($form_values['recommendation_number'])) {
+    $extra_notes[] = 'Recommendation number: ' . $form_values['recommendation_number'];
   }
   if (!empty($form_values['rinsed'])) {
     $extra_notes[] = 'Rinsed 3 times';
