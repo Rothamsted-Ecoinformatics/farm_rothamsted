@@ -193,6 +193,24 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     ];
   }
 
+  // Get farm_log_categories terms.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('farm_log_categories');
+  $log_categories = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+
+  // Build log category options.
+  $log_category_options = array();
+  foreach ($log_categories as $log_category) {
+    $log_category_options[] = entity_label('taxonomy_term', $log_category);
+  }
+
+  // Justification/Target as log categories.
+  $form[$name]['categories'] = array(
+    '#type' => 'select',
+    '#title' => t('Justification/Target'),
+    '#options' => drupal_map_assoc($log_category_options),
+    '#weight' => 16,
+  );
+
   // Add validation.
   $form['#validate'][] = 'farm_rothamsted_spraying_quick_form_validate';
 
@@ -365,8 +383,14 @@ function farm_rothamsted_spraying_quick_form_submit($form, &$form_state) {
   );
   $log_name = t('Spraying: @materials in @area', $args);
 
+  // Add log categories.
+  $categories = array();
+  if (!empty($form_values['categories'])) {
+    $categories = array($form_values['categories']);
+  }
+
   // Create a new farm quantity log.
-  $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements);
+  $log = farm_quantity_log_create($log_type, $log_name, $timestamp, TRUE, array(), $measurements, '', $categories);
 
   // Add to notes: wind speed, wind direction, weather, temperature,
   // recommendation number, rinsed, all clear washed.
