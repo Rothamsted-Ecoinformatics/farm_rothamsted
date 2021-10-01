@@ -161,6 +161,38 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
     '#title' => t('All clear washed'),
   );
 
+  // Load specified equipment groups.
+  $spraying_group_names = array('Spray Nozzles');
+  $groups = entity_load('farm_asset', FALSE, array('type' => 'group', 'name' => $spraying_group_names));
+
+  // Load group members.
+  $spray_equipment = array();
+  foreach ($groups as $group) {
+    $spray_equipment += farm_group_members($group);
+  }
+
+  // Create spray nozzle options.
+  $spray_nozzle_options = array();
+  if (!empty($spray_equipment)) {
+    foreach ($spray_equipment as $id => $asset) {
+      if ($asset->type == 'equipment') {
+        $asset_label = entity_label('farm_asset', $asset);
+        $asset_url = entity_uri('farm_asset', $asset);
+        $spray_nozzle_options[$id] = l($asset_label, $asset_url['path']);
+      }
+    }
+  }
+
+  // Equipment reference.
+  if (!empty($spray_nozzle_options)) {
+    $form[$name]['spray_nozzle'] = [
+      '#type'    => 'checkboxes',
+      '#title'   => t('Type of nozzle'),
+      '#options' => $spray_nozzle_options,
+      '#weight'  => 15,
+    ];
+  }
+
   // Add validation.
   $form['#validate'][] = 'farm_rothamsted_spraying_quick_form_validate';
 
@@ -368,6 +400,16 @@ function farm_rothamsted_spraying_quick_form_submit($form, &$form_state) {
   // Call the Rothamsted quick form helper function, which generates a log
   // metadata wrapper.
   $log_wrapper = farm_rothamsted_quick_form_base_submit_helper($log, $form_state, $extra_notes);
+
+  // If a spray nozzle was selected, reference in the "Equipment Used" field.
+  if (!empty($form_values['spray_nozzle'])) {
+    $spray_ids = array_values(array_filter($form_values['spray_nozzle']));
+    if (!empty($spray_ids)) {
+      // Do not overwrite equipment IDs set by the common quick form logic.
+      $exising_ids = $log_wrapper->field_farm_equipment->raw();
+      $log_wrapper->field_farm_equipment->set(array_merge($exising_ids, $spray_ids));
+    }
+  }
 
   // Add the materials.
   $log_wrapper->field_farm_material = $material_terms;
