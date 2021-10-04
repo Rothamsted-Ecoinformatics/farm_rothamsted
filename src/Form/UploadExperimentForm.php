@@ -137,7 +137,7 @@ class UploadExperimentForm extends FormBase {
       // extract the plot name from the feature data
       $plotName = sprintf('ID: %03d Serial: %s', $feature['properties']['plot_id'], $feature['properties']['Serial']);
 
-      create and save plot assets
+      // create and save plot assets
       $asset = Asset::create(
             [
               'type' => 'plot',
