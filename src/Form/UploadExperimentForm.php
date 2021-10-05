@@ -72,7 +72,7 @@ class UploadExperimentForm extends FormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
-      '#upload_location' => 'public://',
+      '#upload_location' => 'private://',
     ];
 
     $form['actions'] = [
