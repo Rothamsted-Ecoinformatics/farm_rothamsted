@@ -154,7 +154,12 @@ class UploadExperimentForm extends FormBase {
             ]
         );
       $asset->save();
+
+      // Add asset to plan
+      $plan->get('asset')->appendItem($asset);
     }
+
+    $plan->save();
 
     // feedback of the number of features found - assumes all saved successfully
     $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
