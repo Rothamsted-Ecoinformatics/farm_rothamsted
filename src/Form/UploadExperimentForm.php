@@ -126,6 +126,11 @@ class UploadExperimentForm extends FormBase {
       );
     $plan->save();
 
+    // feedback link to created plan
+    $planUrl = $plan->toUrl()->toString();
+    $planLabel = $plan->label();
+    $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
+
     // iterate each of the saved features from the file
     foreach ($json['features'] as $feature) {
       // re-encode the data into json
@@ -153,7 +158,6 @@ class UploadExperimentForm extends FormBase {
 
     // feedback of the number of features found - assumes all saved successfully
     $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
-
   }
 
 }
