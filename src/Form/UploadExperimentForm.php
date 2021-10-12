@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\asset\Entity\Asset;
 use Drupal\plan\Entity\Plan;
+use Drupal\geofield\GeoPHP\GeoPHPInterface;
 
 /**
  * Rothamsted experiment upload form 
@@ -28,13 +29,23 @@ class UploadExperimentForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * The GeoPHP service.
+   *
+   * @var Drupal\geofield\GeoPHP\GeoPHPInterface
+   */
+  protected $geoPHP;
+
+  /**
    * Constructs new experiment form.
    *
    * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\geofield\GeoPHP\GeoPHPInterface $geo_PHP
+   *   The GeoPHP service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, GeoPHPInterface $geo_PHP) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->geoPHP = $geo_PHP;
   }
 
   /**
@@ -43,6 +54,7 @@ class UploadExperimentForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
           $container->get('entity_type.manager'),
+          $container->get('geofield.geophp'),
       );
   }
 
@@ -137,7 +149,7 @@ class UploadExperimentForm extends FormBase {
       $featureJson = Json::encode($feature);
 
       // extract the intrinsic geometry references
-      $wkt = \geoPHP::load($featureJson, 'json')->out('wkt');
+      $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
       // extract the plot name from the feature data
       $plotName = sprintf('ID: %03d Serial: %s', $feature['properties']['plot_id'], $feature['properties']['Serial']);
