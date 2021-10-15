@@ -189,7 +189,7 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
       '#type'    => 'checkboxes',
       '#title'   => t('Type of nozzle'),
       '#options' => $spray_nozzle_options,
-      '#weight'  => 15,
+      '#weight'  => 9,
     ];
   }
 
