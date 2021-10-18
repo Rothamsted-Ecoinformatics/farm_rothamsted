@@ -1,0 +1,3 @@
+farm_rothamsted:
+  config_permissions:
+    - use rothamsted_experiment plan uploader
