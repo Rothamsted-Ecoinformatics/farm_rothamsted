@@ -9,6 +9,7 @@
       }
   ],
   "require": {
+    "drupal/json_field": "^1.0@RC",
     "drupal/key_value_field": "^1.2"
   }
 }
