@@ -132,7 +132,7 @@ class UploadExperimentForm extends FormBase {
     $plan = Plan::create(
           [
             'type' => 'rothamsted_experiment',
-            'name' => $json['crs']['properties']['name'],
+            'name' => $json['name'],
             'status' => 'active',
           ]
       );
@@ -152,7 +152,7 @@ class UploadExperimentForm extends FormBase {
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
       // extract the plot name from the feature data
-      $plotName = sprintf('ID: %03d Serial: %s', $feature['properties']['plot_id'], $feature['properties']['Serial']);
+      $plotName = $feature['properties']['plot_label'];
 
       // create and save plot assets
       $asset = Asset::create(
