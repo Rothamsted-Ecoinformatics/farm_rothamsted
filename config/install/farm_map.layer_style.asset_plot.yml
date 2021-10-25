@@ -3,9 +3,9 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_land
+      - farm_rothamsted
 id: asset_plot
-color: green
+color: blue
 conditions:
   asset_type:
-    - blue
+    - plot
