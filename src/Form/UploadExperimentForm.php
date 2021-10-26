@@ -24,21 +24,21 @@ class UploadExperimentForm extends FormBase {
   /**
    * The entity type manager service.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * The GeoPHP service.
    *
-   * @var Drupal\geofield\GeoPHP\GeoPHPInterface
+   * @var \Drupal\geofield\GeoPHP\GeoPHPInterface
    */
   protected $geoPHP;
 
   /**
    * Constructs new experiment form.
    *
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\geofield\GeoPHP\GeoPHPInterface $geo_PHP
    *   The GeoPHP service.
