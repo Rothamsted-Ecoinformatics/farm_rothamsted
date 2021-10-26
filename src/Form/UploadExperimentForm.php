@@ -154,6 +154,16 @@ class UploadExperimentForm extends FormBase {
       // extract the plot name from the feature data
       $plotName = $feature['properties']['plot_label'];
 
+
+      // Iterate factors and add to plot as key value field
+      $factors = [];
+      foreach ($feature['properties']['factors'] as $fact) {
+        $key = key($fact);
+        $val = reset($fact);
+        $factors[] = ['key' => $key, 'value' => $val];
+      }
+
+
       // create and save plot assets
       $asset = Asset::create(
             [
@@ -163,6 +173,7 @@ class UploadExperimentForm extends FormBase {
               'intrinsic_geometry' => $wkt,
               'is_fixed' => TRUE,
               'is_location' => TRUE,
+              'field_factors' => $factors,
             ]
         );
       $asset->save();
