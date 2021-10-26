@@ -78,7 +78,6 @@ class UploadExperimentForm extends FormBase {
 
     $form['json_file_upload'] = [
       '#type' => 'managed_file',
-      '#default_value' => $this->configuration['json_file_upload'],
       '#title' => 'choose a File',
       '#description' => $this->t('File, #type = file'),
       '#upload_validators' => [
