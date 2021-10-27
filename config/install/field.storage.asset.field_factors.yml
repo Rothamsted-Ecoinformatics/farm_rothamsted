@@ -4,8 +4,6 @@ dependencies:
   module:
     - asset
     - key_value_field
-_core:
-  default_config_hash: cvB-10x2I6xeNeE6Eq-_pJOow58jf3aCLXpY9YF_K-Y
 id: asset.field_factors
 field_name: field_factors
 entity_type: asset
