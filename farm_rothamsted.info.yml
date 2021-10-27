@@ -5,6 +5,9 @@ package: farmOS Contrib
 core_version_requirement: ^9
 dependencies:
   - farm_entity
+  - farm_equipment
+  - farm_group
+  - farm_quick
   - farm_role
   - farm_role_roles
   - json_field:json_field
