@@ -152,7 +152,7 @@ class UploadExperimentForm extends FormBase {
       // Extract the plot name from the feature data.
       $plotName = $feature['properties']['plot_label'];
 
-      // Iterate factors and add to plot as key value field
+      // Iterate factors and add to plot as key value field.
       $factors = [];
       foreach ($feature['properties']['factors'] as $fact) {
         $key = key($fact);
