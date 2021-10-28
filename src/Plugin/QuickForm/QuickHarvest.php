@@ -2,6 +2,8 @@
 
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Harvest quick form.
  *
@@ -21,5 +23,19 @@ class QuickHarvest extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   protected $equipmentGroupNames = ['Tractor Equipment', 'Harvest Machinery Equipment'];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildForm($form, $form_state);
+
+    // @todo Number of quantities.
+
+    // @todo Each quantity - measure, value, units, label.
+    // @todo AJAX for each quantity.
+
+    return $form;
+  }
 
 }
