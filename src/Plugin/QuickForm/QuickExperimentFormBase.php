@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -16,6 +17,8 @@ use Psr\Container\ContainerInterface;
  * Base class for experiment plan quick forms.
  */
 abstract class QuickExperimentFormBase extends QuickFormBase {
+
+  use QuickPrepopulateTrait;
 
   /**
    * The entity type manager service.
@@ -79,12 +82,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    // Load prepopulated assets.
+    $plots = $this->getPrepopulatedEntities('asset');
+    $default_plots = implode(', ', array_map(function (AssetInterface $asset) {
+      return $asset->label();
+    }, $plots));
+
+    // Plot field.
     $form['plot'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Plots'),
       '#description' => $this->t('Select plot assets.'),
       // @todo Decide on a widget for selecting plot assets.
-      '#default_value' => 'TBD',
+      '#default_value' => $default_plots ?: 'TBD',
       '#required' => TRUE,
       '#weight' => -10,
     ];
