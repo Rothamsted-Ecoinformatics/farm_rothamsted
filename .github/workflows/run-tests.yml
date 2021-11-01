@@ -1,0 +1,31 @@
+name: Run 2.x tests
+on:
+  schedule:
+    - cron: '0 8 * * *' # Run at 8AM UTC.
+  push:
+    branches:
+      - '2.x'
+      - '2.x-**'
+  pull_request:
+    branches:
+      - '2.x'
+
+jobs:
+  build:
+    name: Run tests
+    runs-on: ubuntu-latest
+    env:
+      COMPOSE_FILE: docker-compose.testing.yml
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Start containers
+        run: docker-compose up -d
+      - name: Include module dependencies
+        run: |
+          docker-compose exec -u www-data -T www composer config --merge --json extra.merge-plugin.include '["web/modules/custom/*/*.json"]'
+          docker-compose exec -u www-data -T www composer update
+      - name: Run PHP CodeSniffer
+        run: docker-compose exec -u www-data -T www phpcs /opt/drupal/web/modules/custom --exclude=DrupalPractice.InfoFiles.NamespacedDependency
+      - name: Test installing farm_rothamsted
+        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted -y"

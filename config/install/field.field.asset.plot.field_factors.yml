@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - asset.type.plot
+    - field.storage.asset.field_factors
+  module:
+    - key_value_field
+id: asset.plot.field_factors
+field_name: field_factors
+entity_type: asset
+bundle: plot
+label: field_factors
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: key_value
