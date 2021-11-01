@@ -135,7 +135,7 @@ class UploadExperimentForm extends FormBase {
             'type' => 'rothamsted_experiment',
             'name' => $json['name'],
             'status' => 'active',
-            'factors' => Json::encode($factors),
+            'field_factors' => Json::encode($factors),
           ]
       );
     $plan->save();
