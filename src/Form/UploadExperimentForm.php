@@ -126,7 +126,7 @@ class UploadExperimentForm extends FormBase {
     $data = file_get_contents($file->getFileUri());
     $json = Json::decode($data);
 
-    // Extract factors json
+    // Extract factors json.
     $factors = $json['factors'];
 
     // Create and save new plan based on crs name.
