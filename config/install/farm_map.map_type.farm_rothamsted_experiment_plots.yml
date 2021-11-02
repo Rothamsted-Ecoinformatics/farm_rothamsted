@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted
+id: farm_rothamsted_experiment_plots
+label: 'Locations for plot'
+description: 'The map displayed on the plot details.'
+behaviors:
+  - farm_rothamsted_experiment_plot_layer
+  - popup
+options: {  }

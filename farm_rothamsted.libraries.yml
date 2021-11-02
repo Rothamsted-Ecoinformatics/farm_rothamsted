@@ -1,0 +1,6 @@
+behavior_farm_rothamsted_experiment_plot_layer:
+  js:
+    js/farmOS.map.behaviors.farm_rothamsted_experiment_plot_layer.js: { }
+  dependencies:
+    - core/drupalSettings
+    - farm_map/farm_map
