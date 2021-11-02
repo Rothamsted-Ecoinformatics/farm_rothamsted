@@ -11,7 +11,9 @@ dependencies:
     - farm_location
     - geofield
     - plan
+    - rest
     - user
+    - views_geojson
 id: plan_plots
 label: 'Plan plots'
 module: views
@@ -449,6 +451,35 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.roles
+      tags: {  }
+  geojson_export_1:
+    display_plugin: geojson_export
+    id: geojson_export_1
+    display_title: 'GeoJSON export'
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: plan/%plan/plots/geojson
+      style:
+        type: geojson
+        options:
+          data_source:
+            value: geofield
+            latitude: id
+            longitude: id
+            geofield: geometry
+            geolocation: id
+            wkt: id
+            name_field: id
+            description_field: ''
+          jsonp_prefix: ''
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
         - user.roles
       tags: {  }
   page_1:
