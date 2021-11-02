@@ -471,8 +471,8 @@ display:
             geofield: geometry
             geolocation: id
             wkt: id
-            name_field: id
-            description_field: ''
+            name_field: view_asset_1
+            description_field: id
           jsonp_prefix: ''
     cache_metadata:
       max-age: -1

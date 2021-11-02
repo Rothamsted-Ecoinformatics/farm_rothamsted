@@ -9,4 +9,5 @@ label: 'Locations for plot'
 description: 'The map displayed on the plot details.'
 behaviors:
   - farm_rothamsted_experiment_plot_layer
+  - popup
 options: {  }
