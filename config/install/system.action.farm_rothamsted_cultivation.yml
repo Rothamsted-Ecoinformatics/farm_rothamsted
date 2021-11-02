@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_rothamsted
+id: farm_rothamsted_cultivation
+label: 'Record operation'
+type: asset
+plugin: farm_rothamsted_cultivation
+configuration: {  }
