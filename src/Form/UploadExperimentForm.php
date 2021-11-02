@@ -12,10 +12,10 @@ use Drupal\plan\Entity\Plan;
 use Drupal\geofield\GeoPHP\GeoPHPInterface;
 
 /**
- * Rothamsted experiment upload form 
+ * Rothamsted experiment upload form.
  *
  * Form with file upload to generate an experiment with plots based upon
- * the geoJson file uploaded
+ * the geoJson file uploaded.
  *
  * @see \Drupal\Core\Form\FormBase
  */
@@ -24,21 +24,21 @@ class UploadExperimentForm extends FormBase {
   /**
    * The entity type manager service.
    *
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * The GeoPHP service.
    *
-   * @var Drupal\geofield\GeoPHP\GeoPHPInterface
+   * @var \Drupal\geofield\GeoPHP\GeoPHPInterface
    */
   protected $geoPHP;
 
   /**
    * Constructs new experiment form.
    *
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\geofield\GeoPHP\GeoPHPInterface $geo_PHP
    *   The GeoPHP service.
@@ -78,9 +78,7 @@ class UploadExperimentForm extends FormBase {
 
     $form['json_file_upload'] = [
       '#type' => 'managed_file',
-      '#default_value' => $this->configuration['json_file_upload'],
-      '#title' => 'choose a File',
-      '#description' => $this->t('File, #type = file'),
+      '#title' => $this->t('File'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
@@ -115,46 +113,58 @@ class UploadExperimentForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    // get id of the submitted file
+    // Get id of the submitted file.
     $fileIds = $form_state->getValue('json_file_upload', []);
     if (empty($fileIds)) {
       return $form;
     }
 
-    // get reference to file
+    // Get reference to file.
     $file = $this->entityTypeManager->getStorage('file')->load(reset($fileIds));
 
-    // get file contents and convert the json to php arrays
+    // Get file contents and convert the json to php arrays.
     $data = file_get_contents($file->getFileUri());
     $json = Json::decode($data);
 
-    // create and save new plan based on crs name
+    // Extract factors json.
+    $factors = $json['factors'];
+
+    // Create and save new plan based on crs name.
     $plan = Plan::create(
           [
             'type' => 'rothamsted_experiment',
             'name' => $json['name'],
             'status' => 'active',
+            'field_factors' => Json::encode($factors),
           ]
       );
     $plan->save();
 
-    // feedback link to created plan
+    // Feedback link to created plan.
     $planUrl = $plan->toUrl()->toString();
     $planLabel = $plan->label();
     $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
 
-    // iterate each of the saved features from the file
+    // Iterate each of the saved features from the file.
     foreach ($json['features'] as $feature) {
-      // re-encode the data into json
+      // re-encode the data into json.
       $featureJson = Json::encode($feature);
 
-      // extract the intrinsic geometry references
+      // Extract the intrinsic geometry references.
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
-      // extract the plot name from the feature data
+      // Extract the plot name from the feature data.
       $plotName = $feature['properties']['plot_label'];
 
-      // create and save plot assets
+      // Iterate factors and add to plot as key value field.
+      $factors = [];
+      foreach ($feature['properties']['factors'] as $fact) {
+        $key = key($fact);
+        $val = reset($fact);
+        $factors[] = ['key' => $key, 'value' => $val];
+      }
+
+      // Create and save plot assets.
       $asset = Asset::create(
             [
               'type' => 'plot',
@@ -163,17 +173,18 @@ class UploadExperimentForm extends FormBase {
               'intrinsic_geometry' => $wkt,
               'is_fixed' => TRUE,
               'is_location' => TRUE,
+              'field_factors' => $factors,
             ]
         );
       $asset->save();
 
-      // Add asset to plan
+      // Add asset to plan.
       $plan->get('asset')->appendItem($asset);
     }
 
     $plan->save();
 
-    // feedback of the number of features found - assumes all saved successfully
+    // Feedback of the number of features found, assumes all saved successfully.
     $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
   }
 
