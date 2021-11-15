@@ -22,7 +22,10 @@ function farm_rothamsted_views_pre_render(ViewExecutable $view) {
     '#type' => 'farm_map',
     '#map_type' => 'farm_rothamsted_experiment_plots',
   ];
-  $map['#map_settings']['farm_rothamsted_experiment_plot_layer']['plan'] = $view->args[0];
+  $map['#map_settings']['farm_rothamsted_experiment_plot_layer'] = [
+    'plan' => $view->args[0],
+    'filters' => $view->getExposedInput(),
+  ];
 
   // Render the map.
   $view->attachment_before['asset_map'] = $map;
