@@ -194,13 +194,24 @@ function farm_rothamsted_spraying_quick_form($form, &$form_state) {
   }
 
   // Get farm_log_categories terms.
+  $log_category_options = [];
   $vocabulary = taxonomy_vocabulary_machine_name_load('farm_log_categories');
-  $log_categories = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
-
-  // Build log category options.
-  $log_category_options = array();
-  foreach ($log_categories as $log_category) {
-    $log_category_options[] = entity_label('taxonomy_term', $log_category);
+  $spray_category_terms = entity_load(
+    'taxonomy_term',
+    FALSE,
+    array(
+      'vid' => $vocabulary->vid,
+      'name' => 'Justification/Target (Spray Applications)',
+    )
+  );
+  $parent = reset($spray_category_terms);
+  if (!empty($parent)) {
+    $log_categories = taxonomy_get_children($parent->tid);
+    // Build log category options.
+    $log_category_options = array();
+    foreach ($log_categories as $log_category) {
+      $log_category_options[] = entity_label('taxonomy_term', $log_category);
+    }
   }
 
   // Justification/Target as log categories.
