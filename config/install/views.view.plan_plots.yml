@@ -1351,6 +1351,10 @@ display:
             name_field: name
             description_field: id
           jsonp_prefix: ''
+      pager:
+        type: none
+        options:
+          offset: 0
     cache_metadata:
       max-age: -1
       contexts:
