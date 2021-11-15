@@ -13,7 +13,7 @@ use Drupal\views\ViewExecutable;
 function farm_rothamsted_views_pre_render(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
-  if ($view->id() !== 'plan_plots' || $view->current_display !== 'page_1') {
+  if ($view->id() !== 'plan_plots' || $view->current_display !== 'page') {
     return;
   }
 

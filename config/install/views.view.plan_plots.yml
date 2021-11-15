@@ -1077,11 +1077,11 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
-  geojson_export_1:
+  geojson:
     display_plugin: geojson_export
-    id: geojson_export_1
+    id: geojson
     display_title: 'GeoJSON export'
-    position: 1
+    position: 2
     display_options:
       display_extenders: {  }
       path: plan/%plan/plots/geojson
@@ -1359,9 +1359,9 @@ display:
         - url
         - user.permissions
       tags: {  }
-  page_1:
+  page:
     display_plugin: page
-    id: page_1
+    id: page
     display_title: 'Plan plot (page)'
     position: 1
     display_options:
