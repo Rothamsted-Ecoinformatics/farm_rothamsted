@@ -212,6 +212,34 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * Helper function to load list of taxonomies.
+   *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   *
+   * @return array
+   *   An array of taxonomy labels ordered alphabetically.
+   */
+  protected function getTaxonomy(string $vocabulary_name): array {
+    $taxonomy = [];
+
+    $vocabulary = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => $vocabulary_name,
+      'status' => 1,
+    ]);
+
+    if (count($vocabulary)) {
+      foreach ($vocabulary as $term) {
+        $taxonomy[] = $term->label();
+      }
+    }
+
+    natsort($taxonomy);
+
+    return $taxonomy;
+  }
+
+  /**
    * Helper function to load list of child taxonomies.
    *
    * @param string $vocabulary_name
