@@ -35,7 +35,7 @@ class QuickHarvest extends QuickExperimentFormBase {
     // Harvest quantity.
     $form['quantity'] = [
       '#type' => 'number',
-      '#title' => $this->t('Quantitly'),
+      '#title' => $this->t('Quantity'),
       '#min' => 0,
       '#step' => 1,
       '#required' => TRUE,
