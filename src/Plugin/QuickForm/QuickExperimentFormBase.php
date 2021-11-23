@@ -214,17 +214,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   /**
    * Helper function to load list of child taxonomies.
    *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   *
    * @param string $taxonomy_name
    *   The name of parent taxonomy.
    *
    * @return array
    *   An array of taxonomy labels ordered alphabetically.
    */
-  protected function getChildTaxonomies(string $taxonomy_name): array {
+  protected function getChildTaxonomies(string $vocabulary_name, string $taxonomy_name): array {
     $child_taxonomies = [];
 
     $parent_taxonomy = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
-      'vid' => 'log_category',
+      'vid' => $vocabulary_name,
       'name' => $taxonomy_name,
       'status' => 1,
     ]);
