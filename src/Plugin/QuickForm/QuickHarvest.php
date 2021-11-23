@@ -1,8 +1,8 @@
 <?php
 
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
+
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\farm_quick\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
 /**
@@ -31,6 +31,13 @@ class QuickHarvest extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+    $form = parent::buildForm($form, $form_state);
+
+    // Require the operator field.
+    $form['users']['#required'] = TRUE;
+
+    // Allow date and time to be specified.
+    $form['date']['#date_part_order'] = ['year', 'month', 'day', 'hour', 'minute'];
 
     // Harvest quantity.
     $form['quantity'] = [
@@ -42,12 +49,7 @@ class QuickHarvest extends QuickExperimentFormBase {
     ];
 
     // Harvest units.
-    $harvest_units = [
-      '',
-      'g',
-      'kg',
-      'Gt'
-    ];
+    $harvest_units = parent::getTaxonomy('unit');
 
     // @todo Each harvest - units from hard coded list.
     $form['units'] = [
