@@ -11,6 +11,7 @@ dependencies:
   - farm_harvest
   - farm_input
   - farm_material_type
+  - farm_plant_type
   - farm_quick
   - farm_role
   - farm_role_roles
