@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted\Form;
 
+use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -29,6 +30,13 @@ class UploadExperimentForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * The selection plugin manager.
+   *
+   * @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface
+   */
+  protected $selectionPluginManager;
+
+  /**
    * The GeoPHP service.
    *
    * @var \Drupal\geofield\GeoPHP\GeoPHPInterface
@@ -40,11 +48,14 @@ class UploadExperimentForm extends FormBase {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $selection_plugin_manager
+   *   The selection plugin manager.
    * @param \Drupal\geofield\GeoPHP\GeoPHPInterface $geo_PHP
    *   The GeoPHP service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, GeoPHPInterface $geo_PHP) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, SelectionPluginManagerInterface $selection_plugin_manager, GeoPHPInterface $geo_PHP) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->selectionPluginManager = $selection_plugin_manager;
     $this->geoPHP = $geo_PHP;
   }
 
@@ -54,6 +65,7 @@ class UploadExperimentForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
           $container->get('entity_type.manager'),
+          $container->get('plugin.manager.entity_reference_selection'),
           $container->get('geofield.geophp'),
       );
   }
@@ -173,9 +185,41 @@ class UploadExperimentForm extends FormBase {
               'intrinsic_geometry' => $wkt,
               'is_fixed' => TRUE,
               'is_location' => TRUE,
+              'field_plot_id' => $feature['properties']['plot_id'],
+              'field_block_id' => $feature['properties']['block'],
+              'field_row' => $feature['properties']['row'],
+              'field_col' => $feature['properties']['col'],
               'field_factors' => $factors,
             ]
         );
+
+      // If specified, add the crop.
+      if (!empty($feature['properties']['crop'])) {
+
+        // Use the taxonomy term selection handler to check existing terms.
+        $options = [
+          'target_type' => 'taxonomy_term',
+          'target_bundles' => ['plant_type'],
+          'handler' => 'default:taxonomy_term',
+        ];
+        $handler = $this->selectionPluginManager->getInstance($options);
+        $crop_name = $feature['properties']['crop'];
+        $existing_terms = $handler->getReferenceableEntities($crop_name, '=', 1);
+
+        // Use the existing term.
+        if (!empty($existing_terms['plant_type'])) {
+          $plant_type = key($existing_terms['plant_type']);
+        }
+        // Else create a new term.
+        else {
+          /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $handler */
+          $plant_type = $handler->createNewEntity('taxonomy_term', 'plant_type', $crop_name, $this->currentUser()->id());
+          $plant_type->save();
+        }
+        $asset->set('plant_type', $plant_type);
+      }
+
+      // Save the plot asset.
       $asset->save();
 
       // Add asset to plan.
