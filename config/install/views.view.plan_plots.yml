@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.storage.asset.field_block_id
+    - field.storage.asset.field_factors
     - field.storage.asset.field_plot_id
     - plan.type.rothamsted_experiment
     - system.menu.admin
@@ -13,6 +14,7 @@ dependencies:
     - asset
     - farm_location
     - geofield
+    - key_value_field
     - options
     - plan
     - rest
@@ -92,28 +94,19 @@ display:
           description: ''
           columns:
             asset_bulk_form: asset_bulk_form
-            image_target_id: image_target_id
-            id: id
             name: name
-            type: type
+            field_block_id: field_block_id
+            field_plot_id: field_plot_id
+            plant_type_target_id: plant_type_target_id
+            field_factors: field_factors
+            field_factors_1: field_factors_1
+            field_factors_2: field_factors_2
+            field_factors_3: field_factors_3
+            field_factors_4: field_factors_4
             flag_value: flag_value
-            parent_target_id: parent_target_id
-            location: location
             status: status
           info:
             asset_bulk_form:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            image_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            id:
-              sortable: true
-              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -125,24 +118,51 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            type:
-              sortable: true
+            field_block_id:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
+            field_plot_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            plant_type_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_factors:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_1:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_2:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_3:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_4:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
             flag_value:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            parent_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            location:
               align: ''
               separator: ''
               empty_column: false
@@ -472,6 +492,321 @@ display:
           field_api_classes: false
           entity_type: asset
           entity_field: plant_type
+          plugin_id: field
+        field_factors:
+          id: field_factors
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 1'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_1:
+          id: field_factors_1
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 2'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 1
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_2:
+          id: field_factors_2
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 3'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 2
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_3:
+          id: field_factors_3
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 4'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 3
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_4:
+          id: field_factors_4
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 5'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 4
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           plugin_id: field
         flag_value:
           id: flag_value
@@ -862,6 +1197,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.asset.field_block_id'
+        - 'config:field.storage.asset.field_factors'
         - 'config:field.storage.asset.field_plot_id'
   geojson:
     display_plugin: geojson_export
@@ -1177,4 +1513,5 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.asset.field_block_id'
+        - 'config:field.storage.asset.field_factors'
         - 'config:field.storage.asset.field_plot_id'
