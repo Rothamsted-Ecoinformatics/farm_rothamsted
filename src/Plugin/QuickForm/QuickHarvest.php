@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;
+use Drupal\Core\AjaxResponse;
 
 /**
  * Harvest quick form.
@@ -40,13 +41,40 @@ class QuickHarvest extends QuickExperimentFormBase {
     $form['date']['#date_part_order'] = ['year', 'month', 'day', 'hour', 'minute'];
 
     // Harvest quantity.
-    $form['quantity'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Quantity'),
-      '#min' => 0,
-      '#step' => 1,
-      '#required' => TRUE,
+    $form['quantity']['count'] = [
+      '#type' => 'select',
+      '#title' => $this->t('How many quantities are associated with this harvest?'),
+      '#options' => array_combine(range(1, 5), range(1, 5)),
+      '#default_value' => 1,
+      '#ajax' => [
+        'callback' => [$this,'farm_rothamsted_harvest_quick_form_quantities_ajax'],
+        'event' => 'change',
+        'wrapper' => 'farm-rothamsted-harvest-quantities',
+      ],
     ];
+
+    // Create a wrapper around all quantity fields, for AJAX replacement.
+    $form['quantity']['quantities'] = array(
+      '#prefix' => '<div id="farm-rothamsted-harvest-quantities">',
+      '#suffix' => '</div>',
+    );
+
+    // Add fields for each quantity.
+    $quantities = 1;
+    $q = $form_state->getValue('quantity');
+    if (!empty($q)) {
+      $quantities = count($q);
+    }
+    for ($i = 0; $i < $quantities; $i++) {
+
+      // Fieldset for each quantity.
+      $form['quantity']['quantities'][$i] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Quantity @number', array('@number' => $i + 1)),
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+      );
+    }
 
     // Harvest units.
     $harvest_units = parent::getTaxonomy('unit');
@@ -56,6 +84,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Units'),
       '#options' => array_combine($harvest_units, $harvest_units),
+
     ];
 
     // @todo Each quantity - measure, value, units, label.
@@ -63,6 +92,20 @@ class QuickHarvest extends QuickExperimentFormBase {
 
     return $form;
   }
+
+  /**
+   * Form ajax function for harvest quick form quantities.
+   */
+  function farm_rothamsted_harvest_quick_form_quantities_ajax(array $form, FormStateInterface $form_state) {
+    return $form['quantity']['quantities'];
+  }
+
+  // /**
+  //  * Form ajax function for harvest quick form units.
+  //  */
+  // function farm_rothamsted_harvest_quick_form_units_ajax($form, &$form_state) {
+  //   return $form['harvest'][]
+  // }
 
   /**
    * {@inheritdoc}
