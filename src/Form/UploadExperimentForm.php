@@ -173,6 +173,10 @@ class UploadExperimentForm extends FormBase {
               'intrinsic_geometry' => $wkt,
               'is_fixed' => TRUE,
               'is_location' => TRUE,
+              'plot_id' => $feature['properties']['plot_id'],
+              'block_id' => $feature['properties']['block'],
+              'row' => $feature['properties']['row'],
+              'col' => $feature['properties']['col'],
               'field_factors' => $factors,
             ]
         );
