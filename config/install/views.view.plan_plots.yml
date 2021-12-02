@@ -7,6 +7,7 @@ dependencies:
     - field.storage.asset.field_plot_id
     - plan.type.rothamsted_experiment
     - system.menu.admin
+    - taxonomy.vocabulary.plant_type
   enforced:
     module:
       - farm_ui_views
@@ -19,6 +20,7 @@ dependencies:
     - plan
     - rest
     - state_machine
+    - taxonomy
     - user
     - views_geojson
 id: plan_plots
@@ -978,10 +980,54 @@ display:
           entity_type: asset
           entity_field: name
           plugin_id: string
-        flag_value:
-          id: flag_value
-          table: asset__flag
-          field: flag_value
+        field_block_id_value:
+          id: field_block_id_value
+          table: asset__field_block_id
+          field: field_block_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_block_id_value_op
+            label: 'Block ID'
+            description: ''
+            use_operator: false
+            operator: field_block_id_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_block_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: string
+        plant_type_target_id:
+          id: plant_type_target_id
+          table: asset__plant_type
+          field: plant_type_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -990,14 +1036,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: flag_value_op
-            label: Flags
+            operator_id: plant_type_target_id_op
+            label: Crop
             description: ''
             use_operator: false
-            operator: flag_value_op
+            operator: plant_type_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: flag_value
+            identifier: plant_type_target_id
             required: false
             remember: false
             multiple: true
@@ -1017,9 +1063,14 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+          type: textfield
+          limit: true
+          vid: plant_type
+          hierarchy: false
+          error_message: true
           entity_type: asset
-          entity_field: flag
-          plugin_id: list_field
+          entity_field: plant_type
+          plugin_id: taxonomy_index_tid
         is_fixed:
           id: is_fixed
           table: asset_field_data
@@ -1194,6 +1245,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags:
         - 'config:field.storage.asset.field_block_id'
@@ -1483,6 +1535,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - user.permissions
       tags: {  }
   page:
@@ -1510,6 +1563,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags:
         - 'config:field.storage.asset.field_block_id'
