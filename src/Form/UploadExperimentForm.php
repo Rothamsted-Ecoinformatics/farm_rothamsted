@@ -177,6 +177,7 @@ class UploadExperimentForm extends FormBase {
               'block_id' => $feature['properties']['block'],
               'row' => $feature['properties']['row'],
               'col' => $feature['properties']['col'],
+              'crop' => $feature['properties']['crop'],
               'field_factors' => $factors,
             ]
         );
