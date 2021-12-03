@@ -4,8 +4,6 @@ dependencies:
   enforced:
     module:
       - farm_rothamsted
-  module:
-    - farm_plant_type
 id: drilling
 label: Drilling
 description: ''
