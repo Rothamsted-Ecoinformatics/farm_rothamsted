@@ -1,0 +1,5 @@
+farm_rothamsted.plan.plots:
+  title: 'Plots'
+  route_name: view.plan_plots.page
+  base_route: entity.plan.canonical
+  weight: 20

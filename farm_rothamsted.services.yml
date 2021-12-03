@@ -1,0 +1,5 @@
+services:
+  farm_rothamsted.route_subscriber:
+    class: Drupal\farm_rothamsted\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
