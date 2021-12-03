@@ -2,21 +2,26 @@ langcode: en
 status: true
 dependencies:
   config:
-    - image.style.thumbnail
+    - field.storage.asset.field_block_id
+    - field.storage.asset.field_factors
+    - field.storage.asset.field_plot_id
     - plan.type.rothamsted_experiment
     - system.menu.admin
+    - taxonomy.vocabulary.plant_type
   enforced:
     module:
       - farm_ui_views
   module:
     - asset
     - farm_location
+    - farm_rothamsted
     - geofield
-    - image
+    - key_value_field
     - options
     - plan
     - rest
     - state_machine
+    - taxonomy
     - user
     - views_geojson
 id: plan_plots
@@ -92,28 +97,19 @@ display:
           description: ''
           columns:
             asset_bulk_form: asset_bulk_form
-            image_target_id: image_target_id
-            id: id
             name: name
-            type: type
+            field_block_id: field_block_id
+            field_plot_id: field_plot_id
+            plant_type_target_id: plant_type_target_id
+            field_factors: field_factors
+            field_factors_1: field_factors_1
+            field_factors_2: field_factors_2
+            field_factors_3: field_factors_3
+            field_factors_4: field_factors_4
             flag_value: flag_value
-            parent_target_id: parent_target_id
-            location: location
             status: status
           info:
             asset_bulk_form:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            image_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            id:
-              sortable: true
-              default_sort_order: desc
               align: ''
               separator: ''
               empty_column: false
@@ -125,24 +121,51 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            type:
-              sortable: true
+            field_block_id:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
+            field_plot_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            plant_type_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_factors:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_1:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_2:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_3:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            field_factors_4:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
             flag_value:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            parent_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            location:
               align: ''
               separator: ''
               empty_column: false
@@ -217,138 +240,6 @@ display:
           selected_actions: {  }
           entity_type: asset
           plugin_id: bulk_form
-        image_target_id:
-          id: image_target_id
-          table: asset__image
-          field: image_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: image
-          settings:
-            image_style: thumbnail
-            image_link: content
-          group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: asset
-          entity_field: image
-          plugin_id: field
-        id:
-          id: id
-          table: asset_field_data
-          field: id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ID
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: asset
-          entity_field: id
-          plugin_id: field
         name:
           id: name
           table: asset_field_data
@@ -414,14 +305,140 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-        type:
-          id: type
-          table: asset_field_data
-          field: type
+        field_block_id:
+          id: field_block_id
+          table: asset__field_block_id
+          field: field_block_id
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Asset type'
+          label: 'Block ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_plot_id:
+          id: field_plot_id
+          table: asset__field_plot_id
+          field: field_plot_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Plot ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        plant_type_target_id:
+          id: plant_type_target_id
+          table: asset__plant_type
+          field: plant_type_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Crop
           exclude: false
           alter:
             alter_text: false
@@ -477,7 +494,322 @@ display:
           separator: ', '
           field_api_classes: false
           entity_type: asset
-          entity_field: type
+          entity_field: plant_type
+          plugin_id: field
+        field_factors:
+          id: field_factors
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 1'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_1:
+          id: field_factors_1
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 2'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 1
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_2:
+          id: field_factors_2
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 3'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 2
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_3:
+          id: field_factors_3
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 4'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 3
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_factors_4:
+          id: field_factors_4
+          table: asset__field_factors
+          field: field_factors
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Treatment 5'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 4
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
           plugin_id: field
         flag_value:
           id: flag_value
@@ -543,135 +875,6 @@ display:
           entity_type: asset
           entity_field: flag
           plugin_id: field
-        parent_target_id:
-          id: parent_target_id
-          table: asset__parent
-          field: parent_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Parents
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: asset
-          entity_field: parent
-          plugin_id: field
-        location:
-          id: location
-          table: asset
-          field: location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Location
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: asset
-          plugin_id: asset_location
         status:
           id: status
           table: asset_field_data
@@ -778,32 +981,37 @@ display:
           entity_type: asset
           entity_field: name
           plugin_id: string
-        type:
-          id: type
-          table: asset_field_data
-          field: type
+        field_block_id_value:
+          id: field_block_id_value
+          table: asset__field_block_id
+          field: field_block_id_value
           relationship: none
           group_type: group
           admin_label: ''
-          operator: in
-          value: {  }
+          operator: '='
+          value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: type_op
-            label: 'Asset type'
+            operator_id: field_block_id_value_op
+            label: 'Block ID'
             description: ''
             use_operator: false
-            operator: type_op
+            operator: field_block_id_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: type
+            identifier: field_block_id_value
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
-            reduce: false
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            placeholder: ''
           is_grouped: false
           group_info:
             label: ''
@@ -816,13 +1024,11 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: asset
-          entity_field: type
-          plugin_id: bundle
-        flag_value:
-          id: flag_value
-          table: asset__flag
-          field: flag_value
+          plugin_id: string
+        plant_type_target_id:
+          id: plant_type_target_id
+          table: asset__plant_type
+          field: plant_type_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -831,14 +1037,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: flag_value_op
-            label: Flags
+            operator_id: plant_type_target_id_op
+            label: Crop
             description: ''
             use_operator: false
-            operator: flag_value_op
+            operator: plant_type_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: flag_value
+            identifier: plant_type_target_id
             required: false
             remember: false
             multiple: true
@@ -858,49 +1064,14 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+          type: textfield
+          limit: true
+          vid: plant_type
+          hierarchy: false
+          error_message: true
           entity_type: asset
-          entity_field: flag
-          plugin_id: list_field
-        is_location:
-          id: is_location
-          table: asset_field_data
-          field: is_location
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: '='
-          value: All
-          group: 1
-          exposed: true
-          expose:
-            operator_id: ''
-            label: 'Is location'
-            description: ''
-            use_operator: false
-            operator: is_location_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: is_location
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          entity_type: asset
-          entity_field: is_location
-          plugin_id: boolean
+          entity_field: plant_type
+          plugin_id: taxonomy_index_tid
         is_fixed:
           id: is_fixed
           table: asset_field_data
@@ -983,6 +1154,51 @@ display:
           entity_type: asset
           entity_field: status
           plugin_id: state_machine_state
+        field_factors_value:
+          id: field_factors_value
+          table: asset__field_factors
+          field: field_factors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: and
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_factors_value_op
+            label: Treatments
+            description: ''
+            use_operator: false
+            operator: field_factors_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_factors_value
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            reduce: 0
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: 0
+          plugin_id: factor_levels
       sorts: {  }
       header: {  }
       footer:
@@ -1075,8 +1291,12 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.asset.field_block_id'
+        - 'config:field.storage.asset.field_factors'
+        - 'config:field.storage.asset.field_plot_id'
   geojson:
     display_plugin: geojson_export
     id: geojson
@@ -1361,6 +1581,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - user
         - user.permissions
       tags: {  }
   page:
@@ -1388,5 +1609,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:field.storage.asset.field_block_id'
+        - 'config:field.storage.asset.field_factors'
+        - 'config:field.storage.asset.field_plot_id'
