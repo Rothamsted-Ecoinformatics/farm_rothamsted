@@ -29,7 +29,7 @@ class Plot extends FarmAssetType {
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'plant_type',
         'auto_create' => TRUE,
-        'required' => TRUE,
+        'required' => FALSE,
         'multiple' => TRUE,
       ],
     ];
