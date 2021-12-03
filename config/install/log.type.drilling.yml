@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted
+  module:
+    - farm_plant_type
+id: drilling
+label: Drilling
+description: ''
+name_pattern: 'Drilling log [log:id]'
+workflow: log_default
+new_revision: true
