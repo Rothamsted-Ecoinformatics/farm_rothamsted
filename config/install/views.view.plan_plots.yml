@@ -6,7 +6,6 @@ dependencies:
     - field.storage.asset.field_factors
     - field.storage.asset.field_plot_id
     - plan.type.rothamsted_experiment
-    - taxonomy.vocabulary.plant_type
   enforced:
     module:
       - farm_ui_views
@@ -17,10 +16,8 @@ dependencies:
     - geofield
     - key_value_field
     - options
-    - plan
     - rest
     - state_machine
-    - taxonomy
     - user
     - views_geojson
 id: plan_plots

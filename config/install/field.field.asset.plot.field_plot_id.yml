@@ -4,6 +4,8 @@ dependencies:
   config:
     - asset.type.plot
     - field.storage.asset.field_plot_id
+  module:
+    - text
 id: asset.plot.field_plot_id
 field_name: field_plot_id
 entity_type: asset
@@ -14,9 +16,5 @@ required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings:
-  min: null
-  max: null
-  prefix: ''
-  suffix: ''
+settings: {  }
 field_type: text
