@@ -66,7 +66,7 @@ function farm_rothamsted_views_pre_render(ViewExecutable $view) {
     '#map_type' => 'farm_rothamsted_experiment_plots',
   ];
   $map['#map_settings']['farm_rothamsted_experiment_plot_layer'] = [
-    'plan' => $view->args[0],
+    'plan' => \Drupal::routeMatch()->getRawParameter('plan'),
     'filters' => $view->getExposedInput(),
   ];
 

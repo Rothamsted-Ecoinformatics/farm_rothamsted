@@ -6,7 +6,6 @@ dependencies:
     - field.storage.asset.field_factors
     - field.storage.asset.field_plot_id
     - plan.type.rothamsted_experiment
-    - system.menu.admin
     - taxonomy.vocabulary.plant_type
   enforced:
     module:
@@ -1243,7 +1242,7 @@ display:
           relationship: reverse__plan__asset
           group_type: group
           admin_label: ''
-          default_action: empty
+          default_action: 'not found'
           exception:
             value: all
             title_enable: false
@@ -1591,17 +1590,8 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: plan/%/plots
+      path: plan/%plan/plots
       display_description: ''
-      menu:
-        type: normal
-        title: Assets
-        description: ''
-        expanded: true
-        parent: farm.records
-        weight: 0
-        context: '0'
-        menu_name: admin
     cache_metadata:
       max-age: 0
       contexts:
