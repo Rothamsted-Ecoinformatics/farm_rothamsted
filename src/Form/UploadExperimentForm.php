@@ -142,20 +142,32 @@ class UploadExperimentForm extends FormBase {
     $factors = $json['factors'];
 
     // Create and save new plan based on crs name.
-    $plan = Plan::create(
-          [
-            'type' => 'rothamsted_experiment',
-            'name' => $json['name'],
-            'status' => 'active',
-            'field_factors' => Json::encode($factors),
-          ]
-      );
+    $plan = Plan::create([
+      'type' => 'rothamsted_experiment',
+      'name' => $json['name'],
+      'status' => 'active',
+      'field_factors' => Json::encode($factors),
+    ]);
     $plan->save();
 
     // Feedback link to created plan.
     $planUrl = $plan->toUrl()->toString();
     $planLabel = $plan->label();
     $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
+
+    // Create and save land asset.
+    $experiment_land = Asset::create([
+      'type' => 'land',
+      'land_type' => 'other',
+      'name' => $this->t('@plan_name Experiment Surrounds', ['@plan_name' => $plan->label()]),
+      'status' => 'active',
+      'is_fixed' => TRUE,
+      'is_location' => TRUE,
+    ]);
+    $experiment_land->save();
+
+    // Add land asset to the plan.
+    $plan->get('asset')->appendItem($experiment_land);
 
     // Iterate each of the saved features from the file.
     foreach ($json['features'] as $feature) {
@@ -177,21 +189,20 @@ class UploadExperimentForm extends FormBase {
       }
 
       // Create and save plot assets.
-      $asset = Asset::create(
-            [
-              'type' => 'plot',
-              'name' => $plotName,
-              'status' => 'active',
-              'intrinsic_geometry' => $wkt,
-              'is_fixed' => TRUE,
-              'is_location' => TRUE,
-              'field_plot_id' => $feature['properties']['plot_id'],
-              'field_block_id' => $feature['properties']['block'],
-              'field_row' => $feature['properties']['row'],
-              'field_col' => $feature['properties']['col'],
-              'field_factors' => $factors,
-            ]
-        );
+      $asset = Asset::create([
+        'type' => 'plot',
+        'name' => $plotName,
+        'status' => 'active',
+        'intrinsic_geometry' => $wkt,
+        'is_fixed' => TRUE,
+        'is_location' => TRUE,
+        'parent' => $experiment_land,
+        'field_plot_id' => $feature['properties']['plot_id'],
+        'field_block_id' => $feature['properties']['block'],
+        'field_row' => $feature['properties']['row'],
+        'field_col' => $feature['properties']['col'],
+        'field_factors' => $factors,
+      ]);
 
       // If specified, add the crop.
       if (!empty($feature['properties']['crop'])) {
