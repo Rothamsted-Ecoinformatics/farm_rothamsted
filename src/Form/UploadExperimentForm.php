@@ -152,8 +152,8 @@ class UploadExperimentForm extends FormBase {
       );
     $plan->save();
 
-      // Create and save land asset.
-      $asset = Asset::create(
+    // Create and save land asset.
+    $asset = Asset::create(
             [
               'type' => 'land',
               'name' => sprintf('Experiment %d Surrounds', $plan->id()),
