@@ -152,8 +152,13 @@ class UploadExperimentForm extends FormBase {
       );
     $plan->save();
 
+    // Feedback link to created plan.
+    $planUrl = $plan->toUrl()->toString();
+    $planLabel = $plan->label();
+    $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
+
     // Create and save land asset.
-    $asset = Asset::create([
+    $experiment_land = Asset::create([
         'type' => 'land',
         'land_type' => 'other',
         'name' => $this->t('Experiment @plan_id Surrounds', ['@plan_id' => $plan->id()]),
@@ -162,12 +167,7 @@ class UploadExperimentForm extends FormBase {
         'is_location' => TRUE,
       ]
     );
-    $asset->save();
-
-    // Feedback link to created plan.
-    $planUrl = $plan->toUrl()->toString();
-    $planLabel = $plan->label();
-    $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
+    $experiment_land->save();
 
     // Iterate each of the saved features from the file.
     foreach ($json['features'] as $feature) {
@@ -189,14 +189,14 @@ class UploadExperimentForm extends FormBase {
       }
 
       // Create and save plot assets.
-      $asset = Asset::create(
-            [
+      $asset = Asset::create([
               'type' => 'plot',
               'name' => $plotName,
               'status' => 'active',
               'intrinsic_geometry' => $wkt,
               'is_fixed' => TRUE,
               'is_location' => TRUE,
+              'parent' => $experiment_land,
               'field_plot_id' => $feature['properties']['plot_id'],
               'field_block_id' => $feature['properties']['block'],
               'field_row' => $feature['properties']['row'],
