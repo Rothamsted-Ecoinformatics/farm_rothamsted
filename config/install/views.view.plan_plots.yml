@@ -1321,7 +1321,7 @@ display:
           entity_field: id
           plugin_id: numeric
       display_extenders: {  }
-      title: Assets
+      title: Plots
       filter_groups:
         operator: AND
         groups:
