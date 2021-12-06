@@ -166,6 +166,9 @@ class UploadExperimentForm extends FormBase {
     ]);
     $experiment_land->save();
 
+    // Add land asset to the plan.
+    $plan->get('asset')->appendItem($experiment_land);
+
     // Iterate each of the saved features from the file.
     foreach ($json['features'] as $feature) {
       // re-encode the data into json.
