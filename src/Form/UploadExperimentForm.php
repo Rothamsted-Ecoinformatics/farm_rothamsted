@@ -142,14 +142,12 @@ class UploadExperimentForm extends FormBase {
     $factors = $json['factors'];
 
     // Create and save new plan based on crs name.
-    $plan = Plan::create(
-          [
-            'type' => 'rothamsted_experiment',
-            'name' => $json['name'],
-            'status' => 'active',
-            'field_factors' => Json::encode($factors),
-          ]
-      );
+    $plan = Plan::create([
+      'type' => 'rothamsted_experiment',
+      'name' => $json['name'],
+      'status' => 'active',
+      'field_factors' => Json::encode($factors),
+    ]);
     $plan->save();
 
     // Feedback link to created plan.
@@ -159,14 +157,13 @@ class UploadExperimentForm extends FormBase {
 
     // Create and save land asset.
     $experiment_land = Asset::create([
-        'type' => 'land',
-        'land_type' => 'other',
-        'name' => $this->t('Experiment @plan_id Surrounds', ['@plan_id' => $plan->id()]),
-        'status' => 'active',
-        'is_fixed' => TRUE,
-        'is_location' => TRUE,
-      ]
-    );
+      'type' => 'land',
+      'land_type' => 'other',
+      'name' => $this->t('Experiment @plan_id Surrounds', ['@plan_id' => $plan->id()]),
+      'status' => 'active',
+      'is_fixed' => TRUE,
+      'is_location' => TRUE,
+    ]);
     $experiment_land->save();
 
     // Iterate each of the saved features from the file.
@@ -190,20 +187,19 @@ class UploadExperimentForm extends FormBase {
 
       // Create and save plot assets.
       $asset = Asset::create([
-              'type' => 'plot',
-              'name' => $plotName,
-              'status' => 'active',
-              'intrinsic_geometry' => $wkt,
-              'is_fixed' => TRUE,
-              'is_location' => TRUE,
-              'parent' => $experiment_land,
-              'field_plot_id' => $feature['properties']['plot_id'],
-              'field_block_id' => $feature['properties']['block'],
-              'field_row' => $feature['properties']['row'],
-              'field_col' => $feature['properties']['col'],
-              'field_factors' => $factors,
-            ]
-        );
+        'type' => 'plot',
+        'name' => $plotName,
+        'status' => 'active',
+        'intrinsic_geometry' => $wkt,
+        'is_fixed' => TRUE,
+        'is_location' => TRUE,
+        'parent' => $experiment_land,
+        'field_plot_id' => $feature['properties']['plot_id'],
+        'field_block_id' => $feature['properties']['block'],
+        'field_row' => $feature['properties']['row'],
+        'field_col' => $feature['properties']['col'],
+        'field_factors' => $factors,
+      ]);
 
       // If specified, add the crop.
       if (!empty($feature['properties']['crop'])) {
