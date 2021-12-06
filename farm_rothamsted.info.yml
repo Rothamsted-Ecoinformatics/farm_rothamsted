@@ -10,6 +10,7 @@ dependencies:
   - farm_group
   - farm_harvest
   - farm_input
+  - farm_land
   - farm_material_type
   - farm_plant_type
   - farm_quick
