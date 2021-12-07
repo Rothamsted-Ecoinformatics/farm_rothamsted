@@ -3,7 +3,6 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\taxonomy\TermInterface;
 
 /**
  * Spraying quick form.
@@ -135,19 +134,32 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Build justification options from log categories.
-    $log_categories = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
+    $justification_options = [];
+    $log_categories = $term_storage->loadByProperties([
       'vid' => 'log_category',
+      'name' => 'Justification/Target (Spray Applications)',
       'status' => 1,
     ]);
-    $justification_options = array_map(function (TermInterface $term) {
-      return $term->label();
-    }, $log_categories);
+
+    // If the Justification/Target (Spray Applications) term exists.
+    if ($spray_applications_term = reset($log_categories)) {
+
+      // Build option for each active child term.
+      foreach ($term_storage->loadChildren($spray_applications_term->id()) as $term) {
+        if ($term->get('status')->value) {
+          $justification_options[] = $term->label();
+        }
+      }
+      asort($justification_options);
+    }
 
     // Justification/Target as log categories.
     $form['categories'] = [
       '#type' => 'select',
       '#title' => $this->t('Justification/Target'),
       '#options' => $justification_options,
+      '#multiple' => TRUE,
       '#weight' => 16,
     ];
 
