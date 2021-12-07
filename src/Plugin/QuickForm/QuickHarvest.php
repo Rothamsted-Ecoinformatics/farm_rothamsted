@@ -4,7 +4,6 @@ namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;
-use Drupal\Core\AjaxResponse;
 
 /**
  * Harvest quick form.
@@ -47,48 +46,58 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#options' => array_combine(range(1, 5), range(1, 5)),
       '#default_value' => 1,
       '#ajax' => [
-        'callback' => [$this,'farm_rothamsted_harvest_quick_form_quantities_ajax'],
+        'callback' => [$this, 'farm_rothamsted_harvest_quick_form_quantities_ajax'],
         'event' => 'change',
         'wrapper' => 'farm-rothamsted-harvest-quantities',
       ],
     ];
 
     // Create a wrapper around all quantity fields, for AJAX replacement.
-    $form['quantity']['quantities'] = array(
+    $form['quantity']['quantities'] = [
       '#prefix' => '<div id="farm-rothamsted-harvest-quantities">',
       '#suffix' => '</div>',
-    );
+    ];
 
     // Add fields for each quantity.
-    $quantities = 1;
-    $q = $form_state->getValue('quantity');
-    if (!empty($q)) {
-      $quantities = count($q);
-    }
+    $form['quantity']['quantities']['#TREE'] = TRUE;
+    $quantities = $form_state->getValue('count', 1);
     for ($i = 0; $i < $quantities; $i++) {
 
       // Fieldset for each quantity.
-      $form['quantity']['quantities'][$i] = array(
+      $form['quantity']['quantities'][$i] = [
         '#type' => 'fieldset',
-        '#title' => t('Quantity @number', array('@number' => $i + 1)),
+        '#title' => $this->t('Quantity @number', ['@number' => $i + 1]),
         '#collapsible' => TRUE,
         '#collapsed' => FALSE,
-      );
+      ];
+
+      // Quantity measure (weight or volume).
+      $form['quantity']['quantities'][$i]['measure'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Quantity measure'),
+        '#options' => [
+          'weight' => $this->t('Weight'),
+          'volume' => $this->t('Volume'),
+        ],
+      ];
+
+      // Quantity value.
+      $form['quantity']['quantities'][$i]['value'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Quantity value'),
+        '#element_validate' => ['element_validate_number'],
+      ];
+
+      // Quantity units.
+      $form['quantity']['quantities'][$i]['units'] = [
+        '#type' => 'entity_autocomplete',
+        '#target_type' => 'taxonomy_term',
+        '#title' => $this->t('Quantity units'),
+        '#selection_settings' => [
+          'target_bundles' => ['unit'],
+        ],
+      ];
     }
-
-    // Harvest units.
-    $harvest_units = parent::getTaxonomy('unit');
-
-    // @todo Each harvest - units from hard coded list.
-    $form['units'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Units'),
-      '#options' => array_combine($harvest_units, $harvest_units),
-
-    ];
-
-    // @todo Each quantity - measure, value, units, label.
-    // @todo AJAX for each quantity.
 
     return $form;
   }
@@ -96,16 +105,9 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * Form ajax function for harvest quick form quantities.
    */
-  function farm_rothamsted_harvest_quick_form_quantities_ajax(array $form, FormStateInterface $form_state) {
+  public function farm_rothamsted_harvest_quick_form_quantities_ajax(array $form, FormStateInterface $form_state) {
     return $form['quantity']['quantities'];
   }
-
-  // /**
-  //  * Form ajax function for harvest quick form units.
-  //  */
-  // function farm_rothamsted_harvest_quick_form_units_ajax($form, &$form_state) {
-  //   return $form['harvest'][]
-  // }
 
   /**
    * {@inheritdoc}
