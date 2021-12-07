@@ -211,4 +211,73 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     return $group_options;
   }
 
+  /**
+   * Helper function to load list of taxonomies.
+   *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   *
+   * @return array
+   *   An array of taxonomy labels ordered alphabetically.
+   */
+  protected function getTaxonomy(string $vocabulary_name): array {
+    $taxonomy = [];
+
+    $vocabulary = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => $vocabulary_name,
+      'status' => 1,
+    ]);
+
+    if (count($vocabulary)) {
+      foreach ($vocabulary as $term) {
+        $taxonomy[] = $term->label();
+      }
+    }
+
+    natsort($taxonomy);
+
+    return $taxonomy;
+  }
+
+  /**
+   * Helper function to load list of child taxonomies.
+   *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   * @param string $taxonomy_name
+   *   The name of parent taxonomy.
+   *
+   * @return array
+   *   An array of taxonomy labels ordered alphabetically.
+   */
+  protected function getChildTaxonomies(string $vocabulary_name, string $taxonomy_name): array {
+    $child_taxonomies = [];
+
+    $parent_taxonomy = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => $vocabulary_name,
+      'name' => $taxonomy_name,
+      'status' => 1,
+    ]);
+
+    if (count($parent_taxonomy)) {
+      $sprayApps = reset($parent_taxonomy);
+
+      $tid = $sprayApps->get('tid')->value;
+
+      $child_terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadChildren($tid);
+
+      foreach ($child_terms as $term) {
+        $status = $term->get('status')->value;
+
+        if ($status) {
+          $child_taxonomies[] = $term->label();
+        }
+      }
+    }
+
+    natsort($child_taxonomies);
+
+    return $child_taxonomies;
+  }
+
 }
