@@ -65,10 +65,10 @@ class QuickHarvest extends QuickExperimentFormBase {
 
       // Fieldset for each quantity.
       $form['quantity']['quantities'][$i] = [
-        '#type' => 'fieldset',
+        '#type' => 'details',
         '#title' => $this->t('Quantity @number', ['@number' => $i + 1]),
         '#collapsible' => TRUE,
-        '#collapsed' => FALSE,
+        '#open' => TRUE,
       ];
 
       // Quantity measure (weight or volume).
