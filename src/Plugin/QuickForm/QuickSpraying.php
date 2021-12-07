@@ -160,6 +160,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Justification/Target'),
       '#options' => $justification_options,
+      '#multiple' => TRUE,
       '#weight' => 16,
     ];
 
