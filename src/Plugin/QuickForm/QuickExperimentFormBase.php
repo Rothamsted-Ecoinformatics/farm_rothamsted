@@ -10,6 +10,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
+use Drupal\taxonomy\TermInterface;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -212,72 +213,70 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
-   * Helper function to load list of taxonomies.
+   * Helper function to build a sorted option list of taxonomy terms.
    *
    * @param string $vocabulary_name
    *   The name of vocabulary.
    *
    * @return array
-   *   An array of taxonomy labels ordered alphabetically.
+   *   An array of term labels indexed by term ID and sorted alphabetically.
    */
-  protected function getTaxonomy(string $vocabulary_name): array {
-    $taxonomy = [];
+  protected function getTermOptions(string $vocabulary_name): array {
 
-    $vocabulary = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+    // Load active terms.
+    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'vid' => $vocabulary_name,
       'status' => 1,
     ]);
 
-    if (count($vocabulary)) {
-      foreach ($vocabulary as $term) {
-        $taxonomy[] = $term->label();
-      }
-    }
+    // Build options.
+    $options = array_map(function (TermInterface $term) {
+      return $term->label();
+    }, $terms);
+    natsort($options);
 
-    natsort($taxonomy);
-
-    return $taxonomy;
+    return $options;
   }
 
   /**
-   * Helper function to load list of child taxonomies.
+   * Helper function to build a sorted option list of child taxonomy terms.
    *
    * @param string $vocabulary_name
    *   The name of vocabulary.
-   * @param string $taxonomy_name
-   *   The name of parent taxonomy.
+   * @param string $term_name
+   *   The name of parent taxonomy term.
    *
    * @return array
    *   An array of taxonomy labels ordered alphabetically.
    */
-  protected function getChildTaxonomies(string $vocabulary_name, string $taxonomy_name): array {
-    $child_taxonomies = [];
+  protected function getChildTermOptions(string $vocabulary_name, string $term_name): array {
 
-    $parent_taxonomy = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+    // Build array of options.
+    $options = [];
+
+    // Search for a parent term.
+    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
+    $matching_terms = $term_storage->loadByProperties([
       'vid' => $vocabulary_name,
-      'name' => $taxonomy_name,
+      'name' => $term_name,
       'status' => 1,
     ]);
 
-    if (count($parent_taxonomy)) {
-      $sprayApps = reset($parent_taxonomy);
+    // If a parent term exists.
+    if ($parent_term = reset($matching_terms)) {
 
-      $tid = $sprayApps->get('tid')->value;
-
-      $child_terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadChildren($tid);
-
-      foreach ($child_terms as $term) {
-        $status = $term->get('status')->value;
-
-        if ($status) {
-          $child_taxonomies[] = $term->label();
+      // Build option for each active child term.
+      foreach ($term_storage->loadChildren($parent_term->id()) as $term) {
+        if ($term->get('status')->value) {
+          $options[$term->id()] = $term->label();
         }
       }
     }
 
-    natsort($child_taxonomies);
+    // Sort options.
+    natsort($options);
 
-    return $child_taxonomies;
+    return $options;
   }
 
 }
