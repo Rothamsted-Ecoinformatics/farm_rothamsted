@@ -46,7 +46,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#options' => array_combine(range(1, 5), range(1, 5)),
       '#default_value' => 1,
       '#ajax' => [
-        'callback' => [$this, 'farm_rothamsted_harvest_quick_form_quantities_ajax'],
+        'callback' => [$this, 'quantitiesCallback'],
         'event' => 'change',
         'wrapper' => 'farm-rothamsted-harvest-quantities',
       ],
@@ -110,7 +110,7 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * Form ajax function for harvest quick form quantities.
    */
-  public function farm_rothamsted_harvest_quick_form_quantities_ajax(array $form, FormStateInterface $form_state) {
+  public function quantitiesCallback(array $form, FormStateInterface $form_state) {
     return $form['quantity']['quantities'];
   }
 

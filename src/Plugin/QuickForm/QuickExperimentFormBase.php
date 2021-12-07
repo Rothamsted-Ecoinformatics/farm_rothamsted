@@ -244,7 +244,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *
    * @param string $vocabulary_name
    *   The name of vocabulary.
-   *
    * @param string $taxonomy_name
    *   The name of parent taxonomy.
    *
