@@ -137,7 +137,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $justification_options = [];
     $log_categories = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
       'vid' => 'log_category',
-      'name' => 'Spraying applications',
+      'name' => 'Justification/Target (Spray Applications)',
       'status' => 1,
     ]);
 
