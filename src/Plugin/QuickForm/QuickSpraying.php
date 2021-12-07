@@ -134,21 +134,20 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Build justification options from log categories.
+    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
     $justification_options = [];
-    $log_categories = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+    $log_categories = $term_storage->loadByProperties([
       'vid' => 'log_category',
       'name' => 'Justification/Target (Spray Applications)',
       'status' => 1,
     ]);
 
-    if (count($log_categories)) {
-      $sprayApps = reset($log_categories);
-      $sprayAppsTid = $sprayApps->get('tid')->value;
-      $log_categories = $this->entityTypeManager->getStorage('taxonomy_term')
-        ->loadChildren($sprayAppsTid);
-      foreach ($log_categories as $term) {
-        $status = $term->get('status')->value;
-        if ($status) {
+    // If the Justification/Target (Spray Applications) term exists.
+    if ($spray_applications_term = reset($log_categories)) {
+
+      // Build option for each active child term.
+      foreach ($term_storage->loadChildren($spray_applications_term->id()) as $term) {
+        if ($term->get('status')->value) {
           $justification_options[] = $term->label();
         }
       }
