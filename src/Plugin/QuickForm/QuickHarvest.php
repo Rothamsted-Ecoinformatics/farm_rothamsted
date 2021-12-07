@@ -83,9 +83,8 @@ class QuickHarvest extends QuickExperimentFormBase {
 
       // Quantity value.
       $form['quantity']['quantities'][$i]['value'] = [
-        '#type' => 'textfield',
+        '#type' => 'number',
         '#title' => $this->t('Quantity value'),
-        '#element_validate' => ['element_validate_number'],
       ];
 
       // Quantity units.
