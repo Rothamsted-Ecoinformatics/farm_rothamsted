@@ -59,7 +59,7 @@ class QuickHarvest extends QuickExperimentFormBase {
     ];
 
     // Add fields for each quantity.
-    $form['quantity']['quantities']['#TREE'] = TRUE;
+    $form['quantity']['quantities']['#tree'] = TRUE;
     $quantities = $form_state->getValue('count', 1);
     for ($i = 0; $i < $quantities; $i++) {
 
@@ -119,20 +119,11 @@ class QuickHarvest extends QuickExperimentFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    // Draft an harvest log from the user-submitted data.
-    $quantity = $form_state->getValue('quantity');
-    $units = $form_state->getValue('units');
-
+    // Draft a harvest log from the user-submitted data.
     $log = [
-      'name' => $this->t('Harvested @quantity @units', ['@quantity' => $quantity, '@units' => $units]),
+      'name' => $this->t('Harvested log'),
       'type' => 'harvest',
-      'quantity' => [
-        [
-          'measure' => 'unit',
-          'value' => $quantity,
-          'unit' => $units,
-        ],
-      ],
+      'quantity' => $form_state->getValue('quantities') ?? [],
     ];
 
     // Create the log.
