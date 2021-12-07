@@ -96,6 +96,12 @@ class QuickHarvest extends QuickExperimentFormBase {
           'target_bundles' => ['unit'],
         ],
       ];
+
+      // Quantity label.
+      $form['quantity']['quantities'][$i]['label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Quantity label'),
+      ];
     }
 
     return $form;
