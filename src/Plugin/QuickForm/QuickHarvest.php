@@ -88,7 +88,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       ];
 
       // Quantity units.
-      $form['quantity']['quantities'][$i]['units'] = [
+      $form['quantity']['quantities'][$i]['units_id'] = [
         '#type' => 'entity_autocomplete',
         '#target_type' => 'taxonomy_term',
         '#title' => $this->t('Quantity units'),
