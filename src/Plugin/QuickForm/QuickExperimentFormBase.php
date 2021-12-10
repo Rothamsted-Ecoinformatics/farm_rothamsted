@@ -279,4 +279,50 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     return $options;
   }
 
+  /**
+   * Helper function to build a sorted option list of child taxonomy terms.
+   *
+   * @param string $asset_type
+   *   The name of asset type.
+   * @param string $child_name
+   *   The name of parent assets.
+   *
+   * @return array
+   *   An array of asset labels ordered alphabetically.
+   */
+  protected function getChildAssetOptions(string $asset_type, string $child_name): array {
+
+    // Build array of options.
+    $options = [];
+
+    $asset_storage = $this->entityTypeManager->getStorage('asset');
+    $asset_ids = $asset_storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('status', 'active')
+      ->condition('type', $asset_type)
+      ->condition('name', $child_name)
+      ->execute();
+
+    if (!empty($asset_ids)) {
+      $child_ids = $asset_storage->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('status', 'active')
+        ->condition('type', $asset_type)
+        ->condition('parent', $asset_ids)
+        ->execute();
+
+      if (!empty($child_ids)) {
+        $child_assets = $asset_storage->loadMultiple($child_ids);
+        foreach ($child_assets as $asset) {
+          $id = $asset->get('id')->value;
+          $name = $asset->get('name')->value;
+
+          $options[$id] = $name;
+        }
+      }
+    }
+
+    return $options;
+  }
+
 }
