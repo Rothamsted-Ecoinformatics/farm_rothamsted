@@ -33,20 +33,28 @@ class QuickFertiliser extends QuickExperimentFormBase {
     /** @var \Drupal\taxonomy\TermStorage $term_storage */
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
+    // Build crop options from the plant types term.
+    $plant_types_options = $this->getTermOptions('plant_type');
+
     // Crops form placeholder.
     $form['crops'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Crops'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#options' => $plant_types_options,
+      '#multiple' => TRUE,
     ];
+
+    // Build tractor options from equipment assets.
+    $tractor_options = $this->getChildAssetOptions('equipment', 'Tractor');
 
     // Tractor form placeholder.
     $form['tractor'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Tractor'),
       '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#options' => $tractor_options,
+      '#multiple' => TRUE,
     ];
 
     // Machinery form placeholder.
