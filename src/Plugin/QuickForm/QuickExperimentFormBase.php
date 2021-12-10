@@ -10,6 +10,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
+use Drupal\taxonomy\TermInterface;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -209,6 +210,73 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     natsort($group_options);
 
     return $group_options;
+  }
+
+  /**
+   * Helper function to build a sorted option list of taxonomy terms.
+   *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   *
+   * @return array
+   *   An array of term labels indexed by term ID and sorted alphabetically.
+   */
+  protected function getTermOptions(string $vocabulary_name): array {
+
+    // Load active terms.
+    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => $vocabulary_name,
+      'status' => 1,
+    ]);
+
+    // Build options.
+    $options = array_map(function (TermInterface $term) {
+      return $term->label();
+    }, $terms);
+    natsort($options);
+
+    return $options;
+  }
+
+  /**
+   * Helper function to build a sorted option list of child taxonomy terms.
+   *
+   * @param string $vocabulary_name
+   *   The name of vocabulary.
+   * @param string $term_name
+   *   The name of parent taxonomy term.
+   *
+   * @return array
+   *   An array of taxonomy labels ordered alphabetically.
+   */
+  protected function getChildTermOptions(string $vocabulary_name, string $term_name): array {
+
+    // Build array of options.
+    $options = [];
+
+    // Search for a parent term.
+    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
+    $matching_terms = $term_storage->loadByProperties([
+      'vid' => $vocabulary_name,
+      'name' => $term_name,
+      'status' => 1,
+    ]);
+
+    // If a parent term exists.
+    if ($parent_term = reset($matching_terms)) {
+
+      // Build option for each active child term.
+      foreach ($term_storage->loadChildren($parent_term->id()) as $term) {
+        if ($term->get('status')->value) {
+          $options[$term->id()] = $term->label();
+        }
+      }
+    }
+
+    // Sort options.
+    natsort($options);
+
+    return $options;
   }
 
 }
