@@ -29,6 +29,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $weight = 1;
     $form = parent::buildForm($form, $form_state);
     /** @var \Drupal\taxonomy\TermStorage $term_storage */
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
@@ -36,257 +37,345 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build crop options from the plant types term.
     $plant_types_options = $this->getTermOptions('plant_type');
 
-    // Crops form placeholder.
+    // Crops - select multiple - required.
     $form['crops'] = [
       '#type' => 'select',
       '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Crops'),
       '#options' => $plant_types_options,
       '#multiple' => TRUE,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
     // Build tractor options from equipment assets.
     $tractor_options = $this->getChildAssetOptions('equipment', 'Tractor');
 
-    // Tractor form placeholder.
+    // Tractor - select - required.
     $form['tractor'] = [
       '#type' => 'select',
       '#title' => $this->t('Tractor'),
-      '#placeholder' => $this->t('TBD'),
       '#options' => $tractor_options,
-      '#multiple' => TRUE,
-    ];
-
-    // Machinery form placeholder.
-    $form['machinery'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Machinery'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Recommendation Number form placeholder.
+    // Build machinery options from equipment assets.
+    $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');
+
+    // Machinery select multiple - required.
+    $form['machinery'] = [
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Machinery'),
+      '#options' => $machinery_options,
+      '#multiple' => TRUE,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Recommendation Number - text - optional.
     $form['recommendation_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recommendation Number'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Recommendation files form placeholder.
+    // Recommendation files - file picker - optional.
     $form['recommendation_files'] = [
-      '#type' => 'textfield',
+      '#type' => 'file',
       '#title' => $this->t('Recommendation files'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Scheduled by form placeholder.
+    // Build options from people who are managers or farm workers.
+    $target_roles = ['farm_manager', 'farm_worker'];
+    $user_storage = $this->entityTypeManager->getStorage('user')->loadByProperties([
+      'status' => TRUE,
+      'roles' => $target_roles,
+    ]);
+
+    $farm_staff_options = array_map(function ($user) {
+      return $user->label();
+    }, $user_storage);
+
+    // Scheduled by - select - required.
     $form['scheduled_by'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Scheduled by'),
-      '#placeholder' => $this->t('TBD'),
+      '#options' => $farm_staff_options,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Scheduled date and time form placeholder.
+    // Scheduled date and time - date time picker - required.
     $form['scheduled_date_and_time'] = [
-      '#type' => 'textfield',
+      '#type' => 'datetime',
       '#title' => $this->t('Scheduled date and time'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Log name form placeholder.
+    // Log name - text - .
     $form['log_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Log name'),
       '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Assigned to form placeholder.
+    // Assigned to - select - optional.
     $form['assigned_to'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Assigned to'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#options' => $farm_staff_options,
+      '#weight' => ++$weight,
     ];
 
-    // Job status form placeholder.
+    // Build status options.
+    $status_options = $this->getChildTermOptions('autocomplete', 'status');
+
+    // Job status - select multiple - required.
     $form['job_status'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Job status'),
-      '#placeholder' => $this->t('TBD'),
+      '#target_type' => 'taxonomy_term',
+      '#options' => $status_options,
+      '#multiple' => TRUE,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
+/*
     // Nutrient Input form placeholder.
     $form['nutrient_input'] = [
-      '#type' => 'textfield',
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'taxomomy_term',
       '#title' => $this->t('Nutrient Input'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#selection_settings' => [
+        'target_bundles' => ['nutrients'],
+      ],
+      '#weight' => ++$weight,
     ];
+*/
 
+/*
     // Product Type form placeholder.
     $form['product_type'] = [
-      '#type' => 'textfield',
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'taxomomy_term',
       '#title' => $this->t('Product Type'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#selection_settings' => [
+        'target_bundles' => ['nutrients'],
+      ],
+      '#weight' => ++$weight,
     ];
+*/
 
-    // Product form placeholder.
+    // Build product options.
+    $product_options = $this->getTermOptions('material_type');
+
+    // Product - select - optional.
     $form['product'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Product'),
-      '#placeholder' => $this->t('TBD'),
+      '#options' => $product_options,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
+/*
     // Nutrient form placeholder.
     $form['nutrient'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Nutrient'),
       '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
+*/
 
-    // Nutrient content form placeholder.
+    // Nutrient content - text - optional.
     $form['nutrient_content'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Nutrient content'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#title' => $this->t('Nutrient content %'),
+      '#weight' => ++$weight,
     ];
 
-    // Nutrient application rate form placeholder.
+    // Nutrient application rate - number - required.
     $form['nutrient_application_rate'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Nutrient application rate'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Product application rate form placeholder.
+    // Build application rate units options from units / spray taxonomy.
+    $application_rate_units_options = $this->getChildTermOptions('unit', 'spray');
+
+    // Nutrient application rate - select - required.
+    $form['nutrient_application_rate_units'] = [
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Nutrient application rate units'),
+      '#options' => $application_rate_units_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Product application rate - number - required.
     $form['product_application_rate'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Product application rate'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Product volume form placeholder.
+    // Product application rate - select - required.
+    $form['product_application_rate_units'] = [
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Product application rate units'),
+      '#options' => $application_rate_units_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Product volume - number - required.
     $form['product_volume'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Product volume'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // COSSH Hazard Assessments form placeholder.
+    // Build volume units options from units / volume taxonomy.
+    $application_volume_units_options = $this->getChildTermOptions('unit', 'volume');
+
+    // Product volume units - select - required.
+    $form['product_volume_units'] = [
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Product application rate units'),
+      '#options' => $application_volume_units_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Build volume units options from autocomplete / hazard taxonomy.
+    $hazard_options = $this->getChildTermOptions('autocomplete', 'hazard');
+
+    // COSSH Hazard Assessments - select multiple - required.
     $form['cossh_hazard_assessments'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('COSSH Hazard Assessments'),
-      '#placeholder' => $this->t('TBD'),
+      '#options' => $hazard_options,
+      '#multiple' => TRUE,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Operation start time and date form placeholder.
+    // Operation start time and date - date time picker - required.
     $form['operation_start_time_and_date'] = [
-      '#type' => 'textfield',
+      '#type' => 'datetime',
       '#title' => $this->t('Operation start time and date'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Tractor hours (start) form placeholder.
+    // Tractor hours (start) - number - required.
     $form['tractor_hours_start'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Tractor hours (start)'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Tractor hours (end) form placeholder.
+    // Tractor hours (end) - number - required.
     $form['tractor_hours_end'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Tractor hours (end)'),
-      '#placeholder' => $this->t('TBD'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Time taken form placeholder.
+    // Time taken - text - required.
     $form['time_taken'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Time taken'),
-      '#placeholder' => $this->t('TBD'),
+      '#title' => $this->t('Time taken hh:mm'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Fuel use form placeholder.
+    // Fuel use - number - optional.
     $form['fuel_use'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Fuel use'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Seed Label(s) form placeholder.
+    // Build fuel use units options from units / volume taxonomy.
+    $fuel_use_units_options = $this->getChildTermOptions('unit', 'volume');
+
+    // Fuel use units - select - optional
+    $form['fuel_use_units'] = [
+      '#type' => 'select',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Fuel use units'),
+      '#options' => $fuel_use_units_options,
+      '#multiple' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Seed Label(s) - file - required.
     $form['seed_labels'] = [
-      '#type' => 'textfield',
+      '#type' => 'file',
       '#title' => $this->t('Seed Label(s)'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Crop Photograph(s) form placeholder.
+    // Crop Photograph(s) - file - optional.
     $form['crop_photographs'] = [
-      '#type' => 'textfield',
+      '#type' => 'file',
       '#title' => $this->t('Crop Photograph(s)'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Photographs of paper record(s) form placeholder.
+    // Photographs of paper record(s) - file - optional.
     $form['photographs_of_paper_records'] = [
-      '#type' => 'textfield',
+      '#type' => 'file',
       '#title' => $this->t('Photographs of paper record(s)'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Notes form placeholder.
+    // Notes - textarea - optional.
     $form['notes'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Notes'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Equipment Settings form placeholder.
+    // Equipment Settings - textarea - optional.
     $form['equipment_settings'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Equipment Settings'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Operator form placeholder.
+    // Operator - select multiple - required.
     $form['operator'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Operator'),
-      '#placeholder' => $this->t('TBD'),
+      '#options' => $farm_staff_options,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
-    // Load the top level Fertiliser material type.
-    $fertiliser_terms = $term_storage->loadByProperties([
-      'name' => 'Fertilisers',
-      'vid' => 'material_type',
-    ]);
-
+/*
     // Build fertiliser options. Default to none, showing message instead.
     $fertiliser_options = [$this->t('No Fertiliser material type configured.')];
     if ($fertiliser_term = reset($fertiliser_terms)) {
@@ -303,6 +392,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#title' => $this->t('Fertiliser'),
       '#options' => $fertiliser_options,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
     // Fertiliser rate.
@@ -311,7 +401,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#title' => $this->t('Rate of application (kg/ha)'),
       '#field_suffix' => $this->t('kg/ha'),
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
+*/
 
     return $form;
   }
