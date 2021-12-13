@@ -327,7 +327,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Fuel use units'),
       '#options' => $fuel_use_units_options,
-      '#multiple' => TRUE,
       '#weight' => ++$weight,
     ];
 
