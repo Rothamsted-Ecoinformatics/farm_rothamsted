@@ -3,7 +3,6 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\taxonomy\TermInterface;
 
 /**
  * Fertiliser quick form.
@@ -31,8 +30,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $weight = 1;
     $form = parent::buildForm($form, $form_state);
-    /** @var \Drupal\taxonomy\TermStorage $term_storage */
-    $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
 
     // Build crop options from the plant types term.
     $plant_types_options = $this->getTermOptions('plant_type');
@@ -147,33 +144,33 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-/*
+    /*
     // Nutrient Input form placeholder.
     $form['nutrient_input'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'taxomomy_term',
-      '#title' => $this->t('Nutrient Input'),
-      '#required' => TRUE,
-      '#selection_settings' => [
-        'target_bundles' => ['nutrients'],
-      ],
-      '#weight' => ++$weight,
+    '#type' => 'entity_autocomplete',
+    '#target_type' => 'taxomomy_term',
+    '#title' => $this->t('Nutrient Input'),
+    '#required' => TRUE,
+    '#selection_settings' => [
+    'target_bundles' => ['nutrients'],
+    ],
+    '#weight' => ++$weight,
     ];
-*/
+     */
 
-/*
+    /*
     // Product Type form placeholder.
     $form['product_type'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'taxomomy_term',
-      '#title' => $this->t('Product Type'),
-      '#required' => TRUE,
-      '#selection_settings' => [
-        'target_bundles' => ['nutrients'],
-      ],
-      '#weight' => ++$weight,
+    '#type' => 'entity_autocomplete',
+    '#target_type' => 'taxomomy_term',
+    '#title' => $this->t('Product Type'),
+    '#required' => TRUE,
+    '#selection_settings' => [
+    'target_bundles' => ['nutrients'],
+    ],
+    '#weight' => ++$weight,
     ];
-*/
+     */
 
     // Build product options.
     $product_options = $this->getTermOptions('material_type');
@@ -187,16 +184,16 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-/*
+    /*
     // Nutrient form placeholder.
     $form['nutrient'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Nutrient'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
+    '#type' => 'textfield',
+    '#title' => $this->t('Nutrient'),
+    '#placeholder' => $this->t('TBD'),
+    '#required' => TRUE,
+    '#weight' => ++$weight,
     ];
-*/
+     */
 
     // Nutrient content - text - optional.
     $form['nutrient_content'] = [
@@ -321,7 +318,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build fuel use units options from units / volume taxonomy.
     $fuel_use_units_options = $this->getChildTermOptions('unit', 'volume');
 
-    // Fuel use units - select - optional
+    // Fuel use units - select - optional.
     $form['fuel_use_units'] = [
       '#type' => 'select',
       '#target_type' => 'taxonomy_term',
@@ -374,35 +371,35 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-/*
+    /*
     // Build fertiliser options. Default to none, showing message instead.
     $fertiliser_options = [$this->t('No Fertiliser material type configured.')];
     if ($fertiliser_term = reset($fertiliser_terms)) {
-      reset($fertiliser_term);
-      $fertiliser_children = $term_storage->loadChildren($fertiliser_term->id());
-      $fertiliser_options = array_map(function (TermInterface $term) {
-        return $term->label();
-      }, $fertiliser_children);
+    reset($fertiliser_term);
+    $fertiliser_children = $term_storage->loadChildren($fertiliser_term->id());
+    $fertiliser_options = array_map(function (TermInterface $term) {
+    return $term->label();
+    }, $fertiliser_children);
     }
 
     // Fertiliser select list.
     $form['fertiliser'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Fertiliser'),
-      '#options' => $fertiliser_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
+    '#type' => 'select',
+    '#title' => $this->t('Fertiliser'),
+    '#options' => $fertiliser_options,
+    '#required' => TRUE,
+    '#weight' => ++$weight,
     ];
 
     // Fertiliser rate.
     $form['rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Rate of application (kg/ha)'),
-      '#field_suffix' => $this->t('kg/ha'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
+    '#type' => 'number',
+    '#title' => $this->t('Rate of application (kg/ha)'),
+    '#field_suffix' => $this->t('kg/ha'),
+    '#required' => TRUE,
+    '#weight' => ++$weight,
     ];
-*/
+     */
 
     return $form;
   }
