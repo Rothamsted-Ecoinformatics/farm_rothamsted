@@ -37,9 +37,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build crop options from the plant types term.
     $plant_types_options = $this->getTermOptions('plant_type');
 
-    // Crops - select multiple - required.
+    // Crops - checkboxes - required.
     $form['crops'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Crops'),
       '#options' => $plant_types_options,
@@ -63,9 +63,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build machinery options from equipment assets.
     $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');
 
-    // Machinery select multiple - required.
+    // Machinery checkboxes - required.
     $form['machinery'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Machinery'),
       '#options' => $machinery_options,
@@ -136,9 +136,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build status options.
     $status_options = $this->getChildTermOptions('autocomplete', 'status');
 
-    // Job status - select multiple - required.
+    // Job status - checkboxes - required.
     $form['job_status'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#title' => $this->t('Job status'),
       '#target_type' => 'taxonomy_term',
       '#options' => $status_options,
@@ -268,9 +268,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Build volume units options from autocomplete / hazard taxonomy.
     $hazard_options = $this->getChildTermOptions('autocomplete', 'hazard');
 
-    // COSSH Hazard Assessments - select multiple - required.
+    // COSSH Hazard Assessments - checkboxes - required.
     $form['cossh_hazard_assessments'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#target_type' => 'taxonomy_term',
       '#title' => $this->t('COSSH Hazard Assessments'),
       '#options' => $hazard_options,
@@ -366,9 +366,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Operator - select multiple - required.
+    // Operator - checkboxes - required.
     $form['operator'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#title' => $this->t('Operator'),
       '#options' => $farm_staff_options,
       '#required' => TRUE,
