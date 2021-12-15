@@ -325,4 +325,93 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     return $options;
   }
 
+  /**
+   * Helper function to build crop element.
+   *
+   * @param int $weight
+   *   For ordering elements on form.
+   *
+   * @return array
+   *   An array containing form configuration.
+   */
+  protected function buildCropElement(int $weight = 1): array {
+
+    // Build crop options from the plant types term.
+    $plant_types_options = $this->getTermOptions('plant_type');
+
+    // Crops - checkboxes - required.
+    $element = [
+      '#type' => 'checkboxes',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Crops'),
+      '#options' => $plant_types_options,
+      '#multiple' => TRUE,
+      '#required' => TRUE,
+      '#weight' => $weight,
+    ];
+
+    return $element;
+  }
+
+  /**
+   * Helper function to build tractor element.
+   *
+   * @param int $weight
+   *   For ordering elements on form.
+   *
+   * @return array
+   *   An array containing form configuration.
+   */
+  protected function buildTractorElement(int $weight = 1): array {
+
+    // Build tractor options from equipment assets.
+    $tractor_options = $this->getChildAssetOptions('equipment', 'Tractor');
+
+    // Tractor - select - required.
+    $element = [
+      '#type' => 'select',
+      '#title' => $this->t('Tractor'),
+      '#options' => $tractor_options,
+      '#required' => TRUE,
+      '#weight' => $weight,
+    ];
+
+    return $element;
+  }
+
+  /**
+   * Helper function to build manager operator element.
+   *
+   * @param int $weight
+   *   For ordering elements on form.
+   *
+   * @return array
+   *   An array containing form configuration.
+   */
+  protected function buildManagerOperatorElement(int $weight = 1): array {
+
+    // Build options from people who are managers or operators.
+    $target_roles = ['farm_manager', 'farm_operator'];
+    $user_storage = $this->entityTypeManager->getStorage('user')->loadByProperties([
+      'status' => TRUE,
+      'roles' => $target_roles,
+    ]);
+
+
+    $farm_staff_options = array_map(function ($user) {
+      return $user->label();
+    }, $user_storage);
+
+    // Operator - select - required.
+    $element = [
+      '#type' => 'select',
+      '#title' => $this->t('Operator'),
+      '#options' => $farm_staff_options,
+      '#required' => TRUE,
+      '#weight' => $weight,
+    ];
+
+    return $element;
+  }
+
 }
