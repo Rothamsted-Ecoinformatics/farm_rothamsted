@@ -31,31 +31,11 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $weight = 1;
     $form = parent::buildForm($form, $form_state);
 
-    // Build crop options from the plant types term.
-    $plant_types_options = $this->getTermOptions('plant_type');
+    // Crops element
+    $form['crop'] = $this->buildCropElement(++$weight);
 
-    // Crops - checkboxes - required.
-    $form['crops'] = [
-      '#type' => 'checkboxes',
-      '#target_type' => 'taxonomy_term',
-      '#title' => $this->t('Crops'),
-      '#options' => $plant_types_options,
-      '#multiple' => TRUE,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Build tractor options from equipment assets.
-    $tractor_options = $this->getChildAssetOptions('equipment', 'Tractor');
-
-    // Tractor - select - required.
-    $form['tractor'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Tractor'),
-      '#options' => $tractor_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
+    // Tractor element
+    $form['tractor'] = $this->buildTractorElement(++$weight);
 
     // Build machinery options from equipment assets.
     $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');
