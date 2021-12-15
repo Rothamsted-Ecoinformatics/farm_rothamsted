@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @QuickForm(
  *   id = "farm_rothamsted_fertiliser_quick_form",
- *   label = @Translation("Fertiliser"),
+ *   label = @Translation("Fertiliser, Compost and Manure"),
  *   description = @Translation("Create fertiliser records."),
  *   helpText = @Translation("Use this form to record feriliser records."),
  *   permissions = {
