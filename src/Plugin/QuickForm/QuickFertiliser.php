@@ -342,14 +342,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Operator - checkboxes - required.
-    $form['operator'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Operator'),
-      '#options' => $farm_staff_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
+    // Operator - select - required.
+    $form['users']['#weight'] = ++$weight;
 
     /*
     // Build fertiliser options. Default to none, showing message instead.
