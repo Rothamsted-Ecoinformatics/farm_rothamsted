@@ -108,27 +108,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#weight' => 10,
     ];
 
-    // Query active, non-admin users with the farm_opertator role.
-    $user_ids = $this->entityTypeManager->getStorage('user')->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('status', 1)
-      ->condition('uid', '1', '>')
-      ->condition('roles', 'farm_operator')
-      ->execute();
-    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
-
-    // Build user options.
-    $user_options = array_map(function (UserInterface $user) {
-      return $user->label();
-    }, $users);
-    natsort($user_options);
-
-    $form['users'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Operator'),
-      '#options' => $user_options,
-      '#weight' => 20,
-    ];
+    // Operator
+    $form['users'] = $this->buildManagerOperatorElement($weight = 20);
 
     $form['date'] = [
       '#type' => 'datelist',
