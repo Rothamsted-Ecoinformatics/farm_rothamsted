@@ -321,23 +321,26 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    */
   protected function buildManagerOperatorElement(int $weight = 1): array {
 
-    // Build options from people who are managers or operators.
-    $target_roles = ['farm_manager', 'farm_operator'];
-    $user_storage = $this->entityTypeManager->getStorage('user')->loadByProperties([
-      'status' => TRUE,
-      'roles' => $target_roles,
-    ]);
+    // Query active, non-admin users with the farm_operator role.
+    $user_ids = $this->entityTypeManager->getStorage('user')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('status', 1)
+      ->condition('uid', '1', '>')
+      ->condition('roles', 'farm_operator')
+      ->execute();
+    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
 
-
-    $farm_staff_options = array_map(function ($user) {
+    // Build user options.
+    $user_options = array_map(function (UserInterface $user) {
       return $user->label();
-    }, $user_storage);
+    }, $users);
+    natsort($user_options);
 
     // Operator - select - required.
     $element = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
-      '#options' => $farm_staff_options,
+      '#options' => $user_options,
       '#required' => TRUE,
       '#weight' => $weight,
     ];
