@@ -217,7 +217,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Build volume units options from units / volume taxonomy.
-    $application_volume_units_options = $this->getChildTermOptions('unit', 'volume');
+    // @todo We need to specify the correct fuel units.
+    // The volume units are not the same for every field.
+    $application_volume_units_options = [];
 
     // Product volume units - select - required.
     $form['product_volume_units'] = [
@@ -282,7 +284,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Build fuel use units options from units / volume taxonomy.
-    $fuel_use_units_options = $this->getChildTermOptions('unit', 'volume');
+    // @todo We need to specify the correct fuel units.
+    // The volume units are not the same for every field.
+    $fuel_use_units_options = [];
 
     // Fuel use units - select - optional.
     $form['fuel_use_units'] = [
