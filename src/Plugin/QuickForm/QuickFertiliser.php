@@ -36,7 +36,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $weight = 1;
     $form = parent::buildForm($form, $form_state);
 
-    // Crops element
+    // Crops element.
     $form['crop'] = $this->buildCropElement(++$weight);
 
     // Machinery checkboxes - required.
