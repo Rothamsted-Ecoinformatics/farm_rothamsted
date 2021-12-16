@@ -101,9 +101,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $form['job_status'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Job status'),
-      '#target_type' => 'taxonomy_term',
       '#options' => $status_options,
-      '#multiple' => TRUE,
       '#required' => TRUE,
       '#weight' => ++$weight,
     ];
@@ -233,10 +231,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // COSSH Hazard Assessments - checkboxes - required.
     $form['cossh_hazard_assessments'] = [
       '#type' => 'checkboxes',
-      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('COSSH Hazard Assessments'),
       '#options' => $hazard_options,
-      '#multiple' => TRUE,
       '#required' => TRUE,
       '#weight' => ++$weight,
     ];
