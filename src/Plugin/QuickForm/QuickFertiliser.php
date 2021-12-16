@@ -22,6 +22,11 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $tractorField = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $equipmentGroupNames = ['Tractor Equipment', 'Fertiliser Equipment'];
 
   /**
@@ -33,16 +38,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Crops element
     $form['crop'] = $this->buildCropElement(++$weight);
-
-    // Tractor element
-    $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
-    $form['tractor'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Tractor'),
-      '#options' => $tractor_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
 
     // Build machinery options from equipment assets.
     $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');

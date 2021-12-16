@@ -36,6 +36,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $groupMembership;
 
   /**
+   * Boolean indicating if the quick form should have a tractor field.
+   *
+   * @var bool
+   */
+  protected $tractorField = FALSE;
+
+  /**
    * The equipment group names to use.
    *
    * @var string[]
@@ -99,6 +106,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
       '#weight' => -10,
     ];
+
+    // Build the tractor field if required.
+    if ($this->tractorField) {
+      $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
+      $form['tractor'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Tractor'),
+        '#options' => $tractor_options,
+        '#required' => TRUE,
+        '#weight' => 10,
+      ];
+    }
 
     $equipment_options = $this->getGroupMemberOptions($this->equipmentGroupNames, ['equipment']);
     $form['equipment'] = [
