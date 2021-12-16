@@ -321,17 +321,17 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Notes - textarea - optional.
-    $form['notes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Notes'),
-      '#weight' => ++$weight,
-    ];
-
     // Equipment Settings - textarea - optional.
     $form['equipment_settings'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Equipment Settings'),
+      '#weight' => ++$weight,
+    ];
+
+    // Notes - textarea - optional.
+    $form['notes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Notes'),
       '#weight' => ++$weight,
     ];
 
