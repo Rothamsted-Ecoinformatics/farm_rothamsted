@@ -335,32 +335,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
-   * Helper function to build tractor element.
-   *
-   * @param int $weight
-   *   For ordering elements on form.
-   *
-   * @return array
-   *   An array containing form configuration.
-   */
-  protected function buildTractorElement(int $weight = 1): array {
-
-    // Build tractor options from equipment assets.
-    $tractor_options = $this->getChildAssetOptions('equipment', 'Tractor');
-
-    // Tractor - select - required.
-    $element = [
-      '#type' => 'select',
-      '#title' => $this->t('Tractor'),
-      '#options' => $tractor_options,
-      '#required' => TRUE,
-      '#weight' => $weight,
-    ];
-
-    return $element;
-  }
-
-  /**
    * Helper function to build manager operator element.
    *
    * @param int $weight

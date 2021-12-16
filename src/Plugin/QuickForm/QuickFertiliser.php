@@ -35,7 +35,14 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $form['crop'] = $this->buildCropElement(++$weight);
 
     // Tractor element
-    $form['tractor'] = $this->buildTractorElement(++$weight);
+    $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
+    $form['tractor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Tractor'),
+      '#options' => $tractor_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
 
     // Build machinery options from equipment assets.
     $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');
