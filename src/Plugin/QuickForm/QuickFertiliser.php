@@ -57,15 +57,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Build options from people who are managers or farm workers.
-    $target_roles = ['farm_manager', 'farm_worker'];
-    $user_storage = $this->entityTypeManager->getStorage('user')->loadByProperties([
-      'status' => TRUE,
-      'roles' => $target_roles,
-    ]);
-
-    $farm_staff_options = array_map(function ($user) {
-      return $user->label();
-    }, $user_storage);
+    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
 
     // Scheduled by - select - required.
     $form['scheduled_by'] = [
