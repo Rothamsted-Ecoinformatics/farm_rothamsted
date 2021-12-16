@@ -130,8 +130,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
-    // Operator
-    $form['users'] = $this->buildManagerOperatorElement($weight = 20);
+    // Operator field.
+    $operator_options = $this->getUserOptions(['farm_operator']);
+    $form['users'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Operator'),
+      '#options' => $operator_options,
+      '#required' => TRUE,
+      '#weight' => 20,
+    ];
 
     $form['date'] = [
       '#type' => 'datelist',
@@ -283,6 +290,41 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * Helper function to build a sorted option list of users in role(s).
+   *
+   * @param array $roles
+   *   Limit to users of the specified roles.
+   *
+   * @return array
+   *   An array of user labels indexed by user id and sorted alphabetically.
+   */
+  protected function getUserOptions(array $roles = []): array {
+
+    // Query active, non-admin users.
+    $query = $this->entityTypeManager->getStorage('user')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('status', 1)
+      ->condition('uid', '1', '>');
+
+    // Limit to specified roles.
+    if (!empty($roles)) {
+      $query->condition('roles', $roles, 'IN');
+    }
+
+    // Load users.
+    $user_ids = $query->execute();
+    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
+
+    // Build user options.
+    $user_options = array_map(function (UserInterface $user) {
+      return $user->label();
+    }, $users);
+    natsort($user_options);
+
+    return $user_options;
+  }
+
+  /**
    * Helper function to build crop element.
    *
    * @param int $weight
@@ -303,44 +345,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#title' => $this->t('Crops'),
       '#options' => $plant_types_options,
       '#multiple' => TRUE,
-      '#required' => TRUE,
-      '#weight' => $weight,
-    ];
-
-    return $element;
-  }
-
-  /**
-   * Helper function to build manager operator element.
-   *
-   * @param int $weight
-   *   For ordering elements on form.
-   *
-   * @return array
-   *   An array containing form configuration.
-   */
-  protected function buildManagerOperatorElement(int $weight = 1): array {
-
-    // Query active, non-admin users with the farm_operator role.
-    $user_ids = $this->entityTypeManager->getStorage('user')->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('status', 1)
-      ->condition('uid', '1', '>')
-      ->condition('roles', 'farm_operator')
-      ->execute();
-    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
-
-    // Build user options.
-    $user_options = array_map(function (UserInterface $user) {
-      return $user->label();
-    }, $users);
-    natsort($user_options);
-
-    // Operator - select - required.
-    $element = [
-      '#type' => 'select',
-      '#title' => $this->t('Operator'),
-      '#options' => $user_options,
       '#required' => TRUE,
       '#weight' => $weight,
     ];
