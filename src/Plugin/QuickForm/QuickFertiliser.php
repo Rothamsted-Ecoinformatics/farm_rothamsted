@@ -94,7 +94,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Build status options.
-    $status_options = $this->getChildTermOptions('autocomplete', 'status');
+    // @todo Load status options from log status options or workflow options.
+    $status_options = [];
 
     // Job status - checkboxes - required.
     $form['job_status'] = [
@@ -225,8 +226,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Build volume units options from autocomplete / hazard taxonomy.
-    $hazard_options = $this->getChildTermOptions('autocomplete', 'hazard');
+    // Build hazard options.
+    // @todo Determine way to define hazard options. See issue #64.
+    $hazard_options = [];
 
     // COSSH Hazard Assessments - checkboxes - required.
     $form['cossh_hazard_assessments'] = [
