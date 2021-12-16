@@ -183,7 +183,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Nutrient application rate - select - required.
     $form['nutrient_application_rate_units'] = [
       '#type' => 'select',
-      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Nutrient application rate units'),
       '#options' => $application_rate_units_options,
       '#required' => TRUE,
@@ -201,7 +200,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Product application rate - select - required.
     $form['product_application_rate_units'] = [
       '#type' => 'select',
-      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Product application rate units'),
       '#options' => $application_rate_units_options,
       '#required' => TRUE,
@@ -224,7 +222,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Product volume units - select - required.
     $form['product_volume_units'] = [
       '#type' => 'select',
-      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Product application rate units'),
       '#options' => $application_volume_units_options,
       '#required' => TRUE,
@@ -291,7 +288,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Fuel use units - select - optional.
     $form['fuel_use_units'] = [
       '#type' => 'select',
-      '#target_type' => 'taxonomy_term',
       '#title' => $this->t('Fuel use units'),
       '#options' => $fuel_use_units_options,
       '#weight' => ++$weight,
