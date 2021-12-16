@@ -30,7 +30,7 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Harvest Machinery Equipment'];
+  protected $machineryGroupNames = ['Harvest Machinery Equipment'];
 
   /**
    * {@inheritdoc}

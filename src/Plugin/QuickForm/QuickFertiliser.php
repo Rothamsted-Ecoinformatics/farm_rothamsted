@@ -27,7 +27,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Fertiliser Equipment'];
+  protected $machineryGroupNames = ['Fertiliser Equipment'];
 
   /**
    * {@inheritdoc}
@@ -39,19 +39,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Crops element
     $form['crop'] = $this->buildCropElement(++$weight);
 
-    // Build machinery options from equipment assets.
-    $machinery_options = $this->getChildAssetOptions('equipment', 'Drilling Equipment');
-
     // Machinery checkboxes - required.
-    $form['machinery'] = [
-      '#type' => 'checkboxes',
-      '#target_type' => 'taxonomy_term',
-      '#title' => $this->t('Machinery'),
-      '#options' => $machinery_options,
-      '#multiple' => TRUE,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
+    $form['machinery']['#required'] = TRUE;
 
     // Recommendation Number - text - optional.
     $form['recommendation_number'] = [

@@ -31,7 +31,7 @@ class QuickOperation extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Cultivation Equipment'];
+  protected $machineryGroupNames = ['Cultivation Equipment'];
 
   /**
    * {@inheritdoc}

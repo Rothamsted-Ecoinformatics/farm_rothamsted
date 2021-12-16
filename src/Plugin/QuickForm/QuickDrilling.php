@@ -27,7 +27,7 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Drilling Equipment'];
+  protected $machineryGroupNames = ['Drilling Equipment'];
 
   /**
    * {@inheritdoc}

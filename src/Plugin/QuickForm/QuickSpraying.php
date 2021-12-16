@@ -27,7 +27,7 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Pesticide Equipment'];
+  protected $machineryGroupNames = ['Pesticide Equipment'];
 
   /**
    * {@inheritdoc}

@@ -43,11 +43,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $tractorField = FALSE;
 
   /**
-   * The equipment group names to use.
+   * The machinery equipment group names to use.
    *
    * @var string[]
    */
-  protected $equipmentGroupNames = [];
+  protected $machineryGroupNames = [];
 
   /**
    * Constructs a QuickFormBase object.
@@ -119,13 +119,16 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
-    $equipment_options = $this->getGroupMemberOptions($this->equipmentGroupNames, ['equipment']);
-    $form['equipment'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Equipment'),
-      '#options' => $equipment_options,
-      '#weight' => 10,
-    ];
+    // Build the machinery field if required.
+    if (!empty($this->machineryGroupNames)) {
+      $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
+      $form['machinery'] = [
+        '#type' => 'checkboxes',
+        '#title' => $this->t('Machinery'),
+        '#options' => $equipment_options,
+        '#weight' => 10,
+      ];
+    }
 
     // Operator
     $form['users'] = $this->buildManagerOperatorElement($weight = 20);
