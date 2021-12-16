@@ -307,13 +307,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Seed Label(s) - file - required.
-    $form['seed_labels'] = [
-      '#type' => 'file',
-      '#title' => $this->t('Seed Label(s)'),
-      '#weight' => ++$weight,
-    ];
-
     // Crop Photograph(s) - file - optional.
     $form['crop_photographs'] = [
       '#type' => 'file',
