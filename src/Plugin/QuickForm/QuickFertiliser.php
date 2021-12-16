@@ -50,9 +50,14 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Recommendation files - file picker - optional.
+    // @todo Determine the final file upload location.
     $form['recommendation_files'] = [
-      '#type' => 'file',
+      '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
+      ],
       '#weight' => ++$weight,
     ];
 
@@ -289,16 +294,26 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Crop Photograph(s) - file - optional.
+    // @todo Determine the final file upload location.
     $form['crop_photographs'] = [
-      '#type' => 'file',
+      '#type' => 'managed_file',
       '#title' => $this->t('Crop Photograph(s)'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['png gif jpg jpeg'],
+      ],
       '#weight' => ++$weight,
     ];
 
     // Photographs of paper record(s) - file - optional.
+    // @todo Determine the final file upload location.
     $form['photographs_of_paper_records'] = [
-      '#type' => 'file',
+      '#type' => 'managed_file',
       '#title' => $this->t('Photographs of paper record(s)'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['pdf png gif jpg jpeg'],
+      ],
       '#weight' => ++$weight,
     ];
 
