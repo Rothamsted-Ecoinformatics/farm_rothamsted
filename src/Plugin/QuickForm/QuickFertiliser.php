@@ -179,12 +179,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Scheduled date and time - date time picker - required.
-    $form['scheduled_date_and_time'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Scheduled date and time'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
+    $form['date']['#title'] = $this->t('Scheduled date and time');
+    $form['date']['#date_time_element'] = 'time';
+    $form['date']['#weight'] = ++$weight;
 
     // Build hazard options.
     // @todo Determine way to define hazard options. See issue #64.
