@@ -324,32 +324,4 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     return $user_options;
   }
 
-  /**
-   * Helper function to build crop element.
-   *
-   * @param int $weight
-   *   For ordering elements on form.
-   *
-   * @return array
-   *   An array containing form configuration.
-   */
-  protected function buildCropElement(int $weight = 1): array {
-
-    // Build crop options from the plant types term.
-    $plant_types_options = $this->getTermOptions('plant_type');
-
-    // Crops - checkboxes - required.
-    $element = [
-      '#type' => 'checkboxes',
-      '#target_type' => 'taxonomy_term',
-      '#title' => $this->t('Crops'),
-      '#options' => $plant_types_options,
-      '#multiple' => TRUE,
-      '#required' => TRUE,
-      '#weight' => $weight,
-    ];
-
-    return $element;
-  }
-
 }

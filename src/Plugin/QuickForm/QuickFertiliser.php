@@ -36,9 +36,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $weight = 1;
     $form = parent::buildForm($form, $form_state);
 
-    // Crops element.
-    $form['crop'] = $this->buildCropElement(++$weight);
-
     // Machinery checkboxes - required.
     $form['machinery']['#required'] = TRUE;
 
@@ -270,23 +267,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#title' => $this->t('Operator'),
       '#options' => $operator_options,
       '#required' => TRUE,
-    ];
-
-    // Log name - text - .
-    $form['log_name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Log name'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Assigned to - select - optional.
-    $form['assigned_to'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Assigned to'),
-      '#options' => $farm_staff_options,
-      '#weight' => ++$weight,
     ];
 
     // Crop Photograph(s) - file - optional.
