@@ -141,10 +141,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     $form['date'] = [
-      '#type' => 'datelist',
+      '#type' => 'datetime',
       '#title' => $this->t('Date'),
       '#default_value' => new DrupalDateTime(),
-      '#date_part_order' => ['year', 'month', 'day'],
+      '#date_time_element' => 'none',
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
       '#weight' => 30,
