@@ -264,6 +264,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#title' => $this->t('Operator'),
       '#options' => $operator_options,
       '#required' => TRUE,
+      '#weight' => ++$weight,
     ];
 
     // Crop Photograph(s) - file - optional.
