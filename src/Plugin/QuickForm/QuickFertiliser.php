@@ -138,7 +138,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Product volume units - select - required.
     $form['nutrient_input']['product_volume_units'] = [
       '#type' => 'select',
-      '#title' => $this->t('Product application rate units'),
+      '#title' => $this->t('Product volume units'),
       '#options' => $application_volume_units_options,
       '#required' => TRUE,
       '#weight' => ++$weight,
