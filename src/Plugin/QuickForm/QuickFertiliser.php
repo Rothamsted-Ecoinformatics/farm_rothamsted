@@ -229,8 +229,17 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
+    // In-field application records.
+    // @todo We need AJAX to populate multiple of these.
+    $form['application_record'] = [
+      '#type' => 'details',
+      '#title' => $this->t('In-field application record'),
+      '#open' => FALSE,
+      '#weight' => ++$weight,
+    ];
+
     // Operation start time and date - date time picker - required.
-    $form['operation_start_time_and_date'] = [
+    $form['application_record']['operation_start_time_and_date'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Operation start time and date'),
       '#required' => TRUE,
@@ -238,7 +247,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Tractor hours (start) - number - required.
-    $form['tractor_hours_start'] = [
+    $form['application_record']['tractor_hours_start'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (start)'),
       '#required' => TRUE,
@@ -246,7 +255,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Tractor hours (end) - number - required.
-    $form['tractor_hours_end'] = [
+    $form['application_record']['tractor_hours_end'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (end)'),
       '#required' => TRUE,
@@ -254,7 +263,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Time taken - text - required.
-    $form['time_taken'] = [
+    $form['application_record']['time_taken'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Time taken hh:mm'),
       '#required' => TRUE,
@@ -262,7 +271,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Fuel use - number - optional.
-    $form['fuel_use'] = [
+    $form['application_record']['fuel_use'] = [
       '#type' => 'number',
       '#title' => $this->t('Fuel use'),
       '#weight' => ++$weight,
@@ -274,7 +283,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $fuel_use_units_options = [];
 
     // Fuel use units - select - optional.
-    $form['fuel_use_units'] = [
+    $form['application_record']['fuel_use_units'] = [
       '#type' => 'select',
       '#title' => $this->t('Fuel use units'),
       '#options' => $fuel_use_units_options,
