@@ -25,7 +25,12 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Harvest Machinery Equipment'];
+  protected $tractorField = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $machineryGroupNames = ['Harvest Machinery Equipment'];
 
   /**
    * {@inheritdoc}

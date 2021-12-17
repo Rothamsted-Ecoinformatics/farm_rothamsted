@@ -22,7 +22,12 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $equipmentGroupNames = ['Tractor Equipment', 'Pesticide Equipment'];
+  protected $tractorField = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $machineryGroupNames = ['Pesticide Equipment'];
 
   /**
    * {@inheritdoc}

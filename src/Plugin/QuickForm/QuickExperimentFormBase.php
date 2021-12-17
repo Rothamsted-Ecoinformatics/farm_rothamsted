@@ -36,11 +36,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $groupMembership;
 
   /**
-   * The equipment group names to use.
+   * Boolean indicating if the quick form should have a tractor field.
+   *
+   * @var bool
+   */
+  protected $tractorField = FALSE;
+
+  /**
+   * The machinery equipment group names to use.
    *
    * @var string[]
    */
-  protected $equipmentGroupNames = [];
+  protected $machineryGroupNames = [];
 
   /**
    * Constructs a QuickFormBase object.
@@ -100,41 +107,44 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#weight' => -10,
     ];
 
-    $equipment_options = $this->getGroupMemberOptions($this->equipmentGroupNames, ['equipment']);
-    $form['equipment'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Equipment'),
-      '#options' => $equipment_options,
-      '#weight' => 10,
-    ];
+    // Build the tractor field if required.
+    if ($this->tractorField) {
+      $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
+      $form['tractor'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Tractor'),
+        '#options' => $tractor_options,
+        '#required' => TRUE,
+        '#weight' => 10,
+      ];
+    }
 
-    // Query active, non-admin users with the farm_opertator role.
-    $user_ids = $this->entityTypeManager->getStorage('user')->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('status', 1)
-      ->condition('uid', '1', '>')
-      ->condition('roles', 'farm_operator')
-      ->execute();
-    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
+    // Build the machinery field if required.
+    if (!empty($this->machineryGroupNames)) {
+      $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
+      $form['machinery'] = [
+        '#type' => 'checkboxes',
+        '#title' => $this->t('Machinery'),
+        '#options' => $equipment_options,
+        '#weight' => 10,
+      ];
+    }
 
-    // Build user options.
-    $user_options = array_map(function (UserInterface $user) {
-      return $user->label();
-    }, $users);
-    natsort($user_options);
-
+    // Operator field.
+    $operator_options = $this->getUserOptions(['farm_operator']);
     $form['users'] = [
-      '#type' => 'checkboxes',
+      '#type' => 'select',
       '#title' => $this->t('Operator'),
-      '#options' => $user_options,
+      '#options' => $operator_options,
+      '#required' => TRUE,
       '#weight' => 20,
     ];
 
     $form['date'] = [
-      '#type' => 'datelist',
+      '#type' => 'datetime',
       '#title' => $this->t('Date'),
       '#default_value' => new DrupalDateTime(),
-      '#date_part_order' => ['year', 'month', 'day'],
+      '#date_time_element' => 'none',
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
       '#weight' => 30,
@@ -277,6 +287,41 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     natsort($options);
 
     return $options;
+  }
+
+  /**
+   * Helper function to build a sorted option list of users in role(s).
+   *
+   * @param array $roles
+   *   Limit to users of the specified roles.
+   *
+   * @return array
+   *   An array of user labels indexed by user id and sorted alphabetically.
+   */
+  protected function getUserOptions(array $roles = []): array {
+
+    // Query active, non-admin users.
+    $query = $this->entityTypeManager->getStorage('user')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('status', 1)
+      ->condition('uid', '1', '>');
+
+    // Limit to specified roles.
+    if (!empty($roles)) {
+      $query->condition('roles', $roles, 'IN');
+    }
+
+    // Load users.
+    $user_ids = $query->execute();
+    $users = $this->entityTypeManager->getStorage('user')->loadMultiple($user_ids);
+
+    // Build user options.
+    $user_options = array_map(function (UserInterface $user) {
+      return $user->label();
+    }, $users);
+    natsort($user_options);
+
+    return $user_options;
   }
 
 }
