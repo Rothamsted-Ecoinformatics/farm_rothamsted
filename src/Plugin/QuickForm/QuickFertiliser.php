@@ -42,75 +42,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Machinery checkboxes - required.
     $form['machinery']['#required'] = TRUE;
 
-    // Recommendation Number - text - optional.
-    $form['recommendation_number'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Recommendation Number'),
-      '#weight' => ++$weight,
-    ];
-
-    // Recommendation files - file picker - optional.
-    // @todo Determine the final file upload location.
-    $form['recommendation_files'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Recommendation files'),
-      '#upload_location' => 'private://quick',
-      '#upload_validators' => [
-        'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
-      ],
-      '#weight' => ++$weight,
-    ];
-
-    // Build options from people who are managers or farm workers.
-    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
-
-    // Scheduled by - select - required.
-    $form['scheduled_by'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Scheduled by'),
-      '#options' => $farm_staff_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Scheduled date and time - date time picker - required.
-    $form['scheduled_date_and_time'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Scheduled date and time'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Log name - text - .
-    $form['log_name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Log name'),
-      '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Assigned to - select - optional.
-    $form['assigned_to'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Assigned to'),
-      '#options' => $farm_staff_options,
-      '#weight' => ++$weight,
-    ];
-
-    // Build status options.
-    // @todo Load status options from log status options or workflow options.
-    $status_options = [];
-
-    // Job status - checkboxes - required.
-    $form['job_status'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Job status'),
-      '#options' => $status_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
     // Nutrient input.
     // @todo We need AJAX to populate multiple of these.
     $form['nutrient_input'] = [
@@ -216,6 +147,48 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
+    // The following fields come after the tractor and machinery fields.
+    $weight = 15;
+
+    // Recommendation Number - text - optional.
+    $form['recommendation_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recommendation Number'),
+      '#weight' => ++$weight,
+    ];
+
+    // Recommendation files - file picker - optional.
+    // @todo Determine the final file upload location.
+    $form['recommendation_files'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Recommendation files'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
+      ],
+      '#weight' => ++$weight,
+    ];
+
+    // Build options from people who are managers or farm workers.
+    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
+
+    // Scheduled by - select - required.
+    $form['scheduled_by'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Scheduled by'),
+      '#options' => $farm_staff_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Scheduled date and time - date time picker - required.
+    $form['scheduled_date_and_time'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Scheduled date and time'),
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
     // Build hazard options.
     // @todo Determine way to define hazard options. See issue #64.
     $hazard_options = [];
@@ -290,6 +263,32 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
+    // Operator field.
+    $operator_options = $this->getUserOptions(['farm_operator']);
+    $form['application_record']['users'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Operator'),
+      '#options' => $operator_options,
+      '#required' => TRUE,
+    ];
+
+    // Log name - text - .
+    $form['log_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Log name'),
+      '#placeholder' => $this->t('TBD'),
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    // Assigned to - select - optional.
+    $form['assigned_to'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Assigned to'),
+      '#options' => $farm_staff_options,
+      '#weight' => ++$weight,
+    ];
+
     // Crop Photograph(s) - file - optional.
     // @todo Determine the final file upload location.
     $form['crop_photographs'] = [
@@ -328,8 +327,21 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Operator - select - required.
-    $form['users']['#weight'] = ++$weight;
+    // Build status options.
+    // @todo Load status options from log status options or workflow options.
+    $status_options = [];
+
+    // Job status - checkboxes - required.
+    $form['job_status'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Job status'),
+      '#options' => $status_options,
+      '#required' => TRUE,
+      '#weight' => ++$weight,
+    ];
+
+    unset($form['users']);
+    unset($form['time']);
 
     return $form;
   }
