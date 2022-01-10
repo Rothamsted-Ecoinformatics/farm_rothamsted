@@ -290,20 +290,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Build status options.
-    // @todo Load status options from log status options or workflow options.
-    $status_options = [];
-
-    // Job status - checkboxes - required.
-    $form['job_status'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Job status'),
-      '#description' => $this->t('The current status of the job.'),
-      '#options' => $status_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
     unset($form['users']);
     unset($form['time']);
 
