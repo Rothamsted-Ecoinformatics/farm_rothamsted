@@ -96,12 +96,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       return $asset->label();
     }, $plots));
 
-    // Plot field.
-    $form['plot'] = [
+    // Asset field.
+    $form['asset'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Plots'),
-      '#description' => $this->t('Select plot assets.'),
-      // @todo Decide on a widget for selecting plot assets.
+      '#title' => $this->t('Assets'),
+      '#description' => $this->t('Select assets that this log pertains to.'),
+      // @todo Decide on a widget for selecting assets.
       '#default_value' => $default_plots ?: 'TBD',
       '#required' => TRUE,
       '#weight' => -10,
