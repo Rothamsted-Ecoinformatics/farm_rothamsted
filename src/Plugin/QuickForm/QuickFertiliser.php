@@ -290,8 +290,12 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
+    // Remove fields that are implemented in the application_record section.
     unset($form['users']);
+    unset($form['tractor_hours_start']);
+    unset($form['tractor_hours_end']);
     unset($form['time']);
+    unset($form['fuel_use']);
 
     return $form;
   }

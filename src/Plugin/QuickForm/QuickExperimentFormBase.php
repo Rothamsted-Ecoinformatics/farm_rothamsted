@@ -210,12 +210,36 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    $form['time'] = [
+    // Tractor hours start.
+    $form['tractor_hours_start'] = [
       '#type' => 'number',
-      '#title' => $this->t('Hours spent'),
-      '#field_suffix' => $this->t('hours'),
+      '#title' => $this->t('Tractor hours (start)'),
+      '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
       '#required' => TRUE,
-      '#weight' => 40,
+    ];
+
+    // Tractor hours end.
+    $form['tractor_hours_end'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Tractor hours (end)'),
+      '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
+      '#required' => TRUE,
+    ];
+
+    // Time taken.
+    // @TODO do we want a textfield with validation or a time widget?
+    $form['time'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Time taken hh:mm'),
+      '#description' => $this->t('The time taken to complete the job in hours and minutes.'),
+      '#required' => TRUE,
+    ];
+
+    // Fuel use.
+    $form['fuel_use'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Fuel use'),
+      '#description' => $this->t('The amount of fuel used.'),
     ];
 
     $form['notes'] = [
