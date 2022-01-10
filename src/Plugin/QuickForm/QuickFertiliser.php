@@ -81,7 +81,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Nutrient content - text - optional.
     $form['nutrient_input']['nutrient_content'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Nutrient content %'),
+      '#title' => $this->t('Nutrient content (%)'),
       '#weight' => ++$weight,
     ];
 
