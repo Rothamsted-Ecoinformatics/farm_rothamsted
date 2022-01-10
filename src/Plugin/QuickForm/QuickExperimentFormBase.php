@@ -132,6 +132,31 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
+    // Build options from people who are managers or farm workers.
+    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
+
+    // Scheduled by.
+    $form['scheduled_by'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Scheduled by'),
+      '#description' => $this->t('The person scheduling the job.'),
+      '#options' => $farm_staff_options,
+      '#required' => TRUE,
+      '#weight' => 15,
+    ];
+
+    // Scheduled date and time.
+    $form['date'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Scheduled date and time'),
+      '#description' => $this->t('The recommended time and date the job should be completed.'),
+      '#default_value' => new DrupalDateTime(),
+      '#date_time_element' => 'time',
+      '#required' => TRUE,
+      '#date_year_range' => '-15:+15',
+      '#weight' => 30,
+    ];
+
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
     $form['users'] = [
@@ -140,17 +165,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#options' => $operator_options,
       '#required' => TRUE,
       '#weight' => 20,
-    ];
-
-    $form['date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Date'),
-      '#description' => $this->t('The recommended time and date the job should be completed.'),
-      '#default_value' => new DrupalDateTime(),
-      '#date_time_element' => 'none',
-      '#required' => TRUE,
-      '#date_year_range' => '-15:+15',
-      '#weight' => 30,
     ];
 
     $form['time'] = [

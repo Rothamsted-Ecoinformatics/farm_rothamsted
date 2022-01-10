@@ -185,24 +185,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Build options from people who are managers or farm workers.
-    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
-
-    // Scheduled by - select - required.
-    $form['scheduled_by'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Scheduled by'),
-      '#description' => $this->t('The person scheduling the job.'),
-      '#options' => $farm_staff_options,
-      '#required' => TRUE,
-      '#weight' => ++$weight,
-    ];
-
-    // Scheduled date and time - date time picker - required.
-    $form['date']['#title'] = $this->t('Scheduled date and time');
-    $form['date']['#date_time_element'] = 'time';
-    $form['date']['#weight'] = ++$weight;
-
     // Build hazard options.
     // @todo Determine way to define hazard options. See issue #64.
     $hazard_options = [];
