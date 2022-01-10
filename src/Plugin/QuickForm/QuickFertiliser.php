@@ -74,7 +74,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Nutrient'),
       '#placeholder' => $this->t('TBD'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -89,7 +89,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $form['nutrient_input']['nutrient_application_rate'] = [
       '#type' => 'number',
       '#title' => $this->t('Nutrient application rate'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -101,7 +101,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Nutrient application rate units'),
       '#options' => $application_rate_units_options,
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
