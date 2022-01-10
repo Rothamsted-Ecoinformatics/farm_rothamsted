@@ -113,6 +113,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $form['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
+        '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
         '#options' => $tractor_options,
         '#required' => TRUE,
         '#weight' => 10,
@@ -125,6 +126,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $form['machinery'] = [
         '#type' => 'checkboxes',
         '#title' => $this->t('Machinery'),
+        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group "Fertiliser Equipment".'),
         '#options' => $equipment_options,
         '#weight' => 10,
       ];
@@ -143,6 +145,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['date'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Date'),
+      '#description' => $this->t('The recommended time and date the job should be completed.'),
       '#default_value' => new DrupalDateTime(),
       '#date_time_element' => 'none',
       '#required' => TRUE,
@@ -161,6 +164,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['notes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
+      '#description' => $this->t('Any additional notes.'),
       '#weight' => 50,
     ];
 
