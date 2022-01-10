@@ -132,6 +132,25 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
+    // Recommendation Number - text - optional.
+    $form['recommendation_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recommendation Number'),
+      '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
+    ];
+
+    // Recommendation files - file picker - optional.
+    // @todo Determine the final file upload location.
+    $form['recommendation_files'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Recommendation files'),
+      '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
+      ],
+    ];
+
     // Build options from people who are managers or farm workers.
     $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
 
