@@ -176,6 +176,16 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#weight' => 30,
     ];
 
+    // Flags.
+    // @TODO Build flag options for this bundle.
+    $flag_options = [];
+    $form['flag'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Flag'),
+      '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
+      '#options' => $flag_options,
+    ];
+
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
     $form['users'] = [
