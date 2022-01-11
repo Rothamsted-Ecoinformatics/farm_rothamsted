@@ -172,7 +172,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $form['cossh_hazard_assessments'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
-      '#descriptions' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply.'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply.'),
       '#options' => $hazard_options,
       '#required' => TRUE,
       '#weight' => ++$weight,
