@@ -177,7 +177,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Flags.
-    // @TODO Build flag options for this bundle.
+    // @todo Build flag options for this bundle.
     $flag_options = [];
     $form['flag'] = [
       '#type' => 'select',
@@ -227,7 +227,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Time taken.
-    // @TODO do we want a textfield with validation or a time widget?
+    // @todo do we want a textfield with validation or a time widget.
     $form['time'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Time taken hh:mm'),
