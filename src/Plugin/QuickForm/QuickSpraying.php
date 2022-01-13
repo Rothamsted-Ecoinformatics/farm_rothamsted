@@ -36,9 +36,6 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weight = 200;
     $form = parent::buildForm($form, $form_state);
 
-    // Machinery checkboxes - required.
-    $form['machinery']['#required'] = TRUE;
-
     // Require the operator field.
     $form['users']['#required'] = TRUE;
 
@@ -58,7 +55,7 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     $form['product_rate'] = [
       '#type' => 'number',
-      '#title' => $this->t('Product'),
+      '#title' => $this->t('Product rate'),
       '#required' => TRUE,
       '#description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
       '#weight' => ++$weight,
@@ -72,62 +69,20 @@ class QuickSpraying extends QuickExperimentFormBase {
       'ml/ha',
       'g/ha',
     ];
-    $product_rate_unit_options = array_combine($product_rate_units , $product_rate_units);
+    $product_rate_unit_options = array_combine($product_rate_units, $product_rate_units);
 
     $form['product_rate_units'] = [
       '#type' => 'select',
-      '#title' => $this->t('Units'),
+      '#title' => $this->t('Product rate units'),
+      '#required' => TRUE,
       '#options' => $product_rate_unit_options,
       '#weight' => ++$weight,
     ];
     // ------------end of product area --------------------
 
-
     // @todo Number of chemicals.
 
-    // Chemical units.
-    $chemical_units = [
-      '',
-      'lt/ha',
-      'kg/ha',
-      'ml/ha',
-      'grm/ha',
-    ];
-    $chemical_unit_options = array_combine($chemical_units, $chemical_units);
-
-    // @todo Each chemical - units from hard coded list.
-    $form['chemicals'][0]['units'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Units'),
-      '#options' => $chemical_unit_options,
-    ];
     // @todo AJAX for each chemical.
-
-    // Weather.
-    $form['weather'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Weather'),
-    ];
-
-    // Recommendation number.
-    $form['recommendation_number'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Recommendation number'),
-      '#description' => $this->t('Please enter NA if there is no recommendation for this task.'),
-      '#required' => TRUE,
-    ];
-
-    // Rinsed 3 times.
-    $form['rinsed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Rinsed 3 times'),
-    ];
-
-    // All clear washed.
-    $form['clear_washed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('All clear washed'),
-    ];
 
     // Build justification options from the Spray Applications parent term.
     $justification_options = $this->getChildTermOptions('log_category', 'Justification/Target (Spray Applications)');
@@ -138,79 +93,193 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#title' => $this->t('Justification/Target'),
       '#options' => $justification_options,
       '#multiple' => TRUE,
-      '#weight' => 16,
+      '#required' => TRUE,
+      '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Tractor (on base form)
+    $form['tractor']['#weight'] = ++$weight;
+
+    // Machinery checkboxes - required.
+    $form['machinery']['#required'] = TRUE;
+    $form['machinery']['#weight'] = ++$weight;
+
+    // Recommendation number.
+    $form['recommendation_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recommendation number'),
+      '#required' => TRUE,
+      '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Recommendation files.
+    $form['recommendation_files']['#weight'] = ++$weight;
+
+    // Scheduled by.
+    $form['scheduled_by']['#weight'] = ++$weight;
+
+    // Scheduled date and time.
+    $form['date']['#weight'] = ++$weight;
+
+    // Log name.
+    $form['log_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Log name'),
+      '#required' => TRUE,
+      '#description' => $this->t('The name f the log autofills to "Spray Input: Product1, Product2 (Justification/ Target)", but this can be overwritten.'),
+      '#weight' => ++$weight,
     ];
 
     // Assigned to.
     $form['assigned_to'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Assigned to'),
+      '#required' => FALSE,
       '#description' => $this->t('The person setting up the task and specifiying the work that needs to be done.'),
-      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
+
+    // Flag.
+    $form['flag']['#weight'] = ++$weight;
 
     // -------------------- spray days -----------------------
     // @todo wrap in ajax - button to add another day
 
-    // Volume sprayed.
-    $form['volume_sprayed'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Volume sprayed (L)'),
-      '#input_group' => TRUE,
-      '#field_suffix' => $this->t('L'),
-      '#required' => TRUE,
-      '#description' => $this->t('Spray volume'),
-      '#weight' => ++$weight,
-    ];
-
     // Area sprayed.
     $form['area_sprayed'] = [
       '#type' => 'number',
-      '#title' => $this->t('Area sprayed (Ha)'),
+      '#title' => $this->t('Area sprayed'),
       '#input_group' => TRUE,
-      '#field_suffix' => $this->t('Ha'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#description' => $this->t('The total area being sprayed.'),
       '#weight' => ++$weight,
     ];
 
-    // Water used.
-    $form['water_used'] = [
+    // Area sprayed units options.
+    $area_sprayed_units_options = [
+      'm2' => 'm2',
+      'ha' => 'ha',
+    ];
+
+    // Area sprayed units.
+    $form['area_sprayed_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Area sprayed units'),
+      '#options' => $area_sprayed_units_options,
+      '#description' => $this->t('The area sprayed units.'),
+      '#weight' => ++$weight,
+    ];
+
+    // RRES product number.
+    $form['rres_product_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('RRES product number'),
+      '#required' => TRUE,
+      '#description' => $this->t('A unique identifier for each product (usually the suppliers batch number).'),
+      '#weight' => ++$weight,
+    ];
+
+    // Product quantity.
+    $form['product_quantity'] = [
       '#type' => 'number',
-      '#title' => $this->t('Water used'),
-      '#input_group' => TRUE,
-      '#field_suffix' => $this->t('l'),
+      '#title' => $this->t('Product quantity'),
       '#required' => TRUE,
-      '#description' => $this->t('The total water used.'),
+      '#description' => $this->t('The total amount of product required to cover the field area(s)'),
       '#weight' => ++$weight,
     ];
 
-    // Spray day start time and date - date time picker - required.
-    $form['spray_day_start_time_and_date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Operation start time and date'),
-      '#description' => $this->t('The start date and time of the spray operation.'),
+    // Product quantity units options.
+    $product_quantity_units_options = [
+      'l' => 'l',
+      'kg' => 'kg',
+      'ml' => 'ml',
+      'gal' => 'gal',
+    ];
+
+    // Product quantity units.
+    $form['product_quantity_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Product quantity units'),
+      '#options' => $product_quantity_units_options,
       '#required' => TRUE,
+      '#description' => $this->t('The product quantity units.'),
       '#weight' => ++$weight,
     ];
 
-    // Spray day end time and date - date time picker - required.
-    $form['spray_day_end_time_and_date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Operation end time and date'),
-      '#description' => $this->t('The end date and time of the spray operation.'),
+    // Water volume.
+    $form['water_volume'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Water volume'),
       '#required' => TRUE,
+      '#description' => $this->t('The total amount of water required to cover the field area(s).'),
       '#weight' => ++$weight,
     ];
 
-    // Completed - checkboxes - required.
-    $form['completed'] = [
+    // Water volume units options.
+    $water_volume_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+
+    // Water volume units.
+    $form['product_quantity_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Water volume units'),
+      '#options' => $water_volume_units_options,
+      '#required' => TRUE,
+      '#description' => $this->t('The water volume units.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Build hazard options.
+    // @todo Determine way to define hazard options. See issue #64.
+    $hazard_options = ['explosive' => 'explosive'];
+
+    // COSSH Hazard Assessments - checkboxes - required.
+    $form['cossh_hazard_assessments'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Completed'),
-      '#options' => ['completed' => 'Completed'],
+      '#title' => $this->t('COSSH Hazard Assessments'),
+      '#options' => $hazard_options,
       '#required' => TRUE,
-      '#description' => $this->t('Was the work completed?'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
+      '#weight' => ++$weight,
+    ];
+
+    // PPE.
+    $ppe_option_values = [
+      'Face sheild',
+      'Coveralls',
+      'Gloves',
+      'Apron',
+    ];
+    $ppe_option_values_options = array_combine($ppe_option_values, $ppe_option_values);
+
+    $form['ppe'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('PPE'),
+      '#options' => $ppe_option_values_options,
+      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to comonfirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Knapsack Operator checklist - checkboxes - required.
+    $form['knapsack_operator_checklist'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Knapsack operator checklist'),
+      '#options' => ['completed' => 'Completed'],
+      '#required' => FALSE,
+      '#description' => $this->t('An additional set of Health and Safety checks speciffically for knapsack spraying which need to be marked off by the operator, as per Red Tracktor Guidlines.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Plant growth stage.
+    $form['plant_growth_stage'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Plant growth stage'),
+      '#required' => FALSE,
+      '#description' => $this->t('The plant growth stage when the product was applied.'),
       '#weight' => ++$weight,
     ];
 
@@ -221,15 +290,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#type' => 'checkboxes',
       '#title' => $this->t('Type of nozzle'),
       '#options' => $spray_nozzle_options,
-      '#weight' => ++$weight,
       '#description' => $this->t('The type of spray nozzle used, where relevant.'),
-    ];
-
-    // pressure - number
-    $form['pressure'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Pressure'),
-      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
       '#weight' => ++$weight,
     ];
 
@@ -257,22 +318,125 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['temperature'] = [
       '#type' => 'number',
       '#title' => $this->t('Temperature (C)'),
-      '#input_group' => TRUE,
       '#field_suffix' => $this->t('C'),
+      '#required' => TRUE,
       '#description' => $this->t('The average temperature during spraying.'),
       '#weight' => ++$weight,
     ];
 
+    // Weather types.
+    $weather_types = [
+      '',
+      'Cloudy',
+      'Partially cloudy',
+      'Clear',
+      'Dry',
+      'Light rain',
+      'Heavy rain',
+      'Snow',
+      'Ice',
+      'Frost',
+      'Thunderstoms',
+    ];
+    $weather_types_options = array_combine($weather_types, $weather_types);
 
-    // ------------------end spray days -----------------------
+    // Weather.
+    $form['weather'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Weather'),
+      '#options' => $weather_types_options,
+      '#required' => TRUE,
+      '#description' => $this->t('The dominant weather conditions during spraying.'),
+      '#weight' => ++$weight,
+    ];
 
+    // Speed driven.
+    $form['speed_driven'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Speed driven'),
+      '#required' => FALSE,
+      '#description' => $this->t('The travelling speed when spraying, where relevant.'),
+      '#weight' => ++$weight,
+    ];
 
-    // Build hazard options.
-    // @todo Determine way to define hazard options. See issue #64.
-    $hazard_options = [];
+    // Speed driven units options.
+    $speed_driven_units_options = [
+      'mph' => 'mph',
+      'kmh' => 'km/h',
+    ];
 
-    // COSSH Hazard Assessments - checkboxes - required.
-    $form['cossh_hazard_assessments'] = [
+    // Speed driven units.
+    $form['speed_driven_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Speed driven units'),
+      '#options' => $speed_driven_units_options,
+      '#description' => $this->t('The speed driven units.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Pressure - number.
+    $form['pressure'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Pressure'),
+      '#field_suffix' => $this->t('bar'),
+      '#required' => FALSE,
+      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Tank mix ID.
+    $form['tank_mix_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Tank mix ID'),
+      '#required' => FALSE,
+      '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Tank volume remaining.
+    $form['tank_volume_remaining'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Tank volume remaining'),
+      '#required' => FALSE,
+      '#description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Tank volume remaining units options.
+    $tank_volume_ramaining_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+
+    // Tank volume remaining units.
+    $form['tank_volume_remaining_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Tank volume remaining units'),
+      '#options' => $tank_volume_ramaining_units_options,
+      '#description' => $this->t('The tank volume remaining units.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Equipment triple Rinsed.
+    $form['rinsed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment tripple rinsed'),
+      '#required' => TRUE,
+      '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Equipment clear washed.
+    $form['clear_washed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment clear washed'),
+      '#required' => TRUE,
+      '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
+      '#weight' => ++$weight,
+    ];
+
+    // COSSH Hazard Assessments - checkboxes - required - second instance.
+    $form['cossh_hazard_assessments_2'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
       '#options' => $hazard_options,
@@ -281,32 +445,102 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // PPE
-    $ppe_option_values = [
-      'Face sheild',
-      'Coveralls',
-      'Gloves',
-      'Apron',
-    ];
-    $ppe_option_values_options = array_combine($ppe_option_values, $ppe_option_values);
-
-    $form['ppe'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('PPE'),
-      '#options' => $ppe_option_values_options,
-      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to comonfirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Knapsack Operator checklist - checkboxes - required.
-    $form['knapsack_operator_checklist'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Completed'),
-      '#options' => ['completed' => 'Completed'],
+    // Operation start time and date - date time picker - required.
+    $form['operation_start_time_and_date'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Operation start time and date'),
       '#required' => TRUE,
-      '#description' => $this->t('An additional set of Health and Safety checks speciffically for knapsack spraying which need to be marked off by the operator, as per Red Tracktor Guidlines.'),
+      '#description' => $this->t('The start date and time of the spray operation.'),
       '#weight' => ++$weight,
     ];
+
+    // Tractor hours start.
+    $form['tractor_hours_start']['#weight'] = ++$weight;
+
+    // Tractor hours end.
+    $form['tractor_hours_end']['#weight'] = ++$weight;
+
+    // Time taken.
+    $form['time']['#weight'] = ++$weight;
+
+    // Fuel use.
+    $form['fuel_use']['#weight'] = ++$weight;
+
+    // Fuel use units options.
+    $fuel_use_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+
+    // Tank volume remaining units.
+    $form['fuel_use_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Fuel use units'),
+      '#options' => $fuel_use_units_options,
+      '#description' => $this->t('The Fuel use units.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Seed labels - file picker - optional.
+    // @todo Determine the final file upload location.
+    $form['seed_labels'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Seed labels'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['jpg jpeg'],
+      ],
+      '#required' => TRUE,
+      '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Crop photograph(s) - file picker - optional.
+    // @todo Determine the final file upload location.
+    $form['crop_photographs'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Crop photograph(s)'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['jpg jpeg'],
+      ],
+      '#description' => $this->t('A photograph of the crop, if applicable.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Photographs of paper record(s) - file picker - optional.
+    // @todo Determine the final file upload location.
+    $form['paper_records'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Photographs of paper record(s)'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['jpg jpeg'],
+      ],
+      '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Notes.
+    $form['notes']['#weight'] = ++$weight;
+
+    // Equipment settings.
+    $form['equipment_settings'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Equipment settings'),
+      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
+      '#weight' => ++$weight,
+    ];
+
+    // Operator field.
+    $form['users']['#weight'] = ++$weight;
+
+    // Job status.
+    $form['job_status']['#weight'] = ++$weight;
+
+    // ------------------end spray days -----------------------
+
+    $form['actions']['#weight'] = ++$weight;
 
     return $form;
   }
