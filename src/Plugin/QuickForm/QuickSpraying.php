@@ -255,10 +255,22 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Wind direction.
+    $wind_directions = [
+      $this->t('North'),
+      $this->t('South'),
+      $this->t('East'),
+      $this->t('West'),
+      $this->t('North East'),
+      $this->t('North West'),
+      $this->t('South East'),
+      $this->t('South West'),
+    ];
+    $wind_direction_options = array_combine($wind_directions, $wind_directions);
     $form['wind_direction'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Wind direction'),
       '#description' => $this->t('The dominant wind direction during spraying.'),
+      '#options' => $wind_direction_options,
       '#required' => TRUE,
       '#weight' => ++$weight,
     ];
