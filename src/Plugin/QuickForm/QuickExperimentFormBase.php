@@ -90,6 +90,28 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    // Define base quick form tabs.
+    $form['tabs'] = [
+      '#type' => 'vertical_tabs',
+      '#default_tab' => 'edit-setup',
+    ];
+
+    // Setup tab.
+    $form['setup'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Setup'),
+      '#group' => 'tabs',
+      '#weight' => -10,
+    ];
+
+    // Operation tab.
+    $form['operation'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Operation'),
+      '#group' => 'tabs',
+      '#weight' => 10,
+    ];
+
     // Load prepopulated assets.
     $plots = $this->getPrepopulatedEntities('asset');
     $default_plots = implode(', ', array_map(function (AssetInterface $asset) {
@@ -97,43 +119,40 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }, $plots));
 
     // Asset field.
-    $form['asset'] = [
+    $form['setup']['asset'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Assets'),
       '#description' => $this->t('Select assets that this log pertains to.'),
       // @todo Decide on a widget for selecting assets.
       '#default_value' => $default_plots ?: 'TBD',
       '#required' => TRUE,
-      '#weight' => -10,
     ];
 
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
-      $form['tractor'] = [
+      $form['setup']['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
         '#options' => $tractor_options,
         '#required' => TRUE,
-        '#weight' => 10,
       ];
     }
 
     // Build the machinery field if required.
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
-      $form['machinery'] = [
+      $form['setup']['machinery'] = [
         '#type' => 'checkboxes',
         '#title' => $this->t('Machinery'),
         '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group "Fertiliser Equipment".'),
         '#options' => $equipment_options,
-        '#weight' => 10,
       ];
     }
 
     // Recommendation Number - text - optional.
-    $form['recommendation_number'] = [
+    $form['setup']['recommendation_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recommendation Number'),
       '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
@@ -141,7 +160,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Recommendation files - file picker - optional.
     // @todo Determine the final file upload location.
-    $form['recommendation_files'] = [
+    $form['setup']['recommendation_files'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
       '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
@@ -161,11 +180,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('The person scheduling the job.'),
       '#options' => $farm_staff_options,
       '#required' => TRUE,
-      '#weight' => 15,
     ];
 
     // Scheduled date and time.
-    $form['date'] = [
+    $form['operation']['date'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Scheduled date and time'),
       '#description' => $this->t('The recommended time and date the job should be completed.'),
@@ -173,27 +191,55 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#date_time_element' => 'time',
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
-      '#weight' => 30,
     ];
 
-    // Flags.
-    // @todo Build flag options for this bundle.
-    $flag_options = [];
-    $form['flag'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Flag'),
-      '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
-      '#options' => $flag_options,
+    // Tractor hours start.
+    $form['operation']['tractor_hours_start'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Tractor hours (start)'),
+      '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
+      '#required' => TRUE,
+    ];
+
+    // Tractor hours end.
+    $form['operation']['tractor_hours_end'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Tractor hours (end)'),
+      '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
+      '#required' => TRUE,
+      '#group' => 'operation',
+    ];
+
+    // Time taken.
+    // @todo do we want a textfield with validation or a time widget.
+    $form['operation']['time'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Time taken hh:mm'),
+      '#description' => $this->t('The time taken to complete the job in hours and minutes.'),
+      '#required' => TRUE,
+    ];
+
+    // Fuel use.
+    $form['operation']['fuel_use'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Fuel use'),
+      '#description' => $this->t('The amount of fuel used.'),
+    ];
+
+    // Log notes.
+    $form['operation']['notes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Notes'),
+      '#description' => $this->t('Any additional notes.'),
     ];
 
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['users'] = [
+    $form['operation']['users'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#options' => $operator_options,
       '#required' => TRUE,
-      '#weight' => 20,
     ];
 
     // Build status options.
@@ -202,7 +248,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $status_options = [];
 
     // Job status - checkboxes - required.
-    $form['job_status'] = [
+    $form['operation']['job_status'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
@@ -210,43 +256,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Tractor hours start.
-    $form['tractor_hours_start'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Tractor hours (start)'),
-      '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
-      '#required' => TRUE,
-    ];
-
-    // Tractor hours end.
-    $form['tractor_hours_end'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Tractor hours (end)'),
-      '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
-      '#required' => TRUE,
-    ];
-
-    // Time taken.
-    // @todo do we want a textfield with validation or a time widget.
-    $form['time'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Time taken hh:mm'),
-      '#description' => $this->t('The time taken to complete the job in hours and minutes.'),
-      '#required' => TRUE,
-    ];
-
-    // Fuel use.
-    $form['fuel_use'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Fuel use'),
-      '#description' => $this->t('The amount of fuel used.'),
-    ];
-
-    $form['notes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes.'),
-      '#weight' => 50,
+    // Flags.
+    // @todo Build flag options for this bundle.
+    $flag_options = [];
+    $form['operation']['flag'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Flag'),
+      '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
+      '#options' => $flag_options,
     ];
 
     $form['actions'] = [
