@@ -257,6 +257,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['operation']['users'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
+      '#description' => $this->t('The operator(s) who carried out the task.'),
       '#options' => $operator_options,
       '#required' => TRUE,
     ];
