@@ -215,6 +215,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('The amount of fuel used.'),
     ];
 
+    // Fuel use units options.
+    $fuel_use_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+
+    // Tank volume remaining units.
+    $form['operation']['fuel_use_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Fuel use units'),
+      '#description' => $this->t('The Fuel use units.'),
+      '#options' => $fuel_use_units_options,
+    ];
+
     // Crop Photographs.
     // @todo Determine the final file upload location.
     $form['operation']['crop_photographs'] = [
