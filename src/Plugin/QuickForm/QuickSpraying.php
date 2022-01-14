@@ -393,21 +393,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Fuel use units options.
-    $fuel_use_units_options = [
-      'l' => 'l',
-      'gal' => 'gal',
-    ];
-
-    // Tank volume remaining units.
-    $form['fuel_use_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Fuel use units'),
-      '#options' => $fuel_use_units_options,
-      '#description' => $this->t('The Fuel use units.'),
-      '#weight' => ++$weight,
-    ];
-
     // Seed labels - file picker - optional.
     // @todo Determine the final file upload location.
     $form['seed_labels'] = [
