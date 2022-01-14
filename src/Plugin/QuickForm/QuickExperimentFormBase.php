@@ -122,7 +122,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['setup']['asset'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Assets'),
-      '#description' => $this->t('Select assets that this log pertains to.'),
+      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments.'),
       // @todo Decide on a widget for selecting assets.
       '#default_value' => $default_plots ?: 'TBD',
       '#required' => TRUE,
