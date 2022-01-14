@@ -36,12 +36,6 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weight = 200;
     $form = parent::buildForm($form, $form_state);
 
-    // Require the operator field.
-    $form['users']['#required'] = TRUE;
-
-    // Allow date and time to be specified.
-    $form['date']['#date_part_order'] = ['year', 'month', 'day', 'hour', 'minute'];
-
     // ---------------- product area --------------------
     // @todo wrap with ajax - multiple products
 
@@ -97,52 +91,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
       '#weight' => ++$weight,
     ];
-
-    // Tractor (on base form)
-    $form['tractor']['#weight'] = ++$weight;
-
-    // Machinery checkboxes - required.
-    $form['machinery']['#required'] = TRUE;
-    $form['machinery']['#weight'] = ++$weight;
-
-    // Recommendation number.
-    $form['recommendation_number'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Recommendation number'),
-      '#required' => TRUE,
-      '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Recommendation files.
-    $form['recommendation_files']['#weight'] = ++$weight;
-
-    // Scheduled by.
-    $form['scheduled_by']['#weight'] = ++$weight;
-
-    // Scheduled date and time.
-    $form['date']['#weight'] = ++$weight;
-
-    // Log name.
-    $form['log_name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Log name'),
-      '#required' => TRUE,
-      '#description' => $this->t('The name f the log autofills to "Spray Input: Product1, Product2 (Justification/ Target)", but this can be overwritten.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Assigned to.
-    $form['assigned_to'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Assigned to'),
-      '#required' => FALSE,
-      '#description' => $this->t('The person setting up the task and specifiying the work that needs to be done.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Flag.
-    $form['flag']['#weight'] = ++$weight;
 
     // -------------------- spray days -----------------------
     // @todo wrap in ajax - button to add another day
@@ -445,27 +393,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => ++$weight,
     ];
 
-    // Operation start time and date - date time picker - required.
-    $form['operation_start_time_and_date'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Operation start time and date'),
-      '#required' => TRUE,
-      '#description' => $this->t('The start date and time of the spray operation.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Tractor hours start.
-    $form['tractor_hours_start']['#weight'] = ++$weight;
-
-    // Tractor hours end.
-    $form['tractor_hours_end']['#weight'] = ++$weight;
-
-    // Time taken.
-    $form['time']['#weight'] = ++$weight;
-
-    // Fuel use.
-    $form['fuel_use']['#weight'] = ++$weight;
-
     // Fuel use units options.
     $fuel_use_units_options = [
       'l' => 'l',
@@ -494,53 +421,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#weight' => ++$weight,
     ];
-
-    // Crop photograph(s) - file picker - optional.
-    // @todo Determine the final file upload location.
-    $form['crop_photographs'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Crop photograph(s)'),
-      '#upload_location' => 'private://quick',
-      '#upload_validators' => [
-        'file_validate_extensions' => ['jpg jpeg'],
-      ],
-      '#description' => $this->t('A photograph of the crop, if applicable.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Photographs of paper record(s) - file picker - optional.
-    // @todo Determine the final file upload location.
-    $form['paper_records'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Photographs of paper record(s)'),
-      '#upload_location' => 'private://quick',
-      '#upload_validators' => [
-        'file_validate_extensions' => ['jpg jpeg'],
-      ],
-      '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Notes.
-    $form['notes']['#weight'] = ++$weight;
-
-    // Equipment settings.
-    $form['equipment_settings'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Equipment settings'),
-      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
-      '#weight' => ++$weight,
-    ];
-
-    // Operator field.
-    $form['users']['#weight'] = ++$weight;
-
-    // Job status.
-    $form['job_status']['#weight'] = ++$weight;
-
-    // ------------------end spray days -----------------------
-
-    $form['actions']['#weight'] = ++$weight;
 
     return $form;
   }
