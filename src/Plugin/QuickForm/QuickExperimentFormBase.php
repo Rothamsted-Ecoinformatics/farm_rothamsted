@@ -130,7 +130,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Build the tractor field if required.
     if ($this->tractorField) {
-      $tractor_options = $this->getGroupMemberOptions(['Tractor'], ['equipment']);
+      $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
       $form['setup']['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
@@ -143,10 +143,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Build the machinery field if required.
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
+      $machinery_options_string = implode(",", $this->machineryGroupNames);
       $form['setup']['machinery'] = [
         '#type' => 'checkboxes',
         '#title' => $this->t('Machinery'),
-        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group "Fertiliser Equipment".'),
+        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names".', [':group_names' => $machinery_options_string]),
         '#options' => $equipment_options,
       ];
     }
