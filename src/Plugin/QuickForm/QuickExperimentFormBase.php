@@ -214,11 +214,42 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('The amount of fuel used.'),
     ];
 
+    // Crop Photographs.
+    // @todo Determine the final file upload location.
+    $form['operation']['crop_photographs'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Crop Photograph(s)'),
+      '#description' => $this->t('A photograph of the crop, if applicable.'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['png gif jpg jpeg'],
+      ],
+    ];
+
+    // Photographs of paper records.
+    // @todo Determine the final file upload location.
+    $form['operation']['photographs_of_paper_records'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Photographs of paper record(s)'),
+      '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
+      '#upload_location' => 'private://quick',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['pdf png gif jpg jpeg'],
+      ],
+    ];
+
     // Log notes.
     $form['operation']['notes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
+    ];
+
+    // Equipment settings.
+    $form['operation']['equipment_settings'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Equipment Settings'),
+      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
     ];
 
     // Operator field.
