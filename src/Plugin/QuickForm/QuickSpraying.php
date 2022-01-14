@@ -42,16 +42,16 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['product'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product'),
-      '#required' => TRUE,
       '#description' => $this->t('The product used. The list can be expanded or amended in the inputs taxonomy.'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
     $form['product_rate'] = [
       '#type' => 'number',
       '#title' => $this->t('Product rate'),
-      '#required' => TRUE,
       '#description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -85,10 +85,10 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['categories'] = [
       '#type' => 'select',
       '#title' => $this->t('Justification/Target'),
+      '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
       '#options' => $justification_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
-      '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
       '#weight' => ++$weight,
     ];
 
@@ -99,9 +99,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['area_sprayed'] = [
       '#type' => 'number',
       '#title' => $this->t('Area sprayed'),
+      '#description' => $this->t('The total area being sprayed.'),
       '#input_group' => TRUE,
       '#required' => FALSE,
-      '#description' => $this->t('The total area being sprayed.'),
       '#weight' => ++$weight,
     ];
 
@@ -115,8 +115,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['area_sprayed_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Area sprayed units'),
-      '#options' => $area_sprayed_units_options,
       '#description' => $this->t('The area sprayed units.'),
+      '#options' => $area_sprayed_units_options,
       '#weight' => ++$weight,
     ];
 
@@ -124,8 +124,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['rres_product_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('RRES product number'),
-      '#required' => TRUE,
       '#description' => $this->t('A unique identifier for each product (usually the suppliers batch number).'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -133,8 +133,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['product_quantity'] = [
       '#type' => 'number',
       '#title' => $this->t('Product quantity'),
-      '#required' => TRUE,
       '#description' => $this->t('The total amount of product required to cover the field area(s)'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -150,9 +150,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['product_quantity_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Product quantity units'),
+      '#description' => $this->t('The product quantity units.'),
       '#options' => $product_quantity_units_options,
       '#required' => TRUE,
-      '#description' => $this->t('The product quantity units.'),
       '#weight' => ++$weight,
     ];
 
@@ -160,8 +160,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['water_volume'] = [
       '#type' => 'number',
       '#title' => $this->t('Water volume'),
-      '#required' => TRUE,
       '#description' => $this->t('The total amount of water required to cover the field area(s).'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -175,9 +175,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['product_quantity_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Water volume units'),
+      '#description' => $this->t('The water volume units.'),
       '#options' => $water_volume_units_options,
       '#required' => TRUE,
-      '#description' => $this->t('The water volume units.'),
       '#weight' => ++$weight,
     ];
 
@@ -189,13 +189,14 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['cossh_hazard_assessments'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
       '#options' => $hazard_options,
       '#required' => TRUE,
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
       '#weight' => ++$weight,
     ];
 
     // PPE.
+    // @todo Load these from the log category taxonomy.
     $ppe_option_values = [
       'Face sheild',
       'Coveralls',
@@ -207,8 +208,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['ppe'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('PPE'),
+      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
       '#options' => $ppe_option_values_options,
-      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to comonfirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
       '#weight' => ++$weight,
     ];
 
@@ -216,9 +217,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['knapsack_operator_checklist'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Knapsack operator checklist'),
+      '#description' => $this->t('An additional set of Health and Safety checks specifically for knapsack spraying which need to be marked off by the operator, as per Red Tractor Guidelines.'),
       '#options' => ['completed' => 'Completed'],
       '#required' => FALSE,
-      '#description' => $this->t('An additional set of Health and Safety checks speciffically for knapsack spraying which need to be marked off by the operator, as per Red Tracktor Guidlines.'),
       '#weight' => ++$weight,
     ];
 
@@ -226,8 +227,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['plant_growth_stage'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Plant growth stage'),
-      '#required' => FALSE,
       '#description' => $this->t('The plant growth stage when the product was applied.'),
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -235,10 +236,11 @@ class QuickSpraying extends QuickExperimentFormBase {
     $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
 
     $form['spray_nozzle'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Type of nozzle'),
-      '#options' => $spray_nozzle_options,
+      '#type' => 'select',
+      '#title' => $this->t('Nozzle Type'),
       '#description' => $this->t('The type of spray nozzle used, where relevant.'),
+      '#options' => $spray_nozzle_options,
+      '#multiple' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -246,10 +248,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['wind_speed'] = [
       '#type' => 'number',
       '#title' => $this->t('Wind speed (kph)'),
-      '#input_group' => TRUE,
+      '#description' => $this->t('The maximum wind speed during spraying.'),
       '#field_suffix' => $this->t('kph'),
       '#required' => TRUE,
-      '#description' => $this->t('The maximum wind speed during spraying.'),
       '#weight' => ++$weight,
     ];
 
@@ -257,8 +258,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['wind_direction'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Wind direction'),
-      '#required' => TRUE,
       '#description' => $this->t('The dominant wind direction during spraying.'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -266,25 +267,24 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['temperature'] = [
       '#type' => 'number',
       '#title' => $this->t('Temperature (C)'),
+      '#description' => $this->t('The average temperature during spraying.'),
       '#field_suffix' => $this->t('C'),
       '#required' => TRUE,
-      '#description' => $this->t('The average temperature during spraying.'),
       '#weight' => ++$weight,
     ];
 
     // Weather types.
     $weather_types = [
-      '',
-      'Cloudy',
-      'Partially cloudy',
-      'Clear',
-      'Dry',
-      'Light rain',
-      'Heavy rain',
-      'Snow',
-      'Ice',
-      'Frost',
-      'Thunderstoms',
+      $this->t('Cloudy'),
+      $this->t('Partially cloudy'),
+      $this->t('Clear'),
+      $this->t('Dry'),
+      $this->t('Light rain'),
+      $this->t('Heavy rain'),
+      $this->t('Snow'),
+      $this->t('Ice'),
+      $this->t('Frost'),
+      $this->t('Thunderstorms'),
     ];
     $weather_types_options = array_combine($weather_types, $weather_types);
 
@@ -292,9 +292,10 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['weather'] = [
       '#type' => 'select',
       '#title' => $this->t('Weather'),
-      '#options' => $weather_types_options,
-      '#required' => TRUE,
       '#description' => $this->t('The dominant weather conditions during spraying.'),
+      '#options' => $weather_types_options,
+      '#multiple' => TRUE,
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -302,8 +303,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['speed_driven'] = [
       '#type' => 'number',
       '#title' => $this->t('Speed driven'),
-      '#required' => FALSE,
       '#description' => $this->t('The travelling speed when spraying, where relevant.'),
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -317,8 +318,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['speed_driven_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Speed driven units'),
-      '#options' => $speed_driven_units_options,
       '#description' => $this->t('The speed driven units.'),
+      '#options' => $speed_driven_units_options,
       '#weight' => ++$weight,
     ];
 
@@ -326,9 +327,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['pressure'] = [
       '#type' => 'number',
       '#title' => $this->t('Pressure'),
+      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
       '#field_suffix' => $this->t('bar'),
       '#required' => FALSE,
-      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
       '#weight' => ++$weight,
     ];
 
@@ -336,8 +337,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['tank_mix_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Tank mix ID'),
-      '#required' => FALSE,
       '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -345,8 +346,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['tank_volume_remaining'] = [
       '#type' => 'number',
       '#title' => $this->t('Tank volume remaining'),
-      '#required' => FALSE,
       '#description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
+      '#required' => FALSE,
       '#weight' => ++$weight,
     ];
 
@@ -360,8 +361,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['tank_volume_remaining_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Tank volume remaining units'),
-      '#options' => $tank_volume_ramaining_units_options,
       '#description' => $this->t('The tank volume remaining units.'),
+      '#options' => $tank_volume_ramaining_units_options,
       '#weight' => ++$weight,
     ];
 
@@ -369,8 +370,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['rinsed'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Equipment tripple rinsed'),
-      '#required' => TRUE,
       '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -378,8 +379,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['clear_washed'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Equipment clear washed'),
-      '#required' => TRUE,
       '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
+      '#required' => TRUE,
       '#weight' => ++$weight,
     ];
 
@@ -387,9 +388,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['cossh_hazard_assessments_2'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
       '#options' => $hazard_options,
       '#required' => TRUE,
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
       '#weight' => ++$weight,
     ];
 
@@ -398,12 +399,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['seed_labels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Seed labels'),
+      '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#upload_location' => 'private://quick',
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg'],
       ],
       '#required' => TRUE,
-      '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#weight' => ++$weight,
     ];
 
