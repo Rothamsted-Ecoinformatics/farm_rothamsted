@@ -170,18 +170,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ],
     ];
 
-    // Build options from people who are managers or farm workers.
-    $farm_staff_options = $this->getUserOptions(['farm_manager', 'farm_worker']);
-
-    // Scheduled by.
-    $form['scheduled_by'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Scheduled by'),
-      '#description' => $this->t('The person scheduling the job.'),
-      '#options' => $farm_staff_options,
-      '#required' => TRUE,
-    ];
-
     // Scheduled date and time.
     $form['operation']['timestamp'] = [
       '#type' => 'datetime',
