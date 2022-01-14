@@ -183,10 +183,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Scheduled date and time.
-    $form['operation']['date'] = [
+    $form['operation']['timestamp'] = [
       '#type' => 'datetime',
-      '#title' => $this->t('Scheduled date and time'),
-      '#description' => $this->t('The recommended time and date the job should be completed.'),
+      '#title' => $this->t('Operation start date and time'),
+      '#description' => $this->t('The start date and time of the operation.'),
       '#default_value' => new DrupalDateTime(),
       '#date_time_element' => 'time',
       '#required' => TRUE,
