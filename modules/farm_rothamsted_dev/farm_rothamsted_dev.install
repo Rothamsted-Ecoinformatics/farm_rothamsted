@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the farm_rothamsted_dev module.
+ */
+
+use Drupal\asset\Entity\Asset;
+use Drupal\log\Entity\Log;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_install().
+ */
+function farm_rothamsted_dev_install() {
+
+  // USERS.
+  // Build a list of users and roles.
+  $users = [
+    'Manager' => ['farm_manager'],
+    'Worker' => ['farm_worker'],
+    'Operator 2' => ['farm_operator'],
+    'Operator 1' => ['farm_operator'],
+  ];
+  foreach ($users as $user_name => $role_names) {
+
+    // Create active user.
+    $user = User::create([
+      'name' => $user_name,
+      'status' => TRUE,
+    ]);
+
+    // Add roles.
+    foreach ($role_names as $role_name) {
+      $user->addRole($role_name);
+    }
+
+    // Save.
+    $user->save();
+  }
+
+  // TAXONOMY TERMS.
+  // @todo Units. No need to do every unit, just a few.
+  // @todo Materials.
+  // @todo Justifications.
+
+  // Build a list of vocabularies and parent/child terms to create.
+  $vocabularies = [
+    'log_category' => [
+      'PPE' => ['Face Shield', 'Coveralls', 'Gloves', 'Apron'],
+    ],
+  ];
+
+  // Loop through each vocabulary.
+  foreach ($vocabularies as $vocab_id => $vocab_terms) {
+
+    // Create parent term with child terms for each vocab.
+    foreach ($vocab_terms as $parent_name => $child_names) {
+      $parent_term = Term::create([
+        'name' => $parent_name,
+        'vid' => $vocab_id,
+        'status' => TRUE,
+      ]);
+      $parent_term->save();
+
+      // Create each child term.
+      foreach ($child_names as $child_name) {
+        $child_term = Term::create([
+          'name' => $child_name,
+          'vid' => $vocab_id,
+          'parent' => $parent_term,
+          'status' => TRUE,
+        ]);
+        $child_term->save();
+      }
+    }
+  }
+
+  // EQUIPMENT ASSETS.
+  // Define groups and equipment names.
+  $equipment = [
+    'Tractor Equipment' => ['Tractor 1', 'Tractor 2'],
+    'Cultivation Equipment' => ['Cultivator', 'Roller'],
+    'Drilling Equipment' => ['Drilling equip', 'Driller 2'],
+    'Fertiliser Equipment' => ['Fertiliser equip', 'Manure spreader'],
+    'Harvest Machinery Equipment' => ['Harvester 1', 'Harvester 2'],
+    'Pesticide Equipment' => ['Sprayer 1', 'Spray mixer'],
+    'Spray Nozzles' => ['Nozzle 1', 'Nozzle 2'],
+  ];
+
+  // Populate each group.
+  foreach ($equipment as $group_name => $equipment_names) {
+
+    // Create group asset.
+    $group = Asset::create([
+      'type' => 'group',
+      'name' => $group_name,
+      'status' => 'active',
+    ]);
+    $group->save();
+
+    // Create equipment assets.
+    $equipment_assets = array_map(function ($equipment_name) {
+      $asset = Asset::create([
+        'type' => 'equipment',
+        'name' => $equipment_name,
+        'status' => 'active',
+      ]);
+      $asset->save();
+      return $asset;
+    }, $equipment_names);
+
+    // Assign equipment assets to the group.
+    $group_assignment_log = Log::create([
+      'type' => 'activity',
+      'name' => "Create $group_name equipment assets",
+      'group' => $group,
+      'asset' => $equipment_assets,
+      'is_group_assignment' => TRUE,
+      'status' => 'done',
+    ]);
+    $group_assignment_log->save();
+  }
+}
