@@ -20,7 +20,8 @@ function farm_rothamsted_dev_install() {
   $users = [
     'Manager' => ['farm_manager'],
     'Worker' => ['farm_worker'],
-    'Operator' => ['farm_operator'],
+    'Operator 2' => ['farm_operator'],
+    'Operator 1' => ['farm_operator'],
   ];
   foreach ($users as $user_name => $role_names) {
 
