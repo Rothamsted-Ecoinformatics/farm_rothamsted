@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the farm_rothamsted_dev module.
+ */
+
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_install().
+ */
+function farm_rothamsted_dev_install() {
+
+  // Setup users.
+  // Manager.
+  $manager = User::create([
+    'name' => 'Manager',
+    'status' => TRUE,
+  ]);
+  $manager->addRole('farm_manager');
+  $manager->save();
+
+  // Worker.
+  $worker = User::create([
+    'name' => 'Worker',
+    'status' => TRUE,
+  ]);
+  $worker->addRole('farm_worker');
+  $worker->save();
+
+  // Operator.
+  $operator = User::create([
+    'name' => 'Operator',
+    'status' => TRUE,
+  ]);
+  $operator->addRole('farm_operator');
+  $operator->save();
+
+  // @todo Setup taxonomies.
+  // Units.
+  // Log categories.
+  // Materials.
+  // Justifications.
+
+  // @todo Setup equipment groups and assets.
+}
