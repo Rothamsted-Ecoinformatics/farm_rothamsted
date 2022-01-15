@@ -86,6 +86,7 @@ function farm_rothamsted_dev_install() {
     'Fertiliser Equipment' => ['Fertiliser equip', 'Manure spreader'],
     'Harvest Machinery Equipment' => ['Harvester 1', 'Harvester 2'],
     'Pesticide Equipment' => ['Sprayer 1', 'Spray mixer'],
+    'Spray Nozzles' => ['Nozzle 1', 'Nozzle 2'],
   ];
 
   // Populate each group.

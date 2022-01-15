@@ -218,7 +218,6 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Spray nozzle options.
     $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
-
     $spraying['spray_nozzle'] = [
       '#type' => 'select',
       '#title' => $this->t('Nozzle Type'),
