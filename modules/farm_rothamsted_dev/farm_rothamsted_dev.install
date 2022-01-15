@@ -5,6 +5,8 @@
  * Install, update and uninstall functions for the farm_rothamsted_dev module.
  */
 
+use Drupal\asset\Entity\Asset;
+use Drupal\log\Entity\Log;
 use Drupal\user\Entity\User;
 
 /**
@@ -43,5 +45,48 @@ function farm_rothamsted_dev_install() {
   // Materials.
   // Justifications.
 
-  // @todo Setup equipment groups and assets.
+  // EQUIPMENT ASSETS.
+  // Define groups and equipment names.
+  $equipment = [
+    'Tractor Equipment' => ['Tractor 1', 'Tractor 2'],
+    'Cultivation Equipment' => ['Cultivator', 'Roller'],
+    'Drilling Equipment' => ['Drilling equip', 'Driller 2'],
+    'Fertiliser Equipment' => ['Fertiliser equip', 'Manure spreader'],
+    'Harvest Machinery Equipment' => ['Harvester 1', 'Harvester 2'],
+    'Pesticide Equipment' => ['Sprayer 1', 'Spray mixer'],
+  ];
+
+  // Populate each group.
+  foreach ($equipment as $group_name => $equipment_names) {
+
+    // Create group asset.
+    $group = Asset::create([
+      'type' => 'group',
+      'name' => $group_name,
+      'status' => 'active',
+    ]);
+    $group->save();
+
+    // Create equipment assets.
+    $equipment_assets = array_map(function ($equipment_name) {
+      $asset = Asset::create([
+        'type' => 'equipment',
+        'name' => $equipment_name,
+        'status' => 'active',
+      ]);
+      $asset->save();
+      return $asset;
+    }, $equipment_names);
+
+    // Assign equipment assets to the group.
+    $group_assignment_log = Log::create([
+      'type' => 'activity',
+      'name' => "Create $group_name equipment assets",
+      'group' => $group,
+      'asset' => $equipment_assets,
+      'is_group_assignment' => TRUE,
+      'status' => 'done',
+    ]);
+    $group_assignment_log->save();
+  }
 }
