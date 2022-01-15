@@ -191,20 +191,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // PPE.
-    // @todo Load these from the log category taxonomy.
-    $ppe_option_values = [
-      'Face sheild',
-      'Coveralls',
-      'Gloves',
-      'Apron',
-    ];
-    $ppe_option_values_options = array_combine($ppe_option_values, $ppe_option_values);
-
+    $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
     $spraying['ppe'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('PPE'),
       '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
-      '#options' => $ppe_option_values_options,
+      '#options' => $ppe_option_values,
     ];
 
     // Knapsack Operator checklist - checkboxes - required.

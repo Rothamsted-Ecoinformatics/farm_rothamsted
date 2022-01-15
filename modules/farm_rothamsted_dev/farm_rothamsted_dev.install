@@ -7,6 +7,7 @@
 
 use Drupal\asset\Entity\Asset;
 use Drupal\log\Entity\Log;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
 
 /**
@@ -39,11 +40,42 @@ function farm_rothamsted_dev_install() {
   $operator->addRole('farm_operator');
   $operator->save();
 
-  // @todo Setup taxonomies.
-  // Units.
-  // Log categories.
-  // Materials.
-  // Justifications.
+  // TAXONOMY TERMS.
+  // @todo Units. No need to do every unit, just a few.
+  // @todo Materials.
+  // @todo Justifications.
+
+  // Build a list of vocabularies and parent/child terms to create.
+  $vocabularies = [
+    'log_category' => [
+      'PPE' => ['Face Shield', 'Coveralls', 'Gloves', 'Apron'],
+    ],
+  ];
+
+  // Loop through each vocabulary.
+  foreach ($vocabularies as $vocab_id => $vocab_terms) {
+
+    // Create parent term with child terms for each vocab.
+    foreach ($vocab_terms as $parent_name => $child_names) {
+      $parent_term = Term::create([
+        'name' => $parent_name,
+        'vid' => $vocab_id,
+        'status' => TRUE,
+      ]);
+      $parent_term->save();
+
+      // Create each child term.
+      foreach ($child_names as $child_name) {
+        $child_term = Term::create([
+          'name' => $child_name,
+          'vid' => $vocab_id,
+          'parent' => $parent_term,
+          'status' => TRUE,
+        ]);
+        $child_term->save();
+      }
+    }
+  }
 
   // EQUIPMENT ASSETS.
   // Define groups and equipment names.
