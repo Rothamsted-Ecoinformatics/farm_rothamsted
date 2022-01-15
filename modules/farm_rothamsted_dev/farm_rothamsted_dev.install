@@ -15,30 +15,29 @@ use Drupal\user\Entity\User;
  */
 function farm_rothamsted_dev_install() {
 
-  // Setup users.
-  // Manager.
-  $manager = User::create([
-    'name' => 'Manager',
-    'status' => TRUE,
-  ]);
-  $manager->addRole('farm_manager');
-  $manager->save();
+  // USERS.
+  // Build a list of users and roles.
+  $users = [
+    'Manager' => ['farm_manager'],
+    'Worker' => ['farm_worker'],
+    'Operator' => ['farm_operator'],
+  ];
+  foreach ($users as $user_name => $role_names) {
 
-  // Worker.
-  $worker = User::create([
-    'name' => 'Worker',
-    'status' => TRUE,
-  ]);
-  $worker->addRole('farm_worker');
-  $worker->save();
+    // Create active user.
+    $user = User::create([
+      'name' => $user_name,
+      'status' => TRUE,
+    ]);
 
-  // Operator.
-  $operator = User::create([
-    'name' => 'Operator',
-    'status' => TRUE,
-  ]);
-  $operator->addRole('farm_operator');
-  $operator->save();
+    // Add roles.
+    foreach ($role_names as $role_name) {
+      $user->addRole($role_name);
+    }
+
+    // Save.
+    $user->save();
+  }
 
   // TAXONOMY TERMS.
   // @todo Units. No need to do every unit, just a few.
