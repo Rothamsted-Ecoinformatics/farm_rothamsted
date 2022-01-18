@@ -278,14 +278,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Build status options.
+    // Job status.
     // @todo Load status options from log status options or workflow options.
     // @todo This may be different for each quick form.
-    $status_options = [];
-
-    // Job status - checkboxes - required.
+    $status_options = [
+      'done' => $this->t('Done'),
+      'pending' => $this->t('Pending'),
+    ];
     $form['operation']['job_status'] = [
-      '#type' => 'checkboxes',
+      '#type' => 'select',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
       '#options' => $status_options,
