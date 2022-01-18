@@ -43,6 +43,14 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Health & safety tab.
+    $health_and_safety = [
+      '#type' => 'details',
+      '#title' => $this->t('Health &amp; Safety'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // ---------------- product area --------------------
     // @todo wrap with ajax - multiple products
 
@@ -254,24 +262,6 @@ class QuickSpraying extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
-      // PPE.
-      $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
-      $spraying['sprayed_days']['days'][$i]['ppe'] = [
-        '#type' => 'checkboxes',
-        '#title' => $this->t('PPE'),
-        '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
-        '#options' => $ppe_option_values,
-      ];
-
-      // Knapsack Operator checklist - checkboxes - required.
-      $spraying['sprayed_days']['days'][$i]['knapsack_operator_checklist'] = [
-        '#type' => 'checkboxes',
-        '#title' => $this->t('Knapsack operator checklist'),
-        '#description' => $this->t('An additional set of Health and Safety checks specifically for knapsack spraying which need to be marked off by the operator, as per Red Tractor Guidelines.'),
-        '#options' => ['completed' => 'Completed'],
-        '#required' => FALSE,
-      ];
-
       // Plant growth stage.
       $spraying['sprayed_days']['days'][$i]['plant_growth_stage'] = [
         '#type' => 'textfield',
@@ -430,15 +420,6 @@ class QuickSpraying extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
-      // COSSH Hazard Assessments - checkboxes - required - second instance.
-      $spraying['sprayed_days']['days'][$i]['cossh_hazard_assessments_2'] = [
-        '#type' => 'checkboxes',
-        '#title' => $this->t('COSSH Hazard Assessments'),
-        '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
-        '#options' => $hazard_options,
-        '#required' => TRUE,
-      ];
-
       // Seed labels - file picker - optional.
       // @todo Determine the final file upload location.
       $spraying['sprayed_days']['days'][$i]['seed_labels'] = [
@@ -455,6 +436,36 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Add the spraying tab and fields to the form.
     $form['spraying'] = $spraying;
+
+    // COSSH Hazard Assessments - checkboxes - required - second instance.
+    $health_and_safety['sprayed_days']['days'][$i]['cossh_hazard_assessments_2'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('COSSH Hazard Assessments'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
+      '#options' => $hazard_options,
+      '#required' => TRUE,
+    ];
+
+    // PPE.
+    $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
+    $health_and_safety['sprayed_days']['days'][$i]['ppe'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('PPE'),
+      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
+      '#options' => $ppe_option_values,
+    ];
+
+    // Knapsack Operator checklist - checkboxes - required.
+    $health_and_safety['sprayed_days']['days'][$i]['knapsack_operator_checklist'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Knapsack operator checklist'),
+      '#description' => $this->t('An additional set of Health and Safety checks specifically for knapsack spraying which need to be marked off by the operator, as per Red Tractor Guidelines.'),
+      '#options' => ['completed' => 'Completed'],
+      '#required' => FALSE,
+    ];
+
+    // Add the health and safety tab and fields to the form.
+    $form['health_and_safety'] = $health_and_safety;
 
     return $form;
   }
