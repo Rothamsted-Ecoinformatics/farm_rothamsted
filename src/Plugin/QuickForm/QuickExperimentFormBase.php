@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
+use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 use Drupal\taxonomy\TermInterface;
 use Drupal\user\UserInterface;
@@ -20,6 +21,7 @@ use Psr\Container\ContainerInterface;
 abstract class QuickExperimentFormBase extends QuickFormBase {
 
   use QuickPrepopulateTrait;
+  use QuickLogTrait;
 
   /**
    * The entity type manager service.
@@ -324,6 +326,23 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    // This method should be overridden by subclasses. The following only
+    // exists to provide an example.
+    // First build and array of log information.
+    $log = $this->prepareLog($form, $form_state);
+
+    // Subclasses should add additional data to the log at this point.
+    $log['name'] = 'Quick form log name';
+
+    // Finally, create the log.
+    $this->createLog($log);
+  }
+
+  /**
    * Helper function to load group members of a given asset type.
    *
    * @param string[] $group_names
@@ -471,6 +490,50 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     natsort($user_options);
 
     return $user_options;
+  }
+
+  /**
+   * Helper function to prepare an array of data for creating a log.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   An array of log data.
+   *
+   * @see \Drupal\farm_quick\Traits\QuickLogTrait::createLog()
+   */
+  protected function prepareLog(array $form, FormStateInterface $form_state): array {
+
+    // Start an array of log data to pass to QuickLogTrait::createLog.
+    $log = [
+      'type' => $this->logType,
+      'status' => $form_state->getValue('job_status'),
+      'timestamp' => $form_state->getValue('timestamp')->getTimestamp(),
+      'asset' => $form_state->getValue('asset'),
+      'flag' => $form_state->getValue('flag'),
+    ];
+
+    // Add equipment references.
+    $tractor = $form_state->getValue('tractor');
+    $machinery = array_filter($form_state->getValue('machinery'));
+    $log['equipment'] = [...$machinery, $tractor];
+
+    // @todo Include remaining base form fields.
+    // Recommendation number.
+    // Recommendation files.
+    // Tractor hours.
+    // Time taken.
+    // Fuel use.
+    // Crop photographs.
+    // Paper records.
+    // Notes.
+    // Equipment settings.
+    // Operator.
+
+    return $log;
   }
 
 }

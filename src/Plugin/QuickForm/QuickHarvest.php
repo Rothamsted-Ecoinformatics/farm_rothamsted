@@ -174,16 +174,7 @@ class QuickHarvest extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
-    // Draft a harvest log from the user-submitted data.
-    $log = [
-      'name' => $this->t('Harvested log'),
-      'type' => 'harvest',
-      'quantity' => $form_state->getValue('quantities') ?? [],
-    ];
-
-    // Create the log.
-    $this->createLog($log);
+    parent::submitForm($form, $form_state);
   }
 
 }
