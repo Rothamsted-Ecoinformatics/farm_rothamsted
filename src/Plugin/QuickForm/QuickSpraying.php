@@ -43,39 +43,80 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Health & safety tab.
+    $health_and_safety = [
+      '#type' => 'details',
+      '#title' => $this->t('Health &amp; Safety'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // ---------------- product area --------------------
     // @todo wrap with ajax - multiple products
 
-    $spraying['product'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Product'),
-      '#description' => $this->t('The product used. The list can be expanded or amended in the inputs taxonomy.'),
-      '#required' => TRUE,
-    ];
-
-    $spraying['product_rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Product rate'),
-      '#description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
-      '#required' => TRUE,
-    ];
-
-    // Product rate units.
-    $product_rate_units = [
-      '',
-      'l/ha',
-      'kg/ha',
-      'ml/ha',
-      'g/ha',
-    ];
-    $product_rate_unit_options = array_combine($product_rate_units, $product_rate_units);
-
-    $spraying['product_rate_units'] = [
+    // Product count.
+    $spraying['sprayed_products']['product_count'] = [
       '#type' => 'select',
-      '#title' => $this->t('Product rate units'),
-      '#required' => TRUE,
-      '#options' => $product_rate_unit_options,
+      '#title' => $this->t('How many products were used?'),
+      '#options' => array_combine(range(1, 5), range(1, 5)),
+      '#default_value' => 1,
+      '#ajax' => [
+        'callback' => [$this, 'productsCallback'],
+        'event' => 'change',
+        'wrapper' => 'farm-rothamsted-spraying-products',
+      ],
     ];
+
+    // Create a wrapper around all product fields, for AJAX replacement.
+    $spraying['sprayed_products']['products'] = [
+      '#prefix' => '<div id="farm-rothamsted-spraying-products">',
+      '#suffix' => '</div>',
+    ];
+
+    // Add fields for each product.
+    $spraying['sprayed_products']['products']['#tree'] = TRUE;
+    $quantities = $form_state->getValue('product_count', 1);
+    for ($i = 0; $i < $quantities; $i++) {
+
+      // Fieldset for each product.
+      $spraying['sprayed_products']['products'][$i] = [
+        '#type' => 'details',
+        '#title' => $this->t('Product @number', ['@number' => $i + 1]),
+        '#collapsible' => TRUE,
+        '#open' => TRUE,
+      ];
+
+      $spraying['sprayed_products']['products'][$i]['product'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Product'),
+        '#description' => $this->t('The product used. The list can be expanded or amended in the inputs taxonomy.'),
+        '#required' => TRUE,
+      ];
+
+      $spraying['sprayed_products']['products'][$i]['product_rate'] = [
+        '#type' => 'number',
+        '#title' => $this->t('Product rate'),
+        '#description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
+        '#required' => TRUE,
+      ];
+
+      // Product rate units.
+      $product_rate_units = [
+        '',
+        'l/ha',
+        'kg/ha',
+        'ml/ha',
+        'g/ha',
+      ];
+      $product_rate_unit_options = array_combine($product_rate_units, $product_rate_units);
+
+      $spraying['sprayed_products']['products'][$i]['product_rate_units'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Product rate units'),
+        '#required' => TRUE,
+        '#options' => $product_rate_unit_options,
+      ];
+    }
     // ------------end of product area --------------------
 
     // @todo Number of chemicals.
@@ -94,9 +135,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
       '#required' => TRUE,
     ];
-
-    // -------------------- spray days -----------------------
-    // @todo wrap in ajax - button to add another day
 
     // Area sprayed.
     $spraying['area_sprayed'] = [
@@ -188,24 +226,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
       '#options' => $hazard_options,
       '#required' => TRUE,
-    ];
-
-    // PPE.
-    $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
-    $spraying['ppe'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('PPE'),
-      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
-      '#options' => $ppe_option_values,
-    ];
-
-    // Knapsack Operator checklist - checkboxes - required.
-    $spraying['knapsack_operator_checklist'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Knapsack operator checklist'),
-      '#description' => $this->t('An additional set of Health and Safety checks specifically for knapsack spraying which need to be marked off by the operator, as per Red Tractor Guidelines.'),
-      '#options' => ['completed' => 'Completed'],
-      '#required' => FALSE,
     ];
 
     // Plant growth stage.
@@ -366,15 +386,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // COSSH Hazard Assessments - checkboxes - required - second instance.
-    $spraying['cossh_hazard_assessments_2'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('COSSH Hazard Assessments'),
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
-      '#options' => $hazard_options,
-      '#required' => TRUE,
-    ];
-
     // Seed labels - file picker - optional.
     // @todo Determine the final file upload location.
     $spraying['seed_labels'] = [
@@ -391,7 +402,44 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the spraying tab and fields to the form.
     $form['spraying'] = $spraying;
 
+    // COSSH Hazard Assessments - checkboxes - required - second instance.
+    $health_and_safety['cossh_hazard_assessments_2'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('COSSH Hazard Assessments'),
+      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
+      '#options' => $hazard_options,
+      '#required' => TRUE,
+    ];
+
+    // PPE.
+    $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
+    $health_and_safety['ppe'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('PPE'),
+      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
+      '#options' => $ppe_option_values,
+    ];
+
+    // Knapsack Operator checklist - checkboxes - required.
+    $health_and_safety['knapsack_operator_checklist'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Knapsack operator checklist'),
+      '#description' => $this->t('An additional set of Health and Safety checks specifically for knapsack spraying which need to be marked off by the operator, as per Red Tractor Guidelines.'),
+      '#options' => ['completed' => 'Completed'],
+      '#required' => FALSE,
+    ];
+
+    // Add the health and safety tab and fields to the form.
+    $form['health_and_safety'] = $health_and_safety;
+
     return $form;
+  }
+
+  /**
+   * Form ajax function for product quick form products.
+   */
+  public function productsCallback(array $form, FormStateInterface $form_state) {
+    return $form['spraying']['sprayed_products']['products'];
   }
 
 }
