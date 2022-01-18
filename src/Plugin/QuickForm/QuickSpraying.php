@@ -146,7 +146,7 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Create a wrapper around all spraying day fields, for AJAX replacement.
     $spraying['sprayed_days']['days'] = [
-      '#prefix' => '<div id="farm-rothamsted-spraying-products">',
+      '#prefix' => '<div id="farm-rothamsted-spraying-days">',
       '#suffix' => '</div>',
     ];
 
@@ -155,6 +155,13 @@ class QuickSpraying extends QuickExperimentFormBase {
     $quantities = $form_state->getValue('spray_day_count', 1);
     for ($i = 0; $i < $quantities; $i++) {
 
+      // Fieldset for each day.
+      $spraying['sprayed_days']['days'][$i] = [
+        '#type' => 'details',
+        '#title' => $this->t('Day @number', ['@number' => $i + 1]),
+        '#collapsible' => TRUE,
+        '#open' => TRUE,
+      ];
       // Area sprayed.
       $spraying['sprayed_days']['days'][$i]['area_sprayed'] = [
         '#type' => 'number',
