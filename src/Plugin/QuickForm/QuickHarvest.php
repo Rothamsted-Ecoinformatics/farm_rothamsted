@@ -113,64 +113,31 @@ class QuickHarvest extends QuickExperimentFormBase {
         '#field_suffix' => $this->t('%'),
         '#required' => FALSE,
       ];
-
-      // Number of samples.
-      $harvest['trailor_batch']['batches'][$i]['number_of_samples'] = [
-        '#type' => 'number',
-        '#title' => $this->t('Number of samples'),
-        '#description' => $this->t('The number of yield samples requested for analysis.'),
-        '#required' => FALSE,
-      ];
     }
 
-    // Harvest bin count.
-    $harvest['harvest_bin']['bin_count'] = [
-      '#type' => 'select',
-      '#title' => $this->t('How many Harvest bins are associated with this harvest?'),
-      '#options' => array_combine(range(1, 5), range(1, 5)),
-      '#default_value' => 1,
-      '#ajax' => [
-        'callback' => [$this, 'harvestBinsCallback'],
-        'event' => 'change',
-        'wrapper' => 'farm-rothamsted-harvest-bins',
-      ],
+    // Number of samples.
+    $harvest['number_of_samples'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Number of samples'),
+      '#description' => $this->t('The number of yield samples requested for analysis.'),
+      '#required' => FALSE,
     ];
 
-    // Create a wrapper around all harvest bin fields, for AJAX replacement.
-    $harvest['harvest_bin']['bins'] = [
-      '#prefix' => '<div id="farm-rothamsted-harvest-bins">',
-      '#suffix' => '</div>',
+    // Harvest lot number.
+    $harvest['harvest_lot_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Harvest lot number'),
+      '#description' => $this->t('The RRES harvest number, where applicable.'),
+      '#required' => FALSE,
     ];
 
-    // Add fields for each harvest bin.
-    $harvest['harvest_bin']['bins']['#tree'] = TRUE;
-    $quantities = $form_state->getValue('bin_count', 1);
-    for ($i = 0; $i < $quantities; $i++) {
-
-      // Fieldset for each bin.
-      $harvest['harvest_bin']['bins'][$i] = [
-        '#type' => 'details',
-        '#title' => $this->t('Bin @number', ['@number' => $i + 1]),
-        '#collapsible' => TRUE,
-        '#open' => TRUE,
-      ];
-
-      // Harvest lot number.
-      $harvest['harvest_bin']['bins'][$i]['harvest_lot_number'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Harvest lot number'),
-        '#description' => $this->t('The RRES harvest number, where applicable.'),
-        '#required' => FALSE,
-      ];
-
-      // Condition of the grain at storage.
-      $harvest['harvest_bin']['bins'][$i]['grain_storage_condition'] = [
-        '#type' => 'textarea',
-        '#title' => $this->t('Condition of the grain at storage'),
-        '#description' => $this->t('The RRES harvest number, where applicable.'),
-        '#required' => FALSE,
-      ];
-    }
+    // Condition of the grain at storage.
+    $harvest['grain_storage_condition'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Condition of the grain at storage'),
+      '#description' => $this->t('The RRES harvest number, where applicable.'),
+      '#required' => FALSE,
+    ];
 
     // Add the harvest tab and fields to the form.
     $form['harvest'] = $harvest;
@@ -196,13 +163,6 @@ class QuickHarvest extends QuickExperimentFormBase {
    */
   public function trailorBatchesCallback(array $form, FormStateInterface $form_state) {
     return $form['harvest']['trailor_batch']['batches'];
-  }
-
-  /**
-   * Form ajax function for harvest quick form bins.
-   */
-  public function harvestBinsCallback(array $form, FormStateInterface $form_state) {
-    return $form['harvest']['harvest_bin']['bins'];
   }
 
   /**
