@@ -113,18 +113,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Load prepopulated assets.
-    $plots = $this->getPrepopulatedEntities('asset');
-    $default_plots = implode(', ', array_map(function (AssetInterface $asset) {
-      return $asset->label();
-    }, $plots));
+    $default_assets = $this->getPrepopulatedEntities('asset');
 
     // Asset field.
+    // @todo Decide on a widget for selecting assets.
     $form['setup']['asset'] = [
-      '#type' => 'textfield',
+      '#type' => 'entity_autocomplete',
       '#title' => $this->t('Assets'),
       '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments.'),
-      // @todo Decide on a widget for selecting assets.
-      '#default_value' => $default_plots ?: 'TBD',
+      '#target_type' => 'asset',
+      '#selection_settings' => [
+        'target_bundles' => ['plot', 'plant'],
+      ],
+      '#tags' => TRUE,
+      '#default_value' => $default_assets,
       '#required' => TRUE,
     ];
 
