@@ -342,7 +342,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Load the group members.
     $groups = $asset_storage->loadMultiple($group_ids);
-    $group_members = $this->groupMembership->getGroupMembers($groups, TRUE);
+    // @todo Do not recurse until issue 3259245 is fixed.
+    $group_members = $this->groupMembership->getGroupMembers($groups, FALSE);
 
     // If specified, filter group members to a single asset type.
     if (!empty($asset_type)) {
