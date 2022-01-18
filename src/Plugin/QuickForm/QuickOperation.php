@@ -26,6 +26,11 @@ class QuickOperation extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $logType = 'activity';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**

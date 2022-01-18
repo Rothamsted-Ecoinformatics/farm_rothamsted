@@ -25,6 +25,11 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $logType = 'harvest';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**

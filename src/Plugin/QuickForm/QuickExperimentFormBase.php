@@ -36,6 +36,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $groupMembership;
 
   /**
+   * ID of log type the quick form creates.
+   *
+   * @var string
+   */
+  protected $logType;
+
+  /**
    * Boolean indicating if the quick form should have a tractor field.
    *
    * @var bool
