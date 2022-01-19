@@ -170,11 +170,4 @@ class QuickHarvest extends QuickExperimentFormBase {
     return $form['harvest']['trailor_batch']['batches'];
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
-  }
-
 }
