@@ -280,7 +280,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['operation']['users'] = [
+    $form['operation']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
@@ -514,6 +514,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'timestamp' => $form_state->getValue('timestamp')->getTimestamp(),
       'asset' => $form_state->getValue('asset'),
       'flag' => $form_state->getValue('flag'),
+      'owner' => $form_state->getValue('owner'),
     ];
 
     // Add equipment references.
@@ -531,7 +532,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Paper records.
     // Notes.
     // Equipment settings.
-    // Operator.
 
     return $log;
   }
