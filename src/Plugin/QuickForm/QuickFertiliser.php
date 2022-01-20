@@ -108,7 +108,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#description' => $this->t('The product used.'),
         '#options' => $product_type_options,
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
 
       // Nutrient form placeholder.
@@ -118,7 +117,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#description' => $this->t('The nutrients contained in the product.'),
         '#placeholder' => $this->t('TBD'),
         '#required' => FALSE,
-        '#weight' => ++$weight,
       ];
 
       // Nutrient content - text - optional.
@@ -126,7 +124,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#type' => 'textfield',
         '#title' => $this->t('Nutrient content (%)'),
         '#description' => $this->t('The proportion of the mineral in the product.'),
-        '#weight' => ++$weight,
       ];
 
       // Nutrient application rate - number - required.
@@ -135,7 +132,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Nutrient application rate'),
         '#description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
         '#required' => FALSE,
-        '#weight' => ++$weight,
       ];
 
       // Build application rate units options from units / spray taxonomy.
@@ -147,7 +143,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Nutrient application rate units'),
         '#options' => $application_rate_units_options,
         '#required' => FALSE,
-        '#weight' => ++$weight,
       ];
 
       // Product application rate - number - required.
@@ -156,7 +151,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Product application rate'),
         '#description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
 
       // Product application rate - select - required.
@@ -165,7 +159,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Product application rate units'),
         '#options' => $application_rate_units_options,
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
 
       // Product area - number - required.
@@ -174,7 +167,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Product area'),
         '#description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
 
       // Product volume - number - required.
@@ -183,7 +175,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Product volume'),
         '#description' => $this->t('The total amount of product required to cover the field area(s).'),
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
 
       // Build volume units options from units / volume taxonomy.
@@ -197,12 +188,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#title' => $this->t('Product volume units'),
         '#options' => $application_volume_units_options,
         '#required' => TRUE,
-        '#weight' => ++$weight,
       ];
     }
-
-    // The following fields come after the recommendation fields.
-    $weight = 15;
 
     // Build hazard options.
     // @todo Determine way to define hazard options. See issue #64.
@@ -215,7 +202,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply.'),
       '#options' => $hazard_options,
       '#required' => TRUE,
-      '#weight' => ++$weight,
     ];
 
     // Add the fertiliser tab and fields to the form.
