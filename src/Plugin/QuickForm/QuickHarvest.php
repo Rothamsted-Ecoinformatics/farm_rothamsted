@@ -156,7 +156,8 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf png gif jpg jpeg'],
       ],
-      '#required' => FALSE,
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     return $form;

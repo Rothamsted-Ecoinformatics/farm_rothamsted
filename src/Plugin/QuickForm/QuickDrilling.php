@@ -298,6 +298,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg'],
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
       '#required' => TRUE,
     ];
 

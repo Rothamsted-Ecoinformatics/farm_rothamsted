@@ -180,6 +180,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Scheduled date and time.
@@ -249,6 +251,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['png gif jpg jpeg'],
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Photographs of paper records.
@@ -260,6 +264,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf png gif jpg jpeg'],
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Log notes.
