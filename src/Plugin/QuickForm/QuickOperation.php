@@ -44,6 +44,14 @@ class QuickOperation extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Operations tab.
+    $operations = [
+      '#type' => 'details',
+      '#title' => $this->t('Operations'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // Build associate arrays of task options.
     $grass_harvest_options = [
       $this->t('Mowing'),
@@ -87,7 +95,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Add a select element for the operation task.
-    $form['operation_task'] = [
+    $operations['operation_task'] = [
       '#type' => 'select',
       '#title' => $this->t('Task'),
       '#options' => $operation_task_options,
@@ -95,7 +103,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Depth worked.
-    $form['depth'] = [
+    $operations['depth'] = [
       '#type' => 'number',
       '#title' => $this->t('Depth worked (centimeters)'),
       '#description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
@@ -117,7 +125,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Direction of work (driven).
-    $form['direction'] = [
+    $operations['direction'] = [
       '#type' => 'select',
       '#title' => $this->t('Direction of work (driven)'),
       '#options' => array_combine($direction_options, $direction_options),
@@ -125,12 +133,15 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Plough thrown (if applicable).
-    $form['thrown'] = [
+    $operations['thrown'] = [
       '#type' => 'select',
       '#title' => $this->t('Plough thrown (if applicable)'),
       '#options' => array_combine($direction_options, $direction_options),
       '#weight' => 13,
     ];
+
+    // Add the operations tab and fields to the form.
+    $form['operations'] = $operations;
 
     return $form;
   }
