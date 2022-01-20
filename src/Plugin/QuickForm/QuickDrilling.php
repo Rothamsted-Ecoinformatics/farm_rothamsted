@@ -289,13 +289,12 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Seed labels - file picker - optional.
-    // @todo Determine the final file upload location.
+    // Seed labels.
     $drilling['seed_labels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Seed labels'),
       '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
-      '#upload_location' => 'private://quick',
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => ['jpg jpeg'],
       ],
@@ -306,6 +305,14 @@ class QuickDrilling extends QuickExperimentFormBase {
     $form['drilling'] = $drilling;
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
+    $field_keys[] = 'seed_labels';
+    return parent::getImageIds($field_keys, $form_state);
   }
 
 }

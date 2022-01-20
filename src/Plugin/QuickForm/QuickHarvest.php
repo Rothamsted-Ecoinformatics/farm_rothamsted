@@ -148,12 +148,11 @@ class QuickHarvest extends QuickExperimentFormBase {
     $form['harvest'] = $harvest;
 
     // Digital harvest records.
-    // @todo Determine the final file upload location.
     $form['operation']['digital_harvest_records'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Digital harvest record(s)'),
       '#description' => $this->t('An upload of any digital harvest records, where applicable.'),
-      '#upload_location' => 'private://quick',
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf png gif jpg jpeg'],
       ],
@@ -168,6 +167,14 @@ class QuickHarvest extends QuickExperimentFormBase {
    */
   public function trailorBatchesCallback(array $form, FormStateInterface $form_state) {
     return $form['harvest']['trailor_batch']['batches'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
+    $field_keys[] = 'digital_harvest_records';
+    return parent::getImageIds($field_keys, $form_state);
   }
 
 }
