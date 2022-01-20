@@ -561,6 +561,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $machinery = array_filter($form_state->getValue('machinery'));
     $log['equipment'] = [...$machinery, $tractor];
 
+    // Files.
+    $file_fields = ['recommendation_files'];
+    $log['file'] = $this->getFileIds($file_fields, $form_state);
+
+    // Images.
+    $image_fields = ['crop_photographs', 'photographs_of_paper_records'];
+    $log['image'] = $this->getImageIds($image_fields, $form_state);
+
     // Notes.
     // Define note fields to add.
     $note_fields = [];
@@ -581,12 +589,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $log['notes'] = $this->prepareNotes($note_fields, $form_state);
 
     // @todo Include remaining base form fields.
-    // Recommendation files.
     // Tractor hours.
     // Time taken.
     // Fuel use.
-    // Crop photographs.
-    // Paper records.
 
     return $log;
   }
@@ -620,6 +625,73 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'value' => implode(PHP_EOL, $notes),
       'format' => 'default',
     ];
+  }
+
+  /**
+   * Helper function to get file entity ids to reference in the log file field.
+   *
+   * This function should be implemented by quick form subclasses that provide
+   * additional files.
+   *
+   * @param array $field_keys
+   *   The form field keys to include.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of file entity ids.
+   */
+  protected function getFileIds(array $field_keys, FormStateInterface $form_state) {
+    return $this->getSubmittedFileIds($field_keys, $form_state);
+  }
+
+  /**
+   * Helper function to get file entity ids to reference in the log image field.
+   *
+   * This function should be implemented by quick form subclasses that provide
+   * additional images.
+   *
+   * @param array $field_keys
+   *   The form field keys to include.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of file entity ids.
+   */
+  protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
+    return $this->getSubmittedFileIds($field_keys, $form_state);
+  }
+
+  /**
+   * Helper function to get file entity ids from managed_file form elements.
+   *
+   * @param array $field_keys
+   *   The form field keys to include.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of file entity ids.
+   */
+  protected function getSubmittedFileIds(array $field_keys, FormStateInterface $form_state) {
+
+    // Collect the uploaded file ids for each form field.
+    $file_ids = array_map(function ($field_key) use ($form_state) {
+
+      // Get submitted value.
+      $value = $form_state->getValue($field_key);
+
+      // If multiple files are uploaded than use the 'fids' key.
+      $fids = [];
+      if (!empty($value) && is_array($value)) {
+        $fids = $value['fids'] ?? $value;
+      }
+      return $fids;
+    }, $field_keys);
+
+    // Merge file ids into a single array.
+    return array_merge(...$file_ids);
   }
 
 }
