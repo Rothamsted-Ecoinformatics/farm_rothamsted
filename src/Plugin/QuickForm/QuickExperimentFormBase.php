@@ -522,18 +522,65 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $machinery = array_filter($form_state->getValue('machinery'));
     $log['equipment'] = [...$machinery, $tractor];
 
+    // Notes.
+    // Define note fields to add.
+    $note_fields = [];
+    $note_fields[] = [
+      'key' => 'recommendation_number',
+      'label' => $this->t('Recommendation Number'),
+    ];
+    $note_fields[] = [
+      'key' => 'equipment_settings',
+      'label' => $this->t('Equipment Settings'),
+    ];
+    $note_fields[] = [
+      'key' => 'notes',
+      'label' => $this->t('Additional notes'),
+    ];
+
+    // Prepare notes and split onto separate lines.
+    $log['notes'] = $this->prepareNotes($note_fields, $form_state);
+
     // @todo Include remaining base form fields.
-    // Recommendation number.
     // Recommendation files.
     // Tractor hours.
     // Time taken.
     // Fuel use.
     // Crop photographs.
     // Paper records.
-    // Notes.
-    // Equipment settings.
 
     return $log;
+  }
+
+  /**
+   * Helper function to prepare an array of form fields for the log notes.
+   *
+   * @param array $note_fields
+   *   An array of arrays defining form field keys and labels.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   The value to assign to the log notes field.
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+
+    // Start an array of note strings.
+    $notes = [];
+
+    // Build note string.
+    foreach ($note_fields as $field_info) {
+      $key = $field_info['key'] ?? NULL;
+      if (!empty($key) && $form_state->hasValue($key) && !$form_state->isValueEmpty($key)) {
+        $notes[] = $field_info['label'] . ': ' . $form_state->getValue($key);
+      }
+    }
+
+    // Split notes onto separate lines.
+    return [
+      'value' => implode(PHP_EOL, $notes),
+      'format' => 'default',
+    ];
   }
 
 }
