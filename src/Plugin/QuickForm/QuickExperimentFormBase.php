@@ -3,6 +3,7 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -171,12 +172,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Recommendation files - file picker - optional.
-    // @todo Determine the final file upload location.
     $form['setup']['recommendation_files'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
       '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
-      '#upload_location' => 'private://quick',
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
       ],
@@ -241,24 +241,22 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Crop Photographs.
-    // @todo Determine the final file upload location.
     $form['operation']['crop_photographs'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Crop Photograph(s)'),
       '#description' => $this->t('A photograph of the crop, if applicable.'),
-      '#upload_location' => 'private://quick',
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => ['png gif jpg jpeg'],
       ],
     ];
 
     // Photographs of paper records.
-    // @todo Determine the final file upload location.
     $form['operation']['photographs_of_paper_records'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Photographs of paper record(s)'),
       '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
-      '#upload_location' => 'private://quick',
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => ['pdf png gif jpg jpeg'],
       ],
@@ -490,6 +488,47 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     natsort($user_options);
 
     return $user_options;
+  }
+
+  /**
+   * Helper function to get the managed_file upload location.
+   *
+   * @param string $entity_type
+   *   The entity type id.
+   * @param string $bundle
+   *   The bundle id.
+   * @param string $field_id
+   *   The file field id.
+   *
+   * @return string
+   *   The upload location uri.
+   */
+  protected function getFileUploadLocation(string $entity_type, string $bundle, string $field_id): string {
+
+    /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
+    $field_manager = \Drupal::service('entity_field.manager');
+
+    // Get field definitions.
+    $field_definitions = $field_manager->getFieldDefinitions($entity_type, $bundle);
+
+    // Bail if no field definition exists.
+    // @todo Should we default to a standard location?
+    if (empty($field_definitions[$field_id]) || !in_array($field_definitions[$field_id]->getType(), ['file', 'image'])) {
+      return 'farm/quick';
+    }
+
+    // Get the field definition settings.
+    $field_definition = $field_definitions[$field_id];
+    $settings = $field_definition->getSettings();
+
+    // The following is copied from FileItem::getUploadLocation().
+    // We cannot use that method without instantiating a file entity.
+    $destination = trim($settings['file_directory'], '/');
+
+    // Replace tokens. As the tokens might contain HTML we convert it to plain
+    // text.
+    $destination = PlainTextOutput::renderFromHtml(\Drupal::token()->replace($destination, []));
+    return $settings['uri_scheme'] . '://' . $destination;
   }
 
   /**
