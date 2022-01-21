@@ -220,19 +220,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Build hazard options.
-    // @todo Determine way to define hazard options. See issue #64.
-    $hazard_options = ['explosive' => 'explosive'];
-
-    // COSSH Hazard Assessments - checkboxes - required.
-    $spraying['cossh_hazard_assessments'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('COSSH Hazard Assessments'),
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
-      '#options' => $hazard_options,
-      '#required' => TRUE,
-    ];
-
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
       '#type' => 'textfield',
@@ -408,12 +395,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the spraying tab and fields to the form.
     $form['spraying'] = $spraying;
 
-    // COSSH Hazard Assessments - checkboxes - required - second instance.
-    $health_and_safety['cossh_hazard_assessments_2'] = [
+    // COSSH Hazard Assessments.
+    $health_and_safety['cossh_hazard'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply. The list can be expanded or amended in the Log categories taxonomy.'),
-      '#options' => $hazard_options,
+      '#description' => $this->t('The COSHH assessments which need to be considered.'),
+      '#options' => farm_rothamsted_cossh_hazard_options(),
       '#required' => TRUE,
     ];
 
@@ -454,6 +441,18 @@ class QuickSpraying extends QuickExperimentFormBase {
   protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
     $field_keys[] = 'seed_labels';
     return parent::getImageIds($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // COSSH Hazard Assessments.
+    $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
+
+    return $log;
   }
 
 }

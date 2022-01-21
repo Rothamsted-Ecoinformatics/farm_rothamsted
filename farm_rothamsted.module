@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted.module.
+ */
+
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+
+/**
+ * Implements hook_farm_entity_bundle_field_info().
+ */
+function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
+  $fields = [];
+
+  // Add fields to input logs.
+  if ($entity_type->id() === 'log' && $bundle === 'input') {
+    $options = [
+      'type' => 'list_string',
+      'label' => t('COSSH Hazard Assessments'),
+      'description' => t('The COSHH assessments which need to be considered when handling fertilisers.'),
+      'allowed_values_function' => 'farm_rothamsted_cossh_hazard_field_allowed_values',
+      'multiple' => TRUE,
+      'weight' => [
+        'form' => -50,
+        'view' => -50,
+      ],
+    ];
+    $fields['cossh_hazard'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+  }
+
+  return $fields;
+}
+
+/**
+ * Defines the cossh hazard assessments options.
+ *
+ * @return array
+ *   The cossh hazard options.
+ */
+function farm_rothamsted_cossh_hazard_options() {
+  return [
+    'explosive' => t('Explosive'),
+    'oxidising' => t('Oxidising'),
+    'flammable' => t('Flammable'),
+    'highly_flammable' => t('Highly Flammable'),
+    'extremely_flammable' => t('Extremely Flammable'),
+    'harmful' => t('Harmful'),
+    'irritant' => t('Irritant'),
+    'corrosive' => t('Corrosive'),
+    'toxic' => t('Toxic'),
+    'danger_to_environment' => t('Danger to Environment'),
+    'carcinogenic' => t('Carcinogenic'),
+    'mutagenic' => t('Mutagenic'),
+    'toxic_for_reproduction' => t('Toxic for Reproduction'),
+    'sensitising' => t('Sensitising'),
+  ];
+}
+
+/**
+ * Allowed values callback function for the cossh hazards field.
+ *
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ *   The field storage definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the allowed values can be cached. Defaults to TRUE.
+ *
+ * @return array
+ *   Returns an array of allowed values for use in form select options.
+ */
+function farm_rothamsted_cossh_hazard_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+  return farm_rothamsted_cossh_hazard_options();
+}

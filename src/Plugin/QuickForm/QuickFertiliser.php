@@ -191,16 +191,12 @@ class QuickFertiliser extends QuickExperimentFormBase {
       ];
     }
 
-    // Build hazard options.
-    // @todo Determine way to define hazard options. See issue #64.
-    $hazard_options = [];
-
-    // COSSH Hazard Assessments - checkboxes - required.
-    $health_and_safety['cossh_hazard_assessments'] = [
+    // COSSH Hazard Assessments.
+    $health_and_safety['cossh_hazard'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('COSSH Hazard Assessments'),
-      '#description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers. Select all that apply.'),
-      '#options' => $hazard_options,
+      '#description' => $this->t('The COSHH assessments which need to be considered.'),
+      '#options' => farm_rothamsted_cossh_hazard_options(),
       '#required' => TRUE,
     ];
 
@@ -218,6 +214,18 @@ class QuickFertiliser extends QuickExperimentFormBase {
    */
   public function nutrientCallback(array $form, FormStateInterface $form_state) {
     return $form['fertiliser']['nutrient_input']['nutrients'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // COSSH Hazard Assessments.
+    $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
+
+    return $log;
   }
 
 }
