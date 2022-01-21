@@ -73,6 +73,7 @@ function farm_rothamsted_cossh_hazard_options() {
     'mutagenic' => t('Mutagenic'),
     'toxic_for_reproduction' => t('Toxic for Reproduction'),
     'sensitising' => t('Sensitising'),
+    'none' => t('None'),
   ];
 }
 
