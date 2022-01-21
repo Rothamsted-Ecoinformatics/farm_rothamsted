@@ -405,12 +405,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // PPE.
-    $ppe_option_values = $this->getChildTermOptions('log_category', 'PPE');
     $health_and_safety['ppe'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('PPE'),
-      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used. The list can be expanded or amended in the Log Categories taxonomy.'),
-      '#options' => $ppe_option_values,
+      '#description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used.'),
+      '#options' => farm_rothamsted_ppe_options(),
+      '#required' => TRUE,
     ];
 
     // Knapsack Operator checklist - checkboxes - required.
@@ -451,6 +451,9 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // COSSH Hazard Assessments.
     $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
+
+    // PPE.
+    $log['ppe'] = array_values(array_filter($form_state->getValue('ppe')));
 
     return $log;
   }

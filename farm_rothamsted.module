@@ -17,6 +17,8 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
 
   // Add fields to input logs.
   if ($entity_type->id() === 'log' && $bundle === 'input') {
+
+    // Add COSSH Hazard field.
     $options = [
       'type' => 'list_string',
       'label' => t('COSSH Hazard Assessments'),
@@ -29,6 +31,21 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
       ],
     ];
     $fields['cossh_hazard'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+
+    // Add PPE field.
+    $options = [
+      'type' => 'list_string',
+      'label' => t('PPE'),
+      'description' => t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used.'),
+      'allowed_values_function' => 'farm_rothamsted_ppe_field_allowed_values',
+      'multiple' => TRUE,
+      'weight' => [
+        'form' => -50,
+        'view' => -50,
+      ],
+    ];
+    $fields['ppe'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+
   }
 
   return $fields;
@@ -57,6 +74,38 @@ function farm_rothamsted_cossh_hazard_options() {
     'toxic_for_reproduction' => t('Toxic for Reproduction'),
     'sensitising' => t('Sensitising'),
   ];
+}
+
+/**
+ * Defines the ppe options.
+ *
+ * @return array
+ *   The ppe options.
+ */
+function farm_rothamsted_ppe_options() {
+  return [
+    'face_shield' => t('Face Shield'),
+    'coveralls' => t('Coveralls'),
+    'gloves' => t('Gloves'),
+    'apron' => t('Apron'),
+  ];
+}
+
+/**
+ * Allowed values callback function for the ppe field.
+ *
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ *   The field storage definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the allowed values can be cached. Defaults to TRUE.
+ *
+ * @return array
+ *   Returns an array of allowed values for use in form select options.
+ */
+function farm_rothamsted_ppe_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+  return farm_rothamsted_ppe_options();
 }
 
 /**
