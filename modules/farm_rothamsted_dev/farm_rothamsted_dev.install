@@ -50,6 +50,11 @@ function farm_rothamsted_dev_install() {
     'log_category' => [
       'PPE' => ['Face Shield', 'Coveralls', 'Gloves', 'Apron'],
     ],
+    'plant_type' => [
+      'Corn' => [],
+      'Beans' => [],
+      'Wheat' => [],
+    ],
   ];
 
   // Loop through each vocabulary.
@@ -121,5 +126,26 @@ function farm_rothamsted_dev_install() {
       'status' => 'done',
     ]);
     $group_assignment_log->save();
+  }
+
+  // Commercial Plant Assets.
+  $plants = [
+    'Commercial Corn' => 'Corn',
+    'Commercial Wheat' => 'Wheat',
+  ];
+  foreach ($plants as $plant_name => $plant_type) {
+
+    // Find the plant_type term.
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+      'name' => $plant_type,
+    ]);
+
+    // Create plant asset.
+    $asset = Asset::create([
+      'type' => 'plant',
+      'name' => $plant_name,
+      'plant_type' => reset($terms),
+    ]);
+    $asset->save();
   }
 }
