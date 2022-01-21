@@ -25,6 +25,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   use QuickLogTrait;
 
   /**
+   * The valid file extensions.
+   *
+   * @var string[]
+   */
+  protected static array $validFileExtensions = ['pdf doc docx csv xls xlsx'];
+
+  /**
+   * The valid image file extensions.
+   *
+   * @var string[]
+   */
+  protected static array $validImageExtensions = ['png gif jpg jpeg'];
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -171,15 +185,17 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
     ];
 
-    // Recommendation files - file picker - optional.
+    // Recommendation files.
     $form['setup']['recommendation_files'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
       '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['pdf doc docx csv xls xlsx'],
+        'file_validate_extensions' => self::$validFileExtensions,
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Scheduled date and time.
@@ -247,8 +263,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('A photograph of the crop, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['png gif jpg jpeg'],
+        'file_validate_extensions' => self::$validImageExtensions,
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Photographs of paper records.
@@ -258,8 +276,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['pdf png gif jpg jpeg'],
+        'file_validate_extensions' => self::$validImageExtensions,
       ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
     ];
 
     // Log notes.
