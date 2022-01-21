@@ -398,7 +398,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['jpg jpeg'],
+        'file_validate_extensions' => self::$validImageExtensions,
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,

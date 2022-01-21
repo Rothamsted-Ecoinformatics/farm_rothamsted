@@ -154,7 +154,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#description' => $this->t('An upload of any digital harvest records, where applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['pdf png gif jpg jpeg'],
+        'file_validate_extensions' => self::$validImageExtensions,
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,
