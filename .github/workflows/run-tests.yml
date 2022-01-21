@@ -29,3 +29,5 @@ jobs:
         run: docker-compose exec -u www-data -T www phpcs /opt/drupal/web/modules/custom --exclude=DrupalPractice.InfoFiles.NamespacedDependency
       - name: Test installing farm_rothamsted
         run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted -y"
+      - name: Test installing farm_rothamsted_dev
+        run: docker-compose exec -u www-data -T www bash -c "drush en farm_rothamsted_dev -y"
