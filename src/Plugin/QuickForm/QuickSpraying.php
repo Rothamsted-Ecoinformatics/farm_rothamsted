@@ -64,6 +64,14 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Operations tab.
+    $operations = [
+      '#type' => 'details',
+      '#title' => $this->t('Operations'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // Health & safety tab.
     $health_and_safety = [
       '#type' => 'details',
@@ -254,28 +262,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
     ];
 
-    // Speed driven.
-    $spraying['speed_driven'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Speed driven'),
-      '#description' => $this->t('The travelling speed when spraying, where relevant.'),
-      '#required' => FALSE,
-    ];
-
-    // Speed driven units options.
-    $speed_driven_units_options = [
-      'mph' => 'mph',
-      'kmh' => 'km/h',
-    ];
-
-    // Speed driven units.
-    $spraying['speed_driven_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Speed driven units'),
-      '#description' => $this->t('The speed driven units.'),
-      '#options' => $speed_driven_units_options,
-    ];
-
     // Pressure - number.
     $spraying['pressure'] = [
       '#type' => 'number',
@@ -458,6 +444,31 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Add the weather tab and fields to the form.
     $form['weather'] = $weather;
+
+    // Speed driven.
+    $operations['speed_driven'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Speed driven'),
+      '#description' => $this->t('The travelling speed when spraying, where relevant.'),
+      '#required' => FALSE,
+    ];
+
+    // Speed driven units options.
+    $speed_driven_units_options = [
+      'mph' => 'mph',
+      'kmh' => 'km/h',
+    ];
+
+    // Speed driven units.
+    $operations['speed_driven_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Speed driven units'),
+      '#description' => $this->t('The speed driven units.'),
+      '#options' => $speed_driven_units_options,
+    ];
+
+    // Add the operations tab and fields to the form.
+    $form['operations'] = $operations;
 
     return $form;
   }
