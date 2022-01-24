@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @QuickForm(
  *   id = "farm_rothamsted_cultivation_quick_form",
- *   label = @Translation("Operations"),
+ *   label = @Translation("Field operations"),
  *   description = @Translation("Create operation records."),
  *   helpText = @Translation("Use this form to record operation records."),
  *   permissions = {
