@@ -48,6 +48,22 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Tank tab.
+    $tank = [
+      '#type' => 'details',
+      '#title' => $this->t('Tank'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
+    // Weather tab.
+    $weather = [
+      '#type' => 'details',
+      '#title' => $this->t('Weather'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // Health & safety tab.
     $health_and_safety = [
       '#type' => 'details',
@@ -238,81 +254,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
     ];
 
-    // Wind speed.
-    $spraying['wind_speed'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Wind speed'),
-      '#description' => $this->t('The maximum wind speed during spraying.'),
-      '#required' => TRUE,
-    ];
-
-    // Wind speed units options.
-    $wind_speed_units_options = [
-      '' => '- Select -',
-      'kph' => 'kph',
-    ];
-
-    // Wind speed units.
-    $spraying['wind_speed_units'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Wind speed units'),
-      '#options' => $wind_speed_units_options,
-    ];
-
-    // Wind direction.
-    $wind_directions = [
-      $this->t('North'),
-      $this->t('South'),
-      $this->t('East'),
-      $this->t('West'),
-      $this->t('North East'),
-      $this->t('North West'),
-      $this->t('South East'),
-      $this->t('South West'),
-    ];
-    $wind_direction_options = array_combine($wind_directions, $wind_directions);
-    $spraying['wind_direction'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Wind direction'),
-      '#description' => $this->t('The dominant wind direction during spraying.'),
-      '#options' => $wind_direction_options,
-      '#required' => TRUE,
-    ];
-
-    // Temperature (Degrees C).
-    $spraying['temperature'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Temperature (C)'),
-      '#description' => $this->t('The average temperature during spraying.'),
-      '#field_suffix' => $this->t('C'),
-      '#required' => TRUE,
-    ];
-
-    // Weather types.
-    $weather_types = [
-      $this->t('Cloudy'),
-      $this->t('Partially cloudy'),
-      $this->t('Clear'),
-      $this->t('Dry'),
-      $this->t('Light rain'),
-      $this->t('Heavy rain'),
-      $this->t('Snow'),
-      $this->t('Ice'),
-      $this->t('Frost'),
-      $this->t('Thunderstorms'),
-    ];
-    $weather_types_options = array_combine($weather_types, $weather_types);
-
-    // Weather.
-    $spraying['weather'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Weather'),
-      '#description' => $this->t('The dominant weather conditions during spraying.'),
-      '#options' => $weather_types_options,
-      '#multiple' => TRUE,
-      '#required' => TRUE,
-    ];
-
     // Speed driven.
     $spraying['speed_driven'] = [
       '#type' => 'number',
@@ -342,52 +283,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
       '#field_suffix' => $this->t('bar'),
       '#required' => FALSE,
-    ];
-
-    // Tank mix ID.
-    $spraying['tank_mix_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Tank mix ID'),
-      '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
-      '#required' => FALSE,
-    ];
-
-    // Tank volume remaining.
-    $spraying['tank_volume_remaining'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Tank volume remaining'),
-      '#description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
-      '#required' => FALSE,
-    ];
-
-    // Tank volume remaining units options.
-    $tank_volume_ramaining_units_options = [
-      'l' => 'l',
-      'gal' => 'gal',
-    ];
-
-    // Tank volume remaining units.
-    $spraying['tank_volume_remaining_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Tank volume remaining units'),
-      '#description' => $this->t('The tank volume remaining units.'),
-      '#options' => $tank_volume_ramaining_units_options,
-    ];
-
-    // Equipment triple Rinsed.
-    $spraying['rinsed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Equipment tripple rinsed'),
-      '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
-      '#required' => TRUE,
-    ];
-
-    // Equipment clear washed.
-    $spraying['clear_washed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Equipment clear washed'),
-      '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
-      '#required' => TRUE,
     ];
 
     // Seed labels.
@@ -436,6 +331,133 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Add the health and safety tab and fields to the form.
     $form['health_and_safety'] = $health_and_safety;
+
+    // Tank mix ID.
+    $tank['tank_mix_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Tank mix ID'),
+      '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
+      '#required' => FALSE,
+    ];
+
+    // Tank volume remaining.
+    $tank['tank_volume_remaining'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Tank volume remaining'),
+      '#description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
+      '#required' => FALSE,
+    ];
+
+    // Tank volume remaining units options.
+    $tank_volume_ramaining_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+
+    // Tank volume remaining units.
+    $tank['tank_volume_remaining_units'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Tank volume remaining units'),
+      '#description' => $this->t('The tank volume remaining units.'),
+      '#options' => $tank_volume_ramaining_units_options,
+    ];
+
+    // Equipment triple Rinsed.
+    $tank['rinsed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment tripple rinsed'),
+      '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
+      '#required' => TRUE,
+    ];
+
+    // Equipment clear washed.
+    $tank['clear_washed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment clear washed'),
+      '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
+      '#required' => TRUE,
+    ];
+
+    // Add the tank tab and fields to the form.
+    $form['tank'] = $tank;
+
+    // Wind speed.
+    $weather['wind_speed'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Wind speed'),
+      '#description' => $this->t('The maximum wind speed during spraying.'),
+      '#required' => TRUE,
+    ];
+
+    // Wind speed units options.
+    $wind_speed_units_options = [
+      '' => '- Select -',
+      'kph' => 'kph',
+    ];
+
+    // Wind speed units.
+    $weather['wind_speed_units'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wind speed units'),
+      '#options' => $wind_speed_units_options,
+    ];
+
+    // Wind direction.
+    $wind_directions = [
+      $this->t('North'),
+      $this->t('South'),
+      $this->t('East'),
+      $this->t('West'),
+      $this->t('North East'),
+      $this->t('North West'),
+      $this->t('South East'),
+      $this->t('South West'),
+    ];
+    $wind_direction_options = array_combine($wind_directions, $wind_directions);
+    $weather['wind_direction'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wind direction'),
+      '#description' => $this->t('The dominant wind direction during spraying.'),
+      '#options' => $wind_direction_options,
+      '#required' => TRUE,
+    ];
+
+    // Temperature (Degrees C).
+    $weather['temperature'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Temperature (C)'),
+      '#description' => $this->t('The average temperature during spraying.'),
+      '#field_suffix' => $this->t('C'),
+      '#required' => TRUE,
+    ];
+
+    // Weather types.
+    $weather_types = [
+      $this->t('Cloudy'),
+      $this->t('Partially cloudy'),
+      $this->t('Clear'),
+      $this->t('Dry'),
+      $this->t('Light rain'),
+      $this->t('Heavy rain'),
+      $this->t('Snow'),
+      $this->t('Ice'),
+      $this->t('Frost'),
+      $this->t('Thunderstorms'),
+    ];
+    $weather_types_options = array_combine($weather_types, $weather_types);
+
+    // Weather.
+    $weather['weather'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Weather'),
+      '#description' => $this->t('The dominant weather conditions during spraying.'),
+      '#options' => $weather_types_options,
+      '#multiple' => TRUE,
+      '#required' => TRUE,
+    ];
+
+    // Add the weather tab and fields to the form.
+    $form['weather'] = $weather;
 
     return $form;
   }
