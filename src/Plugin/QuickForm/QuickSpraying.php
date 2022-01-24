@@ -238,13 +238,25 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
     ];
 
-    // Wind speed (kph).
+    // Wind speed.
     $spraying['wind_speed'] = [
       '#type' => 'number',
-      '#title' => $this->t('Wind speed (kph)'),
+      '#title' => $this->t('Wind speed'),
       '#description' => $this->t('The maximum wind speed during spraying.'),
-      '#field_suffix' => $this->t('kph'),
       '#required' => TRUE,
+    ];
+
+    // Wind speed units options.
+    $wind_speed_units_options = [
+      '' => '- Select -',
+      'kph' => 'kph',
+    ];
+
+    // Wind speed units.
+    $spraying['wind_speed_units'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wind speed units'),
+      '#options' => $wind_speed_units_options,
     ];
 
     // Wind direction.
