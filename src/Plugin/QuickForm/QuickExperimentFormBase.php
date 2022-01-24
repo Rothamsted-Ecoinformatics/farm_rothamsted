@@ -244,13 +244,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Fuel use units options.
     $fuel_use_units_options = [
+      '' => '- Select -',
       'l' => 'l',
       'gal' => 'gal',
     ];
 
     // Tank volume remaining units.
     $form['operation']['fuel_use_units'] = [
-      '#type' => 'radios',
+      '#type' => 'select',
       '#title' => $this->t('Fuel use units'),
       '#description' => $this->t('The Fuel use units.'),
       '#options' => $fuel_use_units_options,
