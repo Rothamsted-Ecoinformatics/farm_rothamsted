@@ -47,7 +47,7 @@ class QuickOperation extends QuickExperimentFormBase {
     // Operations tab.
     $operations = [
       '#type' => 'details',
-      '#title' => $this->t('Operations'),
+      '#title' => $this->t('Task'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
