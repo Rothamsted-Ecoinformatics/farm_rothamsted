@@ -48,6 +48,14 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Operations tab.
+    $operations = [
+      '#type' => 'details',
+      '#title' => $this->t('Operations'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
     // Crop types.
     // @todo Select parent plant_type term.
     $crop_types = [
@@ -256,22 +264,6 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Farm seed lot.
-    $drilling['farm_seed_lot'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Farm seed lot'),
-      '#description' => $this->t('The seed lot number assigned by the farm.'),
-      '#required' => TRUE,
-    ];
-
-    // Supplier seed lot.
-    $drilling['supplier_seed_lot'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Supplier seed lot'),
-      '#description' => $this->t('The seed lot number provided by the supplier, if available.'),
-      '#required' => FALSE,
-    ];
-
     // Seed lineage options.
     $seed_lineage_options = [
       'red' => 'red',
@@ -289,8 +281,27 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
+    // Add the drilling tab and fields to the form.
+    $form['drilling'] = $drilling;
+
+    // Farm seed lot.
+    $operations['farm_seed_lot'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Farm seed lot'),
+      '#description' => $this->t('The seed lot number assigned by the farm.'),
+      '#required' => TRUE,
+    ];
+
+    // Supplier seed lot.
+    $operations['supplier_seed_lot'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Supplier seed lot'),
+      '#description' => $this->t('The seed lot number provided by the supplier, if available.'),
+      '#required' => FALSE,
+    ];
+
     // Seed labels.
-    $drilling['seed_labels'] = [
+    $operations['seed_labels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Seed labels'),
       '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
@@ -303,8 +314,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Add the drilling tab and fields to the form.
-    $form['drilling'] = $drilling;
+    // Add the operations tab and fields to the form.
+    $form['operations'] = $operations;
 
     return $form;
   }
