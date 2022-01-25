@@ -40,6 +40,9 @@ class QuickSpraying extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the operation tab.
+    $operation = $form['operation'];
+
     // Spraying tab.
     $spraying = [
       '#type' => 'details',
@@ -60,14 +63,6 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weather = [
       '#type' => 'details',
       '#title' => $this->t('Weather'),
-      '#group' => 'tabs',
-      '#weight' => 0,
-    ];
-
-    // Operations tab.
-    $operations = [
-      '#type' => 'details',
-      '#title' => $this->t('Operations'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -446,7 +441,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $form['weather'] = $weather;
 
     // Speed driven.
-    $operations['speed_driven'] = [
+    $operation['speed_driven'] = [
       '#type' => 'number',
       '#title' => $this->t('Speed driven'),
       '#description' => $this->t('The travelling speed when spraying, where relevant.'),
@@ -460,15 +455,15 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Speed driven units.
-    $operations['speed_driven_units'] = [
+    $operation['speed_driven_units'] = [
       '#type' => 'radios',
       '#title' => $this->t('Speed driven units'),
       '#description' => $this->t('The speed driven units.'),
       '#options' => $speed_driven_units_options,
     ];
 
-    // Add the operations tab and fields to the form.
-    $form['operations'] = $operations;
+    // Add the operation tab and fields to the form.
+    $form['operation'] = $operation;
 
     return $form;
   }

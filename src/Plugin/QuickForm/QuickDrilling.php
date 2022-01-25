@@ -40,18 +40,13 @@ class QuickDrilling extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the operation tab.
+    $operation = $form['operation'];
+
     // Drilling tab.
     $drilling = [
       '#type' => 'details',
       '#title' => $this->t('Drilling'),
-      '#group' => 'tabs',
-      '#weight' => 0,
-    ];
-
-    // Operations tab.
-    $operations = [
-      '#type' => 'details',
-      '#title' => $this->t('Operations'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -285,7 +280,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     $form['drilling'] = $drilling;
 
     // Farm seed lot.
-    $operations['farm_seed_lot'] = [
+    $operation['farm_seed_lot'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Farm seed lot'),
       '#description' => $this->t('The seed lot number assigned by the farm.'),
@@ -293,7 +288,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
 
     // Supplier seed lot.
-    $operations['supplier_seed_lot'] = [
+    $operation['supplier_seed_lot'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Supplier seed lot'),
       '#description' => $this->t('The seed lot number provided by the supplier, if available.'),
@@ -301,7 +296,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
 
     // Seed labels.
-    $operations['seed_labels'] = [
+    $operation['seed_labels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Seed labels'),
       '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
@@ -314,8 +309,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Add the operations tab and fields to the form.
-    $form['operations'] = $operations;
+    // Add the operation tab and fields to the form.
+    $form['operation'] = $operation;
 
     return $form;
   }
