@@ -44,8 +44,8 @@ class QuickOperation extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Operations tab.
-    $operations = [
+    // Task tab.
+    $task = [
       '#type' => 'details',
       '#title' => $this->t('Task'),
       '#group' => 'tabs',
@@ -95,7 +95,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Add a select element for the operation task.
-    $operations['operation_task'] = [
+    $task['operation_task'] = [
       '#type' => 'select',
       '#title' => $this->t('Task'),
       '#options' => $operation_task_options,
@@ -103,7 +103,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Depth worked.
-    $operations['depth'] = [
+    $task['depth'] = [
       '#type' => 'number',
       '#title' => $this->t('Depth worked (centimeters)'),
       '#description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
@@ -125,7 +125,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Direction of work (driven).
-    $operations['direction'] = [
+    $task['direction'] = [
       '#type' => 'select',
       '#title' => $this->t('Direction of work (driven)'),
       '#options' => array_combine($direction_options, $direction_options),
@@ -133,7 +133,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Plough thrown (if applicable).
-    $operations['thrown'] = [
+    $task['thrown'] = [
       '#type' => 'select',
       '#title' => $this->t('Plough thrown (if applicable)'),
       '#options' => array_combine($direction_options, $direction_options),
@@ -141,7 +141,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Add the operations tab and fields to the form.
-    $form['operations'] = $operations;
+    $form['task'] = $task;
 
     return $form;
   }
