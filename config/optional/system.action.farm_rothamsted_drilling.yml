@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_rothamsted
+id: farm_rothamsted_drilling
+label: 'Record drilling'
+type: asset
+plugin: farm_rothamsted_quick_experiment:farm_rothamsted_drilling_quick_form
+configuration: {  }

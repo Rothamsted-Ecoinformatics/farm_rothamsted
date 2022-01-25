@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_rothamsted
+id: farm_rothamsted_harvest
+label: 'Record harvest'
+type: asset
+plugin: farm_rothamsted_quick_experiment:farm_rothamsted_harvest_quick_form
+configuration: {  }

@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_rothamsted
+id: farm_rothamsted_fertiliser
+label: 'Record fertiliser'
+type: asset
+plugin: farm_rothamsted_quick_experiment:farm_rothamsted_fertiliser_quick_form
+configuration: {  }
