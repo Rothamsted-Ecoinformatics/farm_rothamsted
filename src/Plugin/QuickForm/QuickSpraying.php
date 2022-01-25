@@ -372,7 +372,6 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Wind speed units options.
     $wind_speed_units_options = [
-      '' => '- Select -',
       'kph' => 'kph',
     ];
 
@@ -381,6 +380,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Wind speed units'),
       '#options' => $wind_speed_units_options,
+      '#required' => TRUE,
     ];
 
     // Wind direction.
