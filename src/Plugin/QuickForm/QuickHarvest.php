@@ -48,7 +48,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       '#type' => 'details',
       '#title' => $this->t('Harvest'),
       '#group' => 'tabs',
-      '#weight' => 10,
+      '#weight' => 0,
     ];
 
     // Trailor batch count.
