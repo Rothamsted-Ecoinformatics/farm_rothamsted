@@ -110,6 +110,57 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * Helper function to generate inline quantity and unit elements from config.
+   *
+   * @param array $config
+   *   Array of configuration options fully supporting drupal core options
+   *
+   *   Additional options:
+   *     '#units_type' => 'select' or 'radios'
+   *     '#units_options' => options array as per core.
+   *
+   * @return array
+   *   An array containing both form elements within wrapper to keep inline
+   */
+  protected function buildQuantityUnitsElement(array $config) {
+    $element = [];
+
+    // Wrapper to keep everything inline with optional description field at end.
+    $element['#prefix'] = '<div class="form-items-inline container-inline">';
+
+    $suffix = '</div>';
+    if (isset($config['#description'])) {
+      $description = '<div id="edit-findme--description" data-drupal-field-elements="description" ';
+      $description .= 'class="form-item__description">%s</div>';
+      $suffix .= sprintf($description, $config['#description']);
+
+      // We don't want description bleeding into main element.
+      unset($config['#description']);
+    };
+
+    $element['#suffix'] = $suffix;
+
+    // Main quantity element.
+    $element['quantity'] = $config;
+
+    // Units.
+    $element['units'] = [];
+
+    $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
+    $element['units']['#required'] = (isset($config['#required'])) ? $config['#required'] : FALSE;
+
+    if (isset($config['#units_options'])) {
+      $element['units']['#options'] = $config['#units_options'];
+    }
+    else {
+      // Remove units if they not passed in.
+      unset($element['units']);
+    }
+
+    return $element;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
