@@ -125,8 +125,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected function buildQuantityUnitsElement(array $config) {
     $element = [];
 
+    $titleLabel = '';
+
     // Wrapper to keep everything inline with optional description field at end.
-    $element['#prefix'] = '<div class="form-items-inline container-inline">';
+    $element['#prefix'] = '<div class="form-items-inline">';
 
     $suffix = '</div>';
     if (isset($config['#description'])) {
