@@ -286,13 +286,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Fuel use.
-    $form['operation']['fuel_use'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Fuel use'),
-      '#description' => $this->t('The amount of fuel used.'),
-    ];
-
     // Fuel use units options.
     $fuel_use_units_options = [
       '' => '- Select -',
@@ -300,13 +293,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'gal' => 'gal',
     ];
 
-    // Tank volume remaining units.
-    $form['operation']['fuel_use_units'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Fuel use units'),
-      '#description' => $this->t('The Fuel use units.'),
-      '#options' => $fuel_use_units_options,
-    ];
+    $form['operation']['fuel_use'] = $this->buildQuantityUnitsElement([
+      '#title' => $this->t('Fuel use'),
+      '#description' => $this->t('The amount of fuel used.'),
+      '#type' => 'number',
+      '#units_type' => 'select',
+      '#units_options' => $fuel_use_units_options,
+    ]);
 
     // Crop Photographs.
     $form['operation']['crop_photographs'] = [
