@@ -551,6 +551,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * Helper function to build an inline wrapper container.
+   *
+   * @return array
+   *   An inline wrapper render array.
+   */
+  protected function buildInlineWrapper(): array {
+    return [
+      '#type' => 'container',
+      '#attributes' => [
+        'style' => ['display: flex; flex-wrap: wrap; column-gap: 2em;'],
+      ],
+    ];
+  }
+
+  /**
    * Helper function to get the managed_file upload location.
    *
    * @param string $entity_type
