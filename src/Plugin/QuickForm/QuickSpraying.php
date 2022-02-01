@@ -368,8 +368,11 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
+    // Weather wrapper.
+    $weather['weather_info'] = $this->buildInlineWrapper();
+
     // Temperature (Degrees C).
-    $weather['temperature'] = [
+    $weather['weather_info']['temperature'] = [
       '#type' => 'number',
       '#title' => $this->t('Temperature (C)'),
       '#description' => $this->t('The average temperature during spraying.'),
@@ -393,7 +396,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weather_types_options = array_combine($weather_types, $weather_types);
 
     // Weather.
-    $weather['weather'] = [
+    $weather['weather_info']['weather'] = [
       '#type' => 'select',
       '#title' => $this->t('Weather'),
       '#description' => $this->t('The dominant weather conditions during spraying.'),
