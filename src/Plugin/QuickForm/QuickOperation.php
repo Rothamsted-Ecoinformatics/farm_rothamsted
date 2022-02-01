@@ -102,8 +102,11 @@ class QuickOperation extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
+    // Task info wrapper.
+    $task['info'] = $this->buildInlineWrapper();
+
     // Depth worked.
-    $task['depth'] = [
+    $task['info']['depth'] = [
       '#type' => 'number',
       '#title' => $this->t('Depth worked (centimeters)'),
       '#description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
@@ -125,7 +128,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Direction of work (driven).
-    $task['direction'] = [
+    $task['info']['direction'] = [
       '#type' => 'select',
       '#title' => $this->t('Direction of work (driven)'),
       '#options' => array_combine($direction_options, $direction_options),
@@ -133,7 +136,7 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     // Plough thrown (if applicable).
-    $task['thrown'] = [
+    $task['info']['thrown'] = [
       '#type' => 'select',
       '#title' => $this->t('Plough thrown (if applicable)'),
       '#options' => array_combine($direction_options, $direction_options),
