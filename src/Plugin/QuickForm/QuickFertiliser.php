@@ -89,11 +89,14 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#open' => TRUE,
       ];
 
+      // Product wrapper.
+      $product_wrapper = $this->buildInlineWrapper();
+
       // Build product_type options.
       $product_type_options = $this->getTermOptions('material_type');
 
       // Product type - select - optional.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_type'] = [
+      $product_wrapper['product_type'] = [
         '#type' => 'select',
         '#title' => $this->t('Product type'),
         '#description' => $this->t('A list of different types of nutrient input (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
@@ -102,7 +105,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       ];
 
       // Product - select - optional.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product'] = [
+      $product_wrapper['product'] = [
         '#type' => 'select',
         '#title' => $this->t('Product'),
         '#description' => $this->t('The product used.'),
@@ -110,21 +113,30 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_wrapper'] = $product_wrapper;
+
+      // Nutrient wrapper.
+      $nutrient_wrapper = $this->buildInlineWrapper();
+
       // Nutrient form placeholder.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient'] = [
+      $nutrient_wrapper['nutrient'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Nutrient'),
         '#description' => $this->t('The nutrients contained in the product.'),
         '#placeholder' => $this->t('TBD'),
         '#required' => FALSE,
+        '#size' => 20,
       ];
 
       // Nutrient content - text - optional.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_content'] = [
+      $nutrient_wrapper['nutrient_content'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Nutrient content (%)'),
         '#description' => $this->t('The proportion of the mineral in the product.'),
+        '#size' => 20,
       ];
+
+      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
 
       // Build application rate units options from units / spray taxonomy.
       $application_rate_units_options = $this->getChildTermOptions('unit', 'spray');
