@@ -143,17 +143,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $element['quantity'] = $config;
 
     // Units.
-    $element['units'] = [];
-
-    $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
-    $element['units']['#required'] = (isset($config['#required'])) ? $config['#required'] : FALSE;
-
     if (isset($config['#units_options'])) {
+      $element['units'] = [];
+      $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
+      $element['units']['#title'] = $this->t('Units');
+      $element['units']['#required'] = (isset($config['#required'])) ? $config['#required'] : FALSE;
+
       $element['units']['#options'] = $config['#units_options'];
-    }
-    else {
-      // Remove units if they not passed in.
-      unset($element['units']);
     }
 
     return $element;
