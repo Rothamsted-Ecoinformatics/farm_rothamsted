@@ -255,8 +255,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#date_year_range' => '-15:+15',
     ];
 
+    // Tractor time.
+    $form['operation']['tractor_time'] = $this->buildInlineWrapper();
+
     // Tractor hours start.
-    $form['operation']['tractor_hours_start'] = [
+    $form['operation']['tractor_time']['tractor_hours_start'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (start)'),
       '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
@@ -264,7 +267,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Tractor hours end.
-    $form['operation']['tractor_hours_end'] = [
+    $form['operation']['tractor_time']['tractor_hours_end'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (end)'),
       '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
@@ -296,8 +299,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#units_options' => $fuel_use_units_options,
     ]);
 
+    // Photographs wrapper.
+    $form['operation']['photographs'] = $this->buildInlineWrapper();
+
     // Crop Photographs.
-    $form['operation']['crop_photographs'] = [
+    $form['operation']['photographs']['crop_photographs'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Crop Photograph(s)'),
       '#description' => $this->t('A photograph of the crop, if applicable.'),
@@ -310,7 +316,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Photographs of paper records.
-    $form['operation']['photographs_of_paper_records'] = [
+    $form['operation']['photographs']['photographs_of_paper_records'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Photographs of paper record(s)'),
       '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
@@ -336,9 +342,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
     ];
 
+    // General operation fields.
+    $form['operation']['general'] = $this->buildInlineWrapper();
+
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['operation']['owner'] = [
+    $form['operation']['general']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
@@ -354,7 +363,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'done' => $this->t('Done'),
       'pending' => $this->t('Pending'),
     ];
-    $form['operation']['job_status'] = [
+    $form['operation']['general']['job_status'] = [
       '#type' => 'select',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
@@ -365,7 +374,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Flags.
     // @todo Build flag options for this bundle.
     $flag_options = [];
-    $form['operation']['flag'] = [
+    $form['operation']['general']['flag'] = [
       '#type' => 'select',
       '#title' => $this->t('Flag'),
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
