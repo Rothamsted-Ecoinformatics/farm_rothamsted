@@ -51,6 +51,9 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
+    // Crop and variety wrapper.
+    $drilling['crop'] = $this->buildInlineWrapper();
+
     // Crop types.
     // @todo Select parent plant_type term.
     $crop_types = [
@@ -61,7 +64,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
     $crop_types_options = array_combine($crop_types, $crop_types);
 
-    $drilling['crops'] = [
+    $drilling['crop']['crops'] = [
       '#type' => 'select',
       '#title' => $this->t('Crop(s)'),
       '#description' => $this->t('The crop(s) being drilled.'),
@@ -79,7 +82,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
     $crop_variety_types_options = array_combine($crop_variety_types, $crop_variety_types);
 
-    $drilling['crop_variety'] = [
+    $drilling['crop']['crop_variety'] = [
       '#type' => 'select',
       '#title' => $this->t('Variety(s)'),
       '#description' => $this->t('The variety(s) being planted.'),
@@ -257,20 +260,25 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Add the drilling tab and fields to the form.
     $form['drilling'] = $drilling;
 
+    // Seed lot wrapper.
+    $operation['seed_lots'] = $this->buildInlineWrapper();
+
     // Farm seed lot.
-    $operation['farm_seed_lot'] = [
+    $operation['seed_lots']['farm_seed_lot'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Farm seed lot'),
       '#description' => $this->t('The seed lot number assigned by the farm.'),
       '#required' => TRUE,
+      '#size' => 30,
     ];
 
     // Supplier seed lot.
-    $operation['supplier_seed_lot'] = [
+    $operation['seed_lots']['supplier_seed_lot'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Supplier seed lot'),
       '#description' => $this->t('The seed lot number provided by the supplier, if available.'),
       '#required' => FALSE,
+      '#size' => 30,
     ];
 
     // Seed labels.
