@@ -48,6 +48,10 @@ function farm_rothamsted_dev_install() {
   // Build a list of vocabularies and parent/child terms to create.
   $vocabularies = [
     'log_category' => [],
+    'material_type' => [
+      'Starter Fertiliser' => ['Product 1', 'Product 2', 'Product 3'],
+      'Seed Dressings' => ['Dressing 1', 'Dressing 2', 'Dressing 3'],
+    ],
     'plant_type' => [
       'Corn' => ['White corn', 'Sweet corn', 'Yellow corn'],
       'Beans' => ['Black beans', 'Garbanzos', 'Big beans'],

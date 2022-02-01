@@ -179,34 +179,18 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Seed dressing(s) options.
-    // @todo Pull from materials taxonomy, child term "Seed Dressings".
-    $seed_dressing_options = [
-      'top' => 'top',
-      'deep' => 'deep',
-      'cross' => 'cross',
-    ];
-
-    // Seed dressing(s).
+    // Seed dressings.
+    $seed_dressing_options = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');
     $drilling['seed_dressings'] = [
       '#type' => 'select',
       '#title' => $this->t('Seed dressing(s)'),
       '#description' => $this->t('Please record the seed dressings applied either by the farm or by the supplier.'),
       '#options' => $seed_dressing_options,
       '#multiple' => TRUE,
-      '#required' => FALSE,
-    ];
-
-    // @todo starter fertiliser
-
-    // Product options.
-    $product_options = [
-      'top' => 'top',
-      'deep' => 'deep',
-      'cross' => 'cross',
     ];
 
     // Product.
+    $product_options = $this->getChildTermOptionsByName('material_type', 'Starter Fertiliser');
     $drilling['product'] = [
       '#type' => 'select',
       '#title' => $this->t('Product'),
