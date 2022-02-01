@@ -123,22 +123,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   An array containing both form elements within wrapper to keep inline
    */
   protected function buildQuantityUnitsElement(array $config) {
-    $element = [];
 
-    // Wrapper to keep everything inline with optional description field at end.
-    $element['#prefix'] = '<div class="form-items-inline">';
+    // Flex container wrapper.
+    $element = [
+      '#type' => 'container',
+      '#attributes' => [
+        'style' => ['display: flex; flex-wrap: wrap; column-gap: 0.5em; margin-bottom: -1em'],
+      ],
+    ];
 
-    $suffix = '</div>';
-    if (isset($config['#description'])) {
-      $description = '<div id="edit-findme--description" data-drupal-field-elements="description" ';
-      $description .= 'class="form-item__description">%s</div>';
-      $suffix .= sprintf($description, $config['#description']);
-
+    // Add description in the suffix to exclude from flex container.
+    if (!empty($config['#description'])) {
+      $element['#suffix'] = '<div class="form-item__description">' . $config['#description'] . '</div>';
       // We don't want description bleeding into main element.
       unset($config['#description']);
-    };
-
-    $element['#suffix'] = $suffix;
+    }
 
     // Main quantity element.
     $element['quantity'] = $config;
