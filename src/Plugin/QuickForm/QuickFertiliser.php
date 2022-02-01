@@ -93,7 +93,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       $product_wrapper = $this->buildInlineWrapper();
 
       // Build product_type options.
-      $product_type_options = $this->getTermOptions('material_type');
+      $product_type_options = $this->getTermTreeOptions('material_type');
 
       // Product type - select - optional.
       $product_wrapper['product_type'] = [
@@ -139,7 +139,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
       $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
 
       // Build application rate units options from units / spray taxonomy.
-      $application_rate_units_options = $this->getChildTermOptions('unit', 'spray');
+      $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'spray');
 
       // Nutrient application rate - number.
       $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityUnitsElement([

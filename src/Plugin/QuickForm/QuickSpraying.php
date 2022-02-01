@@ -145,7 +145,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     // @todo AJAX for each chemical.
 
     // Build justification options from the Spray Applications parent term.
-    $justification_options = $this->getChildTermOptions('log_category', 'Justification/Target (Spray Applications)');
+    $justification_options = $this->getChildTermOptionsByName('log_category', 'Justification/Target (Spray Applications)');
 
     // Justification/Target as log categories.
     $spraying['categories'] = [

@@ -12,7 +12,6 @@ use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
-use Drupal\taxonomy\TermInterface;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -462,22 +461,33 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *
    * @param string $vocabulary_name
    *   The name of vocabulary.
+   * @param int $parent
+   *   The term ID under which to generate the tree. If 0, generate the tree
+   *   for the entire vocabulary.
+   * @param int|null $depth
+   *   The number of levels of the tree to return. Leave NULL to return all
+   *   levels.
    *
    * @return array
    *   An array of term labels indexed by term ID and sorted alphabetically.
    */
-  protected function getTermOptions(string $vocabulary_name): array {
+  protected function getTermTreeOptions(string $vocabulary_name, int $parent = 0, int $depth = NULL): array {
 
-    // Load active terms.
-    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
-      'vid' => $vocabulary_name,
-      'status' => 1,
-    ]);
+    // Load terms.
+    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
+    $terms = $term_storage->loadTree($vocabulary_name, $parent, $depth, TRUE);
+
+    // Filter to active terms.
+    $active_terms = array_filter($terms, function ($term) {
+      return (int) $term->get('status')->value;
+    });
 
     // Build options.
-    $options = array_map(function (TermInterface $term) {
-      return $term->label();
-    }, $terms);
+    $options = [];
+    foreach ($active_terms as $term) {
+      $options[$term->id()] = $term->label();
+    }
     natsort($options);
 
     return $options;
@@ -490,15 +500,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   The name of vocabulary.
    * @param string $term_name
    *   The name of parent taxonomy term.
+   * @param int|null $depth
+   *   The number of levels of the tree to return. Leave NULL to return all
+   *   levels.
    *
    * @return array
    *   An array of taxonomy labels ordered alphabetically.
    */
-  protected function getChildTermOptions(string $vocabulary_name, string $term_name): array {
-
-    // Build array of options.
-    $options = [];
-
+  protected function getChildTermOptionsByName(string $vocabulary_name, string $term_name, int $depth = NULL): array {
     // Search for a parent term.
     $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
     $matching_terms = $term_storage->loadByProperties([
@@ -509,19 +518,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // If a parent term exists.
     if ($parent_term = reset($matching_terms)) {
-
-      // Build option for each active child term.
-      foreach ($term_storage->loadChildren($parent_term->id()) as $term) {
-        if ($term->get('status')->value) {
-          $options[$term->id()] = $term->label();
-        }
-      }
+      return $this->getTermTreeOptions($vocabulary_name, $parent_term->id(), $depth);
     }
 
-    // Sort options.
-    natsort($options);
-
-    return $options;
+    return [];
   }
 
   /**

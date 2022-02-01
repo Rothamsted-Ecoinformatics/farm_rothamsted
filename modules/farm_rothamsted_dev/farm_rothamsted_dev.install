@@ -49,9 +49,9 @@ function farm_rothamsted_dev_install() {
   $vocabularies = [
     'log_category' => [],
     'plant_type' => [
-      'Corn' => [],
-      'Beans' => [],
-      'Wheat' => [],
+      'Corn' => ['White corn', 'Sweet corn', 'Yellow corn'],
+      'Beans' => ['Black beans', 'Garbanzos', 'Big beans'],
+      'Wheat' => ['Summer wheat', 'Winter wheat'],
     ],
   ];
 

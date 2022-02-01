@@ -54,41 +54,35 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Crop and variety wrapper.
     $drilling['crop'] = $this->buildInlineWrapper();
 
-    // Crop types.
-    // @todo Select parent plant_type term.
-    $crop_types = [
-      'Grass',
-      'Spuds',
-      'Wheat',
-      'Corn',
-    ];
-    $crop_types_options = array_combine($crop_types, $crop_types);
-
-    $drilling['crop']['crops'] = [
+    // Crop type.
+    $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
+    $drilling['crop']['crop'] = [
       '#type' => 'select',
       '#title' => $this->t('Crop(s)'),
       '#description' => $this->t('The crop(s) being drilled.'),
-      '#options' => $crop_types_options,
+      '#options' => $crop_type_options,
       '#required' => TRUE,
+      '#ajax' => [
+        'callback' => [$this, 'cropVarietyCallback'],
+        'event' => 'change',
+        'wrapper' => 'crop-variety-wrapper',
+      ],
     ];
 
-    // Crop variety types.
-    // @todo Select child plant_type term.
-    $crop_variety_types = [
-      'Red',
-      'Green',
-      'Blue',
-      'Orange',
-    ];
-    $crop_variety_types_options = array_combine($crop_variety_types, $crop_variety_types);
-
+    // Crop variety.
+    $crop_variety_options = [];
+    if ($crop_id = $form_state->getValue('crop')) {
+      $crop_variety_options = $this->getTermTreeOptions('plant_type', $crop_id);
+    }
     $drilling['crop']['crop_variety'] = [
       '#type' => 'select',
       '#title' => $this->t('Variety(s)'),
       '#description' => $this->t('The variety(s) being planted.'),
-      '#options' => $crop_variety_types_options,
+      '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
+      '#prefix' => '<div id="crop-variety-wrapper">',
+      '#suffix' => '</div>',
     ];
 
     // Target plant population units options.
@@ -299,6 +293,13 @@ class QuickDrilling extends QuickExperimentFormBase {
     $form['operation'] = $operation;
 
     return $form;
+  }
+
+  /**
+   * Ajax callback for the crop variety field.
+   */
+  public function cropVarietyCallback(array $form, FormStateInterface $form_state) {
+    return $form['drilling']['crop']['crop_variety'];
   }
 
   /**
