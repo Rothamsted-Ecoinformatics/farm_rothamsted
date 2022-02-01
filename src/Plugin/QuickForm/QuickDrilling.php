@@ -88,35 +88,22 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Target plant population.
-    // @todo Target plant population ??
-    $drilling['target_plant_population'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Target plant population'),
-      '#description' => $this->t('The target population for plant establishment after drilling.'),
-      '#required' => FALSE,
-    ];
-
     // Target plant population units options.
     $target_plant_population_units_options = [
       'plants/ m2' => 'plants/ m2',
       '%' => '%',
     ];
 
-    // Target plant population units.
-    $drilling['target_plant_population_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Establishment average units'),
-      '#options' => $target_plant_population_units_options,
-    ];
-
-    // Establishment average.
-    $drilling['establishment_average'] = [
+    // Target plant population.
+    // @todo Target plant population ??
+    $drilling['target_plant_population'] = $this->buildQuantityUnitsElement([
       '#type' => 'number',
-      '#title' => $this->t('Establishment average'),
-      '#description' => $this->t('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
+      '#title' => $this->t('Target plant population'),
+      '#description' => $this->t('The target population for plant establishment after drilling.'),
       '#required' => FALSE,
-    ];
+      '#units_type' => 'select',
+      '#units_options' => $target_plant_population_units_options,
+    ]);
 
     // Establishment average units options.
     $establishment_average_units_options = [
@@ -124,12 +111,15 @@ class QuickDrilling extends QuickExperimentFormBase {
       '%' => '%',
     ];
 
-    // Establishment average units.
-    $drilling['establishment_average_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Establishment average units'),
-      '#options' => $establishment_average_units_options,
-    ];
+    // Establishment average.
+    $drilling['establishment_average'] = $this->buildQuantityUnitsElement([
+      '#type' => 'number',
+      '#title' => $this->t('Establishment average'),
+      '#description' => $this->t('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
+      '#required' => FALSE,
+      '#units_type' => 'select',
+      '#units_options' => $establishment_average_units_options,
+    ]);
 
     // Germination rate.
     $drilling['germination_rate'] = [
@@ -149,27 +139,21 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Seed rate.
-    $drilling['seed_rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Seed rate'),
-      '#description' => $this->t('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
-      '#required' => TRUE,
-    ];
-
     // Seed rate units options.
     $seed_rate_units_options = [
       'seeds/ m2' => 'seeds/ m2',
       'units/ha' => 'units/ha',
     ];
 
-    // Seed rate units.
-    $drilling['seed_rate_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Seed rate units'),
-      '#options' => $seed_rate_units_options,
+    // Seed rate.
+    $drilling['seed_rate'] = $this->buildQuantityUnitsElement([
+      '#type' => 'number',
+      '#title' => $this->t('Seed rate'),
+      '#description' => $this->t('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
       '#required' => TRUE,
-    ];
+      '#units_type' => 'select',
+      '#units_options' => $seed_rate_units_options,
+    ]);
 
     // Drilling rate.
     $drilling['drilling_rate'] = [
@@ -234,14 +218,6 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Product application rate.
-    $drilling['product_application_rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Product application rate'),
-      '#description' => $this->t('The volume of product per unit that needs to be applied in order to achieve the desired nutrient rate(s).'),
-      '#required' => FALSE,
-    ];
-
     // Product application rate units options.
     $product_application_rate_units_options = [
       'l/ha' => 'l/ha',
@@ -251,13 +227,15 @@ class QuickDrilling extends QuickExperimentFormBase {
       't/ha' => 't/ha',
     ];
 
-    // Product application rate units.
-    $drilling['product_application_rate_units'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Seed rate units'),
-      '#options' => $product_application_rate_units_options,
+    // Product application rate.
+    $drilling['product_application_rate'] = $this->buildQuantityUnitsElement([
+      '#type' => 'number',
+      '#title' => $this->t('Product application rate'),
+      '#description' => $this->t('The volume of product per unit that needs to be applied in order to achieve the desired nutrient rate(s).'),
       '#required' => FALSE,
-    ];
+      '#units_type' => 'select',
+      '#units_options' => $product_application_rate_units_options,
+    ]);
 
     // Seed lineage options.
     $seed_lineage_options = [

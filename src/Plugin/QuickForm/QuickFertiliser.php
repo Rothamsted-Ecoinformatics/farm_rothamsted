@@ -126,40 +126,28 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#description' => $this->t('The proportion of the mineral in the product.'),
       ];
 
-      // Nutrient application rate - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = [
+      // Build application rate units options from units / spray taxonomy.
+      $application_rate_units_options = $this->getChildTermOptions('unit', 'spray');
+
+      // Nutrient application rate - number.
+      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityUnitsElement([
         '#type' => 'number',
         '#title' => $this->t('Nutrient application rate'),
         '#description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
         '#required' => FALSE,
-      ];
-
-      // Build application rate units options from units / spray taxonomy.
-      $application_rate_units_options = $this->getChildTermOptions('unit', 'spray');
-
-      // Nutrient application rate - select - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate_units'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Nutrient application rate units'),
-        '#options' => $application_rate_units_options,
-        '#required' => FALSE,
-      ];
+        '#units_type' => 'select',
+        '#units_options' => $application_rate_units_options,
+      ]);
 
       // Product application rate - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = [
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityUnitsElement([
         '#type' => 'number',
         '#title' => $this->t('Product application rate'),
         '#description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
         '#required' => TRUE,
-      ];
-
-      // Product application rate - select - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate_units'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product application rate units'),
-        '#options' => $application_rate_units_options,
-        '#required' => TRUE,
-      ];
+        '#units_type' => 'select',
+        '#units_options' => $application_rate_units_options,
+      ]);
 
       // Product area - number - required.
       $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = [
@@ -169,26 +157,21 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
-      // Product volume - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = [
-        '#type' => 'number',
-        '#title' => $this->t('Product volume'),
-        '#description' => $this->t('The total amount of product required to cover the field area(s).'),
-        '#required' => TRUE,
-      ];
-
       // Build volume units options from units / volume taxonomy.
       // @todo We need to specify the correct fuel units.
       // The volume units are not the same for every field.
       $application_volume_units_options = [];
 
-      // Product volume units - select - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume_units'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product volume units'),
-        '#options' => $application_volume_units_options,
+      // Product volume - number - required.
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityUnitsElement([
+        '#type' => 'number',
+        '#title' => $this->t('Product volume'),
+        '#description' => $this->t('The total amount of product required to cover the field area(s).'),
         '#required' => TRUE,
-      ];
+        '#units_type' => 'select',
+        '#units_options' => $application_volume_units_options,
+      ]);
+
     }
 
     // COSSH Hazard Assessments.

@@ -110,6 +110,52 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
+   * Helper function to generate inline quantity and unit elements from config.
+   *
+   * @param array $config
+   *   Array of configuration options fully supporting drupal core options
+   *
+   *   Additional options:
+   *     '#units_type' => 'select' or 'radios'
+   *     '#units_options' => options array as per core.
+   *
+   * @return array
+   *   An array containing both form elements within wrapper to keep inline
+   */
+  protected function buildQuantityUnitsElement(array $config) {
+
+    // Flex container wrapper.
+    $element = [
+      '#type' => 'container',
+      '#attributes' => [
+        'style' => ['display: flex; flex-wrap: wrap; column-gap: 0.5em; margin-bottom: -1em'],
+      ],
+    ];
+
+    // Add description in the suffix to exclude from flex container.
+    if (!empty($config['#description'])) {
+      $element['#suffix'] = '<div class="form-item__description">' . $config['#description'] . '</div>';
+      // We don't want description bleeding into main element.
+      unset($config['#description']);
+    }
+
+    // Main quantity element.
+    $element['quantity'] = $config;
+
+    // Units.
+    if (isset($config['#units_options'])) {
+      $element['units'] = [];
+      $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
+      $element['units']['#title'] = $this->t('Units');
+      $element['units']['#required'] = (isset($config['#required'])) ? $config['#required'] : FALSE;
+
+      $element['units']['#options'] = $config['#units_options'];
+    }
+
+    return $element;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
@@ -235,13 +281,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Fuel use.
-    $form['operation']['fuel_use'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Fuel use'),
-      '#description' => $this->t('The amount of fuel used.'),
-    ];
-
     // Fuel use units options.
     $fuel_use_units_options = [
       '' => '- Select -',
@@ -249,13 +288,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'gal' => 'gal',
     ];
 
-    // Tank volume remaining units.
-    $form['operation']['fuel_use_units'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Fuel use units'),
-      '#description' => $this->t('The Fuel use units.'),
-      '#options' => $fuel_use_units_options,
-    ];
+    $form['operation']['fuel_use'] = $this->buildQuantityUnitsElement([
+      '#title' => $this->t('Fuel use'),
+      '#description' => $this->t('The amount of fuel used.'),
+      '#type' => 'number',
+      '#units_type' => 'select',
+      '#units_options' => $fuel_use_units_options,
+    ]);
 
     // Crop Photographs.
     $form['operation']['crop_photographs'] = [
