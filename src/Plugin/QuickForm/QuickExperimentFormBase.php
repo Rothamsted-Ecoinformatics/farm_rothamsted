@@ -118,10 +118,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *     '#units_type' => 'select' or 'radios'
    *     '#units_options' => options array as per core.
    *
+   * @param string $name
+   *   String name used to submit element - units is appended for unit element
+   *
    * @return array
    *   An array containing both form elements within wrapper to keep inline
    */
-  protected function buildQuantityUnitsElement(array $config) {
+  protected function buildQuantityUnitsElement(array $config, string $name = 'abc') {
 
     // Flex container wrapper.
     $element = [
@@ -139,16 +142,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Main quantity element.
-    $element['quantity'] = $config;
+    $element[$name] = $config;
+
+    $unitsName = sprintf('%s_units', $name);
 
     // Units.
     if (isset($config['#units_options'])) {
-      $element['units'] = [];
-      $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
-      $element['units']['#title'] = $this->t('Units');
-      $element['units']['#options'] = $config['#units_options'];
-      $element['units']['#required'] = $config['#required'] ?? FALSE;
-      $element['units']['#validated'] = TRUE;
+      $element[$unitsName] = [];
+      $element[$unitsName]['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
+      $element[$unitsName]['#title'] = $this->t('Units');
+      $element[$unitsName]['#options'] = $config['#units_options'];
+      $element[$unitsName]['#required'] = $config['#required'] ?? FALSE;
+      $element[$unitsName]['#validated'] = TRUE;
     }
 
     return $element;
@@ -296,7 +301,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#type' => 'number',
       '#units_type' => 'select',
       '#units_options' => $fuel_use_units_options,
-    ]);
+    ], 'fuel_use');
 
     // Photographs wrapper.
     $form['operation']['photographs'] = $this->buildInlineWrapper();

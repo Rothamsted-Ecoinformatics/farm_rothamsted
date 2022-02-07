@@ -135,7 +135,7 @@ class QuickSpraying extends QuickExperimentFormBase {
         '#required' => TRUE,
         '#units_type' => 'select',
         '#units_options' => $product_rate_unit_options,
-      ]);
+      ], 'sprayed_products');
 
     }
     // ------------end of product area --------------------
@@ -172,7 +172,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $area_sprayed_units_options,
-    ]);
+    ], 'area_sprayed');
 
     // RRES product number.
     $spraying['rres_product_number'] = [
@@ -198,7 +198,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
       '#units_type' => 'select',
       '#units_options' => $product_quantity_units_options,
-    ]);
+    ], 'product_quantity');
 
     // Water volume units options.
     $water_volume_units_options = [
@@ -214,7 +214,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
       '#units_type' => 'select',
       '#units_options' => $water_volume_units_options,
-    ]);
+    ], 'water_volume');
 
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
@@ -312,7 +312,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $tank_volume_ramaining_units_options,
-    ]);
+    ], 'tank_volume_remaining');
 
     // Equipment triple Rinsed.
     $tank['rinsed'] = [
@@ -346,7 +346,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
       '#units_type' => 'select',
       '#units_options' => $wind_speed_units_options,
-    ]);
+    ], 'wind_speed');
 
     // Wind direction.
     $wind_directions = [
@@ -422,7 +422,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $speed_driven_units_options,
-    ]);
+    ], 'speed_driven');
 
     // Add the operation tab and fields to the form.
     $form['operation'] = $operation;

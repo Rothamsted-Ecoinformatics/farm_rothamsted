@@ -100,7 +100,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $target_plant_population_units_options,
-    ]);
+    ], 'target_plant_population');
 
     // Establishment average units options.
     $establishment_average_units_options = [
@@ -116,7 +116,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $establishment_average_units_options,
-    ]);
+    ], 'establishment_average');
 
     // Germination rate.
     $drilling['germination_rate'] = [
@@ -150,7 +150,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => TRUE,
       '#units_type' => 'select',
       '#units_options' => $seed_rate_units_options,
-    ]);
+    ], 'seed_rate');
 
     // Drilling rate.
     $drilling['drilling_rate'] = [
@@ -216,7 +216,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
       '#units_type' => 'select',
       '#units_options' => $product_application_rate_units_options,
-    ]);
+    ], 'product_application_rate');
 
     // Seed lineage options.
     $seed_lineage_options = [

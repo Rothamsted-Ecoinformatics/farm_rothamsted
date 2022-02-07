@@ -149,7 +149,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => FALSE,
         '#units_type' => 'select',
         '#units_options' => $application_rate_units_options,
-      ]);
+      ], 'nutrient_application_rate');
 
       // Product application rate - number - required.
       $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityUnitsElement([
@@ -159,7 +159,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => TRUE,
         '#units_type' => 'select',
         '#units_options' => $application_rate_units_options,
-      ]);
+      ], 'product_application_rate');
 
       // Product area - number - required.
       $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = [
@@ -182,7 +182,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => TRUE,
         '#units_type' => 'select',
         '#units_options' => $application_volume_units_options,
-      ]);
+      ], 'product_volume');
 
     }
 
