@@ -1,0 +1,17 @@
+/* Styling for quick quantity fields. */
+
+/* Do not display the fieldset description inline. */
+fieldset.inline-quantity div.fieldset__wrapper .container-inline .fieldset__description {
+  display: block;
+}
+
+/* Styles for fieldsets without a border. */
+fieldset.inline-quantity.no-border {
+  border: none;
+}
+fieldset.inline-quantity.no-border div.fieldset__wrapper {
+  margin: 0;
+}
+fieldset.inline-quantity.no-border .fieldset__label {
+  padding: 0;
+}

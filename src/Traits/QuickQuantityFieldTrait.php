@@ -1,0 +1,133 @@
+<?php
+
+namespace Drupal\farm_rothamsted\Traits;
+
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
+/**
+ * Helper functions for building quick form quantity fields.
+ */
+trait QuickQuantityFieldTrait {
+
+  use StringTranslationTrait;
+
+  /**
+   * Helper function to build a render array for a quantity field.
+   *
+   * @param array $config
+   *   Configuration for the quantity field.
+   *
+   * @return array
+   *   Render array for the quantity field.
+   */
+  public function buildQuantityField(array $config = []) {
+
+    // Default the label to the fieldset title.
+    if (!empty($config['title']) && empty($config['label'])) {
+      $config['label']['#value'] = (string) $config['title'];
+    }
+
+    // Auto-hide fields if #value is provided and no #type is specified.
+    foreach (['measure', 'value', 'units', 'label'] as $field_name) {
+      if (isset($config[$field_name]['#value']) && !isset($config[$field_name]['#type'])) {
+        $config[$field_name]['#type'] = 'hidden';
+      }
+    }
+
+    // Default config.
+    $default_config = [
+      'border' => FALSE,
+      'measure' => [
+        '#type' => 'select',
+        '#title' => $this->t('Measure'),
+        '#options' => quantity_measure_options(),
+        '#weight' => 0,
+      ],
+      'value' => [
+        '#type' => 'number',
+        '#weight' => 5,
+      ],
+      'units' => [
+        '#weight' => 10,
+      ],
+      'label' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Label'),
+        '#weight' => 15,
+        '#size' => 15,
+      ],
+    ];
+    $config = array_replace_recursive($default_config, $config);
+
+    // Start a render array with a fieldset.
+    $render = [
+      '#type' => 'fieldset',
+      '#tree' => TRUE,
+      '#theme_wrappers' => ['fieldset'],
+      '#attributes' => [
+        'class' => ['inline-quantity', 'container-inline'],
+      ],
+      '#attached' => [
+        'library' => ['farm_rothamsted/quantity_fieldset'],
+      ],
+    ];
+
+    // Configure the top level fieldset.
+    foreach (['title', 'description'] as $key) {
+      if (!empty($config[$key])) {
+        $render["#$key"] = $config[$key];
+      }
+    }
+
+    // Include each quantity subfield.
+    $render['measure'] = $config['measure'];
+    $render['value'] = $config['value'];
+    $render['units'] = $config['units'];
+    $render['label'] = $config['label'];
+
+    // Check if unit options are provided.
+    if (!empty($render['units']['#options'])) {
+      $units_options = $render['units']['#options'];
+
+      // Render the units as select options.
+      $render['units'] += [
+        '#type' => 'select',
+        '#options' => $units_options,
+      ];
+
+      // If the unit value is hard-coded add a field suffix to the value field
+      // with the first option label.
+      if (isset($render['units']['#value'])) {
+        $render['value']['#field_suffix'] = key($units_options);
+      }
+    }
+    // Else default to entity_autocomplete unit term.
+    else {
+      $render['units'] += [
+        '#type' => 'entity_autocomplete',
+        '#placeholder' => $this->t('Units'),
+        '#target_type' => 'taxonomy_term',
+        '#selection_handler' => 'default',
+        '#selection_settings' => [
+          'target_bundles' => ['unit'],
+        ],
+        '#tags' => FALSE,
+        '#size' => 15,
+      ];
+    }
+
+    // Check if the quantity is required.
+    if (!empty($config['required'])) {
+      $render['#required'] = TRUE;
+      $render['value']['#required'] = TRUE;
+    }
+
+    // Remove the border if needed.
+    if (empty($config['border'])) {
+      $render['#attributes']['class'][] = 'no-border';
+    }
+
+    return $render;
+  }
+
+}
