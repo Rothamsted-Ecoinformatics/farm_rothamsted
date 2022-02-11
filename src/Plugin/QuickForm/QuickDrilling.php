@@ -81,6 +81,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
+      '#validated' => TRUE,
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -271,6 +272,25 @@ class QuickDrilling extends QuickExperimentFormBase {
    */
   public function cropVarietyCallback(array $form, FormStateInterface $form_state) {
     return $form['drilling']['crop']['crop_variety'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    array_push(
+      $field_keys,
+      'target_plant_population',
+      'establishment_average',
+      'germination_rate',
+      'thousand_grain_weight',
+      'seed_rate',
+      'drilling_rate',
+      'seed_weight',
+      'drilling_depth',
+      'product_application_rate',
+    );
+    return parent::getQuantities($field_keys, $form_state);
   }
 
   /**
