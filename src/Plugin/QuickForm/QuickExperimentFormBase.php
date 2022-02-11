@@ -111,52 +111,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
-   * Helper function to generate inline quantity and unit elements from config.
-   *
-   * @param array $config
-   *   Array of configuration options fully supporting drupal core options
-   *
-   *   Additional options:
-   *     '#units_type' => 'select' or 'radios'
-   *     '#units_options' => options array as per core.
-   *
-   * @return array
-   *   An array containing both form elements within wrapper to keep inline
-   */
-  protected function buildQuantityUnitsElement(array $config) {
-
-    // Flex container wrapper.
-    $element = [
-      '#type' => 'container',
-      '#attributes' => [
-        'style' => ['display: flex; flex-wrap: wrap; column-gap: 0.5em; margin-bottom: -1em'],
-      ],
-    ];
-
-    // Add description in the suffix to exclude from flex container.
-    if (!empty($config['#description'])) {
-      $element['#suffix'] = '<div class="form-item__description">' . $config['#description'] . '</div>';
-      // We don't want description bleeding into main element.
-      unset($config['#description']);
-    }
-
-    // Main quantity element.
-    $element['quantity'] = $config;
-
-    // Units.
-    if (isset($config['#units_options'])) {
-      $element['units'] = [];
-      $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
-      $element['units']['#title'] = $this->t('Units');
-      $element['units']['#options'] = $config['#units_options'];
-      $element['units']['#required'] = $config['#required'] ?? FALSE;
-      $element['units']['#validated'] = TRUE;
-    }
-
-    return $element;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
