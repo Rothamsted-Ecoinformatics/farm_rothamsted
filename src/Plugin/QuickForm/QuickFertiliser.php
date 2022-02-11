@@ -138,28 +138,27 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
       $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
 
-      // Build application rate units options from units / spray taxonomy.
+      // Spray application rate units.
       $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'spray');
 
-      // Nutrient application rate - number.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Nutrient application rate'),
-        '#description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
-        '#required' => FALSE,
-        '#units_type' => 'select',
-        '#units_options' => $application_rate_units_options,
-      ]);
+      // Nutrient application rate.
+      $nutrient_application_rate = [
+        'title' => $this->t('Nutrient application rate'),
+        'description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $application_rate_units_options],
+      ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityField($nutrient_application_rate);
 
-      // Product application rate - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Product application rate'),
-        '#description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
-        '#required' => TRUE,
-        '#units_type' => 'select',
-        '#units_options' => $application_rate_units_options,
-      ]);
+      // Product application rate.
+      $product_application_rate = [
+        'title' => $this->t('Product application rate'),
+        'description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $application_rate_units_options],
+        'required' => TRUE,
+      ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityField($product_application_rate);
 
       // Product area - number - required.
       $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = [
@@ -169,21 +168,18 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
-      // Build volume units options from units / volume taxonomy.
-      // @todo We need to specify the correct fuel units.
-      // The volume units are not the same for every field.
-      $application_volume_units_options = [];
+      // Application volume units.
+      $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
 
-      // Product volume - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Product volume'),
-        '#description' => $this->t('The total amount of product required to cover the field area(s).'),
-        '#required' => TRUE,
-        '#units_type' => 'select',
-        '#units_options' => $application_volume_units_options,
-      ]);
-
+      // Product volume.
+      $product_volume = [
+        'title' => $this->t('Product volume'),
+        'description' => $this->t('The total amount of product required to cover the field area(s).'),
+        'measure' => ['#value' => 'volume'],
+        'units' => ['#options' => $application_volume_units_options],
+        'required' => TRUE,
+      ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityField($product_volume);
     }
 
     // COSSH Hazard Assessments.
