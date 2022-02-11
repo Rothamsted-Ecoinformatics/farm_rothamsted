@@ -600,6 +600,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $machinery = array_filter($form_state->getValue('machinery'));
     $log['equipment'] = [...$machinery, $tractor];
 
+    // Quantities.
+    $quantity_keys = ['fuel_use'];
+    $log['quantity'] = $this->getQuantities($quantity_keys, $form_state);
+
     // Files.
     $file_fields = ['recommendation_files'];
     $log['file'] = $this->getFileIds($file_fields, $form_state);
@@ -630,7 +634,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // @todo Include remaining base form fields.
     // Tractor hours.
     // Time taken.
-    // Fuel use.
 
     return $log;
   }
@@ -664,6 +667,41 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'value' => implode(PHP_EOL, $notes),
       'format' => 'default',
     ];
+  }
+
+  /**
+   * Helper function to get quantities to reference in the log quantity field.
+   *
+   * This function should be implemented by quick form subclasses that provide
+   * additional quantities.
+   *
+   * @param array $field_keys
+   *   The quantity form field keys to include.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of quantity values that will be used to create quantities.
+   *
+   * @see QuickQuantityFieldTrait::buildQuantityField()
+   * @see \Drupal\farm_quick\Traits\QuickQuantityTrait::createQuantity()
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+
+    // Get quantity values for each group of quantity fields.
+    $quantities = [];
+    foreach ($field_keys as $field_key) {
+
+      // Get submitted value.
+      $quantity = $form_state->getValue($field_key);
+
+      // Ensure the quantity is an array and has a value.
+      if (is_array($quantity) && !empty($quantity['value'])) {
+        $quantities[] = $quantity;
+      }
+    }
+
+    return $quantities;
   }
 
   /**
