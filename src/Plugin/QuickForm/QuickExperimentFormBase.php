@@ -12,6 +12,7 @@ use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
+use Drupal\farm_rothamsted\Traits\QuickQuantityFieldTrait;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -22,6 +23,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
   use QuickPrepopulateTrait;
   use QuickLogTrait;
+  use QuickQuantityFieldTrait;
 
   /**
    * The valid file extensions.
@@ -283,20 +285,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Fuel use units options.
+    // Fuel use.
     $fuel_use_units_options = [
-      '' => '- Select -',
       'l' => 'l',
       'gal' => 'gal',
     ];
-
-    $form['operation']['fuel_use'] = $this->buildQuantityUnitsElement([
-      '#title' => $this->t('Fuel use'),
-      '#description' => $this->t('The amount of fuel used.'),
-      '#type' => 'number',
-      '#units_type' => 'select',
-      '#units_options' => $fuel_use_units_options,
-    ]);
+    $fuel_use = [
+      'title' => $this->t('Fuel use'),
+      'description' => $this->t('The amount of fuel used.'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $fuel_use_units_options],
+      'border' => FALSE,
+    ];
+    $form['operation']['fuel_use'] = $this->buildQuantityField($fuel_use);
 
     // Photographs wrapper.
     $form['operation']['photographs'] = $this->buildInlineWrapper();
