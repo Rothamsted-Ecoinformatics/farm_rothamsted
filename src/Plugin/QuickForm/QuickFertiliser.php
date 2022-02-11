@@ -128,13 +128,13 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#size' => 20,
       ];
 
-      // Nutrient content - text - optional.
-      $nutrient_wrapper['nutrient_content'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Nutrient content (%)'),
-        '#description' => $this->t('The proportion of the mineral in the product.'),
-        '#size' => 20,
-      ];
+      // Nutrient content.
+      $nutrient_wrapper['nutrient_content'] = $this->buildQuantityField([
+        'title' => $this->t('Nutrient content (%)'),
+        'description' => $this->t('The proportion of the mineral in the product.'),
+        'measure' => ['#value' => 'ratio'],
+        'units' => ['#value' => '%'],
+      ]);
 
       $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
 
@@ -160,13 +160,14 @@ class QuickFertiliser extends QuickExperimentFormBase {
       ];
       $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityField($product_application_rate);
 
-      // Product area - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = [
-        '#type' => 'number',
-        '#title' => $this->t('Product area'),
-        '#description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
-        '#required' => TRUE,
-      ];
+      // Product area.
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = $this->buildQuantityField([
+        'title' => $this->t('Product area'),
+        'description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
+        'measure' => ['#value' => 'area'],
+        'units' => ['#value' => 'ha'],
+        'required' => TRUE,
+      ]);
 
       // Application volume units.
       $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');

@@ -114,22 +114,20 @@ class QuickDrilling extends QuickExperimentFormBase {
     $drilling['establishment_average'] = $this->buildQuantityField($establishment_average);
 
     // Germination rate.
-    $drilling['germination_rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Germination rate'),
-      '#description' => $this->t('The germination rate of the seed batch, measured by placing 50 to 100 seeds in a sealed tupperware box lined with wet kitchen roll and counting the number of seeds germinated after 10 - 14 days.'),
-      '#field_suffix' => $this->t('%'),
-      '#required' => FALSE,
-    ];
+    $drilling['germination_rate'] = $this->buildQuantityField([
+      'title' => $this->t('Germination rate'),
+      'description' => $this->t('The germination rate of the seed batch, measured by placing 50 to 100 seeds in a sealed tupperware box lined with wet kitchen roll and counting the number of seeds germinated after 10 - 14 days.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#value' => '%'],
+    ]);
 
     // Thousand grain weight.
-    $drilling['thousand_grain_weight'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Thousand grain weight (TGW)'),
-      '#description' => $this->t('The average weight of 1,000 grains.'),
-      '#field_suffix' => $this->t('g'),
-      '#required' => FALSE,
-    ];
+    $drilling['thousand_grain_weight'] = $this->buildQuantityField([
+      'title' => $this->t('Thousand grain weight (TGW)'),
+      'description' => $this->t('The average weight of 1,000 grains.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#value' => 'g'],
+    ]);
 
     // Seed rate.
     $seed_rate_units_options = [
@@ -146,31 +144,30 @@ class QuickDrilling extends QuickExperimentFormBase {
     $drilling['seed_rate'] = $this->buildQuantityField($seed_rate);
 
     // Drilling rate.
-    $drilling['drilling_rate'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Drilling rate'),
-      '#description' => $this->t('The volume of seed drilled per unit area. This information must be provided as it is essential information for scientists wanting to analyse the crop data.'),
-      '#field_suffix' => $this->t('kg/ha'),
-      '#required' => TRUE,
-    ];
+    $drilling['drilling_rate'] = $this->buildQuantityField([
+      'title' => $this->t('Drilling rate'),
+      'description' => $this->t('The volume of seed drilled per unit area. This information must be provided as it is essential information for scientists wanting to analyse the crop data.'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#value' => 'kg/ha'],
+      'required' => TRUE,
+    ]);
 
-    // Seed volume.
-    $drilling['seed_volume'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Seed volume'),
-      '#description' => $this->t('The total amount of seed needed for a given area.'),
-      '#field_suffix' => $this->t('kg'),
-      '#required' => TRUE,
-    ];
+    // Seed weight.
+    $drilling['seed_weight'] = $this->buildQuantityField([
+      'title' => $this->t('Seed weight'),
+      'description' => $this->t('The total amount of seed needed for a given area.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#value' => 'kg'],
+      'required' => TRUE,
+    ]);
 
     // Drilling depth.
-    $drilling['drilling_depth'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Drilling depth'),
-      '#description' => $this->t('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
-      '#field_suffix' => $this->t('cm'),
-      '#required' => FALSE,
-    ];
+    $drilling['drilling_depth'] = $this->buildQuantityField([
+      'title' => $this->t('Drilling depth'),
+      'description' => $this->t('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
+      'measure' => ['#value' => 'length'],
+      'units' => ['#value' => 'cm'],
+    ]);
 
     // Seed dressings.
     $seed_dressing_options = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');

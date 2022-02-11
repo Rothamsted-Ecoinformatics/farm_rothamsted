@@ -222,14 +222,13 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
     ];
 
-    // Pressure - number.
-    $spraying['pressure'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Pressure'),
-      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
-      '#field_suffix' => $this->t('bar'),
-      '#required' => FALSE,
-    ];
+    // Pressure.
+    $spraying['pressure'] = $this->buildQuantityField([
+      'title' => $this->t('Pressure'),
+      'description' => $this->t('The water pressure used when applying the product, where relevant.'),
+      'measure' => ['#value' => 'pressure'],
+      'units' => ['#value' => 'bar'],
+    ]);
 
     // Seed labels.
     $spraying['seed_labels'] = [
@@ -355,13 +354,13 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weather['weather_info'] = $this->buildInlineWrapper();
 
     // Temperature (Degrees C).
-    $weather['weather_info']['temperature'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Temperature (C)'),
-      '#description' => $this->t('The average temperature during spraying.'),
-      '#field_suffix' => $this->t('C'),
-      '#required' => TRUE,
-    ];
+    $weather['weather_info']['temperature'] = $this->buildQuantityField([
+      'title' => $this->t('Temperature (C)'),
+      'description' => $this->t('The average temperature during spraying.'),
+      'measure' => ['#value' => 'temperature'],
+      'units' => ['#value' => 'C'],
+      'required' => TRUE,
+    ]);
 
     // Weather types.
     $weather_types = [
