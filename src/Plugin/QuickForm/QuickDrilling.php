@@ -92,31 +92,26 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
 
     // Target plant population.
-    // @todo Target plant population ??
-    $drilling['target_plant_population'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Target plant population'),
-      '#description' => $this->t('The target population for plant establishment after drilling.'),
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $target_plant_population_units_options,
-    ]);
+    $target_plant_population = [
+      'title' => $this->t('Target plant population'),
+      'description' => $this->t('The target population for plant establishment after drilling.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#options' => $target_plant_population_units_options],
+    ];
+    $drilling['target_plant_population'] = $this->buildQuantityField($target_plant_population);
 
-    // Establishment average units options.
+    // Establishment average.
     $establishment_average_units_options = [
       'plants/ m2' => 'plants/ m2',
       '%' => '%',
     ];
-
-    // Establishment average.
-    $drilling['establishment_average'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Establishment average'),
-      '#description' => $this->t('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $establishment_average_units_options,
-    ]);
+    $establishment_average = [
+      'title' => $this->t('Establishment average'),
+      'description' => $this->t('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $establishment_average_units_options],
+    ];
+    $drilling['establishment_average'] = $this->buildQuantityField($establishment_average);
 
     // Germination rate.
     $drilling['germination_rate'] = [
@@ -136,21 +131,19 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Seed rate units options.
+    // Seed rate.
     $seed_rate_units_options = [
       'seeds/ m2' => 'seeds/ m2',
       'units/ha' => 'units/ha',
     ];
-
-    // Seed rate.
-    $drilling['seed_rate'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Seed rate'),
-      '#description' => $this->t('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
-      '#required' => TRUE,
-      '#units_type' => 'select',
-      '#units_options' => $seed_rate_units_options,
-    ]);
+    $seed_rate = [
+      'title' => $this->t('Seed rate'),
+      'description' => $this->t('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#options' => $seed_rate_units_options],
+      'required' => TRUE,
+    ];
+    $drilling['seed_rate'] = $this->buildQuantityField($seed_rate);
 
     // Drilling rate.
     $drilling['drilling_rate'] = [
@@ -199,7 +192,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Product application rate units options.
+    // Product application rate.
     $product_application_rate_units_options = [
       'l/ha' => 'l/ha',
       'kg/ha' => 'kg/ha',
@@ -207,16 +200,13 @@ class QuickDrilling extends QuickExperimentFormBase {
       'g/ha' => 'g/ha',
       't/ha' => 't/ha',
     ];
-
-    // Product application rate.
-    $drilling['product_application_rate'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Product application rate'),
-      '#description' => $this->t('The volume of product per unit that needs to be applied in order to achieve the desired nutrient rate(s).'),
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $product_application_rate_units_options,
-    ]);
+    $product_application_rate = [
+      'title' => $this->t('Product application rate'),
+      'description' => $this->t('The volume of product per unit that needs to be applied in order to achieve the desired nutrient rate(s).'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#options' => $product_application_rate_units_options],
+    ];
+    $drilling['product_application_rate'] = $this->buildQuantityField($product_application_rate);
 
     // Seed lineage options.
     $seed_lineage_options = [
