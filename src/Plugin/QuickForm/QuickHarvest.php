@@ -169,6 +169,26 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+
+    // Include number of samples.
+    $field_keys[] = 'number_of_samples';
+
+    // Include batch quantity keys.
+    $batch_count = $form_state->getValue('batch_count');
+    for ($i = 0; $i < $batch_count; $i++) {
+      $field_keys[] = ['batches', $i, 'tare'];
+      $field_keys[] = ['batches', $i, 'gross_weight'];
+      $field_keys[] = ['batches', $i, 'nett_weight'];
+      $field_keys[] = ['batches', $i, 'moisture_content'];
+    }
+
+    return parent::getQuantities($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
     $field_keys[] = 'digital_harvest_records';
     return parent::getImageIds($field_keys, $form_state);
