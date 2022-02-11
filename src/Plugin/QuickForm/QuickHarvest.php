@@ -75,6 +75,9 @@ class QuickHarvest extends QuickExperimentFormBase {
     $quantities = $form_state->getValue('batch_count', 1);
     for ($i = 0; $i < $quantities; $i++) {
 
+      // Save a normal batch number.
+      $batch_number = $i + 1;
+
       // Fieldset for each batch.
       $harvest['trailor_batch']['batches'][$i] = [
         '#type' => 'details',
@@ -89,6 +92,7 @@ class QuickHarvest extends QuickExperimentFormBase {
         'description' => $this->t('The weight of the trailor, as measured on the scales.'),
         'measure' => ['#value' => 'weight'],
         'units' => ['#value' => 'kg'],
+        'label' => ['#value' => "Batch $batch_number tare"],
       ]);
 
       // Gross weight.
@@ -97,6 +101,7 @@ class QuickHarvest extends QuickExperimentFormBase {
         'description' => $this->t('The weight of the trailor + harvested grain, as measured on the scales.'),
         'measure' => ['#value' => 'weight'],
         'units' => ['#value' => 'kg'],
+        'label' => ['#value' => "Batch $batch_number gross weight"],
       ]);
 
       // Nett weight.
@@ -105,6 +110,7 @@ class QuickHarvest extends QuickExperimentFormBase {
         'description' => $this->t('The weight of the harvested grain.'),
         'measure' => ['#value' => 'weight'],
         'units' => ['#value' => 'kg'],
+        'label' => ['#value' => "Batch $batch_number nett weight"],
       ]);
 
       // Moisture content.
@@ -113,6 +119,7 @@ class QuickHarvest extends QuickExperimentFormBase {
         'description' => $this->t('The moisture content of the grain at the harvest.'),
         'measure' => ['#value' => 'ratio'],
         'units' => ['#value' => '%'],
+        'label' => ['#value' => "Batch $batch_number moisture content"],
       ]);
     }
 
