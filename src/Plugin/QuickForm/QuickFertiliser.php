@@ -211,6 +211,21 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    // @todo Include nutrient quantities with correct labels.
+    $nutrient_count = $form_state->getValue('nutrient_count');
+    for ($i = 0; $i < $nutrient_count; $i++) {
+      $field_keys[] = ['nutrients', $i, 'nutrient_wrapper', 'nutrient_content'];
+      $field_keys[] = ['nutrients', $i, 'nutrient_application_rate'];
+      $field_keys[] = ['nutrients', $i, 'product_area'];
+      $field_keys[] = ['nutrients', $i, 'product_volume'];
+    }
+    return parent::getQuantities($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
