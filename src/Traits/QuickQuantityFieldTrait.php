@@ -34,6 +34,12 @@ trait QuickQuantityFieldTrait {
       }
     }
 
+    // Auto-populate the unit #options if the #value is specified.
+    if (isset($config['units']['#value']) && empty($config['units']['#options'])) {
+      $default_unit = $config['units']['#value'];
+      $config['units']['#options'] = [$default_unit => $default_unit];
+    }
+
     // Default config.
     $default_config = [
       'border' => FALSE,
