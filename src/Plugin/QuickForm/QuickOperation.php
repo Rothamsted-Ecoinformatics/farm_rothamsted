@@ -148,4 +148,12 @@ class QuickOperation extends QuickExperimentFormBase {
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    $field_keys[] = 'depth';
+    return parent::getQuantities($field_keys, $form_state);
+  }
+
 }
