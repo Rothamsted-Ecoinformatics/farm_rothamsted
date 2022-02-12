@@ -117,26 +117,22 @@ class QuickSpraying extends QuickExperimentFormBase {
         '#required' => TRUE,
       ];
 
-      // Product rate units.
+      // Product rate.
       $product_rate_units = [
-        '',
         'l/ha',
         'kg/ha',
         'ml/ha',
         'g/ha',
       ];
       $product_rate_unit_options = array_combine($product_rate_units, $product_rate_units);
-
-      // Product rate.
-      $spraying['sprayed_products']['products'][$i]['product_rate'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Product rate'),
-        '#description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
-        '#required' => TRUE,
-        '#units_type' => 'select',
-        '#units_options' => $product_rate_unit_options,
-      ]);
-
+      $product_rate = [
+        'title' => $this->t('Product rate'),
+        'description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $product_rate_unit_options],
+        'required' => TRUE,
+      ];
+      $spraying['sprayed_products']['products'][$i]['product_rate'] = $this->buildQuantityField($product_rate);
     }
     // ------------end of product area --------------------
 
@@ -157,22 +153,18 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Area sprayed units options.
+    // Area sprayed.
     $area_sprayed_units_options = [
       'm2' => 'm2',
       'ha' => 'ha',
     ];
-
-    // Area sprayed.
-    $spraying['area_sprayed'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Area sprayed'),
-      '#description' => $this->t('The total area being sprayed.'),
-      '#input_group' => TRUE,
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $area_sprayed_units_options,
-    ]);
+    $area_sprayed = [
+      'title' => $this->t('Area sprayed'),
+      'description' => $this->t('The total area being sprayed.'),
+      'measure' => ['#value' => 'area'],
+      'units' => ['#options' => $area_sprayed_units_options],
+    ];
+    $spraying['area_sprayed'] = $this->buildQuantityField($area_sprayed);
 
     // RRES product number.
     $spraying['rres_product_number'] = [
@@ -182,39 +174,35 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Product quantity units options.
+    // Product quantity.
     $product_quantity_units_options = [
       'l' => 'l',
       'kg' => 'kg',
       'ml' => 'ml',
       'gal' => 'gal',
     ];
+    $product_quantity = [
+      'title' => $this->t('Product quantity'),
+      'description' => $this->t('The total amount of product required to cover the field area(s)'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#options' => $product_quantity_units_options],
+      'required' => TRUE,
+    ];
+    $spraying['product_quantity'] = $this->buildQuantityField($product_quantity);
 
-    // Product quantity.
-    $spraying['product_quantity'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Product quantity'),
-      '#description' => $this->t('The total amount of product required to cover the field area(s)'),
-      '#required' => TRUE,
-      '#units_type' => 'select',
-      '#units_options' => $product_quantity_units_options,
-    ]);
-
-    // Water volume units options.
+    // Water volume.
     $water_volume_units_options = [
       'l' => 'l',
       'gal' => 'gal',
     ];
-
-    // Water volume.
-    $spraying['water_volume'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Water volume'),
-      '#description' => $this->t('The total amount of water required to cover the field area(s).'),
-      '#required' => TRUE,
-      '#units_type' => 'select',
-      '#units_options' => $water_volume_units_options,
-    ]);
+    $water_volume = [
+      'title' => $this->t('Water volume'),
+      'description' => $this->t('The total amount of water required to cover the field area(s).'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $water_volume_units_options],
+      'required' => TRUE,
+    ];
+    $spraying['water_volume'] = $this->buildQuantityField($water_volume);
 
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
@@ -234,14 +222,13 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
     ];
 
-    // Pressure - number.
-    $spraying['pressure'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Pressure'),
-      '#description' => $this->t('The water pressure used when applying the product, where relevant.'),
-      '#field_suffix' => $this->t('bar'),
-      '#required' => FALSE,
-    ];
+    // Pressure.
+    $spraying['pressure'] = $this->buildQuantityField([
+      'title' => $this->t('Pressure'),
+      'description' => $this->t('The water pressure used when applying the product, where relevant.'),
+      'measure' => ['#value' => 'pressure'],
+      'units' => ['#value' => 'bar'],
+    ]);
 
     // Seed labels.
     $spraying['seed_labels'] = [
@@ -298,21 +285,18 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Tank volume remaining units options.
+    // Tank volume remaining.
     $tank_volume_ramaining_units_options = [
       'l' => 'l',
       'gal' => 'gal',
     ];
-
-    // Tank volume remaining.
-    $tank['tank_volume_remaining'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Tank volume remaining'),
-      '#description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $tank_volume_ramaining_units_options,
-    ]);
+    $tank_volume_remaining = [
+      'title' => $this->t('Tank volume remaining'),
+      'description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $tank_volume_ramaining_units_options],
+    ];
+    $tank['tank_volume_remaining'] = $this->buildQuantityField($tank_volume_remaining);
 
     // Equipment triple Rinsed.
     $tank['rinsed'] = [
@@ -333,20 +317,18 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the tank tab and fields to the form.
     $form['tank'] = $tank;
 
-    // Wind speed units options.
+    // Wind speed.
     $wind_speed_units_options = [
       'kph' => 'kph',
     ];
-
-    // Wind speed.
-    $weather['wind_speed'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Wind speed'),
-      '#description' => $this->t('The maximum wind speed during spraying.'),
-      '#required' => TRUE,
-      '#units_type' => 'select',
-      '#units_options' => $wind_speed_units_options,
-    ]);
+    $wind_speed = [
+      'title' => $this->t('Wind speed'),
+      'description' => $this->t('The maximum wind speed during spraying.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#options' => $wind_speed_units_options],
+      'required' => TRUE,
+    ];
+    $weather['wind_speed'] = $this->buildQuantityField($wind_speed);
 
     // Wind direction.
     $wind_directions = [
@@ -372,13 +354,13 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weather['weather_info'] = $this->buildInlineWrapper();
 
     // Temperature (Degrees C).
-    $weather['weather_info']['temperature'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Temperature (C)'),
-      '#description' => $this->t('The average temperature during spraying.'),
-      '#field_suffix' => $this->t('C'),
-      '#required' => TRUE,
-    ];
+    $weather['weather_info']['temperature'] = $this->buildQuantityField([
+      'title' => $this->t('Temperature (C)'),
+      'description' => $this->t('The average temperature during spraying.'),
+      'measure' => ['#value' => 'temperature'],
+      'units' => ['#value' => 'C'],
+      'required' => TRUE,
+    ]);
 
     // Weather types.
     $weather_types = [
@@ -408,21 +390,18 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the weather tab and fields to the form.
     $form['weather'] = $weather;
 
-    // Speed driven units options.
+    // Speed driven.
     $speed_driven_units_options = [
       'mph' => 'mph',
       'kmh' => 'km/h',
     ];
-
-    // Speed driven.
-    $operation['speed_driven'] = $this->buildQuantityUnitsElement([
-      '#type' => 'number',
-      '#title' => $this->t('Speed driven'),
-      '#description' => $this->t('The travelling speed when spraying, where relevant.'),
-      '#required' => FALSE,
-      '#units_type' => 'select',
-      '#units_options' => $speed_driven_units_options,
-    ]);
+    $speed_driven = [
+      'title' => $this->t('Speed driven'),
+      'description' => $this->t('The travelling speed when spraying, where relevant.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#options' => $speed_driven_units_options],
+    ];
+    $operation['speed_driven'] = $this->buildQuantityField($speed_driven);
 
     // Add the operation tab and fields to the form.
     $form['operation'] = $operation;
@@ -435,6 +414,31 @@ class QuickSpraying extends QuickExperimentFormBase {
    */
   public function productsCallback(array $form, FormStateInterface $form_state) {
     return $form['spraying']['sprayed_products']['products'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+
+    // @todo Include product quantities with correct label.
+    $product_count = $form_state->getValue('product_count');
+    for ($i = 0; $i < $product_count; $i++) {
+      $field_keys[] = ['products', $i, 'product_rate'];
+    }
+
+    array_push(
+      $field_keys,
+      'area_sprayed',
+      'product_quantity',
+      'water_volume',
+      'pressure',
+      'tank_volume_remaining',
+      'wind_speed',
+      'temperature',
+      'speed_driven',
+    );
+    return parent::getQuantities($field_keys, $form_state);
   }
 
   /**

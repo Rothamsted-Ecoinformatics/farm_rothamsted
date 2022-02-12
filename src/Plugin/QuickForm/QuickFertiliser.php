@@ -128,62 +128,59 @@ class QuickFertiliser extends QuickExperimentFormBase {
         '#size' => 20,
       ];
 
-      // Nutrient content - text - optional.
-      $nutrient_wrapper['nutrient_content'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Nutrient content (%)'),
-        '#description' => $this->t('The proportion of the mineral in the product.'),
-        '#size' => 20,
-      ];
+      // Nutrient content.
+      $nutrient_wrapper['nutrient_content'] = $this->buildQuantityField([
+        'title' => $this->t('Nutrient content (%)'),
+        'description' => $this->t('The proportion of the mineral in the product.'),
+        'measure' => ['#value' => 'ratio'],
+        'units' => ['#value' => '%'],
+      ]);
 
       $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
 
-      // Build application rate units options from units / spray taxonomy.
+      // Spray application rate units.
       $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'spray');
 
-      // Nutrient application rate - number.
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Nutrient application rate'),
-        '#description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
-        '#required' => FALSE,
-        '#units_type' => 'select',
-        '#units_options' => $application_rate_units_options,
-      ]);
-
-      // Product application rate - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Product application rate'),
-        '#description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
-        '#required' => TRUE,
-        '#units_type' => 'select',
-        '#units_options' => $application_rate_units_options,
-      ]);
-
-      // Product area - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = [
-        '#type' => 'number',
-        '#title' => $this->t('Product area'),
-        '#description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
-        '#required' => TRUE,
+      // Nutrient application rate.
+      $nutrient_application_rate = [
+        'title' => $this->t('Nutrient application rate'),
+        'description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $application_rate_units_options],
       ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityField($nutrient_application_rate);
 
-      // Build volume units options from units / volume taxonomy.
-      // @todo We need to specify the correct fuel units.
-      // The volume units are not the same for every field.
-      $application_volume_units_options = [];
+      // Product application rate.
+      $product_application_rate = [
+        'title' => $this->t('Product application rate'),
+        'description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $application_rate_units_options],
+        'required' => TRUE,
+      ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityField($product_application_rate);
 
-      // Product volume - number - required.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityUnitsElement([
-        '#type' => 'number',
-        '#title' => $this->t('Product volume'),
-        '#description' => $this->t('The total amount of product required to cover the field area(s).'),
-        '#required' => TRUE,
-        '#units_type' => 'select',
-        '#units_options' => $application_volume_units_options,
+      // Product area.
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = $this->buildQuantityField([
+        'title' => $this->t('Product area'),
+        'description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
+        'measure' => ['#value' => 'area'],
+        'units' => ['#value' => 'ha'],
+        'required' => TRUE,
       ]);
 
+      // Application volume units.
+      $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
+
+      // Product volume.
+      $product_volume = [
+        'title' => $this->t('Product volume'),
+        'description' => $this->t('The total amount of product required to cover the field area(s).'),
+        'measure' => ['#value' => 'volume'],
+        'units' => ['#options' => $application_volume_units_options],
+        'required' => TRUE,
+      ];
+      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityField($product_volume);
     }
 
     // COSSH Hazard Assessments.
@@ -209,6 +206,21 @@ class QuickFertiliser extends QuickExperimentFormBase {
    */
   public function nutrientCallback(array $form, FormStateInterface $form_state) {
     return $form['fertiliser']['nutrient_input']['nutrients'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    // @todo Include nutrient quantities with correct labels.
+    $nutrient_count = $form_state->getValue('nutrient_count');
+    for ($i = 0; $i < $nutrient_count; $i++) {
+      $field_keys[] = ['nutrients', $i, 'nutrient_wrapper', 'nutrient_content'];
+      $field_keys[] = ['nutrients', $i, 'nutrient_application_rate'];
+      $field_keys[] = ['nutrients', $i, 'product_area'];
+      $field_keys[] = ['nutrients', $i, 'product_volume'];
+    }
+    return parent::getQuantities($field_keys, $form_state);
   }
 
   /**

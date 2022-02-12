@@ -12,6 +12,7 @@ use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
+use Drupal\farm_rothamsted\Traits\QuickQuantityFieldTrait;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -22,6 +23,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
   use QuickPrepopulateTrait;
   use QuickLogTrait;
+  use QuickQuantityFieldTrait;
 
   /**
    * The valid file extensions.
@@ -106,52 +108,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $container->get('entity_type.manager'),
       $container->get('group.membership'),
     );
-  }
-
-  /**
-   * Helper function to generate inline quantity and unit elements from config.
-   *
-   * @param array $config
-   *   Array of configuration options fully supporting drupal core options
-   *
-   *   Additional options:
-   *     '#units_type' => 'select' or 'radios'
-   *     '#units_options' => options array as per core.
-   *
-   * @return array
-   *   An array containing both form elements within wrapper to keep inline
-   */
-  protected function buildQuantityUnitsElement(array $config) {
-
-    // Flex container wrapper.
-    $element = [
-      '#type' => 'container',
-      '#attributes' => [
-        'style' => ['display: flex; flex-wrap: wrap; column-gap: 0.5em; margin-bottom: -1em'],
-      ],
-    ];
-
-    // Add description in the suffix to exclude from flex container.
-    if (!empty($config['#description'])) {
-      $element['#suffix'] = '<div class="form-item__description">' . $config['#description'] . '</div>';
-      // We don't want description bleeding into main element.
-      unset($config['#description']);
-    }
-
-    // Main quantity element.
-    $element['quantity'] = $config;
-
-    // Units.
-    if (isset($config['#units_options'])) {
-      $element['units'] = [];
-      $element['units']['#type'] = (isset($config['#units_type'])) ? $config['#units_type'] : 'select';
-      $element['units']['#title'] = $this->t('Units');
-      $element['units']['#options'] = $config['#units_options'];
-      $element['units']['#required'] = $config['#required'] ?? FALSE;
-      $element['units']['#validated'] = TRUE;
-    }
-
-    return $element;
   }
 
   /**
@@ -283,20 +239,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Fuel use units options.
+    // Fuel use.
     $fuel_use_units_options = [
-      '' => '- Select -',
       'l' => 'l',
       'gal' => 'gal',
     ];
-
-    $form['operation']['fuel_use'] = $this->buildQuantityUnitsElement([
-      '#title' => $this->t('Fuel use'),
-      '#description' => $this->t('The amount of fuel used.'),
-      '#type' => 'number',
-      '#units_type' => 'select',
-      '#units_options' => $fuel_use_units_options,
-    ]);
+    $fuel_use = [
+      'title' => $this->t('Fuel use'),
+      'description' => $this->t('The amount of fuel used.'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $fuel_use_units_options],
+      'border' => FALSE,
+    ];
+    $form['operation']['fuel_use'] = $this->buildQuantityField($fuel_use);
 
     // Photographs wrapper.
     $form['operation']['photographs'] = $this->buildInlineWrapper();
@@ -645,6 +600,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $machinery = array_filter($form_state->getValue('machinery'));
     $log['equipment'] = [...$machinery, $tractor];
 
+    // Quantities.
+    $quantity_keys = ['fuel_use'];
+    $log['quantity'] = $this->getQuantities($quantity_keys, $form_state);
+
     // Files.
     $file_fields = ['recommendation_files'];
     $log['file'] = $this->getFileIds($file_fields, $form_state);
@@ -675,7 +634,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // @todo Include remaining base form fields.
     // Tractor hours.
     // Time taken.
-    // Fuel use.
 
     return $log;
   }
@@ -709,6 +667,41 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'value' => implode(PHP_EOL, $notes),
       'format' => 'default',
     ];
+  }
+
+  /**
+   * Helper function to get quantities to reference in the log quantity field.
+   *
+   * This function should be implemented by quick form subclasses that provide
+   * additional quantities.
+   *
+   * @param array $field_keys
+   *   The quantity form field keys to include.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of quantity values that will be used to create quantities.
+   *
+   * @see QuickQuantityFieldTrait::buildQuantityField()
+   * @see \Drupal\farm_quick\Traits\QuickQuantityTrait::createQuantity()
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+
+    // Get quantity values for each group of quantity fields.
+    $quantities = [];
+    foreach ($field_keys as $field_key) {
+
+      // Get submitted value.
+      $quantity = $form_state->getValue($field_key);
+
+      // Ensure the quantity is an array and has a value.
+      if (is_array($quantity) && !empty($quantity['value'])) {
+        $quantities[] = $quantity;
+      }
+    }
+
+    return $quantities;
   }
 
   /**
