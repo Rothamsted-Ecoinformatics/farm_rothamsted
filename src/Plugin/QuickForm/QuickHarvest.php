@@ -86,8 +86,11 @@ class QuickHarvest extends QuickExperimentFormBase {
         '#open' => TRUE,
       ];
 
+      // Add a wrapper for all the quantity fields.
+      $wrapper = $this->buildInlineWrapper();
+
       // Tare.
-      $harvest['trailor_batch']['batches'][$i]['tare'] = $this->buildQuantityField([
+      $wrapper['tare'] = $this->buildQuantityField([
         'title' => $this->t('Tare'),
         'description' => $this->t('The weight of the trailor, as measured on the scales.'),
         'measure' => ['#value' => 'weight'],
@@ -96,7 +99,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       ]);
 
       // Gross weight.
-      $harvest['trailor_batch']['batches'][$i]['gross_weight'] = $this->buildQuantityField([
+      $wrapper['gross_weight'] = $this->buildQuantityField([
         'title' => $this->t('Gross weight'),
         'description' => $this->t('The weight of the trailor + harvested grain, as measured on the scales.'),
         'measure' => ['#value' => 'weight'],
@@ -105,7 +108,7 @@ class QuickHarvest extends QuickExperimentFormBase {
       ]);
 
       // Nett weight.
-      $harvest['trailor_batch']['batches'][$i]['nett_weight'] = $this->buildQuantityField([
+      $wrapper['nett_weight'] = $this->buildQuantityField([
         'title' => $this->t('Nett weight'),
         'description' => $this->t('The weight of the harvested grain.'),
         'measure' => ['#value' => 'weight'],
@@ -114,13 +117,15 @@ class QuickHarvest extends QuickExperimentFormBase {
       ]);
 
       // Moisture content.
-      $harvest['trailor_batch']['batches'][$i]['moisture_content'] = $this->buildQuantityField([
+      $wrapper['moisture_content'] = $this->buildQuantityField([
         'title' => $this->t('Moisture content'),
         'description' => $this->t('The moisture content of the grain at the harvest.'),
         'measure' => ['#value' => 'ratio'],
         'units' => ['#value' => '%'],
         'label' => ['#value' => "Batch $batch_number moisture content"],
       ]);
+
+      $harvest['trailor_batch']['batches'][$i]['quantities'] = $wrapper;
     }
 
     // Number of samples.
@@ -184,10 +189,10 @@ class QuickHarvest extends QuickExperimentFormBase {
     // Include batch quantity keys.
     $batch_count = $form_state->getValue('batch_count');
     for ($i = 0; $i < $batch_count; $i++) {
-      $field_keys[] = ['batches', $i, 'tare'];
-      $field_keys[] = ['batches', $i, 'gross_weight'];
-      $field_keys[] = ['batches', $i, 'nett_weight'];
-      $field_keys[] = ['batches', $i, 'moisture_content'];
+      $field_keys[] = ['batches', $i, 'quantities', 'tare'];
+      $field_keys[] = ['batches', $i, 'quantities', 'gross_weight'];
+      $field_keys[] = ['batches', $i, 'quantities', 'nett_weight'];
+      $field_keys[] = ['batches', $i, 'quantities', 'moisture_content'];
     }
 
     return parent::getQuantities($field_keys, $form_state);
