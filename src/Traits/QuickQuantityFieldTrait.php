@@ -88,28 +88,39 @@ trait QuickQuantityFieldTrait {
     // Include each quantity subfield.
     $render['measure'] = $config['measure'];
     $render['value'] = $config['value'];
-    $render['units'] = $config['units'];
     $render['label'] = $config['label'];
 
+    // Save units to a variable for now.
+    // The key may be saved as units or units_id.
+    $units_key_name = 'units';
+    $units = $config['units'];
+
     // Check if unit options are provided.
-    if (!empty($render['units']['#options'])) {
-      $units_options = $render['units']['#options'];
+    if (!empty($units['#options'])) {
+      $units_options = $units['#options'];
+
+      // If a numeric value is provided, assume these are term ids.
+      if (is_numeric(key($units_options))) {
+        $units_key_name = 'units_id';
+      }
 
       // Render the units as select options.
-      $render['units'] += [
+      $units += [
         '#type' => 'select',
         '#options' => $units_options,
       ];
 
       // If the unit value is hard-coded add a field suffix to the value field
       // with the first option label.
-      if (isset($render['units']['#value'])) {
-        $render['value']['#field_suffix'] = key($units_options);
+      if (isset($units['#value'])) {
+        $render['value']['#field_suffix'] = current($units_options);
       }
     }
-    // Else default to entity_autocomplete unit term.
+    // Else default to entity_autocomplete unit terms. Use the units_id key.
     else {
-      $render['units'] += [
+      $units_key_name = 'units_id';
+      // Add entity_autocomplete.
+      $units += [
         '#type' => 'entity_autocomplete',
         '#placeholder' => $this->t('Units'),
         '#target_type' => 'taxonomy_term',
@@ -121,6 +132,9 @@ trait QuickQuantityFieldTrait {
         '#size' => 15,
       ];
     }
+
+    // Include units in render array.
+    $render[$units_key_name] = $units;
 
     // Check if the quantity is required.
     if (!empty($config['required'])) {
