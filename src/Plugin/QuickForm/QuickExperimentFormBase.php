@@ -137,6 +137,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#weight' => 10,
     ];
 
+    // Metadata tab.
+    $form['metadata'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Metadata'),
+      '#group' => 'tabs',
+      '#weight' => -110,
+    ];
+
     // Load prepopulated assets.
     $default_assets = $this->getPrepopulatedEntities('asset');
 
@@ -333,6 +341,276 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#title' => $this->t('Flag'),
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
+    ];
+
+    // Metadata tab.
+    // General.
+    $form['metadata']['general'] = [
+      '#tree' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => $this->t('General'),
+      '#collapible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+
+    // Experiment name.
+    $form['metadata']['general']['experiment_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Experiment name'),
+      '#description' => $this->t('The name of the study, for example "Large Scale Rotation Experiment (2020)".'),
+      '#required' => FALSE,
+    ];
+
+    // Experiment code.
+    $form['metadata']['general']['experiment_code'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Experiment code'),
+      '#description' => $this->t('The unique identifier for the study, for example 2020/R/C5/790.'),
+      '#required' => FALSE,
+    ];
+
+    // Project code.
+    $form['metadata']['general']['project_code'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Project code'),
+      '#description' => $this->t('The project code associated with the project.'),
+      '#required' => FALSE,
+    ];
+
+    // Cost code.
+    $form['metadata']['general']['cost_code'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Cost code'),
+      '#description' => $this->t('The cost code associated with the project.'),
+      '#required' => FALSE,
+    ];
+
+    // Location.
+    $form['metadata']['general']['location'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Location'),
+      '#description' => $this->t('The field(s) or location(s) of the experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // People.
+    $form['metadata']['people'] = [
+      '#tree' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => $this->t('People'),
+      '#collapible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+
+    // Principal investigator.
+    $form['metadata']['people']['principal_investigator'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Principal investigator'),
+      '#description' => $this->t('The lead scientist(s) associated with the experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Data steward.
+    $form['metadata']['people']['principal_investigator'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Data steward'),
+      '#description' => $this->t('The data steward(s) associated with the experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Statistician.
+    $form['metadata']['people']['statistician'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Statistician'),
+      '#description' => $this->t('The statistician(s) associated with the experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Primary contact.
+    $form['metadata']['people']['primary_contact'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Primary contact'),
+      '#description' => $this->t('The Primary contact for this experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Primary contact email.
+    $form['metadata']['people']['primary_contact_email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Primary contact email'),
+      '#description' => $this->t('The email address of the Primary contact.'),
+      '#required' => FALSE,
+    ];
+
+    // Secondary contact.
+    $form['metadata']['people']['secondary_contact'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Secondary contact'),
+      '#description' => $this->t('The secondary contact for this experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Secondary contact email.
+    $form['metadata']['people']['secondary_contact_email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Secondary contact email'),
+      '#description' => $this->t('The email address of the Secondary contact.'),
+      '#required' => FALSE,
+    ];
+
+    // Trial design.
+    $form['metadata']['trial_design'] = [
+      '#tree' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => $this->t('Trial design'),
+      '#collapible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+
+    // Group(s).
+    $group_options = [
+      'please select one',
+      'Annual Experiments',
+      'Crop Sequence Experiments',
+      'Classical Experiments',
+      'Long Term Experiments',
+      'Energy Crop Experiments',
+      'No Propersition Number',
+    ];
+    $group_options = array_combine($group_options, $group_options);
+    $form['metadata']['trial_design']['groups'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Group(s)'),
+      '#description' => $this->t('The type of experiment.'),
+      '#options' => $group_options,
+      '#required' => FALSE,
+    ];
+
+    // Objective.
+    $form['metadata']['trial_design']['objective'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Objective)'),
+      '#description' => $this->t('The objective(s) of the experiment.'),
+      '#required' => FALSE,
+    ];
+
+    // Crop(s).
+    $crop_options = [
+      'select multiple',
+      'Farm crop families',
+    ];
+    // @todo: get options from database
+    $crop_options = array_combine($crop_options, $crop_options);
+    $form['metadata']['trial_design']['crops'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Crop(s)'),
+      '#description' => $this->t('The Crop(s) planted in the experiment.'),
+      '#options' => $crop_options,
+      '#required' => FALSE,
+      '#multiple' => TRUE,
+    ];
+
+    // Drilling year.
+    $form['metadata']['trial_design']['drilling_year'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Drilling year)'),
+      '#description' => $this->t('The year the experiment is to be drilled.'),
+      '#required' => FALSE,
+    ];
+
+    // Harvest year.
+    $form['metadata']['trial_design']['harvest_year'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Harvest year)'),
+      '#description' => $this->t('The year the experiment is to be harvested.'),
+      '#required' => FALSE,
+    ];
+
+    // File upload.
+    $form['metadata']['trial_design']['file_upload'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('File upload'),
+      '#description' => $this->t('The statistical design file associated with the experiment.'),
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
+      '#upload_validators' => [
+        'file_validate_extensions' => self::$validImageExtensions,
+      ],
+      '#multiple' => FALSE,
+      '#extended' => TRUE,
+      '#required' => TRUE,
+    ];
+
+    // Asset status
+    $form['metadata']['asset_status'] = [
+      '#tree' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => $this->t('Asset status'),
+      '#collapible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+
+    // Status.
+    $status_options = [
+      'select one',
+      'Planning',
+      'In field',
+      'Failed',
+      'Harvested',
+    ];
+    // @todo: get options from database
+    $status_options = array_combine($status_options, $status_options);
+    $form['metadata']['asset_status']['status'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Status'),
+      '#description' => $this->t('The current status of the experiment.'),
+      '#options' => $status_options,
+      '#required' => FALSE,
+    ];
+
+    // Images.
+    $form['metadata']['asset_status']['images'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Images'),
+      '#description' => $this->t('Photographs or other images of the experiment'),
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
+      '#upload_validators' => [
+        'file_validate_extensions' => self::$validImageExtensions,
+      ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
+      '#required' => TRUE,
+    ];
+
+    // Deviations of plan.
+    $form['metadata']['asset_status']['deviations'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Deviations of plan)'),
+      '#description' => $this->t('Any deviation from the original statistical design.'),
+      '#required' => FALSE,
+    ];
+
+    // Growing conditions.
+    $form['metadata']['asset_status']['growing_conditions'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Growing conditions)'),
+      '#description' => $this->t('A description of the growing conditions, where relevant.'),
+      '#required' => FALSE,
+    ];
+
+    // Reason for crop failure.
+    $form['metadata']['asset_status']['crop_failure_reasons'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Reason for crop failure)'),
+      '#description' => $this->t('Notes about the cause of crop failure, where relevant.'),
+      '#required' => FALSE,
+    ];
+
+    // Archive.
+    $form['metadata']['asset_status']['archive'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Archive'),
+      '#description' => $this->t('Archived assets will not show in most lists, but will be visible in archives.'),
+      '#required' => FALSE,
     ];
 
     $form['actions'] = [
