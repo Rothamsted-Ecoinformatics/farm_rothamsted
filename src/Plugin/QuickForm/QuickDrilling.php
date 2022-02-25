@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   description = @Translation("Create drilling records."),
  *   helpText = @Translation("Use this form to record drilling records."),
  *   permissions = {
- *     "create seeding log",
+ *     "create drilling log",
  *   }
  * )
  */
@@ -22,7 +22,7 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $logType = 'seeding';
+  protected $logType = 'drilling';
 
   /**
    * {@inheritdoc}
