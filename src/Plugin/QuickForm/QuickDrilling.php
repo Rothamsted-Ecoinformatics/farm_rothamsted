@@ -277,6 +277,18 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  public function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // Add the drilling log plant_type.
+    $log['plant_type'] = $form_state->getValue('crop_variety');
+
+    return $log;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     array_push(
       $field_keys,
