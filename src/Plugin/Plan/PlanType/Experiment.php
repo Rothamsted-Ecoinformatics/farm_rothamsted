@@ -102,7 +102,7 @@ class Experiment extends FarmPlanType {
         'label' => $this->t('Crop(s)'),
         'description' => $this->t('The crop(s) planted in the experiment.'),
         'target_type' => 'taxonomy_term',
-        'target_bundle' => 'plant_type',
+        'target_bundle' => 'crop_family',
         'auto_create' => FALSE,
         'multiple' => TRUE,
       ],
