@@ -12,6 +12,7 @@ dependencies:
   - farm_input
   - farm_land
   - farm_material_type
+  - farm_plant
   - farm_plant_type
   - farm_quick
   - farm_rei:farm_rei
