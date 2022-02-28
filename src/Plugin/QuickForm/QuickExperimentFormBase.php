@@ -182,6 +182,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
+    // Equipment settings.
+    $form['setup']['equipment_settings'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Equipment Settings'),
+      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
+    ];
+
     // Recommendation Number - text - optional.
     $form['setup']['recommendation_number'] = [
       '#type' => 'textfield',
@@ -290,13 +297,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
-    ];
-
-    // Equipment settings.
-    $form['operation']['equipment_settings'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Equipment Settings'),
-      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
     ];
 
     // General operation fields.
