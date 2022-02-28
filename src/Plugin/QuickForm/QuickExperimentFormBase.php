@@ -173,10 +173,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
       $machinery_options_string = implode(",", $this->machineryGroupNames);
       $form['setup']['machinery'] = [
-        '#type' => 'checkboxes',
-        '#title' => $this->t('Machinery'),
-        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names".', [':group_names' => $machinery_options_string]),
+        '#type' => 'select',
+        '#title' => $machinery_options_string,
+        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
         '#options' => $equipment_options,
+        '#multiple' => TRUE,
+        '#required' => TRUE,
       ];
     }
 
