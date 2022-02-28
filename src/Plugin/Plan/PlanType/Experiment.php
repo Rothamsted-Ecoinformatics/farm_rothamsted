@@ -22,15 +22,14 @@ class Experiment extends FarmPlanType {
     $fields = parent::buildFieldDefinitions();
 
     // Define RRES Experiment Cateogry options.
-    $rres_categories = [
-      $this->t('Annual Experiments'),
-      $this->t('Crop Sequence Experiments'),
-      $this->t('Classical Experiments'),
-      $this->t('Long Term Experiments'),
-      $this->t('Energy Crop Experiments'),
-      $this->t('No Proposition Number'),
+    $rres_categories_options = [
+      'AN' => $this->t('Annual Experiments'),
+      'CS' => $this->t('Crop Sequence Experiments'),
+      'CL' => $this->t('Classical Experiments'),
+      'LTE' => $this->t('Long Term Experiments'),
+      'EC' => $this->t('Energy Crop Experiments'),
+      'NA' => $this->t('No Proposition Number'),
     ];
-    $rres_categories_options = array_combine($rres_categories, $rres_categories);
 
     // Build fields using the FarmFieldFactory as possible.
     $field_info = [
