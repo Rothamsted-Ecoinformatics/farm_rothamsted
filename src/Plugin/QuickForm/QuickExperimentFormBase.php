@@ -217,8 +217,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#extended' => TRUE,
     ];
 
+    // Operation time.
+    $form['operation']['time'] = $this->buildInlineWrapper();
+
     // Scheduled date and time.
-    $form['operation']['timestamp'] = [
+    $form['operation']['time']['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Operation start date and time'),
       '#description' => $this->t('The start date and time of the operation.'),
@@ -226,6 +229,23 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#date_time_element' => 'time',
       '#required' => TRUE,
       '#date_year_range' => '-15:+15',
+    ];
+
+    // Time taken.
+    $form['operation']['time']['time_taken']['#tree'] = TRUE;
+    $hour_options = range(0, 12);
+    $form['operation']['time']['time_taken']['hours'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Time taken: Hours'),
+      '#options' => array_combine($hour_options, $hour_options),
+      '#required' => TRUE,
+    ];
+    $minute_options = range(0, 45, 15);
+    $form['operation']['time']['time_taken']['minutes'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Minutes'),
+      '#options' => array_combine($minute_options, $minute_options),
+      '#required' => TRUE,
     ];
 
     // Tractor time.
@@ -246,15 +266,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
       '#required' => TRUE,
       '#group' => 'operation',
-    ];
-
-    // Time taken.
-    // @todo do we want a textfield with validation or a time widget.
-    $form['operation']['time'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Time taken hh:mm'),
-      '#description' => $this->t('The time taken to complete the job in hours and minutes.'),
-      '#required' => TRUE,
     ];
 
     // Fuel use.
@@ -644,7 +655,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // @todo Include remaining base form fields.
     // Tractor hours.
-    // Time taken.
 
     return $log;
   }
@@ -698,6 +708,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * @see \Drupal\farm_quick\Traits\QuickQuantityTrait::createQuantity()
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+
+    // Add time taken quantity.
+    if ($time_taken = $form_state->getValue('time_taken')) {
+      $hours = $time_taken['hours'];
+      $minutes = $time_taken['minutes'];
+      $quantities[] = [
+        'label' => (string) $this->t('Time taken'),
+        'value' => $hours + $minutes / 60,
+        'measure' => 'time',
+        'units' => 'hours',
+      ];
+    }
 
     // Get quantity values for each group of quantity fields.
     $quantities = [];
