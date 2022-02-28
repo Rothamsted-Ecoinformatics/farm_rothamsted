@@ -1,0 +1,24 @@
+rothamsted_experiment_plan:
+  id: rothamsted_experiment_plan
+  group: plan
+  label: 'Rothamsted Experiment'
+  states:
+    planning:
+      label: Planning
+    active:
+      label: Active
+    archived:
+      label: Archived
+  transitions:
+    to_planning:
+      label: 'Set status to planning'
+      from: [ active,archived ]
+      to: planning
+    to_active:
+      label: 'Make active'
+      from: [archived,planning]
+      to: active
+    archive:
+      label: 'Archive'
+      from: [ active,planning ]
+      to: archived
