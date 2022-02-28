@@ -137,6 +137,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#weight' => 10,
     ];
 
+    // Job status tab.
+    $form['job_status'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Job Status'),
+      '#group' => 'tabs',
+      '#weight' => 15,
+    ];
+
     // Load prepopulated assets.
     $default_assets = $this->getPrepopulatedEntities('asset');
 
@@ -299,12 +307,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('Any additional notes.'),
     ];
 
-    // General operation fields.
-    $form['operation']['general'] = $this->buildInlineWrapper();
+    // General job status fields.
+    $form['job_status']['general'] = $this->buildInlineWrapper();
 
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['operation']['general']['owner'] = [
+    $form['job_status']['general']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
@@ -320,7 +328,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'done' => $this->t('Done'),
       'pending' => $this->t('Pending'),
     ];
-    $form['operation']['general']['job_status'] = [
+    $form['job_status']['general']['job_status'] = [
       '#type' => 'select',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
@@ -331,7 +339,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Flags.
     // @todo Build flag options for this bundle.
     $flag_options = [];
-    $form['operation']['general']['flag'] = [
+    $form['job_status']['general']['flag'] = [
       '#type' => 'select',
       '#title' => $this->t('Flag'),
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
