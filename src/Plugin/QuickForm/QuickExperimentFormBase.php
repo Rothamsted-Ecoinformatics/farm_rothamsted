@@ -144,8 +144,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // @todo Decide on a widget for selecting assets.
     $form['setup']['asset'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Assets'),
-      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments.'),
+      '#title' => $this->t('Plant asset(s)'),
+      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. If the record applies to more than one plant asset, you can select multiple by separating them with a
+ comma.'),
       '#target_type' => 'asset',
       '#selection_settings' => [
         'target_bundles' => ['plot', 'plant'],
