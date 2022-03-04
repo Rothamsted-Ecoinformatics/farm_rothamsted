@@ -66,7 +66,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
 
     // Make the product labels required.
-    $fertiliser['product_labels']['#required'] = TRUE;
+    // @todo Make this field required.
+    // If a file is uploaded after the products are filled in then it breaks.
+    $fertiliser['product_labels']['#required'] = FALSE;
 
     // Spray application rate units.
     $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Spray');
