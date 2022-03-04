@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Fertiliser quick form.
  *
  * @QuickForm(
- *   id = "farm_rothamsted_fertiliser_quick_form",
+ *   id = "fertiliser",
  *   label = @Translation("Fertiliser, Compost and Manure"),
  *   description = @Translation("Create fertiliser records."),
  *   helpText = @Translation("Use this form to record feriliser records."),
