@@ -14,6 +14,7 @@ dependencies:
   - farm_material_type
   - farm_plant
   - farm_plant_type
+  - farm_quantity_material
   - farm_quick
   - farm_rei:farm_rei
   - farm_role
