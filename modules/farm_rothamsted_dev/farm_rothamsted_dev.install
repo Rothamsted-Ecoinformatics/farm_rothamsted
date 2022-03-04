@@ -41,8 +41,6 @@ function farm_rothamsted_dev_install() {
   }
 
   // TAXONOMY TERMS.
-  // @todo Units. No need to do every unit, just a few.
-  // @todo Materials.
   // @todo Justifications.
 
   // Build a list of vocabularies and parent/child terms to create.
@@ -56,6 +54,10 @@ function farm_rothamsted_dev_install() {
       'Corn' => ['White corn', 'Sweet corn', 'Yellow corn'],
       'Beans' => ['Black beans', 'Garbanzos', 'Big beans'],
       'Wheat' => ['Summer wheat', 'Winter wheat'],
+    ],
+    'unit' => [
+      'Spray' => ['l/ha', 'g/ha', 'ml/ha'],
+      'Volume' => ['l', 'gal', 'ml'],
     ],
   ];
 
