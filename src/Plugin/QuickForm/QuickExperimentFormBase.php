@@ -75,6 +75,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $machineryGroupNames = [];
 
   /**
+   * Boolean indication if the quick form should have a products applied tab.
+   *
+   * @var bool
+   */
+  protected bool $productsTab = FALSE;
+
+  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -122,15 +129,23 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Setup tab.
-    $form['setup'] = [
+    $setup = [
       '#type' => 'details',
       '#title' => $this->t('Setup'),
       '#group' => 'tabs',
       '#weight' => -10,
     ];
 
+    // Products applied tab.
+    $products = [
+      '#type' => 'details',
+      '#title' => $this->t('Products applied'),
+      '#group' => 'tabs',
+      '#weight' => 5,
+    ];
+
     // Operation tab.
-    $form['operation'] = [
+    $operation = [
       '#type' => 'details',
       '#title' => $this->t('Operation'),
       '#group' => 'tabs',
@@ -138,7 +153,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Job status tab.
-    $form['job_status'] = [
+    $status = [
       '#type' => 'details',
       '#title' => $this->t('Job Status'),
       '#group' => 'tabs',
@@ -150,7 +165,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Asset field.
     // @todo Decide on a widget for selecting assets.
-    $form['setup']['asset'] = [
+    $setup['asset'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Plant asset(s)'),
       '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. If the record applies to more than one plant asset, you can select multiple by separating them with a
@@ -167,7 +182,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
-      $form['setup']['tractor'] = [
+      $setup['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
@@ -180,7 +195,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
       $machinery_options_string = implode(",", $this->machineryGroupNames);
-      $form['setup']['machinery'] = [
+      $setup['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
         '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
@@ -191,21 +206,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Equipment settings.
-    $form['setup']['equipment_settings'] = [
+    $setup['equipment_settings'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Equipment Settings'),
       '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
     ];
 
     // Recommendation Number - text - optional.
-    $form['setup']['recommendation_number'] = [
+    $setup['recommendation_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recommendation Number'),
       '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
     ];
 
     // Recommendation files.
-    $form['setup']['recommendation_files'] = [
+    $setup['recommendation_files'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
       '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
@@ -217,11 +232,116 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#extended' => TRUE,
     ];
 
+    // Include the setup tab.
+    $form['setup'] = $setup;
+
+    // Product count.
+    // @todo We need AJAX to populate multiple of these.
+    $products['product_count'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Add a product'),
+      '#options' => array_combine(range(1, 5), range(1, 5)),
+      '#default_value' => 1,
+      '#ajax' => [
+        'callback' => [$this, 'productsCallback'],
+        'even' => 'change',
+        'wrapper' => 'farm-rothamsted-products',
+      ],
+    ];
+
+    // Only build the products tab if needed.
+    if ($this->productsTab) {
+      $products['products'] = [
+        '#prefix' => '<div id="farm-rothamsted-products">',
+        '#suffix' => '</div>',
+      ];
+
+      // Add fields for each nutrient.
+      $products['products']['#tree'] = TRUE;
+      $product_count = $form_state->getValue('product_count', 1);
+      for ($i = 0; $i < $product_count; $i++) {
+
+        // Fieldset for each product.
+        $products['products'][$i] = [
+          '#type' => 'details',
+          '#title' => $this->t('Product @number', ['@number' => $i + 1]),
+          '#collapsible' => TRUE,
+          '#open' => TRUE,
+        ];
+
+        // Product wrapper.
+        $product_wrapper = $this->buildInlineWrapper();
+
+        // Product type.
+        $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
+        $product_wrapper['product_type'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Product type'),
+          '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
+          '#options' => $product_type_options,
+          '#required' => TRUE,
+          '#ajax' => [
+            'callback' => [$this, 'productTypeCallback'],
+            'event' => 'change',
+            'wrapper' => "product-$i-wrapper",
+          ],
+        ];
+
+        // Product.
+        $product_options = [];
+        if ($product_type_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type'])) {
+          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+        }
+        $product_wrapper['product'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Product'),
+          '#description' => $this->t('The product used.'),
+          '#options' => $product_options,
+          '#required' => TRUE,
+          '#validated' => TRUE,
+          '#prefix' => "<div id='product-$i-wrapper'>",
+          '#suffic' => '</div',
+        ];
+        $products['products'][$i]['product_wrapper'] = $product_wrapper;
+
+        // Product application rate.
+        $rate_units = [
+          'ml' => 'ml',
+          'l' => 'l',
+          'g' => 'g',
+          'kg' => 'kg',
+        ];
+        $product_application_rate = [
+          'title' => $this->t('Product rate'),
+          'measure' => ['#value' => 'rate'],
+          'units' => ['#options' => $rate_units],
+          'required' => TRUE,
+        ];
+        $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
+      }
+
+      // Product labels.
+      $products['product_labels'] = [
+        '#type' => 'managed_file',
+        '#title' => $this->t('Product labels'),
+        '#description' => $this->t('Please photograph the product labels where relevant.'),
+        '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
+        '#upload_validators' => [
+          'file_validate_extensions' => self::$validImageExtensions,
+        ],
+        '#multiple' => TRUE,
+        '#extended' => TRUE,
+      ];
+
+      // Include the products applied tab.
+      $form['products'] = $products;
+    }
+
     // Operation time.
-    $form['operation']['time'] = $this->buildInlineWrapper();
+    $operation['time'] = $this->buildInlineWrapper();
 
     // Scheduled date and time.
-    $form['operation']['time']['timestamp'] = [
+    $operation['time']['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Operation start date and time'),
       '#description' => $this->t('The start date and time of the operation.'),
@@ -232,16 +352,16 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Time taken.
-    $form['operation']['time']['time_taken']['#tree'] = TRUE;
+    $operation['time']['time_taken']['#tree'] = TRUE;
     $hour_options = range(0, 12);
-    $form['operation']['time']['time_taken']['hours'] = [
+    $operation['time']['time_taken']['hours'] = [
       '#type' => 'select',
       '#title' => $this->t('Time taken: Hours'),
       '#options' => array_combine($hour_options, $hour_options),
       '#required' => TRUE,
     ];
     $minute_options = range(0, 45, 15);
-    $form['operation']['time']['time_taken']['minutes'] = [
+    $operation['time']['time_taken']['minutes'] = [
       '#type' => 'select',
       '#title' => $this->t('Minutes'),
       '#options' => array_combine($minute_options, $minute_options),
@@ -249,10 +369,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Tractor time.
-    $form['operation']['tractor_time'] = $this->buildInlineWrapper();
+    $operation['tractor_time'] = $this->buildInlineWrapper();
 
     // Tractor hours start.
-    $form['operation']['tractor_time']['tractor_hours_start'] = [
+    $operation['tractor_time']['tractor_hours_start'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (start)'),
       '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
@@ -260,7 +380,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Tractor hours end.
-    $form['operation']['tractor_time']['tractor_hours_end'] = [
+    $operation['tractor_time']['tractor_hours_end'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (end)'),
       '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
@@ -280,13 +400,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'units' => ['#options' => $fuel_use_units_options],
       'border' => FALSE,
     ];
-    $form['operation']['fuel_use'] = $this->buildQuantityField($fuel_use);
+    $operation['fuel_use'] = $this->buildQuantityField($fuel_use);
 
     // Photographs wrapper.
-    $form['operation']['photographs'] = $this->buildInlineWrapper();
+    $operation['photographs'] = $this->buildInlineWrapper();
 
     // Crop Photographs.
-    $form['operation']['photographs']['crop_photographs'] = [
+    $operation['photographs']['crop_photographs'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Crop Photograph(s)'),
       '#description' => $this->t('A photograph of the crop, if applicable.'),
@@ -299,7 +419,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Photographs of paper records.
-    $form['operation']['photographs']['photographs_of_paper_records'] = [
+    $operation['photographs']['photographs_of_paper_records'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Photographs of paper record(s)'),
       '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
@@ -312,18 +432,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Log notes.
-    $form['operation']['notes'] = [
+    $operation['notes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
     ];
 
+    // Include the operation tab.
+    $form['operation'] = $operation;
+
     // General job status fields.
-    $form['job_status']['general'] = $this->buildInlineWrapper();
+    $status['general'] = $this->buildInlineWrapper();
 
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['job_status']['general']['owner'] = [
+    $status['general']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
@@ -339,7 +462,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'done' => $this->t('Done'),
       'pending' => $this->t('Pending'),
     ];
-    $form['job_status']['general']['job_status'] = [
+    $status['general']['job_status'] = [
       '#type' => 'select',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
@@ -350,12 +473,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Flags.
     // @todo Build flag options for this bundle.
     $flag_options = [];
-    $form['job_status']['general']['flag'] = [
+    $status['general']['flag'] = [
       '#type' => 'select',
       '#title' => $this->t('Flag'),
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
     ];
+
+    // Include the job status tab.
+    $form['job_status'] = $status;
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -366,6 +492,39 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * Products applied ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function productsCallback(array &$form, FormStateInterface $form_state) {
+    return $form['products']['products'];
+  }
+
+  /**
+   * Products applied product type ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function productTypeCallback(array &$form, FormStateInterface $form_state) {
+    // Get the triggering element to return the correct product offset.
+    $target_product = $form_state->getTriggeringElement();
+    $target_product_offset = $target_product['#parents'][1];
+    return $form['products']['products'][$target_product_offset]['product_wrapper']['product'];
   }
 
   /**
@@ -631,7 +790,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $log['file'] = $this->getFileIds($file_fields, $form_state);
 
     // Images.
-    $image_fields = ['crop_photographs', 'photographs_of_paper_records'];
+    $image_fields = [
+      'crop_photographs',
+      'photographs_of_paper_records',
+      'product_labels',
+    ];
     $log['image'] = $this->getImageIds($image_fields, $form_state);
 
     // Notes.
@@ -679,7 +842,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     foreach ($note_fields as $field_info) {
       $key = $field_info['key'] ?? NULL;
       if (!empty($key) && $form_state->hasValue($key) && !$form_state->isValueEmpty($key)) {
-        $notes[] = $field_info['label'] . ': ' . $form_state->getValue($key);
+        $note_value = $form_state->getValue($key);
+        // Separate array values with commas.
+        if (is_array($note_value)) {
+          $note_value = implode(', ', $note_value);
+        }
+        $notes[] = $field_info['label'] . ': ' . $note_value;
       }
     }
 
@@ -708,6 +876,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * @see \Drupal\farm_quick\Traits\QuickQuantityTrait::createQuantity()
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    $quantities = [];
 
     // Add time taken quantity.
     if ($time_taken = $form_state->getValue('time_taken')) {
@@ -721,8 +890,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
+    // Add products applied rate material quantities.
+    if ($product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
+        $quantity = $form_state->getValue(['products', $i, 'product_rate']);
+        $quantity['type'] = 'material';
+        $quantity['material_type'] = $material;
+        $quantities[] = $quantity;
+      }
+    }
+
     // Get quantity values for each group of quantity fields.
-    $quantities = [];
     foreach ($field_keys as $field_key) {
 
       // Get submitted value.
