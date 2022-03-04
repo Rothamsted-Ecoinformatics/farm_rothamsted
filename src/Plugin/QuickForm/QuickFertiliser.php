@@ -183,6 +183,12 @@ class QuickFertiliser extends QuickExperimentFormBase {
       $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityField($product_volume);
     }
 
+    // Move recommendation fields to fertiliser group.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $fertiliser[$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
+    }
+
     // COSSH Hazard Assessments.
     $health_and_safety['cossh_hazard'] = [
       '#type' => 'checkboxes',
