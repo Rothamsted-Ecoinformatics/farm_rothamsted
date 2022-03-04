@@ -4,8 +4,8 @@ dependencies:
   module:
     - asset
     - farm_rothamsted
-id: farm_rothamsted_cultivation
+id: field_operation
 label: 'Record operation'
 type: asset
-plugin: farm_rothamsted_quick_experiment:farm_rothamsted_cultivation_quick_form
+plugin: farm_rothamsted_quick_experiment:field_operation
 configuration: {  }
