@@ -122,7 +122,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Setup tab.
-    $form['setup'] = [
+    $setup = [
       '#type' => 'details',
       '#title' => $this->t('Setup'),
       '#group' => 'tabs',
@@ -130,7 +130,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Operation tab.
-    $form['operation'] = [
+    $operation = [
       '#type' => 'details',
       '#title' => $this->t('Operation'),
       '#group' => 'tabs',
@@ -138,7 +138,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Job status tab.
-    $form['job_status'] = [
+    $status = [
       '#type' => 'details',
       '#title' => $this->t('Job Status'),
       '#group' => 'tabs',
@@ -150,7 +150,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Asset field.
     // @todo Decide on a widget for selecting assets.
-    $form['setup']['asset'] = [
+    $setup['asset'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Plant asset(s)'),
       '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. If the record applies to more than one plant asset, you can select multiple by separating them with a
@@ -167,7 +167,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
-      $form['setup']['tractor'] = [
+      $setup['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
@@ -180,7 +180,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
       $machinery_options_string = implode(",", $this->machineryGroupNames);
-      $form['setup']['machinery'] = [
+      $setup['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
         '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
@@ -191,21 +191,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Equipment settings.
-    $form['setup']['equipment_settings'] = [
+    $setup['equipment_settings'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Equipment Settings'),
       '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
     ];
 
     // Recommendation Number - text - optional.
-    $form['setup']['recommendation_number'] = [
+    $setup['recommendation_number'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recommendation Number'),
       '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
     ];
 
     // Recommendation files.
-    $form['setup']['recommendation_files'] = [
+    $setup['recommendation_files'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Recommendation files'),
       '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
@@ -217,11 +217,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#extended' => TRUE,
     ];
 
+    // Include the setup tab.
+    $form['setup'] = $setup;
+
     // Operation time.
-    $form['operation']['time'] = $this->buildInlineWrapper();
+    $operation['time'] = $this->buildInlineWrapper();
 
     // Scheduled date and time.
-    $form['operation']['time']['timestamp'] = [
+    $operation['time']['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Operation start date and time'),
       '#description' => $this->t('The start date and time of the operation.'),
@@ -232,16 +235,16 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Time taken.
-    $form['operation']['time']['time_taken']['#tree'] = TRUE;
+    $operation['time']['time_taken']['#tree'] = TRUE;
     $hour_options = range(0, 12);
-    $form['operation']['time']['time_taken']['hours'] = [
+    $operation['time']['time_taken']['hours'] = [
       '#type' => 'select',
       '#title' => $this->t('Time taken: Hours'),
       '#options' => array_combine($hour_options, $hour_options),
       '#required' => TRUE,
     ];
     $minute_options = range(0, 45, 15);
-    $form['operation']['time']['time_taken']['minutes'] = [
+    $operation['time']['time_taken']['minutes'] = [
       '#type' => 'select',
       '#title' => $this->t('Minutes'),
       '#options' => array_combine($minute_options, $minute_options),
@@ -249,10 +252,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Tractor time.
-    $form['operation']['tractor_time'] = $this->buildInlineWrapper();
+    $operation['tractor_time'] = $this->buildInlineWrapper();
 
     // Tractor hours start.
-    $form['operation']['tractor_time']['tractor_hours_start'] = [
+    $operation['tractor_time']['tractor_hours_start'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (start)'),
       '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
@@ -260,7 +263,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Tractor hours end.
-    $form['operation']['tractor_time']['tractor_hours_end'] = [
+    $operation['tractor_time']['tractor_hours_end'] = [
       '#type' => 'number',
       '#title' => $this->t('Tractor hours (end)'),
       '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
@@ -280,13 +283,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'units' => ['#options' => $fuel_use_units_options],
       'border' => FALSE,
     ];
-    $form['operation']['fuel_use'] = $this->buildQuantityField($fuel_use);
+    $operation['fuel_use'] = $this->buildQuantityField($fuel_use);
 
     // Photographs wrapper.
-    $form['operation']['photographs'] = $this->buildInlineWrapper();
+    $operation['photographs'] = $this->buildInlineWrapper();
 
     // Crop Photographs.
-    $form['operation']['photographs']['crop_photographs'] = [
+    $operation['photographs']['crop_photographs'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Crop Photograph(s)'),
       '#description' => $this->t('A photograph of the crop, if applicable.'),
@@ -299,7 +302,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Photographs of paper records.
-    $form['operation']['photographs']['photographs_of_paper_records'] = [
+    $operation['photographs']['photographs_of_paper_records'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Photographs of paper record(s)'),
       '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
@@ -312,18 +315,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Log notes.
-    $form['operation']['notes'] = [
+    $operation['notes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
     ];
 
+    // Include the operation tab.
+    $form['operation'] = $operation;
+
     // General job status fields.
-    $form['job_status']['general'] = $this->buildInlineWrapper();
+    $status['general'] = $this->buildInlineWrapper();
 
     // Operator field.
     $operator_options = $this->getUserOptions(['farm_operator']);
-    $form['job_status']['general']['owner'] = [
+    $status['general']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
@@ -339,7 +345,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'done' => $this->t('Done'),
       'pending' => $this->t('Pending'),
     ];
-    $form['job_status']['general']['job_status'] = [
+    $status['general']['job_status'] = [
       '#type' => 'select',
       '#title' => $this->t('Job status'),
       '#description' => $this->t('The current status of the job.'),
@@ -350,12 +356,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Flags.
     // @todo Build flag options for this bundle.
     $flag_options = [];
-    $form['job_status']['general']['flag'] = [
+    $status['general']['flag'] = [
       '#type' => 'select',
       '#title' => $this->t('Flag'),
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
     ];
+
+    // Include the job status tab.
+    $form['job_status'] = $status;
 
     $form['actions'] = [
       '#type' => 'actions',
