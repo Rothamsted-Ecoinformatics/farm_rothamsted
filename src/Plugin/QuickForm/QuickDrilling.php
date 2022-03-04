@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Drilling quick form.
  *
  * @QuickForm(
- *   id = "farm_rothamsted_drilling_quick_form",
+ *   id = "drilling",
  *   label = @Translation("Drilling"),
  *   description = @Translation("Create drilling records."),
  *   helpText = @Translation("Use this form to record drilling records."),

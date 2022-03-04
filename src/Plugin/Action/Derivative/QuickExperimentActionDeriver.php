@@ -54,7 +54,7 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
    * @var string[]
    */
   protected $experimentQuickFormIds = [
-    'farm_rothamsted_drilling_quick_form',
+    'drilling',
     'farm_rothamsted_fertiliser_quick_form',
     'farm_rothamsted_harvest_quick_form',
     'field_operations',
