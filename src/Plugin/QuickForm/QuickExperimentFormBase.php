@@ -842,7 +842,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     foreach ($note_fields as $field_info) {
       $key = $field_info['key'] ?? NULL;
       if (!empty($key) && $form_state->hasValue($key) && !$form_state->isValueEmpty($key)) {
-        $notes[] = $field_info['label'] . ': ' . $form_state->getValue($key);
+        $note_value = $form_state->getValue($key);
+        // Separate array values with commas.
+        if (is_array($note_value)) {
+          $note_value = implode(', ', $note_value);
+        }
+        $notes[] = $field_info['label'] . ': ' . $note_value;
       }
     }
 
