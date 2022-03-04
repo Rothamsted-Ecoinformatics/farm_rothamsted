@@ -249,90 +249,91 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ],
     ];
 
-    $products['products'] = [
-      '#prefix' => '<div id="farm-rothamsted-products">',
-      '#suffix' => '</div>',
-    ];
-
-    // Add fields for each nutrient.
-    $products['products']['#tree'] = TRUE;
-    $product_count = $form_state->getValue('product_count', 1);
-    for ($i = 0; $i < $product_count; $i++) {
-
-      // Fieldset for each product.
-      $products['products'][$i] = [
-        '#type' => 'details',
-        '#title' => $this->t('Product @number', ['@number' => $i + 1]),
-        '#collapsible' => TRUE,
-        '#open' => TRUE,
-      ];
-
-      // Product wrapper.
-      $product_wrapper = $this->buildInlineWrapper();
-
-      // Product type.
-      $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
-      $product_wrapper['product_type'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product type'),
-        '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
-        '#options' => $product_type_options,
-        '#required' => TRUE,
-        '#ajax' => [
-          'callback' => [$this, 'productTypeCallback'],
-          'event' => 'change',
-          'wrapper' => "product-$i-wrapper",
-        ],
-      ];
-
-      // Product.
-      $product_options = [];
-      if ($product_type_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type'])) {
-        $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
-      }
-      $product_wrapper['product'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product'),
-        '#description' => $this->t('The product used.'),
-        '#options' => $product_options,
-        '#required' => TRUE,
-        '#validated' => TRUE,
-        '#prefix' => "<div id='product-$i-wrapper'>",
-        '#suffic' => '</div',
-      ];
-      $products['products'][$i]['product_wrapper'] = $product_wrapper;
-
-      // Product application rate.
-      $rate_units = [
-        'ml' => 'ml',
-        'l' => 'l',
-        'g' => 'g',
-        'kg' => 'kg',
-      ];
-      $product_application_rate = [
-        'title' => $this->t('Product rate'),
-        'measure' => ['#value' => 'rate'],
-        'units' => ['#options' => $rate_units],
-        'required' => TRUE,
-      ];
-      $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
-    }
-
-    // Product labels.
-    $products['product_labels'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Product labels'),
-      '#description' => $this->t('Please photograph the product labels where relevant.'),
-      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
-      '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
-      ],
-      '#multiple' => TRUE,
-      '#extended' => TRUE,
-    ];
-
-    // Include the products tab if needed.
+    // Only build the products tab if needed.
     if ($this->productsTab) {
+      $products['products'] = [
+        '#prefix' => '<div id="farm-rothamsted-products">',
+        '#suffix' => '</div>',
+      ];
+
+      // Add fields for each nutrient.
+      $products['products']['#tree'] = TRUE;
+      $product_count = $form_state->getValue('product_count', 1);
+      for ($i = 0; $i < $product_count; $i++) {
+
+        // Fieldset for each product.
+        $products['products'][$i] = [
+          '#type' => 'details',
+          '#title' => $this->t('Product @number', ['@number' => $i + 1]),
+          '#collapsible' => TRUE,
+          '#open' => TRUE,
+        ];
+
+        // Product wrapper.
+        $product_wrapper = $this->buildInlineWrapper();
+
+        // Product type.
+        $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
+        $product_wrapper['product_type'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Product type'),
+          '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
+          '#options' => $product_type_options,
+          '#required' => TRUE,
+          '#ajax' => [
+            'callback' => [$this, 'productTypeCallback'],
+            'event' => 'change',
+            'wrapper' => "product-$i-wrapper",
+          ],
+        ];
+
+        // Product.
+        $product_options = [];
+        if ($product_type_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type'])) {
+          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+        }
+        $product_wrapper['product'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Product'),
+          '#description' => $this->t('The product used.'),
+          '#options' => $product_options,
+          '#required' => TRUE,
+          '#validated' => TRUE,
+          '#prefix' => "<div id='product-$i-wrapper'>",
+          '#suffic' => '</div',
+        ];
+        $products['products'][$i]['product_wrapper'] = $product_wrapper;
+
+        // Product application rate.
+        $rate_units = [
+          'ml' => 'ml',
+          'l' => 'l',
+          'g' => 'g',
+          'kg' => 'kg',
+        ];
+        $product_application_rate = [
+          'title' => $this->t('Product rate'),
+          'measure' => ['#value' => 'rate'],
+          'units' => ['#options' => $rate_units],
+          'required' => TRUE,
+        ];
+        $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
+      }
+
+      // Product labels.
+      $products['product_labels'] = [
+        '#type' => 'managed_file',
+        '#title' => $this->t('Product labels'),
+        '#description' => $this->t('Please photograph the product labels where relevant.'),
+        '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
+        '#upload_validators' => [
+          'file_validate_extensions' => self::$validImageExtensions,
+        ],
+        '#multiple' => TRUE,
+        '#extended' => TRUE,
+      ];
+
+      // Include the products applied tab.
       $form['products'] = $products;
     }
 
