@@ -265,4 +265,21 @@ class QuickDrilling extends QuickExperimentFormBase {
     return parent::getImageIds($field_keys, $form_state);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+    // Prepend additional note fields.
+    array_unshift(
+      $note_fields,
+      ...[
+        [
+          'key' => 'seed_lineage',
+          'label' => $this->t('Seed lineage'),
+        ],
+      ]
+    );
+    return parent::prepareNotes($note_fields, $form_state);
+  }
+
 }
