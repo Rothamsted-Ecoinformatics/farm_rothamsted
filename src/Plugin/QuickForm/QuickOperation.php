@@ -172,4 +172,29 @@ class QuickOperation extends QuickExperimentFormBase {
     return parent::getQuantities($field_keys, $form_state);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+    // Prepend additional note fields.
+    array_unshift(
+      $note_fields,
+      ...[
+        [
+          'key' => 'operation_task',
+          'label' => $this->t('Task'),
+        ],
+        [
+          'key' => 'direction',
+          'label' => $this->t('Direction of work driven'),
+        ],
+        [
+          'key' => 'thrown',
+          'label' => $this->t('Plough thrown'),
+        ],
+      ]
+    );
+    return parent::prepareNotes($note_fields, $form_state);
+  }
+
 }
