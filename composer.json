@@ -9,6 +9,7 @@
       }
   ],
   "require": {
+    "farmos/farmos": "^2.0.0-beta3",
     "drupal/farm_rei": "^2.0@beta",
     "drupal/json_field": "^1.0@RC",
     "drupal/key_value_field": "^1.2"
