@@ -876,6 +876,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * @see \Drupal\farm_quick\Traits\QuickQuantityTrait::createQuantity()
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    $quantities = [];
 
     // Add time taken quantity.
     if ($time_taken = $form_state->getValue('time_taken')) {
@@ -889,8 +890,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
     }
 
+    // Add products applied rate material quantities.
+    if ($product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
+        $quantity = $form_state->getValue(['products', $i, 'product_rate']);
+        $quantity['type'] = 'material';
+        $quantity['material_type'] = $material;
+        $quantities[] = $quantity;
+      }
+    }
+
     // Get quantity values for each group of quantity fields.
-    $quantities = [];
     foreach ($field_keys as $field_key) {
 
       // Get submitted value.
