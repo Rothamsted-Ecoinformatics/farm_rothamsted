@@ -231,6 +231,12 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Add the drilling tab and fields to the form.
     $form['drilling'] = $drilling;
 
+    // Move recommendation fields to products applied tab.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $form['products'][$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
+    }
+
     // Seed lot wrapper.
     $operation['seed_lots'] = $this->buildInlineWrapper();
 
