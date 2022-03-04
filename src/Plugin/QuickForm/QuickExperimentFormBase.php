@@ -13,6 +13,7 @@ use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 use Drupal\farm_rothamsted\Traits\QuickQuantityFieldTrait;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
 
@@ -80,6 +81,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * @var bool
    */
   protected bool $productsTab = FALSE;
+
+  /**
+   * Boolean indicating to include the products applied batch num field.
+   *
+   * @var bool
+   */
+  protected bool $productBatchNum = FALSE;
 
   /**
    * Constructs a QuickFormBase object.
@@ -318,6 +326,16 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
           'required' => TRUE,
         ];
         $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
+
+        // Include the product batch number if needed.
+        if ($this->productBatchNum) {
+          $products['products'][$i]['batch_number'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Product batch number'),
+            '#description' => $this->t('The unique product batch number, as provided by the product manufacturer.'),
+            '#required' => TRUE,
+          ];
+        }
       }
 
       // Product labels.
@@ -804,6 +822,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'key' => 'recommendation_number',
       'label' => $this->t('Recommendation Number'),
     ];
+
+    // Add products applied product batch numbers to the notes field.
+    // These will be formatted like: {Product name} Batch Number: Value.
+    if ($this->productsTab && $this->productBatchNum && $product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        if ($material = $form_state->getValue(['products', $i, 'product_wrapper', 'product'])) {
+          $material_term = Term::load($material);
+          $note_fields[] = [
+            'key' => ['products', $i, 'batch_number'],
+            'label' => $material_term->label() . ' Batch Number',
+          ];
+        }
+      }
+    }
+
     $note_fields[] = [
       'key' => 'equipment_settings',
       'label' => $this->t('Equipment Settings'),
@@ -891,7 +924,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Add products applied rate material quantities.
-    if ($product_count = $form_state->getValue('product_count')) {
+    if ($this->productsTab && $product_count = $form_state->getValue('product_count')) {
       for ($i = 0; $i < $product_count; $i++) {
         $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
         $quantity = $form_state->getValue(['products', $i, 'product_rate']);

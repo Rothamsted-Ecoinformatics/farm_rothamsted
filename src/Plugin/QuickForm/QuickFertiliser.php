@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Fertiliser quick form.
  *
  * @QuickForm(
- *   id = "farm_rothamsted_fertiliser_quick_form",
+ *   id = "fertiliser",
  *   label = @Translation("Fertiliser, Compost and Manure"),
  *   description = @Translation("Create fertiliser records."),
  *   helpText = @Translation("Use this form to record feriliser records."),
@@ -37,151 +37,59 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected bool $productsTab = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected bool $productBatchNum = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Fertiliser tab.
-    $fertiliser = [
-      '#type' => 'details',
-      '#title' => $this->t('Fertiliser'),
-      '#group' => 'tabs',
-      '#weight' => 0,
-    ];
+    // Rename the products applied tab to be Fertiliser.
+    $fertiliser = $form['products'];
+    $fertiliser['#title'] = $this->t('Fertiliser');
+
+    // Add to the operations tab.
+    $operation = $form['operation'];
 
     // Health & safety tab.
     $health_and_safety = [
       '#type' => 'details',
       '#title' => $this->t('Health &amp; Safety'),
       '#group' => 'tabs',
-      '#weight' => 0,
+      '#weight' => 6,
     ];
 
-    // Nutrient input.
-    // @todo We need AJAX to populate multiple of these.
-    $fertiliser['nutrient_input']['nutrient_count'] = [
-      '#type' => 'select',
-      '#title' => $this->t('How many nutrients are required?'),
-      '#options' => array_combine(range(1, 5), range(1, 5)),
-      '#default_value' => 1,
-      '#ajax' => [
-        'callback' => [$this, 'nutrientCallback'],
-        'even' => 'change',
-        'wrapper' => 'farm-rothamsted-nutrients',
-      ],
-    ];
+    // Make the product labels required.
+    // @todo Make this field required.
+    // If a file is uploaded after the products are filled in then it breaks.
+    $fertiliser['product_labels']['#required'] = FALSE;
 
-    $fertiliser['nutrient_input']['nutrients'] = [
-      '#prefix' => '<div id="farm-rothamsted-nutrients">',
-      '#suffix' => '</div>',
-    ];
+    // Spray application rate units.
+    $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Spray');
 
-    // Add fields for each nutrient.
-    $fertiliser['nutrient_input']['nutrients']['#tree'] = TRUE;
-    $quantities = $form_state->getValue('nutrient_count', 1);
-    for ($i = 0; $i < $quantities; $i++) {
+    // Target application rate.
+    $fertiliser['target_application_rate'] = $this->buildQuantityField([
+      'title' => $this->t('Target application rate'),
+      'description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#options' => $application_rate_units_options],
+      'required' => TRUE,
+    ]);
 
-      // Fieldset for each nutrient.
-      $fertiliser['nutrient_input']['nutrients'][$i] = [
-        '#type' => 'details',
-        '#title' => $this->t('Nutrient @number', ['@number' => $i + 1]),
-        '#description' => $this->t('Details about the type and quantity of starter fertilsier used.'),
-        '#collapsible' => TRUE,
-        '#open' => TRUE,
-      ];
-
-      // Product wrapper.
-      $product_wrapper = $this->buildInlineWrapper();
-
-      // Build product_type options.
-      $product_type_options = $this->getTermTreeOptions('material_type');
-
-      // Product type - select - optional.
-      $product_wrapper['product_type'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product type'),
-        '#description' => $this->t('A list of different types of nutrient input (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
-        '#options' => $product_type_options,
-        '#required' => TRUE,
-      ];
-
-      // Product - select - optional.
-      $product_wrapper['product'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Product'),
-        '#description' => $this->t('The product used.'),
-        '#options' => $product_type_options,
-        '#required' => TRUE,
-      ];
-
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_wrapper'] = $product_wrapper;
-
-      // Nutrient wrapper.
-      $nutrient_wrapper = $this->buildInlineWrapper();
-
-      // Nutrient form placeholder.
-      $nutrient_wrapper['nutrient'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Nutrient'),
-        '#description' => $this->t('The nutrients contained in the product.'),
-        '#placeholder' => $this->t('TBD'),
-        '#required' => FALSE,
-        '#size' => 20,
-      ];
-
-      // Nutrient content.
-      $nutrient_wrapper['nutrient_content'] = $this->buildQuantityField([
-        'title' => $this->t('Nutrient content (%)'),
-        'description' => $this->t('The proportion of the mineral in the product.'),
-        'measure' => ['#value' => 'ratio'],
-        'units' => ['#value' => '%'],
-      ]);
-
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_wrapper'] = $nutrient_wrapper;
-
-      // Spray application rate units.
-      $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'spray');
-
-      // Nutrient application rate.
-      $nutrient_application_rate = [
-        'title' => $this->t('Nutrient application rate'),
-        'description' => $this->t('The volume of mineral per unit area that needs to be applied. This is an agronomic decision based on factors such as the crop, the field history and the location.'),
-        'measure' => ['#value' => 'rate'],
-        'units' => ['#options' => $application_rate_units_options],
-      ];
-      $fertiliser['nutrient_input']['nutrients'][$i]['nutrient_application_rate'] = $this->buildQuantityField($nutrient_application_rate);
-
-      // Product application rate.
-      $product_application_rate = [
-        'title' => $this->t('Product application rate'),
-        'description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
-        'measure' => ['#value' => 'rate'],
-        'units' => ['#options' => $application_rate_units_options],
-        'required' => TRUE,
-      ];
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_application_rate'] = $this->buildQuantityField($product_application_rate);
-
-      // Product area.
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_area'] = $this->buildQuantityField([
-        'title' => $this->t('Product area'),
-        'description' => $this->t('The total area that the product is being applied to. For example the area of the field, or the combined area of all the plots.'),
-        'measure' => ['#value' => 'area'],
-        'units' => ['#value' => 'ha'],
-        'required' => TRUE,
-      ]);
-
-      // Application volume units.
-      $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
-
-      // Product volume.
-      $product_volume = [
-        'title' => $this->t('Product volume'),
-        'description' => $this->t('The total amount of product required to cover the field area(s).'),
-        'measure' => ['#value' => 'volume'],
-        'units' => ['#options' => $application_volume_units_options],
-        'required' => TRUE,
-      ];
-      $fertiliser['nutrient_input']['nutrients'][$i]['product_volume'] = $this->buildQuantityField($product_volume);
+    // Move recommendation fields to fertiliser group.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $fertiliser[$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
     }
+
+    // Add the fertiliser tab back as the products tab.
+    $form['products'] = $fertiliser;
 
     // COSSH Hazard Assessments.
     $health_and_safety['cossh_hazard'] = [
@@ -192,34 +100,51 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Add the fertiliser tab and fields to the form.
-    $form['fertiliser'] = $fertiliser;
-
     // Add the health and safety tab and fields to the form.
     $form['health_and_safety'] = $health_and_safety;
 
-    return $form;
-  }
+    // Specify weight on the time wrappers so we can add fields below them.
+    $operation['time']['#weight'] = -10;
+    $operation['tractor_time']['#weight'] = -10;
 
-  /**
-   * Form ajax function for fertiliser quick form nutrients.
-   */
-  public function nutrientCallback(array $form, FormStateInterface $form_state) {
-    return $form['fertiliser']['nutrient_input']['nutrients'];
+    // Add inline wrapper for the fertiliser treated fields.
+    $operation['treated_wrapper'] = $this->buildInlineWrapper();
+    $operation['treated_wrapper']['#weight'] = -5;
+
+    // Treated area.
+    $operation['treated_wrapper']['treated_area'] = $this->buildQuantityField([
+      'title' => $this->t('Treated area'),
+      'description' => $this->t('The total area to which the combined product(s) were applied, as recorded by the tractor or other equipment.'),
+      'measure' => ['#value' => 'area'],
+      'units' => ['#value' => 'ha'],
+      'required' => TRUE,
+    ]);
+
+    // Application volume units.
+    $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
+
+    // Total volume applied.
+    $operation['treated_wrapper']['total_volume_applied'] = $this->buildQuantityField([
+      'title' => $this->t('Total volume applied'),
+      'description' => $this->t('The total amount of product required to cover the field area(s).'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $application_volume_units_options],
+      'required' => TRUE,
+    ]);
+
+    // Add the operation tab and fields to the form.
+    $form['operation'] = $operation;
+
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-    // @todo Include nutrient quantities with correct labels.
-    $nutrient_count = $form_state->getValue('nutrient_count');
-    for ($i = 0; $i < $nutrient_count; $i++) {
-      $field_keys[] = ['nutrients', $i, 'nutrient_wrapper', 'nutrient_content'];
-      $field_keys[] = ['nutrients', $i, 'nutrient_application_rate'];
-      $field_keys[] = ['nutrients', $i, 'product_area'];
-      $field_keys[] = ['nutrients', $i, 'product_volume'];
-    }
+    $field_keys[] = 'target_application_rate';
+    $field_keys[] = 'treated_area';
+    $field_keys[] = 'total_volume_applied';
     return parent::getQuantities($field_keys, $form_state);
   }
 
