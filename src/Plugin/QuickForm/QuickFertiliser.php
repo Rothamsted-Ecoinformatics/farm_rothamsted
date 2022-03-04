@@ -49,6 +49,9 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $fertiliser = $form['products'];
     $fertiliser['#title'] = $this->t('Fertiliser');
 
+    // Add to the operations tab.
+    $operation = $form['operation'];
+
     // Health & safety tab.
     $health_and_safety = [
       '#type' => 'details',
@@ -93,6 +96,38 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Add the health and safety tab and fields to the form.
     $form['health_and_safety'] = $health_and_safety;
 
+    // Specify weight on the time wrappers so we can add fields below them.
+    $operation['time']['#weight'] = -10;
+    $operation['tractor_time']['#weight'] = -10;
+
+    // Add inline wrapper for the fertiliser treated fields.
+    $operation['treated_wrapper'] = $this->buildInlineWrapper();
+    $operation['treated_wrapper']['#weight'] = -5;
+
+    // Treated area.
+    $operation['treated_wrapper']['treated_area'] = $this->buildQuantityField([
+      'title' => $this->t('Treated area'),
+      'description' => $this->t('The total area to which the combined product(s) were applied, as recorded by the tractor or other equipment.'),
+      'measure' => ['#value' => 'area'],
+      'units' => ['#value' => 'ha'],
+      'required' => TRUE,
+    ]);
+
+    // Application volume units.
+    $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
+
+    // Total volume applied.
+    $operation['treated_wrapper']['total_volume_applied'] = $this->buildQuantityField([
+      'title' => $this->t('Total volume applied'),
+      'description' => $this->t('The total amount of product required to cover the field area(s).'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $application_volume_units_options],
+      'required' => TRUE,
+    ]);
+
+    // Add the operation tab and fields to the form.
+    $form['operation'] = $operation;
+
     return $form;
   }
 
@@ -101,6 +136,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     $field_keys[] = 'target_application_rate';
+    $field_keys[] = 'treated_area';
+    $field_keys[] = 'total_volume_applied';
     return parent::getQuantities($field_keys, $form_state);
   }
 
