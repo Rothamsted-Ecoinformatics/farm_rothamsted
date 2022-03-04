@@ -318,6 +318,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
     }
 
+    // Product labels.
+    $products['product_labels'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Product labels'),
+      '#description' => $this->t('Please photograph the product labels where relevant.'),
+      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
+      '#upload_validators' => [
+        'file_validate_extensions' => self::$validImageExtensions,
+      ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
+    ];
+
     // Include the products tab if needed.
     if ($this->productsTab) {
       $form['products'] = $products;
@@ -776,7 +789,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $log['file'] = $this->getFileIds($file_fields, $form_state);
 
     // Images.
-    $image_fields = ['crop_photographs', 'photographs_of_paper_records'];
+    $image_fields = [
+      'crop_photographs',
+      'photographs_of_paper_records',
+      'product_labels',
+    ];
     $log['image'] = $this->getImageIds($image_fields, $form_state);
 
     // Notes.
