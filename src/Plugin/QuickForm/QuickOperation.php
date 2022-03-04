@@ -149,6 +149,12 @@ class QuickOperation extends QuickExperimentFormBase {
       '#weight' => 13,
     ];
 
+    // Move recommendation fields to task group.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $task[$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
+    }
+
     // Add the operations tab and fields to the form.
     $form['task'] = $task;
 
