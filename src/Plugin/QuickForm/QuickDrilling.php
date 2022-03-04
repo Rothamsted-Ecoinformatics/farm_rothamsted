@@ -37,6 +37,11 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected bool $productsTab = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 

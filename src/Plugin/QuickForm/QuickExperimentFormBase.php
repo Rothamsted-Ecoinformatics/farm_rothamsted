@@ -75,6 +75,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $machineryGroupNames = [];
 
   /**
+   * Boolean indication if the quick form should have a products applied tab.
+   *
+   * @var bool
+   */
+  protected bool $productsTab = FALSE;
+
+  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -127,6 +134,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#title' => $this->t('Setup'),
       '#group' => 'tabs',
       '#weight' => -10,
+    ];
+
+    // Products applied tab.
+    $products = [
+      '#type' => 'details',
+      '#title' => $this->t('Products applied'),
+      '#group' => 'tabs',
+      '#weight' => 5,
     ];
 
     // Operation tab.
@@ -219,6 +234,94 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Include the setup tab.
     $form['setup'] = $setup;
+
+    // Product count.
+    // @todo We need AJAX to populate multiple of these.
+    $products['product_count'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Add a product'),
+      '#options' => array_combine(range(1, 5), range(1, 5)),
+      '#default_value' => 1,
+      '#ajax' => [
+        'callback' => [$this, 'productsCallback'],
+        'even' => 'change',
+        'wrapper' => 'farm-rothamsted-products',
+      ],
+    ];
+
+    $products['products'] = [
+      '#prefix' => '<div id="farm-rothamsted-products">',
+      '#suffix' => '</div>',
+    ];
+
+    // Add fields for each nutrient.
+    $products['products']['#tree'] = TRUE;
+    $product_count = $form_state->getValue('product_count', 1);
+    for ($i = 0; $i < $product_count; $i++) {
+
+      // Fieldset for each product.
+      $products['products'][$i] = [
+        '#type' => 'details',
+        '#title' => $this->t('Product @number', ['@number' => $i + 1]),
+        '#collapsible' => TRUE,
+        '#open' => TRUE,
+      ];
+
+      // Product wrapper.
+      $product_wrapper = $this->buildInlineWrapper();
+
+      // Product type.
+      $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
+      $product_wrapper['product_type'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Product type'),
+        '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
+        '#options' => $product_type_options,
+        '#required' => TRUE,
+        '#ajax' => [
+          'callback' => [$this, 'productTypeCallback'],
+          'event' => 'change',
+          'wrapper' => "product-$i-wrapper",
+        ],
+      ];
+
+      // Product.
+      $product_options = [];
+      if ($product_type_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type'])) {
+        $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+      }
+      $product_wrapper['product'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Product'),
+        '#description' => $this->t('The product used.'),
+        '#options' => $product_options,
+        '#required' => TRUE,
+        '#validated' => TRUE,
+        '#prefix' => "<div id='product-$i-wrapper'>",
+        '#suffic' => '</div',
+      ];
+      $products['products'][$i]['product_wrapper'] = $product_wrapper;
+
+      // Product application rate.
+      $rate_units = [
+        'ml' => 'ml',
+        'l' => 'l',
+        'g' => 'g',
+        'kg' => 'kg',
+      ];
+      $product_application_rate = [
+        'title' => $this->t('Product rate'),
+        'measure' => ['#value' => 'rate'],
+        'units' => ['#options' => $rate_units],
+        'required' => TRUE,
+      ];
+      $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
+    }
+
+    // Include the products tab if needed.
+    if ($this->productsTab) {
+      $form['products'] = $products;
+    }
 
     // Operation time.
     $operation['time'] = $this->buildInlineWrapper();
@@ -375,6 +478,39 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * Products applied ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function productsCallback(array &$form, FormStateInterface $form_state) {
+    return $form['products']['products'];
+  }
+
+  /**
+   * Products applied product type ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function productTypeCallback(array &$form, FormStateInterface $form_state) {
+    // Get the triggering element to return the correct product offset.
+    $target_product = $form_state->getTriggeringElement();
+    $target_product_offset = $target_product['#parents'][1];
+    return $form['products']['products'][$target_product_offset]['product_wrapper']['product'];
   }
 
   /**
