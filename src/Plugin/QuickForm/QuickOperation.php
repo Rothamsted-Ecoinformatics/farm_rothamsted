@@ -107,7 +107,7 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Depth worked.
     $task['info']['depth'] = $this->buildQuantityField([
-      'title' => $this->t('Depth worked (centimeters)'),
+      'title' => $this->t('Depth worked (cm)'),
       'description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
       'measure' => ['#value' => 'length'],
       'units' => ['#value' => 'cm'],
@@ -115,9 +115,10 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Working width.
     $task['info']['working_width'] = $this->buildQuantityField([
-      'title' => $this->t('Working width (centimeters)'),
+      'title' => $this->t('Working width (m)'),
+      'description' => $this->t('The working width of any machinery in meters, where applicable.'),
       'measure' => ['#value' => 'length'],
-      'units' => ['#value' => 'cm'],
+      'units' => ['#value' => 'm'],
     ]);
 
     // Define direction options.
@@ -136,7 +137,8 @@ class QuickOperation extends QuickExperimentFormBase {
     // Direction of work (driven).
     $task['info']['direction'] = [
       '#type' => 'select',
-      '#title' => $this->t('Direction of work (driven)'),
+      '#title' => $this->t('Direction of work driven'),
+      '#description' => $this->t('The direction driven, where relevant.'),
       '#options' => array_combine($direction_options, $direction_options),
       '#weight' => 12,
     ];
