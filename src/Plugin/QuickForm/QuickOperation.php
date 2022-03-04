@@ -7,12 +7,8 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Operations quick form.
  *
- * @todo This was previously the cultivation quick form so we maintain that ID.
- *
- * @see https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/pull/6#issuecomment-903958799
- *
  * @QuickForm(
- *   id = "farm_rothamsted_cultivation_quick_form",
+ *   id = "field_operations",
  *   label = @Translation("Field operations"),
  *   description = @Translation("Create operation records."),
  *   helpText = @Translation("Use this form to record operation records."),
@@ -107,10 +103,18 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Depth worked.
     $task['info']['depth'] = $this->buildQuantityField([
-      'title' => $this->t('Depth worked (centimeters)'),
+      'title' => $this->t('Depth worked (cm)'),
       'description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
       'measure' => ['#value' => 'length'],
       'units' => ['#value' => 'cm'],
+    ]);
+
+    // Working width.
+    $task['info']['working_width'] = $this->buildQuantityField([
+      'title' => $this->t('Working width (m)'),
+      'description' => $this->t('The working width of any machinery in meters, where applicable.'),
+      'measure' => ['#value' => 'length'],
+      'units' => ['#value' => 'm'],
     ]);
 
     // Define direction options.
@@ -129,7 +133,8 @@ class QuickOperation extends QuickExperimentFormBase {
     // Direction of work (driven).
     $task['info']['direction'] = [
       '#type' => 'select',
-      '#title' => $this->t('Direction of work (driven)'),
+      '#title' => $this->t('Direction of work driven'),
+      '#description' => $this->t('The direction driven, where relevant.'),
       '#options' => array_combine($direction_options, $direction_options),
       '#weight' => 12,
     ];
@@ -142,6 +147,12 @@ class QuickOperation extends QuickExperimentFormBase {
       '#weight' => 13,
     ];
 
+    // Move recommendation fields to task group.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $task[$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
+    }
+
     // Add the operations tab and fields to the form.
     $form['task'] = $task;
 
@@ -153,7 +164,33 @@ class QuickOperation extends QuickExperimentFormBase {
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     $field_keys[] = 'depth';
+    $field_keys[] = 'working_width';
     return parent::getQuantities($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+    // Prepend additional note fields.
+    array_unshift(
+      $note_fields,
+      ...[
+        [
+          'key' => 'operation_task',
+          'label' => $this->t('Task'),
+        ],
+        [
+          'key' => 'direction',
+          'label' => $this->t('Direction of work driven'),
+        ],
+        [
+          'key' => 'thrown',
+          'label' => $this->t('Plough thrown'),
+        ],
+      ]
+    );
+    return parent::prepareNotes($note_fields, $form_state);
   }
 
 }
