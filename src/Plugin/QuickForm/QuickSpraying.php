@@ -37,6 +37,16 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected bool $productsTab = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected bool $productBatchNum = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
@@ -54,20 +64,16 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#weight' => 0,
     ];
 
-    // Tank tab.
-    $tank = [
-      '#type' => 'details',
-      '#title' => $this->t('Tank'),
-      '#group' => 'tabs',
-      '#weight' => 0,
-    ];
+    // Rename the products applied tab to be Fertiliser.
+    $tank = &$form['products'];
+    $tank['#title'] = $this->t('Tank Mix');
 
     // Weather tab.
     $weather = [
       '#type' => 'details',
       '#title' => $this->t('Weather'),
       '#group' => 'tabs',
-      '#weight' => 0,
+      '#weight' => 6,
     ];
 
     // Health & safety tab.
@@ -75,7 +81,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#type' => 'details',
       '#title' => $this->t('Health &amp; Safety'),
       '#group' => 'tabs',
-      '#weight' => 0,
+      '#weight' => 7,
     ];
 
     // Add weight to equipment settings.
@@ -99,71 +105,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       'units' => ['#value' => 'bar'],
     ]);
 
-    // ---------------- product area --------------------
-    // @todo wrap with ajax - multiple products
-
-    // Product count.
-    $spraying['sprayed_products']['product_count'] = [
-      '#type' => 'select',
-      '#title' => $this->t('How many products were used?'),
-      '#options' => array_combine(range(1, 5), range(1, 5)),
-      '#default_value' => 1,
-      '#ajax' => [
-        'callback' => [$this, 'productsCallback'],
-        'event' => 'change',
-        'wrapper' => 'farm-rothamsted-spraying-products',
-      ],
-    ];
-
-    // Create a wrapper around all product fields, for AJAX replacement.
-    $spraying['sprayed_products']['products'] = [
-      '#prefix' => '<div id="farm-rothamsted-spraying-products">',
-      '#suffix' => '</div>',
-    ];
-
-    // Add fields for each product.
-    $spraying['sprayed_products']['products']['#tree'] = TRUE;
-    $quantities = $form_state->getValue('product_count', 1);
-    for ($i = 0; $i < $quantities; $i++) {
-
-      // Fieldset for each product.
-      $spraying['sprayed_products']['products'][$i] = [
-        '#type' => 'details',
-        '#title' => $this->t('Product @number', ['@number' => $i + 1]),
-        '#collapsible' => TRUE,
-        '#open' => TRUE,
-      ];
-
-      $spraying['sprayed_products']['products'][$i]['product'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Product'),
-        '#description' => $this->t('The product used. The list can be expanded or amended in the inputs taxonomy.'),
-        '#required' => TRUE,
-      ];
-
-      // Product rate.
-      $product_rate_units = [
-        'l/ha',
-        'kg/ha',
-        'ml/ha',
-        'g/ha',
-      ];
-      $product_rate_unit_options = array_combine($product_rate_units, $product_rate_units);
-      $product_rate = [
-        'title' => $this->t('Product rate'),
-        'description' => $this->t('The rate the product is applied per unit area. This is usually specified in the agronomists recommendations.'),
-        'measure' => ['#value' => 'rate'],
-        'units' => ['#options' => $product_rate_unit_options],
-        'required' => TRUE,
-      ];
-      $spraying['sprayed_products']['products'][$i]['product_rate'] = $this->buildQuantityField($product_rate);
-    }
-    // ------------end of product area --------------------
-
-    // @todo Number of chemicals.
-
-    // @todo AJAX for each chemical.
-
     // Build justification options from the Spray Applications parent term.
     $justification_options = $this->getChildTermOptionsByName('log_category', 'Justification/Target (Spray Applications)');
 
@@ -176,44 +117,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#multiple' => TRUE,
       '#required' => TRUE,
     ];
-
-    // RRES product number.
-    $spraying['rres_product_number'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('RRES product number'),
-      '#description' => $this->t('A unique identifier for each product (usually the suppliers batch number).'),
-      '#required' => TRUE,
-    ];
-
-    // Product quantity.
-    $product_quantity_units_options = [
-      'l' => 'l',
-      'kg' => 'kg',
-      'ml' => 'ml',
-      'gal' => 'gal',
-    ];
-    $product_quantity = [
-      'title' => $this->t('Product quantity'),
-      'description' => $this->t('The total amount of product required to cover the field area(s)'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#options' => $product_quantity_units_options],
-      'required' => TRUE,
-    ];
-    $spraying['product_quantity'] = $this->buildQuantityField($product_quantity);
-
-    // Water volume.
-    $water_volume_units_options = [
-      'l' => 'l',
-      'gal' => 'gal',
-    ];
-    $water_volume = [
-      'title' => $this->t('Water volume'),
-      'description' => $this->t('The total amount of water required to cover the field area(s).'),
-      'measure' => ['#value' => 'volume'],
-      'units' => ['#options' => $water_volume_units_options],
-      'required' => TRUE,
-    ];
-    $spraying['water_volume'] = $this->buildQuantityField($water_volume);
 
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
@@ -239,6 +142,27 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Add the spraying tab and fields to the form.
     $form['spraying'] = $spraying;
+
+    // Water volume.
+    $water_volume_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+    $tank['water_volume'] = $this->buildQuantityField([
+      'title' => $this->t('Water volume'),
+      'description' => $this->t('The total amount of water required to cover the field area(s).'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $water_volume_units_options],
+      'required' => TRUE,
+    ]);
+
+    // Tank mix ID.
+    $tank['tank_mix_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Tank mix ID'),
+      '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
+      '#required' => FALSE,
+    ];
 
     // COSSH Hazard Assessments.
     $health_and_safety['cossh_hazard'] = [
@@ -269,17 +193,6 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Add the health and safety tab and fields to the form.
     $form['health_and_safety'] = $health_and_safety;
-
-    // Tank mix ID.
-    $tank['tank_mix_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Tank mix ID'),
-      '#description' => $this->t('The record number for this tank mix. This is essential information if the same tank mix is applied over multiple crops or experiments.'),
-      '#required' => FALSE,
-    ];
-
-    // Add the tank tab and fields to the form.
-    $form['tank'] = $tank;
 
     // Weather wrapper.
     $weather['weather_info'] = $this->buildInlineWrapper();
@@ -451,7 +364,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       $field_keys,
       'pressure',
       'area_sprayed',
-      'product_quantity',
       'water_volume',
       'tank_volume_remaining',
       'wind_speed',
@@ -495,6 +407,10 @@ class QuickSpraying extends QuickExperimentFormBase {
         [
           'key' => 'nozzle_type',
           'label' => $this->t('Nozzle type'),
+        ],
+        [
+          'key' => 'tank_mix_id',
+          'label' => $this->t('Tank Mix ID'),
         ],
       ]
     );
