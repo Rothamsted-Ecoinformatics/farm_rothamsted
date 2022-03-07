@@ -218,13 +218,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   }
 
   /**
-   * Form ajax function for harvest quick form batches.
-   */
-  public function trailorBatchesCallback(array $form, FormStateInterface $form_state) {
-    return $form['harvest']['trailor_batch']['batches'];
-  }
-
-  /**
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
