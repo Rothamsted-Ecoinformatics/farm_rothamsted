@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Spraying quick form.
  *
  * @QuickForm(
- *   id = "farm_rothamsted_spraying_quick_form",
+ *   id = "spraying",
  *   label = @Translation("Spraying"),
  *   description = @Translation("Create spraying records."),
  *   helpText = @Translation("Use this form to record spraying records."),

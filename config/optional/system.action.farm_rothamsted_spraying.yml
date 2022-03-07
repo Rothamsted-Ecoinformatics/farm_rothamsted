@@ -7,5 +7,5 @@ dependencies:
 id: farm_rothamsted_spraying
 label: 'Record spraying'
 type: asset
-plugin: farm_rothamsted_quick_experiment:farm_rothamsted_spraying_quick_form
+plugin: farm_rothamsted_quick_experiment:spraying
 configuration: {  }
