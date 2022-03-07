@@ -87,9 +87,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add weight to equipment settings.
     $setup['equipment_settings']['#weight'] = 10;
 
+    // Nozzle wrapper.
+    $setup['nozzle_wrapper'] = $this->buildInlineWrapper();
+
     // Spray nozzle options.
     $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
-    $setup['nozzle_type'] = [
+    $setup['nozzle_wrapper']['nozzle_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Nozzle Type'),
       '#description' => $this->t('The type of spray nozzle used, where relevant.'),
@@ -98,7 +101,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Pressure.
-    $setup['pressure'] = $this->buildQuantityField([
+    $setup['nozzle_wrapper']['pressure'] = $this->buildQuantityField([
       'title' => $this->t('Pressure'),
       'description' => $this->t('The water pressure used when applying the product, where relevant.'),
       'measure' => ['#value' => 'pressure'],
