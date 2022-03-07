@@ -317,18 +317,20 @@ class QuickSpraying extends QuickExperimentFormBase {
     $operation['wrapper_2']['tank_volume_remaining'] = $this->buildQuantityField($tank_volume_remaining);
 
     // Equipment triple Rinsed.
-    $operation['wrapper_2']['rinsed'] = [
+    $operation['wrapper_2']['equipment_rinsed'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Equipment tripple rinsed'),
+      '#title' => $this->t('Equipment triple rinsed'),
       '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
+      '#return_value' => 'Yes',
       '#required' => TRUE,
     ];
 
     // Equipment clear washed.
-    $operation['wrapper_2']['clear_washed'] = [
+    $operation['wrapper_2']['equipment_washed'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Equipment clear washed'),
       '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
+      '#return_value' => 'Yes',
       '#required' => TRUE,
     ];
 
@@ -374,6 +376,14 @@ class QuickSpraying extends QuickExperimentFormBase {
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
+    // Add nozles to equipment list.
+    if ($nozzles = $form_state->getValue('nozzle_type')) {
+      if (!is_array($nozzles)) {
+        $nozzles = [$nozzles];
+      }
+      array_push($log['equipment'], ...$nozzles);
+    }
+
     // COSSH Hazard Assessments.
     $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
 
@@ -400,12 +410,28 @@ class QuickSpraying extends QuickExperimentFormBase {
           'label' => $this->t('Plant Growth Stage'),
         ],
         [
-          'key' => 'nozzle_type',
-          'label' => $this->t('Nozzle type'),
-        ],
-        [
           'key' => 'tank_mix_id',
           'label' => $this->t('Tank Mix ID'),
+        ],
+        [
+          'key' => 'weather',
+          'label' => $this->t('Weather'),
+        ],
+        [
+          'key' => 'wind_direction',
+          'label' => $this->t('Wind direction'),
+        ],
+        [
+          'key' => 'knapsack_operator_checklist',
+          'label' => $this->t('Knapsack operator checklist'),
+        ],
+        [
+          'key' => 'equipment_rinsed',
+          'label' => $this->t('Equipment triple-rinsed'),
+        ],
+        [
+          'key' => 'equipment_washed',
+          'label' => $this->t('Equipment clear washed'),
         ],
       ]
     );
