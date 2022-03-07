@@ -9,16 +9,16 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
  * Harvest quick form.
  *
  * @QuickForm(
- *   id = "farm_rothamsted_harvest_quick_form",
- *   label = @Translation("Harvest"),
- *   description = @Translation("Create harvest records."),
- *   helpText = @Translation("Use this form to record harvest records."),
+ *   id = "trailer_harvest",
+ *   label = @Translation("Trailer Harvest"),
+ *   description = @Translation("Create trailer harvest records."),
+ *   helpText = @Translation("Use this form to record trailer harvest records."),
  *   permissions = {
  *     "create harvest log",
  *   }
  * )
  */
-class QuickHarvest extends QuickExperimentFormBase {
+class QuickTrailerHarvest extends QuickExperimentFormBase {
 
   use QuickLogTrait;
 
