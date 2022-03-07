@@ -187,10 +187,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
+    // Equipment wrapper.
+    $setup['equipment_wrapper'] = $this->buildInlineWrapper();
+
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
-      $setup['tractor'] = [
+      $setup['equipment_wrapper']['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
@@ -203,7 +206,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
       $machinery_options_string = implode(",", $this->machineryGroupNames);
-      $setup['machinery'] = [
+      $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
         '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
