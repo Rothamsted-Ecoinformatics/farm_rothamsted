@@ -51,6 +51,9 @@ class QuickHarvest extends QuickExperimentFormBase {
     // Add to the setup tab.
     $setup = &$form['setup'];
 
+    // Add weight to equipment settings.
+    $setup['equipment_settings']['#weight'] = 10;
+
     // Type of harvest.
     $harvest_options = [
       $this->t('Combinable crops (incl. sugar beet)'),
