@@ -48,6 +48,22 @@ class QuickHarvest extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the setup tab.
+    $setup = &$form['setup'];
+
+    // Type of harvest.
+    $harvest_options = [
+      $this->t('Combinable crops (incl. sugar beet)'),
+      $this->t('Silage pickup'),
+      $this->t('Bailing'),
+    ];
+    $setup['type_of_harvest'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Type of harvest'),
+      '#options' => array_combine($harvest_options, $harvest_options),
+      '#required' => TRUE,
+    ];
+
     // Add to the products applied tab.
     $products = &$form['products'];
 
@@ -218,6 +234,23 @@ class QuickHarvest extends QuickExperimentFormBase {
   protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
     $field_keys[] = 'digital_harvest_records';
     return parent::getImageIds($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+    // Prepend additional note fields.
+    array_unshift(
+      $note_fields,
+      ...[
+        [
+          'key' => 'type_of_harvest',
+          'label' => $this->t('Type of harvest'),
+        ],
+      ]
+    );
+    return parent::prepareNotes($note_fields, $form_state);
   }
 
 }
