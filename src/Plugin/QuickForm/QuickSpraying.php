@@ -344,13 +344,6 @@ class QuickSpraying extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-
-    // @todo Include product quantities with correct label.
-    $product_count = $form_state->getValue('product_count');
-    for ($i = 0; $i < $product_count; $i++) {
-      $field_keys[] = ['products', $i, 'product_rate'];
-    }
-
     array_push(
       $field_keys,
       'harvest_interval',
