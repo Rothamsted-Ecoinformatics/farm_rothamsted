@@ -40,6 +40,9 @@ class QuickSpraying extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the setup tab.
+    $setup = &$form['setup'];
+
     // Add to the operation tab.
     $operation = $form['operation'];
 
@@ -74,6 +77,27 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#group' => 'tabs',
       '#weight' => 0,
     ];
+
+    // Add weight to equipment settings.
+    $setup['equipment_settings']['#weight'] = 10;
+
+    // Spray nozzle options.
+    $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
+    $setup['nozzle_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Nozzle Type'),
+      '#description' => $this->t('The type of spray nozzle used, where relevant.'),
+      '#options' => $spray_nozzle_options,
+      '#multiple' => TRUE,
+    ];
+
+    // Pressure.
+    $setup['pressure'] = $this->buildQuantityField([
+      'title' => $this->t('Pressure'),
+      'description' => $this->t('The water pressure used when applying the product, where relevant.'),
+      'measure' => ['#value' => 'pressure'],
+      'units' => ['#value' => 'bar'],
+    ]);
 
     // ---------------- product area --------------------
     // @todo wrap with ajax - multiple products
@@ -211,24 +235,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('The plant growth stage when the product was applied.'),
       '#required' => FALSE,
     ];
-
-    // Spray nozzle options.
-    $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
-    $spraying['spray_nozzle'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Nozzle Type'),
-      '#description' => $this->t('The type of spray nozzle used, where relevant.'),
-      '#options' => $spray_nozzle_options,
-      '#multiple' => TRUE,
-    ];
-
-    // Pressure.
-    $spraying['pressure'] = $this->buildQuantityField([
-      'title' => $this->t('Pressure'),
-      'description' => $this->t('The water pressure used when applying the product, where relevant.'),
-      'measure' => ['#value' => 'pressure'],
-      'units' => ['#value' => 'bar'],
-    ]);
 
     // Seed labels.
     $spraying['seed_labels'] = [
@@ -437,10 +443,10 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     array_push(
       $field_keys,
+      'pressure',
       'area_sprayed',
       'product_quantity',
       'water_volume',
-      'pressure',
       'tank_volume_remaining',
       'wind_speed',
       'temperature',
@@ -470,6 +476,23 @@ class QuickSpraying extends QuickExperimentFormBase {
     $log['ppe'] = array_values(array_filter($form_state->getValue('ppe')));
 
     return $log;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
+    // Prepend additional note fields.
+    array_unshift(
+      $note_fields,
+      ...[
+        [
+          'key' => 'nozzle_type',
+          'label' => $this->t('Nozzle type'),
+        ],
+      ]
+    );
+    return parent::prepareNotes($note_fields, $form_state);
   }
 
 }
