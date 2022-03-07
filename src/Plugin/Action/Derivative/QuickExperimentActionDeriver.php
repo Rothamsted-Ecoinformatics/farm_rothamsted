@@ -56,6 +56,7 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
   protected $experimentQuickFormIds = [
     'drilling',
     'fertiliser',
+    'combine_harvest',
     'trailer_harvest',
     'field_operations',
     'spraying',
