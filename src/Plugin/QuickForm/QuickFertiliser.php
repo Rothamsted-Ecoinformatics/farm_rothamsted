@@ -103,10 +103,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Add the health and safety tab and fields to the form.
     $form['health_and_safety'] = $health_and_safety;
 
-    // Specify weight on the time wrappers so we can add fields below them.
-    $operation['time']['#weight'] = -10;
-    $operation['tractor_time']['#weight'] = -10;
-
     // Add inline wrapper for the fertiliser treated fields.
     $operation['treated_wrapper'] = $this->buildInlineWrapper();
     $operation['treated_wrapper']['#weight'] = -5;

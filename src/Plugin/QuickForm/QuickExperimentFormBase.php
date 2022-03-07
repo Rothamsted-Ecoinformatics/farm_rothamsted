@@ -357,6 +357,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Operation time.
     $operation['time'] = $this->buildInlineWrapper();
+    $operation['time']['#weight'] = -10;
 
     // Scheduled date and time.
     $operation['time']['timestamp'] = [
@@ -388,6 +389,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Tractor time.
     $operation['tractor_time'] = $this->buildInlineWrapper();
+    $operation['tractor_time']['#weight'] = -5;
 
     // Tractor hours start.
     $operation['tractor_time']['tractor_hours_start'] = [
@@ -419,9 +421,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'border' => FALSE,
     ];
     $operation['fuel_use'] = $this->buildQuantityField($fuel_use);
+    $operation['fuel_use']['#weight'] = 10;
 
     // Photographs wrapper.
     $operation['photographs'] = $this->buildInlineWrapper();
+    $operation['photographs']['#weight'] = 15;
 
     // Crop Photographs.
     $operation['photographs']['crop_photographs'] = [
@@ -454,6 +458,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
+      '#weight' => 20,
     ];
 
     // Include the operation tab.

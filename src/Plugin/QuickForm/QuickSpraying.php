@@ -44,7 +44,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $setup = &$form['setup'];
 
     // Add to the operation tab.
-    $operation = $form['operation'];
+    $operation = &$form['operation'];
 
     // Spraying tab.
     $spraying = [
@@ -177,19 +177,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Area sprayed.
-    $area_sprayed_units_options = [
-      'm2' => 'm2',
-      'ha' => 'ha',
-    ];
-    $area_sprayed = [
-      'title' => $this->t('Area sprayed'),
-      'description' => $this->t('The total area being sprayed.'),
-      'measure' => ['#value' => 'area'],
-      'units' => ['#options' => $area_sprayed_units_options],
-    ];
-    $spraying['area_sprayed'] = $this->buildQuantityField($area_sprayed);
-
     // RRES product number.
     $spraying['rres_product_number'] = [
       '#type' => 'textfield',
@@ -291,35 +278,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Tank volume remaining.
-    $tank_volume_ramaining_units_options = [
-      'l' => 'l',
-      'gal' => 'gal',
-    ];
-    $tank_volume_remaining = [
-      'title' => $this->t('Tank volume remaining'),
-      'description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
-      'measure' => ['#value' => 'volume'],
-      'units' => ['#options' => $tank_volume_ramaining_units_options],
-    ];
-    $tank['tank_volume_remaining'] = $this->buildQuantityField($tank_volume_remaining);
-
-    // Equipment triple Rinsed.
-    $tank['rinsed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Equipment tripple rinsed'),
-      '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
-      '#required' => TRUE,
-    ];
-
-    // Equipment clear washed.
-    $tank['clear_washed'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Equipment clear washed'),
-      '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
-      '#required' => TRUE,
-    ];
-
     // Add the tank tab and fields to the form.
     $form['tank'] = $tank;
 
@@ -397,6 +355,22 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the weather tab and fields to the form.
     $form['weather'] = $weather;
 
+    $operation['wrapper_1'] = $this->buildInlineWrapper();
+    $operation['wrapper_1']['#weight'] = 10;
+
+    // Area sprayed.
+    $area_sprayed_units_options = [
+      'm2' => 'm2',
+      'ha' => 'ha',
+    ];
+    $area_sprayed = [
+      'title' => $this->t('Area sprayed'),
+      'description' => $this->t('The total area being sprayed.'),
+      'measure' => ['#value' => 'area'],
+      'units' => ['#options' => $area_sprayed_units_options],
+    ];
+    $operation['wrapper_1']['area_sprayed'] = $this->buildQuantityField($area_sprayed);
+
     // Speed driven.
     $speed_driven_units_options = [
       'mph' => 'mph',
@@ -408,10 +382,41 @@ class QuickSpraying extends QuickExperimentFormBase {
       'measure' => ['#value' => 'ratio'],
       'units' => ['#options' => $speed_driven_units_options],
     ];
-    $operation['speed_driven'] = $this->buildQuantityField($speed_driven);
+    $operation['wrapper_1']['speed_driven'] = $this->buildQuantityField($speed_driven);
+    $operation['wrapper_1']['fuel_use'] = $operation['fuel_use'];
+    unset($operation['fuel_use']);
 
-    // Add the operation tab and fields to the form.
-    $form['operation'] = $operation;
+    $operation['wrapper_2'] = $this->buildInlineWrapper();
+    $operation['wrapper_2']['#weight'] = 10;
+
+    // Tank volume remaining.
+    $tank_volume_ramaining_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+    $tank_volume_remaining = [
+      'title' => $this->t('Tank volume remaining'),
+      'description' => $this->t('If the full tank used enter zero. If not, estimate or calculate the remaining.'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $tank_volume_ramaining_units_options],
+    ];
+    $operation['wrapper_2']['tank_volume_remaining'] = $this->buildQuantityField($tank_volume_remaining);
+
+    // Equipment triple Rinsed.
+    $operation['wrapper_2']['rinsed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment tripple rinsed'),
+      '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
+      '#required' => TRUE,
+    ];
+
+    // Equipment clear washed.
+    $operation['wrapper_2']['clear_washed'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Equipment clear washed'),
+      '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
+      '#required' => TRUE,
+    ];
 
     return $form;
   }
