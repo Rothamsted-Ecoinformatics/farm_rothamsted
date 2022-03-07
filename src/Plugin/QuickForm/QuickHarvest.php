@@ -40,8 +40,22 @@ class QuickHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected bool $productsTab = TRUE;
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
     $form = parent::buildForm($form, $form_state);
+
+    // Add to the products applied tab.
+    $products = &$form['products'];
+
+    // Move recommendation fields to spraying tab.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $products[$field_name] = $form['setup'][$field_name];
+      unset($form['setup'][$field_name]);
+    }
 
     // Harvest tab.
     $harvest = [
