@@ -185,17 +185,12 @@ class QuickHarvest extends QuickExperimentFormBase {
     // Add the harvest tab and fields to the form.
     $form['harvest'] = $harvest;
 
-    // Digital harvest records.
-    $form['operation']['digital_harvest_records'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Digital harvest record(s)'),
-      '#description' => $this->t('An upload of any digital harvest records, where applicable.'),
-      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
-      '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
-      ],
-      '#multiple' => TRUE,
-      '#extended' => TRUE,
+    // @todo Decide if this should be implemented as a log category.
+    $form['operation']['storage_location'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Storage location'),
+      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by adding terms to the ‘Storage Locations’ under the Farm categories taxonomy.'),
+      '#required' => TRUE,
     ];
 
     return $form;
