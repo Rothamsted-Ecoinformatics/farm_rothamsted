@@ -323,50 +323,8 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add the tank tab and fields to the form.
     $form['tank'] = $tank;
 
-    // Wind speed.
-    $wind_speed_units_options = [
-      'kph' => 'kph',
-    ];
-    $wind_speed = [
-      'title' => $this->t('Wind speed'),
-      'description' => $this->t('The maximum wind speed during spraying.'),
-      'measure' => ['#value' => 'ratio'],
-      'units' => ['#options' => $wind_speed_units_options],
-      'required' => TRUE,
-    ];
-    $weather['wind_speed'] = $this->buildQuantityField($wind_speed);
-
-    // Wind direction.
-    $wind_directions = [
-      $this->t('North'),
-      $this->t('South'),
-      $this->t('East'),
-      $this->t('West'),
-      $this->t('North East'),
-      $this->t('North West'),
-      $this->t('South East'),
-      $this->t('South West'),
-    ];
-    $wind_direction_options = array_combine($wind_directions, $wind_directions);
-    $weather['wind_direction'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Wind direction'),
-      '#description' => $this->t('The dominant wind direction during spraying.'),
-      '#options' => $wind_direction_options,
-      '#required' => TRUE,
-    ];
-
     // Weather wrapper.
     $weather['weather_info'] = $this->buildInlineWrapper();
-
-    // Temperature (Degrees C).
-    $weather['weather_info']['temperature'] = $this->buildQuantityField([
-      'title' => $this->t('Temperature (C)'),
-      'description' => $this->t('The average temperature during spraying.'),
-      'measure' => ['#value' => 'temperature'],
-      'units' => ['#value' => 'C'],
-      'required' => TRUE,
-    ]);
 
     // Weather types.
     $weather_types = [
@@ -390,6 +348,49 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#description' => $this->t('The dominant weather conditions during spraying.'),
       '#options' => $weather_types_options,
       '#multiple' => TRUE,
+      '#required' => TRUE,
+    ];
+
+    // Temperature (Degrees C).
+    $weather['weather_info']['temperature'] = $this->buildQuantityField([
+      'title' => $this->t('Temperature (C)'),
+      'description' => $this->t('The average temperature during spraying.'),
+      'measure' => ['#value' => 'temperature'],
+      'units' => ['#value' => 'C'],
+      'required' => TRUE,
+    ]);
+
+    // Wind speed.
+    $wind_speed_units_options = [
+      'kph' => 'kph',
+      'mph' => 'mph',
+    ];
+    $wind_speed = [
+      'title' => $this->t('Wind speed'),
+      'description' => $this->t('The maximum wind speed during spraying.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#options' => $wind_speed_units_options],
+      'required' => TRUE,
+    ];
+    $weather['weather_info']['wind_speed'] = $this->buildQuantityField($wind_speed);
+
+    // Wind direction.
+    $wind_directions = [
+      $this->t('North'),
+      $this->t('South'),
+      $this->t('East'),
+      $this->t('West'),
+      $this->t('North East'),
+      $this->t('North West'),
+      $this->t('South East'),
+      $this->t('South West'),
+    ];
+    $wind_direction_options = array_combine($wind_directions, $wind_directions);
+    $weather['weather_info']['wind_direction'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wind direction'),
+      '#description' => $this->t('The dominant wind direction during spraying.'),
+      '#options' => $wind_direction_options,
       '#required' => TRUE,
     ];
 
