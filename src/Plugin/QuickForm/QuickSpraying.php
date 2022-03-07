@@ -336,21 +336,6 @@ class QuickSpraying extends QuickExperimentFormBase {
   }
 
   /**
-   * Form ajax function for product quick form products.
-   *
-   * @param array $form
-   *   The form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   *
-   * @return array
-   *   The products render array.
-   */
-  public function productsCallback(array &$form, FormStateInterface $form_state) {
-    return $form['spraying']['sprayed_products']['products'];
-  }
-
-  /**
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
