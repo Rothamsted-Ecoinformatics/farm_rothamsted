@@ -58,7 +58,7 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
     'fertiliser',
     'farm_rothamsted_harvest_quick_form',
     'field_operations',
-    'farm_rothamsted_spraying_quick_form',
+    'spraying',
   ];
 
   /**

@@ -187,10 +187,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
+    // Equipment wrapper.
+    $setup['equipment_wrapper'] = $this->buildInlineWrapper();
+
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
-      $setup['tractor'] = [
+      $setup['equipment_wrapper']['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
@@ -203,7 +206,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryGroupNames)) {
       $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
       $machinery_options_string = implode(",", $this->machineryGroupNames);
-      $setup['machinery'] = [
+      $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
         '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
@@ -357,6 +360,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Operation time.
     $operation['time'] = $this->buildInlineWrapper();
+    $operation['time']['#weight'] = -10;
 
     // Scheduled date and time.
     $operation['time']['timestamp'] = [
@@ -388,6 +392,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Tractor time.
     $operation['tractor_time'] = $this->buildInlineWrapper();
+    $operation['tractor_time']['#weight'] = -5;
 
     // Tractor hours start.
     $operation['tractor_time']['tractor_hours_start'] = [
@@ -419,9 +424,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'border' => FALSE,
     ];
     $operation['fuel_use'] = $this->buildQuantityField($fuel_use);
+    $operation['fuel_use']['#weight'] = 10;
 
     // Photographs wrapper.
     $operation['photographs'] = $this->buildInlineWrapper();
+    $operation['photographs']['#weight'] = 15;
 
     // Crop Photographs.
     $operation['photographs']['crop_photographs'] = [
@@ -454,6 +461,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
+      '#weight' => 20,
     ];
 
     // Include the operation tab.
