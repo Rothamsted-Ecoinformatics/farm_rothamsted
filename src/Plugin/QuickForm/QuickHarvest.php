@@ -158,22 +158,30 @@ class QuickHarvest extends QuickExperimentFormBase {
     ]);
 
     // Nett weight.
-    // @todo Make this required if type of harvest is combinable crops.
     $trailer['weight_wrapper']['nett_weight'] = $this->buildQuantityField([
       'title' => $this->t('Nett weight'),
       'description' => $this->t('The weight of the harvested grain.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
+    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
+      'required' => [
+        ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
+      ],
+    ];
 
     // Moisture content.
-    // @todo Make this required if type of harvest is combinable crops.
     $trailer['moisture_content'] = $this->buildQuantityField([
       'title' => $this->t('Moisture content'),
       'description' => $this->t('The moisture content of the grain at the harvest.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
+    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
+      'required' => [
+        ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
+      ],
+    ];
 
     // Grain sample number.
     $trailer['grain_sample_number'] = [
