@@ -236,14 +236,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
-    $field_keys[] = 'digital_harvest_records';
-    return parent::getImageIds($field_keys, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
     // Prepend additional note fields.
     array_unshift(
