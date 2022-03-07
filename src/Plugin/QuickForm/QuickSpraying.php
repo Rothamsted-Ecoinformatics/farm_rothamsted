@@ -59,7 +59,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Spraying tab.
     $spraying = [
       '#type' => 'details',
-      '#title' => $this->t('Spraying'),
+      '#title' => $this->t('Spray Justification'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -105,18 +105,21 @@ class QuickSpraying extends QuickExperimentFormBase {
       'units' => ['#value' => 'bar'],
     ]);
 
-    // Build justification options from the Spray Applications parent term.
-    $justification_options = $this->getChildTermOptionsByName('log_category', 'Justification/Target (Spray Applications)');
-
-    // Justification/Target as log categories.
-    $spraying['categories'] = [
-      '#type' => 'select',
+    // Justification/Target.
+    $spraying['justification_target'] = [
+      '#type' => 'textfield',
       '#title' => $this->t('Justification/Target'),
       '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
-      '#options' => $justification_options,
-      '#multiple' => TRUE,
       '#required' => TRUE,
     ];
+
+    // Move recommendation fields to spraying tab.
+    // Make each field required.
+    foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
+      $spraying[$field_name] = $form['setup'][$field_name];
+      $spraying[$field_name]['#required'] = TRUE;
+      unset($form['setup'][$field_name]);
+    }
 
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
@@ -126,19 +129,17 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => FALSE,
     ];
 
-    // Seed labels.
-    $spraying['seed_labels'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Seed labels'),
-      '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
-      '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
-      '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
-      ],
-      '#multiple' => TRUE,
-      '#extended' => TRUE,
-      '#required' => TRUE,
+    // Harvest interval.
+    $harvest_intervals = [
+      'days' => 'days',
+      'weeks' => 'weeks',
     ];
+    $spraying['harvest_interval'] = $this->buildQuantityField([
+      'title' => $this->t('Harvest interval'),
+      'description' => $this->t('For products with a specified interval between application and harvest, please make a note of the harvest interval here.'),
+      'measure' => ['#value' => 'time'],
+      'units' => ['#options' => $harvest_intervals],
+    ]);
 
     // Add the spraying tab and fields to the form.
     $form['spraying'] = $spraying;
@@ -362,12 +363,13 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     array_push(
       $field_keys,
+      'harvest_interval',
       'pressure',
-      'area_sprayed',
       'water_volume',
       'tank_volume_remaining',
       'wind_speed',
       'temperature',
+      'area_sprayed',
       'speed_driven',
     );
     return parent::getQuantities($field_keys, $form_state);
@@ -404,6 +406,14 @@ class QuickSpraying extends QuickExperimentFormBase {
     array_unshift(
       $note_fields,
       ...[
+        [
+          'key' => 'justification_target',
+          'label' => $this->t('Justification/Target'),
+        ],
+        [
+          'key' => 'plant_growth_stage',
+          'label' => $this->t('Plant Growth Stage'),
+        ],
         [
           'key' => 'nozzle_type',
           'label' => $this->t('Nozzle type'),
