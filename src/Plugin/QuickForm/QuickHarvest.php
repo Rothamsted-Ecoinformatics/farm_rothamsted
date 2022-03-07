@@ -76,16 +76,57 @@ class QuickHarvest extends QuickExperimentFormBase {
       unset($form['setup'][$field_name]);
     }
 
+    // Grass/Straw Bales tab.
+    $bales = [
+      '#type' => 'details',
+      '#title' => $this->t('Grass/Straw Bales'),
+      '#group' => 'tabs',
+      '#weight' => 0,
+    ];
+
+    // Total number of bales.
+    $bales['total_number_bales'] = $this->buildQuantityField([
+      'title' => $this->t('Total number of bales'),
+      'description' => $this->t('Please give the total number of bales from this harvest.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#type' => 'hidden'],
+    ]);
+
+    // Type of bale.
+    // @todo Decide if this should be implemented as a log category.
+    $bales['bale_type'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Type of bale'),
+      '#description' => $this->t('Please select the type of bale. This list can be expanded by adding terms to the ‘Grass/ Straw Bale Types’ under the Farm categories taxonomy.'),
+    ];
+
+    // Bale wrapped.
+    // This is a select field instead of a checkbox so that "No" is not
+    // submitted by default.
+    $wrapped_options = [
+      'Yes',
+      'No',
+    ];
+    $bales['wrapped'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wrapped'),
+      '#description' => $this->t('Please state if the bale is wrapped or not.'),
+      '#options' => array_combine($wrapped_options, $wrapped_options),
+      '#empty_option' => $this->t('Select a value'),
+    ];
+
+    $form['bales'] = $bales;
+
     // Trailer Load tab.
     $trailer = [
       '#type' => 'details',
       '#title' => $this->t('Trailer Load'),
       '#group' => 'tabs',
-      '#weight' => 0,
+      '#weight' => 1,
     ];
 
     // Number of bales.
-    $trailer['number_of_bales'] = $this->buildQuantityField([
+    $trailer['bales_on_trailer'] = $this->buildQuantityField([
       'title' => $this->t('Number of bales on the trailer'),
       'description' => $this->t('Please give the total number of bales on the trailer, where relevant.'),
       'measure' => ['#value' => 'count'],
@@ -174,7 +215,8 @@ class QuickHarvest extends QuickExperimentFormBase {
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     array_push(
       $field_keys,
-      'number_of_bales',
+      'total_number_bales',
+      'bales_on_trailer',
       'tare',
       'gross_weight',
       'nett_weight',
@@ -202,6 +244,10 @@ class QuickHarvest extends QuickExperimentFormBase {
         [
           'key' => 'type_of_harvest',
           'label' => $this->t('Type of harvest'),
+        ],
+        [
+          'key' => 'wrapped',
+          'label' => $this->t('Wrapped'),
         ],
         [
           'key' => 'grain_sample_number',
