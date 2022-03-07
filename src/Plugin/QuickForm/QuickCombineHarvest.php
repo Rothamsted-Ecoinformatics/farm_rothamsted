@@ -10,7 +10,7 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
  *
  * @QuickForm(
  *   id = "combine_harvest",
- *   label = @Translation("Combine Harvest"),
+ *   label = @Translation("Harvest (Combine and Forage Harvesters)"),
  *   description = @Translation("Create combine harvest records."),
  *   helpText = @Translation("Use this form to record combine harvest records."),
  *   permissions = {

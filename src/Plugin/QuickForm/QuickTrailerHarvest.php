@@ -10,7 +10,7 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
  *
  * @QuickForm(
  *   id = "trailer_harvest",
- *   label = @Translation("Trailer Harvest"),
+ *   label = @Translation("Harvest (Trailer/ Bale Weights)"),
  *   description = @Translation("Create trailer harvest records."),
  *   helpText = @Translation("Use this form to record trailer harvest records."),
  *   permissions = {
