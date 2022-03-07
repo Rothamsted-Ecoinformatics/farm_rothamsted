@@ -73,117 +73,79 @@ class QuickHarvest extends QuickExperimentFormBase {
       unset($form['setup'][$field_name]);
     }
 
-    // Harvest tab.
-    $harvest = [
+    // Trailer Load tab.
+    $trailer = [
       '#type' => 'details',
-      '#title' => $this->t('Harvest'),
+      '#title' => $this->t('Trailer Load'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
 
-    // Trailor batch count.
-    $harvest['trailor_batch']['batch_count'] = [
-      '#type' => 'select',
-      '#title' => $this->t('How many trailor batches are associated with this harvest?'),
-      '#options' => array_combine(range(1, 5), range(1, 5)),
-      '#default_value' => 1,
-      '#ajax' => [
-        'callback' => [$this, 'trailorBatchesCallback'],
-        'event' => 'change',
-        'wrapper' => 'farm-rothamsted-harvest-trailor-batches',
-      ],
-    ];
-
-    // Create a wrapper around all trailor batch fields, for AJAX replacement.
-    $harvest['trailor_batch']['batches'] = [
-      '#prefix' => '<div id="farm-rothamsted-harvest-trailor-batches">',
-      '#suffix' => '</div>',
-    ];
-
-    // Add fields for each trailor batch.
-    $harvest['trailor_batch']['batches']['#tree'] = TRUE;
-    $quantities = $form_state->getValue('batch_count', 1);
-    for ($i = 0; $i < $quantities; $i++) {
-
-      // Save a normal batch number.
-      $batch_number = $i + 1;
-
-      // Fieldset for each batch.
-      $harvest['trailor_batch']['batches'][$i] = [
-        '#type' => 'details',
-        '#title' => $this->t('Batch @number', ['@number' => $i + 1]),
-        '#collapsible' => TRUE,
-        '#open' => TRUE,
-      ];
-
-      // Add a wrapper for all the quantity fields.
-      $wrapper = $this->buildInlineWrapper();
-
-      // Tare.
-      $wrapper['tare'] = $this->buildQuantityField([
-        'title' => $this->t('Tare'),
-        'description' => $this->t('The weight of the trailor, as measured on the scales.'),
-        'measure' => ['#value' => 'weight'],
-        'units' => ['#value' => 'kg'],
-        'label' => ['#value' => "Batch $batch_number tare"],
-      ]);
-
-      // Gross weight.
-      $wrapper['gross_weight'] = $this->buildQuantityField([
-        'title' => $this->t('Gross weight'),
-        'description' => $this->t('The weight of the trailor + harvested grain, as measured on the scales.'),
-        'measure' => ['#value' => 'weight'],
-        'units' => ['#value' => 'kg'],
-        'label' => ['#value' => "Batch $batch_number gross weight"],
-      ]);
-
-      // Nett weight.
-      $wrapper['nett_weight'] = $this->buildQuantityField([
-        'title' => $this->t('Nett weight'),
-        'description' => $this->t('The weight of the harvested grain.'),
-        'measure' => ['#value' => 'weight'],
-        'units' => ['#value' => 'kg'],
-        'label' => ['#value' => "Batch $batch_number nett weight"],
-      ]);
-
-      // Moisture content.
-      $wrapper['moisture_content'] = $this->buildQuantityField([
-        'title' => $this->t('Moisture content'),
-        'description' => $this->t('The moisture content of the grain at the harvest.'),
-        'measure' => ['#value' => 'ratio'],
-        'units' => ['#value' => '%'],
-        'label' => ['#value' => "Batch $batch_number moisture content"],
-      ]);
-
-      $harvest['trailor_batch']['batches'][$i]['quantities'] = $wrapper;
-    }
-
-    // Number of samples.
-    $harvest['number_of_samples'] = $this->buildQuantityField([
-      'title' => $this->t('Number of samples'),
-      'description' => $this->t('The number of yield samples requested for analysis.'),
+    // Number of bales.
+    $trailer['number_of_bales'] = $this->buildQuantityField([
+      'title' => $this->t('Number of bales on the trailer'),
+      'description' => $this->t('Please give the total number of bales on the trailer, where relevant.'),
       'measure' => ['#value' => 'count'],
       'units' => ['#type' => 'hidden'],
     ]);
 
-    // Harvest lot number.
-    $harvest['harvest_lot_number'] = [
+    // Common trailer weight units.
+    $trailer_weight_units = [
+      't' => 'tonnes',
+      'kg' => 'kilogrammes',
+    ];
+
+    $trailer['weight_wrapper'] = $this->buildInlineWrapper();
+
+    // Tare.
+    $trailer['weight_wrapper']['tare'] = $this->buildQuantityField([
+      'title' => $this->t('Trailer tare'),
+      'description' => $this->t('The weight of the trailer, as measured on the scales.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $trailer_weight_units],
+    ]);
+
+    // Gross weight.
+    $trailer['weight_wrapper']['gross_weight'] = $this->buildQuantityField([
+      'title' => $this->t('Gross weight'),
+      'description' => $this->t('The weight of the trailer + harvested grain, as measured on the scales.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $trailer_weight_units],
+    ]);
+
+    // Nett weight.
+    // @todo Make this required if type of harvest is combinable crops.
+    $trailer['weight_wrapper']['nett_weight'] = $this->buildQuantityField([
+      'title' => $this->t('Nett weight'),
+      'description' => $this->t('The weight of the harvested grain.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $trailer_weight_units],
+    ]);
+
+    // Moisture content.
+    // @todo Make this required if type of harvest is combinable crops.
+    $trailer['moisture_content'] = $this->buildQuantityField([
+      'title' => $this->t('Moisture content'),
+      'description' => $this->t('The moisture content of the grain at the harvest.'),
+      'measure' => ['#value' => 'ratio'],
+      'units' => ['#value' => '%'],
+    ]);
+
+    // Grain sample number.
+    $trailer['grain_sample_number'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Harvest lot number'),
-      '#description' => $this->t('The RRES harvest number, where applicable.'),
-      '#required' => FALSE,
+      '#title' => $this->t('Grain sample number'),
+      '#description' => $this->t('If a grain sample is taken from this trailer for testing and analysis, please record the sample number here.'),
     ];
 
     // Condition of the grain at storage.
-    $harvest['grain_storage_condition'] = [
+    $trailer['storage_condition'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Condition of the grain at storage'),
-      '#description' => $this->t('The RRES harvest number, where applicable.'),
-      '#required' => FALSE,
+      '#title' => $this->t('Condition of the grain/ straw at storage'),
     ];
 
     // Add the harvest tab and fields to the form.
-    $form['harvest'] = $harvest;
+    $form['trailer'] = $trailer;
 
     // @todo Decide if this should be implemented as a log category.
     $form['operation']['storage_location'] = [
@@ -207,19 +169,14 @@ class QuickHarvest extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-
-    // Include number of samples.
-    $field_keys[] = 'number_of_samples';
-
-    // Include batch quantity keys.
-    $batch_count = $form_state->getValue('batch_count');
-    for ($i = 0; $i < $batch_count; $i++) {
-      $field_keys[] = ['batches', $i, 'quantities', 'tare'];
-      $field_keys[] = ['batches', $i, 'quantities', 'gross_weight'];
-      $field_keys[] = ['batches', $i, 'quantities', 'nett_weight'];
-      $field_keys[] = ['batches', $i, 'quantities', 'moisture_content'];
-    }
-
+    array_push(
+      $field_keys,
+      'number_of_bales',
+      'tare',
+      'gross_weight',
+      'nett_weight',
+      'moisture_content',
+    );
     return parent::getQuantities($field_keys, $form_state);
   }
 
@@ -242,6 +199,14 @@ class QuickHarvest extends QuickExperimentFormBase {
         [
           'key' => 'type_of_harvest',
           'label' => $this->t('Type of harvest'),
+        ],
+        [
+          'key' => 'grain_sample_number',
+          'label' => $this->t('Grain sample number'),
+        ],
+        [
+          'key' => 'storage_condition',
+          'label' => $this->t('Condition of grain/ straw at storage'),
         ],
       ]
     );
