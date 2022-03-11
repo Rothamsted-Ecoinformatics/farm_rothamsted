@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
@@ -187,11 +188,21 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Add the harvest tab and fields to the form.
     $form['trailer'] = $trailer;
 
-    // @todo Decide if this should be implemented as a log category.
+    // Storage locations.
+    $storage_locations = $this->entityTypeManager->getStorage('asset')->loadByProperties([
+      'type' => 'structure',
+      'structure_type' => 'storage_location',
+      'status' => 'active',
+    ]);
+    $storage_location_options = array_map(function (AssetInterface $asset) {
+      return $asset->label();
+    }, $storage_locations);
+    natsort($storage_location_options);
     $form['operation']['storage_location'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Storage location'),
-      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by adding terms to the ‘Storage Locations’ under the Farm categories taxonomy.'),
+      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by creating new Storage Location structure assets.'),
+      '#options' => $storage_location_options,
       '#required' => TRUE,
     ];
 
@@ -203,6 +214,18 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // Include the storage location.
+    $log['location'] = $form_state->getValue('storage_location');
+
+    return $log;
   }
 
   /**
