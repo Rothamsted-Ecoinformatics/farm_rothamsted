@@ -140,6 +140,20 @@ function farm_rothamsted_dev_install() {
     $group_assignment_log->save();
   }
 
+  // Storage location assets.
+  $locations = [
+    'Storage location 1',
+    'Storage location 2',
+  ];
+  foreach ($locations as $location_name) {
+    $location = Asset::create([
+      'type' => 'structure',
+      'structure_type' => 'storage_location',
+      'name' => $location_name,
+    ]);
+    $location->save();
+  }
+
   // Commercial Plant Assets.
   $plants = [
     'Commercial Corn' => 'Corn',

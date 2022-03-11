@@ -19,6 +19,7 @@ dependencies:
   - farm_rei:farm_rei
   - farm_role
   - farm_role_roles
+  - farm_structure
   - json_field:json_field
   - key_value_field:key_value_field
   - plan
