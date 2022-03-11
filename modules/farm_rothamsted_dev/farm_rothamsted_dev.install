@@ -159,4 +159,18 @@ function farm_rothamsted_dev_install() {
     ]);
     $asset->save();
   }
+
+  // Commercial locations.
+  $locations = [
+    'Commercial field 1',
+    'Commercial field 2',
+  ];
+  foreach ($locations as $location_name) {
+    $location = Asset::create([
+      'type' => 'land',
+      'land_type' => 'field',
+      'name' => $location_name,
+    ]);
+    $location->save();
+  }
 }
