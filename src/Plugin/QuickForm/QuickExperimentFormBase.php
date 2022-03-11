@@ -3,7 +3,6 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
-use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -12,7 +11,9 @@ use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
+use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Drupal\farm_rothamsted\Traits\QuickQuantityFieldTrait;
+use Drupal\farm_rothamsted\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
@@ -22,23 +23,11 @@ use Psr\Container\ContainerInterface;
  */
 abstract class QuickExperimentFormBase extends QuickFormBase {
 
-  use QuickPrepopulateTrait;
+  use QuickFileTrait;
   use QuickLogTrait;
+  use QuickPrepopulateTrait;
   use QuickQuantityFieldTrait;
-
-  /**
-   * The valid file extensions.
-   *
-   * @var string[]
-   */
-  protected static array $validFileExtensions = ['pdf doc docx csv xls xlsx'];
-
-  /**
-   * The valid image file extensions.
-   *
-   * @var string[]
-   */
-  protected static array $validImageExtensions = ['png gif jpg jpeg'];
+  use QuickTaxonomyOptionsTrait;
 
   /**
    * The entity type manager service.
@@ -619,74 +608,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
-   * Helper function to build a sorted option list of taxonomy terms.
-   *
-   * @param string $vocabulary_name
-   *   The name of vocabulary.
-   * @param int $parent
-   *   The term ID under which to generate the tree. If 0, generate the tree
-   *   for the entire vocabulary.
-   * @param int|null $depth
-   *   The number of levels of the tree to return. Leave NULL to return all
-   *   levels.
-   *
-   * @return array
-   *   An array of term labels indexed by term ID and sorted alphabetically.
-   */
-  protected function getTermTreeOptions(string $vocabulary_name, int $parent = 0, int $depth = NULL): array {
-
-    // Load terms.
-    /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
-    $terms = $term_storage->loadTree($vocabulary_name, $parent, $depth, TRUE);
-
-    // Filter to active terms.
-    $active_terms = array_filter($terms, function ($term) {
-      return (int) $term->get('status')->value;
-    });
-
-    // Build options.
-    $options = [];
-    foreach ($active_terms as $term) {
-      $options[$term->id()] = $term->label();
-    }
-    natsort($options);
-
-    return $options;
-  }
-
-  /**
-   * Helper function to build a sorted option list of child taxonomy terms.
-   *
-   * @param string $vocabulary_name
-   *   The name of vocabulary.
-   * @param string $term_name
-   *   The name of parent taxonomy term.
-   * @param int|null $depth
-   *   The number of levels of the tree to return. Leave NULL to return all
-   *   levels.
-   *
-   * @return array
-   *   An array of taxonomy labels ordered alphabetically.
-   */
-  protected function getChildTermOptionsByName(string $vocabulary_name, string $term_name, int $depth = NULL): array {
-    // Search for a parent term.
-    $term_storage = $this->entityTypeManager->getSTorage('taxonomy_term');
-    $matching_terms = $term_storage->loadByProperties([
-      'vid' => $vocabulary_name,
-      'name' => $term_name,
-      'status' => 1,
-    ]);
-
-    // If a parent term exists.
-    if ($parent_term = reset($matching_terms)) {
-      return $this->getTermTreeOptions($vocabulary_name, $parent_term->id(), $depth);
-    }
-
-    return [];
-  }
-
-  /**
    * Helper function to build a sorted option list of users in role(s).
    *
    * @param array $roles
@@ -734,47 +655,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         'style' => ['display: flex; flex-wrap: wrap; column-gap: 2em;'],
       ],
     ];
-  }
-
-  /**
-   * Helper function to get the managed_file upload location.
-   *
-   * @param string $entity_type
-   *   The entity type id.
-   * @param string $bundle
-   *   The bundle id.
-   * @param string $field_id
-   *   The file field id.
-   *
-   * @return string
-   *   The upload location uri.
-   */
-  protected function getFileUploadLocation(string $entity_type, string $bundle, string $field_id): string {
-
-    /** @var \Drupal\Core\Entity\EntityFieldManagerInterface $field_manager */
-    $field_manager = \Drupal::service('entity_field.manager');
-
-    // Get field definitions.
-    $field_definitions = $field_manager->getFieldDefinitions($entity_type, $bundle);
-
-    // Bail if no field definition exists.
-    // @todo Should we default to a standard location?
-    if (empty($field_definitions[$field_id]) || !in_array($field_definitions[$field_id]->getType(), ['file', 'image'])) {
-      return 'farm/quick';
-    }
-
-    // Get the field definition settings.
-    $field_definition = $field_definitions[$field_id];
-    $settings = $field_definition->getSettings();
-
-    // The following is copied from FileItem::getUploadLocation().
-    // We cannot use that method without instantiating a file entity.
-    $destination = trim($settings['file_directory'], '/');
-
-    // Replace tokens. As the tokens might contain HTML we convert it to plain
-    // text.
-    $destination = PlainTextOutput::renderFromHtml(\Drupal::token()->replace($destination, []));
-    return $settings['uri_scheme'] . '://' . $destination;
   }
 
   /**
