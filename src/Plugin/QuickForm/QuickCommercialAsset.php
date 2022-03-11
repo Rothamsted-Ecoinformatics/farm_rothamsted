@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
+use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Drupal\farm_rothamsted\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\TermInterface;
 use Psr\Container\ContainerInterface;
@@ -27,6 +28,7 @@ use Psr\Container\ContainerInterface;
 class QuickCommercialAsset extends QuickFormBase {
 
   use QuickAssetTrait;
+  use QuickFileTrait;
   use QuickTaxonomyOptionsTrait;
 
   /**
@@ -166,7 +168,19 @@ class QuickCommercialAsset extends QuickFormBase {
 
     // @todo End use.
     // @todo Tillage.
-    // @todo Associated files.
+
+    // Associated files.
+    $form['file'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Associated files'),
+      '#description' => $this->t('The option to upload one or more files relating to this plant asset.'),
+      '#upload_location' => $this->getFileUploadLocation('asset', 'plant', 'file'),
+      '#upload_validators' => [
+        'file_validate_extensions' => self::$validFileExtensions,
+      ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
+    ];
 
     // Asset notes.
     $form['notes'] = [
@@ -205,13 +219,24 @@ class QuickCommercialAsset extends QuickFormBase {
     }
 
     // Start an array of asset data.
-    $asset = $this->createAsset([
+    $asset_data = [
       'type' => 'plant',
       'name' => $plant_name,
       'plant_type' => $form_state->getValue('plant_type'),
       'season' => $form_state->getValue('season'),
+      'file' => $form_state->getValue('file', []),
       'notes' => $form_state->getValue('notes'),
-    ]);
+    ];
+
+    // If multiple files are uploaded than use the 'fids' key.
+    $fids = $form_state->getValue('file');
+    if (!empty($fids) && is_array($fids)) {
+      $fids = $fids['fids'];
+    }
+    $asset_data['file'] = $fids;
+
+    // Create the asset.
+    $asset = $this->createAsset($asset_data);
     $asset->save();
   }
 
