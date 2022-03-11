@@ -55,6 +55,12 @@ function farm_rothamsted_dev_install() {
       'Beans' => ['Black beans', 'Garbanzos', 'Big beans'],
       'Wheat' => ['Summer wheat', 'Winter wheat'],
     ],
+    'season' => [
+      '2020' => [],
+      '2021' => [],
+      '2022' => [],
+      '2023' => [],
+    ],
     'unit' => [
       'Spray' => ['l/ha', 'g/ha', 'ml/ha'],
       'Volume' => ['l', 'gal', 'ml'],
