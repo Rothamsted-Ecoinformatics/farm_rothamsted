@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
+use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Drupal\farm_rothamsted\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\TermInterface;
@@ -29,6 +30,7 @@ class QuickCommercialAsset extends QuickFormBase {
 
   use QuickAssetTrait;
   use QuickFileTrait;
+  use QuickLogTrait;
   use QuickTaxonomyOptionsTrait;
 
   /**
@@ -238,6 +240,19 @@ class QuickCommercialAsset extends QuickFormBase {
     // Create the asset.
     $asset = $this->createAsset($asset_data);
     $asset->save();
+
+    // Assign the asset's location.
+    $location_id = $form_state->getValue('location');
+    $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+    $log = $this->createLog([
+      'type' => 'activity',
+      'name' => $this->t('Move :asset to :location', [':asset' => $asset->label(), ':location' => $location->label()]),
+      'asset' => $asset,
+      'location' => $location,
+      'is_movement' => TRUE,
+      'status' => 'done',
+    ]);
+    $log->save();
   }
 
   /**
