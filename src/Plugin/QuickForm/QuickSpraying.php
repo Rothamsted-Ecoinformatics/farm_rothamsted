@@ -392,6 +392,32 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+
+    // Get all of the submitted material_types parent terms.
+    $material_type_names = [];
+    if ($product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        $material_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type']);
+        $material_type_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)->label();
+      }
+    }
+
+    // Only include unique names.
+    $material_type_names = array_unique($material_type_names);
+
+    // Generate the log name.
+    $name_parts = [
+      'prefix' => 'Spraying: ',
+      'products' => implode(', ', $material_type_names),
+    ];
+    $priority_keys = ['prefix', 'products'];
+    return $this->prioritizedString($name_parts, $priority_keys);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
     // Prepend additional note fields.
     array_unshift(
