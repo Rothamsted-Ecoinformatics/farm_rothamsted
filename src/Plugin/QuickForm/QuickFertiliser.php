@@ -137,16 +137,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-    $field_keys[] = 'target_application_rate';
-    $field_keys[] = 'treated_area';
-    $field_keys[] = 'total_volume_applied';
-    return parent::getQuantities($field_keys, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
@@ -177,6 +167,16 @@ class QuickFertiliser extends QuickExperimentFormBase {
     ];
     $priority_keys = ['prefix', 'products'];
     return $this->prioritizedString($name_parts, $priority_keys);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    $field_keys[] = 'target_application_rate';
+    $field_keys[] = 'treated_area';
+    $field_keys[] = 'total_volume_applied';
+    return parent::getQuantities($field_keys, $form_state);
   }
 
 }
