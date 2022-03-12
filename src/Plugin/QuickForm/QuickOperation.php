@@ -162,6 +162,14 @@ class QuickOperation extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+    $task = $form_state->getValue('operation_task');
+    return "Operation: $task";
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     $field_keys[] = 'depth';
     $field_keys[] = 'working_width';

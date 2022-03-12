@@ -343,6 +343,55 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  public function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // Add nozles to equipment list.
+    if ($nozzles = $form_state->getValue('nozzle_type')) {
+      if (!is_array($nozzles)) {
+        $nozzles = [$nozzles];
+      }
+      array_push($log['equipment'], ...$nozzles);
+    }
+
+    // COSSH Hazard Assessments.
+    $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
+
+    // PPE.
+    $log['ppe'] = array_values(array_filter($form_state->getValue('ppe')));
+
+    return $log;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+
+    // Get all of the submitted material_types parent terms.
+    $material_type_names = [];
+    if ($product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        $material_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type']);
+        $material_type_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)->label();
+      }
+    }
+
+    // Only include unique names.
+    $material_type_names = array_unique($material_type_names);
+
+    // Generate the log name.
+    $name_parts = [
+      'prefix' => 'Spraying: ',
+      'products' => implode(', ', $material_type_names),
+    ];
+    $priority_keys = ['prefix', 'products'];
+    return $this->prioritizedString($name_parts, $priority_keys);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     array_push(
       $field_keys,
@@ -364,29 +413,6 @@ class QuickSpraying extends QuickExperimentFormBase {
   protected function getImageIds(array $field_keys, FormStateInterface $form_state) {
     $field_keys[] = 'seed_labels';
     return parent::getImageIds($field_keys, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function prepareLog(array $form, FormStateInterface $form_state): array {
-    $log = parent::prepareLog($form, $form_state);
-
-    // Add nozles to equipment list.
-    if ($nozzles = $form_state->getValue('nozzle_type')) {
-      if (!is_array($nozzles)) {
-        $nozzles = [$nozzles];
-      }
-      array_push($log['equipment'], ...$nozzles);
-    }
-
-    // COSSH Hazard Assessments.
-    $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
-
-    // PPE.
-    $log['ppe'] = array_values(array_filter($form_state->getValue('ppe')));
-
-    return $log;
   }
 
   /**

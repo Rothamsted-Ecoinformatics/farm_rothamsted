@@ -552,9 +552,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // First build and array of log information.
     $log = $this->prepareLog($form, $form_state);
 
-    // Subclasses should add additional data to the log at this point.
-    $log['name'] = 'Quick form log name';
-
     // Finally, create the log.
     $this->createLog($log);
   }
@@ -676,6 +673,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $log = [
       'type' => $this->logType,
       'status' => $form_state->getValue('job_status'),
+      'name' => $this->getLogName($form, $form_state),
       'timestamp' => $form_state->getValue('timestamp')->getTimestamp(),
       'asset' => $form_state->getValue('asset'),
       'flag' => $form_state->getValue('flag'),
@@ -741,6 +739,22 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Tractor hours.
 
     return $log;
+  }
+
+  /**
+   * Helper function to build the log name.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return string
+   *   The log name.
+   */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+    // Subclasses should override this method.
+    return 'Quick form log name';
   }
 
   /**

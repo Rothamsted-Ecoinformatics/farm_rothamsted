@@ -231,6 +231,13 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+    return 'Harvest (Trailer and Bale Weights)';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     array_push(
       $field_keys,

@@ -137,16 +137,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-    $field_keys[] = 'target_application_rate';
-    $field_keys[] = 'treated_area';
-    $field_keys[] = 'total_volume_applied';
-    return parent::getQuantities($field_keys, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
@@ -154,6 +144,39 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $log['cossh_hazard'] = array_values(array_filter($form_state->getValue('cossh_hazard')));
 
     return $log;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+
+    // Get all of the submitted material_types.
+    $material_type_names = [];
+    if ($product_count = $form_state->getValue('product_count')) {
+      for ($i = 0; $i < $product_count; $i++) {
+        $material_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
+        $material_type_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)->label();
+      }
+    }
+
+    // Generate the log name.
+    $name_parts = [
+      'prefix' => 'Nutrient Input: ',
+      'products' => implode(', ', $material_type_names),
+    ];
+    $priority_keys = ['prefix', 'products'];
+    return $this->prioritizedString($name_parts, $priority_keys);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    $field_keys[] = 'target_application_rate';
+    $field_keys[] = 'treated_area';
+    $field_keys[] = 'total_volume_applied';
+    return parent::getQuantities($field_keys, $form_state);
   }
 
 }

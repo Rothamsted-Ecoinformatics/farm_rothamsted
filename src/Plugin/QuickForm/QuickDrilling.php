@@ -3,6 +3,7 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Drilling quick form.
@@ -242,6 +243,38 @@ class QuickDrilling extends QuickExperimentFormBase {
     $log['plant_type'] = $form_state->getValue('crop_variety');
 
     return $log;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+
+    // Get the crop name.
+    $crop = $form_state->getValue('crop');
+    $crop_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop)->label();
+
+    // Get the crop/variety names.
+    /** @var \Drupal\taxonomy\TermInterface[] $variety */
+    $varieties = $form_state->getValue('crop_variety', []);
+    $variety_names = [];
+    foreach ($varieties as $variety) {
+      if (is_numeric($variety)) {
+        $variety = $this->entityTypeManager->getStorage('taxonomy_term')->load($variety);
+      }
+      if ($variety instanceof TermInterface) {
+        $variety_names[] = $variety->label();
+      }
+    }
+
+    // Generate the log name.
+    $name_parts = [
+      'prefix' => 'Drilling: ',
+      'crop' => $crop_name,
+      'variety' => ' (' . implode(', ', $variety_names) . ')',
+    ];
+    $priority_keys = ['prefix', 'crop', 'variety'];
+    return $this->prioritizedString($name_parts, $priority_keys, 255, '...)');
   }
 
   /**
