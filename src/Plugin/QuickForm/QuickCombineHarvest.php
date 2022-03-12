@@ -117,6 +117,13 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getLogName(array $form, FormStateInterface $form_state): string {
+    return 'Harvest (Combine)';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getFileIds(array $field_keys, FormStateInterface $form_state) {
     $field_keys[] = 'harvest_form';
     $field_keys[] = 'digital_harvest_records';
