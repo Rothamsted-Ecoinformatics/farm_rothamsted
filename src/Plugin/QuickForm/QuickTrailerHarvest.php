@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
@@ -85,34 +86,22 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     ];
 
     // Total number of bales.
+    $bales_units_options = $this->getChildTermOptionsByName('unit', 'Grass/Straw Bale Types', 1);
     $bales['total_number_bales'] = $this->buildQuantityField([
       'title' => $this->t('Total number of bales'),
-      'description' => $this->t('Please give the total number of bales from this harvest.'),
+      'description' => $this->t('Please give the total number of bales from this harvest and state if the bale is wrapped or not.'),
       'measure' => ['#value' => 'count'],
-      'units' => ['#type' => 'hidden'],
+      'units' => ['#options' => $bales_units_options],
     ]);
 
-    // Type of bale.
-    // @todo Decide if this should be implemented as a log category.
-    $bales['bale_type'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Type of bale'),
-      '#description' => $this->t('Please select the type of bale. This list can be expanded by adding terms to the ‘Grass/ Straw Bale Types’ under the Farm categories taxonomy.'),
-    ];
-
-    // Bale wrapped.
-    // This is a select field instead of a checkbox so that "No" is not
-    // submitted by default.
+    // Bale wrapped, total number of bales label.
     $wrapped_options = [
-      'Yes',
-      'No',
+      'Wrapped bales',
+      'Unwrapped bales',
     ];
-    $bales['wrapped'] = [
+    $bales['total_number_bales']['label'] = [
       '#type' => 'select',
-      '#title' => $this->t('Wrapped'),
-      '#description' => $this->t('Please state if the bale is wrapped or not.'),
       '#options' => array_combine($wrapped_options, $wrapped_options),
-      '#empty_option' => $this->t('Select a value'),
     ];
 
     $form['bales'] = $bales;
@@ -199,11 +188,21 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Add the harvest tab and fields to the form.
     $form['trailer'] = $trailer;
 
-    // @todo Decide if this should be implemented as a log category.
+    // Storage locations.
+    $storage_locations = $this->entityTypeManager->getStorage('asset')->loadByProperties([
+      'type' => 'structure',
+      'structure_type' => 'storage_location',
+      'status' => 'active',
+    ]);
+    $storage_location_options = array_map(function (AssetInterface $asset) {
+      return $asset->label();
+    }, $storage_locations);
+    natsort($storage_location_options);
     $form['operation']['storage_location'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Storage location'),
-      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by adding terms to the ‘Storage Locations’ under the Farm categories taxonomy.'),
+      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by creating new Storage Location structure assets.'),
+      '#options' => $storage_location_options,
       '#required' => TRUE,
     ];
 
@@ -215,6 +214,18 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareLog(array $form, FormStateInterface $form_state): array {
+    $log = parent::prepareLog($form, $form_state);
+
+    // Include the storage location.
+    $log['location'] = $form_state->getValue('storage_location');
+
+    return $log;
   }
 
   /**
@@ -244,10 +255,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
         [
           'key' => 'type_of_harvest',
           'label' => $this->t('Type of harvest'),
-        ],
-        [
-          'key' => 'wrapped',
-          'label' => $this->t('Wrapped'),
         ],
         [
           'key' => 'grain_sample_number',
