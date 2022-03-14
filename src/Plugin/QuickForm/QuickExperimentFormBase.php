@@ -161,9 +161,28 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Load prepopulated assets.
+    // @todo Use this when farmOS is updated.
+    // See https://www.drupal.org/project/farm/issues/3269543.
+    // $default_assets = $this->getPrepopulatedEntities('asset', $form_state);
+    if ($form_state->hasTemporaryValue('prepopulated_assets')) {
+      $default_assets = $form_state->getTemporaryValue('prepopulated_assets');
+    }
+    else {
+      // Initialize the temp value.
+      $default_assets = $this->getPrepopulatedEntities('asset');
+      $form_state->setTemporaryValue('prepopulated_assets', $default_assets);
+
+      // Load entities from the temp store.
+      $uid = \Drupal::currentUser()->id();
+      $temp_store_key = "$uid:asset";
+      /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
+      $temp_store_factory = \Drupal::service('tempstore.private');
+      $temp_store = $temp_store_factory->get('farm_quick.' . $this->getId());
+      $temp_store->delete($temp_store_key);
+    }
+
     // The autocomplete_deluxe element expects the default value to
     // be the "Asset name (id), Asset 2 (id)".
-    $default_assets = $this->getPrepopulatedEntities('asset');
     $default_asset_value = implode(', ', array_map(function ($asset) {
       return $asset->label() . ' (' . $asset->id() . ')';
     }, $default_assets));
