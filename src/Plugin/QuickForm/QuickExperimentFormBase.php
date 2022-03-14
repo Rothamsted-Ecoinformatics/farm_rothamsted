@@ -3,10 +3,13 @@
 namespace Drupal\farm_rothamsted\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Url;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
@@ -158,21 +161,65 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Load prepopulated assets.
-    $default_assets = $this->getPrepopulatedEntities('asset');
+    // @todo Use this when farmOS is updated.
+    // See https://www.drupal.org/project/farm/issues/3269543.
+    // $default_assets = $this->getPrepopulatedEntities('asset', $form_state);
+    if ($form_state->hasTemporaryValue('prepopulated_assets')) {
+      $default_assets = $form_state->getTemporaryValue('prepopulated_assets');
+    }
+    else {
+      // Initialize the temp value.
+      $default_assets = $this->getPrepopulatedEntities('asset');
+      $form_state->setTemporaryValue('prepopulated_assets', $default_assets);
+
+      // Load entities from the temp store.
+      $uid = \Drupal::currentUser()->id();
+      $temp_store_key = "$uid:asset";
+      /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
+      $temp_store_factory = \Drupal::service('tempstore.private');
+      $temp_store = $temp_store_factory->get('farm_quick.' . $this->getId());
+      $temp_store->delete($temp_store_key);
+    }
+
+    // The autocomplete_deluxe element expects the default value to
+    // be the "Asset name (id), Asset 2 (id)".
+    $default_asset_value = implode(', ', array_map(function ($asset) {
+      return $asset->label() . ' (' . $asset->id() . ')';
+    }, $default_assets));
+
+    // Build the URL for the autocomplete_deluxe endpoint.
+    // See autocomplete_deluxe README.md.
+    $selection_settings = [
+      'target_bundles' => ['plot', 'plant'],
+    ];
+    $target_type = 'asset';
+    $selection_handler = 'default:asset';
+    $data = serialize($selection_settings) . $target_type . $selection_handler;
+    $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
+    $route_parameters = [
+      'target_type' => 'asset',
+      'selection_handler' => 'default:asset',
+      'selection_settings_key' => $selection_settings_key,
+    ];
+    $url = Url::fromRoute('autocomplete_deluxe.autocomplete', $route_parameters, ['absolute' => TRUE])->getInternalPath();
+
+    // The selection settings must be saved in the keyvalue store.
+    // autocomplete_deluxe extends core entity_autocomplete which does the
+    // same thing.
+    $key_value_storage = \Drupal::keyValue('entity_autocomplete');
+    if (!$key_value_storage->has($selection_settings_key)) {
+      $key_value_storage->set($selection_settings_key, $selection_settings);
+    }
 
     // Asset field.
-    // @todo Decide on a widget for selecting assets.
     $setup['asset'] = [
-      '#type' => 'entity_autocomplete',
+      '#type' => 'autocomplete_deluxe',
       '#title' => $this->t('Plant asset(s)'),
-      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. If the record applies to more than one plant asset, you can select multiple by separating them with a
- comma.'),
+      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. To add additional plant assets, begin typing the name of the asset and select from the list.'),
+      '#autocomplete_deluxe_path' => $url,
       '#target_type' => 'asset',
-      '#selection_settings' => [
-        'target_bundles' => ['plot', 'plant'],
-      ],
-      '#tags' => TRUE,
-      '#default_value' => $default_assets,
+      '#multiple' => TRUE,
+      '#default_value' => $default_asset_value,
       '#required' => TRUE,
     ];
 

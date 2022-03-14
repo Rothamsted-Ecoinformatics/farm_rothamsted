@@ -4,6 +4,7 @@ type: module
 package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
+  - autocomplete_deluxe:autocomplete_deluxe
   - farm_activity
   - farm_entity
   - farm_equipment
