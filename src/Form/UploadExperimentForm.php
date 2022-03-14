@@ -71,6 +71,16 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
+   * Getter method for Form ID.
+   *
+   * @return string
+   *   The unique ID of the form defined by this class.
+   */
+  public function getFormId() {
+    return 'upload_experiment_form';
+  }
+
+  /**
    * Build the upload form.
    *
    * @param array $form
@@ -108,16 +118,6 @@ class UploadExperimentForm extends FormBase {
     ];
 
     return $form;
-  }
-
-  /**
-   * Getter method for Form ID.
-   *
-   * @return string
-   *   The unique ID of the form defined by this class.
-   */
-  public function getFormId() {
-    return 'upload_experiment_form';
   }
 
   /**
