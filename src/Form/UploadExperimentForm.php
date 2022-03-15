@@ -454,13 +454,20 @@ class UploadExperimentForm extends FormBase {
       $plan_factors[$id]['factor_levels'][] = $level_data;
     }
 
+    // Sort plan_factors array to match the order of factors on plots.
+    $treatment_factor_order = array_keys($plot_assignments[0]);
+    usort($plan_factors, function ($a, $b) use ($treatment_factor_order) {
+      $a_index = array_search($a['id'], $treatment_factor_order);
+      $b_index = array_search($b['id'], $treatment_factor_order);
+      return $a_index > $b_index;
+    });
+
     // Create and save new plan based on crs name.
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
       // @todo Plan name.
       'name' => 'Test plan',
       'status' => 'active',
-      // @todo Include factor levels.
       'field_factors' => Json::encode(array_values($plan_factors)),
     ]);
     $plan->save();
