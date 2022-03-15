@@ -488,7 +488,7 @@ class UploadExperimentForm extends FormBase {
       'type' => 'land',
       'land_type' => 'other',
       'name' => $this->t('@plan_name Experiment Surrounds', ['@plan_name' => $plan->label()]),
-      'status' => 'active',
+      'status' => 'planning',
       'is_fixed' => TRUE,
       'is_location' => TRUE,
     ]);
