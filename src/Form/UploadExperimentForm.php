@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\asset\Entity\Asset;
@@ -21,6 +22,8 @@ use Drupal\geofield\GeoPHP\GeoPHPInterface;
  * @see \Drupal\Core\Form\FormBase
  */
 class UploadExperimentForm extends FormBase {
+
+  use QuickFileTrait;
 
   /**
    * The entity type manager service.
@@ -106,13 +109,14 @@ class UploadExperimentForm extends FormBase {
     ];
 
     // Add file upload fields.
+    $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
     $form['treatment_factors'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Treatment Factors'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
-      '#upload_location' => 'public://',
+      '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
     $form['treatment_factor_levels'] = [
@@ -121,7 +125,7 @@ class UploadExperimentForm extends FormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
-      '#upload_location' => 'public://',
+      '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
     $form['plot_assignments'] = [
@@ -130,7 +134,7 @@ class UploadExperimentForm extends FormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
-      '#upload_location' => 'public://',
+      '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
     $form['plot_geometries'] = [
@@ -139,7 +143,7 @@ class UploadExperimentForm extends FormBase {
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
-      '#upload_location' => 'public://',
+      '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
 
