@@ -272,4 +272,61 @@ class UploadExperimentForm extends FormBase {
     $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
   }
 
+  /**
+   * Helper function to load and parse uploaded files.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   An array of parsed file data keyed by form key.
+   */
+  protected function loadFiles(FormStateInterface $form_state) {
+
+    // Start an array of file data.
+    $data = [];
+
+    // Load each file and parse out the data.
+    $files = [
+      'treatment_factors' => 'csv',
+      'treatment_factor_levels' => 'csv',
+      'plot_assignments' => 'csv',
+      'plot_geometries' => 'geojson',
+    ];
+    foreach ($files as $form_key => $file_type) {
+
+      // Get id of the submitted file.
+      if ($file_ids = $form_state->getValue($form_key)) {
+
+        // Load the file entity.
+        $file = $this->entityTypeManager->getStorage('file')->load(reset($file_ids));
+
+        // Get file contents and convert the json to php arrays.
+        switch ($file_type) {
+          case 'csv':
+            // Load CSV file into array so each row has correct keys.
+            $fp = fopen($file->getFileUri(), 'r');
+            $key = fgetcsv($fp);
+
+            // Add each row with the correct keys.
+            $file_data = [];
+            while ($row = fgetcsv($fp)) {
+              $file_data[] = array_combine($key, $row);
+            }
+            fclose($fp);
+            $data[$form_key] = $file_data;
+            break;
+
+          case 'geojson':
+            $file_data = file_get_contents($file->getFileUri());
+            $data[$form_key] = Json::decode($file_data);
+            break;
+        }
+      }
+
+    }
+
+    return $data;
+  }
+
 }
