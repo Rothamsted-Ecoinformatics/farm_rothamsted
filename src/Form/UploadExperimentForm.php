@@ -98,6 +98,13 @@ class UploadExperimentForm extends FormBase {
       '#markup' => $this->t('Please browse for your geoJSON file to be uploaded'),
     ];
 
+    // Plan name.
+    $form['name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Plan name'),
+      '#required' => TRUE,
+    ];
+
     // Add file upload fields.
     $form['treatment_factors'] = [
       '#type' => 'managed_file',
@@ -465,8 +472,7 @@ class UploadExperimentForm extends FormBase {
     // Create and save new plan based on crs name.
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
-      // @todo Plan name.
-      'name' => 'Test plan',
+      'name' => $form_state->getValue('name'),
       'status' => 'active',
       'field_factors' => Json::encode(array_values($plan_factors)),
     ]);
