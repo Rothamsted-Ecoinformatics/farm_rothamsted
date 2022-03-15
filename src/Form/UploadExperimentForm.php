@@ -98,13 +98,42 @@ class UploadExperimentForm extends FormBase {
       '#markup' => $this->t('Please browse for your geoJSON file to be uploaded'),
     ];
 
-    $form['json_file_upload'] = [
+    // Add file upload fields.
+    $form['treatment_factors'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('File'),
+      '#title' => $this->t('Treatment Factors'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['csv'],
+      ],
+      '#upload_location' => 'public://',
+      '#required' => TRUE,
+    ];
+    $form['treatment_factor_levels'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Treatment Factor Levels'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['csv'],
+      ],
+      '#upload_location' => 'public://',
+      '#required' => TRUE,
+    ];
+    $form['plot_assignments'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Plot Assignments'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['csv'],
+      ],
+      '#upload_location' => 'public://',
+      '#required' => TRUE,
+    ];
+    $form['plot_geometries'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Plot Geometries'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
       '#upload_location' => 'public://',
+      '#required' => TRUE,
     ];
 
     $form['actions'] = [
