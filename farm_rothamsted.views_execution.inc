@@ -32,7 +32,7 @@ function farm_rothamsted_views_pre_view(ViewExecutable $view) {
     // Build factor options from each factor type.
     $factor_type_options = [];
     foreach ($field_factors as $index => $factor_type) {
-      $factor_type_options[$index] = $factor_type->id;
+      $factor_type_options[$index] = $factor_type->name;
     }
 
     // Alter each "field_factor_x" field label to have the correct field factor.
