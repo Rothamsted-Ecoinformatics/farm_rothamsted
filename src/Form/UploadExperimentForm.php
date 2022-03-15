@@ -154,28 +154,21 @@ class UploadExperimentForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    // Get id of the submitted file.
-    $fileIds = $form_state->getValue('json_file_upload', []);
-    if (empty($fileIds)) {
-      return $form;
-    }
-
-    // Get reference to file.
-    $file = $this->entityTypeManager->getStorage('file')->load(reset($fileIds));
-
-    // Get file contents and convert the json to php arrays.
-    $data = file_get_contents($file->getFileUri());
-    $json = Json::decode($data);
-
-    // Extract factors json.
-    $factors = $json['factors'];
+    // Parse uploaded files.
+    $file_data = $this->loadFiles($form_state);
+    $treatment_factors = $file_data['treatment_factors'];
+    $factor_levels = $file_data['treatment_factor_levels'];
+    $plot_assignments = $file_data['plot_assignments'];
+    $plot_assignment_ids = array_column($plot_assignments, 'plot_id');
 
     // Create and save new plan based on crs name.
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
-      'name' => $json['name'],
+      // @todo Plan name.
+      'name' => 'Test plan',
       'status' => 'active',
-      'field_factors' => Json::encode($factors),
+      // @todo Include factor levels.
+      'field_factors' => Json::encode($treatment_factors),
     ]);
     $plan->save();
 
@@ -198,43 +191,59 @@ class UploadExperimentForm extends FormBase {
     // Add land asset to the plan.
     $plan->get('asset')->appendItem($experiment_land);
 
-    // Iterate each of the saved features from the file.
-    foreach ($json['features'] as $feature) {
-      // re-encode the data into json.
-      $featureJson = Json::encode($feature);
+    // Iterate each of the saved features from the plot geometries file.
+    $features = $file_data['plot_geometries']['features'];
+    foreach ($features as $feature) {
 
       // Extract the intrinsic geometry references.
+      // Re-encode into json.
+      $featureJson = Json::encode($feature);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
       // Extract the plot name from the feature data.
-      $plotName = $feature['properties']['plot_label'];
+      $plot_id = $feature['properties']['plot_id'];
 
-      // Iterate factors and add to plot as key value field.
-      $factors = [];
-      foreach ($feature['properties']['factors'] as $fact) {
-        $key = key($fact);
-        $val = reset($fact);
-        $factors[] = ['key' => $key, 'value' => $val];
-      }
+      $plot_index = array_search($plot_id, $plot_assignment_ids);
+      $plot_attributes = $plot_assignments[$plot_index];
 
-      // Create and save plot assets.
-      $asset = Asset::create([
+      // Build data for the plot asset.
+      $plot_data = [
         'type' => 'plot',
-        'name' => $plotName,
+        'name' => $plot_id,
         'status' => 'active',
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
         'is_location' => TRUE,
         'parent' => $experiment_land,
-        'field_plot_id' => $feature['properties']['plot_id'],
-        'field_block_id' => $feature['properties']['block'],
-        'field_row' => $feature['properties']['row'],
-        'field_col' => $feature['properties']['col'],
-        'field_factors' => $factors,
-      ]);
+        'field_factors' => [],
+      ];
+
+      // Assign plot field values.
+      $normal_fields = [
+        'plot_id' => 'field_plot_id',
+        'block' => 'field_block_id',
+        'row' => 'field_row',
+        'column' => 'field_col',
+      ];
+      foreach ($plot_attributes as $column_name => $column_value) {
+
+        // Map the normal fields to the plot asset field.
+        if (isset($normal_fields[$column_name])) {
+          $plot_field_name = $normal_fields[$column_name];
+          $plot_data[$plot_field_name] = $column_value;
+        }
+        // Else the column is a factor key/value pair.
+        else {
+          $plot_data['field_factors'][] = ['key' => $column_name, 'value' => $column_value];
+        }
+      }
+
+      // Create and save plot assets.
+      $asset = Asset::create($plot_data);
 
       // If specified, add the crop.
-      if (!empty($feature['properties']['crop'])) {
+      // @todo We need the csv to include crop.
+      if (isset($feature['properties']['crop'])) {
 
         // Use the taxonomy term selection handler to check existing terms.
         $options = [
@@ -269,7 +278,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($json['features'])]));
+    $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($features)]));
   }
 
   /**
