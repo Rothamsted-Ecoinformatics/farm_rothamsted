@@ -411,6 +411,49 @@ class UploadExperimentForm extends FormBase {
     $plot_assignments = $file_data['plot_assignments'];
     $plot_assignment_ids = array_column($plot_assignments, 'plot_id');
 
+    // Build the plan factors JSON for field_factors.
+    $plan_factors = [];
+
+    // First add each treatment factor.
+    $factor_field_mapping = [
+      'treatment_factor_id' => 'id',
+      'treatment_factor_name' => 'name',
+      'treatment_factor_uri' => 'uri',
+      'treatment_factor_description' => 'description',
+    ];
+    foreach ($treatment_factors as $treatment_factor) {
+
+      // Map treatment factor values.
+      $factor_data = ['factor_levels' => []];
+      foreach ($factor_field_mapping as $long => $short) {
+        $factor_data[$short] = $treatment_factor[$long];
+      }
+
+      // Add to plan_factors.
+      $id = $factor_data['id'];
+      $plan_factors[$id] = $factor_data;
+    }
+
+    // Add factor levels.
+    $factor_level_field_mapping = [
+      'factor_level_name' => 'id',
+      'label' => 'name',
+      'factor_level_description' => 'description',
+      'quantity' => 'quantity',
+      'units' => 'units',
+    ];
+    foreach ($factor_levels as $factor_level) {
+      // Map treatment factor level values.
+      $level_data = [];
+      foreach ($factor_level_field_mapping as $long => $short) {
+        $level_data[$short] = $factor_level[$long];
+      }
+
+      // Add to the plan factors for the treatment factor.
+      $id = $factor_level['treatment_factor_id'];
+      $plan_factors[$id]['factor_levels'][] = $level_data;
+    }
+
     // Create and save new plan based on crs name.
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
@@ -418,7 +461,7 @@ class UploadExperimentForm extends FormBase {
       'name' => 'Test plan',
       'status' => 'active',
       // @todo Include factor levels.
-      'field_factors' => Json::encode($treatment_factors),
+      'field_factors' => Json::encode(array_values($plan_factors)),
     ]);
     $plan->save();
 
