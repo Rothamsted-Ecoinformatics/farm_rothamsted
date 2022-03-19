@@ -108,6 +108,13 @@ class UploadExperimentForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    // Experiment code.
+    $form['experiment_code'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Experiment Code'),
+      '#required' => TRUE,
+    ];
+
     // Add file upload fields.
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
     $form['treatment_factors'] = [
@@ -474,10 +481,12 @@ class UploadExperimentForm extends FormBase {
     });
 
     // Create and save new plan based on crs name.
+    $experiment_code = $form_state->getValue('experiment_code');
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
       'name' => $form_state->getValue('name'),
       'status' => 'planning',
+      'experiment_code' => $experiment_code,
       'treatment_factors' => Json::encode(array_values($plan_factors)),
     ]);
     $plan->save();
@@ -519,7 +528,7 @@ class UploadExperimentForm extends FormBase {
       // Build data for the plot asset.
       $plot_data = [
         'type' => 'plot',
-        'name' => $plot_id,
+        'name' => "$experiment_code: $plot_id",
         'status' => 'active',
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
