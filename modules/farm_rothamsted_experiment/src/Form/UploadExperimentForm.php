@@ -489,6 +489,14 @@ class UploadExperimentForm extends FormBase {
       'experiment_code' => $experiment_code,
       'treatment_factors' => Json::encode(array_values($plan_factors)),
     ]);
+
+    // Save each uploaded file on the plan.
+    $files = ['treatment_factors', 'treatment_factor_levels', 'plot_assignments', 'plot_geometries'];
+    foreach ($files as $form_key) {
+      if ($file_ids = $form_state->getValue($form_key)) {
+        $plan->get('file')->appendItem(reset($file_ids));
+      }
+    }
     $plan->save();
 
     // Feedback link to created plan.
