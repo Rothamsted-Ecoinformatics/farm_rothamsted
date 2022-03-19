@@ -27,7 +27,7 @@ jobs:
           docker-compose exec -u www-data -T www composer update
       - name: Run PHP CodeSniffer
         run: docker-compose exec -u www-data -T www phpcs /opt/drupal/web/modules/custom --exclude=DrupalPractice.InfoFiles.NamespacedDependency
-      - name: Test installing farm_rothamsted
-        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted farm_rothamsted_quick -y"
+      - name: Test installing farm_rothamsted modules
+        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted farm_rothamsted_quick farm_rothamsted_experiment -y"
       - name: Test installing farm_rothamsted_dev
         run: docker-compose exec -u www-data -T www bash -c "drush en farm_rothamsted_dev -y"
