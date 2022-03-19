@@ -11,8 +11,8 @@
 function farm_rothamsted_experiment_views_data_alter(array &$data) {
 
   // Use the factor_levels filter for the plot field_factors_value.
-  if (isset($data['asset__field_factors']['field_factors_value'])) {
-    $data['asset__field_factors']['field_factors_value']['filter'] = [
+  if (isset($data['asset__treatment_factors']['treatment_factors_value'])) {
+    $data['asset__treatment_factors']['treatment_factors_value']['filter'] = [
       'id' => 'factor_levels',
     ];
   }

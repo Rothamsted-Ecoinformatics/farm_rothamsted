@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.plan.rothamsted_experiment.field_factors
     - image.style.medium
     - plan.type.rothamsted_experiment
   module:
@@ -207,6 +206,6 @@ hidden:
   asset: true
   created: true
   data: true
-  field_factors: true
   log: true
+  treatment_factors: true
   uid: true

@@ -3,11 +3,6 @@ status: true
 dependencies:
   config:
     - asset.type.plot
-    - field.field.asset.plot.field_block_id
-    - field.field.asset.plot.field_col
-    - field.field.asset.plot.field_factors
-    - field.field.asset.plot.field_plot_id
-    - field.field.asset.plot.field_row
     - image.style.large
   module:
     - farm_field
@@ -23,14 +18,14 @@ targetEntityType: asset
 bundle: plot
 mode: default
 content:
-  field_block_id:
+  block:
     type: text_default
     weight: 2
     region: content
     label: inline
     settings: {  }
     third_party_settings: {  }
-  field_col:
+  column:
     type: number_integer
     weight: 4
     region: content
@@ -39,22 +34,14 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-  field_factors:
-    type: key_value
-    weight: 5
-    region: content
-    label: inline
-    settings:
-      value_only: false
-    third_party_settings: {  }
-  field_plot_id:
+  plot_id:
     type: text_default
     weight: 1
     region: content
     label: inline
     settings: {  }
     third_party_settings: {  }
-  field_row:
+  row:
     type: number_integer
     weight: 3
     region: content
@@ -171,6 +158,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  treatment_factors:
+    type: key_value
+    weight: 5
+    region: content
+    label: inline
+    settings:
+      value_only: false
+    third_party_settings: { }
 hidden:
   data: true
   intrinsic_geometry: true

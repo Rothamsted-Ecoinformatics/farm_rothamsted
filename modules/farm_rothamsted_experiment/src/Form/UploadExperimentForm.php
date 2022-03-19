@@ -525,26 +525,20 @@ class UploadExperimentForm extends FormBase {
         'is_fixed' => TRUE,
         'is_location' => TRUE,
         'parent' => $experiment_land,
-        'field_factors' => [],
+        'treatment_factors' => [],
       ];
 
       // Assign plot field values.
-      $normal_fields = [
-        'plot_id' => 'field_plot_id',
-        'block' => 'field_block_id',
-        'row' => 'field_row',
-        'column' => 'field_col',
-      ];
+      $normal_fields = ['plot_id', 'block', 'row', 'column'];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
-        if (isset($normal_fields[$column_name])) {
-          $plot_field_name = $normal_fields[$column_name];
-          $plot_data[$plot_field_name] = $column_value;
+        if (in_array($column_name, $normal_fields)) {
+          $plot_data[$column_name] = $column_value;
         }
         // Else the column is a factor key/value pair.
         else {
-          $plot_data['field_factors'][] = ['key' => $column_name, 'value' => $column_value];
+          $plot_data['treatment_factors'][] = ['key' => $column_name, 'value' => $column_value];
         }
       }
 

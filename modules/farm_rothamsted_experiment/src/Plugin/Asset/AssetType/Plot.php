@@ -2,7 +2,9 @@
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\Asset\AssetType;
 
+use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Plugin\Asset\AssetType\FarmAssetType;
+use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Provides the plot asset type.
@@ -32,11 +34,38 @@ class Plot extends FarmAssetType {
         'required' => FALSE,
         'multiple' => TRUE,
       ],
+      'plot_id' => [
+        'type' => 'string',
+        'label' => $this->t('Plot ID'),
+        'required' => TRUE,
+      ],
+      'block' => [
+        'type' => 'string',
+        'label' => $this->t('Block'),
+      ],
     ];
-
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
     }
+
+    /* Create remaining special field types. */
+    $fields['column'] = BundleFieldDefinition::create('integer')
+      ->setLabel($this->t('Column'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+    $fields['row'] = BundleFieldDefinition::create('integer')
+      ->setLabel($this->t('Row'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
+    $fields['treatment_factors'] = BundleFieldDefinition::create('key_value')
+      ->setLabel($this->t('Treatment factors'))
+      ->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED)
+      ->setRequired(TRUE);
+
     return $fields;
   }
 
