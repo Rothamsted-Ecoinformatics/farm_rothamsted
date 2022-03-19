@@ -24,23 +24,23 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
   }
 
   $plan = Plan::load($view->args[0]);
-  if (!empty($plan) && $plan->hasField('field_factors') && !$plan->get('field_factors')->isEmpty()) {
+  if (!empty($plan) && $plan->hasField('treatment_factors') && !$plan->get('treatment_factors')->isEmpty()) {
 
     // Load field factors from json.
-    $field_factors = json_decode($plan->get('field_factors')->value);
+    $treatment_factors = json_decode($plan->get('treatment_factors')->value);
 
     // Build factor options from each factor type.
     $factor_type_options = [];
-    foreach ($field_factors as $index => $factor_type) {
+    foreach ($treatment_factors as $index => $factor_type) {
       $factor_type_options[$index] = $factor_type->name;
     }
 
-    // Alter each "field_factor_x" field label to have the correct field factor.
+    // Alter each "treatment_factor_x" field label to have correct field factor.
     // These labels are used in the table header.
     /** @var \Drupal\views\Plugin\views\field\FieldHandlerInterface[] $fields */
     $fields = $view->getHandlers('field');
     foreach ($fields as $index => $field) {
-      if ($field['table'] === 'asset__field_factors' && $field['delta_limit'] === 1 && isset($factor_type_options[$field['delta_offset']])) {
+      if ($field['table'] === 'asset__treatment_factors' && $field['delta_limit'] === 1 && isset($factor_type_options[$field['delta_offset']])) {
         $fields[$index]['label'] = $factor_type_options[$field['delta_offset']];
       }
     }

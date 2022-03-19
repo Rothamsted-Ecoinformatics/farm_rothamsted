@@ -422,7 +422,7 @@ class UploadExperimentForm extends FormBase {
     $plot_assignments = $file_data['plot_assignments'];
     $plot_assignment_ids = array_column($plot_assignments, 'plot_id');
 
-    // Build the plan factors JSON for field_factors.
+    // Build the plan factors JSON for plan.treatment_factors.
     $plan_factors = [];
 
     // First add each treatment factor.
@@ -478,7 +478,7 @@ class UploadExperimentForm extends FormBase {
       'type' => 'rothamsted_experiment',
       'name' => $form_state->getValue('name'),
       'status' => 'active',
-      'field_factors' => Json::encode(array_values($plan_factors)),
+      'treatment_factors' => Json::encode(array_values($plan_factors)),
     ]);
     $plan->save();
 

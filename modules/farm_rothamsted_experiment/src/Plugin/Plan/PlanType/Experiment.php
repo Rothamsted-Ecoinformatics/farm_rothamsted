@@ -128,6 +128,14 @@ class Experiment extends FarmPlanType {
 
     /* Create remaining special field types. */
 
+    // Treatment factors.
+    $fields['treatment_factors'] = BundleFieldDefinition::create('json_native')
+      ->setLabel($this->t('Treatment factors'))
+      ->setRequired(TRUE)
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
     // Email fields.
     $fields['primary_contact_email'] = BundleFieldDefinition::create('email')
       ->setLabel($this->t('Primary Contact Email'))

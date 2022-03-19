@@ -31,10 +31,10 @@ class FactorLevel extends ManyToOne {
       // Load the plan.
       $plan_id = $this->view->args[0];
       $plan = Plan::load($plan_id);
-      if (!empty($plan) && $plan->hasField('field_factors') && !$plan->get('field_factors')->isEmpty()) {
+      if (!empty($plan) && $plan->hasField('treatment_factors') && !$plan->get('treatment_factors')->isEmpty()) {
 
         // Load field factors from json.
-        $field_factors = json_decode($plan->get('field_factors')->value);
+        $field_factors = json_decode($plan->get('treatment_factors')->value);
 
         // Build factor options for each factor type.
         $factor_options = [];
