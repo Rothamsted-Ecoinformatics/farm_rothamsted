@@ -575,8 +575,8 @@ class UploadExperimentForm extends FormBase {
       // Save the plot asset.
       $asset->save();
 
-      // Add asset to plan.
-      $plan->get('asset')->appendItem($asset);
+      // Add plot asset to plan.
+      $plan->get('plot')->appendItem($asset);
     }
 
     $plan->save();

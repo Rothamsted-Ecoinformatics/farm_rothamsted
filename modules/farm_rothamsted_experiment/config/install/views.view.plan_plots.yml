@@ -859,7 +859,7 @@ display:
           id: id
           table: plan_field_data
           field: id
-          relationship: reverse__plan__asset
+          relationship: reverse__plan__plot
           group_type: group
           admin_label: ''
           entity_type: plan
@@ -1316,10 +1316,10 @@ display:
           replica: false
           query_tags: {  }
       relationships:
-        reverse__plan__asset:
-          id: reverse__plan__asset
+        reverse__plan__plot:
+          id: reverse__plan__plot
           table: asset_field_data
-          field: reverse__plan__asset
+          field: reverse__plan__plot
           relationship: none
           group_type: group
           admin_label: Plan

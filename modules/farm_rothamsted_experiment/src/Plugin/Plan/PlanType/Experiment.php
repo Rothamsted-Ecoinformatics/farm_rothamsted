@@ -36,6 +36,15 @@ class Experiment extends FarmPlanType {
 
     // Build fields using the FarmFieldFactory as possible.
     $field_info = [
+      // Plot reference field.
+      'plot' => [
+        'type' => 'entity_reference',
+        'label' => t('Plots'),
+        'target_type' => 'asset',
+        'target_bundle' => 'plot',
+        'multiple' => TRUE,
+        'hidden' => TRUE,
+      ],
       // General fields.
       'experiment_code' => [
         'type' => 'string',
