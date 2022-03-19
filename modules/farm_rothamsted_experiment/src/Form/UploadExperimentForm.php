@@ -477,7 +477,7 @@ class UploadExperimentForm extends FormBase {
     $plan = Plan::create([
       'type' => 'rothamsted_experiment',
       'name' => $form_state->getValue('name'),
-      'status' => 'active',
+      'status' => 'planning',
       'treatment_factors' => Json::encode(array_values($plan_factors)),
     ]);
     $plan->save();
