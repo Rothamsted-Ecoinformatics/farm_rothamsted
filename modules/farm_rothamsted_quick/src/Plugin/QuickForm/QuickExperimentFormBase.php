@@ -518,8 +518,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Job status.
-    // @todo Load status options from log status options or workflow options.
-    // @todo This may be different for each quick form.
     $status_options = [
       'done' => $this->t('Done'),
       'pending' => $this->t('Pending'),
