@@ -6,6 +6,7 @@ core_version_requirement: ^9
 dependencies:
   - farm_entity
   - farm_rothamsted:farm_rothamsted
+  - field_group:field_group
   - json_field:json_field
   - key_value_field:key_value_field
   - plan

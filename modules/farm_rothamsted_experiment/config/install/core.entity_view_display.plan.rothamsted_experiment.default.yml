@@ -5,22 +5,110 @@ dependencies:
     - image.style.large
     - plan.type.rothamsted_experiment
   module:
+    - field_group
     - file
     - image
     - options
     - text
+third_party_settings:
+  field_group:
+    group_general:
+      children:
+        - status
+        - flag
+        - experiment_code
+        - project_code
+        - cost_code
+        - location
+        - asset
+      label: General
+      parent_name: ''
+      region: content
+      weight: 0
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        formatter: open
+        description: ''
+    group_people:
+      children:
+        - principle_investigator
+        - data_steward
+        - statistician
+        - primary_contact
+        - primary_contact_email
+        - secondary_contact
+        - secondary_contact_email
+      label: People
+      parent_name: ''
+      region: content
+      weight: 1
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        formatter: open
+        description: ''
+    group_trial_design:
+      children:
+        - rres_experiment_category
+        - objective
+        - plant_type
+        - drilling_year
+        - harvest_year
+        - file
+      label: 'Trial Design'
+      parent_name: ''
+      region: content
+      weight: 2
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        formatter: open
+        description: ''
+    group_experiment_status:
+      children:
+        - image
+        - deviations
+        - growing_conditions
+        - reason_for_failure
+        - notes
+      label: 'Experiment Status'
+      parent_name: ''
+      region: content
+      weight: 3
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        formatter: open
+        description: ''
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
 mode: default
 content:
+  asset:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 11
+    region: content
   cost_code:
     type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 9
     region: content
   data_steward:
     type: string
@@ -28,14 +116,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 9
     region: content
   deviations:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 20
+    weight: 13
     region: content
   drilling_year:
     type: number_integer
@@ -44,7 +132,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 16
+    weight: 10
     region: content
   experiment_code:
     type: string
@@ -52,7 +140,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 2
+    weight: 7
     region: content
   file:
     type: file_table
@@ -60,21 +148,21 @@ content:
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 19
+    weight: 13
     region: content
   flag:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 6
     region: content
   growing_conditions:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 21
+    weight: 14
     region: content
   harvest_year:
     type: number_integer
@@ -83,7 +171,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 17
+    weight: 11
     region: content
   image:
     type: image
@@ -92,7 +180,7 @@ content:
       image_link: file
       image_style: large
     third_party_settings: {  }
-    weight: 18
+    weight: 12
     region: content
   location:
     type: string
@@ -100,21 +188,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 5
+    weight: 10
     region: content
   notes:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 23
+    weight: 16
     region: content
   objective:
     type: text_default
     label: inline
-    settings: { }
+    settings: {  }
     third_party_settings: {  }
-    weight: 14
+    weight: 8
     region: content
   plant_type:
     type: entity_reference_label
@@ -122,7 +210,7 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 15
+    weight: 9
     region: content
   primary_contact:
     type: string
@@ -130,14 +218,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
+    weight: 11
     region: content
   primary_contact_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 12
     region: content
   principle_investigator:
     type: string
@@ -145,7 +233,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 8
     region: content
   project_code:
     type: string
@@ -153,21 +241,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 3
+    weight: 8
     region: content
   reason_for_failure:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 22
+    weight: 15
     region: content
   rres_experiment_category:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 13
+    weight: 7
     region: content
   secondary_contact:
     type: string
@@ -175,14 +263,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 11
+    weight: 13
     region: content
   secondary_contact_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 14
     region: content
   statistician:
     type: string
@@ -190,18 +278,18 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 10
     region: content
   status:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 5
     region: content
 hidden:
-  asset: true
   data: true
   log: true
+  plot: true
   treatment_factors: true
   uid: true

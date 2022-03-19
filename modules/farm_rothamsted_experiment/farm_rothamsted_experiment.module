@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted_experiment.module.
+ */
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
+
+  // Do not use the two column layout on plans.
+  if (isset($theme_registry['plan__full']['preprocess functions'])) {
+    $theme_registry['plan__full']['preprocess functions'] = array_filter($theme_registry['plan__full']['preprocess functions'], fn ($f) => $f != 'farm_ui_theme_preprocess_plan__full');
+  }
+}

@@ -5,90 +5,127 @@ dependencies:
     - image.style.medium
     - plan.type.rothamsted_experiment
   module:
+    - field_group
     - file
     - image
     - text
+third_party_settings:
+  field_group:
+    group_metadata:
+      children:
+        - group_general
+        - group_people
+        - group_trial_design
+        - group_experiment_status
+      label: Metadata
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
+    group_general:
+      children:
+        - name
+        - status
+        - flag
+        - experiment_code
+        - project_code
+        - cost_code
+        - location
+        - asset
+      label: General
+      region: content
+      parent_name: group_metadata
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_people:
+      children:
+        - principle_investigator
+        - data_steward
+        - statistician
+        - primary_contact
+        - primary_contact_email
+        - secondary_contact
+        - secondary_contact_email
+      label: People
+      region: content
+      parent_name: group_metadata
+      weight: 22
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_trial_design:
+      children:
+        - rres_experiment_category
+        - objective
+        - plant_type
+        - drilling_year
+        - harvest_year
+        - file
+      label: 'Trial Design'
+      region: content
+      parent_name: group_metadata
+      weight: 23
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_experiment_status:
+      children:
+        - image
+        - deviations
+        - growing_conditions
+        - reason_for_failure
+        - notes
+      label: 'Experiment status'
+      region: content
+      parent_name: group_metadata
+      weight: 24
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
 mode: default
 content:
-  cost_code:
-    type: string_textfield
-    weight: 5
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  data_steward:
-    type: string_textfield
+  asset:
+    type: entity_reference_autocomplete
     weight: 8
     region: content
     settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  deviations:
-    type: text_textarea
-    weight: 21
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  drilling_year:
-    type: number
-    weight: 17
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  experiment_code:
-    type: string_textfield
-    weight: 3
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  file:
-    type: file_generic
-    weight: 20
-    region: content
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-  flag:
-    type: options_buttons
-    weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  growing_conditions:
-    type: text_textarea
-    weight: 22
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  harvest_year:
-    type: number
-    weight: 18
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  image:
-    type: image_image
-    weight: 19
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: medium
-    third_party_settings: {  }
-  location:
+  cost_code:
     type: string_textfield
     weight: 6
     region: content
@@ -96,37 +133,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  name:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  notes:
-    type: text_textarea
-    weight: 24
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  objective:
-    type: text_textarea
-    weight: 15
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  plant_type:
-    type: options_select
-    weight: 16
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  primary_contact:
+  data_steward:
     type: string_textfield
     weight: 10
     region: content
@@ -134,23 +141,22 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  primary_contact_email:
-    type: email_default
-    weight: 11
+  deviations:
+    type: text_textarea
+    weight: 30
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  drilling_year:
+    type: number
+    weight: 26
     region: content
     settings:
       placeholder: ''
-      size: 60
     third_party_settings: {  }
-  principle_investigator:
-    type: string_textfield
-    weight: 7
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  project_code:
+  experiment_code:
     type: string_textfield
     weight: 4
     region: content
@@ -158,21 +164,81 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  reason_for_failure:
+  file:
+    type: file_generic
+    weight: 28
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  flag:
+    type: options_buttons
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  growing_conditions:
     type: text_textarea
-    weight: 23
+    weight: 31
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  rres_experiment_category:
+  harvest_year:
+    type: number
+    weight: 27
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  image:
+    type: image_image
+    weight: 29
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: medium
+    third_party_settings: {  }
+  location:
+    type: string_textfield
+    weight: 7
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  notes:
+    type: text_textarea
+    weight: 33
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  objective:
+    type: text_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  plant_type:
     type: options_select
-    weight: 14
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
-  secondary_contact:
+  primary_contact:
     type: string_textfield
     weight: 12
     region: content
@@ -180,7 +246,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  secondary_contact_email:
+  primary_contact_email:
     type: email_default
     weight: 13
     region: content
@@ -188,7 +254,7 @@ content:
       placeholder: ''
       size: 60
     third_party_settings: {  }
-  statistician:
+  principle_investigator:
     type: string_textfield
     weight: 9
     region: content
@@ -196,16 +262,62 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  project_code:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  reason_for_failure:
+    type: text_textarea
+    weight: 32
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  rres_experiment_category:
+    type: options_select
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  secondary_contact:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  secondary_contact_email:
+    type: email_default
+    weight: 15
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  statistician:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   status:
     type: options_select
-    weight: 1
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
-  asset: true
   created: true
   data: true
   log: true
+  plot: true
   treatment_factors: true
   uid: true
