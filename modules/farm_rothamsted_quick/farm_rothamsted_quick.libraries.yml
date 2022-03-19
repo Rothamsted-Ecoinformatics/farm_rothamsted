@@ -1,0 +1,4 @@
+quantity_fieldset:
+  css:
+    theme:
+      css/quantity_fieldset.css: { }

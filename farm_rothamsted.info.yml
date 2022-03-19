@@ -4,19 +4,14 @@ type: module
 package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
-  - autocomplete_deluxe:autocomplete_deluxe
   - farm_activity
   - farm_entity
   - farm_equipment
   - farm_group
-  - farm_harvest
-  - farm_input
   - farm_land
   - farm_material_type
   - farm_plant
   - farm_plant_type
-  - farm_quantity_material
-  - farm_quick
   - farm_rei:farm_rei
   - farm_role
   - farm_role_roles

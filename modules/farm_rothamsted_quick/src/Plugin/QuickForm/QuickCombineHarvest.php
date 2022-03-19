@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\QuickForm;
+namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;

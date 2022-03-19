@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\Action;
+namespace Drupal\farm_rothamsted_quick\Plugin\Action;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
@@ -12,7 +12,7 @@ use Drupal\farm_quick\Plugin\Action\QuickFormActionBase;
  * @Action(
  *   id = "farm_rothamsted_quick_experiment",
  *   action_label = @Translation("Record experiment quick form"),
- *   deriver = "Drupal\farm_rothamsted\Plugin\Action\Derivative\QuickExperimentActionDeriver",
+ *   deriver = "Drupal\farm_rothamsted_quick\Plugin\Action\Derivative\QuickExperimentActionDeriver",
  * )
  */
 class QuickExperimentAction extends QuickFormActionBase {

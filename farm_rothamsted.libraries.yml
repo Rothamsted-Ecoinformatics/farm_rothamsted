@@ -1,7 +1,3 @@
-quantity_fieldset:
-  css:
-    theme:
-      css/quantity_fieldset.css: { }
 behavior_farm_rothamsted_experiment_plot_layer:
   js:
     js/farmOS.map.behaviors.farm_rothamsted_experiment_plot_layer.js: { }

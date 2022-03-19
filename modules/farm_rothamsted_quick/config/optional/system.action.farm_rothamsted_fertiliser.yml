@@ -1,9 +1,11 @@
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_quick
   module:
     - asset
-    - farm_rothamsted
 id: farm_rothamsted_fertiliser
 label: 'Record fertiliser'
 type: asset

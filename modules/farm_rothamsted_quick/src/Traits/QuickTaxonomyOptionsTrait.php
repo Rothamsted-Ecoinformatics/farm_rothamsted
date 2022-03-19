@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Traits;
+namespace Drupal\farm_rothamsted_quick\Traits;
 
 /**
  * Helper functions for loading taxonomy term options.

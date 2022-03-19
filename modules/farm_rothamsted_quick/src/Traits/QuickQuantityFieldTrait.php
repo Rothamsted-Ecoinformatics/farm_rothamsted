@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Traits;
+namespace Drupal\farm_rothamsted_quick\Traits;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -74,7 +74,7 @@ trait QuickQuantityFieldTrait {
         'class' => ['inline-quantity', 'container-inline'],
       ],
       '#attached' => [
-        'library' => ['farm_rothamsted/quantity_fieldset'],
+        'library' => ['farm_rothamsted_quick/quantity_fieldset'],
       ],
     ];
 

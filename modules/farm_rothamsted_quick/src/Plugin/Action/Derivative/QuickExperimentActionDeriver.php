@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\Action\Derivative;
+namespace Drupal\farm_rothamsted_quick\Plugin\Action\Derivative;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides an action deriver that finds rothamsted quick forms.
  *
- * @see \Drupal\farm_rothamsted\Plugin\Action\QuickExperimentAction
+ * @see \Drupal\farm_rothamsted_quick\Plugin\Action\QuickExperimentAction
  */
 class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriverInterface {
 

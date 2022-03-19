@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\QuickForm;
+namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -9,7 +9,7 @@ use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
-use Drupal\farm_rothamsted\Traits\QuickTaxonomyOptionsTrait;
+use Drupal\farm_rothamsted_quick\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\TermInterface;
 use Psr\Container\ContainerInterface;
 

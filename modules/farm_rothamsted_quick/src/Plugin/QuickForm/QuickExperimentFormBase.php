@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\QuickForm;
+namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\Component\Utility\Crypt;
@@ -15,8 +15,8 @@ use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
-use Drupal\farm_rothamsted\Traits\QuickQuantityFieldTrait;
-use Drupal\farm_rothamsted\Traits\QuickTaxonomyOptionsTrait;
+use Drupal\farm_rothamsted_quick\Traits\QuickQuantityFieldTrait;
+use Drupal\farm_rothamsted_quick\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
