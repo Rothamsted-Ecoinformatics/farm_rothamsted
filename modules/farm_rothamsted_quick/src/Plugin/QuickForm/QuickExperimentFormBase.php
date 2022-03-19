@@ -431,21 +431,22 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $operation['tractor_time']['#weight'] = -5;
 
     // Tractor hours start.
-    $operation['tractor_time']['tractor_hours_start'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Tractor hours (start)'),
-      '#description' => $this->t('The number of tractor hours displayed at the start of the job.'),
-      '#required' => TRUE,
-    ];
+    $operation['tractor_time']['tractor_hours_start'] = $this->buildQuantityField([
+      'title' => $this->t('Tractor hours (start)'),
+      'description' => $this->t('The number of tractor hours displayed at the start of the job.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#value' => 'hours'],
+      'required' => TRUE,
+    ]);
 
     // Tractor hours end.
-    $operation['tractor_time']['tractor_hours_end'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Tractor hours (end)'),
-      '#description' => $this->t('The number of tractor hours displayed at the end of the job.'),
-      '#required' => TRUE,
-      '#group' => 'operation',
-    ];
+    $operation['tractor_time']['tractor_hours_end'] = $this->buildQuantityField([
+      'title' => $this->t('Tractor hours (end)'),
+      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#value' => 'hours'],
+      'required' => TRUE,
+    ]);
 
     // Fuel use.
     $fuel_use_units_options = [
@@ -730,7 +731,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $log['equipment'] = [...$machinery, $tractor];
 
     // Quantities.
-    $quantity_keys = ['fuel_use'];
+    $quantity_keys = ['tractor_hours_start', 'tractor_hours_end', 'fuel_use'];
     $log['quantity'] = $this->getQuantities($quantity_keys, $form_state);
 
     // Files.
@@ -778,9 +779,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Prepare notes and split onto separate lines.
     $log['notes'] = $this->prepareNotes($note_fields, $form_state);
-
-    // @todo Include remaining base form fields.
-    // Tractor hours.
 
     return $log;
   }
