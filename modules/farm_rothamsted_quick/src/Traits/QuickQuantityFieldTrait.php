@@ -52,6 +52,8 @@ trait QuickQuantityFieldTrait {
       'value' => [
         '#type' => 'number',
         '#weight' => 5,
+        '#min' => 0,
+        '#step' => 0.01,
       ],
       'units' => [
         '#weight' => 10,
