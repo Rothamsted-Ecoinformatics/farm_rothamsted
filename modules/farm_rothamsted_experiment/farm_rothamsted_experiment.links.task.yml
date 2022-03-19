@@ -1,4 +1,4 @@
-farm_rothamsted.plan.plots:
+farm_rothamsted_experiment.plan.plots:
   title: 'Plots'
   route_name: view.plan_plots.page
   base_route: entity.plan.canonical

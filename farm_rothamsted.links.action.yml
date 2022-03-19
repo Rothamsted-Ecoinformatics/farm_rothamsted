@@ -1,6 +1,0 @@
-farm_rothamsted.upload_experiment_form:
-  route_name: farm_rothamsted.upload_experiment_form
-  title: 'Upload experiment'
-  appears_on:
-    - entity.plan.collection
-    - view.farm_plan.page_type

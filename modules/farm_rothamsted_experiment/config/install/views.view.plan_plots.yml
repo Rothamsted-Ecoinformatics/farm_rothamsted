@@ -14,7 +14,7 @@ dependencies:
   module:
     - asset
     - farm_location
-    - farm_rothamsted
+    - farm_rothamsted_experiment
     - geofield
     - key_value_field
     - options

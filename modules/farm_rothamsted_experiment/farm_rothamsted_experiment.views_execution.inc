@@ -11,7 +11,7 @@ use Drupal\views\ViewExecutable;
 /**
  * Implements hook_views_pre_view().
  */
-function farm_rothamsted_views_pre_view(ViewExecutable $view) {
+function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
   if ($view->id() !== 'plan_plots' || $view->current_display !== 'page') {
@@ -53,7 +53,7 @@ function farm_rothamsted_views_pre_view(ViewExecutable $view) {
 /**
  * Implements hook_views_pre_render().
  */
-function farm_rothamsted_views_pre_render(ViewExecutable $view) {
+function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
   if ($view->id() !== 'plan_plots' || $view->current_display !== 'page') {

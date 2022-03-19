@@ -3,7 +3,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_rothamsted
+      - farm_rothamsted_experiment
 id: asset_plot
 color: blue
 conditions:

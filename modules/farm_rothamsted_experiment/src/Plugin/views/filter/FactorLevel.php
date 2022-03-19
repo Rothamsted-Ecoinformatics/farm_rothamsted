@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\views\filter;
+namespace Drupal\farm_rothamsted_experiment\Plugin\views\filter;
 
 use Drupal\plan\Entity\Plan;
 use Drupal\views\Plugin\views\filter\ManyToOne;

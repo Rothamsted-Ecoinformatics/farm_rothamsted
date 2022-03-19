@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Routing;
+namespace Drupal\farm_rothamsted_experiment\Routing;
 
 use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\RouteCollection;

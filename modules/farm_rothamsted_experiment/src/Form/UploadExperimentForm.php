@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Form;
+namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Form\FormBase;

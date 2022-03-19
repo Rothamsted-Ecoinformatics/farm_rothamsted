@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\farm_rothamsted\Plugin\Plan\PlanType;
+namespace Drupal\farm_rothamsted_experiment\Plugin\Plan\PlanType;
 
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Plugin\Plan\PlanType\FarmPlanType;

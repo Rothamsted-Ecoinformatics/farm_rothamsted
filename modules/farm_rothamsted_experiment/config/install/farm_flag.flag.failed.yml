@@ -3,9 +3,9 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_rothamsted
+      - farm_rothamsted_experiment
 id: failed
 label: Failed
 entity_types:
   plan:
-    - all
+    - rothamsted_experiment

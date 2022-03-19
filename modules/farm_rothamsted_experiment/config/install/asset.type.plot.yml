@@ -3,7 +3,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_rothamsted
+      - farm_rothamsted_experiment
   module:
     - farm_location
 id: plot
