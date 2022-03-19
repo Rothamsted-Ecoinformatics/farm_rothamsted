@@ -373,7 +373,9 @@ class QuickSpraying extends QuickExperimentFormBase {
     if ($product_count = $form_state->getValue('product_count')) {
       for ($i = 0; $i < $product_count; $i++) {
         $material_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type']);
-        $material_type_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)->label();
+        if ($material_type = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)) {
+          $material_type_names[] = $material_type->label();
+        }
       }
     }
 
