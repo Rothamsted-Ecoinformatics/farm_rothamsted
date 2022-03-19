@@ -105,8 +105,6 @@ class QuickCommercialAsset extends QuickFormBase {
       ];
     }
 
-    // @todo Type of asset.
-
     // Field/location.
     $form['location'] = [
       '#type' => 'entity_autocomplete',
@@ -167,9 +165,6 @@ class QuickCommercialAsset extends QuickFormBase {
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];
-
-    // @todo End use.
-    // @todo Tillage.
 
     // Associated files.
     $form['file'] = [
