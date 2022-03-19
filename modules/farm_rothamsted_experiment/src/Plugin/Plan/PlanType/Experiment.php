@@ -21,6 +21,9 @@ class Experiment extends FarmPlanType {
   public function buildFieldDefinitions() {
     $fields = parent::buildFieldDefinitions();
 
+    // Remove the plan log field.
+    unset($fields['log']);
+
     // Define RRES Experiment Cateogry options.
     $rres_categories_options = [
       'AN' => $this->t('Annual Experiments'),
