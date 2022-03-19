@@ -39,7 +39,7 @@ class Experiment extends FarmPlanType {
       // Plot reference field.
       'plot' => [
         'type' => 'entity_reference',
-        'label' => t('Plots'),
+        'label' => $this->t('Plots'),
         'target_type' => 'asset',
         'target_bundle' => 'plot',
         'multiple' => TRUE,
