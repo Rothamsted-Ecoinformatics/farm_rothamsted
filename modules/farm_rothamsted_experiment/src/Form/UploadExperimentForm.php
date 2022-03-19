@@ -96,15 +96,10 @@ class UploadExperimentForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['description'] = [
-      '#type' => 'item',
-      '#markup' => $this->t('Please browse for your geoJSON file to be uploaded'),
-    ];
-
     // Plan name.
     $form['name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Plan name'),
+      '#title' => $this->t('Experiment name'),
       '#required' => TRUE,
     ];
 
@@ -113,6 +108,11 @@ class UploadExperimentForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Experiment Code'),
       '#required' => TRUE,
+    ];
+
+    // Brief instructions.
+    $form['file_instructions'] = [
+      '#markup' => $this->t('Upload experiment files in the order listed below. Each file will be checked to ensure it has no missing or inconsistent data.'),
     ];
 
     // Add file upload fields.
