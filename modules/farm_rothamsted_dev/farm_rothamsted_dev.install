@@ -60,7 +60,7 @@ function farm_rothamsted_dev_install() {
       '2023' => [],
     ],
     'unit' => [
-      'Spray' => ['l/ha', 'g/ha', 'ml/ha'],
+      'Volume per unit area' => ['l/ha', 'g/ha', 'ml/ha'],
       'Volume' => ['l', 'gal', 'ml'],
       'Grass/Straw Bale Types' => ['Large square bales (90cm x 60cm x 30cm)', 'Round bales (50cm x 100cm)', 'Small square bales'],
     ],

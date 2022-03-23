@@ -71,7 +71,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     $fertiliser['product_labels']['#required'] = FALSE;
 
     // Spray application rate units.
-    $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Spray');
+    $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Volume per unit area');
 
     // Target application rate.
     $fertiliser['target_application_rate'] = $this->buildQuantityField([
