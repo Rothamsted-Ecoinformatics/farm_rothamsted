@@ -33,6 +33,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   use QuickTaxonomyOptionsTrait;
 
   /**
+   * Constant for specifying the required product batch number.
+   */
+  const PRODUCT_BATCH_NUM_REQUIRED = 'required';
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -75,11 +80,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected bool $productsTab = FALSE;
 
   /**
-   * Boolean indicating to include the products applied batch num field.
+   * Value indicating to include the products applied batch num field.
    *
-   * @var bool
+   * This value can also be set to 'required' if the batch number can be
+   * required.
+   *
+   * @var bool|string
    */
-  protected bool $productBatchNum = FALSE;
+  protected $productBatchNum = FALSE;
 
   /**
    * Constructs a QuickFormBase object.
@@ -367,12 +375,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
 
         // Include the product batch number if needed.
-        if ($this->productBatchNum) {
+        if ($this->productBatchNum !== FALSE) {
           $products['products'][$i]['batch_number'] = [
             '#type' => 'textfield',
             '#title' => $this->t('Product batch number'),
             '#description' => $this->t('The unique product batch number, as provided by the product manufacturer.'),
-            '#required' => TRUE,
+            '#required' => $this->productBatchNum === self::PRODUCT_BATCH_NUM_REQUIRED,
           ];
         }
       }
