@@ -361,10 +361,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
         // Product application rate.
         $rate_units = [
-          'ml' => 'ml',
-          'l' => 'l',
-          'g' => 'g',
-          'kg' => 'kg',
+          'ml/ha' => 'ml/ha',
+          'l/ha' => 'l/ha',
+          'g/ha' => 'g/ha',
+          'kg/ha' => 'kg/ha',
+          't/ha' => 't/ha',
         ];
         $product_application_rate = [
           'title' => $this->t('Product rate'),
