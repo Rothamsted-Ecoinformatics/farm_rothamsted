@@ -42,7 +42,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected bool $productBatchNum = TRUE;
+  protected $productBatchNum = TRUE;
 
   /**
    * {@inheritdoc}

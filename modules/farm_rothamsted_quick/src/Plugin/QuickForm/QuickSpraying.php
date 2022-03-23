@@ -42,7 +42,7 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected bool $productBatchNum = TRUE;
+  protected $productBatchNum = self::PRODUCT_BATCH_NUM_REQUIRED;
 
   /**
    * {@inheritdoc}
@@ -117,12 +117,12 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
 
     // Move recommendation fields to spraying tab.
-    // Make each field required.
     foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
       $spraying[$field_name] = $form['setup'][$field_name];
-      $spraying[$field_name]['#required'] = TRUE;
       unset($form['setup'][$field_name]);
     }
+    // Make recommendation_number required.
+    $spraying['recommendation_number']['#required'] = TRUE;
 
     // Plant growth stage.
     $spraying['plant_growth_stage'] = [
