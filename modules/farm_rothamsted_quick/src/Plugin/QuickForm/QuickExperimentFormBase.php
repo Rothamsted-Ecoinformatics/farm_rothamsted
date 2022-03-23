@@ -380,8 +380,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
             '#type' => 'textfield',
             '#title' => $this->t('Product batch number'),
             '#description' => $this->t('The unique product batch number, as provided by the product manufacturer.'),
-            '#required' => $this->productBatchNum === self::PRODUCT_BATCH_NUM_REQUIRED,
           ];
+
+          // Make the product batch number required if specified.
+          if ($this->productBatchNum === self::PRODUCT_BATCH_NUM_REQUIRED) {
+            $products['products'][$i]['batch_number']['#required'] = TRUE;
+            $products['products'][$i]['batch_number']['#description'] .= ' ' . $this->t('If there is no batch number available, please write NA.');
+          }
         }
       }
 
