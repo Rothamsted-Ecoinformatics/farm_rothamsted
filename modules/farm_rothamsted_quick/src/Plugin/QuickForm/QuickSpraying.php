@@ -325,7 +325,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#title' => $this->t('Equipment triple rinsed'),
       '#description' => $this->t('Select if the equipment was triple rinsed after the job was completed.'),
       '#return_value' => 'Yes',
-      '#required' => TRUE,
     ];
 
     // Equipment clear washed.
@@ -334,7 +333,6 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#title' => $this->t('Equipment clear washed'),
       '#description' => $this->t('Select if the equipment was clear washed after the job was completed.'),
       '#return_value' => 'Yes',
-      '#required' => TRUE,
     ];
 
     return $form;
