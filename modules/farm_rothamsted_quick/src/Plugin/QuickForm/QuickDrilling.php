@@ -69,8 +69,8 @@ class QuickDrilling extends QuickExperimentFormBase {
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
     $drilling['crop']['crop'] = [
       '#type' => 'select',
-      '#title' => $this->t('Crop(s)'),
-      '#description' => $this->t('The crop(s) being drilled.'),
+      '#title' => $this->t('Crop'),
+      '#description' => $this->t('The crop being drilled.'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
       '#ajax' => [
@@ -139,7 +139,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     $drilling['seed_dressings'] = [
       '#type' => 'select',
       '#title' => $this->t('Seed dressing(s)'),
-      '#description' => $this->t('Please record the seed dressings applied either by the farm or by the supplier.'),
+      '#description' => $this->t("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
       '#options' => $seed_dressing_options,
       '#multiple' => TRUE,
     ];
@@ -171,7 +171,7 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Germination rate.
     $additional['germination_rate'] = $this->buildQuantityField([
-      'title' => $this->t('Seed Germination Test Result(s)'),
+      'title' => $this->t('Seed Germination Test Result'),
       'description' => $this->t('The germination rate of the seed batch, measured by placing 50 to 100 seeds in a sealed tupperware box lined with wet kitchen roll and counting the number of seeds germinated after 10 - 14 days.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
