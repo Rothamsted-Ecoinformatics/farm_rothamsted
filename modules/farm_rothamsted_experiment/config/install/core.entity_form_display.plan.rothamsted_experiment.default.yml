@@ -31,6 +31,7 @@ third_party_settings:
     group_general:
       children:
         - name
+        - abbreviation
         - status
         - flag
         - experiment_code
@@ -115,9 +116,17 @@ targetEntityType: plan
 bundle: rothamsted_experiment
 mode: default
 content:
+  abbreviation:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   asset:
     type: entity_reference_autocomplete
-    weight: 8
+    weight: 9
     region: content
     settings:
       match_operator: CONTAINS
@@ -127,7 +136,7 @@ content:
     third_party_settings: {  }
   cost_code:
     type: string_textfield
-    weight: 6
+    weight: 7
     region: content
     settings:
       size: 60
@@ -158,7 +167,7 @@ content:
     third_party_settings: {  }
   experiment_code:
     type: string_textfield
-    weight: 4
+    weight: 5
     region: content
     settings:
       size: 60
@@ -173,7 +182,7 @@ content:
     third_party_settings: {  }
   flag:
     type: options_buttons
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -202,7 +211,7 @@ content:
     third_party_settings: {  }
   location:
     type: string_textfield
-    weight: 7
+    weight: 8
     region: content
     settings:
       size: 60
@@ -264,7 +273,7 @@ content:
     third_party_settings: {  }
   project_code:
     type: string_textfield
-    weight: 5
+    weight: 6
     region: content
     settings:
       size: 60
@@ -310,7 +319,7 @@ content:
     third_party_settings: {  }
   status:
     type: options_select
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }

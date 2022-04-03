@@ -14,6 +14,7 @@ third_party_settings:
   field_group:
     group_general:
       children:
+        - abbreviation
         - status
         - flag
         - experiment_code
@@ -94,13 +95,21 @@ targetEntityType: plan
 bundle: rothamsted_experiment
 mode: default
 content:
+  abbreviation:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
   asset:
     type: entity_reference_label
     label: inline
     settings:
       link: true
     third_party_settings: {  }
-    weight: 11
+    weight: 7
     region: content
   cost_code:
     type: string
@@ -108,7 +117,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
+    weight: 5
     region: content
   data_steward:
     type: string
@@ -140,7 +149,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 3
     region: content
   file:
     type: file_table
@@ -155,7 +164,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   growing_conditions:
     type: text_default
@@ -188,7 +197,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 10
+    weight: 6
     region: content
   notes:
     type: text_default
@@ -241,7 +250,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 4
     region: content
   reason_for_failure:
     type: text_default
@@ -285,7 +294,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 1
     region: content
 hidden:
   data: true
