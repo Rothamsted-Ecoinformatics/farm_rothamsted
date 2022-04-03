@@ -30,6 +30,71 @@ display:
     display_options:
       title: 'Experiment plans'
       fields:
+        abbreviation_value:
+          id: abbreviation_value
+          table: plan__abbreviation
+          field: abbreviation_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: abbreviation
+          plugin_id: field
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         plan_bulk_form:
           id: plan_bulk_form
           table: plan
@@ -161,8 +226,8 @@ display:
           label: 'Experiment name'
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{% if abbreviation_value %}\r\n    {{ name }} ({{ abbreviation_value }})\r\n{% else %}\r\n    {{ name }}\r\n{% endif %}"
             make_link: false
             path: ''
             absolute: false
@@ -963,7 +1028,7 @@ display:
             identifier: plant_type_target_id
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -1084,28 +1149,31 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            abbreviation_value: abbreviation_value
             plan_bulk_form: plan_bulk_form
-            image_target_id: image_target_id
-            id: id
+            location_value: location_value
             name: name
-            type: type
-            flag_value: flag_value
+            experiment_code_value: experiment_code_value
+            drilling_year_value: drilling_year_value
+            harvest_year_value: harvest_year_value
+            plant_type_target_id: plant_type_target_id
             status: status
+            flag_value: flag_value
           default: name
           info:
+            abbreviation_value:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             plan_bulk_form:
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            image_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            id:
-              sortable: true
-              default_sort_order: desc
+            location_value:
               align: ''
               separator: ''
               empty_column: false
@@ -1117,7 +1185,33 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            type:
+            experiment_code_value:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            drilling_year_value:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            harvest_year_value:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            plant_type_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -1125,13 +1219,6 @@ display:
               empty_column: false
               responsive: ''
             flag_value:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            status:
-              sortable: false
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
