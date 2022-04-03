@@ -3,4 +3,4 @@ farm_rothamsted_experiment.upload_experiment_form:
   title: 'Upload experiment'
   appears_on:
     - entity.plan.collection
-    - view.farm_plan.page_type
+    - view.rothamsted_experiment_plans.page
