@@ -7,18 +7,30 @@ rothamsted_experiment_plan:
       label: Planning
     active:
       label: Active
+    completed:
+      label: Completed
+    terminated:
+      label: Terminated
     archived:
       label: Archived
   transitions:
     to_planning:
       label: 'Set status to planning'
-      from: [ active,archived ]
+      from: [ active,completed,terminated,archived ]
       to: planning
     to_active:
       label: 'Make active'
-      from: [archived,planning]
+      from: [ planning,completed,terminated,archived ]
       to: active
+    complete:
+      label: 'Set status to complete'
+      from: [ planning,active,terminated,archived ]
+      to: completed
+    terminate:
+      label: 'Terminate'
+      from: [ planning,active,completed,archived ]
+      to: terminated
     archive:
       label: 'Archive'
-      from: [ active,planning ]
+      from: [ planning,active,completed,terminated ]
       to: archived
