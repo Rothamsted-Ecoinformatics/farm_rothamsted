@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\Component\Utility\Crypt;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -299,7 +300,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#default_value' => 1,
       '#ajax' => [
         'callback' => [$this, 'productsCallback'],
-        'even' => 'change',
+        'event' => 'change',
         'wrapper' => 'farm-rothamsted-products',
       ],
     ];
@@ -313,7 +314,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
       // Add fields for each nutrient.
       $products['products']['#tree'] = TRUE;
-      $product_count = $form_state->getValue('product_count', 1);
+      $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 1;
+      if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'product_count') {
+        $product_count = (int) $trigger['#value'];
+        NestedArray::setValue($form_state->getStorage(), ['product_count'], $product_count);
+      }
       for ($i = 0; $i < $product_count; $i++) {
 
         // Fieldset for each product.
@@ -882,7 +887,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Add products applied rate material quantities.
-    if ($this->productsTab && $product_count = $form_state->getValue('product_count')) {
+    if ($this->productsTab && $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 1) {
       for ($i = 0; $i < $product_count; $i++) {
         $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
         $quantity = $form_state->getValue(['products', $i, 'product_rate']);
