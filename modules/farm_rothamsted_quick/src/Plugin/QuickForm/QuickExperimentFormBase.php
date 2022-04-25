@@ -81,6 +81,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected bool $productsTab = FALSE;
 
   /**
+   * Minimum number of products for products tab.
+   *
+   * @var int
+   */
+  protected int $productsMinimum = 0;
+
+  /**
    * Value indicating to include the products applied batch num field.
    *
    * This value can also be set to 'required' if the batch number can be
@@ -292,12 +299,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['setup'] = $setup;
 
     // Product count.
-    // @todo We need AJAX to populate multiple of these.
+    $product_values = range($this->productsMinimum, 5);
     $products['product_count'] = [
       '#type' => 'select',
-      '#title' => $this->t('Add a product'),
-      '#options' => array_combine(range(1, 5), range(1, 5)),
-      '#default_value' => 1,
+      '#title' => $this->t('How many products?'),
+      '#options' => array_combine($product_values, $product_values),
+      '#default_value' => $this->productsMinimum,
       '#ajax' => [
         'callback' => [$this, 'productsCallback'],
         'event' => 'change',
@@ -314,7 +321,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
       // Add fields for each nutrient.
       $products['products']['#tree'] = TRUE;
-      $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 1;
+      $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? $this->productsMinimum;
       if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'product_count') {
         $product_count = (int) $trigger['#value'];
         NestedArray::setValue($form_state->getStorage(), ['product_count'], $product_count);
