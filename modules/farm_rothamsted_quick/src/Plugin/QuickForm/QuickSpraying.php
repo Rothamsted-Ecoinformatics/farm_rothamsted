@@ -43,6 +43,11 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected int $productsMinimum = 1;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $productBatchNum = self::PRODUCT_BATCH_NUM_REQUIRED;
 
   /**

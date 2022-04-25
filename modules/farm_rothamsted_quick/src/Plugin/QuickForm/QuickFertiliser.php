@@ -43,6 +43,11 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected int $productsMinimum = 1;
+
+  /**
+   * {@inheritdoc}
+   */
   protected $productBatchNum = TRUE;
 
   /**
