@@ -299,7 +299,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $form['setup'] = $setup;
 
     // Product count.
-    $product_values = range($this->productsMinimum, 5);
+    $product_values = range($this->productsMinimum, 10);
     $products['product_count'] = [
       '#type' => 'select',
       '#title' => $this->t('How many products?'),
