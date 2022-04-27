@@ -185,7 +185,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
     else {
       // Initialize the temp value.
-      $default_assets = $this->getPrepopulatedEntities('asset');
+      $default_assets = $this->getPrepopulatedEntities('asset', $form_state);
       $form_state->setTemporaryValue('prepopulated_assets', $default_assets);
 
       // Load entities from the temp store.
