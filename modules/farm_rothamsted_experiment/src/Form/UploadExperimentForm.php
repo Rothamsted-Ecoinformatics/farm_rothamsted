@@ -307,7 +307,7 @@ class UploadExperimentForm extends FormBase {
     $factor_level_names = array_column($file_data['treatment_factor_levels'], 'factor_level_name');
 
     // Ensure all required values are provided.
-    $required_columns = ['plot_id', 'row', 'column'];
+    $required_columns = ['plot_id', 'serial', 'row', 'column'];
     $normal_columns = [...$required_columns, 'block'];
     foreach ($plots as $row => $plot) {
       $row++;
@@ -377,8 +377,8 @@ class UploadExperimentForm extends FormBase {
       $form_state->setError($form['plot_geometries'], 'Plot assignments must be uploaded first.');
       return;
     }
-    $plot_ids = array_column($file_data['plot_assignments'], 'plot_id');
-    $id_count = count($plot_ids);
+    $serial_ids = array_column($file_data['plot_assignments'], 'serial');
+    $id_count = count($serial_ids);
 
     // Ensure the same count of plots.
     if ($feature_count != $id_count) {
@@ -387,7 +387,7 @@ class UploadExperimentForm extends FormBase {
     }
 
     // Ensure all required values are provided.
-    $required_columns = ['plot_id'];
+    $required_columns = ['serial'];
     foreach ($plot_features as $row => $feature) {
       $row++;
 
@@ -407,9 +407,9 @@ class UploadExperimentForm extends FormBase {
           continue;
         }
 
-        // Ensure the plot_id is cross-referenced.
-        if (!in_array($feature['properties']['plot_id'], $plot_ids)) {
-          $error_msg = "Plot feature in row $row has an invalid plot_id. Check the plot_assignments csv.";
+        // Ensure the serial is cross-referenced.
+        if (!in_array($feature['properties']['serial'], $serial_ids)) {
+          $error_msg = "Plot feature in row $row has an invalid serial id. Check the plot_assignments csv.";
           $form_state->setError($form['plot_geometries'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
@@ -546,7 +546,7 @@ class UploadExperimentForm extends FormBase {
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_id', 'block', 'row', 'column'];
+      $normal_fields = ['plot_id', 'serial', 'block', 'row', 'column'];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
