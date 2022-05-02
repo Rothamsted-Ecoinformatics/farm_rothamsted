@@ -307,7 +307,7 @@ class UploadExperimentForm extends FormBase {
     $factor_level_names = array_column($file_data['treatment_factor_levels'], 'factor_level_name');
 
     // Ensure all required values are provided.
-    $required_columns = ['plot_id', 'serial', 'row', 'column'];
+    $required_columns = ['plot_id', 'serial', 'plot_type', 'row', 'column'];
     $normal_columns = [...$required_columns, 'block'];
     foreach ($plots as $row => $plot) {
       $row++;
@@ -546,7 +546,7 @@ class UploadExperimentForm extends FormBase {
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_id', 'serial', 'block', 'row', 'column'];
+      $normal_fields = ['plot_id', 'serial', 'plot_type', 'block', 'row', 'column'];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.

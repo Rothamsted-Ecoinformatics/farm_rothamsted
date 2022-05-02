@@ -43,6 +43,16 @@ class Plot extends FarmAssetType {
         'type' => 'string',
         'label' => $this->t('Block'),
       ],
+      'plot_type' => [
+        'type' => 'list_string',
+        'label' => $this->t('Plot type'),
+        'allowed_values' => [
+          'guard_plot' => $this->t('Guard plot'),
+          'discard_plot' => $this->t('Discard plot'),
+          'treated_plot' => $this->t('Treated plot'),
+          'blank_plot' => $this->t('Blank plot'),
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
