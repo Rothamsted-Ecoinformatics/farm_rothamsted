@@ -49,6 +49,12 @@ class Plot extends FarmAssetType {
     }
 
     /* Create remaining special field types. */
+    $fields['serial'] = BundleFieldDefinition::create('integer')
+      ->setLabel($this->t('Serial'))
+      ->setDescription($this->t('Numeric integer unique to each plot.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
     $fields['column'] = BundleFieldDefinition::create('integer')
       ->setLabel($this->t('Column'))
       ->setRevisionable(TRUE)
