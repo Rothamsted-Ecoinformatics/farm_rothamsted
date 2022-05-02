@@ -599,7 +599,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($features)]));
+    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($features)]));
   }
 
   /**
