@@ -10,7 +10,6 @@ dependencies:
     - farm_map
     - file
     - image
-    - key_value_field
     - options
     - text
 id: asset.plot.default
@@ -19,153 +18,171 @@ bundle: plot
 mode: default
 content:
   block:
-    type: text_default
-    weight: 2
-    region: content
+    type: string
     label: inline
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
-  column:
-    type: number_integer
     weight: 4
     region: content
-    label: inline
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-  plot_id:
-    type: text_default
-    weight: 1
-    region: content
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-  row:
+  column:
     type: number_integer
-    weight: 3
-    region: content
     label: inline
     settings:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
+    weight: 6
+    region: content
   file:
     type: file_table
     label: visually_hidden
     settings:
       use_description_as_link_text: true
-    weight: 12
-    region: content
     third_party_settings: {  }
+    weight: 13
+    region: content
   flag:
-    label: inline
     type: list_default
-    weight: 7
-    region: content
+    label: inline
     settings: {  }
     third_party_settings: {  }
+    weight: 8
+    region: content
   geometry:
-    label: inline
     type: farm_map_geofield
-    settings: {  }
-    weight: 14
-    region: content
-    third_party_settings: {  }
-  group:
     label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  group:
     type: entity_reference_label
-    weight: 17
+    label: inline
     settings:
       link: true
-    region: content
     third_party_settings: {  }
-  id_tag:
-    label: inline
-    type: id_tag
-    weight: 10
+    weight: 18
     region: content
+  id_tag:
+    type: id_tag
+    label: inline
     settings: {  }
     third_party_settings: {  }
+    weight: 11
+    region: content
   image:
     type: image
     label: visually_hidden
     settings:
-      image_style: large
       image_link: file
-    weight: 11
-    region: content
+      image_style: large
     third_party_settings: {  }
+    weight: 12
+    region: content
   is_fixed:
-    label: inline
     type: hideable_boolean
+    label: inline
     settings:
       format: default
       format_custom_false: ''
       format_custom_true: ''
       hide_if_false: true
       hide_if_true: false
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  is_location:
+    type: hideable_boolean
+    label: inline
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+      hide_if_false: true
+      hide_if_true: false
+    third_party_settings: {  }
     weight: 16
     region: content
-    third_party_settings: {  }
-  is_location:
-    label: inline
-    type: hideable_boolean
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-      hide_if_false: true
-      hide_if_true: false
-    weight: 15
-    region: content
-    third_party_settings: {  }
   location:
-    label: inline
     type: entity_reference_label
-    weight: 13
+    label: inline
     settings:
       link: true
-    region: content
     third_party_settings: {  }
-  notes:
-    label: inline
-    type: text_default
-    weight: 8
+    weight: 14
     region: content
+  notes:
+    type: text_default
+    label: inline
     settings: {  }
     third_party_settings: {  }
-  parent:
-    label: inline
-    type: entity_reference_label
     weight: 9
+    region: content
+  parent:
+    type: entity_reference_label
+    label: inline
     settings:
       link: true
-    region: content
     third_party_settings: {  }
+    weight: 10
+    region: content
   plant_type:
-    label: inline
     type: entity_reference_label
-    weight: 6
+    label: inline
     settings:
       link: false
-    region: content
     third_party_settings: {  }
-  status:
-    label: inline
-    type: list_default
-    weight: 0
+    weight: 7
     region: content
+  plot_id:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  plot_type:
+    type: list_default
+    label: inline
     settings: {  }
     third_party_settings: {  }
-  treatment_factors:
-    type: key_value
+    weight: 3
+    region: content
+  row:
+    type: number_integer
+    label: inline
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
     weight: 5
     region: content
+  serial:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  status:
+    type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  treatment_factors:
+    type: key_value
     label: inline
     settings:
       value_only: false
-    third_party_settings: { }
+    third_party_settings: {  }
+    weight: 5
+    region: content
 hidden:
   data: true
   intrinsic_geometry: true
