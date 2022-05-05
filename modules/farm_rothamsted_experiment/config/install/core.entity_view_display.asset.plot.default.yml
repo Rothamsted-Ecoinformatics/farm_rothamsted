@@ -161,7 +161,7 @@ content:
     region: content
   serial:
     type: number_integer
-    label: above
+    label: inline
     settings:
       thousand_separator: ''
       prefix_suffix: true
