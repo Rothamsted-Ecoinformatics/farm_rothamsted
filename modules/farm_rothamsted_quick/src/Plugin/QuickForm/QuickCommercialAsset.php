@@ -85,7 +85,7 @@ class QuickCommercialAsset extends QuickFormBase {
     $form['custom_name'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Customize plant asset name'),
-      '#description' => $this->t('The name of the commercial crop asset. Defaults to: "[Location] [Crop] [Season]"'),
+      '#description' => $this->t('The name of the commercial crop asset. Defaults to: "[Season] [Location]: [Crop] ([Variety])"'),
       '#default_value' => FALSE,
       '#ajax' => [
         'callback' => [$this, 'plantNameCallback'],
