@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -120,6 +121,7 @@ class QuickCommercialAsset extends QuickFormBase {
         ],
         'match_operator' => 'CONTAINS',
       ],
+      '#tags' => TRUE,
       '#required' => TRUE,
     ];
 
@@ -236,14 +238,23 @@ class QuickCommercialAsset extends QuickFormBase {
     $asset = $this->createAsset($asset_data);
     $asset->save();
 
+    // Get the location name.
+    $location_names = [];
+    if ($location_ids = array_column($form_state->getValue('location', []), 'target_id')) {
+      if ($locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids)) {
+        $location_names = array_map(function (AssetInterface $location) {
+          return $location->label();
+        }, $locations);
+      }
+    }
+
     // Assign the asset's location.
-    $location_id = $form_state->getValue('location');
-    $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+    $locations = $form_state->getValue('location');
     $log = $this->createLog([
       'type' => 'activity',
-      'name' => $this->t('Move :asset to :location', [':asset' => $asset->label(), ':location' => $location->label()]),
+      'name' => $this->t('Move @asset to @location', ['@asset' => $asset->label(), '@location' => implode(', ', $location_names)]),
       'asset' => $asset,
-      'location' => $location,
+      'location' => $locations,
       'is_movement' => TRUE,
       'status' => 'done',
     ]);
@@ -282,20 +293,22 @@ class QuickCommercialAsset extends QuickFormBase {
     }
 
     // Get the location name.
-    $location_name = '';
-    if ($location_id = $form_state->getValue('location')) {
-      if ($location = $this->entityTypeManager->getStorage('asset')->load($location_id)) {
-        $location_name = $location->label();
+    $location_names = [];
+    if ($location_ids = array_column($form_state->getValue('location', []), 'target_id')) {
+      if ($locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids)) {
+        $location_names = array_map(function (AssetInterface $location) {
+          return $location->label();
+        }, $locations);
       }
     }
 
-    // Generate the plant name, giving priority to the seasons and crops.
+    // Generate the plant name.
     $name_parts = [
-      'location' => $location_name,
+      'location' => implode(' ', $location_names),
       'crops' => implode(', ', $crop_names),
       'season' => $season_name,
     ];
-    $priority_keys = ['seasons', 'crops'];
+    $priority_keys = ['location', 'seasons', 'crops'];
     return $this->prioritizedString($name_parts, $priority_keys);
   }
 
