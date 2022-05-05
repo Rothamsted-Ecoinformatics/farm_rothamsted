@@ -280,15 +280,20 @@ class QuickCommercialAsset extends QuickFormBase {
     }
 
     // Get the crop/variety names.
-    /** @var \Drupal\taxonomy\TermInterface[] $crops */
-    $crops = $form_state->getValue('plant_type', []);
-    $crop_names = [];
-    foreach ($crops as $crop) {
-      if (is_numeric($crop)) {
-        $crop = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop);
+    $crop_name = '';
+    if ($crop_id = $form_state->getValue('crop')) {
+      if ($crop = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop_id)) {
+        $crop_name = $crop->label();
       }
-      if ($crop instanceof TermInterface) {
-        $crop_names[] = $crop->label();
+    }
+
+    // Get the variety names.
+    $variety_names = [];
+    if ($variety_ids = $form_state->getValue('plant_type', [])) {
+      if ($varieties = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($variety_ids)) {
+        $variety_names = array_map(function (TermInterface $variety) {
+          return $variety->label();
+        }, $varieties);
       }
     }
 
@@ -304,12 +309,13 @@ class QuickCommercialAsset extends QuickFormBase {
 
     // Generate the plant name.
     $name_parts = [
-      'location' => implode(' ', $location_names),
-      'crops' => implode(', ', $crop_names),
       'season' => $season_name,
+      'location' => implode(' ', $location_names) . ':',
+      'crop' => $crop_name,
+      'variety' => '(' . implode(', ', $variety_names) . ')',
     ];
-    $priority_keys = ['location', 'seasons', 'crops'];
-    return $this->prioritizedString($name_parts, $priority_keys);
+    $priority_keys = ['season', 'location', 'crop', 'variety'];
+    return $this->prioritizedString($name_parts, $priority_keys, 255, '...)');
   }
 
   /**
