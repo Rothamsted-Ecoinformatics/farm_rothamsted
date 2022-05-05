@@ -306,6 +306,13 @@ class UploadExperimentForm extends FormBase {
     $factor_ids = array_column($file_data['treatment_factor_levels'], 'treatment_factor_id');
     $factor_level_names = array_column($file_data['treatment_factor_levels'], 'factor_level_name');
 
+    // Ensure that the first plot has serial ID 1.
+    if (empty($plots) || (int) $plots[0]['serial'] != 1) {
+      $error_msg = "The first plot serial ID does not start at 1.";
+      $form_state->setError($form['plot_assignments'], $error_msg);
+      $this->messenger()->addError($error_msg);
+    }
+
     // Ensure all required values are provided.
     $required_columns = ['plot_id', 'serial', 'plot_type', 'row', 'column'];
     $normal_columns = [...$required_columns, 'block'];
