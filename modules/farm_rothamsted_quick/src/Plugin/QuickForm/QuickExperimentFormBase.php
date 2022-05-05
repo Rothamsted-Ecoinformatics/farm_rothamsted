@@ -243,7 +243,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
-        '#description' => $this->t('Select the equipment  used for this operation. You can expand the list by assigning Equipment Assets to the group ":group_names". To select more than one hold down the CTRL button and select multiple.', [':group_names' => $machinery_options_string]),
+        '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets to the group "@group_names". To select more than one hold down the CTRL button and select multiple.', ['@group_names' => $machinery_options_string]),
         '#options' => $equipment_options,
         '#multiple' => TRUE,
         '#required' => TRUE,
