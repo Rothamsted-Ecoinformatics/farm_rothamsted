@@ -4,7 +4,6 @@ dependencies:
   config:
     - asset.type.plot
     - plan.type.rothamsted_experiment
-    - taxonomy.vocabulary.plant_type
   module:
     - asset
     - farm_location
@@ -15,7 +14,6 @@ dependencies:
     - plan
     - rest
     - state_machine
-    - taxonomy
     - user
     - views_geojson
   enforced:
@@ -155,71 +153,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        block_value:
-          id: block_value
-          table: asset__block
-          field: block_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: block
-          plugin_id: field
-          label: Block
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         plot_id_value:
           id: plot_id_value
           table: asset__plot_id
@@ -285,17 +218,17 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        plant_type_target_id:
-          id: plant_type_target_id
-          table: asset__plant_type
-          field: plant_type_target_id
+        plot_type_value:
+          id: plot_type_value
+          table: asset__plot_type
+          field: plot_type_value
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: asset
-          entity_field: plant_type
+          entity_field: plot_type
           plugin_id: field
-          label: Crop
+          label: 'Plot type'
           exclude: false
           alter:
             alter_text: false
@@ -336,11 +269,10 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -807,7 +739,7 @@ display:
         type: full
         options:
           offset: 0
-          items_per_page: 50
+          items_per_page: 100
           total_pages: null
           id: 0
           tags:
@@ -981,32 +913,32 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        block_value:
-          id: block_value
-          table: asset__block
-          field: block_value
+        plot_type_value:
+          id: plot_type_value
+          table: asset__plot_type
+          field: plot_type_value
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: asset
-          entity_field: block
-          plugin_id: string
-          operator: '='
-          value: ''
+          entity_field: plot_type
+          plugin_id: list_field
+          operator: or
+          value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: block_value_op
-            label: Block
+            operator_id: plot_type_value_op
+            label: 'Plot type'
             description: ''
             use_operator: false
-            operator: block_value_op
+            operator: plot_type_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: block_value
+            identifier: plot_type_value
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -1014,47 +946,6 @@ display:
               farm_operator: '0'
               farm_viewer: '0'
               farm_worker: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        plant_type_target_id:
-          id: plant_type_target_id
-          table: asset__plant_type
-          field: plant_type_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: plant_type
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: plant_type_target_id_op
-            label: Crop
-            description: ''
-            use_operator: false
-            operator: plant_type_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: plant_type_target_id
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
             reduce: false
           is_grouped: false
           group_info:
@@ -1069,93 +960,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          vid: plant_type
-          type: textfield
-          hierarchy: false
-          limit: true
-          error_message: true
-        is_fixed:
-          id: is_fixed
-          table: asset_field_data
-          field: is_fixed
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: is_fixed
-          plugin_id: boolean
-          operator: '='
-          value: All
-          group: 1
-          exposed: true
-          expose:
-            operator_id: ''
-            label: 'Is fixed'
-            description: ''
-            use_operator: false
-            operator: is_fixed_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: is_fixed
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        status:
-          id: status
-          table: asset_field_data
-          field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: status
-          plugin_id: state_machine_state
-          operator: in
-          value:
-            active: active
-          group: 1
-          exposed: true
-          expose:
-            operator_id: status_op
-            label: Status
-            description: ''
-            use_operator: false
-            operator: status_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: status
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         treatment_factors_value:
           id: treatment_factors_value
           table: asset__treatment_factors
@@ -1201,6 +1005,48 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: 0
+        status:
+          id: status
+          table: asset_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: status
+          plugin_id: state_machine_state
+          operator: in
+          value:
+            active: active
+          group: 1
+          exposed: true
+          expose:
+            operator_id: status_op
+            label: Status
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1214,9 +1060,8 @@ display:
           columns:
             asset_bulk_form: asset_bulk_form
             name: name
-            block_value: block_value
             plot_id_value: plot_id_value
-            plant_type_target_id: plant_type_target_id
+            plot_type_value: plot_type_value
             treatment_factors_value: treatment_factors_value
             treatment_factors_value_1: treatment_factors_value_1
             treatment_factors_value_2: treatment_factors_value_2
@@ -1238,21 +1083,16 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            block_value:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
             plot_id_value:
-              sortable: false
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            plant_type_target_id:
+            plot_type_value:
+              sortable: true
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -1346,7 +1186,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   geojson:
@@ -1633,7 +1472,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - user
         - user.permissions
       tags: {  }
   page:
@@ -1652,6 +1490,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }

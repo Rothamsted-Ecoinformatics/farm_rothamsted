@@ -43,12 +43,28 @@ class Plot extends FarmAssetType {
         'type' => 'string',
         'label' => $this->t('Block'),
       ],
+      'plot_type' => [
+        'type' => 'list_string',
+        'label' => $this->t('Plot type'),
+        'allowed_values' => [
+          'guard_plot' => $this->t('Guard plot'),
+          'discard_plot' => $this->t('Discard plot'),
+          'treated_plot' => $this->t('Treated plot'),
+          'blank_plot' => $this->t('Blank plot'),
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
     }
 
     /* Create remaining special field types. */
+    $fields['serial'] = BundleFieldDefinition::create('integer')
+      ->setLabel($this->t('Serial'))
+      ->setDescription($this->t('Numeric integer unique to each plot.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
     $fields['column'] = BundleFieldDefinition::create('integer')
       ->setLabel($this->t('Column'))
       ->setRevisionable(TRUE)

@@ -306,8 +306,15 @@ class UploadExperimentForm extends FormBase {
     $factor_ids = array_column($file_data['treatment_factor_levels'], 'treatment_factor_id');
     $factor_level_names = array_column($file_data['treatment_factor_levels'], 'factor_level_name');
 
+    // Ensure that the first plot has serial ID 1.
+    if (empty($plots) || (int) $plots[0]['serial'] != 1) {
+      $error_msg = "The first plot serial ID does not start at 1.";
+      $form_state->setError($form['plot_assignments'], $error_msg);
+      $this->messenger()->addError($error_msg);
+    }
+
     // Ensure all required values are provided.
-    $required_columns = ['plot_id', 'row', 'column'];
+    $required_columns = ['plot_id', 'serial', 'plot_type', 'row', 'column'];
     $normal_columns = [...$required_columns, 'block'];
     foreach ($plots as $row => $plot) {
       $row++;
@@ -377,8 +384,8 @@ class UploadExperimentForm extends FormBase {
       $form_state->setError($form['plot_geometries'], 'Plot assignments must be uploaded first.');
       return;
     }
-    $plot_ids = array_column($file_data['plot_assignments'], 'plot_id');
-    $id_count = count($plot_ids);
+    $serial_ids = array_column($file_data['plot_assignments'], 'serial');
+    $id_count = count($serial_ids);
 
     // Ensure the same count of plots.
     if ($feature_count != $id_count) {
@@ -387,7 +394,7 @@ class UploadExperimentForm extends FormBase {
     }
 
     // Ensure all required values are provided.
-    $required_columns = ['plot_id'];
+    $required_columns = ['serial'];
     foreach ($plot_features as $row => $feature) {
       $row++;
 
@@ -407,9 +414,9 @@ class UploadExperimentForm extends FormBase {
           continue;
         }
 
-        // Ensure the plot_id is cross-referenced.
-        if (!in_array($feature['properties']['plot_id'], $plot_ids)) {
-          $error_msg = "Plot feature in row $row has an invalid plot_id. Check the plot_assignments csv.";
+        // Ensure the serial is cross-referenced.
+        if (!in_array($feature['properties']['serial'], $serial_ids)) {
+          $error_msg = "Plot feature in row $row has an invalid serial id. Check the plot_assignments csv.";
           $form_state->setError($form['plot_geometries'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
@@ -427,7 +434,7 @@ class UploadExperimentForm extends FormBase {
     $treatment_factors = $file_data['treatment_factors'];
     $factor_levels = $file_data['treatment_factor_levels'];
     $plot_assignments = $file_data['plot_assignments'];
-    $plot_assignment_ids = array_column($plot_assignments, 'plot_id');
+    $plot_assignment_serial_ids = array_column($plot_assignments, 'serial');
 
     // Build the plan factors JSON for plan.treatment_factors.
     $plan_factors = [];
@@ -527,16 +534,19 @@ class UploadExperimentForm extends FormBase {
       $featureJson = Json::encode($feature);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
-      // Extract the plot name from the feature data.
-      $plot_id = $feature['properties']['plot_id'];
-
-      $plot_index = array_search($plot_id, $plot_assignment_ids);
+      // Get the plot attributes linked by serial ID.
+      $serial_id = $feature['properties']['serial'];
+      $plot_index = array_search($serial_id, $plot_assignment_serial_ids);
       $plot_attributes = $plot_assignments[$plot_index];
+
+      // Build the plot name from the feature data.
+      $plot_id = $plot_attributes['plot_id'];
+      $plot_name = "$experiment_code: $plot_id";
 
       // Build data for the plot asset.
       $plot_data = [
         'type' => 'plot',
-        'name' => "$experiment_code: $plot_id",
+        'name' => $plot_name,
         'status' => 'active',
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
@@ -546,7 +556,7 @@ class UploadExperimentForm extends FormBase {
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_id', 'block', 'row', 'column'];
+      $normal_fields = ['plot_id', 'serial', 'plot_type', 'block', 'row', 'column'];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
@@ -599,7 +609,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count features', ['%feature_count' => count($features)]));
+    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($features)]));
   }
 
   /**
