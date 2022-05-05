@@ -427,7 +427,7 @@ class UploadExperimentForm extends FormBase {
     $treatment_factors = $file_data['treatment_factors'];
     $factor_levels = $file_data['treatment_factor_levels'];
     $plot_assignments = $file_data['plot_assignments'];
-    $plot_assignment_ids = array_column($plot_assignments, 'plot_id');
+    $plot_assignment_serial_ids = array_column($plot_assignments, 'serial');
 
     // Build the plan factors JSON for plan.treatment_factors.
     $plan_factors = [];
@@ -527,16 +527,19 @@ class UploadExperimentForm extends FormBase {
       $featureJson = Json::encode($feature);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
-      // Extract the plot name from the feature data.
-      $plot_id = $feature['properties']['plot_id'];
-
-      $plot_index = array_search($plot_id, $plot_assignment_ids);
+      // Get the plot attributes linked by serial ID.
+      $serial_id = $feature['properties']['serial'];
+      $plot_index = array_search($serial_id, $plot_assignment_serial_ids);
       $plot_attributes = $plot_assignments[$plot_index];
+
+      // Build the plot name from the feature data.
+      $plot_id = $plot_attributes['plot_id'];
+      $plot_name = "$experiment_code: $plot_id";
 
       // Build data for the plot asset.
       $plot_data = [
         'type' => 'plot',
-        'name' => "$experiment_code: $plot_id",
+        'name' => $plot_name,
         'status' => 'active',
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
