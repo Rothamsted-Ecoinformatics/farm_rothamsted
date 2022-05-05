@@ -71,9 +71,6 @@ class QuickFertiliser extends QuickExperimentFormBase {
       '#weight' => 6,
     ];
 
-    // Make the product labels required.
-    $fertiliser['product_labels']['#required'] = TRUE;
-
     // Spray application rate units.
     $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Volume per unit area');
 
