@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - plan.type.rothamsted_experiment
-    - system.menu.admin
     - taxonomy.vocabulary.crop_family
   module:
     - options
@@ -1278,11 +1277,11 @@ display:
       display_extenders: {  }
       path: plans/rothamsted_experiment
       menu:
-        type: normal
+        type: none
         title: Plans
         description: ''
         weight: 0
-        expanded: true
+        expanded: false
         menu_name: admin
         parent: farm.base
         context: '0'
