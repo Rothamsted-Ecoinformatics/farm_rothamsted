@@ -144,6 +144,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#default_tab' => 'edit-setup',
     ];
 
+    // Disable HTML5 validation on the form element since it does not work
+    // with vertical tabs.
+    $form['#attributes']['novalidate'] = 'novalidate';
+
+    // Attach JS to show tabs when there are validation errors.
+    $form['#attached']['library'][] = 'farm_rothamsted_quick/vertical_tab_validation';
+
     // Setup tab.
     $setup = [
       '#type' => 'details',
@@ -347,7 +354,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
           '#description' => $this->t('The product used.'),
           '#options' => $product_options,
           '#required' => TRUE,
-          '#validated' => TRUE,
           '#prefix' => "<div id='product-$i-wrapper'>",
           '#suffic' => '</div',
         ];

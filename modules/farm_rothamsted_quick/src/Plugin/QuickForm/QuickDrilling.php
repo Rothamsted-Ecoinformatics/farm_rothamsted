@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\TermInterface;
 
@@ -81,9 +82,10 @@ class QuickDrilling extends QuickExperimentFormBase {
     ];
 
     // Crop variety.
-    $crop_variety_options = [];
+    $crop_variety_options = NestedArray::getValue($form_state->getStorage(), ['plant_type']) ?? [];
     if ($crop_id = $form_state->getValue('crop')) {
       $crop_variety_options = $this->getTermTreeOptions('plant_type', $crop_id);
+      NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
     $drilling['crop']['crop_variety'] = [
       '#type' => 'select',
@@ -92,7 +94,6 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
-      '#validated' => TRUE,
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];

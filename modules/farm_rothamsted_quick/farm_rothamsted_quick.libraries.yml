@@ -2,3 +2,8 @@ quantity_fieldset:
   css:
     theme:
       css/quantity_fieldset.css: { }
+vertical_tab_validation:
+  js:
+    js/vertical-tab-validation.js: { }
+  dependencies:
+    - core/jquery
