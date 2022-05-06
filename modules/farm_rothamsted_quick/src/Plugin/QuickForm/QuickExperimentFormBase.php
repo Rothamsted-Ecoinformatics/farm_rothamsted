@@ -148,6 +148,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // with vertical tabs.
     $form['#attributes']['novalidate'] = 'novalidate';
 
+    // Attach JS to show tabs when there are validation errors.
+    $form['#attached']['library'][] = 'farm_rothamsted_quick/vertical_tab_validation';
+
     // Setup tab.
     $setup = [
       '#type' => 'details',
