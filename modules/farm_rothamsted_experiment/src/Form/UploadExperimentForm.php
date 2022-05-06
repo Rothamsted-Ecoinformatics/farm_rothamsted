@@ -304,7 +304,6 @@ class UploadExperimentForm extends FormBase {
       return;
     }
     $factor_ids = array_column($file_data['treatment_factor_levels'], 'treatment_factor_id');
-    $factor_level_names = array_column($file_data['treatment_factor_levels'], 'factor_level_name');
 
     // Ensure that the first plot has serial ID 1.
     if (empty($plots) || (int) $plots[0]['serial'] != 1) {
@@ -339,18 +338,14 @@ class UploadExperimentForm extends FormBase {
             continue;
           }
 
-          // Ensure each column_value is allowed for the factor_id.
-          // $index should be an integer, and the column_name should exist
-          // at that index in $factor_ids.
-          $index = array_search($column_value, $factor_level_names);
-          if ($index === FALSE) {
+          // Ensure each column_value is allowed for the column_name.
+          // There should be a treatment factor level that has a matching
+          // treatment_factor_id and factor_level_name.
+          $matching_factor_levels = array_filter($file_data['treatment_factor_levels'], function ($factor_level) use ($column_name, $column_value) {
+            return $factor_level['treatment_factor_id'] == $column_name && $factor_level['factor_level_name'] == $column_value;
+          });
+          if (empty($matching_factor_levels)) {
             $error_msg = "Plot in row $row has an invalid factor_level_name: $column_value";
-            $form_state->setError($form['plot_assignments'], $error_msg);
-            $this->messenger()->addError($error_msg);
-            continue;
-          }
-          if ($factor_ids[$index] != $column_name) {
-            $error_msg = "Plot in row $row has an factor_level_name ($column_value) from the wrong treatment_factor_id ($column_name)";
             $form_state->setError($form['plot_assignments'], $error_msg);
             $this->messenger()->addError($error_msg);
           }
