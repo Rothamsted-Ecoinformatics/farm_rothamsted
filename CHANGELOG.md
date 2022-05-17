@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update the wind direction description. [#171](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/171)
+- Change product application rate units to use "Volume per unit area" units. [#189](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/189)
 
 ## 2.1.0 2022-05-06
 
