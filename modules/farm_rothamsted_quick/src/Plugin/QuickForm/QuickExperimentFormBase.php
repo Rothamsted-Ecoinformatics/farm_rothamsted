@@ -359,18 +359,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ];
         $products['products'][$i]['product_wrapper'] = $product_wrapper;
 
-        // Product application rate.
-        $rate_units = [
-          'ml/ha' => 'ml/ha',
-          'l/ha' => 'l/ha',
-          'g/ha' => 'g/ha',
-          'kg/ha' => 'kg/ha',
-          't/ha' => 't/ha',
-        ];
+        // Product application rate units.
+        $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Volume per unit area');
         $product_application_rate = [
           'title' => $this->t('Product rate'),
           'measure' => ['#value' => 'rate'],
-          'units' => ['#options' => $rate_units],
+          'units' => ['#options' => $application_rate_units_options],
           'required' => TRUE,
         ];
         $products['products'][$i]['product_rate'] = $this->buildQuantityField($product_application_rate);
