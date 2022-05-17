@@ -270,7 +270,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $weather['weather_info']['wind_direction'] = [
       '#type' => 'select',
       '#title' => $this->t('Wind direction'),
-      '#description' => $this->t('The dominant wind direction during spraying.'),
+      '#description' => $this->t('The dominant wind direction during spraying. Please select the general direction the wind is coming from.'),
       '#options' => $wind_direction_options,
       '#required' => TRUE,
     ];
