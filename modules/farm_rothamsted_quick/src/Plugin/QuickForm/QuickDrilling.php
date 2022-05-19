@@ -288,6 +288,30 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    // Validate the asset field.
+    $assets = $form_state->getValue('asset', []);
+    if ($assets = $this->entityTypeManager->getStorage('asset')->loadMultiple(array_column($assets, 'target_id'))) {
+
+      // Map the assets by bundle.
+      $bundle_mapping = array_map(function (AssetInterface $asset) {
+        return $asset->bundle();
+      }, $assets);
+      $has_plant = in_array('plant', $bundle_mapping);
+      $has_plot = in_array('plot', $bundle_mapping);
+
+      // Validate that only plant or plot assets are selected, not both.
+      if ($has_plant && $has_plot) {
+        $form_state->setErrorByName('asset', $this->t('Only plant or plot assets can be referenced in the drilling quick form.'));
+      }
+    }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
