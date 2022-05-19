@@ -2,8 +2,12 @@
 
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
+use Drupal\asset\Entity\AssetInterface;
+use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Url;
 use Drupal\taxonomy\TermInterface;
 
 /**
@@ -47,6 +51,9 @@ class QuickDrilling extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the setup tab.
+    $setup = &$form['setup'];
+
     // Drilling tab.
     $drilling = [
       '#type' => 'details',
@@ -61,6 +68,50 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#title' => $this->t('Additional information'),
       '#group' => 'tabs',
       '#weight' => 1,
+    ];
+
+    // Build the URL for the autocomplete_deluxe endpoint.
+    // See autocomplete_deluxe README.md.
+    $target_type = 'asset';
+    $selection_handler = 'views';
+    $selection_settings = [
+      'view' => [
+        'view_name' => 'farm_location_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => ['land'],
+      ],
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ];
+    $data = serialize($selection_settings) . $target_type . $selection_handler;
+    $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
+    $route_parameters = [
+      'target_type' => $target_type,
+      'selection_handler' => $selection_handler,
+      'selection_settings_key' => $selection_settings_key,
+    ];
+    $url = Url::fromRoute('autocomplete_deluxe.autocomplete', $route_parameters, ['absolute' => TRUE])->getInternalPath();
+
+    // The selection settings must be saved in the keyvalue store.
+    // autocomplete_deluxe extends core entity_autocomplete which does the
+    // same thing.
+    $key_value_storage = \Drupal::keyValue('entity_autocomplete');
+    if (!$key_value_storage->has($selection_settings_key)) {
+      $key_value_storage->set($selection_settings_key, $selection_settings);
+    }
+
+    // Add location field below asset field.
+    $setup['asset']['#weight'] = -5;
+    $setup['location'] = [
+      '#type' => 'autocomplete_deluxe',
+      '#title' => $this->t('Drilling location'),
+      '#description' => $this->t('The field location where the drilling will take place. This is only required when drilling plant assets and should not be provided for plot assets in an experiment.'),
+      '#autocomplete_deluxe_path' => $url,
+      '#target_type' => 'asset',
+      '#selection_handler' => $selection_handler,
+      '#selection_settings' => $selection_settings,
+      '#multiple' => TRUE,
+      '#weight' => -5,
     ];
 
     // Crop and variety wrapper.
@@ -237,11 +288,60 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    // Validate the asset field.
+    $assets = $form_state->getValue('asset', []);
+    if ($assets = $this->entityTypeManager->getStorage('asset')->loadMultiple(array_column($assets, 'target_id'))) {
+
+      // Map the assets by bundle.
+      $bundle_mapping = array_map(function (AssetInterface $asset) {
+        return $asset->bundle();
+      }, $assets);
+      $has_plant = in_array('plant', $bundle_mapping);
+      $has_plot = in_array('plot', $bundle_mapping);
+
+      // Validate that only plant or plot assets are selected, not both.
+      if ($has_plant && $has_plot) {
+        $form_state->setErrorByName('asset', $this->t('Only plant or plot assets can be referenced in the drilling quick form.'));
+      }
+
+      // Validate that a location is only provided when drilling plant assets.
+      // Plot assets are location assets and do not need movement logs.
+      $location = $form_state->getValue('location', []);
+      if ($has_plant && empty($location)) {
+        $form_state->setErrorByName('location', $this->t('A drilling location must be specified when drilling plant assets.'));
+      }
+    }
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
     // Add the drilling log plant_type.
     $log['plant_type'] = $form_state->getValue('crop_variety');
+
+    // Add the location information when drilling plant assets.
+    $assets = $form_state->getValue('asset', []);
+    if ($assets = $this->entityTypeManager->getStorage('asset')->loadMultiple(array_column($assets, 'target_id'))) {
+
+      // Map the assets by bundle.
+      $bundle_mapping = array_map(function (AssetInterface $asset) {
+        return $asset->bundle();
+      }, $assets);
+      $has_plant = in_array('plant', $bundle_mapping);
+
+      // If the drilling is for plant assets, make this a movement log and
+      // reference the location. Validation will ensure this is provided.
+      if ($has_plant) {
+        $log['is_movement'] = TRUE;
+        $log['location'] = $form_state->getValue('location');
+      }
+    }
 
     return $log;
   }
