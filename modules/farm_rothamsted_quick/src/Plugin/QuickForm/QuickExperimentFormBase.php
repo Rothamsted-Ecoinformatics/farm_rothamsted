@@ -876,7 +876,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Add products applied rate material quantities.
-    if ($this->productsTab && $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 1) {
+    if ($this->productsTab && $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 0) {
       for ($i = 0; $i < $product_count; $i++) {
         $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
         $quantity = $form_state->getValue(['products', $i, 'product_rate']);
