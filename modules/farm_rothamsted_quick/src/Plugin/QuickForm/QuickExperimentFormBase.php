@@ -892,8 +892,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       // Get submitted value.
       $quantity = $form_state->getValue($field_key);
 
-      // Ensure the quantity is an array and has a value.
-      if (is_array($quantity) && !empty($quantity['value'])) {
+      // Ensure the quantity is an array and has a numeric value.
+      if (is_array($quantity) && is_numeric($quantity['value'])) {
         $quantities[] = $quantity;
       }
     }
