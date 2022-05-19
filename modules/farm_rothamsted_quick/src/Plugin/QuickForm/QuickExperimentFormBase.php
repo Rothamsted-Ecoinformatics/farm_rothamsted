@@ -12,6 +12,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
 use Drupal\farm_group\GroupMembershipInterface;
+use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_quick\Traits\QuickPrepopulateTrait;
@@ -51,6 +52,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * @var \Drupal\farm_group\GroupMembershipInterface
    */
   protected $groupMembership;
+
+  /**
+   * The asset location service.
+   *
+   * @var \Drupal\farm_location\AssetLocationInterface
+   */
+  protected $assetLocation;
 
   /**
    * ID of log type the quick form creates.
@@ -112,11 +120,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   The entity type manager service.
    * @param \Drupal\farm_group\GroupMembershipInterface $group_membership
    *   The group membership service.
+   * @param \Drupal\farm_location\AssetLocationInterface $asset_location
+   *   The asset location service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, GroupMembershipInterface $group_membership) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, GroupMembershipInterface $group_membership, AssetLocationInterface $asset_location) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
     $this->entityTypeManager = $entity_type_manager;
     $this->groupMembership = $group_membership;
+    $this->assetLocation = $asset_location;
   }
 
   /**
@@ -130,6 +141,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $container->get('messenger'),
       $container->get('entity_type.manager'),
       $container->get('group.membership'),
+      $container->get('asset.location'),
     );
   }
 
@@ -723,15 +735,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected function prepareLog(array $form, FormStateInterface $form_state): array {
 
     // Start an array of log data to pass to QuickLogTrait::createLog.
+    $assets = $form_state->getValue('asset');
     $log = [
       'type' => $this->logType,
       'status' => $form_state->getValue('job_status'),
       'name' => $this->getLogName($form, $form_state),
       'timestamp' => $form_state->getValue('timestamp')->getTimestamp(),
-      'asset' => $form_state->getValue('asset'),
+      'asset' => $assets,
       'flag' => $form_state->getValue('flag'),
       'owner' => $form_state->getValue('owner'),
     ];
+
+    // Copy the current asset locations to the log.
+    $log['location'] = $this->getAssetLocation(array_column($assets, 'target_id'));
 
     // Add equipment references.
     $tractor = $form_state->getValue('tractor');
@@ -966,6 +982,37 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Merge file ids into a single array.
     return array_merge(...$file_ids);
+  }
+
+  /**
+   * Helper function to get the location of assets.
+   *
+   * @param array $asset_ids
+   *   The asset ids to get location of.
+   *
+   * @return array
+   *   Array of location asset ids.
+   */
+  protected function getAssetLocation(array $asset_ids): array {
+
+    // Start an array of location ids.
+    $final_location_ids = [];
+
+    // Get the submitted assets.
+    $assets = $this->entityTypeManager->getStorage('asset')->loadMultiple($asset_ids);
+    if (!empty($assets)) {
+
+      // Get the location of each asset and collect all location ids.
+      array_walk_recursive($assets, function (AssetInterface $asset) use (&$final_location_ids) {
+        $location_ids = array_map(function (AssetInterface $asset) {
+          return $asset->id();
+        }, $this->assetLocation->getLocation($asset));
+        array_push($final_location_ids, ...$location_ids);
+      });
+    }
+
+    // Return the unique location ids.
+    return array_unique($final_location_ids);
   }
 
 }
