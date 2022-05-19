@@ -305,6 +305,13 @@ class QuickDrilling extends QuickExperimentFormBase {
       if ($has_plant && $has_plot) {
         $form_state->setErrorByName('asset', $this->t('Only plant or plot assets can be referenced in the drilling quick form.'));
       }
+
+      // Validate that a location is only provided when drilling plant assets.
+      // Plot assets are location assets and do not need movement logs.
+      $location = $form_state->getValue('location', []);
+      if ($has_plant && empty($location)) {
+        $form_state->setErrorByName('location', $this->t('A drilling location must be specified when drilling plant assets.'));
+      }
     }
 
   }
