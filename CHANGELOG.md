@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update the wind direction description. [#171](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/171)
 - Change product application rate units to use "Volume per unit area" units. [#189](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/189)
+- Assign commercial plant asset location via drilling logs. [#185](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/185)
+- Copy the current asset location into the log location in quick forms. [#183](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/183)
 
 ## 2.1.0 2022-05-06
 
