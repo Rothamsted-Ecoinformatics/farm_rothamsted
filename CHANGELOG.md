@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/3) 2022-05-24
+
 ### Changed
 
 - Update the wind direction description. [#171](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/171)
 - Change product application rate units to use "Volume per unit area" units. [#189](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/189)
 - Copy the current asset location into the log location in quick forms. [#183](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/183)
 
-## 2.1.0 2022-05-06
+## Fixed
+
+- Fix bug that created empty material quantities.
+
+## [2.1.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/2) 2022-05-06
 
 ### Added
 
