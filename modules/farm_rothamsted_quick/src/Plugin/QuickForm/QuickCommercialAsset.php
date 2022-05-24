@@ -238,6 +238,28 @@ class QuickCommercialAsset extends QuickFormBase {
     // Create the asset.
     $asset = $this->createAsset($asset_data);
     $asset->save();
+
+    // Get the location name.
+    $location_names = [];
+    if ($location_ids = array_column($form_state->getValue('location', []), 'target_id')) {
+      if ($locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids)) {
+        $location_names = array_map(function (AssetInterface $location) {
+          return $location->label();
+        }, $locations);
+      }
+    }
+
+    // Assign the asset's location.
+    $locations = $form_state->getValue('location');
+    $log = $this->createLog([
+      'type' => 'activity',
+      'name' => $this->t('Move @asset to @location', ['@asset' => $asset->label(), '@location' => implode(', ', $location_names)]),
+      'asset' => $asset,
+      'location' => $locations,
+      'is_movement' => TRUE,
+      'status' => 'done',
+    ]);
+    $log->save();
   }
 
   /**
