@@ -46,12 +46,7 @@ class Plot extends FarmAssetType {
       'plot_type' => [
         'type' => 'list_string',
         'label' => $this->t('Plot type'),
-        'allowed_values' => [
-          'guard_plot' => $this->t('Guard plot'),
-          'discard_plot' => $this->t('Discard plot'),
-          'treated_plot' => $this->t('Treated plot'),
-          'blank_plot' => $this->t('Blank plot'),
-        ],
+        'allowed_values_function' => 'farm_rothamsted_experiment_plot_type_field_allowed_values',
       ],
     ];
     foreach ($field_info as $name => $info) {
