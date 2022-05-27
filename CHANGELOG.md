@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Only display plot type values used in the plan. [#180](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/180)
+
 ## [2.2.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/3) 2022-05-24
 
 ### Changed
