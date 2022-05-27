@@ -4,3 +4,8 @@ behavior_farm_rothamsted_experiment_plot_layer:
   dependencies:
     - core/drupalSettings
     - farm_map/farm_map
+
+treatment_factors_tables.formatter:
+  css:
+    theme:
+      css/treatment_factors.css: { }
