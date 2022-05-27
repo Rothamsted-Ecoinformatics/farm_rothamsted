@@ -5,6 +5,9 @@
  * Contains farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+
 /**
  * Implements hook_theme_registry_alter().
  */
@@ -14,4 +17,36 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
   if (isset($theme_registry['plan__full']['preprocess functions'])) {
     $theme_registry['plan__full']['preprocess functions'] = array_filter($theme_registry['plan__full']['preprocess functions'], fn ($f) => $f != 'farm_ui_theme_preprocess_plan__full');
   }
+}
+
+/**
+ * Plot type options helper.
+ *
+ * @return array
+ *   Returns an array of plot types.
+ */
+function farm_rothamsted_experiment_plot_type_options() {
+  return [
+    'guard_plot' => t('Guard plot'),
+    'discard_plot' => t('Discard plot'),
+    'treated_plot' => t('Treated plot'),
+    'blank_plot' => t('Blank plot'),
+  ];
+}
+
+/**
+ * Allowed values callback function for the plot type field.
+ *
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ *   The field definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the allowed values can be cached. Defaults to TRUE.
+ *
+ * @return array
+ *   Returns an array of allowed values for use in form select options.
+ */
+function farm_rothamsted_experiment_plot_type_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+  return farm_rothamsted_experiment_plot_type_options();
 }
