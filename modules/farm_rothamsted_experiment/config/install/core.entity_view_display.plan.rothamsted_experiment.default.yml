@@ -5,6 +5,7 @@ dependencies:
     - image.style.large
     - plan.type.rothamsted_experiment
   module:
+    - farm_rothamsted_experiment
     - field_group
     - file
     - image
@@ -45,7 +46,7 @@ third_party_settings:
       label: People
       parent_name: ''
       region: content
-      weight: 1
+      weight: 2
       format_type: tab
       format_settings:
         classes: ''
@@ -64,7 +65,7 @@ third_party_settings:
       label: 'Trial Design'
       parent_name: ''
       region: content
-      weight: 2
+      weight: 3
       format_type: tab
       format_settings:
         classes: ''
@@ -82,13 +83,27 @@ third_party_settings:
       label: 'Experiment Status'
       parent_name: ''
       region: content
-      weight: 3
+      weight: 4
       format_type: tab
       format_settings:
         classes: ''
         show_empty_fields: true
         id: ''
         formatter: open
+        description: ''
+    group_treatment_factors:
+      children:
+        - treatment_factors
+      label: 'Treatment factors'
+      parent_name: ''
+      region: content
+      weight: 1
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
         description: ''
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
@@ -101,7 +116,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 0
+    weight: 3
     region: content
   asset:
     type: entity_reference_label
@@ -109,7 +124,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 11
     region: content
   cost_code:
     type: string
@@ -117,7 +132,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 5
+    weight: 9
     region: content
   data_steward:
     type: string
@@ -125,7 +140,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
+    weight: 4
     region: content
   deviations:
     type: text_default
@@ -149,7 +164,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 3
+    weight: 6
     region: content
   file:
     type: file_table
@@ -164,7 +179,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 5
     region: content
   growing_conditions:
     type: text_default
@@ -197,7 +212,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 10
     region: content
   notes:
     type: text_default
@@ -227,14 +242,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 11
+    weight: 6
     region: content
   primary_contact_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 7
     region: content
   principle_investigator:
     type: string
@@ -242,7 +257,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 3
     region: content
   project_code:
     type: string
@@ -250,7 +265,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 8
     region: content
   reason_for_failure:
     type: text_default
@@ -272,14 +287,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 13
+    weight: 8
     region: content
   secondary_contact_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 14
+    weight: 10
     region: content
   statistician:
     type: string
@@ -287,18 +302,24 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 10
+    weight: 5
     region: content
   status:
     type: list_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 4
+    region: content
+  treatment_factors:
+    type: treatment_factors_tables
+    label: visually_hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
 hidden:
   data: true
   log: true
   plot: true
-  treatment_factors: true
   uid: true
