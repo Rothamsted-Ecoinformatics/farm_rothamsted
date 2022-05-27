@@ -1,0 +1,18 @@
+/* Styles for treatment factors field formatter. */
+table.treatment-factor-level-table td {
+  height: 2rem;
+}
+
+/* Table caption. */
+table.treatment-factor-level-table caption {
+  padding-bottom: .5em;
+}
+table.treatment-factor-level-table caption .name {
+  font-weight: bold;
+}
+table.treatment-factor-level-table caption .id:before {
+  content: "\00a0 ";
+}
+table.treatment-factor-level-table caption .description:before {
+  content: ":\00a0 ";
+}
