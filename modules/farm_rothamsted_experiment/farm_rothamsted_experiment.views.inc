@@ -16,4 +16,11 @@ function farm_rothamsted_experiment_views_data_alter(array &$data) {
       'id' => 'factor_levels',
     ];
   }
+
+  // Use the plan_plot_types filter for the plot_type filter.
+  if (isset($data['asset__plot_type']['plot_type_value'])) {
+    $data['asset__plot_type']['plot_type_value']['filter'] = [
+      'id' => 'plan_plot_type',
+    ];
+  }
 }
