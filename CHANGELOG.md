@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Field formatter to render plan treatment_factors field in tables. [#162](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/162)
+
 ### Changed
 
 - Only display plot type values used in the plan. [#180](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/180)
