@@ -5,9 +5,13 @@
  * Contains farm_rothamsted.module.
  */
 
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\log\Entity\Log;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
@@ -49,6 +53,115 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function farm_rothamsted_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Bail if not the right form.
+  if ($form_id != 'asset_plant_edit_form') {
+    return;
+  }
+
+  // Ensure we can get the EntityForm object.
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof EntityFormInterface) {
+    return;
+  }
+
+  // Load the assets current location.
+  /** @var \Drupal\farm_location\AssetLocationInterface $asset_location */
+  $asset_location = \Drupal::service('asset.location');
+  $asset = $form_object->getEntity();
+  $current_location = $asset_location->getLocation($asset);
+
+  // Add form field displaying the current location.
+  $form['rothamsted_current_location'] = [
+    '#type' => 'entity_autocomplete',
+    '#title' => t('Current location'),
+    '#description' => t('The current location of the asset. Changing this value will update the assets current location with a new movement log.'),
+    '#target_type' => 'asset',
+    '#selection_handler' => 'views',
+    '#selection_settings' => [
+      'view' => [
+        'view_name' => 'farm_location_reference',
+        'display_name' => 'entity_reference',
+      ],
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ],
+    '#tags' => TRUE,
+    '#validate_reference' => FALSE,
+    '#maxlength' => 1024,
+    '#default_value' => $current_location,
+    '#weight' => $form['name']['#weight'] + 1,
+  ];
+
+  // Include the latest movement log in the field description.
+  if ($latest_log = $asset_location->getMovementLog($asset)) {
+    $form['rothamsted_current_location']['#description'] .= ' ' . t('Latest movement log: <a href=":uri">%log_label</a>', [':uri' => $latest_log->toUrl()->toString(), '%log_label' => $latest_log->label()]);
+  }
+
+  // Add submit handler to assign the new location if needed.
+  $form['actions']['submit']['#submit'][] = 'farm_rothamsted_asset_form_current_location_submit';
+}
+
+/**
+ * Submit function for the current location form field.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ */
+function farm_rothamsted_asset_form_current_location_submit(array &$form, FormStateInterface $form_state) {
+
+  // Get the asset.
+  $asset = $form_state->getFormObject()->getEntity();
+  if (empty($asset)) {
+    return;
+  }
+
+  // Get the assets current location IDs.
+  /** @var \Drupal\farm_location\AssetLocationInterface $asset_location */
+  $asset_location = \Drupal::service('asset.location');
+  $current_location_ids = array_map(function (AssetInterface $location) {
+    return $location->id();
+  }, $asset_location->getLocation($asset));
+
+  // Do not create a movement log if the current location was not changed.
+  $location_ids = array_column($form_state->getValue('rothamsted_current_location', []), 'target_id');
+  if ($current_location_ids == $location_ids) {
+    return;
+  }
+
+  // Generate a name for the log.
+  $asset_names = farm_log_asset_names_summary([$asset]);
+  $locations = [];
+  // Use the location names if included.
+  if (!empty($location_ids)) {
+    $locations = \Drupal::entityTypeManager()->getStorage('asset')->loadMultiple($location_ids);
+    $location_names = farm_log_asset_names_summary($locations);
+    $log_name = t('Move @assets to @locations', ['@assets' => $asset_names, '@locations' => $location_names]);
+  }
+  // Else reset the asset's location.
+  else {
+    $log_name = t('Reset @assets location.', ['@assets' => $asset_names]);
+  }
+
+  // Create the log.
+  $log = Log::create([
+    'name' => $log_name,
+    'type' => 'activity',
+    'status' => 'done',
+    'asset' => $asset,
+    'is_movement' => TRUE,
+    'location' => $locations,
+  ]);
+  $log->save();
+  \Drupal::messenger()->addMessage(t('Log created: <a href=":uri">%log_label</a>', [':uri' => $log->toUrl()->toString(), '%log_label' => $log->label()]));
 }
 
 /**
