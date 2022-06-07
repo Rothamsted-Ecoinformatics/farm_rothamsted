@@ -771,7 +771,7 @@ display:
         options:
           perm: 'view any asset'
       cache:
-        type: tag
+        type: none
         options: {  }
       empty:
         area_text_custom:
@@ -960,51 +960,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: 0
-        treatment_factors_value:
-          id: treatment_factors_value
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: factor_levels
-          operator: and
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: treatment_factors_value_op
-            label: Treatments
-            description: ''
-            use_operator: false
-            operator: treatment_factors_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: treatment_factors_value
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-            reduce: 0
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: 0
         status:
           id: status
           table: asset_field_data
@@ -1032,6 +987,47 @@ display:
             required: false
             remember: false
             multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        treatment_factors_value:
+          id: treatment_factors_value
+          table: asset__treatment_factors
+          field: treatment_factors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: treatment_factors
+          plugin_id: factor_levels
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: treatment_factors_value_op
+            label: 'Treatment factors'
+            description: ''
+            use_operator: false
+            operator: treatment_factors_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: treatment_factors_value
+            required: false
+            remember: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
             reduce: false

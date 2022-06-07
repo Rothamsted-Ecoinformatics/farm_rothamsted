@@ -3,7 +3,7 @@
 namespace Drupal\farm_rothamsted_experiment\Plugin\views\filter;
 
 use Drupal\plan\Entity\Plan;
-use Drupal\views\Plugin\views\filter\ManyToOne;
+use Drupal\views\Plugin\views\filter\InOperator;
 
 /**
  * Custom views filter for the plot factor levels.
@@ -12,7 +12,7 @@ use Drupal\views\Plugin\views\filter\ManyToOne;
  *
  * @ViewsFilter("factor_levels")
  */
-class FactorLevel extends ManyToOne {
+class FactorLevel extends InOperator {
 
   /**
    * {@inheritdoc}
@@ -40,10 +40,13 @@ class FactorLevel extends ManyToOne {
         $factor_options = [];
         foreach ($field_factors as $factor_type) {
 
-          // Build label for each factor level.
+          // Build options for each factor level.
+          // Use a comma to separate each option as "type_id,level_id"
+          // since commas are unlikely to be used in either ID.
           $factor_type_options = [];
           foreach ($factor_type->factor_levels as $factor_level) {
-            $factor_type_options[$factor_level->id] = "$factor_level->name ($factor_level->id)";
+            $value = $factor_type->id . ',' . $factor_level->id;
+            $factor_type_options[$value] = "$factor_level->name ($factor_level->id)";
           }
 
           // Build label for the factor type.
@@ -61,6 +64,28 @@ class FactorLevel extends ManyToOne {
     }
 
     return $this->valueOptions;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function opSimple() {
+    if (empty($this->value)) {
+      return;
+    }
+    $this->ensureMyTable();
+
+    // Create an additional OR group.
+    $group = count($this->query->where) + 1;
+    $this->query->setWhereGroup('OR', $group);
+
+    // Add a where expression for each factor key and value.
+    foreach ($this->value as $value) {
+      $values = explode(',', $value);
+      $key_placeholder = $this->placeholder();
+      $value_placeholder = $this->placeholder();
+      $this->query->addWhereExpression($group, "$this->tableAlias.treatment_factors_key = $key_placeholder AND $this->tableAlias.treatment_factors_value = $value_placeholder", [$key_placeholder => $values[0], $value_placeholder => $values[1]]);
+    }
   }
 
 }
