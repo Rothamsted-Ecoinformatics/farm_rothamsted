@@ -3,3 +3,8 @@ farm_rothamsted_experiment.plan.plots:
   route_name: view.plan_plots.page
   base_route: entity.plan.canonical
   weight: 20
+farm_rothamsted_experiment.plan.logs:
+  title: 'Logs'
+  route_name: view.rothamsted_experiment_plan_logs.page
+  base_route: entity.plan.canonical
+  weight: 25
