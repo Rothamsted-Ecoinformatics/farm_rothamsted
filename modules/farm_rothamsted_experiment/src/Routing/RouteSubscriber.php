@@ -16,7 +16,7 @@ class RouteSubscriber extends RouteSubscriberBase {
   public function alterRoutes(RouteCollection $collection) {
 
     // Only display the plan views for rothamsted_experiment plans.
-    foreach (['view.plan_plots.page', 'view.rothamsted_experiment_plan_logs.page'] as $view_id) {
+    foreach (['view.rothamsted_experiment_plan_plots.page', 'view.rothamsted_experiment_plan_logs.page'] as $view_id) {
       if ($route = $collection->get($view_id)) {
         // Add to existing parameters, if any.
         $parameters = $route->getOption('parameters');

@@ -19,7 +19,7 @@ dependencies:
   enforced:
     module:
       - farm_rothamsted_experiment
-id: plan_plots
+id: rothamsted_experiment.plan_plots
 label: 'Plan plots'
 module: views
 description: ''
