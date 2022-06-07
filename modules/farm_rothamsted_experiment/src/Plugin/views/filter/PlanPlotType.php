@@ -66,7 +66,7 @@ class PlanPlotType extends ManyToOne {
 
     // Check if a plan id is provided.
     // @todo Should the plan argument or id be configuration for the filter?
-    if (isset($this->view->args[0])) {
+    if (isset($this->view->args[0]) && is_numeric($this->view->args[0])) {
 
       // Query for all plot_type values associated with the plan's plots.
       $plan_id = $this->view->args[0];
