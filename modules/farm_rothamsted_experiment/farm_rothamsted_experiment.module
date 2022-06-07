@@ -27,10 +27,11 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
  */
 function farm_rothamsted_experiment_plot_type_options() {
   return [
-    'guard_plot' => t('Guard plot'),
-    'discard_plot' => t('Discard plot'),
-    'treated_plot' => t('Treated plot'),
     'blank_plot' => t('Blank plot'),
+    'discard_plot' => t('Discard plot'),
+    'observation_plot' => t('Observation plot'),
+    'guard_plot' => t('Guard plot'),
+    'treated_plot' => t('Treated plot'),
   ];
 }
 
