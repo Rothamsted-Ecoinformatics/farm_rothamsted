@@ -14,7 +14,7 @@ use Drupal\views\ViewExecutable;
 function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
-  if ($view->id() !== 'plan_plots' || $view->current_display !== 'page') {
+  if ($view->id() !== 'rothamsted_experiment_plan_plots' || $view->current_display !== 'page') {
     return;
   }
 
@@ -56,7 +56,7 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
-  if ($view->id() !== 'plan_plots' || $view->current_display !== 'page') {
+  if ($view->id() !== 'rothamsted_experiment_plan_plots' || $view->current_display !== 'page') {
     return;
   }
 
