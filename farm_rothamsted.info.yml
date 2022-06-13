@@ -9,6 +9,7 @@ dependencies:
   - farm_equipment
   - farm_group
   - farm_land
+  - farm_location
   - farm_material_type
   - farm_plant
   - farm_plant_type
