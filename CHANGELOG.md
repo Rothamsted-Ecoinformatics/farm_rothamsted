@@ -10,10 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Field formatter to render plan treatment_factors field in tables. [#162](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/162)
+- Add view of logs for experiment plan. [#170](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/170)
+- Add form field to change assets current location. [#196](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/196)
 
 ### Changed
 
 - Only display plot type values used in the plan. [#180](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/180)
+
+### Fixed
+
+- Allow filtering by factor levels of the same value. [#200](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/200)
+- Pin Gin to fix vertical tab whitespace issue. [#208](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/208)
 
 ## [2.2.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/3) 2022-05-24
 
