@@ -5,9 +5,13 @@
  * Contains farm_rothamsted.module.
  */
 
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\system\Entity\Action;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
@@ -49,6 +53,95 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function farm_rothamsted_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Bail if not the right form.
+  if ($form_id != 'asset_plant_edit_form') {
+    return;
+  }
+
+  // Ensure we can get the EntityForm object.
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof EntityFormInterface) {
+    return;
+  }
+
+  // Load the assets current location.
+  /** @var \Drupal\farm_location\AssetLocationInterface $asset_location */
+  $asset_location = \Drupal::service('asset.location');
+  $asset = $form_object->getEntity();
+  $current_location = $asset_location->getLocation($asset);
+  $current_location_string = array_map(function (AssetInterface $location) {
+    return $location->label();
+  }, $current_location);
+
+  // Add a wrapper for the current location fields.
+  $form['rothamsted_current_location_wrapper'] = [
+    '#type' => 'container',
+    '#attributes' => [
+      'style' => ['display: flex; flex-wrap: wrap; column-gap: 2em; align-items: center;'],
+    ],
+    '#weight' => $form['name']['#weight'] + 1,
+  ];
+
+  // Add disabled textfield displaying the current location.
+  $form['rothamsted_current_location_wrapper']['rothamsted_current_location'] = [
+    '#type' => 'textfield',
+    '#title' => t('Current location'),
+    '#description' => t('The current location of the asset. This can be changed by creating a new movement log with the "Move asset" button.'),
+    '#disabled' => TRUE,
+    '#default_value' => $current_location_string,
+  ];
+
+  // Include the latest movement log in the field description.
+  if ($latest_log = $asset_location->getMovementLog($asset)) {
+    $form['rothamsted_current_location_wrapper']['rothamsted_current_location']['#description'] .= ' ' . t('Latest movement log: <a href=":uri">%log_label</a>', [':uri' => $latest_log->toUrl()->toString(), '%log_label' => $latest_log->label()]);
+  }
+
+  // Add button to move the asset.
+  $form['rothamsted_current_location_wrapper']['rothamsted_current_location_move'] = [
+    '#type' => 'submit',
+    '#value' => t('Move asset'),
+    '#submit' => ['farm_rothamsted_asset_form_move_submit'],
+  ];
+
+}
+
+/**
+ * Submit function for the current location form field.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ */
+function farm_rothamsted_asset_form_move_submit(array &$form, FormStateInterface $form_state) {
+
+  // Get the asset.
+  /** @var \Drupal\asset\Entity\AssetInterface $asset */
+  $asset = $form_state->getFormObject()->getEntity();
+  if (empty($asset)) {
+    return;
+  }
+
+  // Load the asset move action.
+  $move_action = Action::load('asset_move_action');
+  $move_action->execute([$asset]);
+
+  // Redirect to the action confirm form route and set the destination
+  // to come back to the asset canonical page.
+  $operation_definition = $move_action->getPluginDefinition();
+  if (!empty($operation_definition['confirm_form_route_name'])) {
+    $options = [
+      'query' => ['destination' => $asset->toUrl()->toString()],
+    ];
+    $form_state->setRedirect($operation_definition['confirm_form_route_name'], [], $options);
+  }
 }
 
 /**
