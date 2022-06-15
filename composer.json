@@ -13,11 +13,7 @@
     "drupal/autocomplete_deluxe": "^2.0",
     "drupal/farm_rei": "^2.0@beta",
     "drupal/field_group": "^3.2",
-    "drupal/gin": "3.x-dev#7a115a3750421c0e94fb5e779cc554b815050c16",
     "drupal/json_field": "^1.0@RC",
     "drupal/key_value_field": "^1.2"
-  },
-  "_comments": {
-    "drupal/gin": "Pinned to fix vertical tabs whitespace issue #3282294."
   }
 }
