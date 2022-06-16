@@ -223,7 +223,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     $log = parent::prepareLog($form, $form_state);
 
     // Include the storage location.
-    $log['location'] = $form_state->getValue('storage_location');
+    $log['storage_location'] = $form_state->getValue('storage_location');
 
     return $log;
   }
