@@ -63,6 +63,21 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
       '#description' => $this->t('The RRES harvest number, where applicable.'),
     ];
 
+    // Common trailer weight units.
+    // Copied from QuickTrailerHarvest for the yield estimate quantity.
+    $trailer_weight_units = [
+      't' => 'tonnes',
+      'kg' => 'kilogrammes',
+    ];
+
+    // Nett weight.
+    $harvest['yield_estimate'] = $this->buildQuantityField([
+      'title' => $this->t('Yield estimate'),
+      'description' => $this->t('The yield estimate as produced by the combine or forage harvester.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $trailer_weight_units],
+    ]);
+
     // Harvest form.
     $harvest['operation']['harvest_form'] = [
       '#type' => 'managed_file',
@@ -128,6 +143,17 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
     $field_keys[] = 'harvest_form';
     $field_keys[] = 'digital_harvest_records';
     return parent::getImageIds($field_keys, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
+    array_push(
+      $field_keys,
+      'yield_estimate',
+    );
+    return parent::getQuantities($field_keys, $form_state);
   }
 
   /**

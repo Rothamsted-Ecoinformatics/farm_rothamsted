@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add optional yield estimate quantity to combine harvest quick form. [#193](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/193)
+
 ## [2.3.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/4) 2022-06-13
 
 ### Added
