@@ -19,6 +19,25 @@ use Drupal\system\Entity\Action;
 function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
   $fields = [];
 
+  // Add fields to harvest logs.
+  if ($entity_type->id() === 'log' && $bundle === 'harvest') {
+
+    // Add storage_location field.
+    $field_info = [
+      'type' => 'entity_reference',
+      'label' => t('Storage location'),
+      'description' => t('The harvest storage location.'),
+      'target_type' => 'asset',
+      'target_bundle' => 'structure',
+      'multiple' => TRUE,
+      'weight' => [
+        'form' => 90,
+        'view' => 90,
+      ],
+    ];
+    $fields['storage_location'] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($field_info);
+  }
+
   // Add fields to input logs.
   if ($entity_type->id() === 'log' && $bundle === 'input') {
 
