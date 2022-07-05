@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add optional yield estimate quantity to combine harvest quick form. [#193](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/193)
 - Add harvest storage location. [#192](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/192)
 
+### Changed
+
+- Require drupal/gin 3.0.0-beta5. [#212](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/212)
+
 ## [2.3.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/4) 2022-06-13
 
 ### Added
