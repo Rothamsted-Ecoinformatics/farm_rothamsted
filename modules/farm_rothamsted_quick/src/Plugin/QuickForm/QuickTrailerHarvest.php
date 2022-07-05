@@ -3,6 +3,7 @@
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
@@ -114,62 +115,91 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       '#weight' => 1,
     ];
 
-    // Number of bales.
-    $trailer['bales_on_trailer'] = $this->buildQuantityField([
-      'title' => $this->t('Number of bales on the trailer'),
-      'description' => $this->t('Please give the total number of bales on the trailer, where relevant.'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#type' => 'hidden'],
-    ]);
-
     // Common trailer weight units.
     $trailer_weight_units = [
       't' => 'tonnes',
       'kg' => 'kilogrammes',
     ];
 
-    $trailer['weight_wrapper'] = $this->buildInlineWrapper();
+    // Trailer load count.
+    $trailer_count = range(1, 10);
+    $trailer['trailer_load_count'] = [
+      '#type' => 'select',
+      '#title' => $this->t('How many trailer loads?'),
+      '#options' => array_combine($trailer_count, $trailer_count),
+      '#default_value' => 1,
+      '#ajax' => [
+        'callback' => [$this, 'trailerLoadsCallback'],
+        'event' => 'change',
+        'wrapper' => 'farm-rothamsted-trailer-loads',
+      ],
+    ];
+
+    // Container for trailer load weights.
+    $trailer['trailer_loads'] = [
+      '#type' => 'container',
+      '#tree' => TRUE,
+      '#attributes' => ['id' => 'farm-rothamsted-trailer-loads'],
+    ];
+    $trailer_load_count = $form_state->get('trailer_load_count') ?? 1;
+    if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'trailer_load_count') {
+      $trailer_load_count = (int) $trigger['#value'];
+      $form_state->set('trailer_load_count', $trailer_load_count);
+    }
+    for ($i = 0; $i < $trailer_load_count; $i++) {
+
+      // Trailer weight. Allow the user to select either Gross or Nett weight.
+      $trailer['trailer_loads'][$i]['weight'] = $this->buildQuantityField([
+        'title' => $this->t('Trailer @count weight', ['@count' => $i + 1]),
+        'description' => $this->t('The weight of the trailer + harvested grain, as measured on the scales.'),
+        'measure' => ['#value' => 'weight'],
+        'units' => ['#options' => $trailer_weight_units],
+      ]);
+      $trailer['trailer_loads'][$i]['weight']['value']['#states'] = [
+        'required' => [
+          ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
+        ],
+      ];
+
+      // Weight label options.
+      $weight_label_options = [
+        'Gross weight',
+        'Nett weight',
+      ];
+      $trailer['trailer_loads'][$i]['weight']['label'] = [
+        '#type' => 'select',
+        '#options' => array_combine($weight_label_options, $weight_label_options),
+      ];
+    }
 
     // Tare.
-    $trailer['weight_wrapper']['tare'] = $this->buildQuantityField([
+    $trailer['tare'] = $this->buildQuantityField([
       'title' => $this->t('Trailer tare'),
       'description' => $this->t('The weight of the trailer, as measured on the scales.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
 
-    // Gross weight.
-    $trailer['weight_wrapper']['gross_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Gross weight'),
-      'description' => $this->t('The weight of the trailer + harvested grain, as measured on the scales.'),
-      'measure' => ['#value' => 'weight'],
-      'units' => ['#options' => $trailer_weight_units],
-    ]);
-
-    // Nett weight.
-    $trailer['weight_wrapper']['nett_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Nett weight'),
-      'description' => $this->t('The weight of the harvested grain.'),
-      'measure' => ['#value' => 'weight'],
-      'units' => ['#options' => $trailer_weight_units],
-    ]);
-    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
-      'required' => [
-        ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
-      ],
-    ];
-
     // Moisture content.
-    $trailer['moisture_content'] = $this->buildQuantityField([
+    $trailer['moisture_wrapper'] = $this->buildInlineWrapper();
+    $trailer['moisture_wrapper']['moisture_content'] = $this->buildQuantityField([
       'title' => $this->t('Moisture content'),
       'description' => $this->t('The moisture content of the grain at the harvest.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
-    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
+    $trailer['moisture_wrapper']['moisture_content']['value']['#states'] = [
       'required' => [
         ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
       ],
+    ];
+    $trailer['moisture_wrapper']['moisture_time'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Moisture content time'),
+      '#description' => $this->t('The time the moisture content was taken.'),
+      '#date_date_element' => 'none',
+      '#date_time_element' => 'time',
+      '#attributes' => ['step' => 60],
     ];
 
     // Grain sample number.
@@ -217,6 +247,66 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   }
 
   /**
+   * Trailer loads ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The trailer loads render array.
+   */
+  public function trailerLoadsCallback(array &$form, FormStateInterface $form_state) {
+    return $form['trailer']['trailer_loads'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    // Validate trailer load weights.
+    $weight_units = NULL;
+    $trailer_load_count = $form_state->get('trailer_load_count') ?? 0;
+    for ($i = 0; $i < $trailer_load_count; $i++) {
+      if ($trailer_weight = $form_state->getValue(['trailer_loads', $i, 'weight'])) {
+
+        // Init weight units to the first trailer weight units.
+        $weight_units = $weight_units ?? $trailer_weight['units'];
+
+        // Ensure all weight units are the same.
+        if ($trailer_weight['units'] != $weight_units) {
+          $form_state->setErrorByName("trailer_loads][$i][weight][units", $this->t('All trailer weights must be the same units.'));
+        }
+
+        // Ensure gross weights have a tare weight.
+        if ($trailer_weight['label'] == 'Gross weight' && is_numeric($trailer_weight['value'])) {
+
+          // Get the tare weight.
+          if ($tare = $form_state->getValue('tare')) {
+
+            // Ensure the tare is provided.
+            if (!is_numeric($tare['value'])) {
+              $form_state->setErrorByName('tare', $this->t('A tare weight must be provided for gross trailer weights.'));
+            }
+
+            // Ensure the tare units match.
+            if ($tare['units'] != $trailer_weight['units']) {
+              $form_state->setErrorByName('tare', $this->t('The tare units must match the trailer weight units.'));
+            }
+
+            // Ensure the tare is less than the trailer weight.
+            if ($tare['value'] >= $trailer_weight['value']) {
+              $form_state->setErrorByName('tare', $this->t('The tare weight must be less than the trailer weight.'));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   protected function prepareLog(array $form, FormStateInterface $form_state): array {
@@ -242,13 +332,70 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     array_push(
       $field_keys,
       'total_number_bales',
-      'bales_on_trailer',
       'tare',
-      'gross_weight',
-      'nett_weight',
-      'moisture_content',
     );
-    return parent::getQuantities($field_keys, $form_state);
+    $quantities = parent::getQuantities($field_keys, $form_state);
+
+    // Compute the trailer nett weight.
+    $total_nett_weight = [
+      'label' => 'Nett weight',
+      'measure' => 'weight',
+      'units' => NULL,
+      'value' => 0,
+    ];
+    $trailer_load_count = $form_state->get('trailer_load_count') ?? 0;
+    for ($i = 0; $i < $trailer_load_count; $i++) {
+      if (($trailer_weight = $form_state->getValue(['trailer_loads', $i, 'weight'])) && is_numeric($trailer_weight['value'])) {
+
+        $trailer_count = 'Trailer ' . ($i + 1);
+
+        // If a Nett weight is provided, include without further processing.
+        if ($trailer_weight['label'] == 'Nett weight') {
+
+          // Update the label and include the quantity.
+          $trailer_weight['label'] = "$trailer_count " . $trailer_weight['label'];
+          $quantities[] = $trailer_weight;
+
+          // Increment the total nett weight.
+          $total_nett_weight['units'] = $total_nett_weight['units'] ?? $trailer_weight['units'];
+          $total_nett_weight['value'] += $trailer_weight['value'];
+        }
+
+        // Else compute the individual nett weight from the Gross weight and Tare weight.
+        else if ($trailer_weight['label'] == 'Gross weight') {
+
+          // Only compute if the Tare is provided. Validation should enforce this.
+          if (($tare = $form_state->getValue('tare')) && is_numeric($tare['value'])) {
+
+            // Update the label and include the gross weight quantity.
+            $trailer_weight['label'] = "$trailer_count " . $trailer_weight['label'];
+            $quantities[] = $trailer_weight;
+
+            // Add to the total nett weight.
+            $total_nett_weight['units'] = $total_nett_weight['units'] ?? $trailer_weight['units'];
+            $total_nett_weight['value'] += $trailer_weight['value'] - $tare['value'];
+          }
+        }
+      }
+    }
+
+    // Include the total nett weight.
+    if (!empty($total_nett_weight['value'])) {
+      $quantities[] = $total_nett_weight;
+    }
+
+    // Moisture content quantity.
+    if (($moisture_content = $form_state->getValue('moisture_content')) && is_numeric($moisture_content['value'])) {
+
+      // Append the moisture content time, if provided.
+      if ($moisture_time = $form_state->getValue('moisture_time')) {
+        $time = $moisture_time->format('H:i');
+        $moisture_content['label'] .= " $time";
+      }
+      $quantities[] = $moisture_content;
+    }
+
+    return $quantities;
   }
 
   /**
