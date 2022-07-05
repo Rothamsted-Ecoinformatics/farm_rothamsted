@@ -70,10 +70,10 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
       'kg' => 'kilogrammes',
     ];
 
-    // Nett weight.
-    $harvest['yield_estimate'] = $this->buildQuantityField([
-      'title' => $this->t('Yield estimate'),
-      'description' => $this->t('The yield estimate as produced by the combine or forage harvester.'),
+    // Machine yield estimate.
+    $harvest['machine_yield_estimate'] = $this->buildQuantityField([
+      'title' => $this->t('Machine yield estimate'),
+      'description' => $this->t('The machine yield estimate as produced by the combine or forage harvester.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
@@ -151,7 +151,7 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     array_push(
       $field_keys,
-      'yield_estimate',
+      'machine_yield_estimate',
     );
     return parent::getQuantities($field_keys, $form_state);
   }
