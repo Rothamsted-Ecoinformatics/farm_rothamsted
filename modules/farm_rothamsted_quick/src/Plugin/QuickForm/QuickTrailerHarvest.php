@@ -181,16 +181,25 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     ]);
 
     // Moisture content.
-    $trailer['moisture_content'] = $this->buildQuantityField([
+    $trailer['moisture_wrapper'] = $this->buildInlineWrapper();
+    $trailer['moisture_wrapper']['moisture_content'] = $this->buildQuantityField([
       'title' => $this->t('Moisture content'),
       'description' => $this->t('The moisture content of the grain at the harvest.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
-    $trailer['moisture_content']['value']['#states'] = [
+    $trailer['moisture_wrapper']['moisture_content']['value']['#states'] = [
       'required' => [
         ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
       ],
+    ];
+    $trailer['moisture_wrapper']['moisture_time'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Moisture content time'),
+      '#description' => $this->t('The time the moisture content was taken.'),
+      '#date_date_element' => 'none',
+      '#date_time_element' => 'time',
+      '#attributes' => ['step' => 60],
     ];
 
     // Grain sample number.
@@ -323,7 +332,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     array_push(
       $field_keys,
       'total_number_bales',
-      'moisture_content',
       'tare',
     );
     $quantities = parent::getQuantities($field_keys, $form_state);
@@ -374,6 +382,17 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Include the total nett weight.
     if (!empty($total_nett_weight['value'])) {
       $quantities[] = $total_nett_weight;
+    }
+
+    // Moisture content quantity.
+    if (($moisture_content = $form_state->getValue('moisture_content')) && is_numeric($moisture_content['value'])) {
+
+      // Append the moisture content time, if provided.
+      if ($moisture_time = $form_state->getValue('moisture_time')) {
+        $time = $moisture_time->format('H:i');
+        $moisture_content['label'] .= " $time";
+      }
+      $quantities[] = $moisture_content;
     }
 
     return $quantities;
