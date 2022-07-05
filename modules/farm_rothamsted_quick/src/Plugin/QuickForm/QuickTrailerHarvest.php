@@ -120,35 +120,35 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       'kg' => 'kilogrammes',
     ];
 
-    $trailer['weight_wrapper'] = $this->buildInlineWrapper();
-
     // Tare.
-    $trailer['weight_wrapper']['tare'] = $this->buildQuantityField([
+    $trailer['tare'] = $this->buildQuantityField([
       'title' => $this->t('Trailer tare'),
       'description' => $this->t('The weight of the trailer, as measured on the scales.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
 
-    // Gross weight.
-    $trailer['weight_wrapper']['gross_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Gross weight'),
+    // Trailer weight. Allow the user to select either Gross or Nett weight.
+    $trailer['weight'] = $this->buildQuantityField([
+      'title' => $this->t('Trailer weight'),
       'description' => $this->t('The weight of the trailer + harvested grain, as measured on the scales.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
-
-    // Nett weight.
-    $trailer['weight_wrapper']['nett_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Nett weight'),
-      'description' => $this->t('The weight of the harvested grain.'),
-      'measure' => ['#value' => 'weight'],
-      'units' => ['#options' => $trailer_weight_units],
-    ]);
-    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
+    $trailer['weight']['value']['#states'] = [
       'required' => [
         ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
       ],
+    ];
+
+    // Weight label options.
+    $weight_label_options = [
+      'Gross weight',
+      'Nett weight',
+    ];
+    $trailer['weight']['label'] = [
+      '#type' => 'select',
+      '#options' => array_combine($weight_label_options, $weight_label_options),
     ];
 
     // Moisture content.
@@ -235,8 +235,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       $field_keys,
       'total_number_bales',
       'tare',
-      'gross_weight',
-      'nett_weight',
+      'weight',
       'moisture_content',
     );
     return parent::getQuantities($field_keys, $form_state);
