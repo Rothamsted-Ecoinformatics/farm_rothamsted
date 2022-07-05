@@ -211,6 +211,37 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    // Ensure a tare is provided for gross weights.
+    if ($trailer_weight = $form_state->getValue('weight')) {
+      if ($trailer_weight['label'] == 'Gross weight' && is_numeric($trailer_weight['value'])) {
+
+        // Get the tare weight.
+        if ($tare = $form_state->getValue('tare')) {
+
+          // Ensure the tare is provided.
+          if (!is_numeric($tare['value'])) {
+            $form_state->setErrorByName('tare', $this->t('A tare weight must be provided for gross trailer weights.'));
+          }
+
+          // Ensure the tare units match.
+          if ($tare['units'] != $trailer_weight['units']) {
+            $form_state->setErrorByName('tare', $this->t('The tare units must match the trailer weight units.'));
+          }
+
+          // Ensure the tare is less than the trailer weight.
+          if ($tare['value'] >= $trailer_weight['value']) {
+            $form_state->setErrorByName('tare', $this->t('The tare weight must be less than the trailer weight.'));
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
@@ -234,11 +265,40 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     array_push(
       $field_keys,
       'total_number_bales',
-      'tare',
-      'weight',
       'moisture_content',
+      'tare',
     );
-    return parent::getQuantities($field_keys, $form_state);
+    $quantities = parent::getQuantities($field_keys, $form_state);
+
+    // Compute the trailer nett weight.
+    if (($trailer_weight = $form_state->getValue('weight')) && is_numeric($trailer_weight['value'])) {
+
+      // If a Nett weight is provided, include without further processing.
+      if ($trailer_weight['label'] == 'Nett weight') {
+        $quantities[] = $trailer_weight;
+      }
+
+      // Else compute the Nett weight from the Gross weight and Tare weight.
+      else if ($trailer_weight['label'] == 'Gross weight') {
+
+        // Only compute if the Tare is provided. Validation should enforce this.
+        if (($tare = $form_state->getValue('tare')) && is_numeric($tare['value'])) {
+
+          // Include the gross weight quantity.
+          $quantities[] = $trailer_weight;
+
+          // Build nett_weight quantity.
+          $quantities[] = [
+            'label' => 'Nett weight',
+            'measure' => 'weight',
+            'units' => $trailer_weight['units'],
+            'value' => $trailer_weight['value'] - $tare['value'],
+          ];
+        }
+      }
+    }
+
+    return $quantities;
   }
 
   /**
