@@ -158,7 +158,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
-    $trailer['weight_wrapper']['nett_weight']['value']['#states'] = [
+    $trailer['moisture_content']['value']['#states'] = [
       'required' => [
         ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
       ],
