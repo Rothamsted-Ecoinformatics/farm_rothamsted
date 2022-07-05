@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Require drupal/gin 3.0.0-beta5. [#212](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/212)
 
+### Removed
+
+- Remove number of bales on trailer quantity from Trailer harvest. [#203](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/203)
+
 ## [2.3.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/4) 2022-06-13
 
 ### Added

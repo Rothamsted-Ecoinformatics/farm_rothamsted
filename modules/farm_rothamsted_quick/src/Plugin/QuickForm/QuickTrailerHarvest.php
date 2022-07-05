@@ -114,14 +114,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       '#weight' => 1,
     ];
 
-    // Number of bales.
-    $trailer['bales_on_trailer'] = $this->buildQuantityField([
-      'title' => $this->t('Number of bales on the trailer'),
-      'description' => $this->t('Please give the total number of bales on the trailer, where relevant.'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#type' => 'hidden'],
-    ]);
-
     // Common trailer weight units.
     $trailer_weight_units = [
       't' => 'tonnes',
@@ -242,7 +234,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     array_push(
       $field_keys,
       'total_number_bales',
-      'bales_on_trailer',
       'tare',
       'gross_weight',
       'nett_weight',
