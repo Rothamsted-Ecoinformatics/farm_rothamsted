@@ -361,10 +361,10 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
           $total_nett_weight['value'] += $trailer_weight['value'];
         }
 
-        // Else compute the individual nett weight from the Gross weight and Tare weight.
-        else if ($trailer_weight['label'] == 'Gross weight') {
+        // Else compute the individual nett weight from Gross and Tare weight.
+        elseif ($trailer_weight['label'] == 'Gross weight') {
 
-          // Only compute if the Tare is provided. Validation should enforce this.
+          // Only compute if Tare is provided. Validation should enforce this.
           if (($tare = $form_state->getValue('tare')) && is_numeric($tare['value'])) {
 
             // Update the label and include the gross weight quantity.
