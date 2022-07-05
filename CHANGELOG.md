@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Allow multiple trailer weights in each Trailer harvest record. [#203](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/203)
 - Require drupal/gin 3.0.0-beta5. [#212](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/212)
 
 ### Removed
