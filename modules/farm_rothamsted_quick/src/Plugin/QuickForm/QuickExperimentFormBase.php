@@ -22,6 +22,7 @@ use Drupal\farm_rothamsted_quick\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\UserInterface;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Base class for experiment plan quick forms.
@@ -106,6 +107,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $productBatchNum = FALSE;
 
   /**
+   * Default values to use when initializing the form.
+   *
+   * @var array
+   */
+  protected $defaultValues = [];
+
+  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -149,6 +157,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
+    // First build default values from the request.
+    $this->buildDefaults(\Drupal::request());
 
     // Define base quick form tabs.
     $form['tabs'] = [
@@ -620,6 +631,50 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Finally, create the log.
     $this->createLog($log);
+  }
+
+  /**
+   * Helper function to build form defaults.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   */
+  protected function buildDefaults(Request $request) {
+
+    // Build common defaults if a log is provided.
+    if ($log_id = $request->get('log')) {
+
+      // Save the log.
+      $log = $this->entityTypeManager->getStorage('log')->load($log_id);
+      $this->defaultValues['log'] = $log;
+
+      // Assets.
+      $this->defaultValues['asset'] = $log->get('asset')->referencedEntities();
+
+      // Equipment assets.
+      $equipment = $log->get('equipment')->referencedEntities();
+      $equipment_ids = array_map(function (AssetInterface $asset) {
+        return $asset->id();
+      }, $equipment);
+
+      // Tractor.
+      $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
+      $this->defaultValues['tractor'] = array_intersect($equipment_ids, array_keys($tractor_options));
+
+      // Machinery.
+      $machinery_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
+      $this->defaultValues['machinery'] = array_intersect($equipment_ids, array_keys($machinery_options));
+
+      // Notes.
+      $this->defaultValues['notes'] = [];
+      if (($notes = $log->get('notes')->value) && $lines = explode(PHP_EOL, $notes)) {
+        foreach ($lines as $line) {
+          if (($parts = explode(':', $line)) && count($parts) == 2) {
+            $this->defaultValues['notes'][$parts[0]] = trim($parts[1]);
+          }
+        }
+      }
+    }
   }
 
   /**
