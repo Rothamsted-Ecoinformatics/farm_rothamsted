@@ -121,6 +121,14 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       'kg' => 'kilogrammes',
     ];
 
+    // Tare.
+    $trailer['tare'] = $this->buildQuantityField([
+      'title' => $this->t('Trailer tare'),
+      'description' => $this->t('The weight of the trailer, as measured on the scales.'),
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $trailer_weight_units],
+    ]);
+
     // Trailer load count.
     $trailer_count = range(1, 10);
     $trailer['trailer_load_count'] = [
@@ -171,14 +179,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
         '#options' => array_combine($weight_label_options, $weight_label_options),
       ];
     }
-
-    // Tare.
-    $trailer['tare'] = $this->buildQuantityField([
-      'title' => $this->t('Trailer tare'),
-      'description' => $this->t('The weight of the trailer, as measured on the scales.'),
-      'measure' => ['#value' => 'weight'],
-      'units' => ['#options' => $trailer_weight_units],
-    ]);
 
     // Moisture content.
     $trailer['moisture_wrapper'] = $this->buildInlineWrapper();
