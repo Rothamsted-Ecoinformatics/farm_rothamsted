@@ -66,6 +66,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Type of harvest'),
       '#options' => array_combine($harvest_options, $harvest_options),
+      '#default_value' => $this->defaultValues['notes']['Type of harvest'] ?? NULL,
       '#required' => TRUE,
     ];
 
