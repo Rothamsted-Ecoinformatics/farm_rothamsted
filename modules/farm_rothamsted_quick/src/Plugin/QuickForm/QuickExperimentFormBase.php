@@ -207,7 +207,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Load prepopulated assets.
-    $default_assets = $this->getPrepopulatedEntities('asset', $form_state);
+    $default_assets = $this->defaultValues['asset'] ?? $this->getPrepopulatedEntities('asset', $form_state);
 
     // The autocomplete_deluxe element expects the default value to
     // be the "Asset name (id), Asset 2 (id)".
@@ -262,6 +262,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
         '#options' => $tractor_options,
+        '#default_value' => $this->defaultValues['tractor'] ?? NULL,
         '#required' => TRUE,
       ];
     }
@@ -275,6 +276,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#title' => $machinery_options_string,
         '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets to the group "@group_names". To select more than one hold down the CTRL button and select multiple.', ['@group_names' => $machinery_options_string]),
         '#options' => $equipment_options,
+        '#default_value' => $this->defaultValues['machinery'] ?? NULL,
         '#multiple' => TRUE,
         '#required' => TRUE,
       ];
@@ -285,6 +287,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Equipment Settings'),
       '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
+      '#default_value' => $this->defaultValues['notes']['Equipment Settings'] ?? NULL,
     ];
 
     // Recommendation Number - text - optional.
