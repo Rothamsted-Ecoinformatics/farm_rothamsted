@@ -1,0 +1,13 @@
+farm_rothamsted_quick.trailer_harvest.prepopulate:
+  title: 'Prepopulate'
+  route_name: view.rothamsted_quick_logs.page
+  route_parameters:
+    quick_form_id: 'trailer_harvest'
+  appears_on:
+    - farm.quick.trailer_harvest
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height": "auto", "width": "auto"}'
