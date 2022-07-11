@@ -10,4 +10,4 @@ farm_rothamsted_quick.trailer_harvest.prepopulate:
       class:
         - 'use-ajax'
       data-dialog-type: 'modal'
-      data-dialog-options: '{"height": "auto", "width": "auto"}'
+      data-dialog-options: '{"height": "auto", "width": "800px"}'
