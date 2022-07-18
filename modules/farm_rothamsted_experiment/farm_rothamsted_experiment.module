@@ -27,11 +27,12 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
  */
 function farm_rothamsted_experiment_plot_type_options() {
   return [
-    'blank_plot' => t('Blank plot'),
-    'discard_plot' => t('Discard plot'),
-    'observation_plot' => t('Observation plot'),
-    'guard_plot' => t('Guard plot'),
-    'treated_plot' => t('Treated plot'),
+    'blank' => t('Blank plot'),
+    'discontinued' => t('Discontinued plot'),
+    'guard' => t('Guard plot'),
+    'observation' => t('Observation plot'),
+    'residual_effect' => t('Residual effect'),
+    'treated' => t('Treated plot'),
   ];
 }
 
