@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_swapped
+label: Swapped
+entity_types:
+  asset:
+    - plot
