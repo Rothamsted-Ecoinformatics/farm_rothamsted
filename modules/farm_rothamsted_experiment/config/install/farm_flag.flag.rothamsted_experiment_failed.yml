@@ -4,7 +4,7 @@ dependencies:
   enforced:
     module:
       - farm_rothamsted_experiment
-id: failed
+id: rothamsted_experiment_failed
 label: Failed
 entity_types:
   plan:
