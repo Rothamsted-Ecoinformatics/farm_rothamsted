@@ -31,7 +31,6 @@ function farm_rothamsted_experiment_plot_type_options() {
     'discontinued' => t('Discontinued plot'),
     'guard' => t('Guard plot'),
     'observation' => t('Observation plot'),
-    'residual_effect' => t('Residual effect'),
     'treated' => t('Treated plot'),
   ];
 }
