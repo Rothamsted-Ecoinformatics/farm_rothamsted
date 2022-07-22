@@ -489,7 +489,7 @@ class UploadExperimentForm extends FormBase {
       'name' => $form_state->getValue('name'),
       'status' => 'planning',
       'experiment_code' => $experiment_code,
-      'treatment_factors' => Json::encode(array_values($plan_factors)),
+      'column_descriptors' => Json::encode(array_values($plan_factors)),
     ]);
 
     // Save each uploaded file on the plan.
@@ -547,7 +547,7 @@ class UploadExperimentForm extends FormBase {
         'is_fixed' => TRUE,
         'is_location' => TRUE,
         'parent' => $experiment_land,
-        'treatment_factors' => [],
+        'column_descriptors' => [],
       ];
 
       // Assign plot field values.
@@ -560,7 +560,7 @@ class UploadExperimentForm extends FormBase {
         }
         // Else the column is a factor key/value pair.
         else {
-          $plot_data['treatment_factors'][] = ['key' => $column_name, 'value' => $column_value];
+          $plot_data['column_descriptors'][] = ['key' => $column_name, 'value' => $column_value];
         }
       }
 

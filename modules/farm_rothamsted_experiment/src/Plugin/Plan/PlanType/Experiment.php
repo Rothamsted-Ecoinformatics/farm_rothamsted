@@ -145,9 +145,9 @@ class Experiment extends FarmPlanType {
 
     /* Create remaining special field types. */
 
-    // Treatment factors.
-    $fields['treatment_factors'] = BundleFieldDefinition::create('json_native')
-      ->setLabel($this->t('Treatment factors'))
+    // Column descriptors.
+    $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
+      ->setLabel($this->t('Column descriptors'))
       ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
