@@ -192,6 +192,24 @@ class UploadExperimentForm extends FormBase {
     // Load all the file data for convenience.
     $file_data = $this->loadFiles($form_state);
 
+    // Ensure necessary files are uploaded.
+    $uploaded_file = $trigger['#array_parents'][0];
+    $uploaded_index = array_search($uploaded_file, $file_names);
+    foreach ($file_names as $index => $file_name) {
+      if ($index < $uploaded_index) {
+        if (empty($file_data[$file_name])) {
+          $form_state->setError($form[$uploaded_file], $this->t('%file_name must be uploaded first.', ['%file_name' => $file_name]));
+          return;
+        }
+      }
+    }
+
+    // Ensure the file was parsed.
+    if (empty($file_data[$uploaded_file])) {
+      $form_state->setError($form[$uploaded_file], $this->t('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
+      return;
+    }
+
     // Defer to the file validation function.
     $file_name = $trigger['#array_parents'][0];
     $function_name = 'validateFile' . str_replace('_', '', ucwords($file_name, '_'));
@@ -210,14 +228,8 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateFileColumnDescriptors(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['column_descriptors'])) {
-      $form_state->setError($form['column_descriptors'], 'Failed to parse column_descriptors.');
-      return;
-    }
-    $factors = $file_data['column_descriptors'];
-
     // Ensure all required values are provided.
+    $factors = $file_data['column_descriptors'];
     $required_columns = [
       'column_type',
       'column_id',
@@ -252,18 +264,8 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateFileColumnLevels(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['column_levels'])) {
-      $form_state->setError($form['column_levels'], 'Failed to parse column levels.');
-      return;
-    }
+    // Get data from files.
     $levels = $file_data['column_levels'];
-
-    // Ensure column_descriptors was uploaded.
-    if (empty($file_data['column_descriptors'])) {
-      $form_state->setError($form['column_levels'], 'Column descriptors must be uploaded first.');
-      return;
-    }
     $column_ids = array_column($file_data['column_descriptors'], 'column_id');
     $column_names = array_column($file_data['column_descriptors'], 'column_name');
 
@@ -322,18 +324,8 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateFilePlotAssignments(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['plot_assignments'])) {
-      $form_state->setError($form['plot_assignments'], 'Failed to parse plot assignments.');
-      return;
-    }
+    // Get data from files.
     $plots = $file_data['plot_assignments'];
-
-    // Ensure column_levels was uploaded.
-    if (empty($file_data['column_levels'])) {
-      $form_state->setError($form['plot_assignments'], 'Treatment factor levels must be uploaded first.');
-      return;
-    }
     $column_ids = array_column($file_data['column_levels'], 'column_id');
 
     // Ensure that the first plot has plot_number 1.
@@ -402,19 +394,9 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateFilePlotGeometries(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['plot_geometries']['features'])) {
-      $form_state->setError($form['plot_geometries'], 'Failed to parse plot geometries.');
-      return;
-    }
+    // Get data from files.
     $plot_features = $file_data['plot_geometries']['features'];
     $feature_count = count($plot_features);
-
-    // Ensure plot_assignments was uploaded.
-    if (empty($file_data['plot_assignments'])) {
-      $form_state->setError($form['plot_geometries'], 'Plot assignments must be uploaded first.');
-      return;
-    }
     $plot_numbers = array_column($file_data['plot_assignments'], 'plot_number');
     $id_count = count($plot_numbers);
 
