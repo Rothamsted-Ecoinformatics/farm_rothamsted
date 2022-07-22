@@ -68,8 +68,8 @@ class Plot extends FarmAssetType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
-    $fields['treatment_factors'] = BundleFieldDefinition::create('key_value')
-      ->setLabel($this->t('Treatment factors'))
+    $fields['column_descriptors'] = BundleFieldDefinition::create('key_value')
+      ->setLabel($this->t('Column descriptors'))
       ->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED)
       ->setRequired(TRUE);
 
