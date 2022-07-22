@@ -39,10 +39,6 @@ class Plot extends FarmAssetType {
         'label' => $this->t('Plot ID'),
         'required' => TRUE,
       ],
-      'block' => [
-        'type' => 'string',
-        'label' => $this->t('Block'),
-      ],
       'plot_type' => [
         'type' => 'list_string',
         'label' => $this->t('Plot type'),

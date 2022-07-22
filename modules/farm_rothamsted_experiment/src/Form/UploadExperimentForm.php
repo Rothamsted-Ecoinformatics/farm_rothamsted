@@ -551,7 +551,7 @@ class UploadExperimentForm extends FormBase {
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_id', 'serial', 'plot_type', 'block', 'row', 'column'];
+      $normal_fields = ['plot_id', 'serial', 'plot_type', 'row', 'column'];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
