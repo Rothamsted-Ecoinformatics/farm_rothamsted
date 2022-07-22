@@ -5,7 +5,7 @@ behavior_farm_rothamsted_experiment_plot_layer:
     - core/drupalSettings
     - farm_map/farm_map
 
-treatment_factors_tables.formatter:
+column_descriptors_tables.formatter:
   css:
     theme:
-      css/treatment_factors.css: { }
+      css/column_descriptors.css: { }
