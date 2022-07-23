@@ -24,10 +24,10 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
   }
 
   $plan = Plan::load($view->args[0]);
-  if (!empty($plan) && $plan->hasField('treatment_factors') && !$plan->get('treatment_factors')->isEmpty()) {
+  if (!empty($plan) && $plan->hasField('column_descriptors') && !$plan->get('column_descriptors')->isEmpty()) {
 
     // Load field factors from json.
-    $treatment_factors = json_decode($plan->get('treatment_factors')->value);
+    $treatment_factors = json_decode($plan->get('column_descriptors')->value);
 
     // Build factor options from each factor type.
     $factor_type_options = [];
@@ -40,7 +40,7 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
     /** @var \Drupal\views\Plugin\views\field\FieldHandlerInterface[] $fields */
     $fields = $view->getHandlers('field');
     foreach ($fields as $index => $field) {
-      if ($field['table'] === 'asset__treatment_factors' && $field['delta_limit'] === 1 && isset($factor_type_options[$field['delta_offset']])) {
+      if ($field['table'] === 'asset__column_descriptors' && $field['delta_limit'] === 1 && isset($factor_type_options[$field['delta_offset']])) {
         $fields[$index]['label'] = $factor_type_options[$field['delta_offset']];
       }
     }
