@@ -6,13 +6,13 @@ use Drupal\plan\Entity\Plan;
 use Drupal\views\Plugin\views\filter\InOperator;
 
 /**
- * Custom views filter for the plot factor levels.
+ * Custom views filter for the plot column levels.
  *
- * Reads factor levels from the plan specified by the views contextual filter.
+ * Reads column levels from the plan specified by the views contextual filter.
  *
- * @ViewsFilter("factor_levels")
+ * @ViewsFilter("column_level")
  */
-class FactorLevel extends InOperator {
+class ColumnLevel extends InOperator {
 
   /**
    * {@inheritdoc}
@@ -31,10 +31,10 @@ class FactorLevel extends InOperator {
       // Load the plan.
       $plan_id = $this->view->args[0];
       $plan = Plan::load($plan_id);
-      if (!empty($plan) && $plan->hasField('treatment_factors') && !$plan->get('treatment_factors')->isEmpty()) {
+      if (!empty($plan) && $plan->hasField('column_descriptors') && !$plan->get('column_descriptors')->isEmpty()) {
 
         // Load field factors from json.
-        $field_factors = json_decode($plan->get('treatment_factors')->value);
+        $field_factors = json_decode($plan->get('column_descriptors')->value);
 
         // Build factor options for each factor type.
         $factor_options = [];
@@ -84,7 +84,7 @@ class FactorLevel extends InOperator {
       $values = explode(',', $value);
       $key_placeholder = $this->placeholder();
       $value_placeholder = $this->placeholder();
-      $this->query->addWhereExpression($group, "$this->tableAlias.treatment_factors_key = $key_placeholder AND $this->tableAlias.treatment_factors_value = $value_placeholder", [$key_placeholder => $values[0], $value_placeholder => $values[1]]);
+      $this->query->addWhereExpression($group, "$this->tableAlias.column_descriptors_key = $key_placeholder AND $this->tableAlias.column_descriptors_value = $value_placeholder", [$key_placeholder => $values[0], $value_placeholder => $values[1]]);
     }
   }
 
