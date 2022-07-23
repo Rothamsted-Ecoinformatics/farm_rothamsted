@@ -282,331 +282,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        treatment_factors_value:
-          id: treatment_factors_value
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: field
-          label: 'Treatment 1'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: key_value
-          settings:
-            value_only: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        treatment_factors_value_1:
-          id: treatment_factors_value_1
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: field
-          label: 'Treatment 2'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: key_value
-          settings:
-            value_only: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 1
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        treatment_factors_value_2:
-          id: treatment_factors_value_2
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: field
-          label: 'Treatment 3'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: key_value
-          settings:
-            value_only: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 2
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        treatment_factors_value_3:
-          id: treatment_factors_value_3
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: field
-          label: 'Treatment 4'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: key_value
-          settings:
-            value_only: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 3
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        treatment_factors_value_4:
-          id: treatment_factors_value_4
-          table: asset__treatment_factors
-          field: treatment_factors_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: field
-          label: 'Treatment 5'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: key_value
-          settings:
-            value_only: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 1
-          delta_offset: 4
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         flag_value:
           id: flag_value
           table: asset__flag
@@ -730,6 +405,331 @@ display:
           group_rows: true
           delta_limit: 0
           delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        column_descriptors_value:
+          id: column_descriptors_value
+          table: asset__column_descriptors
+          field: column_descriptors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: column_descriptors
+          plugin_id: field
+          label: 'Column descriptor 1'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        column_descriptors_value_1:
+          id: column_descriptors_value_1
+          table: asset__column_descriptors
+          field: column_descriptors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: column_descriptors
+          plugin_id: field
+          label: 'Column descriptor 2'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 1
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        column_descriptors_value_2:
+          id: column_descriptors_value_2
+          table: asset__column_descriptors
+          field: column_descriptors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: column_descriptors
+          plugin_id: field
+          label: 'Column descriptor 3'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 2
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        column_descriptors_value_3:
+          id: column_descriptors_value_3
+          table: asset__column_descriptors
+          field: column_descriptors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: column_descriptors
+          plugin_id: field
+          label: 'Column descriptor 4'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 3
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        column_descriptors_value_4:
+          id: column_descriptors_value_4
+          table: asset__column_descriptors
+          field: column_descriptors_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: asset
+          entity_field: column_descriptors
+          plugin_id: field
+          label: 'Column descriptor 5'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: key_value
+          settings:
+            value_only: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 1
+          delta_offset: 4
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
@@ -1002,35 +1002,40 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        treatment_factors_value:
-          id: treatment_factors_value
-          table: asset__treatment_factors
-          field: treatment_factors_value
+        column_descriptors_value:
+          id: column_descriptors_value
+          table: asset__column_descriptors
+          field: column_descriptors_value
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: asset
-          entity_field: treatment_factors
-          plugin_id: factor_levels
+          entity_field: column_descriptors
+          plugin_id: column_level
           operator: in
           value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: treatment_factors_value_op
-            label: 'Treatment factors'
+            operator_id: column_descriptors_value_op
+            label: 'Column descriptors'
             description: ''
             use_operator: false
-            operator: treatment_factors_value_op
+            operator: column_descriptors_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: treatment_factors_value
+            identifier: column_descriptors_value
             required: false
             remember: false
             multiple: true
             remember_roles:
               authenticated: authenticated
-            reduce: false
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            reduce: 0
           is_grouped: false
           group_info:
             label: ''
@@ -1058,13 +1063,13 @@ display:
             name: name
             plot_id_value: plot_id_value
             plot_type_value: plot_type_value
-            treatment_factors_value: treatment_factors_value
-            treatment_factors_value_1: treatment_factors_value_1
-            treatment_factors_value_2: treatment_factors_value_2
-            treatment_factors_value_3: treatment_factors_value_3
-            treatment_factors_value_4: treatment_factors_value_4
             flag_value: flag_value
             status: status
+            column_descriptors_value: column_descriptors_value
+            column_descriptors_value_1: column_descriptors_value_1
+            column_descriptors_value_2: column_descriptors_value_2
+            column_descriptors_value_3: column_descriptors_value_3
+            column_descriptors_value_4: column_descriptors_value_4
           default: name
           info:
             asset_bulk_form:
@@ -1093,31 +1098,6 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            treatment_factors_value:
-              align: ''
-              separator: ''
-              empty_column: true
-              responsive: ''
-            treatment_factors_value_1:
-              align: ''
-              separator: ''
-              empty_column: true
-              responsive: ''
-            treatment_factors_value_2:
-              align: ''
-              separator: ''
-              empty_column: true
-              responsive: ''
-            treatment_factors_value_3:
-              align: ''
-              separator: ''
-              empty_column: true
-              responsive: ''
-            treatment_factors_value_4:
-              align: ''
-              separator: ''
-              empty_column: true
-              responsive: ''
             flag_value:
               align: ''
               separator: ''
@@ -1129,6 +1109,31 @@ display:
               align: ''
               separator: ''
               empty_column: false
+              responsive: ''
+            column_descriptors_value:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            column_descriptors_value_1:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            column_descriptors_value_2:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            column_descriptors_value_3:
+              align: ''
+              separator: ''
+              empty_column: true
+              responsive: ''
+            column_descriptors_value_4:
+              align: ''
+              separator: ''
+              empty_column: true
               responsive: ''
           override: true
           sticky: false
