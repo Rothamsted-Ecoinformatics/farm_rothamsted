@@ -35,12 +35,12 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 
       // Build factor options from each factor type.
       $column_levels = [];
-      foreach ($column->factor_levels as $index => $factor_type) {
-        $column_levels[$index] = $factor_type->name;
+      foreach ($column->column_levels as $index => $column_level) {
+        $column_levels[$index] = $column_level->level_name;
       }
 
       // Add a views field for each column.
-      $column_id = $column->id;
+      $column_id = $column->column_id;
       $field_id = "column_descriptor_$column_id";
       $fields[$field_id] = [
         'id' => $field_id,
@@ -50,7 +50,7 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
         'entity_type' => 'asset',
         'entity_field' => 'column_descriptors',
         'plugin_id' => 'field',
-        'label' => $column->name,
+        'label' => $column->column_name,
         'type' => 'plot_column_descriptor',
         'settings' => [
           'column_levels' => $column_levels,
