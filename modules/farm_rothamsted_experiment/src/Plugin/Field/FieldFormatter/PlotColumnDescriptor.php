@@ -88,7 +88,7 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     $key = $this->getSetting('value_only') ? '' : ' [Key] : ';
 
     // Add a summary for the key field.
-    $summary[] = t('Display format: @key [Value].', ['@key' => $key]);
+    $summary[] = $this->t('Display format: @key [Value].', ['@key' => $key]);
 
     return $summary;
   }
