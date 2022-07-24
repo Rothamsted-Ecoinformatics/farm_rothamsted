@@ -71,6 +71,7 @@ class Plot extends FarmAssetType {
     $fields['column_descriptors'] = BundleFieldDefinition::create('key_value')
       ->setLabel($this->t('Column descriptors'))
       ->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED)
+      ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
     return $fields;
