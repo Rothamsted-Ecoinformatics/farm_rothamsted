@@ -26,6 +26,7 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
   public static function defaultSettings() {
     $settings = parent::defaultSettings();
     $settings['column_id'] = '';
+    $settings['column_levels'] = [];
     $settings['raw'] = FALSE;
     $settings['value_only'] = FALSE;
     return $settings;
@@ -46,6 +47,16 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
       '#description' => $this->t('Only display column descriptors for a given column ID.'),
       '#default_value' => $this->getSetting('column_id'),
       '#weight' => 2,
+    ];
+
+    // Column descriptors.
+    $form['column_levels'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Column levels'),
+      '#description' => $this->t('Column level mapping. Only to be used programmatically.'),
+      '#default_value' => $this->getSetting('column_levels'),
+      '#weight' => 2,
+      '#disabled' => TRUE,
     ];
 
     // Display raw values.
@@ -93,6 +104,11 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     // Buffer the return value.
     $elements = [];
 
+    $column_levels = $this->getSetting('column_levels');
+    if (empty($column_levels)) {
+
+    }
+
     // Loop through all items.
     foreach ($items as $delta => $item) {
 
@@ -113,8 +129,11 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
         $elements[$delta]['value'] = $value_elements[$delta];
       }
       else {
-        // @todo Render the column_level names instead of raw ID.
-        $elements[$delta]['value'] = $value_elements[$delta];
+        if ($column_name = $column_levels[(int) $item->value - 1]) {
+          $elements[$delta]['value'] = [
+            '#plain_text' => $column_name,
+          ];
+        }
       }
 
     }
