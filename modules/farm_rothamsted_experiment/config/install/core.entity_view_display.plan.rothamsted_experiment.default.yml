@@ -46,7 +46,7 @@ third_party_settings:
       label: People
       parent_name: ''
       region: content
-      weight: 2
+      weight: 3
       format_type: tab
       format_settings:
         classes: ''
@@ -65,7 +65,7 @@ third_party_settings:
       label: 'Trial Design'
       parent_name: ''
       region: content
-      weight: 3
+      weight: 4
       format_type: tab
       format_settings:
         classes: ''
@@ -83,7 +83,7 @@ third_party_settings:
       label: 'Experiment Status'
       parent_name: ''
       region: content
-      weight: 4
+      weight: 5
       format_type: tab
       format_settings:
         classes: ''
@@ -91,10 +91,10 @@ third_party_settings:
         id: ''
         formatter: open
         description: ''
-    group_treatment_factors:
+    group_column_descriptors:
       children:
-        - treatment_factors
-      label: 'Treatment factors'
+        - column_descriptors
+      label: 'Column descriptors'
       parent_name: ''
       region: content
       weight: 1
@@ -105,6 +105,8 @@ third_party_settings:
         id: ''
         formatter: closed
         description: ''
+_core:
+  default_config_hash: b00dMZykpIHtToOLyvUv2O6mghVjnXUxI_sAK7DNEJI
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
@@ -126,6 +128,13 @@ content:
     third_party_settings: {  }
     weight: 11
     region: content
+  column_descriptors:
+    type: column_descriptors_tables
+    label: visually_hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
   cost_code:
     type: string
     label: inline
@@ -140,7 +149,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 4
+    weight: 5
     region: content
   deviations:
     type: text_default
@@ -219,7 +228,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 16
+    weight: 17
     region: content
   objective:
     type: text_default
@@ -242,14 +251,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
   primary_contact_email:
     type: basic_string
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 7
+    weight: 8
     region: content
   principle_investigator:
     type: string
@@ -257,7 +266,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 3
+    weight: 4
     region: content
   project_code:
     type: string
@@ -287,7 +296,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 9
     region: content
   secondary_contact_email:
     type: basic_string
@@ -302,7 +311,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 5
+    weight: 6
     region: content
   status:
     type: list_default
