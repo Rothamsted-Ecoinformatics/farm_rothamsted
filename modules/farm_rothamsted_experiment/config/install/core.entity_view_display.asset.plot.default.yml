@@ -8,6 +8,7 @@ dependencies:
     - farm_field
     - farm_id_tag
     - farm_map
+    - farm_rothamsted_experiment
     - file
     - image
     - options
@@ -31,6 +32,17 @@ content:
     settings:
       thousand_separator: ''
       prefix_suffix: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  column_descriptors:
+    type: plot_column_descriptor
+    label: inline
+    settings:
+      column_id: ''
+      raw: '1'
+      column_levels: {  }
+      value_only: 0
     third_party_settings: {  }
     weight: 6
     region: content
@@ -143,6 +155,15 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  plot_number:
+    type: number_integer
+    label: inline
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
   plot_type:
     type: list_default
     label: inline
@@ -157,7 +178,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 5
+    weight: 4
     region: content
   serial:
     type: number_integer
