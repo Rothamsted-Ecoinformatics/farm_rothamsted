@@ -53,6 +53,7 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
         'label' => $column->name,
         'type' => 'plot_column_descriptor',
         'settings' => [
+          'column_levels' => $column_levels,
           'column_id' => $column_id,
           'raw' => FALSE,
           'value_only' => TRUE,
