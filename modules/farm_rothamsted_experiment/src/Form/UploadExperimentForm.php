@@ -450,58 +450,31 @@ class UploadExperimentForm extends FormBase {
     // Parse uploaded files.
     $file_data = $this->loadFiles($form_state);
     $column_descriptors = $file_data['column_descriptors'];
-    $factor_levels = $file_data['column_levels'];
+    $column_levels = $file_data['column_levels'];
     $plot_assignments = $file_data['plot_assignments'];
     $plot_assignment_numbers = array_column($plot_assignments, 'plot_number');
 
-    // Build the plan factors JSON for plan.column_descriptors.
-    $plan_factors = [];
+    // Build the plan column descriptors JSON for plan.column_descriptors.
+    $plan_column_descriptors = [];
 
-    // First add each treatment factor.
-    $factor_field_mapping = [
-      'column_id' => 'id',
-      'column_name' => 'name',
-      'column_uri' => 'uri',
-      'column_description' => 'description',
-    ];
-    foreach ($column_descriptors as $treatment_factor) {
-
-      // Map treatment factor values.
-      $factor_data = ['factor_levels' => []];
-      foreach ($factor_field_mapping as $long => $short) {
-        $factor_data[$short] = $treatment_factor[$long];
-      }
-
-      // Add to plan_factors.
-      $id = $factor_data['id'];
-      $plan_factors[$id] = $factor_data;
+    // First add columns to plan_factors.
+    foreach ($column_descriptors as $column) {
+      $id = $column['column_id'];
+      $plan_column_descriptors[$id] = $column + ['column_levels' => []];
     }
 
-    // Add factor levels.
-    $factor_level_field_mapping = [
-      'level_id' => 'id',
-      'level_name' => 'name',
-      'level_description' => 'description',
-      'quantity' => 'quantity',
-      'units' => 'units',
-    ];
-    foreach ($factor_levels as $factor_level) {
-      // Map treatment factor level values.
-      $level_data = [];
-      foreach ($factor_level_field_mapping as $long => $short) {
-        $level_data[$short] = $factor_level[$long];
-      }
-
-      // Add to the plan factors for the treatment factor.
-      $id = $factor_level['column_id'];
-      $plan_factors[$id]['factor_levels'][] = $level_data;
+    // Add column levels.
+    foreach ($column_levels as $column_level) {
+      $id = $column_level['column_id'];
+      $plan_column_descriptors[$id]['column_levels'][] = $column_level;
     }
 
-    // Sort plan_factors array to match the order of factors on plots.
-    $treatment_factor_order = array_keys($plot_assignments[0]);
-    usort($plan_factors, function ($a, $b) use ($treatment_factor_order) {
-      $a_index = array_search($a['id'], $treatment_factor_order);
-      $b_index = array_search($b['id'], $treatment_factor_order);
+    // Sort plan_column_descriptors array to match the order of
+    // column level columns on plots.
+    $column_level_order = array_keys($plot_assignments[0]);
+    usort($plan_column_descriptors, function ($a, $b) use ($column_level_order) {
+      $a_index = array_search($a['id'], $column_level_order);
+      $b_index = array_search($b['id'], $column_level_order);
       return $a_index > $b_index;
     });
 
@@ -512,7 +485,7 @@ class UploadExperimentForm extends FormBase {
       'name' => $form_state->getValue('name'),
       'status' => 'planning',
       'experiment_code' => $experiment_code,
-      'column_descriptors' => Json::encode(array_values($plan_factors)),
+      'column_descriptors' => Json::encode(array_values($plan_column_descriptors)),
     ]);
 
     // Save each uploaded file on the plan.

@@ -51,35 +51,35 @@ class ColumnDescriptorsTables extends FormatterBase {
       foreach ($columns as $column) {
 
         // Protect against this formatter being used for other json fields.
-//        assertNotEmpty($factor['name']);
-//        assertNotEmpty($factor['id']);
-//        assertNotEmpty($factor['factor_levels']);
+        assertNotEmpty($column['column_name']);
+        assertNotEmpty($column['column_id']);
+        assertNotEmpty($column['column_levels']);
 
         // Include factor information in the table caption.
         $caption = [
           '#type' => 'div',
           'name' => [
-            '#markup' => '<span class="name">' . $column['name'] . '</span>',
+            '#markup' => '<span class="name">' . $column['column_name'] . '</span>',
           ],
         ];
 
         // Render a link with the column ID if possible.
         // Some factor URLs are just identifiers for Rothamsted.
         try {
-          $url = Url::fromUri($column['uri'] ?? '')->setAbsolute()->toString();
-          $column_id = $this->t('<a href=":column_level_link">@column_id</a>', [':column_level_link' => $url, '@column_id' => $column['id']]);
+          $url = Url::fromUri($column['ontology_uri'] ?? '')->setAbsolute()->toString();
+          $column_id = $this->t('<a href=":column_level_link">@column_id</a>', [':column_level_link' => $url, '@column_id' => $column['column_id']]);
         }
         catch (\Exception $e) {
-          $column_id = $column['id'];
+          $column_id = $column['column_id'];
         }
         $caption['id'] = [
           '#markup' => '<span class="id">(' . $column_id . ')</span>',
         ];
 
         // Include description.
-        if (!empty($column['description'])) {
+        if (!empty($column['column_description'])) {
           $caption['description'] = [
-            '#markup' => '<span class="description">' . $column['description'] . '</span>',
+            '#markup' => '<span class="description">' . $column['column_description'] . '</span>',
           ];
         }
 
@@ -96,13 +96,13 @@ class ColumnDescriptorsTables extends FormatterBase {
         // Add row for each factor level.
         $table['#rows'] = array_map(function ($column_level) {
           return [
-            $column_level['id'],
-            $column_level['name'],
-            $column_level['description'],
+            $column_level['level_id'],
+            $column_level['level_name'],
+            $column_level['level_description'],
             $column_level['quantity'] ?? '',
             $column_level['units'] ?? '',
           ];
-        }, $column['factor_levels'] ?? []);
+        }, $column['column_levels'] ?? []);
 
         $tables[] = $table;
       }

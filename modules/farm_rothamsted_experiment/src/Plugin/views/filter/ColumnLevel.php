@@ -33,29 +33,29 @@ class ColumnLevel extends InOperator {
       $plan = Plan::load($plan_id);
       if (!empty($plan) && $plan->hasField('column_descriptors') && !$plan->get('column_descriptors')->isEmpty()) {
 
-        // Load field factors from json.
-        $field_factors = json_decode($plan->get('column_descriptors')->value);
+        // Load columns from json.
+        $columns = json_decode($plan->get('column_descriptors')->value);
 
-        // Build factor options for each factor type.
-        $factor_options = [];
-        foreach ($field_factors as $factor_type) {
+        // Build options for each column.
+        $column_options = [];
+        foreach ($columns as $column) {
 
-          // Build options for each factor level.
-          // Use a comma to separate each option as "type_id,level_id"
+          // Build options for each column level.
+          // Use a comma to separate each option as "column_id,level_id"
           // since commas are unlikely to be used in either ID.
-          $factor_type_options = [];
-          foreach ($factor_type->factor_levels as $factor_level) {
-            $value = $factor_type->id . ',' . $factor_level->id;
-            $factor_type_options[$value] = "$factor_level->name ($factor_level->id)";
+          $column_level_options = [];
+          foreach ($column->column_levels as $column_level) {
+            $value = $column->column_id . ',' . $column_level->level_id;
+            $column_level_options[$value] = "$column_level->level_name ($column_level->level_id)";
           }
 
-          // Build label for the factor type.
-          $type_label = "$factor_type->name ($factor_type->id)";
-          $factor_options[$type_label] = $factor_type_options;
+          // Build label for the column.
+          $type_label = "$column->column_name ($column->column_id)";
+          $column_options[$type_label] = $column_level_options;
         }
 
         // Set the value options.
-        $this->valueOptions = $factor_options;
+        $this->valueOptions = $column_options;
       }
     }
     // If no plan is provided, default to no options.
