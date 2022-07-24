@@ -565,7 +565,7 @@ class UploadExperimentForm extends FormBase {
         }
         // Else the column is a factor key/value pair.
         // Don't include if the value is na.
-        else if ($column_value != 'na') {
+        elseif ($column_value != 'na') {
           $plot_data['column_descriptors'][] = ['key' => $column_name, 'value' => $column_value];
         }
       }
