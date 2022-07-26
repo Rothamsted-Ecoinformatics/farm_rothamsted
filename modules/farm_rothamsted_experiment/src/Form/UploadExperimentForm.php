@@ -120,6 +120,7 @@ class UploadExperimentForm extends FormBase {
     $form['column_descriptors'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Column descriptors'),
+      '#description' => $this->t('CSV file containing the column descriptor definitions.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
@@ -129,6 +130,7 @@ class UploadExperimentForm extends FormBase {
     $form['column_levels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Column Levels'),
+      '#description' => $this->t('CSV file containing the column level definitions for each column descriptor.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
@@ -138,6 +140,7 @@ class UploadExperimentForm extends FormBase {
     $form['plots'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Plots'),
+      '#description' => $this->t('GeoJSON file containing each plot number, id, type, geometry and column assignments.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
