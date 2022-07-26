@@ -135,18 +135,9 @@ class UploadExperimentForm extends FormBase {
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
-    $form['plot_assignments'] = [
+    $form['plots'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Plot Assignments'),
-      '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
-      ],
-      '#upload_location' => $plan_file_location,
-      '#required' => TRUE,
-    ];
-    $form['plot_geometries'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Plot Geometries'),
+      '#title' => $this->t('Plots'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
@@ -176,8 +167,7 @@ class UploadExperimentForm extends FormBase {
     $file_names = [
       'column_descriptors',
       'column_levels',
-      'plot_assignments',
-      'plot_geometries',
+      'plots',
     ];
     $trigger = $form_state->getTriggeringElement();
     if (empty($trigger['#array_parents']) || !in_array($trigger['#array_parents'][0], $file_names)) {
@@ -313,7 +303,7 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
-   * Validation function for the plot assignments file.
+   * Validation function for the plots geojson file.
    *
    * @param array $file_data
    *   Processed file data.
@@ -322,47 +312,60 @@ class UploadExperimentForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateFilePlotAssignments(array $file_data, array &$form, FormStateInterface $form_state) {
+  public function validateFilePlots(array $file_data, array &$form, FormStateInterface $form_state) {
 
     // Get data from files.
-    $plots = $file_data['plot_assignments'];
+    $plot_features = $file_data['plots']['features'];
     $column_ids = array_column($file_data['column_levels'], 'column_id');
-
-    // Ensure that the first plot has plot_number 1.
-    if (empty($plots) || (int) $plots[0]['plot_number'] != 1) {
-      $error_msg = "The first plot_number does not start at 1.";
-      $form_state->setError($form['plot_assignments'], $error_msg);
-      $this->messenger()->addError($error_msg);
-    }
 
     // Ensure all required values are provided.
     $required_columns = [
       'plot_number',
       'plot_id',
       'plot_type',
+      'row',
+      'column',
     ];
-    foreach ($plots as $row => $plot) {
+    foreach ($plot_features as $row => $feature) {
+
+      // Increment row so count starts at 1 in error messages.
       $row++;
-      foreach ($required_columns as $column_name) {
-        if (!isset($plot[$column_name]) || strlen($plot[$column_name]) === 0) {
-          $error_msg = "Plot in row $row is missing a $column_name";
-          $form_state->setError($form['plot_assignments'], $error_msg);
-          $this->messenger()->addError($error_msg);
-        }
+
+      // Make sure properties exist.
+      if (!isset($feature['properties'])) {
+        $error_msg = "Plot feature in row $row is missing properties.";
+        $form_state->setError($form['plots'], $error_msg);
+        $this->messenger()->addError($error_msg);
       }
 
       // Ensure each that each plot has valid column_ids and level_names.
-      foreach ($plot as $column_name => $column_value) {
+      foreach ($feature['properties'] as $column_name => $column_value) {
 
-        // Skip columns that are already required.
+        // Check required columns.
         if (in_array($column_name, $required_columns)) {
+
+          if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
+            $error_msg = "Plot feature in row $row is missing a $column_name";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+            continue;
+          }
+
+          // Ensure that the first plot has plot_number 1.
+          if ($row == 1 && $column_name == 'plot_number' && (int) $feature['properties'][$column_name] != 1) {
+            $error_msg = "The first plot_number does not start at 1: $column_value";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+          }
+
+          // No further validation for required values.
           continue;
         }
 
         // Ensure each column is a valid column_id.
         if (!in_array($column_name, $column_ids)) {
           $error_msg = "Plot in row $row has an invalid column_id: $column_name";
-          $form_state->setError($form['plot_assignments'], $error_msg);
+          $form_state->setError($form['plots'], $error_msg);
           $this->messenger()->addError($error_msg);
           continue;
         }
@@ -375,67 +378,7 @@ class UploadExperimentForm extends FormBase {
         });
         if ($column_value != 'na' && empty($matching_factor_levels)) {
           $error_msg = "Plot in row $row has an invalid level_id for column_id '$column_name': $column_value";
-          $form_state->setError($form['plot_assignments'], $error_msg);
-          $this->messenger()->addError($error_msg);
-        }
-      }
-    }
-  }
-
-  /**
-   * Validation function for the plot geometries file.
-   *
-   * @param array $file_data
-   *   Processed file data.
-   * @param array $form
-   *   The form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   */
-  public function validateFilePlotGeometries(array $file_data, array &$form, FormStateInterface $form_state) {
-
-    // Get data from files.
-    $plot_features = $file_data['plot_geometries']['features'];
-    $feature_count = count($plot_features);
-    $plot_numbers = array_column($file_data['plot_assignments'], 'plot_number');
-    $id_count = count($plot_numbers);
-
-    // Ensure the same count of plots.
-    if ($feature_count != $id_count) {
-      $form_state->setError($form['plot_geometries'], "Inconsistent plot count. Plot assignments: $id_count. Plot geometries: $feature_count");
-      return;
-    }
-
-    // Ensure all required values are provided.
-    $required_columns = [
-      'plot_number',
-      'row',
-      'column',
-    ];
-    foreach ($plot_features as $row => $feature) {
-      $row++;
-
-      // Make sure properties exist.
-      if (!isset($feature['properties'])) {
-        $error_msg = "Plot feature in row $row is missing properties.";
-        $form_state->setError($form['plot_geometries'], $error_msg);
-        $this->messenger()->addError($error_msg);
-      }
-
-      // Check required values.
-      foreach ($required_columns as $column_name) {
-        if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
-          $error_msg = "Plot feature in row $row is missing a $column_name";
-          $form_state->setError($form['plot_geometries'], $error_msg);
-          $this->messenger()->addError($error_msg);
-          continue;
-        }
-
-        // Ensure the plot_number is cross-referenced.
-        $plot_number = $feature['properties']['plot_number'];
-        if (!in_array($plot_number, $plot_numbers)) {
-          $error_msg = "Plot feature in row $row has an invalid plot_number: $plot_number. Check the plot_assignments csv.";
-          $form_state->setError($form['plot_geometries'], $error_msg);
+          $form_state->setError($form['plots'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
       }
@@ -451,8 +394,7 @@ class UploadExperimentForm extends FormBase {
     $file_data = $this->loadFiles($form_state);
     $column_descriptors = $file_data['column_descriptors'];
     $column_levels = $file_data['column_levels'];
-    $plot_assignments = $file_data['plot_assignments'];
-    $plot_assignment_numbers = array_column($plot_assignments, 'plot_number');
+    $plot_features = $file_data['plots']['features'];
 
     // Build the plan column descriptors JSON for plan.column_descriptors.
     $plan_column_descriptors = [];
@@ -471,7 +413,7 @@ class UploadExperimentForm extends FormBase {
 
     // Sort plan_column_descriptors array to match the order of
     // column level columns on plots.
-    $column_level_order = array_keys($plot_assignments[0]);
+    $column_level_order = array_keys($plot_features[0]['properties']);
     usort($plan_column_descriptors, function ($a, $b) use ($column_level_order) {
       $a_index = array_search($a['id'], $column_level_order);
       $b_index = array_search($b['id'], $column_level_order);
@@ -492,8 +434,7 @@ class UploadExperimentForm extends FormBase {
     $files = [
       'column_descriptors',
       'column_levels',
-      'plot_assignments',
-      'plot_geometries',
+      'plots',
     ];
     foreach ($files as $form_key) {
       if ($file_ids = $form_state->getValue($form_key)) {
@@ -522,22 +463,15 @@ class UploadExperimentForm extends FormBase {
     $plan->get('asset')->appendItem($experiment_land);
 
     // Iterate each of the saved features from the plot geometries file.
-    $features = $file_data['plot_geometries']['features'];
-    foreach ($features as $feature) {
+    foreach ($plot_features as $feature) {
 
       // Extract the intrinsic geometry references.
       // Re-encode into json.
       $featureJson = Json::encode($feature);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
-      // Get the plot attributes linked by plot_number.
-      $plot_number = $feature['properties']['plot_number'];
-      $row = $feature['properties']['row'];
-      $column = $feature['properties']['column'];
-      $plot_index = array_search($plot_number, $plot_assignment_numbers);
-      $plot_attributes = $plot_assignments[$plot_index];
-
       // Build the plot name from the feature data.
+      $plot_attributes = $feature['properties'];
       $plot_id = $plot_attributes['plot_id'];
       $plot_name = "$experiment_code: $plot_id";
 
@@ -551,12 +485,16 @@ class UploadExperimentForm extends FormBase {
         'is_location' => TRUE,
         'parent' => $experiment_land,
         'column_descriptors' => [],
-        'row' => $row,
-        'column' => $column,
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_number', 'plot_id', 'plot_type'];
+      $normal_fields = [
+        'plot_number',
+        'plot_id',
+        'plot_type',
+        'row',
+        'column',
+      ];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
@@ -610,7 +548,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($features)]));
+    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($plot_features)]));
   }
 
   /**
@@ -632,7 +570,7 @@ class UploadExperimentForm extends FormBase {
       'column_descriptors' => 'csv',
       'column_levels' => 'csv',
       'plot_assignments' => 'csv',
-      'plot_geometries' => 'geojson',
+      'plots' => 'geojson',
     ];
     foreach ($files as $form_key => $file_type) {
 
