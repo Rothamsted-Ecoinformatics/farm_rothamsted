@@ -415,8 +415,8 @@ class UploadExperimentForm extends FormBase {
     // column level columns on plots.
     $column_level_order = array_keys($plot_features[0]['properties']);
     usort($plan_column_descriptors, function ($a, $b) use ($column_level_order) {
-      $a_index = array_search($a['id'], $column_level_order);
-      $b_index = array_search($b['id'], $column_level_order);
+      $a_index = array_search($a['column_id'], $column_level_order);
+      $b_index = array_search($b['column_id'], $column_level_order);
       return $a_index > $b_index;
     });
 
