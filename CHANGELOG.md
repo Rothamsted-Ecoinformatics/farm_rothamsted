@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update plot type options. [#205](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/205)
+- Change experiment treatment_factors to column_descriptors. [#190](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/190)
+- Expand experiment data model for column types. [#223](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/223)
 
 ## [2.4.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/5) 2022-07-12
 
