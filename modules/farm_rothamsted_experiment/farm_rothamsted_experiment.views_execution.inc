@@ -24,25 +24,41 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
   }
 
   $plan = Plan::load($view->args[0]);
-  if (!empty($plan) && $plan->hasField('treatment_factors') && !$plan->get('treatment_factors')->isEmpty()) {
+  if (!empty($plan) && $plan->hasField('column_descriptors') && !$plan->get('column_descriptors')->isEmpty()) {
 
-    // Load field factors from json.
-    $treatment_factors = json_decode($plan->get('treatment_factors')->value);
+    // Load column_descriptors from json.
+    $column_descriptors = json_decode($plan->get('column_descriptors')->value);
 
-    // Build factor options from each factor type.
-    $factor_type_options = [];
-    foreach ($treatment_factors as $index => $factor_type) {
-      $factor_type_options[$index] = $factor_type->name;
-    }
-
-    // Alter each "treatment_factor_x" field label to have correct field factor.
-    // These labels are used in the table header.
     /** @var \Drupal\views\Plugin\views\field\FieldHandlerInterface[] $fields */
     $fields = $view->getHandlers('field');
-    foreach ($fields as $index => $field) {
-      if ($field['table'] === 'asset__treatment_factors' && $field['delta_limit'] === 1 && isset($factor_type_options[$field['delta_offset']])) {
-        $fields[$index]['label'] = $factor_type_options[$field['delta_offset']];
+    foreach ($column_descriptors as $column) {
+
+      // Build factor options from each factor type.
+      $column_levels = [];
+      foreach ($column->column_levels as $index => $column_level) {
+        $column_levels[$index] = $column_level->level_name;
       }
+
+      // Add a views field for each column.
+      $column_id = $column->column_id;
+      $field_id = "column_descriptor_$column_id";
+      $fields[$field_id] = [
+        'id' => $field_id,
+        'table' => 'asset__column_descriptors',
+        'field' => 'column_descriptors_value',
+        'relationship' => 'none',
+        'entity_type' => 'asset',
+        'entity_field' => 'column_descriptors',
+        'plugin_id' => 'field',
+        'label' => $column->column_name,
+        'type' => 'plot_column_descriptor',
+        'settings' => [
+          'column_levels' => $column_levels,
+          'column_id' => $column_id,
+          'raw' => FALSE,
+          'value_only' => TRUE,
+        ],
+      ];
     }
 
     // Update the field handlers for the display.

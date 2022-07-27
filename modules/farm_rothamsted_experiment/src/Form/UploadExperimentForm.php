@@ -117,36 +117,30 @@ class UploadExperimentForm extends FormBase {
 
     // Add file upload fields.
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
-    $form['treatment_factors'] = [
+    $form['column_descriptors'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Treatment Factors'),
+      '#title' => $this->t('Column descriptors'),
+      '#description' => $this->t('CSV file containing the column descriptor definitions.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
-    $form['treatment_factor_levels'] = [
+    $form['column_levels'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Treatment Factor Levels'),
+      '#title' => $this->t('Column Levels'),
+      '#description' => $this->t('CSV file containing the column level definitions for each column descriptor.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
     ];
-    $form['plot_assignments'] = [
+    $form['plots'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Plot Assignments'),
-      '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
-      ],
-      '#upload_location' => $plan_file_location,
-      '#required' => TRUE,
-    ];
-    $form['plot_geometries'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Plot Geometries'),
+      '#title' => $this->t('Plots'),
+      '#description' => $this->t('GeoJSON file containing each plot number, id, type, geometry and column assignments.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
@@ -174,10 +168,9 @@ class UploadExperimentForm extends FormBase {
 
     // Bail if not triggered by a file upload.
     $file_names = [
-      'treatment_factors',
-      'treatment_factor_levels',
-      'plot_assignments',
-      'plot_geometries',
+      'column_descriptors',
+      'column_levels',
+      'plots',
     ];
     $trigger = $form_state->getTriggeringElement();
     if (empty($trigger['#array_parents']) || !in_array($trigger['#array_parents'][0], $file_names)) {
@@ -192,6 +185,24 @@ class UploadExperimentForm extends FormBase {
     // Load all the file data for convenience.
     $file_data = $this->loadFiles($form_state);
 
+    // Ensure necessary files are uploaded.
+    $uploaded_file = $trigger['#array_parents'][0];
+    $uploaded_index = array_search($uploaded_file, $file_names);
+    foreach ($file_names as $index => $file_name) {
+      if ($index < $uploaded_index) {
+        if (empty($file_data[$file_name])) {
+          $form_state->setError($form[$uploaded_file], $this->t('%file_name must be uploaded first.', ['%file_name' => $file_name]));
+          return;
+        }
+      }
+    }
+
+    // Ensure the file was parsed.
+    if (empty($file_data[$uploaded_file])) {
+      $form_state->setError($form[$uploaded_file], $this->t('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
+      return;
+    }
+
     // Defer to the file validation function.
     $file_name = $trigger['#array_parents'][0];
     $function_name = 'validateFile' . str_replace('_', '', ucwords($file_name, '_'));
@@ -199,7 +210,7 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
-   * Validation function for the treatment factors file.
+   * Validation function for the column descriptors file.
    *
    * @param array $file_data
    *   Processed file data.
@@ -208,23 +219,26 @@ class UploadExperimentForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateFileTreatmentFactors(array $file_data, array &$form, FormStateInterface $form_state) {
-
-    // Ensure the file was parsed.
-    if (empty($file_data['treatment_factors'])) {
-      $form_state->setError($form['treatment_factors'], 'Failed to parse treatment factors.');
-      return;
-    }
-    $factors = $file_data['treatment_factors'];
+  public function validateFileColumnDescriptors(array $file_data, array &$form, FormStateInterface $form_state) {
 
     // Ensure all required values are provided.
-    $required_columns = ['treatment_factor_name', 'treatment_factor_id', 'treatment_factor_id'];
+    $factors = $file_data['column_descriptors'];
+    $required_columns = [
+      'column_type',
+      'column_id',
+      'column_name',
+      'ontology_name',
+      'length',
+      'ontology_description',
+      'ontology_uri',
+      'data_type',
+    ];
     foreach ($factors as $row => $factor) {
       $row++;
       foreach ($required_columns as $column_name) {
         if (!isset($factor[$column_name]) || strlen($factor[$column_name]) === 0) {
-          $error_msg = "Treatment in row $row is missing a $column_name";
-          $form_state->setError($form['treatment_factors'], $error_msg);
+          $error_msg = "Column in row $row is missing a $column_name";
+          $form_state->setError($form['column_descriptors'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
       }
@@ -232,7 +246,7 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
-   * Validation function for the treatment factor levels file.
+   * Validation function for the column levels file.
    *
    * @param array $file_data
    *   Processed file data.
@@ -241,46 +255,76 @@ class UploadExperimentForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateFileTreatmentFactorLevels(array $file_data, array &$form, FormStateInterface $form_state) {
+  public function validateFileColumnLevels(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['treatment_factor_levels'])) {
-      $form_state->setError($form['treatment_factor_levels'], 'Failed to parse treatment factor levels.');
-      return;
-    }
-    $levels = $file_data['treatment_factor_levels'];
-
-    // Ensure treatment_factors was uploaded.
-    if (empty($file_data['treatment_factors'])) {
-      $form_state->setError($form['treatment_factor_levels'], 'Treatment factors must be uploaded first.');
-      return;
-    }
-    $factor_ids = array_column($file_data['treatment_factors'], 'treatment_factor_id');
+    // Get data from files.
+    $levels = $file_data['column_levels'];
+    $column_ids = array_column($file_data['column_descriptors'], 'column_id');
+    $column_names = array_column($file_data['column_descriptors'], 'column_name');
 
     // Ensure all required values are provided.
-    $required_columns = ['treatment_factor_id', 'factor_level_name', 'factor_level_description'];
+    $required_columns = [
+      'column_id',
+      'level_id',
+      'level_name',
+    ];
     foreach ($levels as $row => $level) {
       $row++;
       foreach ($required_columns as $column_name) {
         if (!isset($level[$column_name]) || strlen($level[$column_name]) === 0) {
-          $error_msg = "Factor level in row $row is missing a $column_name";
-          $form_state->setError($form['treatment_factor_levels'], $error_msg);
+          $error_msg = "Column level in row $row is missing a $column_name";
+          $form_state->setError($form['column_levels'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
 
-        // Ensure each treatment_factor_id is defined in treatment_factors.
-        if (!in_array($level['treatment_factor_id'], $factor_ids)) {
-          $error_msg = "Factor level in row $row has an invalid treatment_factor_id: " . $level['treatment_factor_id'];
-          $form_state->setError($form['treatment_factor_levels'], $error_msg);
-          $this->messenger()->addError($error_msg);
+        // Ensure column_id and column_name is defined in column_descriptors.
+        foreach (['column_id' => $column_ids, 'column_name' => $column_names] as $key => $allowed_values) {
+
+          // The column_name is optional.
+          if (!isset($level[$key])) {
+            continue;
+          }
+
+          // Ensure the value is allowed.
+          if (!in_array($level[$key], $allowed_values)) {
+            $error_msg = "Column level in row $row has an invalid $key: $level[$key]";
+            $form_state->setError($form['column_levels'], $error_msg);
+            $this->messenger()->addError($error_msg);
+          }
         }
 
+        // Ensure the level_id is numeric and within the column length.
+        // @todo Check that level_id is less than the column length.
+        if (!is_numeric($level['level_id'])) {
+          $error_msg = "Column level in row $row has an invalid $key: $level[$key]";
+          $form_state->setError($form['column_levels'], $error_msg);
+          $this->messenger()->addError($error_msg);
+        }
+      }
+    }
+
+    // Ensure there are as many column levels as each column length specifies.
+    foreach ($file_data['column_descriptors'] as $column_descriptor) {
+
+      // Get count of column levels.
+      $column_id = $column_descriptor['column_id'];
+      $column_levels = array_filter($levels, function ($level) use ($column_id) {
+        return $level['column_id'] == $column_id;
+      });
+      $column_count = count($column_levels);
+      $expected_length = $column_descriptor['length'];
+
+      // Check lengths.
+      if ($expected_length != $column_count) {
+        $error_msg = "Incorrect number of column levels for column $column_id. Got $column_count expected $expected_length.";
+        $form_state->setError($form['column_levels'], $error_msg);
+        $this->messenger()->addError($error_msg);
       }
     }
   }
 
   /**
-   * Validation function for the plot assignments file.
+   * Validation function for the plots geojson file.
    *
    * @param array $file_data
    *   Processed file data.
@@ -289,130 +333,80 @@ class UploadExperimentForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateFilePlotAssignments(array $file_data, array &$form, FormStateInterface $form_state) {
+  public function validateFilePlots(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure the file was parsed.
-    if (empty($file_data['plot_assignments'])) {
-      $form_state->setError($form['plot_assignments'], 'Failed to parse plot assignments.');
-      return;
-    }
-    $plots = $file_data['plot_assignments'];
-
-    // Ensure treatment_factor_levels was uploaded.
-    if (empty($file_data['treatment_factor_levels'])) {
-      $form_state->setError($form['plot_assignments'], 'Treatment factor levels must be uploaded first.');
-      return;
-    }
-    $factor_ids = array_column($file_data['treatment_factor_levels'], 'treatment_factor_id');
-
-    // Ensure that the first plot has serial ID 1.
-    if (empty($plots) || (int) $plots[0]['serial'] != 1) {
-      $error_msg = "The first plot serial ID does not start at 1.";
-      $form_state->setError($form['plot_assignments'], $error_msg);
-      $this->messenger()->addError($error_msg);
-    }
+    // Get data from files.
+    $plot_features = $file_data['plots']['features'];
+    $column_ids = array_column($file_data['column_levels'], 'column_id');
 
     // Ensure all required values are provided.
-    $required_columns = ['plot_id', 'serial', 'plot_type', 'row', 'column'];
-    $normal_columns = [...$required_columns, 'block'];
-    foreach ($plots as $row => $plot) {
-      $row++;
-      foreach ($required_columns as $column_name) {
-        if (!isset($plot[$column_name]) || strlen($plot[$column_name]) === 0) {
-          $error_msg = "Plot in row $row is missing a $column_name";
-          $form_state->setError($form['plot_assignments'], $error_msg);
-          $this->messenger()->addError($error_msg);
-        }
-
-        // Ensure each that each plot has valid factor_ids and level_names.
-        foreach ($plot as $column_name => $column_value) {
-          if (in_array($column_name, $normal_columns)) {
-            continue;
-          }
-
-          // Ensure each column is a valid factor id.
-          if (!in_array($column_name, $factor_ids)) {
-            $error_msg = "Plot in row $row has an invalid treatment_factor_id: $column_name";
-            $form_state->setError($form['plot_assignments'], $error_msg);
-            $this->messenger()->addError($error_msg);
-            continue;
-          }
-
-          // Ensure each column_value is allowed for the column_name.
-          // There should be a treatment factor level that has a matching
-          // treatment_factor_id and factor_level_name.
-          $matching_factor_levels = array_filter($file_data['treatment_factor_levels'], function ($factor_level) use ($column_name, $column_value) {
-            return $factor_level['treatment_factor_id'] == $column_name && $factor_level['factor_level_name'] == $column_value;
-          });
-          if (empty($matching_factor_levels)) {
-            $error_msg = "Plot in row $row has an invalid factor_level_name: $column_value";
-            $form_state->setError($form['plot_assignments'], $error_msg);
-            $this->messenger()->addError($error_msg);
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Validation function for the plot geometries file.
-   *
-   * @param array $file_data
-   *   Processed file data.
-   * @param array $form
-   *   The form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   */
-  public function validateFilePlotGeometries(array $file_data, array &$form, FormStateInterface $form_state) {
-
-    // Ensure the file was parsed.
-    if (empty($file_data['plot_geometries']['features'])) {
-      $form_state->setError($form['plot_geometries'], 'Failed to parse plot geometries.');
-      return;
-    }
-    $plot_features = $file_data['plot_geometries']['features'];
-    $feature_count = count($plot_features);
-
-    // Ensure plot_assignments was uploaded.
-    if (empty($file_data['plot_assignments'])) {
-      $form_state->setError($form['plot_geometries'], 'Plot assignments must be uploaded first.');
-      return;
-    }
-    $serial_ids = array_column($file_data['plot_assignments'], 'serial');
-    $id_count = count($serial_ids);
-
-    // Ensure the same count of plots.
-    if ($feature_count != $id_count) {
-      $form_state->setError($form['plot_geometries'], "Inconsistent plot count. Plot assignments: $id_count. Plot geometries: $feature_count");
-      return;
-    }
-
-    // Ensure all required values are provided.
-    $required_columns = ['serial'];
+    $required_columns = [
+      'plot_number' => 'numeric',
+      'plot_id' => 'string',
+      'plot_type' => 'string',
+      'row' => 'numeric',
+      'column' => 'numeric',
+    ];
     foreach ($plot_features as $row => $feature) {
+
+      // Increment row so count starts at 1 in error messages.
       $row++;
 
       // Make sure properties exist.
       if (!isset($feature['properties'])) {
         $error_msg = "Plot feature in row $row is missing properties.";
-        $form_state->setError($form['plot_geometries'], $error_msg);
+        $form_state->setError($form['plots'], $error_msg);
         $this->messenger()->addError($error_msg);
       }
 
-      // Check required values.
-      foreach ($required_columns as $column_name) {
-        if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
-          $error_msg = "Plot feature in row $row is missing a $column_name";
-          $form_state->setError($form['plot_geometries'], $error_msg);
+      // Ensure each that each plot has valid column_ids and level_names.
+      foreach ($feature['properties'] as $column_name => $column_value) {
+
+        // Check required columns.
+        if (in_array($column_name, array_keys($required_columns))) {
+
+          if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
+            $error_msg = "Plot feature in row $row is missing a $column_name";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+            continue;
+          }
+
+          // Check for numeric value type.
+          if ($required_columns[$column_name] == 'numeric' && !is_numeric($column_value)) {
+            $error_msg = "Invalid value for plot feature in row $row: $column_name is not numeric: $column_value";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+          }
+
+          // Ensure that the first plot has plot_number 1.
+          if ($row == 1 && $column_name == 'plot_number' && (int) $feature['properties'][$column_name] != 1) {
+            $error_msg = "The first plot_number does not start at 1: $column_value";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+          }
+
+          // No further validation for required values.
+          continue;
+        }
+
+        // Ensure each column is a valid column_id.
+        if (!in_array($column_name, $column_ids)) {
+          $error_msg = "Plot in row $row has an invalid column_id: $column_name";
+          $form_state->setError($form['plots'], $error_msg);
           $this->messenger()->addError($error_msg);
           continue;
         }
 
-        // Ensure the serial is cross-referenced.
-        if (!in_array($feature['properties']['serial'], $serial_ids)) {
-          $error_msg = "Plot feature in row $row has an invalid serial id. Check the plot_assignments csv.";
-          $form_state->setError($form['plot_geometries'], $error_msg);
+        // Ensure each column_value is allowed for the column_name.
+        // There should be a treatment factor level that has a matching
+        // column_id and level_id.
+        $matching_factor_levels = array_filter($file_data['column_levels'], function ($factor_level) use ($column_name, $column_value) {
+          return $factor_level['column_id'] == $column_name && $factor_level['level_id'] == $column_value;
+        });
+        if ($column_value != 'na' && empty($matching_factor_levels)) {
+          $error_msg = "Plot in row $row has an invalid level_id for column_id '$column_name': $column_value";
+          $form_state->setError($form['plots'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
       }
@@ -426,59 +420,31 @@ class UploadExperimentForm extends FormBase {
 
     // Parse uploaded files.
     $file_data = $this->loadFiles($form_state);
-    $treatment_factors = $file_data['treatment_factors'];
-    $factor_levels = $file_data['treatment_factor_levels'];
-    $plot_assignments = $file_data['plot_assignments'];
-    $plot_assignment_serial_ids = array_column($plot_assignments, 'serial');
+    $column_descriptors = $file_data['column_descriptors'];
+    $column_levels = $file_data['column_levels'];
+    $plot_features = $file_data['plots']['features'];
 
-    // Build the plan factors JSON for plan.treatment_factors.
-    $plan_factors = [];
+    // Build the plan column descriptors JSON for plan.column_descriptors.
+    $plan_column_descriptors = [];
 
-    // First add each treatment factor.
-    $factor_field_mapping = [
-      'treatment_factor_id' => 'id',
-      'treatment_factor_name' => 'name',
-      'treatment_factor_uri' => 'uri',
-      'treatment_factor_description' => 'description',
-    ];
-    foreach ($treatment_factors as $treatment_factor) {
-
-      // Map treatment factor values.
-      $factor_data = ['factor_levels' => []];
-      foreach ($factor_field_mapping as $long => $short) {
-        $factor_data[$short] = $treatment_factor[$long];
-      }
-
-      // Add to plan_factors.
-      $id = $factor_data['id'];
-      $plan_factors[$id] = $factor_data;
+    // First add columns to plan_factors.
+    foreach ($column_descriptors as $column) {
+      $id = $column['column_id'];
+      $plan_column_descriptors[$id] = $column + ['column_levels' => []];
     }
 
-    // Add factor levels.
-    $factor_level_field_mapping = [
-      'factor_level_name' => 'id',
-      'label' => 'name',
-      'factor_level_description' => 'description',
-      'quantity' => 'quantity',
-      'units' => 'units',
-    ];
-    foreach ($factor_levels as $factor_level) {
-      // Map treatment factor level values.
-      $level_data = [];
-      foreach ($factor_level_field_mapping as $long => $short) {
-        $level_data[$short] = $factor_level[$long];
-      }
-
-      // Add to the plan factors for the treatment factor.
-      $id = $factor_level['treatment_factor_id'];
-      $plan_factors[$id]['factor_levels'][] = $level_data;
+    // Add column levels.
+    foreach ($column_levels as $column_level) {
+      $id = $column_level['column_id'];
+      $plan_column_descriptors[$id]['column_levels'][] = $column_level;
     }
 
-    // Sort plan_factors array to match the order of factors on plots.
-    $treatment_factor_order = array_keys($plot_assignments[0]);
-    usort($plan_factors, function ($a, $b) use ($treatment_factor_order) {
-      $a_index = array_search($a['id'], $treatment_factor_order);
-      $b_index = array_search($b['id'], $treatment_factor_order);
+    // Sort plan_column_descriptors array to match the order of
+    // column level columns on plots.
+    $column_level_order = array_keys($plot_features[0]['properties']);
+    usort($plan_column_descriptors, function ($a, $b) use ($column_level_order) {
+      $a_index = array_search($a['column_id'], $column_level_order);
+      $b_index = array_search($b['column_id'], $column_level_order);
       return $a_index > $b_index;
     });
 
@@ -489,11 +455,15 @@ class UploadExperimentForm extends FormBase {
       'name' => $form_state->getValue('name'),
       'status' => 'planning',
       'experiment_code' => $experiment_code,
-      'treatment_factors' => Json::encode(array_values($plan_factors)),
+      'column_descriptors' => Json::encode(array_values($plan_column_descriptors)),
     ]);
 
     // Save each uploaded file on the plan.
-    $files = ['treatment_factors', 'treatment_factor_levels', 'plot_assignments', 'plot_geometries'];
+    $files = [
+      'column_descriptors',
+      'column_levels',
+      'plots',
+    ];
     foreach ($files as $form_key) {
       if ($file_ids = $form_state->getValue($form_key)) {
         $plan->get('file')->appendItem(reset($file_ids));
@@ -521,20 +491,15 @@ class UploadExperimentForm extends FormBase {
     $plan->get('asset')->appendItem($experiment_land);
 
     // Iterate each of the saved features from the plot geometries file.
-    $features = $file_data['plot_geometries']['features'];
-    foreach ($features as $feature) {
+    foreach ($plot_features as $feature) {
 
       // Extract the intrinsic geometry references.
       // Re-encode into json.
       $featureJson = Json::encode($feature);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
 
-      // Get the plot attributes linked by serial ID.
-      $serial_id = $feature['properties']['serial'];
-      $plot_index = array_search($serial_id, $plot_assignment_serial_ids);
-      $plot_attributes = $plot_assignments[$plot_index];
-
       // Build the plot name from the feature data.
+      $plot_attributes = $feature['properties'];
       $plot_id = $plot_attributes['plot_id'];
       $plot_name = "$experiment_code: $plot_id";
 
@@ -547,11 +512,17 @@ class UploadExperimentForm extends FormBase {
         'is_fixed' => TRUE,
         'is_location' => TRUE,
         'parent' => $experiment_land,
-        'treatment_factors' => [],
+        'column_descriptors' => [],
       ];
 
       // Assign plot field values.
-      $normal_fields = ['plot_id', 'serial', 'plot_type', 'block', 'row', 'column'];
+      $normal_fields = [
+        'plot_number',
+        'plot_id',
+        'plot_type',
+        'row',
+        'column',
+      ];
       foreach ($plot_attributes as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
@@ -559,8 +530,9 @@ class UploadExperimentForm extends FormBase {
           $plot_data[$column_name] = $column_value;
         }
         // Else the column is a factor key/value pair.
-        else {
-          $plot_data['treatment_factors'][] = ['key' => $column_name, 'value' => $column_value];
+        // Don't include if the value is na.
+        elseif ($column_value != 'na') {
+          $plot_data['column_descriptors'][] = ['key' => $column_name, 'value' => $column_value];
         }
       }
 
@@ -604,7 +576,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($features)]));
+    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($plot_features)]));
   }
 
   /**
@@ -623,10 +595,10 @@ class UploadExperimentForm extends FormBase {
 
     // Load each file and parse out the data.
     $files = [
-      'treatment_factors' => 'csv',
-      'treatment_factor_levels' => 'csv',
+      'column_descriptors' => 'csv',
+      'column_levels' => 'csv',
       'plot_assignments' => 'csv',
-      'plot_geometries' => 'geojson',
+      'plots' => 'geojson',
     ];
     foreach ($files as $form_key => $file_type) {
 

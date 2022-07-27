@@ -1,0 +1,18 @@
+/* Styles for column descriptors field formatter. */
+table.column-level-table td {
+  height: 2rem;
+}
+
+/* Table caption. */
+table.column-level-table caption {
+  padding-bottom: .5em;
+}
+table.column-level-table caption .name {
+  font-weight: bold;
+}
+table.column-level-table caption .id:before {
+  content: "\00a0 ";
+}
+table.column-level-table caption .description:before {
+  content: ":\00a0 ";
+}

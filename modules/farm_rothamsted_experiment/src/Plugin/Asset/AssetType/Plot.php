@@ -39,10 +39,6 @@ class Plot extends FarmAssetType {
         'label' => $this->t('Plot ID'),
         'required' => TRUE,
       ],
-      'block' => [
-        'type' => 'string',
-        'label' => $this->t('Block'),
-      ],
       'plot_type' => [
         'type' => 'list_string',
         'label' => $this->t('Plot type'),
@@ -54,8 +50,8 @@ class Plot extends FarmAssetType {
     }
 
     /* Create remaining special field types. */
-    $fields['serial'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Serial'))
+    $fields['plot_number'] = BundleFieldDefinition::create('integer')
+      ->setLabel($this->t('Plot number'))
       ->setDescription($this->t('Numeric integer unique to each plot.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
@@ -72,9 +68,10 @@ class Plot extends FarmAssetType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
-    $fields['treatment_factors'] = BundleFieldDefinition::create('key_value')
-      ->setLabel($this->t('Treatment factors'))
+    $fields['column_descriptors'] = BundleFieldDefinition::create('key_value')
+      ->setLabel($this->t('Column descriptors'))
       ->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED)
+      ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
     return $fields;
