@@ -341,11 +341,11 @@ class UploadExperimentForm extends FormBase {
 
     // Ensure all required values are provided.
     $required_columns = [
-      'plot_number',
-      'plot_id',
-      'plot_type',
-      'row',
-      'column',
+      'plot_number' => 'numeric',
+      'plot_id' => 'string',
+      'plot_type' => 'string',
+      'row' => 'numeric',
+      'column' => 'numeric',
     ];
     foreach ($plot_features as $row => $feature) {
 
@@ -363,13 +363,20 @@ class UploadExperimentForm extends FormBase {
       foreach ($feature['properties'] as $column_name => $column_value) {
 
         // Check required columns.
-        if (in_array($column_name, $required_columns)) {
+        if (in_array($column_name, array_keys($required_columns))) {
 
           if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
             $error_msg = "Plot feature in row $row is missing a $column_name";
             $form_state->setError($form['plots'], $error_msg);
             $this->messenger()->addError($error_msg);
             continue;
+          }
+
+          // Check for numeric value type.
+          if ($required_columns[$column_name] == 'numeric' && !is_numeric($column_value)) {
+            $error_msg = "Invalid value for plot feature in row $row: $column_name is not numeric: $column_value";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
           }
 
           // Ensure that the first plot has plot_number 1.
