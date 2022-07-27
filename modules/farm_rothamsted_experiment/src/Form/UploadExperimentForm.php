@@ -300,7 +300,25 @@ class UploadExperimentForm extends FormBase {
           $form_state->setError($form['column_levels'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
+      }
+    }
 
+    // Ensure there are as many column levels as each column length specifies.
+    foreach ($file_data['column_descriptors'] as $column_descriptor) {
+
+      // Get count of column levels.
+      $column_id = $column_descriptor['column_id'];
+      $column_levels = array_filter($levels, function ($level) use ($column_id) {
+        return $level['column_id'] == $column_id;
+      });
+      $column_count = count($column_levels);
+      $expected_length = $column_descriptor['length'];
+
+      // Check lengths.
+      if ($expected_length != $column_count) {
+        $error_msg = "Incorrect number of column levels for column $column_id. Got $column_count expected $expected_length.";
+        $form_state->setError($form['column_levels'], $error_msg);
+        $this->messenger()->addError($error_msg);
       }
     }
   }
