@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_gm_material
+label: 'GM Material (GM)'
+entity_types:
+  asset:
+    - plot

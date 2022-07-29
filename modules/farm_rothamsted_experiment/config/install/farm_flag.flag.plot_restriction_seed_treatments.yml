@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_seed_treatments
+label: 'Seed treatments restrictions (st)'
+entity_types:
+  asset:
+    - plot

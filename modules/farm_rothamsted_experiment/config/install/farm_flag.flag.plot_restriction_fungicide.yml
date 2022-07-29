@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_fungicide
+label: 'Fungicide restrictions (F)'
+entity_types:
+  asset:
+    - plot

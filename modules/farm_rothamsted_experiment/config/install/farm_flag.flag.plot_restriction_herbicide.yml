@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_herbicide
+label: 'Herbicide restrictions (H)'
+entity_types:
+  asset:
+    - plot

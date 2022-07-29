@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_nitrogen
+label: 'Nitrogen restrictions (N)'
+entity_types:
+  asset:
+    - plot
