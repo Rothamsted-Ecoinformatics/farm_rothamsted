@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_variety
+label: 'Variety restrictions (var)'
+entity_types:
+  asset:
+    - plot

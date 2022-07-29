@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_plant_growth_regulator
+label: 'Plant growth regulator restrictions (PGR)'
+entity_types:
+  asset:
+    - plot

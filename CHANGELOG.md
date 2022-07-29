@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add plot flag types. [#206](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/206)
+- Add flags for plot restrictions. [#231](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/231)
 
 ### Changed
 

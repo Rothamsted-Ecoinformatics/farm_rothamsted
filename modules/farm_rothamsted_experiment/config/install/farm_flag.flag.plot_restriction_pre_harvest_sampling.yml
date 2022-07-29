@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_pre_harvest_sampling
+label: 'Pre-harvest Sampling (Pre)'
+entity_types:
+  asset:
+    - plot

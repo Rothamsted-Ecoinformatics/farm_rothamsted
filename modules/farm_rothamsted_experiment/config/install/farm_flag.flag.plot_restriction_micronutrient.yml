@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: plot_restriction_micronutrient
+label: 'Micronutrient restrictions (mn)'
+entity_types:
+  asset:
+    - plot
