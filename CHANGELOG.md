@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/7) 2022-07-29
+
 ### Added
 
 - Add plot flag types. [#206](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/206)
