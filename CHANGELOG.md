@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add harvest year to commercial asset quick form. [#229](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/229)
+
 ### Changed
 
 - Don't require variety on commercial asset quick form. [#243](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/243)

@@ -54,6 +54,9 @@ function farm_rothamsted_dev_install() {
       'Wheat' => ['Summer wheat', 'Winter wheat'],
     ],
     'season' => [
+      'Harvest year' => [
+        '2021', '2022', '2023', '2024',
+      ],
       '2020' => [],
       '2021' => [],
       '2022' => [],

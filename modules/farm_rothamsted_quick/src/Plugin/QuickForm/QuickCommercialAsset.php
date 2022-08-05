@@ -136,6 +136,16 @@ class QuickCommercialAsset extends QuickFormBase {
       '#required' => TRUE,
     ];
 
+    // Harvest year.
+    $harvest_options = $this->getChildTermOptionsByName('season', 'Harvest year');
+    $form['harvest_year'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Harvest year'),
+      '#description' => $this->t('The year in which the asset will be harvested. This can be expanded by adding child terms to the "Harvest year" term in the Seasons Taxonomy.'),
+      '#options' => $harvest_options,
+      '#required' => TRUE,
+    ];
+
     // Crop type.
     $form['crop'] = $this->buildInlineWrapper();
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
@@ -228,7 +238,7 @@ class QuickCommercialAsset extends QuickFormBase {
       'type' => 'plant',
       'name' => $plant_name,
       'plant_type' => $plant_type,
-      'season' => $form_state->getValue('season'),
+      'season' => [$form_state->getValue('season'), $form_state->getValue('harvest_year')],
       'file' => $form_state->getValue('file', []),
       'notes' => $form_state->getValue('notes'),
     ];
@@ -278,9 +288,9 @@ class QuickCommercialAsset extends QuickFormBase {
    */
   protected function generatePlantName(FormStateInterface $form_state) {
 
-    // Get the season name.
+    // Get the harvest year name. This is a season taxonomy term.
     $season_name = '';
-    if ($season = $form_state->getValue('season')) {
+    if ($season = $form_state->getValue('harvest_year')) {
       $season_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($season);
       $season_name = $season_term->label();
     }
