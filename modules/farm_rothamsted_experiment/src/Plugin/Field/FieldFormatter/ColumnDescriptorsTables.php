@@ -6,7 +6,6 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Url;
-use function PHPUnit\Framework\assertNotEmpty;
 
 /**
  * Plugin implementation of the 'json' formatter.
@@ -51,9 +50,9 @@ class ColumnDescriptorsTables extends FormatterBase {
       foreach ($columns as $column) {
 
         // Protect against this formatter being used for other json fields.
-        assertNotEmpty($column['column_name']);
-        assertNotEmpty($column['column_id']);
-        assertNotEmpty($column['column_levels']);
+        assert(!empty($column['column_name']), 'Column name not found in column_descriptor field.');
+        assert(!empty($column['column_id']), 'Column id not found in column_descriptor field.');
+        assert(!empty($column['column_levels']), 'Column levels not found in column_descriptor field.');
 
         // Include factor information in the table caption.
         $caption = [
