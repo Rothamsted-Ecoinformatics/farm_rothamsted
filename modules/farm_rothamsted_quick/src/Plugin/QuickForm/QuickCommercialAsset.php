@@ -164,7 +164,6 @@ class QuickCommercialAsset extends QuickFormBase {
       '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
-      '#required' => TRUE,
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -218,11 +217,17 @@ class QuickCommercialAsset extends QuickFormBase {
       $plant_name = $form_state->getValue('name');
     }
 
+    // For the plant_type use the crop unless the variety is specified.
+    $plant_type = $form_state->getValue('crop');
+    if ($variety = $form_state->getValue('plant_type')) {
+      $plant_type = $variety;
+    }
+
     // Start an array of asset data.
     $asset_data = [
       'type' => 'plant',
       'name' => $plant_name,
-      'plant_type' => $form_state->getValue('plant_type'),
+      'plant_type' => $plant_type,
       'season' => $form_state->getValue('season'),
       'file' => $form_state->getValue('file', []),
       'notes' => $form_state->getValue('notes'),
@@ -313,7 +318,8 @@ class QuickCommercialAsset extends QuickFormBase {
       'season' => $season_name,
       'location' => implode(' ', $location_names) . ':',
       'crop' => $crop_name,
-      'variety' => '(' . implode(', ', $variety_names) . ')',
+      // If no variety is selected don't include parenthesis.
+      'variety' => empty($variety_names) ? '' : '(' . implode(', ', $variety_names) . ')',
     ];
     $priority_keys = ['season', 'location', 'crop', 'variety'];
     return $this->prioritizedString($name_parts, $priority_keys, 255, '...)');

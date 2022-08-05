@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Don't require variety on commercial asset quick form. [#243](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/243)
+
 ### Fixed
 
 - Substitute invalid UTF-8 characters when encoding column_descriptors json. [#245](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/245)
