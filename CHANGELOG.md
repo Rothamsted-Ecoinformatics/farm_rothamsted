@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Substitute invalid UTF-8 characters when encoding column_descriptors json. [#245](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/245)
+
 ## [2.5.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/7) 2022-07-29
 
 ### Added

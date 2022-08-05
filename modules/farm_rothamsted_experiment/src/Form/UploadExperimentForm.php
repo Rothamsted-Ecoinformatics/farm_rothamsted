@@ -455,7 +455,7 @@ class UploadExperimentForm extends FormBase {
       'name' => $form_state->getValue('name'),
       'status' => 'planning',
       'experiment_code' => $experiment_code,
-      'column_descriptors' => Json::encode(array_values($plan_column_descriptors)),
+      'column_descriptors' => json_encode(array_values($plan_column_descriptors), JSON_INVALID_UTF8_SUBSTITUTE),
     ]);
 
     // Save each uploaded file on the plan.
