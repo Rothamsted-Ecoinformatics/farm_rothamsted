@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -415,7 +414,6 @@ class UploadExperimentForm extends FormBase {
     }
 
     // Ensure we found plot_number 1.
-    //if ($column_name == 'plot_number' && (int) $feature['properties'][$column_name] == 1) {
     if (!$has_plot_1) {
       $error_msg = 'Missing plot_number 1. Make sure the plot number starts at 1.';
       $form_state->setError($form['plots'], $error_msg);
