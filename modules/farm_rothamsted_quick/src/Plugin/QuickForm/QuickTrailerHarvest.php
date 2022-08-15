@@ -153,8 +153,8 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     $trailer_load_count = $form_state->get('trailer_load_count') ?? 1;
     if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'trailer_load_count') {
       $trailer_load_count = (int) $trigger['#value'];
-      $form_state->set('trailer_load_count', $trailer_load_count);
     }
+    $form_state->set('trailer_load_count', $trailer_load_count);
     for ($i = 0; $i < $trailer_load_count; $i++) {
 
       // Trailer weight. Allow the user to select either Gross or Nett weight.
