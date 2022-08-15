@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.5.2 2022-08-15
+
 ### Fixed
 
 - Trailer Quick Form: single quantities not saving. [#249](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/249)
