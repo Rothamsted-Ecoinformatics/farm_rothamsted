@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Trailer Quick Form: single quantities not saving. [#249](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/249)
+- Experiment Module: Error if plot numbers don't start at one [#248](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/248)
 
 ## [2.5.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/7) 2022-08-05
 

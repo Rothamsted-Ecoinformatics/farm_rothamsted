@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -339,6 +340,9 @@ class UploadExperimentForm extends FormBase {
     $plot_features = $file_data['plots']['features'];
     $column_ids = array_column($file_data['column_levels'], 'column_id');
 
+    // Keep track of plot 1.
+    $has_plot_1 = FALSE;
+
     // Ensure all required values are provided.
     $required_columns = [
       'plot_number' => 'numeric',
@@ -379,11 +383,9 @@ class UploadExperimentForm extends FormBase {
             $this->messenger()->addError($error_msg);
           }
 
-          // Ensure that the first plot has plot_number 1.
-          if ($row == 1 && $column_name == 'plot_number' && (int) $feature['properties'][$column_name] != 1) {
-            $error_msg = "The first plot_number does not start at 1: $column_value";
-            $form_state->setError($form['plots'], $error_msg);
-            $this->messenger()->addError($error_msg);
+          // Mark if we found plot number 1.
+          if ($column_name == 'plot_number' && (int) $feature['properties'][$column_name] == 1) {
+            $has_plot_1 = TRUE;
           }
 
           // No further validation for required values.
@@ -410,6 +412,14 @@ class UploadExperimentForm extends FormBase {
           $this->messenger()->addError($error_msg);
         }
       }
+    }
+
+    // Ensure we found plot_number 1.
+    //if ($column_name == 'plot_number' && (int) $feature['properties'][$column_name] == 1) {
+    if (!$has_plot_1) {
+      $error_msg = 'Missing plot_number 1. Make sure the plot number starts at 1.';
+      $form_state->setError($form['plots'], $error_msg);
+      $this->messenger()->addError($error_msg);
     }
   }
 
