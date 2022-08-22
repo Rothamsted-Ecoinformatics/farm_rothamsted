@@ -251,6 +251,41 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#required' => TRUE,
     ];
 
+    // Operation time.
+    $setup['time'] = $this->buildInlineWrapper();
+
+    // Scheduled date and time.
+    $setup['time']['timestamp'] = [
+      '#type' => 'datetime',
+      '#title' => $this->t('Operation start date and time'),
+      '#description' => $this->t('The start date and time of the operation.'),
+      '#default_value' => new DrupalDateTime(),
+      '#date_time_element' => 'time',
+      '#required' => TRUE,
+      '#date_year_range' => '-15:+15',
+    ];
+
+    // Tractor time.
+    $setup['tractor_time'] = $this->buildInlineWrapper();
+
+    // Tractor hours start.
+    $setup['tractor_time']['tractor_hours_start'] = $this->buildQuantityField([
+      'title' => $this->t('Tractor hours (start)'),
+      'description' => $this->t('The number of tractor hours displayed at the start of the job.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#value' => 'hours'],
+      'required' => TRUE,
+    ]);
+
+    // Tractor hours end.
+    $setup['tractor_time']['tractor_hours_end'] = $this->buildQuantityField([
+      'title' => $this->t('Tractor hours (end)'),
+      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#value' => 'hours'],
+      'required' => TRUE,
+    ]);
+
     // Equipment wrapper.
     $setup['equipment_wrapper'] = $this->buildInlineWrapper();
 
@@ -428,22 +463,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $form['products'] = $products;
     }
 
-    // Operation time.
+    // Time taken.
     $operation['time'] = $this->buildInlineWrapper();
     $operation['time']['#weight'] = -10;
-
-    // Scheduled date and time.
-    $operation['time']['timestamp'] = [
-      '#type' => 'datetime',
-      '#title' => $this->t('Operation start date and time'),
-      '#description' => $this->t('The start date and time of the operation.'),
-      '#default_value' => new DrupalDateTime(),
-      '#date_time_element' => 'time',
-      '#required' => TRUE,
-      '#date_year_range' => '-15:+15',
-    ];
-
-    // Time taken.
     $operation['time']['time_taken']['#tree'] = TRUE;
     $hour_options = range(0, 12);
     $operation['time']['time_taken']['hours'] = [
@@ -459,28 +481,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#options' => array_combine($minute_options, $minute_options),
       '#required' => TRUE,
     ];
-
-    // Tractor time.
-    $operation['tractor_time'] = $this->buildInlineWrapper();
-    $operation['tractor_time']['#weight'] = -5;
-
-    // Tractor hours start.
-    $operation['tractor_time']['tractor_hours_start'] = $this->buildQuantityField([
-      'title' => $this->t('Tractor hours (start)'),
-      'description' => $this->t('The number of tractor hours displayed at the start of the job.'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#value' => 'hours'],
-      'required' => TRUE,
-    ]);
-
-    // Tractor hours end.
-    $operation['tractor_time']['tractor_hours_end'] = $this->buildQuantityField([
-      'title' => $this->t('Tractor hours (end)'),
-      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#value' => 'hours'],
-      'required' => TRUE,
-    ]);
 
     // Fuel use.
     $fuel_use_units_options = [
