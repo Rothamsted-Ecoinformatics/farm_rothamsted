@@ -28,7 +28,7 @@
       })
       var source = newLayer.getSource()
       source.on('change', function () {
-        instance.zoomToVectors()
+        instance.zoomToLayer(newLayer)
       })
     }
   }

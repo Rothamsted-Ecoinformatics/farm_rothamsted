@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add All locations layers to experiment plots map.  [#261](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/261)
+
 ### Changed
 
 - Move start time and tractor hours to setup tab. [#233](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/233)
