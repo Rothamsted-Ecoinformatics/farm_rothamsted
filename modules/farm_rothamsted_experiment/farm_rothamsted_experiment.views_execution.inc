@@ -86,6 +86,15 @@ function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
     'filters' => $view->getExposedInput(),
   ];
 
+  // Add "All locations" layer.
+  $map['#map_settings']['asset_type_layers']['all_locations'] = [
+    'label' => t('All locations'),
+    'filters' => [
+      'is_location' => 1,
+    ],
+    'color' => 'grey',
+  ];
+
   // Render the map.
   $view->attachment_before['asset_map'] = $map;
 }
