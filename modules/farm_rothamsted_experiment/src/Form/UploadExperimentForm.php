@@ -488,7 +488,7 @@ class UploadExperimentForm extends FormBase {
     $experiment_land = Asset::create([
       'type' => 'land',
       'land_type' => 'other',
-      'name' => $this->t('@plan_name Experiment Surrounds', ['@plan_name' => $plan->label()]),
+      'name' => $this->t('@plan_name Experiment Boundary', ['@plan_name' => $plan->label()]),
       'status' => 'active',
       'is_fixed' => TRUE,
       'is_location' => TRUE,
