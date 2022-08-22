@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Move start time and tractor hours to setup tab. [#233](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/233)
+
 ## 2.5.2 2022-08-15
 
 ### Fixed
