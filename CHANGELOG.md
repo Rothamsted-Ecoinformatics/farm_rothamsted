@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Display plot numbers in plots tab. [#264](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/264)
 - Move start time and tractor hours to setup tab. [#233](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/233)
 
 ## 2.5.2 2022-08-15
