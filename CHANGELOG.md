@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add All locations layers to experiment plots map.  [#261](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/261)
+- Add log category question to all experiment quick forms.  [#160](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/160)
 
 ### Changed
 
