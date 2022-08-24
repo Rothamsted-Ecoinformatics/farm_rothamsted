@@ -28,6 +28,11 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $parentLogCategoryName = 'Fertiliser categories';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**

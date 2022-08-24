@@ -75,9 +75,10 @@ trait QuickTaxonomyOptionsTrait {
     // Build options.
     $options = [];
     foreach ($active_terms as $term) {
-      $options[$term->id()] = $term->label();
+      // This approach taken from core TaxonomyIndexTid views filter plugin.
+      $label = str_repeat('-', $term->depth) . $term->label();
+      $options[$term->id()] = $label;
     }
-    natsort($options);
 
     return $options;
   }
