@@ -69,6 +69,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $logType;
 
   /**
+   * Name of the parent log category to use.
+   *
+   * @var string|bool
+   */
+  protected $parentLogCategoryName = FALSE;
+
+  /**
    * Boolean indicating if the quick form should have a tractor field.
    *
    * @var bool
@@ -250,6 +257,38 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#default_value' => $default_asset_value,
       '#required' => TRUE,
     ];
+
+    // Add log category field if specified.
+    if (!empty($this->parentLogCategoryName)) {
+
+      // Add field.
+      $setup['log_category'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Log category'),
+        '#required' => TRUE,
+        '#multiple' => TRUE,
+      ];
+
+      // Query for the parent term.
+      $parent_category_ids = $this->entityTypeManager->getStorage('taxonomy_term')->getQuery()
+        ->condition('vid', 'log_category')
+        ->condition('status', TRUE)
+        ->condition('name', $this->parentLogCategoryName)
+        ->execute();
+
+      // Build options from parent term.
+      if ($parent_category_id = reset($parent_category_ids)) {
+        $category_options = $this->getTermTreeOptions('log_category', $parent_category_id);
+      }
+      // Disable and state the category does not exist.
+      else {
+        $category_options = [$this->t('Log category does not exist: %term', ['%term' => $this->parentLogCategoryName])];
+        $setup['log_category']['#disabled'] = TRUE;
+      }
+
+      // Add the options.
+      $setup['log_category']['#options'] = $category_options;
+    }
 
     // Operation time.
     $setup['time'] = $this->buildInlineWrapper();
@@ -802,6 +841,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'asset' => $assets,
       'flag' => $form_state->getValue('flag'),
       'owner' => $form_state->getValue('owner'),
+      'category' => $form_state->getValue('log_category', []),
     ];
 
     // Copy the current asset locations to the log.
