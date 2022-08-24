@@ -30,6 +30,11 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $parentLogCategoryName = 'Harvest categories';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**

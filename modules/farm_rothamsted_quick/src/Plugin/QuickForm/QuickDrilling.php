@@ -29,6 +29,11 @@ class QuickDrilling extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $parentLogCategoryName = 'Drilling categories';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**
