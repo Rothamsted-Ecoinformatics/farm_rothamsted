@@ -165,7 +165,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
     $tank['water_volume'] = $this->buildQuantityField([
       'title' => $this->t('Water volume'),
-      'description' => $this->t('The total amount of water required to cover the field area(s).'),
+      'description' => $this->t('The total amount of water added to the tank, as required to cover the field area(s).'),
       'measure' => ['#value' => 'volume'],
       'units' => ['#options' => $water_volume_units_options],
       'required' => TRUE,
