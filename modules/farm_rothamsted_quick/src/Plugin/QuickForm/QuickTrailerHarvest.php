@@ -32,6 +32,11 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
+  protected $parentLogCategoryName = 'Harvest categories';
+
+  /**
+   * {@inheritdoc}
+   */
   protected $tractorField = TRUE;
 
   /**
@@ -55,20 +60,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
     // Add weight to equipment settings.
     $setup['equipment_settings']['#weight'] = 10;
-
-    // Type of harvest.
-    $harvest_options = [
-      $this->t('Combinable crops (incl. sugar beet)'),
-      $this->t('Silage pickup'),
-      $this->t('Bailing'),
-    ];
-    $setup['type_of_harvest'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Type of harvest'),
-      '#options' => array_combine($harvest_options, $harvest_options),
-      '#default_value' => $this->defaultValues['notes']['Type of harvest'] ?? NULL,
-      '#required' => TRUE,
-    ];
 
     // Add to the products applied tab.
     $products = &$form['products'];
@@ -164,11 +155,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
         'measure' => ['#value' => 'weight'],
         'units' => ['#options' => $trailer_weight_units],
       ]);
-      $trailer['trailer_loads'][$i]['weight']['value']['#states'] = [
-        'required' => [
-          ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
-        ],
-      ];
 
       // Weight label options.
       $weight_label_options = [
@@ -189,11 +175,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
-    $trailer['moisture_wrapper']['moisture_content']['value']['#states'] = [
-      'required' => [
-        ':input[name="type_of_harvest"]' => ['value' => 'Combinable crops (incl. sugar beet)'],
-      ],
-    ];
     $trailer['moisture_wrapper']['moisture_time'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Moisture content time'),
@@ -407,10 +388,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     array_unshift(
       $note_fields,
       ...[
-        [
-          'key' => 'type_of_harvest',
-          'label' => $this->t('Type of harvest'),
-        ],
         [
           'key' => 'grain_sample_number',
           'label' => $this->t('Grain sample number'),
