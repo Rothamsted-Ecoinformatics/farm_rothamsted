@@ -304,22 +304,10 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#date_year_range' => '-15:+15',
     ];
 
-    // Tractor time.
-    $setup['tractor_time'] = $this->buildInlineWrapper();
-
     // Tractor hours start.
-    $setup['tractor_time']['tractor_hours_start'] = $this->buildQuantityField([
+    $setup['time']['tractor_hours_start'] = $this->buildQuantityField([
       'title' => $this->t('Tractor hours (start)'),
       'description' => $this->t('The number of tractor hours displayed at the start of the job.'),
-      'measure' => ['#value' => 'count'],
-      'units' => ['#value' => 'hours'],
-      'required' => TRUE,
-    ]);
-
-    // Tractor hours end.
-    $setup['tractor_time']['tractor_hours_end'] = $this->buildQuantityField([
-      'title' => $this->t('Tractor hours (end)'),
-      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
       'measure' => ['#value' => 'count'],
       'units' => ['#value' => 'hours'],
       'required' => TRUE,
@@ -520,6 +508,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#options' => array_combine($minute_options, $minute_options),
       '#required' => TRUE,
     ];
+
+    // Tractor hours end.
+    $operation['time']['tractor_hours_end'] = $this->buildQuantityField([
+      'title' => $this->t('Tractor hours (end)'),
+      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
+      'measure' => ['#value' => 'count'],
+      'units' => ['#value' => 'hours'],
+      'required' => TRUE,
+    ]);
 
     // Fuel use.
     $fuel_use_units_options = [
