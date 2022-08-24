@@ -47,6 +47,9 @@ class QuickOperation extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
+    // Add to the operation tab.
+    $operation = &$form['operation'];
+
     // Task tab.
     $task = [
       '#type' => 'details',
@@ -113,6 +116,14 @@ class QuickOperation extends QuickExperimentFormBase {
     // Add the operations tab and fields to the form.
     $form['task'] = $task;
 
+    // Justification/Target.
+    $operation['justification_target'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Justification/Target'),
+      '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
+      '#weight' => 15,
+    ];
+
     return $form;
   }
 
@@ -159,6 +170,10 @@ class QuickOperation extends QuickExperimentFormBase {
         [
           'key' => 'thrown',
           'label' => $this->t('Plough thrown'),
+        ],
+        [
+          'key' => 'justification_target',
+          'label' => $this->t('Justification/Target'),
         ],
       ]
     );
