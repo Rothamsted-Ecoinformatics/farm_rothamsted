@@ -43,7 +43,13 @@ function farm_rothamsted_dev_install() {
   // TAXONOMY TERMS.
   // Build a list of vocabularies and parent/child terms to create.
   $vocabularies = [
-    'log_category' => [],
+    'log_category' => [
+      'Drilling categories' => ['Drilling 1', 'Drilling 2'],
+      'Fertiliser categories' => ['Fertiliser 1', 'Fertiliser 2'],
+      'Harvest categories' => ['Harvest 1', 'Harvest 2'],
+      'Operation categories' => ['Op 1', 'Op 2'],
+      'Spraying categories' => ['Spraying 1', 'Spraying 2'],
+    ],
     'material_type' => [
       'Starter Fertiliser' => ['Product 1', 'Product 2', 'Product 3'],
       'Seed Dressings' => ['Dressing 1', 'Dressing 2', 'Dressing 3'],
