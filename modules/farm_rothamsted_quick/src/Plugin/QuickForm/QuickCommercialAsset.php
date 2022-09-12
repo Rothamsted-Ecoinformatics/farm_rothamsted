@@ -116,7 +116,7 @@ class QuickCommercialAsset extends QuickFormBase {
       '#selection_handler' => 'views',
       '#selection_settings' => [
         'view' => [
-          'view_name' => 'farm_location_reference',
+          'view_name' => 'rothamsted_quick_location_reference',
           'display_name' => 'entity_reference',
           'arguments' => [],
         ],

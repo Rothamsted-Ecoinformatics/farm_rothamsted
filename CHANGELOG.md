@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Minor amendments to feriliser and spraying quick form fields. [#237](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/237)
 - Filter assets by location in quick forms. [#260](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/260)
 
+### Fixed
+
+- Archived assets still appearing in quick forms. [#251](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/251)
+
 ## 2.5.2 2022-08-15
 
 ### Fixed
