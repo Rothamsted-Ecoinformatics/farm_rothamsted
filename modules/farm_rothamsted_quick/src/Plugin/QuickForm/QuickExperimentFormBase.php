@@ -3,14 +3,11 @@
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\asset\Entity\AssetInterface;
-use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Site\Settings;
-use Drupal\Core\Url;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
@@ -214,49 +211,96 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Load prepopulated assets.
-    $default_assets = $this->defaultValues['asset'] ?? $this->getPrepopulatedEntities('asset', $form_state);
-
-    // The autocomplete_deluxe element expects the default value to
-    // be the "Asset name (id), Asset 2 (id)".
-    $default_asset_value = implode(', ', array_map(function ($asset) {
-      return $asset->label() . ' (' . $asset->id() . ')';
-    }, $default_assets));
-
-    // Build the URL for the autocomplete_deluxe endpoint.
-    // See autocomplete_deluxe README.md.
-    $selection_settings = [
-      'target_bundles' => ['plot', 'plant'],
-    ];
-    $target_type = 'asset';
-    $selection_handler = 'default:asset';
-    $data = serialize($selection_settings) . $target_type . $selection_handler;
-    $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
-    $route_parameters = [
-      'target_type' => 'asset',
-      'selection_handler' => 'default:asset',
-      'selection_settings_key' => $selection_settings_key,
-    ];
-    $url = Url::fromRoute('autocomplete_deluxe.autocomplete', $route_parameters, ['absolute' => TRUE])->getInternalPath();
-
-    // The selection settings must be saved in the keyvalue store.
-    // autocomplete_deluxe extends core entity_autocomplete which does the
-    // same thing.
-    $key_value_storage = \Drupal::keyValue('entity_autocomplete');
-    if (!$key_value_storage->has($selection_settings_key)) {
-      $key_value_storage->set($selection_settings_key, $selection_settings);
-    }
+    $assets = $this->defaultValues['asset'] ?? $this->getPrepopulatedEntities('asset', $form_state);
 
     // Asset field.
     $setup['asset'] = [
-      '#type' => 'autocomplete_deluxe',
-      '#title' => $this->t('Plant asset(s)'),
-      '#description' => $this->t('The asset that this log relates to. For experiments always specify the plot numbers when applying treatments. To add additional plant assets, begin typing the name of the asset and select from the list.'),
-      '#autocomplete_deluxe_path' => $url,
-      '#target_type' => 'asset',
-      '#multiple' => TRUE,
-      '#default_value' => $default_asset_value,
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Asset'),
+      '#description' => $this->t('The plant asset that this log relates to. Search by field locations above.'),
       '#required' => TRUE,
+      '#prefix' => '<div id="asset-wrapper">',
+      '#suffix' => '</div>',
     ];
+
+    // Plot asset(s) already selected. You can only select plant or plot assets.
+    if (!empty($assets)) {
+      $setup['asset']['#description'] = $this->t('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
+      $setup['asset']['#disabled'] = TRUE;
+      $setup['asset']['#default_value'] = array_keys($assets);
+    }
+    // Else add a field to search for plant assets by location.
+    else {
+
+      // Location.
+      $setup['location'] = [
+        '#type' => 'entity_autocomplete',
+        '#title' => $this->t('Location'),
+        '#description' => $this->t('The field in which the asset is planted. If the area is not present in the list it can be added as a new land asset.'),
+        '#target_type' => 'asset',
+        '#selection_handler' => 'views',
+        '#selection_settings' => [
+          'view' => [
+            'view_name' => 'rothamsted_quick_location_reference',
+            'display_name' => 'entity_reference',
+            'arguments' => [],
+          ],
+          'match_operator' => 'CONTAINS',
+        ],
+        '#tags' => TRUE,
+        '#required' => TRUE,
+        '#weight' => -100,
+        '#ajax' => [
+          'callback' => [self::class, 'assetCallback'],
+          'wrapper' => 'asset-wrapper',
+          'event' => 'autocompleteclose',
+        ],
+      ];
+
+      $location_ids = array_column($form_state->getValue('location', []), 'target_id');
+      if (!empty($location_ids)) {
+
+        // Start a query for plant assets in the selected location(s).
+        $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
+          ->condition('type', 'plant')
+          ->condition('status', 'archived', '!=');
+
+        // Add an or condition group.
+        // Include assets that are children of the selected location.
+        $logic = $asset_query->orConditionGroup()
+          ->condition('parent', $location_ids, 'IN')
+          ->condition('parent.entity:asset.parent', $location_ids, 'IN')
+          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_ids, 'IN');
+
+        // Query assets moved to the selected location.
+        /** @var \Drupal\farm_location\AssetLocationInterface $service */
+        $service = \Drupal::service('asset.location');
+        $locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids);
+        $assets = $service->getAssetsByLocation($locations);
+
+        // @todo Remove this mapping if location interface changes.
+        // @see https://github.com/farmOS/farmOS/pull/565
+        $asset_location_ids = array_map(function (AssetInterface $asset) {
+          return $asset->id();
+        }, $assets);
+        if (!empty($asset_location_ids)) {
+          $logic->condition('id', $asset_location_ids, 'IN');
+        }
+
+        // Include logic or group.
+        $asset_query->condition($logic);
+
+        // Get assets.
+        $asset_ids = $asset_query->execute();
+        $assets = $this->entityTypeManager->getStorage('asset')->loadMultiple($asset_ids);
+      }
+    }
+
+    // Add asset options.
+    $asset_options = array_map(function (AssetInterface $asset) {
+      return $asset->label();
+    }, $assets);
+    $setup['asset']['#options'] = $asset_options;
 
     // Add log category field if specified.
     if (!empty($this->parentLogCategoryName)) {
@@ -623,6 +667,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * Asset ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function assetCallback(array &$form, FormStateInterface $form_state) {
+    return $form['setup']['asset'];
   }
 
   /**
