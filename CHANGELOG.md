@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move start time and tractor hours to setup tab. [#233](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/233)
 - Change experiment surrounds to experiment boundary. [#256](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/256)
 - Minor amendments to feriliser and spraying quick form fields. [#237](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/237)
+- Filter assets by location in quick forms. [#260](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/260)
 
 ## 2.5.2 2022-08-15
 
