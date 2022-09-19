@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove add crop logic from experiment upload form.  [#235](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/235)
+- Include plant assets that have been moved to sub-locations in quick form asset field. [#293](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/293)
 
 ## [2.6.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/11) 2022-09-12
 

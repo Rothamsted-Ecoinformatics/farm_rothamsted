@@ -282,9 +282,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
           ->condition('parent.entity:asset.parent.entity:asset.parent', $location_ids, 'IN');
 
         // Query assets moved to the selected location.
+        // Include assets moved to sub-locations of the selected location.
+        $location_asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
+          ->condition('status', 'archived', '!=');
+        $location_condition = $location_asset_query->orConditionGroup()
+          ->condition('id', $location_ids, 'IN')
+          ->condition('parent', $location_ids, 'IN')
+          ->condition('parent.entity:asset.parent', $location_ids, 'IN')
+          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_ids, 'IN');
+        $location_asset_query->condition($location_condition);
+        $location_ids = $location_asset_query->execute();
+        $locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids);
+
         /** @var \Drupal\farm_location\AssetLocationInterface $service */
         $service = \Drupal::service('asset.location');
-        $locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids);
         $assets = $service->getAssetsByLocation($locations);
 
         // @todo Remove this mapping if location interface changes.
