@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment
+id: experiment_boundary
+label: Experiment boundary

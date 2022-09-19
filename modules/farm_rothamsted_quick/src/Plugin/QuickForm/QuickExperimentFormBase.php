@@ -260,10 +260,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $location_ids = array_column($form_state->getValue('location', []), 'target_id');
       if (!empty($location_ids)) {
 
-        // Start a query for plant assets in the selected location(s).
+        // Start a query for active plant or experiment_boundary land assets
+        // in the selected location(s).
         $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
-          ->condition('type', 'plant')
           ->condition('status', 'archived', '!=');
+
+        // Limit to plant or experiment_boundary land assets.
+        $experiment_land_type = $asset_query->andConditionGroup()
+          ->condition('type', 'land')
+          ->condition('land_type', 'experiment_boundary');
+        $asset_type = $asset_query->orConditionGroup()
+          ->condition('type', 'plant')
+          ->condition($experiment_land_type);
+        $asset_query->condition($asset_type);
 
         // Add an or condition group.
         // Include assets that are children of the selected location.

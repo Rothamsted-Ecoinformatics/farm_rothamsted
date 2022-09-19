@@ -527,7 +527,7 @@ class UploadExperimentForm extends FormBase {
     // Create and save land asset.
     $experiment_land = Asset::create([
       'type' => 'land',
-      'land_type' => 'other',
+      'land_type' => 'experiment_boundary',
       'name' => $this->t('@plan_name Experiment Boundary', ['@plan_name' => $plan->label()]),
       'status' => 'active',
       'parent' => $form_state->getValue('location'),
