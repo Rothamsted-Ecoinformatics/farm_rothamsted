@@ -110,6 +110,24 @@ class UploadExperimentForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    // Location for the experiment boundary parents.
+    $form['location'] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->t('Location'),
+      '#description' => $this->t('The fields in which the experiment is located. This will be saved to experiment boundary and can be changed at a later time.'),
+      '#target_type' => 'asset',
+      '#selection_handler' => 'views',
+      '#selection_settings' => [
+        'view' => [
+          'view_name' => 'rothamsted_quick_location_reference',
+          'display_name' => 'entity_reference',
+          'arguments' => [],
+        ],
+        'match_operator' => 'CONTAINS',
+      ],
+      '#tags' => TRUE,
+    ];
+
     // Brief instructions.
     $form['file_instructions'] = [
       '#markup' => $this->t('Upload experiment files in the order listed below. Each file will be checked to ensure it has no missing or inconsistent data.'),
@@ -490,6 +508,7 @@ class UploadExperimentForm extends FormBase {
       'land_type' => 'other',
       'name' => $this->t('@plan_name Experiment Boundary', ['@plan_name' => $plan->label()]),
       'status' => 'active',
+      'parent' => $form_state->getValue('location'),
       'is_fixed' => TRUE,
       'is_location' => TRUE,
     ]);
