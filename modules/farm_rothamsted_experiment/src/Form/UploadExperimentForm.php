@@ -547,33 +547,6 @@ class UploadExperimentForm extends FormBase {
       // Create and save plot assets.
       $asset = Asset::create($plot_data);
 
-      // If specified, add the crop.
-      // @todo We need the csv to include crop.
-      if (isset($feature['properties']['crop'])) {
-
-        // Use the taxonomy term selection handler to check existing terms.
-        $options = [
-          'target_type' => 'taxonomy_term',
-          'target_bundles' => ['plant_type'],
-          'handler' => 'default:taxonomy_term',
-        ];
-        $handler = $this->selectionPluginManager->getInstance($options);
-        $crop_name = $feature['properties']['crop'];
-        $existing_terms = $handler->getReferenceableEntities($crop_name, '=', 1);
-
-        // Use the existing term.
-        if (!empty($existing_terms['plant_type'])) {
-          $plant_type = key($existing_terms['plant_type']);
-        }
-        // Else create a new term.
-        else {
-          /** @var \Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface $handler */
-          $plant_type = $handler->createNewEntity('taxonomy_term', 'plant_type', $crop_name, $this->currentUser()->id());
-          $plant_type->save();
-        }
-        $asset->set('plant_type', $plant_type);
-      }
-
       // Save the plot asset.
       $asset->save();
 

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Remove add crop logic from experiment upload form.  [#235](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/235)
+
 ## [2.6.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/11) 2022-09-12
 
 ### Added
