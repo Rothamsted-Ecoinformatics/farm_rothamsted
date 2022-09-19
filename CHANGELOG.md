@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add location field to experiment upload form.  [#259](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/259)
 - Add validation for allowed column types.  [#279](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/279)
 - Add experiment boundary land type. [#292](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/292)
+- Add experiment link fields for external documents. [#284](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/284)
 
 ### Changed
 

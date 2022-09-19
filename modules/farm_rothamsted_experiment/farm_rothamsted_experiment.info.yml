@@ -4,6 +4,7 @@ type: module
 package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
+  - drupal:link
   - farm_entity
   - farm_land
   - farm_rothamsted:farm_rothamsted

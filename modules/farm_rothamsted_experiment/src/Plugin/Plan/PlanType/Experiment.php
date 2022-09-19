@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted_experiment\Plugin\Plan\PlanType;
 
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Plugin\Plan\PlanType\FarmPlanType;
+use Drupal\link\LinkItemInterface;
 
 /**
  * Provides the experiment plan type.
@@ -144,6 +145,28 @@ class Experiment extends FarmPlanType {
     }
 
     /* Create remaining special field types. */
+
+    // Experiment file link fields.
+    $fields['experiment_plan_link'] = BundleFieldDefinition::create('link')
+      ->setLabel($this->t('Experiment plan'))
+      ->setRequired(FALSE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'title' => DRUPAL_DISABLED,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+    $fields['experiment_file_link'] = BundleFieldDefinition::create('link')
+      ->setLabel($this->t('Experiment file'))
+      ->setRequired(FALSE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'title' => DRUPAL_DISABLED,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     // Column descriptors.
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
