@@ -8,6 +8,7 @@ dependencies:
     - field_group
     - file
     - image
+    - link
     - text
 third_party_settings:
   field_group:
@@ -79,6 +80,8 @@ third_party_settings:
         - plant_type
         - drilling_year
         - harvest_year
+        - experiment_plan_link
+        - experiment_file_link
         - file
       label: 'Trial Design'
       region: content
@@ -173,9 +176,25 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  experiment_file_link:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  experiment_plan_link:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   file:
     type: file_generic
-    weight: 28
+    weight: 30
     region: content
     settings:
       progress_indicator: throbber
@@ -188,7 +207,7 @@ content:
     third_party_settings: {  }
   growing_conditions:
     type: text_textarea
-    weight: 31
+    weight: 32
     region: content
     settings:
       rows: 5
@@ -227,7 +246,7 @@ content:
     third_party_settings: {  }
   notes:
     type: text_textarea
-    weight: 33
+    weight: 34
     region: content
     settings:
       rows: 5
@@ -249,7 +268,7 @@ content:
     third_party_settings: {  }
   primary_contact:
     type: string_textfield
-    weight: 12
+    weight: 13
     region: content
     settings:
       size: 60
@@ -257,7 +276,7 @@ content:
     third_party_settings: {  }
   primary_contact_email:
     type: email_default
-    weight: 13
+    weight: 14
     region: content
     settings:
       placeholder: ''
@@ -281,7 +300,7 @@ content:
     third_party_settings: {  }
   reason_for_failure:
     type: text_textarea
-    weight: 32
+    weight: 33
     region: content
     settings:
       rows: 5
@@ -295,7 +314,7 @@ content:
     third_party_settings: {  }
   secondary_contact:
     type: string_textfield
-    weight: 14
+    weight: 15
     region: content
     settings:
       size: 60
@@ -303,7 +322,7 @@ content:
     third_party_settings: {  }
   secondary_contact_email:
     type: email_default
-    weight: 15
+    weight: 16
     region: content
     settings:
       placeholder: ''
@@ -311,7 +330,7 @@ content:
     third_party_settings: {  }
   statistician:
     type: string_textfield
-    weight: 11
+    weight: 12
     region: content
     settings:
       size: 60
@@ -324,6 +343,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  column_descriptors: true
   created: true
   data: true
   log: true
