@@ -239,8 +239,7 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateFileColumnDescriptors(array $file_data, array &$form, FormStateInterface $form_state) {
 
-    // Ensure all required values are provided.
-    $factors = $file_data['column_descriptors'];
+    // List of required columns.
     $required_columns = [
       'column_type',
       'column_id',
@@ -251,14 +250,37 @@ class UploadExperimentForm extends FormBase {
       'ontology_uri',
       'data_type',
     ];
+
+    // List of allowed column types.
+    $allowed_column_types = [
+      'design_factor',
+      'field_attribute',
+      'treatment_factor',
+      'treatment_component',
+      'treatment_application',
+      'basal_treatment',
+    ];
+
+    // Validate each factor.
+    $factors = $file_data['column_descriptors'];
     foreach ($factors as $row => $factor) {
       $row++;
+
+      // Ensure all required values are provided.
       foreach ($required_columns as $column_name) {
         if (!isset($factor[$column_name]) || strlen($factor[$column_name]) === 0) {
           $error_msg = "Column in row $row is missing a $column_name";
           $form_state->setError($form['column_descriptors'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
+      }
+
+      // Ensure allowed column type.
+      $column_type = $factor['column_type'] ?? '';
+      if (!in_array($column_type, $allowed_column_types)) {
+        $error_msg = "Column in row $row has invalid column type: $column_type";
+        $form_state->setError($form['column_descriptors'], $error_msg);
+        $this->messenger()->addError($error_msg);
       }
     }
   }
