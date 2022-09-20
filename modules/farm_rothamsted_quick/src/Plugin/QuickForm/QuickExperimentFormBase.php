@@ -251,7 +251,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#required' => TRUE,
         '#weight' => -100,
         '#ajax' => [
-          'callback' => [self::class, 'assetCallback'],
+          'callback' => [$this, 'assetCallback'],
           'wrapper' => 'asset-wrapper',
           'event' => 'autocompleteclose',
         ],
