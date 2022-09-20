@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -379,7 +378,7 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Get all of the submitted material_types parent terms.
     $material_type_names = [];
-    if ($product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 1) {
+    if ($product_count = $form_state->get('product_count')) {
       for ($i = 0; $i < $product_count; $i++) {
         $material_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type']);
         if ($material_type = $this->entityTypeManager->getStorage('taxonomy_term')->load($material_id)) {

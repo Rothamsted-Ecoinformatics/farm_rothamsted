@@ -462,11 +462,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
       // Add fields for each nutrient.
       $products['products']['#tree'] = TRUE;
-      $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? $this->productsMinimum;
+      $product_count = $form_state->get('product_count') ?? $this->productsMinimum;
       if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'product_count') {
         $product_count = (int) $trigger['#value'];
-        NestedArray::setValue($form_state->getStorage(), ['product_count'], $product_count);
       }
+      $form_state->set('product_count', $product_count);
       for ($i = 0; $i < $product_count; $i++) {
 
         // Fieldset for each product.
@@ -1066,7 +1066,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Add products applied rate material quantities.
-    if ($this->productsTab && $product_count = NestedArray::getValue($form_state->getStorage(), ['product_count']) ?? 0) {
+    if ($this->productsTab && $product_count = $form_state->get('product_count')) {
       for ($i = 0; $i < $product_count; $i++) {
         $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
         $quantity = $form_state->getValue(['products', $i, 'product_rate']);
