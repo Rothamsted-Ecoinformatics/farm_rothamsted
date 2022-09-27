@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/12) 2022-09-27
+
 ### Added
 
 - Add location field to experiment upload form.  [#259](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/259)
