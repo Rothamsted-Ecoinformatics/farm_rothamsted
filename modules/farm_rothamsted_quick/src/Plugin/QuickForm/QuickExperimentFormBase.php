@@ -257,7 +257,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ],
       ];
 
-      $location_ids = array_column($form_state->getValue('location', []), 'target_id');
+      // Load an existing location from form storage.
+      $location_ids = $form_state->get('location') ?? [];
+      if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'location') {
+        $location_ids = array_column($form_state->getValue('location', []), 'target_id');
+      }
+      $form_state->set('location', $location_ids);
+
+      // Get asset options if there are location ids.
       if (!empty($location_ids)) {
 
         // Start a query for active plant or experiment_boundary land assets
