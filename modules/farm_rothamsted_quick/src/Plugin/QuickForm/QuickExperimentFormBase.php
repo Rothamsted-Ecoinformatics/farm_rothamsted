@@ -480,6 +480,25 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Product wrapper.
         $product_wrapper = $this->buildInlineWrapper();
 
+        // Get values from form state.
+        $product_options = [];
+        $product_type_id = NULL;
+
+        // If the product_type changed, get the new value for this delta.
+        if (($trigger = $form_state->getTriggeringElement())
+            && NestedArray::getValue($trigger['#array_parents'], [2]) == $i
+            && NestedArray::getValue($trigger['#array_parents'], [4]) == 'product_type') {
+          $product_type_id = $trigger['#value'];
+          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+        }
+        // Else get the previous product_type from form state.
+        elseif ($product_type_id = $form_state->get(['products', $i, 'product_wrapper', 'product_type'])) {
+          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+        }
+
+        // Always save the product_type to form state.
+        $form_state->set(['products', $i, 'product_wrapper', 'product_type'], $product_type_id);
+
         // Product type.
         $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
         $product_wrapper['product_type'] = [
@@ -496,10 +515,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ];
 
         // Product.
-        $product_options = [];
-        if ($product_type_id = $form_state->getValue(['products', $i, 'product_wrapper', 'product_type'])) {
-          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
-        }
         $product_wrapper['product'] = [
           '#type' => 'select',
           '#title' => $this->t('Product'),
