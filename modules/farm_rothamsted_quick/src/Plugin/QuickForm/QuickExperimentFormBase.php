@@ -272,13 +272,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
           ->condition('status', 'archived', '!=');
 
-        // Limit to plant or experiment_boundary land assets.
+        // Limit to certain asset types.
+        // Allow experiment_boundary land assets.
         $experiment_land_type = $asset_query->andConditionGroup()
           ->condition('type', 'land')
           ->condition('land_type', 'experiment_boundary');
+        // Allow drain structure assets.
+        $drain_structure_type = $asset_query->andConditionGroup()
+          ->condition('type', 'structure')
+          ->condition('structure_type', 'drain');
+        // Allow plant assets.
         $asset_type = $asset_query->orConditionGroup()
           ->condition('type', 'plant')
-          ->condition($experiment_land_type);
+          ->condition($experiment_land_type)
+          ->condition($drain_structure_type);
         $asset_query->condition($asset_type);
 
         // Add an or condition group.
