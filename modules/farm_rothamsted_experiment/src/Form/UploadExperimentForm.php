@@ -144,6 +144,7 @@ class UploadExperimentForm extends FormBase {
       ],
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
+      '#limit_validation_errors' => [],
     ];
     $form['column_levels'] = [
       '#type' => 'managed_file',
@@ -154,6 +155,7 @@ class UploadExperimentForm extends FormBase {
       ],
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
+      '#limit_validation_errors' => [],
     ];
     $form['plots'] = [
       '#type' => 'managed_file',
@@ -164,6 +166,7 @@ class UploadExperimentForm extends FormBase {
       ],
       '#upload_location' => $plan_file_location,
       '#required' => TRUE,
+      '#limit_validation_errors' => [],
     ];
 
     $form['actions'] = [
@@ -184,47 +187,59 @@ class UploadExperimentForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
 
-    // Bail if not triggered by a file upload.
+    // List of file names and files to validate.
+    $file_validate = [];
     $file_names = [
       'column_descriptors',
       'column_levels',
       'plots',
     ];
-    $trigger = $form_state->getTriggeringElement();
-    if (empty($trigger['#array_parents']) || !in_array($trigger['#array_parents'][0], $file_names)) {
-      return;
-    }
-
-    // Do not validate when removing a file.
-    if ($trigger['#array_parents'][1] === 'remove_button') {
-      return;
-    }
 
     // Load all the file data for convenience.
     $file_data = $this->loadFiles($form_state);
 
-    // Ensure necessary files are uploaded.
-    $uploaded_file = $trigger['#array_parents'][0];
-    $uploaded_index = array_search($uploaded_file, $file_names);
-    foreach ($file_names as $index => $file_name) {
-      if ($index < $uploaded_index) {
-        if (empty($file_data[$file_name])) {
-          $form_state->setError($form[$uploaded_file], $this->t('%file_name must be uploaded first.', ['%file_name' => $file_name]));
-          return;
+    // Special case when a file is uploaded.
+    $trigger = $form_state->getTriggeringElement();
+    if (!empty($trigger['#array_parents']) && in_array($trigger['#array_parents'][0], $file_names)) {
+
+      // Do not validate when removing a file.
+      if ($trigger['#array_parents'][1] === 'remove_button') {
+        return;
+      }
+
+      // Ensure necessary files are uploaded.
+      $uploaded_file = $trigger['#array_parents'][0];
+      $uploaded_index = array_search($uploaded_file, $file_names);
+      foreach ($file_names as $index => $file_name) {
+        if ($index < $uploaded_index) {
+          if (empty($file_data[$file_name])) {
+            $form_state->setError($form[$uploaded_file], $this->t('%file_name must be uploaded first.', ['%file_name' => $file_name]));
+            return;
+          }
         }
       }
+
+      // Ensure the file was parsed.
+      if (empty($file_data[$uploaded_file])) {
+        $form_state->setError($form[$uploaded_file], $this->t('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
+        return;
+      }
+
+      // Add the file for custom validation.
+      $file_validate[] = $uploaded_file;
     }
 
-    // Ensure the file was parsed.
-    if (empty($file_data[$uploaded_file])) {
-      $form_state->setError($form[$uploaded_file], $this->t('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
-      return;
+    // Validate all files again on form submission.
+    if (!empty($trigger['#array_parents']) && $trigger['#parents'][0] == 'submit') {
+      $file_validate = $file_names;
     }
 
-    // Defer to the file validation function.
-    $file_name = $trigger['#array_parents'][0];
-    $function_name = 'validateFile' . str_replace('_', '', ucwords($file_name, '_'));
-    $this->{$function_name}($file_data, $form, $form_state);
+    // Perform custom validation for each file as needed.
+    foreach ($file_validate as $file_name) {
+      // Defer to the file validation function.
+      $function_name = 'validateFile' . str_replace('_', '', ucwords($file_name, '_'));
+      $this->{$function_name}($file_data, $form, $form_state);
+    }
   }
 
   /**
