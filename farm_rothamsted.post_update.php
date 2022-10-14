@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted.module.
  */
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Add storage_location field to harvest logs.
  */
@@ -57,4 +59,14 @@ function farm_rothamsted_post_update_add_harvest_storage_location_field(&$sandbo
     $log->save();
   }
 
+}
+
+/**
+ * Create drain structure type.
+ */
+function farm_rothamsted_post_update_create_drain_structure_type2(&$sandbox = NULL) {
+  $structure_type = 'drain';
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted') . "/config/install/farm_structure.structure_type.$structure_type.yml";
+  $data = Yaml::parseFile($config_path);
+  \Drupal::configFactory()->getEditable("farm_structure.structure_type.$structure_type")->setData($data)->save(TRUE);
 }
