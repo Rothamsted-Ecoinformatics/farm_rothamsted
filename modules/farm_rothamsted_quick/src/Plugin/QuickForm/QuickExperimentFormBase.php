@@ -949,8 +949,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'category' => $form_state->getValue('log_category', []),
     ];
 
-    // Copy the current asset locations to the log.
-    $log['location'] = $this->getAssetLocation(array_column($assets, 'target_id'));
+    // Save the selected locations to the log.
+    $selected_locations = array_column($form_state->getValue('location', []), 'target_id');
+    // Also copy the current asset locations to the log.
+    $current_locations = $this->getAssetLocation(array_column($assets, 'target_id'));
+    $log['location'] = array_unique(array_merge($selected_locations, $current_locations));
 
     // Add equipment references.
     $tractor = $form_state->getValue('tractor');

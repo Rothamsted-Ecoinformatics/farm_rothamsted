@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add drain structure type with support in quick forms. [#316](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/316)
+- Save selected location to quick form log location. [#315](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/315)
 
 ### Fixed
 
