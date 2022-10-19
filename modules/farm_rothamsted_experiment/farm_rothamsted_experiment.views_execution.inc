@@ -14,7 +14,7 @@ use Drupal\views\ViewExecutable;
 function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 
   // Bail if not the plan_plots view.
-  if ($view->id() !== 'rothamsted_experiment_plan_plots' || $view->current_display !== 'page') {
+  if ($view->id() !== 'rothamsted_experiment_plan_plots' || !in_array($view->current_display, ['page', 'geojson'])) {
     return;
   }
 
@@ -35,8 +35,10 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
 
       // Build factor options from each factor type.
       $column_levels = [];
+      $column_levels_filter_options = [];
       foreach ($column->column_levels as $index => $column_level) {
         $column_levels[$index] = $column_level->level_name;
+        $column_levels_filter_options[$column_level->level_id] = "$column_level->level_name";
       }
 
       // Add a views field for each column.
@@ -59,6 +61,30 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
           'value_only' => TRUE,
         ],
       ];
+
+      // Add a views filter for each column.
+      $filter = [
+        'id' => $field_id,
+        'table' => 'asset__column_descriptors',
+        'field' => 'column_descriptors_value',
+        'entity_type' => 'asset',
+        'entity_field' => 'column_descriptors',
+        'plugin_id' => 'column_level',
+        'label' => $column->column_name,
+        'settings' => [
+          'column_id' => $column_id,
+          'column_levels' => $column_levels,
+          'column_options' => $column_levels_filter_options,
+        ],
+        'exposed' => TRUE,
+        'expose' => [
+          'operator_id' => $field_id . '_op',
+          'label' => $column->column_name,
+          'identifier' => $column_id,
+          'multiple' => TRUE,
+        ],
+      ];
+      $view->addHandler($view->current_display, 'filter', 'asset__column_descriptors', 'column_descriptors_value', $filter);
     }
 
     // Update the field handlers for the display.
