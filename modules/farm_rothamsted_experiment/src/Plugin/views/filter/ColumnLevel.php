@@ -2,7 +2,7 @@
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\views\filter;
 
-use Drupal\plan\Entity\Plan;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\filter\InOperator;
 
 /**
@@ -13,6 +13,18 @@ use Drupal\views\Plugin\views\filter\InOperator;
  * @ViewsFilter("column_level")
  */
 class ColumnLevel extends InOperator {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildExposedForm(&$form, FormStateInterface $form_state) {
+    parent::buildExposedForm($form, $form_state);
+
+    // Set the element title. The parent function removes it.
+    $value = $this->options['expose']['identifier'];
+    $form[$value]['#title'] = $this->exposedInfo()['label'];
+    $form[$value]['#group'] = 'column_descriptors';
+  }
 
   /**
    * {@inheritdoc}

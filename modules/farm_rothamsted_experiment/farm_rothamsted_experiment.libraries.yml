@@ -9,3 +9,8 @@ column_descriptors_tables.formatter:
   css:
     theme:
       css/column_descriptors.css: { }
+
+column_descriptors_filters:
+  css:
+    theme:
+      css/column_descriptors_filters.css: { }

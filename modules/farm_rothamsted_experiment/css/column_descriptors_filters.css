@@ -1,0 +1,5 @@
+/* Column descriptors flexbox. */
+form.views-exposed-form fieldset#edit-column-descriptors .fieldset__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
