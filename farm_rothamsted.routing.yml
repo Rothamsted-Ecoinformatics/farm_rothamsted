@@ -1,0 +1,6 @@
+farm_rothamsted.asset_parent_action_form:
+  path: '/asset/assign-parent'
+  defaults:
+    _form: 'Drupal\farm_rothamsted\Form\AssetParentActionForm'
+  requirements:
+    _user_is_logged_in: 'TRUE'

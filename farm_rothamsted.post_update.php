@@ -70,3 +70,13 @@ function farm_rothamsted_post_update_create_drain_structure_type2(&$sandbox = NU
   $data = Yaml::parseFile($config_path);
   \Drupal::configFactory()->getEditable("farm_structure.structure_type.$structure_type")->setData($data)->save(TRUE);
 }
+
+/**
+ * Create rothamsted asset parent action.
+ */
+function farm_rothamsted_post_update_create_rothamsted_asset_parent_action(&$sandbox = NULL) {
+  $action_id = 'rothamsted_asset_parent_action';
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted') . "/config/optional/system.action.$action_id.yml";
+  $data = Yaml::parseFile($config_path);
+  \Drupal::configFactory()->getEditable("system.action.$action_id")->setData($data)->save(TRUE);
+}
