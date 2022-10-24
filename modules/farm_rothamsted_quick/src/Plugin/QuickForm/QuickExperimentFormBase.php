@@ -213,21 +213,29 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Load prepopulated assets.
     $assets = $this->defaultValues['asset'] ?? $this->getPrepopulatedEntities('asset', $form_state);
 
-    // Asset field.
-    $setup['asset'] = [
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Asset'),
-      '#description' => $this->t('The plant asset that this log relates to. Search by field locations above.'),
-      '#required' => TRUE,
+    // Assets wrapper.
+    $setup['asset_wrapper'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Assets'),
+    ];
+
+    // Add assets tree for checkboxes.
+    $setup['asset_wrapper']['assets'] = [
+      '#type' => 'container',
+      '#tree' => TRUE,
       '#prefix' => '<div id="asset-wrapper">',
       '#suffix' => '</div>',
     ];
 
     // Plot asset(s) already selected. You can only select plant or plot assets.
     if (!empty($assets)) {
-      $setup['asset']['#description'] = $this->t('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
-      $setup['asset']['#disabled'] = TRUE;
-      $setup['asset']['#default_value'] = array_keys($assets);
+      $setup['asset_wrapper']['#description'] = $this->t('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
+      $setup['asset_wrapper']['assets'][] = [
+        '#type' => 'checkboxes',
+        '#required' => TRUE,
+        '#default_value' => array_keys($assets),
+        '#disabled' => TRUE,
+      ];
     }
     // Else add a field to search for plant assets by location.
     else {
@@ -236,7 +244,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $setup['location'] = [
         '#type' => 'entity_autocomplete',
         '#title' => $this->t('Location'),
-        '#description' => $this->t('The field in which the asset is planted. If the area is not present in the list it can be added as a new land asset.'),
+        '#description' => $this->t('Search by field locations to add plant assets that this log relates to.'),
         '#target_type' => 'asset',
         '#selection_handler' => 'views',
         '#selection_settings' => [
@@ -249,6 +257,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ],
         '#tags' => TRUE,
         '#required' => TRUE,
+        '#group' => 'asset_wrapper',
         '#weight' => -100,
         '#ajax' => [
           'callback' => [$this, 'assetCallback'],
@@ -258,14 +267,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       ];
 
       // Load an existing location from form storage.
-      $location_ids = $form_state->get('location') ?? [];
+      $found_locations = $form_state->get('location') ?? [];
       if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'location') {
-        $location_ids = array_column($form_state->getValue('location', []), 'target_id');
+        $found_locations = array_column($form_state->getValue('location', []), 'target_id');
       }
-      $form_state->set('location', $location_ids);
+      $form_state->set('location', $found_locations);
 
       // Get asset options if there are location ids.
-      if (!empty($location_ids)) {
+      foreach ($found_locations as $location_id) {
 
         // Start a query for active plant or experiment_boundary land assets
         // in the selected location(s).
@@ -291,22 +300,22 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Add an or condition group.
         // Include assets that are children of the selected location.
         $logic = $asset_query->orConditionGroup()
-          ->condition('parent', $location_ids, 'IN')
-          ->condition('parent.entity:asset.parent', $location_ids, 'IN')
-          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_ids, 'IN');
+          ->condition('parent', $location_id)
+          ->condition('parent.entity:asset.parent', $location_id)
+          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_id);
 
         // Query assets moved to the selected location.
         // Include assets moved to sub-locations of the selected location.
         $location_asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
           ->condition('status', 'archived', '!=');
         $location_condition = $location_asset_query->orConditionGroup()
-          ->condition('id', $location_ids, 'IN')
-          ->condition('parent', $location_ids, 'IN')
-          ->condition('parent.entity:asset.parent', $location_ids, 'IN')
-          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_ids, 'IN');
+          ->condition('id', $location_id)
+          ->condition('parent', $location_id)
+          ->condition('parent.entity:asset.parent', $location_id)
+          ->condition('parent.entity:asset.parent.entity:asset.parent', $location_id);
         $location_asset_query->condition($location_condition);
-        $location_ids = $location_asset_query->execute();
-        $locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids);
+        $found_location_ids = $location_asset_query->execute();
+        $locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($found_location_ids);
 
         /** @var \Drupal\farm_location\AssetLocationInterface $service */
         $service = \Drupal::service('asset.location');
@@ -327,14 +336,24 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Get assets.
         $asset_ids = $asset_query->execute();
         $assets = $this->entityTypeManager->getStorage('asset')->loadMultiple($asset_ids);
+
+        // Add asset options.
+        $asset_options = array_map(function (AssetInterface $asset) {
+          return $asset->label();
+        }, $assets);
+
+        // Get the location for the label.
+        $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+
+        // Add asset checkboxes.
+        $setup['asset_wrapper']['assets'][] = [
+          '#type' => 'checkboxes',
+          '#title' => $this->t('Assets in %name', ['%name' => $location->label()]),
+          '#options' => $asset_options,
+          '#required' => TRUE,
+        ];
       }
     }
-
-    // Add asset options.
-    $asset_options = array_map(function (AssetInterface $asset) {
-      return $asset->label();
-    }, $assets);
-    $setup['asset']['#options'] = $asset_options;
 
     // Add log category field if specified.
     if (!empty($this->parentLogCategoryName)) {
@@ -730,7 +749,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   The products render array.
    */
   public function assetCallback(array &$form, FormStateInterface $form_state) {
-    return $form['setup']['asset'];
+    return $form['setup']['asset_wrapper']['assets'];
   }
 
   /**
@@ -937,17 +956,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected function prepareLog(array $form, FormStateInterface $form_state): array {
 
     // Start an array of log data to pass to QuickLogTrait::createLog.
-    $assets = $form_state->getValue('asset');
     $log = [
       'type' => $this->logType,
       'status' => $form_state->getValue('job_status'),
       'name' => $this->getLogName($form, $form_state),
       'timestamp' => $form_state->getValue('timestamp')->getTimestamp(),
-      'asset' => $assets,
       'flag' => $form_state->getValue('flag'),
       'owner' => $form_state->getValue('owner'),
       'category' => $form_state->getValue('log_category', []),
     ];
+
+    // Save assets to the log. These are submitted in an array tree.
+    // Merge all values of the array tree.
+    $assets = array_merge(...array_values($form_state->getValue('assets', [])));
+    $log['asset'] = $assets;
 
     // Save the selected locations to the log.
     $selected_locations = array_column($form_state->getValue('location', []), 'target_id');

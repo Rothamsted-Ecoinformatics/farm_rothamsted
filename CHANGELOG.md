@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Break column_descriptors filter into separate filter for each column. [#305](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/305)
+- Add asset checkboxes for each location. [#289](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/289)
 
 ### Fixed
 
