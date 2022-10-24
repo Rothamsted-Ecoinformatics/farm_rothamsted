@@ -24,7 +24,7 @@ function farm_rothamsted_experiment_post_update_create_experiment_boundary_land_
 function farm_rothamsted_experiment_post_update_create_experiment_link_fields(&$sandbox = NULL) {
 
   // Install the link module.
-  if (\Drupal::moduleHandler()->moduleExists('link')) {
+  if (!\Drupal::moduleHandler()->moduleExists('link')) {
     \Drupal::service('module_installer')->install(['link']);
   }
 
