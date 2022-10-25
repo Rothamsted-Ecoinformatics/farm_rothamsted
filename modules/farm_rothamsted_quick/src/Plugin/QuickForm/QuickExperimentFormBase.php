@@ -5,9 +5,11 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Url;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
@@ -230,11 +232,27 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Plot asset(s) already selected. You can only select plant or plot assets.
     if (!empty($assets)) {
       $setup['asset_wrapper']['#description'] = $this->t('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
+
+      // Build asset options.
+      $asset_options = array_map(function (AssetInterface $asset) {
+        return $asset->label();
+      }, $assets);
       $setup['asset_wrapper']['assets'][] = [
         '#type' => 'checkboxes',
-        '#required' => TRUE,
+        '#options' => $asset_options,
         '#default_value' => array_keys($assets),
+        '#required' => TRUE,
         '#disabled' => TRUE,
+      ];
+
+      // Add button to clear prepopulated.
+      $setup['asset_wrapper']['clear'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Clear selected'),
+        '#submit' => [
+          [$this, 'clearPrepopulatedEntitiesCallback'],
+        ],
+        '#limit_validation_errors' => [],
       ];
     }
     // Else add a field to search for plant assets by location.
@@ -797,6 +815,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Finally, create the log.
     $this->createLog($log);
+
+    // Clear prepopulated.
+    $this->clearPrepopulatedEntities();
   }
 
   /**
@@ -841,6 +862,96 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         }
       }
     }
+  }
+
+  /**
+   * Helper function to initialize prepopulated entities in the form state.
+   *
+   * @param string $entity_type
+   *   The entity type to prepopulate.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  protected function initPrepoluatedEntities(string $entity_type, FormStateInterface $form_state) {
+
+    // Save the current user.
+    $user = \Drupal::currentUser();
+
+    // Load the temp store for the quick form.
+    /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
+    $temp_store_factory = \Drupal::service('tempstore.private');
+    $temp_store = $temp_store_factory->get('farm_quick.' . $this->getId());
+
+    // Load entities from the temp store.
+    $temp_store_key = $user->id() . ':' . $entity_type;
+    $temp_store_entities = $temp_store->get($temp_store_key) ?? [];
+
+    // Convert entities to entity ids.
+    $temp_store_entity_ids = array_map(function (EntityInterface $entity) {
+      return $entity->id();
+    }, $temp_store_entities);
+
+    // Load entities from the query params.
+    $query = \Drupal::request()->query;
+    $query_entity_ids = $query->get('asset') ?? [];
+
+    // Wrap in an array, if necessary.
+    if (!is_array($query_entity_ids)) {
+      $query_entity_ids = [$query_entity_ids];
+    }
+
+    // Only include the unique ids.
+    $entity_ids = array_unique(array_merge($temp_store_entity_ids, $query_entity_ids));
+
+    // Filter to entities the user has access to.
+    $accessible_entities = [];
+    if (!empty($entity_ids)) {
+      // Return entities the user has access to.
+      $entities = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple($entity_ids);
+      $accessible_entities = array_filter($entities, function (EntityInterface $asset) use ($user) {
+        return $asset->access('view', $user);
+      });
+    }
+
+    // Save the accessible entity ids as a temporary value in the form state.
+    $accessible_entity_ids = array_map(function (EntityInterface $entity) {
+      return $entity->id();
+    }, $accessible_entities);
+    $form_state->setTemporaryValue("quick_prepopulate_$entity_type", $accessible_entity_ids);
+  }
+
+  /**
+   * Callback to clear prepopulated entities.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  public function clearPrepopulatedEntitiesCallback(array $form, FormStateInterface $form_state) {
+
+    // Clear prepopulated.
+    $this->clearPrepopulatedEntities();
+
+    // Remove any redirect and reset the form.
+    \Drupal::request()->query->remove('destination');
+    $form_state->setRebuild(FALSE);
+  }
+
+  /**
+   * Helper function to clear prepopulated entities.
+   */
+  protected function clearPrepopulatedEntities() {
+
+    // Load the temp store for the quick form.
+    /** @var \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory */
+    $temp_store_factory = \Drupal::service('tempstore.private');
+    $temp_store = $temp_store_factory->get('farm_quick.' . $this->getId());
+
+    // Finally, remove the entities from the temp store.
+    $user = \Drupal::currentUser();
+    $temp_store_key = $user->id() . ':asset';
+    $temp_store->delete($temp_store_key);
   }
 
   /**

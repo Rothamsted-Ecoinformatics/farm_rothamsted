@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - File validation error does not prevent from submission. [#318](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/318)
+- Cannot prepopulate assets into quick form. [#307](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/307)
 
 ## [2.7.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/12) 2022-09-27
 
