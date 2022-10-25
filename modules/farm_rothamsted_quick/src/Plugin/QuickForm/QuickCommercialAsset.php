@@ -151,27 +151,6 @@ class QuickCommercialAsset extends QuickFormBase {
       '#suffix' => '</div>',
     ];
 
-    // Associated files.
-    $form['file'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Associated files'),
-      '#description' => $this->t('The option to upload one or more files relating to this plant asset.'),
-      '#upload_location' => $this->getFileUploadLocation('asset', 'plant', 'file'),
-      '#upload_validators' => [
-        'file_validate_extensions' => self::$validFileExtensions,
-      ],
-      '#multiple' => TRUE,
-      '#extended' => TRUE,
-    ];
-
-    // Asset notes.
-    $form['notes'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes, not captured above.'),
-      '#format' => 'default',
-    ];
-
     // Plant asset name.
     // Provide a checkbox to allow customizing this. Otherwise it will be
     // automatically generated on submission.
@@ -198,6 +177,27 @@ class QuickCommercialAsset extends QuickFormBase {
         '#required' => TRUE,
       ];
     }
+
+    // Associated files.
+    $form['file'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Associated files'),
+      '#description' => $this->t('The option to upload one or more files relating to this plant asset.'),
+      '#upload_location' => $this->getFileUploadLocation('asset', 'plant', 'file'),
+      '#upload_validators' => [
+        'file_validate_extensions' => self::$validFileExtensions,
+      ],
+      '#multiple' => TRUE,
+      '#extended' => TRUE,
+    ];
+
+    // Asset notes.
+    $form['notes'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Notes'),
+      '#description' => $this->t('Any additional notes, not captured above.'),
+      '#format' => 'default',
+    ];
 
     return $form;
   }
