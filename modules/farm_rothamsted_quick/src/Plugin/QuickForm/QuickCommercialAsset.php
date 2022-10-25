@@ -292,7 +292,14 @@ class QuickCommercialAsset extends QuickFormBase {
     $season_name = '';
     if ($season = $form_state->getValue('harvest_year')) {
       $season_term = $this->entityTypeManager->getStorage('taxonomy_term')->load($season);
-      $season_name = $season_term->label();
+      $season_label = $season_term->label();
+
+      // Remove "Harvest year:" prefix.
+      $parts = explode(':', $season_label);
+      $season_name = $season_label;
+      if (count($parts) == 2) {
+        $season_name = trim($parts[1]);
+      }
     }
 
     // Get the crop/variety names.
