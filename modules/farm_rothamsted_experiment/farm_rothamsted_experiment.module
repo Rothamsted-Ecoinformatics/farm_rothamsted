@@ -50,7 +50,7 @@ function farm_rothamsted_experiment_form_views_exposed_form_alter(&$form, FormSt
   // Move column_descriptor fields to the wrapper.
   // Using #group in the exposed filters does not seem to work.
   foreach ($form as $field_name => $field_value) {
-    if ($field_value['#group'] == 'column_descriptors') {
+    if (is_array($field_value) && isset($field_value['#group']) && $field_value['#group'] == 'column_descriptors') {
       $form['column_descriptors'][$field_name] = $field_value;
       unset($form[$field_name]);
     }
