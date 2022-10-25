@@ -80,33 +80,6 @@ class QuickCommercialAsset extends QuickFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    // Plant asset name.
-    // Provide a checkbox to allow customizing this. Otherwise it will be
-    // automatically generated on submission.
-    $form['custom_name'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Customize plant asset name'),
-      '#description' => $this->t('The name of the commercial crop asset. Defaults to: "[Season] [Location]: [Crop] ([Variety])"'),
-      '#default_value' => FALSE,
-      '#ajax' => [
-        'callback' => [$this, 'plantNameCallback'],
-        'wrapper' => 'plant-name',
-      ],
-    ];
-    $form['name_wrapper'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'plant-name'],
-    ];
-    if ($form_state->getValue('custom_name', FALSE)) {
-      $form['name_wrapper']['name'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Plant asset name'),
-        '#maxlength' => 255,
-        '#default_value' => $this->generatePlantName($form_state),
-        '#required' => TRUE,
-      ];
-    }
-
     // Field/location.
     $form['location'] = [
       '#type' => 'entity_autocomplete',
@@ -198,6 +171,33 @@ class QuickCommercialAsset extends QuickFormBase {
       '#description' => $this->t('Any additional notes, not captured above.'),
       '#format' => 'default',
     ];
+
+    // Plant asset name.
+    // Provide a checkbox to allow customizing this. Otherwise it will be
+    // automatically generated on submission.
+    $form['custom_name'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Customize plant asset name'),
+      '#description' => $this->t('The name of the commercial crop asset. Defaults to: "[Harvest year] [Location]: [Crop] ([Variety])"'),
+      '#default_value' => FALSE,
+      '#ajax' => [
+        'callback' => [$this, 'plantNameCallback'],
+        'wrapper' => 'plant-name',
+      ],
+    ];
+    $form['name_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'plant-name'],
+    ];
+    if ($form_state->getValue('custom_name', FALSE)) {
+      $form['name_wrapper']['name'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Plant asset name'),
+        '#maxlength' => 255,
+        '#default_value' => $this->generatePlantName($form_state),
+        '#required' => TRUE,
+      ];
+    }
 
     return $form;
   }
