@@ -126,13 +126,13 @@ class QuickCommercialAsset extends QuickFormBase {
       '#required' => TRUE,
     ];
 
-    // Seasons.
-    $season_options = $this->getTermTreeOptions('season');
-    $form['season'] = [
+    // Drilling year.
+    $drilling_options = $this->getChildTermOptionsByName('season', 'Drilling year');
+    $form['drilling_year'] = [
       '#type' => 'select',
-      '#title' => $this->t('Season'),
-      '#description' => $this->t('The season in which the assets is planted. E.g. Winter 2020 or Spring 2021. This can be expanded in the Seasons Taxonomy'),
-      '#options' => $season_options,
+      '#title' => $this->t('Drilling year'),
+      '#description' => $this->t('The season in which the assets is planted. This can be expanded by adding child terms to the "Drilling year" term in the Seasons Taxonomy'),
+      '#options' => $drilling_options,
       '#required' => TRUE,
     ];
 
@@ -238,7 +238,7 @@ class QuickCommercialAsset extends QuickFormBase {
       'type' => 'plant',
       'name' => $plant_name,
       'plant_type' => $plant_type,
-      'season' => [$form_state->getValue('season'), $form_state->getValue('harvest_year')],
+      'season' => [$form_state->getValue('drilling_year'), $form_state->getValue('harvest_year')],
       'file' => $form_state->getValue('file', []),
       'notes' => $form_state->getValue('notes'),
     ];
