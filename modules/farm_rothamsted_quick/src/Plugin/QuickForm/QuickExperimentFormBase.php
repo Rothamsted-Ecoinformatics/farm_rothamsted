@@ -279,7 +279,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#ajax' => [
           'callback' => [$this, 'assetCallback'],
           'wrapper' => 'asset-wrapper',
-          'event' => 'autocompleteclose',
+          'event' => 'change',
         ],
       ];
 
