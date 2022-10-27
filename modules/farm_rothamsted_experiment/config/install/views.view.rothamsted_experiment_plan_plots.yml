@@ -952,7 +952,9 @@ display:
     position: 1
     display_options:
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
       path: plan/%plan/plots
     cache_metadata:
       max-age: 0

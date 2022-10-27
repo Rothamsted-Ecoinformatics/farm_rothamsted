@@ -1502,7 +1502,9 @@ display:
           plugin_id: result
           empty: false
           content: 'Displaying @start - @end of @total'
-      display_extenders: {  }
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
       path: plan/%plan/logs
       menu:
         type: none

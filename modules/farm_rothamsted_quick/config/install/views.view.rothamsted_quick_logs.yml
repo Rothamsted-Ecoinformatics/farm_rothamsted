@@ -1386,7 +1386,9 @@ display:
           plugin_id: result
           empty: false
           content: 'Displaying @start - @end of @total'
-      display_extenders: {  }
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
       path: quick/%quick_form_id/logs
       menu:
         type: none
