@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.8.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/13) 2022-10-28
+
 ### Added
 
 - Add drain structure type with support in quick forms. [#316](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/316)
