@@ -1117,7 +1117,11 @@ display:
           entity_field: flag
           plugin_id: list_field
           operator: or
-          value: {  }
+          value:
+            monitor: monitor
+            priority: priority
+            review: review
+            rothamsted_experiment_failed: rothamsted_experiment_failed
           group: 1
           exposed: true
           expose:
