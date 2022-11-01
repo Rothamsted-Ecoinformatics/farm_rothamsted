@@ -54,13 +54,7 @@ third_party_settings:
         required_fields: true
     group_people:
       children:
-        - principle_investigator
-        - data_steward
-        - statistician
-        - primary_contact
-        - primary_contact_email
-        - secondary_contact
-        - secondary_contact_email
+        - contact
       label: People
       region: content
       parent_name: group_metadata
@@ -129,7 +123,17 @@ content:
     third_party_settings: {  }
   asset:
     type: entity_reference_autocomplete
-    weight: 9
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  contact:
+    type: entity_reference_autocomplete
+    weight: 7
     region: content
     settings:
       match_operator: CONTAINS
@@ -139,15 +143,7 @@ content:
     third_party_settings: {  }
   cost_code:
     type: string_textfield
-    weight: 7
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  data_steward:
-    type: string_textfield
-    weight: 10
+    weight: 8
     region: content
     settings:
       size: 60
@@ -230,7 +226,7 @@ content:
     third_party_settings: {  }
   location:
     type: string_textfield
-    weight: 8
+    weight: 9
     region: content
     settings:
       size: 60
@@ -266,30 +262,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  primary_contact:
-    type: string_textfield
-    weight: 13
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  primary_contact_email:
-    type: email_default
-    weight: 14
-    region: content
-    settings:
-      placeholder: ''
-      size: 60
-    third_party_settings: {  }
-  principle_investigator:
-    type: string_textfield
-    weight: 9
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   project_code:
     type: string_textfield
     weight: 6
@@ -311,30 +283,6 @@ content:
     weight: 23
     region: content
     settings: {  }
-    third_party_settings: {  }
-  secondary_contact:
-    type: string_textfield
-    weight: 15
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  secondary_contact_email:
-    type: email_default
-    weight: 16
-    region: content
-    settings:
-      placeholder: ''
-      size: 60
-    third_party_settings: {  }
-  statistician:
-    type: string_textfield
-    weight: 12
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   status:
     type: options_select

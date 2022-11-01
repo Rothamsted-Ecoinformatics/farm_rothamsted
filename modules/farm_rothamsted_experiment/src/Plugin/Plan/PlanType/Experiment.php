@@ -74,32 +74,11 @@ class Experiment extends FarmPlanType {
         'multiple' => TRUE,
       ],
       // People fields.
-      'principle_investigator' => [
-        'type' => 'string',
-        'label' => $this->t('Principle Investigator'),
-        'description' => $this->t('The lead scientist(s) associated with the experiment.'),
+      'contact' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Contacts'),
+        'target_type' => 'user',
         'multiple' => TRUE,
-      ],
-      'data_steward' => [
-        'type' => 'string',
-        'label' => $this->t('Data Steward'),
-        'description' => $this->t('The data steward(s) associated with the experiment.'),
-        'multiple' => TRUE,
-      ],
-      'statistician' => [
-        'type' => 'string',
-        'label' => $this->t('Statistician'),
-        'description' => $this->t('The statistician(s) associated with the experiment.'),
-      ],
-      'primary_contact' => [
-        'type' => 'string',
-        'label' => $this->t('Primary Contact'),
-        'description' => $this->t('The primary contact for this experiment'),
-      ],
-      'secondary_contact' => [
-        'type' => 'string',
-        'label' => $this->t('Secondary Contact'),
-        'description' => $this->t('The secondary contact for this experiment.'),
       ],
       // Trial design fields.
       'rres_experiment_category' => [
@@ -172,20 +151,6 @@ class Experiment extends FarmPlanType {
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
       ->setLabel($this->t('Column descriptors'))
       ->setRequired(TRUE)
-      ->setRevisionable(TRUE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-
-    // Email fields.
-    $fields['primary_contact_email'] = BundleFieldDefinition::create('email')
-      ->setLabel($this->t('Primary Contact Email'))
-      ->setDescription($this->t('The e-mail address of the primary contact.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
-    $fields['secondary_contact_email'] = BundleFieldDefinition::create('email')
-      ->setLabel($this->t('Secondary Contact Email'))
-      ->setDescription($this->t('The e-mail address of the secondary contact.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);

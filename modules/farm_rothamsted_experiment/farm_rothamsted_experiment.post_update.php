@@ -63,3 +63,92 @@ function farm_rothamsted_experiment_post_update_create_experiment_link_fields(&$
   }
 
 }
+
+/**
+ * Uninstall experiment people fields.
+ */
+function farm_rothamsted_experiment_post_update_uninstall_people_fields(&$sandbox = NULL) {
+
+  // Fields to uninstall.
+  $uninstall_definitions = [];
+
+  // Build field definitions for old people and email fields.
+  $uninstall_field_info = [
+    'principle_investigator' => [
+      'type' => 'string',
+      'label' => t('Principle Investigator'),
+      'description' => t('The lead scientist(s) associated with the experiment.'),
+      'multiple' => TRUE,
+    ],
+    'data_steward' => [
+      'type' => 'string',
+      'label' => t('Data Steward'),
+      'description' => t('The data steward(s) associated with the experiment.'),
+      'multiple' => TRUE,
+    ],
+    'statistician' => [
+      'type' => 'string',
+      'label' => t('Statistician'),
+      'description' => t('The statistician(s) associated with the experiment.'),
+    ],
+    'primary_contact' => [
+      'type' => 'string',
+      'label' => t('Primary Contact'),
+      'description' => t('The primary contact for this experiment'),
+    ],
+    'secondary_contact' => [
+      'type' => 'string',
+      'label' => t('Secondary Contact'),
+      'description' => t('The secondary contact for this experiment.'),
+    ],
+  ];
+  foreach ($uninstall_field_info as $field_name => $field_info) {
+    $uninstall_definitions[$field_name] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($field_info);
+  }
+
+  // Build field definitions for contact email fields.
+  $uninstall_definitions['primary_contact_email'] = BundleFieldDefinition::create('email')
+    ->setLabel(t('Primary Contact Email'))
+    ->setDescription(t('The e-mail address of the primary contact.'))
+    ->setRevisionable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+  $uninstall_definitions['secondary_contact_email'] = BundleFieldDefinition::create('email')
+    ->setLabel(t('Secondary Contact Email'))
+    ->setDescription(t('The e-mail address of the secondary contact.'))
+    ->setRevisionable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+
+  // Uninstall each definition.
+  foreach ($uninstall_definitions as $field_name => $field_definition) {
+    // Set the field name, entity type and bundle to complete the field
+    // storage definition.
+    $field_definition
+      ->setName($field_name)
+      ->setTargetEntityTypeId('plan')
+      ->setTargetBundle('rothamsted_experiment');
+    \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($field_definition);
+  }
+}
+
+/**
+ * Create experiment contact field.
+ */
+function farm_rothamsted_experiment_post_update_create_contact_field(&$sandbox = NULL) {
+
+  // User reference.
+  $field_info = [
+    'type' => 'entity_reference',
+    'label' => t('Contacts'),
+    'target_type' => 'user',
+    'multiple' => TRUE,
+  ];
+  $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition($field_info);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'contact',
+    'plan',
+    'farm_rothamsted_experiment',
+    $field_definition,
+  );
+}

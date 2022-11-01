@@ -37,13 +37,7 @@ third_party_settings:
         description: ''
     group_people:
       children:
-        - principle_investigator
-        - data_steward
-        - statistician
-        - primary_contact
-        - primary_contact_email
-        - secondary_contact
-        - secondary_contact_email
+        - contact
       label: People
       parent_name: ''
       region: content
@@ -136,21 +130,21 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
+  contact:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
   cost_code:
     type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 9
-    region: content
-  data_steward:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
   deviations:
     type: text_default
@@ -237,6 +231,8 @@ content:
     settings:
       image_link: file
       image_style: large
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 12
     region: content
@@ -270,36 +266,13 @@ content:
     third_party_settings: {  }
     weight: 9
     region: content
-  primary_contact:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 7
-    region: content
-  primary_contact_email:
-    type: basic_string
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-    weight: 8
-    region: content
-  principle_investigator:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 4
-    region: content
   project_code:
     type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 7
     region: content
   reason_for_failure:
     type: text_default
@@ -314,29 +287,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 7
-    region: content
-  secondary_contact:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 9
-    region: content
-  secondary_contact_email:
-    type: basic_string
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-    weight: 10
-    region: content
-  statistician:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 6
     region: content
   status:
     type: list_default
