@@ -152,3 +152,36 @@ function farm_rothamsted_experiment_post_update_create_contact_field(&$sandbox =
     $field_definition,
   );
 }
+
+/**
+ * Change the location field to reference location assets.
+ */
+function farm_rothamsted_experiment_post_update_location_field_reference_asset(&$sandbox = NULL) {
+
+  // Build and uninstall the old field definition.
+  $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition([
+    'type' => 'string',
+    'label' => t('Field Location(s)'),
+    'multiple' => TRUE,
+  ]);
+  $field_definition
+    ->setName('location')
+    ->setTargetEntityTypeId('plan')
+    ->setTargetBundle('rothamsted_experiment');
+  \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($field_definition);
+
+  // Build and install the new field definition.
+  $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition([
+    'type' => 'entity_reference',
+    'label' => t('Field Location(s)'),
+    'target_type' => 'asset',
+    'target_bundle' => 'land',
+    'multiple' => TRUE,
+  ]);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'location',
+    'plan',
+    'farm_rothamsted_experiment',
+    $field_definition,
+  );
+}

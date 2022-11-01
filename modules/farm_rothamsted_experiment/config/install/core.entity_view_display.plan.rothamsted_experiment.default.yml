@@ -237,10 +237,10 @@ content:
     weight: 12
     region: content
   location:
-    type: string
+    type: entity_reference_label
     label: inline
     settings:
-      link_to_entity: false
+      link: true
     third_party_settings: {  }
     weight: 10
     region: content

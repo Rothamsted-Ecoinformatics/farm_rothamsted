@@ -225,10 +225,12 @@ content:
       preview_image_style: medium
     third_party_settings: {  }
   location:
-    type: string_textfield
+    type: entity_reference_autocomplete
     weight: 9
     region: content
     settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }

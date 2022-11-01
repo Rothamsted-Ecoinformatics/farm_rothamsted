@@ -147,10 +147,10 @@ display:
           action_title: Action
           include_exclude: exclude
           selected_actions: {  }
-        location_value:
-          id: location_value
+        location_target_id:
+          id: location_target_id
           table: plan__location
-          field: location_value
+          field: location_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -198,11 +198,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: string
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            link_to_entity: false
-          group_column: value
+            link: true
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -762,32 +762,32 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        location_value:
-          id: location_value
+        location_target_id:
+          id: location_target_id
           table: plan__location
-          field: location_value
+          field: location_target_id
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: plan
           entity_field: location
-          plugin_id: string
-          operator: contains
-          value: ''
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: location_value_op
-            label: 'Field Location'
+            operator_id: location_target_id_op
+            label: 'Field Location(s)'
             description: ''
             use_operator: false
-            operator: location_value_op
+            operator: location_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: location_value
+            identifier: location_target_id
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -795,7 +795,7 @@ display:
               farm_operator: '0'
               farm_viewer: '0'
               farm_worker: '0'
-            placeholder: ''
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -808,6 +808,17 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
+          handler: 'default:asset'
+          widget: autocomplete
+          handler_settings:
+            target_bundles:
+              land: land
+            sort:
+              field: name
+              direction: ASC
+            auto_create: false
+            auto_create_bundle: ''
         name:
           id: name
           table: plan_field_data

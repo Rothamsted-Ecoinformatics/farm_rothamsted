@@ -68,9 +68,11 @@ class Experiment extends FarmPlanType {
         'description' => $this->t('The cost code associated with the project.'),
       ],
       'location' => [
-        'type' => 'string',
+        'type' => 'entity_reference',
         'label' => $this->t('Field Location(s)'),
         'description' => $this->t('The field(s) or location(s) of the experiment.'),
+        'target_type' => 'asset',
+        'target_bundle' => 'land',
         'multiple' => TRUE,
       ],
       // People fields.
@@ -122,6 +124,18 @@ class Experiment extends FarmPlanType {
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
     }
+
+    // Set custom handler for location field.
+    $handler = 'views';
+    $handler_settings = [
+      'view' => [
+        'view_name' => 'rothamsted_quick_location_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => [],
+      ],
+    ];
+    $fields['location']->setSetting('handler', $handler);
+    $fields['location']->setSetting('handler_settings', $handler_settings);
 
     /* Create remaining special field types. */
 

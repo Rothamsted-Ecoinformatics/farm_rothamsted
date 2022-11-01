@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Migrate contacts to a user reference field. [#322](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/322)
+- Replace field locations with location asset reference. [#314](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/314)
 
 ## [2.8.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/13) 2022-10-28
 
