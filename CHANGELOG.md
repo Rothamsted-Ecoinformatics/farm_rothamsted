@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add view of uncategorized logs. [#309](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/309)
+
 ### Changed
 
 - Migrate contacts to a user reference field. [#322](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/322)
