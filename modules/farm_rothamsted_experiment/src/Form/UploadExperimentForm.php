@@ -398,6 +398,7 @@ class UploadExperimentForm extends FormBase {
     $has_plot_1 = FALSE;
 
     // Ensure all required values are provided.
+    $valid_plot_types = array_keys(farm_rothamsted_experiment_plot_type_options());
     $required_columns = [
       'plot_number' => 'numeric',
       'plot_id' => 'string',
@@ -435,6 +436,15 @@ class UploadExperimentForm extends FormBase {
             $error_msg = "Invalid value for plot feature in row $row: $column_name is not numeric: $column_value";
             $form_state->setError($form['plots'], $error_msg);
             $this->messenger()->addError($error_msg);
+            continue;
+          }
+
+          // Check for valid plot_type.
+          if ($column_name == 'plot_type' && !in_array($column_value, $valid_plot_types)) {
+            $error_msg = "Invalid plot type in row $row: $column_value";
+            $form_state->setError($form['plots'], $error_msg);
+            $this->messenger()->addError($error_msg);
+            continue;
           }
 
           // Mark if we found plot number 1.

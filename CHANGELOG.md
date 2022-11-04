@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add view of uncategorized logs. [#309](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/309)
+- Add validation for plot types in upload form.
 
 ### Changed
 
