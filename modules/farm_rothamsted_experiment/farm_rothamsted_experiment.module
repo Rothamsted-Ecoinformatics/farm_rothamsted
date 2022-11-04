@@ -65,10 +65,12 @@ function farm_rothamsted_experiment_form_views_exposed_form_alter(&$form, FormSt
  */
 function farm_rothamsted_experiment_plot_type_options() {
   return [
+    'baseline' => t('Baseline'),
     'blank' => t('Blank plot'),
     'discontinued' => t('Discontinued plot'),
     'guard' => t('Guard plot'),
     'observation' => t('Observation plot'),
+    'seed_multiplication' => t('Seed multiplication'),
     'treated' => t('Treated plot'),
   ];
 }

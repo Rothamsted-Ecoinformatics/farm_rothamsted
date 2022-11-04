@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add view of uncategorized logs. [#309](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/309)
 - Add validation for plot types in upload form.
+- Add baseline and seed_multiplication plot types. [#333](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/333)
 
 ### Changed
 
