@@ -585,7 +585,7 @@ class UploadExperimentForm extends FormBase {
         'status' => 'active',
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
-        'is_location' => TRUE,
+        'is_location' => FALSE,
         'parent' => $experiment_land,
         'column_descriptors' => [],
       ];
