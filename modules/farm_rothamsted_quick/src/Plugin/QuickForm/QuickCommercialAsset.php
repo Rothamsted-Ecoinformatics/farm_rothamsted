@@ -228,9 +228,9 @@ class QuickCommercialAsset extends QuickFormBase {
     }
 
     // For the plant_type use the crop unless the variety is specified.
-    $plant_type = $form_state->getValue('crop');
+    $plant_type = [$form_state->getValue('crop')];
     if ($variety = $form_state->getValue('plant_type')) {
-      $plant_type = $variety;
+      $plant_type = array_merge($plant_type, $variety);
     }
 
     // Start an array of asset data.

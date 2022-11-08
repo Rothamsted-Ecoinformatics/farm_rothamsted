@@ -241,8 +241,10 @@ class QuickDrilling extends QuickExperimentFormBase {
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
-    // Add the drilling log plant_type.
-    $log['plant_type'] = $form_state->getValue('crop_variety');
+    // Add the crop and variety to the drilling log plant_type.
+    $crop = [$form_state->getValue('crop')];
+    $variety = $form_state->getValue('crop_variety');
+    $log['plant_type'] = array_merge($crop, $variety);
 
     // Add the drilling log seed_dressing.
     $log['seed_dressing'] = $form_state->getValue('seed_dressing');
