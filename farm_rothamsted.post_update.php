@@ -95,3 +95,26 @@ function farm_rothamsted_post_update_create_rothamsted_uncategorized_logs_view(&
     \Drupal::configFactory()->getEditable("views.view.$view_id")->setData($data)->save(TRUE);
   }
 }
+
+/**
+ * Create seed dressing field.
+ */
+function farm_rothamsted_post_update_create_seed_dressing_field(&$sandbox = NULL) {
+
+  // Seed dressing material reference.
+  $field_info = [
+    'type' => 'entity_reference',
+    'label' => t('Seed dressing'),
+    'target_type' => 'taxonomy_term',
+    'target_bundle' => 'material_type',
+    'auto_create' => FALSE,
+    'multiple' => TRUE,
+  ];
+  $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition($field_info);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'seed_dressing',
+    'log',
+    'farm_rothamsted',
+    $field_definition,
+  );
+}

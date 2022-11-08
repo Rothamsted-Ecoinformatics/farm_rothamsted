@@ -137,12 +137,8 @@ class QuickDrilling extends QuickExperimentFormBase {
     ]);
 
     // Seed dressings.
-    $seed_dressing_terms = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');
-    // Adjust the options so to submit the term name instead of the id because
-    // seed dressings are saved in the notes.
-    $seed_dressing_names = array_values($seed_dressing_terms);
-    $seed_dressing_options = array_combine($seed_dressing_names, $seed_dressing_names);
-    $drilling['seed_dressings'] = [
+    $seed_dressing_options = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');
+    $drilling['seed_dressing'] = [
       '#type' => 'select',
       '#title' => $this->t('Seed dressing(s)'),
       '#description' => $this->t("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
@@ -248,6 +244,9 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Add the drilling log plant_type.
     $log['plant_type'] = $form_state->getValue('crop_variety');
 
+    // Add the drilling log seed_dressing.
+    $log['seed_dressing'] = $form_state->getValue('seed_dressing');
+
     return $log;
   }
 
@@ -316,10 +315,6 @@ class QuickDrilling extends QuickExperimentFormBase {
     array_unshift(
       $note_fields,
       ...[
-        [
-          'key' => 'seed_dressings',
-          'label' => $this->t('Seed dressings'),
-        ],
         [
           'key' => 'seed_lineage',
           'label' => $this->t('Seed lineage'),

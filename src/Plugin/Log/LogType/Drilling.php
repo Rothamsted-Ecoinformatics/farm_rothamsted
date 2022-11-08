@@ -36,6 +36,19 @@ class Drilling extends FarmLogType {
           'view' => -90,
         ],
       ],
+      'seed_dressing' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Seed dressing'),
+        'description' => $this->t('Seed dressing applied by either the farm or the supplier.'),
+        'target_type' => 'taxonomy_term',
+        'target_bundle' => 'material_type',
+        'auto_create' => FALSE,
+        'multiple' => TRUE,
+        'weight' => [
+          'form' => -5,
+          'view' => -5,
+        ],
+      ],
     ];
 
     foreach ($field_info as $name => $info) {
