@@ -93,3 +93,63 @@ function farm_rothamsted_quick_post_update_log_categories_288(&$sandbox = NULL) 
     }
   }
 }
+
+/**
+ * Copy seed_dressing notes from previous quick form submissions.
+ */
+function farm_rothamsted_quick_post_update_seed_dressing_notes_2(&$sandbox = NULL) {
+
+  $log_storage = \Drupal::entityTypeManager()->getStorage('log');
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  // Query logs submitted for the quick form that contain the notes value.
+  $notes_query = 'Seed dressings:';
+  $logs = $log_storage->getQuery()
+    ->condition('quick', 'drilling')
+    ->condition('notes.value', $notes_query, 'CONTAINS')
+    ->execute();
+
+  // Iterate over all matching logs.
+  foreach ($log_storage->loadMultiple($logs) as $log) {
+
+    // Use a regex to find the accompanying notes value.
+    $exp = "/($notes_query)(.*)/";
+    $matches = [];
+    $notes_value = $log->get('notes')->value;
+    preg_match($exp, $notes_value, $matches);
+
+    // If a match is found query terms and update the log.
+    if (count($matches) == 3) {
+
+      // Get array from comma list of seed dressings.
+      $notes_dressing_value = trim($matches[2]);
+      $term_names = explode(',', $notes_dressing_value) ?? [];
+
+      // Check each term name.
+      foreach ($term_names as $term_name) {
+
+        // Search for the material_type term name.
+        $term_name = trim($term_name);
+        $matching_terms = $term_storage->loadByProperties([
+          'vid' => 'material_type',
+          'status' => 1,
+          'name' => $term_name,
+        ]);
+
+        // If there is a matching term update the log category.
+        if ($matching_term = reset($matching_terms)) {
+
+          /** @var \Drupal\Core\Field\FieldItemListInterface $seed_dressing_filed */
+          $seed_dressing_filed = $log->get('seed_dressing');
+          $seed_dressing_filed->appendItem($matching_term);
+          $log->save();
+
+          // Log message.
+          $log_id = $log->id();
+          $log_message = "Updated log $log_id seed dressing: '$term_name'";
+          \Drupal::logger('farm_rothamsted_quick')->info($log_message);
+        }
+      }
+    }
+  }
+}
