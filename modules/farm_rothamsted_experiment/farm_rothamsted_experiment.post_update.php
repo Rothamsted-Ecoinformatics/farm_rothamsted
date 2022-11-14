@@ -185,3 +185,35 @@ function farm_rothamsted_experiment_post_update_location_field_reference_asset(&
     $field_definition,
   );
 }
+
+/**
+ * Update plot assets to not be locations.
+ */
+function farm_rothamsted_experiment_post_update_update_plot_location(&$sandbox = NULL) {
+
+  // Update asset_field_data.
+  \Drupal::database()->update('asset_field_data')
+    ->fields([
+      'is_location' => 0,
+    ])
+    ->condition('type', 'plot')
+    ->execute();
+
+  // Subselect plot asset IDs for updating asset_field_revision.
+  $plot_ids = \Drupal::database()->select('asset_field_data', 'afd')
+    ->fields('afd', ['id'])
+    ->condition('type', 'plot');
+
+  // Update asset_field_revision.
+  \Drupal::database()->update('asset_field_revision')
+    ->fields([
+      'is_location' => 0,
+    ])
+    ->condition('id', $plot_ids, 'IN')
+    ->execute();
+
+  // Invalidate cache for plot assets.
+  /** @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator */
+  $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
+  $cache_tags_invalidator->invalidateTags(['asset_list', 'asset_list:plot']);
+}
