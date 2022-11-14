@@ -8,3 +8,18 @@ farm_rothamsted_experiment.plan.logs:
   route_name: view.rothamsted_experiment_plan_logs.page
   base_route: entity.plan.canonical
   weight: 25
+farm_rothamsted_experiment.plan.logs_all:
+  title: 'All'
+  route_name: view.rothamsted_experiment_plan_logs.page
+  parent_id: farm_rothamsted_experiment.plan.logs
+  weight: -5
+farm_rothamsted_experiment.plan.logs_asset:
+  title: 'Assets'
+  route_name: view.rothamsted_experiment_plan_logs.page_asset
+  parent_id: farm_rothamsted_experiment.plan.logs
+  weight: 5
+farm_rothamsted_experiment.plan.logs_plot:
+  title: 'Plots'
+  route_name: view.rothamsted_experiment_plan_logs.page_plot
+  parent_id: farm_rothamsted_experiment.plan.logs
+  weight: 10

@@ -5,13 +5,13 @@ namespace Drupal\farm_rothamsted_experiment\Plugin\views\join;
 use Drupal\views\Plugin\views\join\JoinPluginBase;
 
 /**
- * Join handler to relate logs to rothamsted experiment plans using assets.
+ * Join handler to relate logs to rothamsted experiment plans using plots.
  *
- * Joins logs to assets and assets to plans via only the plan.asset field.
+ * Joins logs to assets and assets to plans via only the plan.plot field.
  *
- * @ViewsJoin("rothamsted_experiment_asset_logs")
+ * @ViewsJoin("rothamsted_experiment_plot_logs")
  */
-class RothamstedExperimentAssetLogs extends JoinPluginBase {
+class RothamstedExperimentPlotLogs extends JoinPluginBase {
 
   /**
    * Builds the SQL for the join this object represents.
@@ -28,11 +28,11 @@ class RothamstedExperimentAssetLogs extends JoinPluginBase {
     // @codingStandardsIgnoreEnd
 
     // Build subquery to select all logs that reference assets assigned to the
-    // plan.asset or plant.experiment fields.
+    // plan.plot field.
     $sub_query = \Drupal::database()->select('log__asset', 'la')
       ->distinct(TRUE);
-    $sub_query->leftJoin('plan__asset', 'pa', 'la.asset_target_id = pa.asset_target_id');
-    $sub_query->innerJoin('plan_field_data', 'pfd', 'pa.entity_id = pfd.id');
+    $sub_query->leftJoin('plan__plot', 'pp', 'la.asset_target_id = pp.plot_target_id');
+    $sub_query->innerJoin('plan_field_data', 'pfd', 'pp.entity_id = pfd.id');
 
     // Add a field for both the log_id and the plan id.
     // The log_id alias is only used internally for the join condition.

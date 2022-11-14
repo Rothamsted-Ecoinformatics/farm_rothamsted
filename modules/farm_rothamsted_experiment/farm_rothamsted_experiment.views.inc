@@ -24,16 +24,48 @@ function farm_rothamsted_experiment_views_data_alter(array &$data) {
     ];
   }
 
-  // Add a reverse relationship for experiment plan logs via assets.
+  // Add a reverse relationship for all experiment plan logs.
+  $data['log_field_data']['reverse__rothamsted_experiment_log'] = [
+    'title' => t('Experiment plan'),
+    'help' => t('Relate each log with the rothamsted experiment plan ALL.'),
+    'relationship' => [
+      'id' => 'standard',
+      'join_id' => 'rothamsted_experiment_logs',
+      'base' => 'plan_field_data',
+      'base field' => 'id',
+      'relationship table' => 'rothamsted_experiment_plan_logs',
+      'label' => t('Plan'),
+      'group' => t('Log'),
+      'entity_type' => 'plan',
+    ],
+  ];
+
+  // Add a reverse relationship for only experiment plan logs via plan.asset.
   $data['log_field_data']['reverse__rothamsted_experiment_asset_log'] = [
     'title' => t('Experiment plan'),
-    'help' => t('Relate each log with the rothamsted experiment plan its assets are a part of.'),
+    'help' => t('Relate each log with the rothamsted experiment plan ASSET.'),
     'relationship' => [
       'id' => 'standard',
       'join_id' => 'rothamsted_experiment_asset_logs',
       'base' => 'plan_field_data',
       'base field' => 'id',
-      'relationship table' => 'rothamsted_experiment_plan_logs',
+      'relationship table' => 'rothamsted_experiment_plan_asset_logs',
+      'label' => t('Plan'),
+      'group' => t('Log'),
+      'entity_type' => 'plan',
+    ],
+  ];
+
+  // Add a reverse relationship for only experiment plan logs via plan.plot.
+  $data['log_field_data']['reverse__rothamsted_experiment_plot_log'] = [
+    'title' => t('Experiment plan'),
+    'help' => t('Relate each log with the rothamsted experiment plan PLOT.'),
+    'relationship' => [
+      'id' => 'standard',
+      'join_id' => 'rothamsted_experiment_plot_logs',
+      'base' => 'plan_field_data',
+      'base field' => 'id',
+      'relationship table' => 'rothamsted_experiment_plan_plot_logs',
       'label' => t('Plan'),
       'group' => t('Log'),
       'entity_type' => 'plan',
