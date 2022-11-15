@@ -67,6 +67,7 @@ function farm_rothamsted_experiment_plot_type_options() {
   return [
     'baseline' => t('Baseline'),
     'blank' => t('Blank plot'),
+    'calibration' => t('Calibration plot'),
     'discontinued' => t('Discontinued plot'),
     'guard' => t('Guard plot'),
     'observation' => t('Observation plot'),
