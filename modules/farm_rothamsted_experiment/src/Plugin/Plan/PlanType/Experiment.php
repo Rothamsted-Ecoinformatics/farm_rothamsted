@@ -41,6 +41,7 @@ class Experiment extends FarmPlanType {
       'plot' => [
         'type' => 'entity_reference',
         'label' => $this->t('Plots'),
+        'description' => $this->t('Plot assets associated with this experiment.'),
         'target_type' => 'asset',
         'target_bundle' => 'plot',
         'multiple' => TRUE,
