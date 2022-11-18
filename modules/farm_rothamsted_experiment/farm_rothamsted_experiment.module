@@ -8,6 +8,87 @@
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\asset\Entity\AssetInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\plan\Entity\Plan;
+use Drupal\plan\Entity\PlanInterface;
+
+/**
+ * Implements hook_help().
+ */
+function farm_rothamsted_experiment_help($route_name, RouteMatchInterface $route_match) {
+  $output = [];
+
+  // All routes that are plan log pages.
+  if (strpos($route_name, 'view.rothamsted_experiment_plan_logs.') === 0) {
+
+    // Default values for plan log help text.
+    $title = t('Help');
+    $description = NULL;
+    $asset_list = TRUE;
+    $plot_link = TRUE;
+
+    // Customize help text for each log view.
+    switch ($route_name) {
+      case 'view.rothamsted_experiment_plan_logs.page':
+        $title = t('All logs associated with this experiment');
+        $description = t('This page includes all logs referencing plots or other assets associated with this experiment.');
+        break;
+
+      case 'view.rothamsted_experiment_plan_logs.page_plot':
+        $title = t('Logs referencing plots');
+        $description = t("This page includes logs that reference the experiment plots.");
+        $asset_list = FALSE;
+        break;
+
+      case 'view.rothamsted_experiment_plan_logs.page_asset':
+        $title = t('Logs referencing other experiment assets');
+        $description = t('This page includes logs that reference other assets associated with this experiment.');
+        $plot_link = FALSE;
+        break;
+    }
+
+    // Start details element with list of things to link to.
+    $details = [
+      '#type' => 'details',
+      '#title' => $title,
+      '#description' => $description,
+    ];
+    $details['list'] = [
+      '#theme' => 'item_list',
+      '#list_type' => 'ul',
+      '#items' => [],
+    ];
+
+    // Get the plan.
+    $plan = $route_match->getParameter('plan');
+    if (!$plan instanceof PlanInterface) {
+      $plan = Plan::load($plan);
+    }
+
+    // Add link to plots page.
+    if ($plot_link) {
+      $plot_url = Url::fromRoute('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
+      $link = Link::fromTextAndUrl(t('Plots'), $plot_url);
+      $details['list']['#items'][] = $link->toRenderable();
+    }
+
+    // Add asset list.
+    if ($asset_list) {
+      $assets = $plan->get('asset')->referencedEntities();
+      $labels = array_map(function (AssetInterface $asset) {
+        return $asset->toLink()->toRenderable();
+      }, $assets);
+      array_push($details['list']['#items'], ...$labels);
+    }
+
+    $output['details'] = $details;
+  }
+
+  return $output;
+}
 
 /**
  * Implements hook_theme_registry_alter().

@@ -13,13 +13,13 @@ farm_rothamsted_experiment.plan.logs_all:
   route_name: view.rothamsted_experiment_plan_logs.page
   parent_id: farm_rothamsted_experiment.plan.logs
   weight: -5
-farm_rothamsted_experiment.plan.logs_asset:
-  title: 'Assets'
-  route_name: view.rothamsted_experiment_plan_logs.page_asset
+farm_rothamsted_experiment.plan.logs_plot:
+  title: 'Plot assets'
+  route_name: view.rothamsted_experiment_plan_logs.page_plot
   parent_id: farm_rothamsted_experiment.plan.logs
   weight: 5
-farm_rothamsted_experiment.plan.logs_plot:
-  title: 'Plots'
-  route_name: view.rothamsted_experiment_plan_logs.page_plot
+farm_rothamsted_experiment.plan.logs_asset:
+  title: 'Other assets'
+  route_name: view.rothamsted_experiment_plan_logs.page_asset
   parent_id: farm_rothamsted_experiment.plan.logs
   weight: 10
