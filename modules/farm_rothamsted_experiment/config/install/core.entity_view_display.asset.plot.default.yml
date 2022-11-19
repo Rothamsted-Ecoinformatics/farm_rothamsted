@@ -40,9 +40,9 @@ content:
     label: inline
     settings:
       column_id: ''
-      raw: '1'
-      column_levels: {  }
-      value_only: 0
+      raw: true
+      column_levels: ''
+      value_only: false
     third_party_settings: {  }
     weight: 6
     region: content

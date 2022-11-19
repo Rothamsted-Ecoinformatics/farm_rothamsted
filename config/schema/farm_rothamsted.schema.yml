@@ -1,0 +1,4 @@
+# Schema for actions.
+action.configuration.rothamsted_asset_parent_action:
+  type: action_configuration_default
+  label: 'Configuration for the rothamsted asset parent action'

@@ -1,0 +1,23 @@
+# Schema for plot_column_descriptor field formatter.
+field.formatter.settings.plot_column_descriptor:
+  type: mapping
+  mapping:
+    column_id:
+      type: string
+      label: 'Column id'
+    column_levels:
+      type: string
+      label: 'Column levels'
+    raw:
+      type: boolean
+      label: 'Raw values'
+    value_only:
+      type: boolean
+      label: 'Value only'
+# Schema for views filter plugins.
+views.filter.column_level:
+  type: views.filter.in_operator
+  label: 'Column level filter'
+views.filter.plan_plot_type:
+  type: views.filter.many_to_one
+  label: 'Plan plot type filter'

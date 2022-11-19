@@ -555,7 +555,7 @@ display:
               farm_operator: '0'
               farm_viewer: '0'
               farm_worker: '0'
-            reduce: 0
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -568,7 +568,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: 0
+          reduce_duplicates: false
         status:
           id: status
           table: asset_field_data
