@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add separate views of experiment logs in secondary tabs. [#303](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/303)
 - Add calibration plot type. [#205](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/205)
 - Add sponsor and experiment admin role [#76](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/76)
+- Run PHPUnit tests in github action.
 
 ### Changed
 
