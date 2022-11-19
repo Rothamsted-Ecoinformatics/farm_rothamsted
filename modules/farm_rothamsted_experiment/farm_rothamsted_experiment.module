@@ -5,12 +5,15 @@
  * Contains farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
@@ -99,6 +102,85 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
   if (isset($theme_registry['plan__full']['preprocess functions'])) {
     $theme_registry['plan__full']['preprocess functions'] = array_filter($theme_registry['plan__full']['preprocess functions'], fn ($f) => $f != 'farm_ui_theme_preprocess_plan__full');
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_plan_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check experiment plans.
+  if ($entity->bundle() != 'rothamsted_experiment') {
+    return AccessResult::neutral();
+  }
+
+  // Only check update and delete operations.
+  if (!in_array($operation, ['update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  return farm_rothamsted_experiment_plan_account_access($entity, $account);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_asset_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check plot assets.
+  if ($entity->bundle() != 'plot') {
+    return AccessResult::neutral();
+  }
+
+  // Only check update and delete operations.
+  if (!in_array($operation, ['update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Find the plan associated with the plot.
+  $plans = \Drupal::entityTypeManager()->getStorage('plan')->loadByProperties([
+    'plot' => $entity->id(),
+  ]);
+
+  // Don't check if the plot is not associated with a plan.
+  if (empty($plans)) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  $plan = reset($plans);
+  return farm_rothamsted_experiment_plan_account_access($plan, $account)
+    ->addCacheableDependency($entity);
+}
+
+/**
+ * Helper function to determine if an account has access to edit a plan.
+ *
+ * @param \Drupal\plan\Entity\PlanInterface $plan
+ *   The plan.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   The account.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   The access result.
+ */
+function farm_rothamsted_experiment_plan_account_access(PlanInterface $plan, AccountInterface $account) {
+
+  // Allow users to update the plan if they are listed as a contact
+  // or if they are an experiment admin.
+  // We cannot use the access result's and/or logic to combine access results
+  // so check for each case and separately return an access result.
+
+  // Allow access if the user is an experiment admin.
+  if ($account->hasPermission('administer rothamsted_experiment plan')) {
+    return AccessResult::allowedIfHasPermission($account, 'administer rothamsted_experiment plan');
+  }
+
+  // Allow access if the user is an experiment contact.
+  $experiment_contacts_id = array_column($plan->get('contact')->getValue(), 'target_id') ?? [];
+  return AccessResult::forbiddenIf(!in_array($account->id(), $experiment_contacts_id))
+    ->addCacheableDependency($plan);
 }
 
 /**

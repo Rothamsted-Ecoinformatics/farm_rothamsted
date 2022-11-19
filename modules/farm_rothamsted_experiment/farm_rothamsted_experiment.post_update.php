@@ -217,3 +217,14 @@ function farm_rothamsted_experiment_post_update_update_plot_location(&$sandbox =
   $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
   $cache_tags_invalidator->invalidateTags(['asset_list', 'asset_list:plot']);
 }
+
+/**
+ * Create rothamsted_sponsor and rothamsted_experiment_admin roles.
+ */
+function farm_rothamsted_experiment_post_update_create_sponsor_experiment_admin_roles(&$sandbox = NULL) {
+  foreach (['rothamsted_experiment_admin', 'rothamsted_sponsor'] as $role_id) {
+    $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment') . "/config/install/user.role.$role_id.yml";
+    $data = Yaml::parseFile($config_path);
+    \Drupal::configFactory()->getEditable("user.role.$role_id")->setData($data)->save(TRUE);
+  }
+}

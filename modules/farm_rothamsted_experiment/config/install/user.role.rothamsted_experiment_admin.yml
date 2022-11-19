@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: rothamsted_experiment_admin
+label: 'Rothamsted experiment admin'
+weight: 1
+is_admin: null
+permissions:
+  - 'administer rothamsted_experiment plan'
+  - 'use rothamsted_experiment plan uploader'

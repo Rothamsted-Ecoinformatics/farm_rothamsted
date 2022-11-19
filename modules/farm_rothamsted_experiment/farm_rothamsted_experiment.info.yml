@@ -7,6 +7,7 @@ dependencies:
   - drupal:link
   - farm_entity
   - farm_land
+  - farm_observation
   - farm_rothamsted:farm_rothamsted_quick
   - field_group:field_group
   - json_field:json_field

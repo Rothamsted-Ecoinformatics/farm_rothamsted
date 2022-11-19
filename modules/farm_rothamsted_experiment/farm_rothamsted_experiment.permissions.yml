@@ -1,2 +1,4 @@
 use rothamsted_experiment plan uploader:
   title: 'Use Rothamsted experiment plan uploader'
+administer rothamsted_experiment plan:
+  title: 'Administer Rothamsted experiment plans'

@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - asset
+    - farm_rothamsted_experiment
+    - log
+    - plan
+id: rothamsted_sponsor
+label: Sponsor
+weight: 1
+is_admin: null
+permissions:
+  - 'create observation log'
+  - 'create plot asset'
+  - 'create rothamsted_experiment plan'
+  - 'delete any plot asset'
+  - 'delete any rothamsted_experiment plan'
+  - 'delete own observation log'
+  - 'delete own plot asset'
+  - 'delete own rothamsted_experiment plan'
+  - 'update any plot asset'
+  - 'update any rothamsted_experiment plan'
+  - 'update own observation log'
+  - 'update own plot asset'
+  - 'update own rothamsted_experiment plan'
+  - 'use rothamsted_experiment plan uploader'
+  - 'view any observation log'
+  - 'view any plan'
+  - 'view any plot asset'
+  - 'view any rothamsted_experiment plan'
+  - 'view own observation log'
+  - 'view own plan'
+  - 'view own plot asset'
+  - 'view own rothamsted_experiment plan'
