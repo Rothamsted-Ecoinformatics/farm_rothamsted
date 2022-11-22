@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Save crop and variety in drilling and commercial quick forms. [#310](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/310)
 - Change plot assets to not default as locations. [#336](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/336)
 
+### Fixed
+
+- Only display experiment flags on experiment plan view.
+
 ### Removed
 
 - Remove asset parent action to use core action. [#321](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/321)
