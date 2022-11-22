@@ -118,3 +118,13 @@ function farm_rothamsted_post_update_create_seed_dressing_field(&$sandbox = NULL
     $field_definition,
   );
 }
+
+/**
+ * Delete rothamsted asset parent action.
+ */
+function farm_rothamsted_post_update_remove_rothamsted_asset_parent_action(&$sandbox = NULL) {
+  $action_id = 'rothamsted_asset_parent_action';
+  if (!\Drupal::configFactory()->get("system.action.$action_id")->isNew()) {
+    \Drupal::configFactory()->getEditable("system.action.$action_id")->delete();
+  }
+}

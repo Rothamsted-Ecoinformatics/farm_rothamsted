@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Save crop and variety in drilling and commercial quick forms. [#310](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/310)
 - Change plot assets to not default as locations. [#336](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/336)
 
+### Removed
+
+- Remove asset parent action to use core action. [#321](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/321)
+
 ## [2.8.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/13) 2022-10-28
 
 ### Added
