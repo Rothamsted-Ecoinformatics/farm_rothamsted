@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2022-11-29
+
 ### Changed
 
 - Depend on farmOS ^2.0.0-beta8.
