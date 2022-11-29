@@ -9,7 +9,7 @@
       }
   ],
   "require": {
-    "farmos/farmos": "^2.0.0-beta4",
+    "farmos/farmos": "^2.0.0-beta8",
     "drupal/autocomplete_deluxe": "^2.0",
     "drupal/farm_rei": "^2.0@beta",
     "drupal/field_group": "^3.2",
