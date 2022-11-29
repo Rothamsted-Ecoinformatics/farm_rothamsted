@@ -3,6 +3,7 @@ status: true
 dependencies:
   module:
     - asset
+    - farm_role
     - farm_rothamsted_experiment
     - log
     - plan
@@ -33,3 +34,7 @@ permissions:
   - 'view own plan'
   - 'view own plot asset'
   - 'view own rothamsted_experiment plan'
+third_party_settings:
+  farm_role:
+    access:
+      config: false

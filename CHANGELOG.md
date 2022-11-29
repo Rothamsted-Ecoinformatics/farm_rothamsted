@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Make experiment admin and sponsor roles managed roles. [#76](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/76)
+
 ## [2.9.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2022-11-21
 
 ### Added
