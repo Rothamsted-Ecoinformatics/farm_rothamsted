@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Replace @codingStandards with phpcs:ignore. [#349](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/349)
+- Add quantity permissions to rothamsted sponsor role. [#347](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/347)
 
 ## [2.9.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2022-11-29
 
