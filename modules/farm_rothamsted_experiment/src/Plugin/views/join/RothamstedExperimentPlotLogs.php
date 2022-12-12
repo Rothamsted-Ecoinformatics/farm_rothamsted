@@ -23,9 +23,8 @@ class RothamstedExperimentPlotLogs extends JoinPluginBase {
    * @param \Drupal\views\Plugin\views\query\QueryPluginBase $view_query
    *   The source views query.
    */
-  // @codingStandardsIgnoreStart
+  // phpcs:ignore Drupal.Commenting.FunctionComment.TypeHintMissing, Drupal.Commenting.FunctionComment.Missing
   public function buildJoin($select_query, $table, $view_query) {
-    // @codingStandardsIgnoreEnd
 
     // Build subquery to select all logs that reference assets assigned to the
     // plan.plot field.

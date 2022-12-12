@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Replace @codingStandards with phpcs:ignore. [#349](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/349)
+
 ## [2.9.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2022-11-29
 
 ### Changed
