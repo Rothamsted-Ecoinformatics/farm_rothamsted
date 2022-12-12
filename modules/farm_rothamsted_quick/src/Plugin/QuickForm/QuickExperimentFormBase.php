@@ -341,14 +341,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         /** @var \Drupal\farm_location\AssetLocationInterface $service */
         $service = \Drupal::service('asset.location');
         $assets = $service->getAssetsByLocation($locations);
-
-        // @todo Remove this mapping if location interface changes.
-        // @see https://github.com/farmOS/farmOS/pull/565
-        $asset_location_ids = array_map(function (AssetInterface $asset) {
-          return $asset->id();
-        }, $assets);
-        if (!empty($asset_location_ids)) {
-          $logic->condition('id', $asset_location_ids, 'IN');
+        if (!empty($assets)) {
+          $logic->condition('id', array_keys($assets), 'IN');
         }
 
         // Include logic or group.
