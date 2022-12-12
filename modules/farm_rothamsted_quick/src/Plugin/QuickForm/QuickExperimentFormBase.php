@@ -323,8 +323,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
         // Query assets moved to the selected location.
         // Include assets moved to sub-locations of the selected location.
+        // Do not limit to is_location = True for legacy reasons. From 1.x some
+        // assets have a parent that is not a location.
+        // Do not include plot assets for performance reasons.
         $location_asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
-          ->condition('status', 'archived', '!=');
+          ->condition('status', 'archived', '!=')
+          ->condition('type', 'plot', '!=');
         $location_condition = $location_asset_query->orConditionGroup()
           ->condition('id', $location_id)
           ->condition('parent', $location_id)
