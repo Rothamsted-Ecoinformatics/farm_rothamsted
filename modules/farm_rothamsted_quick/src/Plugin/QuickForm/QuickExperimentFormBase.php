@@ -578,6 +578,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Volume per unit area');
         $product_application_rate = [
           'title' => $this->t('Product rate'),
+          'type' => ['#value' => 'material'],
           'measure' => ['#value' => 'rate'],
           'units' => ['#options' => $application_rate_units_options],
           'required' => TRUE,
@@ -1220,6 +1221,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $hours = $time_taken['hours'];
       $minutes = $time_taken['minutes'];
       $quantities[] = [
+        'type' => 'standard',
         'label' => (string) $this->t('Time taken'),
         'value' => $hours + $minutes / 60,
         'measure' => 'time',
@@ -1232,7 +1234,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       for ($i = 0; $i < $product_count; $i++) {
         $material = $form_state->getValue(['products', $i, 'product_wrapper', 'product']);
         $quantity = $form_state->getValue(['products', $i, 'product_rate']);
-        $quantity['type'] = 'material';
         $quantity['material_type'] = $material;
         $quantities[] = $quantity;
       }

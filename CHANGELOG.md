@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Specify quick form quantities to be standard. [#359](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/359)
+
 ## [2.9.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2022-12-12
 
 ### Fixed

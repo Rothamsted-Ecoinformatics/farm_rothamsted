@@ -43,6 +43,10 @@ trait QuickQuantityFieldTrait {
     // Default config.
     $default_config = [
       'border' => FALSE,
+      'type' => [
+        '#type' => 'hidden',
+        '#value' => 'standard',
+      ],
       'measure' => [
         '#type' => 'select',
         '#title' => $this->t('Measure'),
@@ -88,6 +92,7 @@ trait QuickQuantityFieldTrait {
     }
 
     // Include each quantity subfield.
+    $render['type'] = $config['type'];
     $render['measure'] = $config['measure'];
     $render['value'] = $config['value'];
     $render['label'] = $config['label'];

@@ -320,6 +320,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
     // Compute the trailer nett weight.
     $total_nett_weight = [
+      'type' => 'standard',
       'label' => 'Nett weight',
       'measure' => 'weight',
       'units' => NULL,
