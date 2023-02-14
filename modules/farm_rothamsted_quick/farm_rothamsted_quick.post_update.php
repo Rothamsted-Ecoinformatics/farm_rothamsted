@@ -153,3 +153,95 @@ function farm_rothamsted_quick_post_update_seed_dressing_notes_2(&$sandbox = NUL
     }
   }
 }
+
+/**
+ * Update input and drilling logs that incorrectly created material quantities.
+ */
+function farm_rothamsted_quick_post_update_material_quantities(&$sandbox = NULL) {
+
+  // Define default quantity labels to filter by.
+  $default_quantity_labels = [
+    'Time taken',
+    'Tractor hours (start)',
+    'Tractor hours (end)',
+    'Fuel use',
+  ];
+
+  // Define log type and quantity label filters for each quick form.
+  $quick_form_quantity_labels = [
+    'spraying' => [
+      'log_type' => 'input',
+      'quantity_labels' => [
+        'Harvest interval',
+        'Pressure',
+        'Water volume',
+        'Temperature (C)',
+        'Wind speed',
+        'Area sprayed',
+        'Speed driven',
+        'Tank volume remaining',
+      ],
+    ],
+    'fertiliser' => [
+      'log_type' => 'input',
+      'quantity_labels' => [
+        'Machine treated area',
+        'Field treated area',
+        'Total volume applied',
+        'Target application rate',
+      ],
+    ],
+    'drilling' => [
+      'log_type' => 'drilling',
+      'quantity_labels' => [
+        'Seed rate',
+        'Drilling rate',
+        'Thousand grain weight (TGW)',
+        'Seed Germination Test Result',
+        'Target plant population',
+        'Establishment average',
+        'Drilling depth',
+      ],
+    ],
+  ];
+
+  // Update quantities for each quick form.
+  foreach ($quick_form_quantity_labels as $quick_id => $quick_conditions) {
+
+    // Get the log type to filter by.
+    $log_type = $quick_conditions['log_type'];
+
+    // Build quantity labels to filter by.
+    $target_quantity_labels = array_merge($default_quantity_labels, $quick_conditions['quantity_labels']);
+
+    // Build a subquery of quantity ids to convert.
+    // Limit to logs from the quick form and specified log type.
+    $log_quantity_subquery = \Drupal::database()->select('log__quick', 'lquick')
+      ->distinct(TRUE)
+      ->condition('lquick.bundle', $log_type)
+      ->condition('lquick.quick_value', $quick_id);
+
+    // Join log__quantity and quantity.
+    // Limit to material quantities with the target quantity labels.
+    $log_quantity_subquery->innerJoin('log__quantity', 'lquantity', 'lquantity.entity_id = lquick.entity_id');
+    $log_quantity_subquery->innerJoin('quantity', 'q', 'q.id = lquantity.quantity_target_id');
+    $log_quantity_subquery
+      ->condition('q.type','material')
+      ->condition('q.label', $target_quantity_labels, 'IN');
+
+    // Select the quantity ids.
+    $log_quantity_subquery->addField('q', 'id', 'quantity_id');
+
+    // Update the type to standard for the target quantities.
+    $quantities_affected = \Drupal::database()->update('quantity')
+      ->fields([
+        'type' => 'standard',
+      ])
+      ->condition('id', $log_quantity_subquery, 'IN')
+      ->execute();
+
+    // Add logger message.
+    \Drupal::logger('farm_rothamsted_quick')->info("Converted $quantities_affected material quantities to standard quantities for quick form: $quick_id");
+  }
+
+}
