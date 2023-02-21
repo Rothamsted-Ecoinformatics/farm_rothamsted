@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall for farm_rothamsted_experiment_research module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function farm_rothamsted_experiment_research_install() {
+
+  // Enforce entity reference integrity on the entity types we care about.
+  $rothamsted_entity_types = [
+    'rothamsted_design',
+    'rothamsted_experiment',
+    'rothamsted_program',
+  ];
+  $config = \Drupal::configFactory()->getEditable('entity_reference_integrity_enforce.settings');
+  $enabled = $config->get('enabled_entity_type_ids');
+  $new = array_merge($enabled + array_combine($rothamsted_entity_types, $rothamsted_entity_types));
+  $config->set('enabled_entity_type_ids', $new)->save();
+}
