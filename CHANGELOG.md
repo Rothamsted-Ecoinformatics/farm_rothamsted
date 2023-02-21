@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add farm_rothamsted_researcher module [#354](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/354)
+
 ## [2.9.3](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2023-02-14
 
 ### Fixed
