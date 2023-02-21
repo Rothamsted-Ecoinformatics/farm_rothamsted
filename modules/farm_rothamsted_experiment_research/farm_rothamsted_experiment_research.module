@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * The farm rothamsted experiment research module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\entity\BundleFieldDefinition;
+
+/**
+ * Implements hook_farm_entity_bundle_field_info().
+ */
+function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
+  $fields = [];
+
+  // Add an Equipment reference field to logs.
+  if ($entity_type->id() == 'plan' && $bundle == 'rothamsted_experiment') {
+
+    // Reference to the experiment design.
+    $fields['experiment_design'] = BundleFieldDefinition::create('entity_reference')
+      ->setLabel(t('Experiment Design'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('target_type', 'rothamsted_design')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'weight' => -100,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => -100,
+      ]);
+  }
+
+  return $fields;
+}
