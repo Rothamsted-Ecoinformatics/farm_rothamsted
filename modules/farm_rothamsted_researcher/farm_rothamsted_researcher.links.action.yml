@@ -1,0 +1,5 @@
+farm_rothamsted_researcher.add:
+  title: 'Add Researcher'
+  route_name: entity.rothamsted_researcher.add_form
+  appears_on:
+    - entity.rothamsted_researcher.collection
