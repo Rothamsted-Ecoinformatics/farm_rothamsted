@@ -1,0 +1,5 @@
+farm.research:
+  title: Research
+  parent: farm.base
+  route_name: entity.rothamsted_program.collection
+  weight: -90
