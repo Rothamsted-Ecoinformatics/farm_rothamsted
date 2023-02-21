@@ -1,0 +1,20 @@
+# Programs.
+farm_rothamsted_experiment_research.programs:
+  title: 'Research Programs'
+  route_name: entity.rothamsted_program.collection
+  base_route: entity.rothamsted_program.collection
+  weight: 5
+
+# Experiments.
+farm_rothamsted_experiment_research.experiments:
+  title: 'Experiments'
+  route_name: entity.rothamsted_experiment.collection
+  base_route: entity.rothamsted_program.collection
+  weight: 10
+
+# Researchers.
+farm_rothamsted_experiment_research.researchers:
+  title: 'Researchers'
+  route_name: entity.rothamsted_researcher.collection
+  base_route: entity.rothamsted_program.collection
+  weight: 50
