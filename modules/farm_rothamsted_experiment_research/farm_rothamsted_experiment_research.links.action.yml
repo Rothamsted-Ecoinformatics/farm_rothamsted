@@ -1,0 +1,19 @@
+farm_rothamsted_experiment_research.add_program:
+  title: 'Add Program'
+  route_name: entity.rothamsted_program.add_form
+  appears_on:
+    - entity.rothamsted_program.collection
+
+farm_rothamsted_experiment_research.add_experiment:
+  title: 'Add Experiment'
+  route_name: entity.rothamsted_experiment.add_form
+  appears_on:
+    - entity.rothamsted_experiment.collection
+    - view.rothamsted_experiment.page_program
+
+farm_rothamsted_experiment_research.add_design:
+  title: 'Add Experiment Design'
+  route_name: entity.rothamsted_design.add_form
+  appears_on:
+    - entity.rothamsted_design.collection
+    - view.rothamsted_experiment_design.page_experiment
