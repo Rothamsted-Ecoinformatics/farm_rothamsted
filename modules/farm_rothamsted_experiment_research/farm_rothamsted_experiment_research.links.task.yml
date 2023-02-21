@@ -18,3 +18,24 @@ farm_rothamsted_experiment_research.researchers:
   route_name: entity.rothamsted_researcher.collection
   base_route: entity.rothamsted_program.collection
   weight: 50
+
+# Program experiments.
+farm_rothamsted_experiment_research.program_experiment:
+  title: 'Experiments'
+  route_name: view.rothamsted_experiment.page_program
+  base_route: entity.rothamsted_program.canonical
+  weight: 20
+
+# Experiment design.
+farm_rothamsted_experiment_research.experiment_design:
+  title: 'Experiment designs'
+  route_name: view.rothamsted_experiment_design.page_experiment
+  base_route: entity.rothamsted_experiment.canonical
+  weight: 20
+
+# Experiment design plans.
+farm_rothamsted_experiment_research.design_plan:
+  title: 'Plans'
+  route_name: view.rothamsted_experiment_plan.page_design
+  base_route: entity.rothamsted_design.canonical
+  weight: 20
