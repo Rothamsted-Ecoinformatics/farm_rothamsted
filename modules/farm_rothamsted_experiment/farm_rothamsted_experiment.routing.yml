@@ -1,3 +1,18 @@
+farm_rothamsted_experiment.plan.variables:
+  path: '/plan/{plan}/variables'
+  defaults:
+    _controller: Drupal\farm_rothamsted_experiment\Controller\ExperimentVariable::variables
+    _title: 'Experiment variables'
+    _title_callback: '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm::getTitle'
+  requirements:
+    _entity_access: 'plan.view'
+  options:
+    no_cache: TRUE
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
 farm_rothamsted_experiment.upload_experiment_form:
   path: '/farm-rothamsted/upload-experiment'
   defaults:
