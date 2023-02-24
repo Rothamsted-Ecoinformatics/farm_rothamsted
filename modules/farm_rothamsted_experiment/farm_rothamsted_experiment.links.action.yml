@@ -4,3 +4,13 @@ farm_rothamsted_experiment.upload_experiment_form:
   appears_on:
     - entity.plan.collection
     - view.rothamsted_experiment_plans.page
+farm_rothamsted_experiment.experiment_variable_form:
+  route_name: farm_rothamsted_experiment.experiment.variable_form
+  title: 'Add variables'
+  appears_on:
+    - farm_rothamsted_experiment.plan.variables
+farm_rothamsted_experiment.experiment_plot_geometry_form:
+  route_name: farm_rothamsted_experiment.experiment_plot_geometry_form
+  title: 'Add plot geometries'
+  appears_on:
+    - view.rothamsted_experiment_plan_plots.page

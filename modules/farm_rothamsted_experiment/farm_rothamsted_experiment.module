@@ -5,6 +5,7 @@
  * Contains farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -102,6 +103,35 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
   if (isset($theme_registry['plan__full']['preprocess functions'])) {
     $theme_registry['plan__full']['preprocess functions'] = array_filter($theme_registry['plan__full']['preprocess functions'], fn ($f) => $f != 'farm_ui_theme_preprocess_plan__full');
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+
+  $boundary = NULL;
+  /** @var \Drupal\asset\Entity\AssetInterface[] $plan_assets */
+  $plan_assets = $entity->get('asset')->referencedEntities();
+  foreach ($plan_assets as $plan_asset) {
+    if ($plan_asset->bundle() == 'land' && $plan_asset->get('land_type')->value == 'experiment_boundary') {
+      $boundary = $plan_asset;
+      break;
+    }
+  }
+
+  // Ensure experiment boundary exists.
+  if (empty($boundary)) {
+    $url = Url::fromRoute('farm_rothamsted_experiment.experiment_boundary_form', ['plan' => $entity->id()])->setAbsolute()->toString();
+    \Drupal::messenger()->addWarning(t('No experiment boundary has been created. <a href=":link">Create experiment boundary</a>', [':link' => $url]));
+  }
+
+  $has_plots = !$entity->get('plot')->isEmpty();
+  if (!$has_plots) {
+    $url = Url::fromRoute('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $entity->id()])->setAbsolute()->toString();
+    \Drupal::messenger()->addWarning(t('No experiment plots have been been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
+  }
+
 }
 
 /**
