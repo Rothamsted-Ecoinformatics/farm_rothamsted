@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
+use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\asset\Entity\Asset;
@@ -84,58 +85,68 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
+   * Returns a page title.
+   */
+  public function getTitle(PlanInterface $plan = NULL) {
+    return $this->t('Upload experiment data for %label', ['%label' => $plan->label()]);
+  }
+
+  /**
    * Build the upload form.
    *
    * @param array $form
    *   Default form array structure.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Object containing current form state.
+   * @param \Drupal\plan\Entity\PlanInterface|null $plan
+   *   The plan.
    *
    * @return array
    *   The render array defining the elements of the form.
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, PlanInterface $plan = NULL) {
 
-    // Plan name.
-    $form['name'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Experiment name'),
-      '#required' => TRUE,
+    // Bail if no plan.
+    if (empty($plan)) {
+      return $form;
+    }
+
+    // Save the plan ID.
+    $form['plan_id'] = [
+      '#type' => 'hidden',
+      '#value' => $plan->id(),
     ];
 
-    // Experiment code.
-    $form['experiment_code'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Experiment Code'),
-      '#required' => TRUE,
-    ];
+    // Column and plots.
+    $has_plots = !$plan->get('plot')->isEmpty();
 
-    // Location for the experiment boundary parents.
-    $form['location'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Location'),
-      '#description' => $this->t('The fields in which the experiment is located. This will be saved to experiment boundary and can be changed at a later time.'),
-      '#target_type' => 'asset',
-      '#selection_handler' => 'views',
-      '#selection_settings' => [
-        'view' => [
-          'view_name' => 'rothamsted_quick_location_reference',
-          'display_name' => 'entity_reference',
-          'arguments' => [],
-        ],
-        'match_operator' => 'CONTAINS',
-      ],
-      '#tags' => TRUE,
-    ];
+    // Code and boundary needed for plots.
+    $has_code = !$plan->get('experiment_code')->isEmpty();
+    $has_boundary = FALSE;
+    /** @var \Drupal\asset\Entity\AssetInterface[] $plan_assets */
+    $plan_assets = $plan->get('asset')->referencedEntities();
+    foreach ($plan_assets as $plan_asset) {
+      if ($plan_asset->bundle() == 'land' && $plan_asset->get('land_type')->value == 'experiment_boundary') {
+        $has_boundary = TRUE;
+        break;
+      }
+    }
 
     // Brief instructions.
     $form['file_instructions'] = [
       '#markup' => $this->t('Upload experiment files in the order listed below. Each file will be checked to ensure it has no missing or inconsistent data.'),
     ];
 
+    // Column group.
+    $form['column_data'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Experiment columns'),
+      '#open' => TRUE,
+    ];
+
     // Add file upload fields.
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
-    $form['column_descriptors'] = [
+    $form['column_data']['column_descriptors'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Column descriptors'),
       '#description' => $this->t('CSV file containing the column descriptor definitions.'),
@@ -143,10 +154,9 @@ class UploadExperimentForm extends FormBase {
         'file_validate_extensions' => ['csv'],
       ],
       '#upload_location' => $plan_file_location,
-      '#required' => TRUE,
       '#limit_validation_errors' => [],
     ];
-    $form['column_levels'] = [
+    $form['column_data']['column_levels'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Column Levels'),
       '#description' => $this->t('CSV file containing the column level definitions for each column descriptor.'),
@@ -154,19 +164,65 @@ class UploadExperimentForm extends FormBase {
         'file_validate_extensions' => ['csv'],
       ],
       '#upload_location' => $plan_file_location,
-      '#required' => TRUE,
       '#limit_validation_errors' => [],
     ];
-    $form['plots'] = [
-      '#type' => 'managed_file',
+
+    // Plot data group.
+    $form['plot_data'] = [
+      '#type' => 'details',
       '#title' => $this->t('Plots'),
-      '#description' => $this->t('GeoJSON file containing each plot number, id, type, geometry and column assignments.'),
+      '#open' => TRUE,
+    ];
+
+    // Include message if no plots.
+    if (!$has_plots) {
+      $form['plot_data']['no_plots'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('No plots are associated with this experiment. Upload plot attributes and geometries to create plots.'),
+      ];
+    }
+
+    // Include message if no code has been added.
+    if (!$has_code) {
+      $form['plot_data']['no_code'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('Plots cannot be created without an experiment code.'),
+      ];
+    }
+
+    // Include message if no boundary has been added.
+    if (!$has_boundary) {
+      $form['plot_data']['no_boundary'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('Plots cannot be created without an experiment boundary.'),
+      ];
+    }
+
+    $form['plot_data']['plot_attributes'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Plot attributes'),
+      '#description' => $this->t('CSV file containing each plot number, id, type and column assignments.'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['csv'],
+      ],
+      '#upload_location' => $plan_file_location,
+      '#limit_validation_errors' => [],
+      '#disabled' => !$has_boundary || !$has_code,
+    ];
+
+    $form['plot_data']['plot_geojson'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Plot geometries'),
+      '#description' => $this->t('GeoJSON file containing each plot number and geometry.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
       '#upload_location' => $plan_file_location,
-      '#required' => TRUE,
       '#limit_validation_errors' => [],
+      '#disabled' => !$has_boundary || !$has_code,
     ];
 
     $form['actions'] = [
@@ -192,7 +248,8 @@ class UploadExperimentForm extends FormBase {
     $file_names = [
       'column_descriptors',
       'column_levels',
-      'plots',
+      'plot_attributes',
+      'plot_geojson',
     ];
 
     // Load all the file data for convenience.
@@ -200,15 +257,15 @@ class UploadExperimentForm extends FormBase {
 
     // Special case when a file is uploaded.
     $trigger = $form_state->getTriggeringElement();
-    if (!empty($trigger['#array_parents']) && in_array($trigger['#array_parents'][0], $file_names)) {
+    if (!empty($trigger['#array_parents']) && in_array($trigger['#array_parents'][1], $file_names)) {
 
       // Do not validate when removing a file.
-      if ($trigger['#array_parents'][1] === 'remove_button') {
+      if ($trigger['#array_parents'][2] === 'remove_button') {
         return;
       }
 
       // Ensure necessary files are uploaded.
-      $uploaded_file = $trigger['#array_parents'][0];
+      $uploaded_file = $trigger['#array_parents'][1];
       $uploaded_index = array_search($uploaded_file, $file_names);
       foreach ($file_names as $index => $file_name) {
         if ($index < $uploaded_index) {
@@ -236,6 +293,7 @@ class UploadExperimentForm extends FormBase {
 
     // Perform custom validation for each file as needed.
     foreach ($file_validate as $file_name) {
+
       // Defer to the file validation function.
       $function_name = 'validateFile' . str_replace('_', '', ucwords($file_name, '_'));
       $this->{$function_name}($file_data, $form, $form_state);
@@ -379,7 +437,7 @@ class UploadExperimentForm extends FormBase {
   }
 
   /**
-   * Validation function for the plots geojson file.
+   * Validation function for the plot attribute csv file.
    *
    * @param array $file_data
    *   Processed file data.
@@ -388,10 +446,10 @@ class UploadExperimentForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateFilePlots(array $file_data, array &$form, FormStateInterface $form_state) {
+  public function validateFilePlotAttributes(array $file_data, array &$form, FormStateInterface $form_state) {
 
     // Get data from files.
-    $plot_features = $file_data['plots']['features'];
+    $plot_attributes = $file_data['plot_attributes'];
     $column_ids = array_column($file_data['column_levels'], 'column_id');
 
     // Keep track of plot 1.
@@ -406,35 +464,28 @@ class UploadExperimentForm extends FormBase {
       'row' => 'numeric',
       'column' => 'numeric',
     ];
-    foreach ($plot_features as $row => $feature) {
+    foreach ($plot_attributes as $row => $attributes) {
 
       // Increment row so count starts at 1 in error messages.
       $row++;
 
-      // Make sure properties exist.
-      if (!isset($feature['properties'])) {
-        $error_msg = "Plot feature in row $row is missing properties.";
-        $form_state->setError($form['plots'], $error_msg);
-        $this->messenger()->addError($error_msg);
-      }
-
       // Ensure each that each plot has valid column_ids and level_names.
-      foreach ($feature['properties'] as $column_name => $column_value) {
+      foreach ($attributes as $column_name => $column_value) {
 
         // Check required columns.
         if (in_array($column_name, array_keys($required_columns))) {
 
-          if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
-            $error_msg = "Plot feature in row $row is missing a $column_name";
-            $form_state->setError($form['plots'], $error_msg);
+          if (!isset($attributes[$column_name]) || strlen($attributes[$column_name]) === 0) {
+            $error_msg = "Plot in row $row is missing a $column_name";
+            $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
             $this->messenger()->addError($error_msg);
             continue;
           }
 
           // Check for numeric value type.
           if ($required_columns[$column_name] == 'numeric' && !is_numeric($column_value)) {
-            $error_msg = "Invalid value for plot feature in row $row: $column_name is not numeric: $column_value";
-            $form_state->setError($form['plots'], $error_msg);
+            $error_msg = "Invalid value for plot in row $row: $column_name is not numeric: $column_value";
+            $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
             $this->messenger()->addError($error_msg);
             continue;
           }
@@ -442,13 +493,13 @@ class UploadExperimentForm extends FormBase {
           // Check for valid plot_type.
           if ($column_name == 'plot_type' && !in_array($column_value, $valid_plot_types)) {
             $error_msg = "Invalid plot type in row $row: $column_value";
-            $form_state->setError($form['plots'], $error_msg);
+            $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
             $this->messenger()->addError($error_msg);
             continue;
           }
 
           // Mark if we found plot number 1.
-          if ($column_name == 'plot_number' && (int) $feature['properties'][$column_name] == 1) {
+          if ($column_name == 'plot_number' && (int) $attributes[$column_name] == 1) {
             $has_plot_1 = TRUE;
           }
 
@@ -459,7 +510,7 @@ class UploadExperimentForm extends FormBase {
         // Ensure each column is a valid column_id.
         if (!in_array($column_name, $column_ids)) {
           $error_msg = "Plot in row $row has an invalid column_id: $column_name";
-          $form_state->setError($form['plots'], $error_msg);
+          $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
           $this->messenger()->addError($error_msg);
           continue;
         }
@@ -472,7 +523,7 @@ class UploadExperimentForm extends FormBase {
         });
         if ($column_value != 'na' && empty($matching_factor_levels)) {
           $error_msg = "Plot in row $row has an invalid level_id for column_id '$column_name': $column_value";
-          $form_state->setError($form['plots'], $error_msg);
+          $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
           $this->messenger()->addError($error_msg);
         }
       }
@@ -481,7 +532,78 @@ class UploadExperimentForm extends FormBase {
     // Ensure we found plot_number 1.
     if (!$has_plot_1) {
       $error_msg = 'Missing plot_number 1. Make sure the plot number starts at 1.';
-      $form_state->setError($form['plots'], $error_msg);
+      $form_state->setError($form['plot_data']['plot_attributes'], $error_msg);
+      $this->messenger()->addError($error_msg);
+    }
+  }
+
+  /**
+   * Validation function for the plot geojson file.
+   *
+   * @param array $file_data
+   *   Processed file data.
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  public function validateFilePlotGeojson(array $file_data, array &$form, FormStateInterface $form_state) {
+
+    // Get data from files.
+    $plot_features = $file_data['plot_geojson']['features'];
+
+    // Keep track of plot 1.
+    $has_plot_1 = FALSE;
+
+    // Ensure all required values are provided.
+    $required_columns = [
+      'plot_number' => 'numeric',
+    ];
+    foreach ($plot_features as $row => $feature) {
+
+      // Increment row so count starts at 1 in error messages.
+      $row++;
+
+      // Make sure properties exist.
+      if (!isset($feature['properties'])) {
+        $error_msg = "Plot feature in row $row is missing properties.";
+        $form_state->setError($form['plot_data']['plot_geojson'], $error_msg);
+        $this->messenger()->addError($error_msg);
+      }
+
+      // Ensure that each plot has required columns.
+      foreach ($feature['properties'] as $column_name => $column_value) {
+
+        // Check required columns.
+        if (in_array($column_name, array_keys($required_columns))) {
+
+          if (!isset($feature['properties'][$column_name]) || strlen($feature['properties'][$column_name]) === 0) {
+            $error_msg = "Plot feature in row $row is missing a $column_name";
+            $form_state->setError($form['plot_data']['plot_geojson'], $error_msg);
+            $this->messenger()->addError($error_msg);
+            continue;
+          }
+
+          // Check for numeric value type.
+          if ($required_columns[$column_name] == 'numeric' && !is_numeric($column_value)) {
+            $error_msg = "Invalid value for plot feature in row $row: $column_name is not numeric: $column_value";
+            $form_state->setError($form['plot_data']['plot_geojson'], $error_msg);
+            $this->messenger()->addError($error_msg);
+            continue;
+          }
+
+          // Mark if we found plot number 1.
+          if ($column_name == 'plot_number' && (int) $feature['properties'][$column_name] == 1) {
+            $has_plot_1 = TRUE;
+          }
+        }
+      }
+    }
+
+    // Ensure we found plot_number 1.
+    if (!$has_plot_1) {
+      $error_msg = 'Missing plot_number 1. Make sure the plot number starts at 1.';
+      $form_state->setError($form['plot_data']['plot_geojson'], $error_msg);
       $this->messenger()->addError($error_msg);
     }
   }
@@ -491,11 +613,22 @@ class UploadExperimentForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
+    // Get the plan.
+    $plan = Plan::load($form_state->getValue('plan_id'));
+
     // Parse uploaded files.
     $file_data = $this->loadFiles($form_state);
     $column_descriptors = $file_data['column_descriptors'];
     $column_levels = $file_data['column_levels'];
-    $plot_features = $file_data['plots']['features'];
+    $plot_attributes_mapping = $file_data['plot_attributes'] ?? [];
+
+    $plot_attributes_mapping = array_combine(array_column($plot_attributes_mapping, 'plot_number'), $plot_attributes_mapping);
+    $plot_geojson = $file_data['plot_geojson']['features'] ?? [];
+    foreach ($plot_geojson as $geojson_feature) {
+      if ($number = $geojson_feature['properties']['plot_number']) {
+        $plot_attributes_mapping[$number]['geojson'] = $geojson_feature;
+      }
+    }
 
     // Build the plan column descriptors JSON for plan.column_descriptors.
     $plan_column_descriptors = [];
@@ -512,31 +645,18 @@ class UploadExperimentForm extends FormBase {
       $plan_column_descriptors[$id]['column_levels'][] = $column_level;
     }
 
-    // Sort plan_column_descriptors array to match the order of
-    // column level columns on plots.
-    $column_level_order = array_keys($plot_features[0]['properties']);
-    usort($plan_column_descriptors, function ($a, $b) use ($column_level_order) {
-      $a_index = array_search($a['column_id'], $column_level_order);
-      $b_index = array_search($b['column_id'], $column_level_order);
-      return $a_index > $b_index;
-    });
-
-    // Create and save new plan based on crs name.
-    $experiment_code = $form_state->getValue('experiment_code');
-    $plan = Plan::create([
-      'type' => 'rothamsted_experiment',
-      'name' => $form_state->getValue('name'),
-      'status' => 'planning',
-      'experiment_code' => $experiment_code,
-      'column_descriptors' => json_encode(array_values($plan_column_descriptors), JSON_INVALID_UTF8_SUBSTITUTE),
-      'location' => $form_state->getValue('location'),
-    ]);
+    // Save the column descriptors.
+    $plan->set(
+      'column_descriptors',
+      json_encode(array_values($plan_column_descriptors), JSON_INVALID_UTF8_SUBSTITUTE),
+    );
 
     // Save each uploaded file on the plan.
     $files = [
       'column_descriptors',
       'column_levels',
-      'plots',
+      'plot_attributes',
+      'plot_geojson',
     ];
     foreach ($files as $form_key) {
       if ($file_ids = $form_state->getValue($form_key)) {
@@ -548,35 +668,30 @@ class UploadExperimentForm extends FormBase {
     // Feedback link to created plan.
     $planUrl = $plan->toUrl()->toString();
     $planLabel = $plan->label();
-    $this->messenger()->addMessage($this->t('Added plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
-
-    // Create and save land asset.
-    $experiment_land = Asset::create([
-      'type' => 'land',
-      'land_type' => 'experiment_boundary',
-      'name' => $this->t('@plan_name Experiment Boundary', ['@plan_name' => $plan->label()]),
-      'status' => 'active',
-      'parent' => $form_state->getValue('location'),
-      'is_fixed' => TRUE,
-      'is_location' => TRUE,
-    ]);
-    $experiment_land->save();
-
-    // Add land asset to the plan.
-    $plan->get('asset')->appendItem($experiment_land);
+    $this->messenger()->addMessage($this->t('Saved plan: <a href=":url">%asset_label</a>', [':url' => $planUrl, '%asset_label' => $planLabel]));
 
     // Iterate each of the saved features from the plot geometries file.
-    foreach ($plot_features as $feature) {
+    $experiment_code = $plan->get('experiment_code')->value;
+
+    $plot_parent = FALSE;
+    /** @var \Drupal\asset\Entity\AssetInterface[] $plan_assets */
+    $plan_assets = $plan->get('asset')->referencedEntities();
+    foreach ($plan_assets as $plan_asset) {
+      if ($plan_asset->bundle() == 'land' && $plan_asset->get('land_type')->value == 'experiment_boundary') {
+        $plot_parent = $plan_asset->id();
+        break;
+      }
+    }
+    foreach ($plot_attributes_mapping as $attributes) {
+
+      // Build the plot name from the feature data.
+      $plot_id = $attributes['plot_id'];
+      $plot_name = "$experiment_code: $plot_id";
 
       // Extract the intrinsic geometry references.
       // Re-encode into json.
-      $featureJson = Json::encode($feature);
+      $featureJson = Json::encode($attributes['geojson'] ?? []);
       $wkt = $this->geoPHP->load($featureJson, 'json')->out('wkt');
-
-      // Build the plot name from the feature data.
-      $plot_attributes = $feature['properties'];
-      $plot_id = $plot_attributes['plot_id'];
-      $plot_name = "$experiment_code: $plot_id";
 
       // Build data for the plot asset.
       $plot_data = [
@@ -586,7 +701,7 @@ class UploadExperimentForm extends FormBase {
         'intrinsic_geometry' => $wkt,
         'is_fixed' => TRUE,
         'is_location' => FALSE,
-        'parent' => $experiment_land,
+        'parent' => $plot_parent,
         'column_descriptors' => [],
       ];
 
@@ -598,7 +713,7 @@ class UploadExperimentForm extends FormBase {
         'row',
         'column',
       ];
-      foreach ($plot_attributes as $column_name => $column_value) {
+      foreach ($plot_attributes_mapping as $column_name => $column_value) {
 
         // Map the normal fields to the plot asset field.
         if (in_array($column_name, $normal_fields)) {
@@ -624,7 +739,7 @@ class UploadExperimentForm extends FormBase {
     $plan->save();
 
     // Feedback of the number of features found, assumes all saved successfully.
-    $this->messenger()->addMessage($this->t('Added %feature_count plots.', ['%feature_count' => count($plot_features)]));
+    $this->messenger()->addMessage($this->t('Created %feature_count plots.', ['%feature_count' => count($plot_attributes_mapping)]));
   }
 
   /**
@@ -645,8 +760,8 @@ class UploadExperimentForm extends FormBase {
     $files = [
       'column_descriptors' => 'csv',
       'column_levels' => 'csv',
-      'plot_assignments' => 'csv',
-      'plots' => 'geojson',
+      'plot_attributes' => 'csv',
+      'plot_geojson' => 'geojson',
     ];
     foreach ($files as $form_key => $file_type) {
 

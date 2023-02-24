@@ -14,9 +14,68 @@ farm_rothamsted_experiment.plan.variables:
         bundle:
           - rothamsted_experiment
 farm_rothamsted_experiment.upload_experiment_form:
-  path: '/farm-rothamsted/upload-experiment'
+  path: '/plan/{plan}/upload-experiment-data'
   defaults:
     _form:  '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm'
     _title: 'Upload Experiment'
+    _title_callback: '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm::getTitle'
   requirements:
-    _permission: 'use rothamsted_experiment plan uploader'
+    _entity_access: 'plan.update'
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
+farm_rothamsted_experiment.experiment_boundary_form:
+  path: '/plan/{plan}/create-boundary'
+  defaults:
+    _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentBoundaryForm
+    _title: 'Create experiment boundary'
+  requirements:
+    _entity_access: 'plan.update'
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
+farm_rothamsted_experiment.experiment_plot_form:
+  path: '/plan/{plan}/plots/create'
+  defaults:
+    _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentPlotForm
+    _title: 'Create experiment plots'
+  requirements:
+    _entity_access: 'plan.update'
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
+farm_rothamsted_experiment.experiment_plot_geometry_form:
+  path: '/plan/{plan}/update-plot-geometry'
+  defaults:
+    _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentPlotGeometryForm
+    _title: 'Update plot geometry'
+  requirements:
+    _entity_access: 'plan.update'
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
+farm_rothamsted_experiment.experiment.variable_form:
+  path: '/plan/{plan}/variables/update'
+  defaults:
+    _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentVariableForm
+    _title: 'Update experiment variables'
+  requirements:
+    _entity_access: 'plan.update'
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
