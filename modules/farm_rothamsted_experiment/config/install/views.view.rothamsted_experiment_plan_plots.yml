@@ -383,17 +383,19 @@ display:
         type: none
         options: {  }
       empty:
-        area_text_custom:
-          id: area_text_custom
+        area:
+          id: area
           table: views
-          field: area_text_custom
+          field: area
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: text_custom
+          plugin_id: text
           empty: true
-          content: 'No assets found.'
-          tokenize: false
+          content:
+            value: 'No plots have been created. Please <a href="/plan/{{arguments.id}}/plots/create">create plots</a>.'
+            format: default
+          tokenize: true
       sorts: {  }
       arguments:
         id:
