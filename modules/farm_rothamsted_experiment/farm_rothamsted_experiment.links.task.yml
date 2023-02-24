@@ -1,3 +1,8 @@
+farm_rothamsted_experiment.plan.variables:
+  title: 'Variables'
+  route_name: farm_rothamsted_experiment.plan.variables
+  base_route: entity.plan.canonical
+  weight: 20
 farm_rothamsted_experiment.plan.plots:
   title: 'Plots'
   route_name: view.rothamsted_experiment_plan_plots.page
