@@ -5,6 +5,7 @@
  * The farm rothamsted experiment research module.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\entity\BundleFieldDefinition;
 
@@ -42,6 +43,100 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function farm_rothamsted_experiment_research_entity_insert(EntityInterface $entity) {
+
+  // Only send emails for these entity types.
+  $rothamsted_entity_type_ids = [
+    'rothamsted_design',
+    'rothamsted_experiment',
+    'rothamsted_program',
+    'rothamsted_researcher',
+  ];
+  $entity_type_id = $entity->getEntityTypeId();
+  if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
+    return;
+  }
+
+  $highlight_fields = [
+    'rothamsted_program' => [
+      'name',
+      'abbreviation',
+      'project_code',
+      'principal_investigators',
+      'start',
+      'end',
+    ],
+    'rothamsted_experiment' => [
+      'name',
+      'program',
+      'code',
+      'description',
+      'researcher',
+      'start',
+      'end',
+    ],
+    'rothamsted_design' => [
+      'name',
+      'experiment',
+      'design_type',
+      'statistician',
+    ],
+    'rothamsted_researcher' => [
+      'name',
+      'role',
+      'organization',
+      'department',
+    ],
+  ];
+
+  // Build params.
+  $params = [
+    'highlight_fields' => $highlight_fields[$entity_type_id],
+  ];
+  farm_rothamsted_notification_send_research_update('entity_create', $entity, $params);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function farm_rothamsted_experiment_research_entity_update(EntityInterface $entity) {
+
+  // Only send emails for these entity types.
+  $rothamsted_entity_type_ids = [
+    'rothamsted_design',
+    'rothamsted_experiment',
+    'rothamsted_program',
+    'rothamsted_researcher',
+  ];
+  $entity_type_id = $entity->getEntityTypeId();
+  if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
+    return;
+  }
+  farm_rothamsted_notification_send_research_update('entity_update', $entity);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function farm_rothamsted_experiment_research_entity_delete(EntityInterface $entity) {
+
+  // Only send emails for these entity types.
+  $rothamsted_entity_type_ids = [
+    'rothamsted_design',
+    'rothamsted_experiment',
+    'rothamsted_program',
+    'rothamsted_researcher',
+  ];
+  $entity_type_id = $entity->getEntityTypeId();
+  if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
+    return;
+  }
+  farm_rothamsted_notification_send_research_update('entity_delete', $entity);
 }
 
 /**

@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted_notification.module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\RevisionLogInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_mail().
+ */
+function farm_rothamsted_notification_mail($key, &$message, $params) {
+
+  // Bail if no entity type id is provided.
+  if (!isset($params['entity_type_id'])) {
+    $message['send'] = FALSE;
+  }
+
+  // Get entity type information.
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_type_id = $params['entity_type_id'];
+  $entity_type_label = $entity_type_manager->getDefinition($entity_type_id)->getLabel();
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $params[$entity_type_id];
+
+  // Build the message.
+  $token_service = \Drupal::token();
+  $variables = $params;
+  $subject_template = '';
+  $body_templates = [];
+  switch ($key) {
+
+    case 'entity_create':
+      $subject_template = "[site:name] $entity_type_label created: [$entity_type_id:name]";
+      $body_templates[] = "A new $entity_type_label '[$entity_type_id:name]' was created by [$entity_type_id:uid:entity:display-name].";
+
+      // Include revision message.
+      $revision_message = 'None.';
+      if ($entity instanceof RevisionLogInterface && !empty($entity->getRevisionLogMessage())) {
+        $revision_message = "[$entity_type_id:revision_log_message]";
+      }
+      $body_templates[] = "Revision message: $revision_message";
+
+      // Highlight fields.
+      $highlight_fields = $params['highlight_fields'] ?? [];
+      $body_templates[] = "$entity_type_label info:";
+      foreach ($highlight_fields as $field) {
+        // Skip empty fields.
+        if ($entity->get($field)->isEmpty()) {
+          continue;
+        }
+        $field_label = $entity->get($field)->getFieldDefinition()->getLabel();
+        $body_templates[] = "- $field_label: [$entity_type_id:$field]";
+      }
+
+      $body_templates[] = "View the new $entity_type_label here: [$entity_type_id:url:absolute]";
+      break;
+
+    case 'entity_update':
+      $subject_template = "[site:name] $entity_type_label updated: [$entity_type_id:name]";
+      $body_templates[] = "The $entity_type_label '[$entity_type_id:name]' was updated by [$entity_type_id:revision_user:entity:display-name].";
+
+      // Include revision message.
+      $revision_message = 'None.';
+      if ($entity instanceof RevisionLogInterface && !empty($entity->getRevisionLogMessage())) {
+        $revision_message = "[$entity_type_id:revision_log_message]";
+      }
+      $body_templates[] = "Revision message: $revision_message";
+
+      // Changed fields.
+      $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
+      $update_fields = [
+        'changed',
+        'revision_created',
+        'revision_default',
+        'revision_id',
+        'revision_log_message',
+        'revision_translation_affected',
+        'revision_user',
+      ];
+      $changed_fields = array_diff($all_field_changes, $update_fields);
+      if (!empty($changed_fields)) {
+        $field_labels = [];
+        foreach ($changed_fields ?? [] as $field) {
+          $field_labels[] = $entity->get($field)->getFieldDefinition()->getLabel();
+        }
+        $field_label_text = implode(', ', $field_labels);
+        $body_templates[] = "Changed values: $field_label_text";
+      }
+
+      $body_templates[] = "View the new $entity_type_label here: [$entity_type_id:url:absolute]";
+      break;
+
+    case 'entity_delete':
+      $subject_template = "[site:name] $entity_type_label deleted: [$entity_type_id:name]";
+      $body_templates[] = "The $entity_type_label '[$entity_type_id:name]' was deleted.";
+      break;
+
+    // Do not send the message.
+    default:
+      $message['send'] = FALSE;
+  }
+
+  $body_templates[] = '-- [site:name] team';
+
+  // Replace tokens in the subject and body.
+  $subject = $token_service->replace($subject_template, $variables);
+  $body = array_map(function ($line) use ($token_service, $variables) {
+    return $token_service->replace($line, $variables);
+  }, $body_templates);
+
+  $message['subject'] = $subject;
+  $message['body'] = $body;
+}
+
+/**
+ * Helper function to determine who to send a notification to.
+ *
+ * @param string $operation
+ *   The operation.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity.
+ * @param array $emails
+ *   Additional emails to send to.
+ * @param array $params
+ *   Additional parameters.
+ */
+function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = []) {
+
+  // Build params.
+  $entity_type_id = $entity->getEntityTypeId();
+  $params += [
+    'entity_type_id' => $entity_type_id,
+    $entity_type_id => $entity,
+  ];
+
+  // Query experiment admins.
+  $experiment_admins = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
+    'status' => TRUE,
+    'roles' => 'rothamsted_experiment_admin',
+  ]);
+
+  // Bail if there are no experiment admins to send email.
+  if (empty($experiment_admins)) {
+    return;
+  }
+
+  // Build email string.
+  $emails = array_map(function (UserInterface $user) {
+    $name = $user->getDisplayName();
+    $mail = $user->getEmail();
+    if (empty($mail)) {
+      return '';
+    }
+    return "$name <$mail>";
+  }, $experiment_admins);
+  $email_string = implode(', ', array_filter($emails));
+
+  // Send mail.
+  /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
+  $mail_manager = \Drupal::service('plugin.manager.mail');
+  $mail_manager->mail('farm_rothamsted_notification', $operation, $email_string, 'en', $params);
+}
+
+/**
+ * Helper function to compare two entity object arrays.
+ *
+ * Modified from the core DiffArray::diffAssocRecursive() to work for
+ * edge cases in field comparisons.
+ *
+ * @param array $array1
+ *   The array to compare from.
+ * @param array $array2
+ *   The array to compare to.
+ *
+ * @return array
+ *   Returns array field keys that are different.
+ *
+ * @see DiffArray::diffAssocRecursive()
+ */
+function farm_rothamsted_notification_compare_entity_fields(array $array1, array $array2) {
+  $difference = [];
+  foreach ($array1 as $key => $value) {
+    if (is_array($value)) {
+      // Type comparison.
+      if (!array_key_exists($key, $array2) || !is_array($array2[$key])) {
+        $difference[] = $key;
+      }
+      // Field length differences.
+      elseif (count($value) !== count($array2[$key])) {
+        $difference[] = $key;
+      }
+      // Recursive difference.
+      else {
+        $new_diff = farm_rothamsted_notification_compare_entity_fields($value, $array2[$key]);
+        if (!empty($new_diff)) {
+          $difference[] = $key;
+        }
+      }
+    }
+    // Do not use an exact comparison so int can compare to string.
+    elseif (!array_key_exists($key, $array2) || $array2[$key] != $value) {
+      $difference[] = $key;
+    }
+  }
+  return $difference;
+}
