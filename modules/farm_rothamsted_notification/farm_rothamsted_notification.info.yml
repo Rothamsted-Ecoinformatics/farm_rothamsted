@@ -1,0 +1,5 @@
+name: farmOS Rothamsted Notification
+description: Rothamsted Notification Features
+type: module
+package: farmOS Custom
+core_version_requirement: ^9

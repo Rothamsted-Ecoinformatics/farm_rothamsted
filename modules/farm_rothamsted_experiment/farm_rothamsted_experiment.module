@@ -272,6 +272,72 @@ function farm_rothamsted_experiment_form_views_exposed_form_alter(&$form, FormSt
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function farm_rothamsted_experiment_plan_insert(PlanInterface $plan) {
+
+  // Only notify for experiment plans.
+  if ($plan->bundle() != 'rothamsted_experiment') {
+    return;
+  }
+
+  // Only notify if notification module is enabled.
+  if (!\Drupal::moduleHandler()->moduleExists('farm_rothamsted_notification')) {
+    return;
+  }
+
+  // Build params.
+  $params = [
+    'highlight_fields' => [
+      'name',
+      'status',
+      'abbreviation',
+      'experiment_design',
+      'experiment_code',
+      'project_code',
+      'cost_code',
+    ],
+  ];
+  farm_rothamsted_notification_send_research_update('entity_create', $plan, [], $params);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function farm_rothamsted_experiment_plan_update(PlanInterface $plan) {
+
+  // Only notify for experiment plans.
+  if ($plan->bundle() != 'rothamsted_experiment') {
+    return;
+  }
+
+  // Only notify if notification module is enabled.
+  if (!\Drupal::moduleHandler()->moduleExists('farm_rothamsted_notification')) {
+    return;
+  }
+
+  farm_rothamsted_notification_send_research_update('entity_update', $plan);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function farm_rothamsted_experiment_plan_delete(PlanInterface $plan) {
+
+  // Only notify for experiment plans.
+  if ($plan->bundle() != 'rothamsted_experiment') {
+    return;
+  }
+
+  // Only notify if notification module is enabled.
+  if (!\Drupal::moduleHandler()->moduleExists('farm_rothamsted_notification')) {
+    return;
+  }
+
+  farm_rothamsted_notification_send_research_update('entity_delete', $plan);
+}
+
+/**
  * Plot type options helper.
  *
  * @return array
