@@ -13,6 +13,13 @@ class ResearchEntityForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  protected function getNewRevisionDefault() {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
