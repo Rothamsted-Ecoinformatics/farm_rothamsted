@@ -13,7 +13,7 @@ use Drupal\user\EntityOwnerInterface;
 interface RothamstedResearcherInterface extends ContentEntityInterface, EntityChangedInterface, RevisionLogInterface, EntityOwnerInterface {
 
   /**
-   * Gets the reseracher name.
+   * Gets the researcher name.
    *
    * @return string
    *   The researcher name.

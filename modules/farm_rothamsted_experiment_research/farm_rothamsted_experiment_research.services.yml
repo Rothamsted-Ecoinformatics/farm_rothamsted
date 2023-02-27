@@ -1,5 +1,5 @@
 services:
-  farm_rothamsted_experiment_reserach.breadcrumb:
+  farm_rothamsted_experiment_research.breadcrumb:
     class: Drupal\farm_rothamsted_experiment_research\Breadcrumb\ResearchBreadcrumbBuilder
     arguments:
       [ '@router.request_context', '@access_manager', '@router.no_access_checks', '@path_processor_manager', '@config.factory', '@title_resolver', '@current_user', '@path.current' ]
