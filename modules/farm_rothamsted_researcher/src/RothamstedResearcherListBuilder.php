@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 
 /**
- * List builder for reserachers.
+ * List builder for researchers.
  */
 class RothamstedResearcherListBuilder extends EntityListBuilder {
 

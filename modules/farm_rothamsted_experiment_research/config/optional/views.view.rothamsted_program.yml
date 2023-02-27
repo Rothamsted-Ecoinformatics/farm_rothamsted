@@ -21,7 +21,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Reserach Programs'
+      title: 'research Programs'
       fields:
         name_1:
           id: name_1
