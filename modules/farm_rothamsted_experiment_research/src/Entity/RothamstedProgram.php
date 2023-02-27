@@ -27,8 +27,8 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
  *     "form" = {
- *       "add" = "Drupal\Core\Entity\ContentEntityForm",
- *       "edit" = "Drupal\Core\Entity\ContentEntityForm",
+ *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
+ *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
  *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *     },
  *     "route_provider" = {
@@ -279,7 +279,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
+        'type' => 'timestamp',
         'label' => 'inline',
         'settings' => [
           'date_format' => 'html_date',
@@ -298,7 +298,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
+        'type' => 'timestamp',
         'label' => 'inline',
         'settings' => [
           'date_format' => 'html_date',
