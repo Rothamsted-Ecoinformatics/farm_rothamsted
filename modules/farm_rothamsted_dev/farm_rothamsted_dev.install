@@ -240,7 +240,7 @@ function farm_rothamsted_dev_install() {
     'code' => 'P01-TEST',
     'name' => 'Program 1',
     'abbreviation' => 'P01',
-    'principal_investigators' => $new_researchers[0],
+    'principal_investigator' => $new_researchers[0],
   ]);
   $program->save();
   $experiment = RothamstedExperiment::create([

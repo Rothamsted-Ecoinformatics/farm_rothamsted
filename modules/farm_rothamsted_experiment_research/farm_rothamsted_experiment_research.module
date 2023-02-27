@@ -67,7 +67,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
       'name',
       'abbreviation',
       'project_code',
-      'principal_investigators',
+      'principal_investigator',
       'start',
       'end',
     ],

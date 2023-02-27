@@ -250,7 +250,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
         'label' => 'inline',
       ]);
 
-    $fields['principal_investigators'] = BaseFieldDefinition::create('entity_reference')
+    $fields['principal_investigator'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Principal Investigators'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
