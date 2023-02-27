@@ -6,7 +6,12 @@
  */
 
 use Drupal\asset\Entity\Asset;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesign;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\log\Entity\Log;
+use Drupal\plan\Entity\Plan;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
 
@@ -198,4 +203,68 @@ function farm_rothamsted_dev_install() {
     ]);
     $location->save();
   }
+
+  // Research entities.
+  $researchers = [
+    [
+      'name' => 'Researcher 1',
+      'role' => 'lead_scientist',
+      'organization' => 'Rothamsted',
+      'department' => 'Pathology',
+    ],
+    [
+      'name' => 'Researcher 2',
+      'role' => 'phd_student',
+      'organization' => 'Rothamsted',
+      'department' => 'Soils',
+    ],
+    [
+      'name' => 'Statistician',
+      'role' => 'statistician',
+      'organization' => 'Rothamsted',
+      'department' => 'Soils',
+    ],
+  ];
+  $new_researchers = [];
+  foreach ($researchers as $researcher) {
+    $new = RothamstedResearcher::create([
+      'name' => $researcher['name'],
+      'role' => $researcher['role'],
+      'organization' => $researcher['organization'],
+      'department' => $researcher['department'],
+    ]);
+    $new->save();
+    $new_researchers[] = $new;
+  }
+  $program = RothamstedProgram::create([
+    'code' => 'P01-TEST',
+    'name' => 'Program 1',
+    'abbreviation' => 'P01',
+    'principal_investigators' => $new_researchers[0],
+  ]);
+  $program->save();
+  $experiment = RothamstedExperiment::create([
+    'program' => $program,
+    'code' => 'P01-E01',
+    'name' => 'Experiment 1',
+    'abbreviation' => 'E01',
+    'researcher' => $new_researchers,
+  ]);
+  $experiment->save();
+  $design = RothamstedDesign::create([
+    'experiment' => $experiment,
+    'name' => 'Design 1',
+    'design_type' => 'Test design',
+    'description' => 'Initial design for experiment 1',
+    'statistician' => reset($new_researchers),
+  ]);
+  $design->save();
+
+  // Experiment plan.
+  $plan = Plan::create([
+    'type' => 'rothamsted_experiment',
+    'name' => 'Experiment 1',
+    'experiment_design' => $design,
+  ]);
+  $plan->save();
 }
