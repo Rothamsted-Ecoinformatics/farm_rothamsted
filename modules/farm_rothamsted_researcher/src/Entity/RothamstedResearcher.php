@@ -249,6 +249,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
 
     $fields['email'] = BaseFieldDefinition::create('email')
       ->setLabel(t('Email'))
+      ->setDescription(t('The email address for the person.'))
+      ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -263,6 +265,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
     $fields['role'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Role'))
       ->setDescription(t('The role the person plays in relation to experiments.'))
+      ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [
         'data_curator' => t('Data Curator'),
