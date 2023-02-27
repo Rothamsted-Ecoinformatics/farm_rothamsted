@@ -8,6 +8,7 @@ use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
@@ -307,41 +308,39 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         'label' => 'inline',
       ]);
 
-    $fields['start'] = BaseFieldDefinition::create('timestamp')
+    $fields['start'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Start date'))
       ->setDescription(t('The start date of the experiment.'))
       ->setRevisionable(TRUE)
+      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'datetime_timestamp_optional',
+        'type' => 'datetime_default',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'timestamp',
+        'type' => 'datetime_default',
         'label' => 'inline',
         'settings' => [
-          'date_format' => 'html_date',
-          'custom_date_format' => '',
-          'timezone' => '',
+          'format_type' => 'farm_rothamsted_date',
         ],
       ]);
 
-    $fields['end'] = BaseFieldDefinition::create('timestamp')
+    $fields['end'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('End date'))
       ->setDescription(t('The end date of the experiment.'))
       ->setRevisionable(TRUE)
+      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'datetime_timestamp_optional',
+        'type' => 'datetime_default',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'timestamp',
+        'type' => 'datetime_default',
         'label' => 'inline',
         'settings' => [
-          'date_format' => 'html_date',
-          'custom_date_format' => '',
-          'timezone' => '',
+          'format_type' => 'farm_rothamsted_date',
         ],
       ]);
 
@@ -520,22 +519,21 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         ],
       ]);
 
-    $fields['public_release_date'] = BaseFieldDefinition::create('timestamp')
+    $fields['public_release_date'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Public release date'))
       ->setDescription(t('The public release date associated with this data.'))
       ->setRevisionable(TRUE)
+      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'datetime_timestamp_optional',
+        'type' => 'datetime_default',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'timestamp',
+        'type' => 'datetime_default',
         'label' => 'inline',
         'settings' => [
-          'date_format' => 'html_date',
-          'custom_date_format' => '',
-          'timezone' => '',
+          'format_type' => 'farm_rothamsted_date',
         ],
       ]);
 

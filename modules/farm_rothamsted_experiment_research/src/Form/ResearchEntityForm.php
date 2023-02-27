@@ -23,16 +23,18 @@ class ResearchEntityForm extends ContentEntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    // Remove time element from timestamp fields.
+    // Set the date_year_range for html validation.
+    // @see https://www.drupal.org/project/drupal/issues/2942828
+    $date_year_range = '1700:+30';
     $datetime_fields = [
       'start' => [
-        '#date_time_element' => 'none',
+        '#date_year_range' => $date_year_range,
       ],
       'end' => [
-        '#date_time_element' => 'none',
+        '#date_year_range' => $date_year_range,
       ],
       'public_release_date' => [
-        '#date_time_element' => 'none',
+        '#date_year_range' => $date_year_range,
       ],
     ];
     foreach ($datetime_fields as $field_id => $field_info) {
