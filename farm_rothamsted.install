@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for farm_rothamsted module.
+ */
+
+use Drupal\Core\Datetime\Entity\DateFormat;
+
+/**
+ * Implements hook_install().
+ */
+function farm_rothamsted_install() {
+  DateFormat::create([
+    'id' => 'farm_rothamsted_date',
+    'label' => t('Rothamsted date format'),
+    'pattern' => 'd/m/Y',
+    'locked' => TRUE,
+  ])->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function farm_rothamsted_uninstall($is_syncing) {
+  if ($format = DateFormat::load('farm_rothamsted_date')) {
+    $format->delete();
+  }
+}
