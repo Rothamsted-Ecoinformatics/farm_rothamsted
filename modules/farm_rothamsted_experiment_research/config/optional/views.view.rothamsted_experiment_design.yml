@@ -781,48 +781,7 @@ display:
           content: 'No experiment designs found. <a href="/rothamsted/design/add">Add an Experiment Design</a>'
           tokenize: false
       sorts: {  }
-      arguments:
-        experiment:
-          id: experiment
-          table: rothamsted_design_data
-          field: experiment
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_design
-          entity_field: experiment
-          plugin_id: numeric
-          default_action: 'not found'
-          exception:
-            value: all
-            title_enable: false
-            title: All
-          title_enable: false
-          title: ''
-          default_argument_type: fixed
-          default_argument_options:
-            argument: ''
-          default_argument_skip_url: false
-          summary_options:
-            base_path: ''
-            count: true
-            override: false
-            items_per_page: 25
-          summary:
-            sort_order: asc
-            number_of_records: 0
-            format: default_summary
-          specify_validation: true
-          validate:
-            type: 'entity:rothamsted_experiment'
-            fail: 'not found'
-          validate_options:
-            bundles: {  }
-            access: true
-            operation: view
-            multiple: 0
-          break_phrase: false
-          not: false
+      arguments: {  }
       filters:
         design_type:
           id: design_type
@@ -1109,12 +1068,76 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
+  page:
+    id: page
+    display_title: Designs
+    display_plugin: page
+    position: 1
+    display_options:
+      display_description: ''
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
+      path: rothamsted/design
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user.permissions
+      tags: {  }
   page_experiment:
     id: page_experiment
     display_title: 'Experiment Designs'
     display_plugin: page
-    position: 1
+    position: 2
     display_options:
+      arguments:
+        experiment:
+          id: experiment
+          table: rothamsted_design_data
+          field: experiment
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: experiment
+          plugin_id: numeric
+          default_action: 'not found'
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: fixed
+          default_argument_options:
+            argument: ''
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: true
+          validate:
+            type: 'entity:rothamsted_experiment'
+            fail: 'not found'
+          validate_options:
+            bundles: {  }
+            access: true
+            operation: view
+            multiple: 0
+          break_phrase: false
+          not: false
+      defaults:
+        arguments: false
       display_description: ''
       display_extenders:
         collapsible_filter:
