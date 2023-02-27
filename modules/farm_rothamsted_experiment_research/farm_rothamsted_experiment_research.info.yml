@@ -4,6 +4,7 @@ type: module
 package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
+  - drupal:datetime
   - farm_rothamsted:farm_rothamsted_experiment
   - farm_rothamsted:farm_rothamsted_notification
   - farm_rothamsted:farm_rothamsted_researcher

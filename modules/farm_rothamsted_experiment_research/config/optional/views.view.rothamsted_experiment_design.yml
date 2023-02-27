@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - datetime
     - farm_rothamsted_experiment_research
     - user
   enforced:
@@ -270,11 +271,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: timestamp
+          type: datetime_default
           settings:
-            date_format: html_date
-            custom_date_format: ''
-            timezone: ''
+            timezone_override: ''
+            format_type: farm_rothamsted_date
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -337,11 +337,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: timestamp
+          type: datetime_default
           settings:
-            date_format: html_date
-            custom_date_format: ''
-            timezone: ''
+            timezone_override: ''
+            format_type: farm_rothamsted_date
           group_column: value
           group_columns: {  }
           group_rows: true
