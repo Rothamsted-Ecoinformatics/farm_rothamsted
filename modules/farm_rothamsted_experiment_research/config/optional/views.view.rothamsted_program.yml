@@ -219,15 +219,15 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        principal_investigators_target_id:
-          id: principal_investigators_target_id
-          table: rothamsted_program__principal_investigators
-          field: principal_investigators_target_id
+        principal_investigator_target_id:
+          id: principal_investigator_target_id
+          table: rothamsted_program__principal_investigator
+          field: principal_investigator_target_id
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: rothamsted_program
-          entity_field: principal_investigators
+          entity_field: principal_investigator
           plugin_id: field
           label: 'Principal Investigators'
           exclude: false
@@ -661,29 +661,29 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        principal_investigators_target_id:
-          id: principal_investigators_target_id
-          table: rothamsted_program__principal_investigators
-          field: principal_investigators_target_id
+        principal_investigator_target_id:
+          id: principal_investigator_target_id
+          table: rothamsted_program__principal_investigator
+          field: principal_investigator_target_id
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: rothamsted_program
-          entity_field: principal_investigators
+          entity_field: principal_investigator
           plugin_id: entity_reference
           operator: or
           value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: principal_investigators_target_id_op
+            operator_id: principal_investigator_target_id_op
             label: 'Principal Investigators'
             description: ''
             use_operator: false
-            operator: principal_investigators_target_id_op
+            operator: principal_investigator_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: principal_investigators_target_id
+            identifier: principal_investigator_target_id
             required: false
             remember: false
             multiple: true
@@ -732,7 +732,7 @@ display:
             name_1: name_1
             abbreviation: abbreviation
             project_code_value: project_code_value
-            principal_investigators_target_id: principal_investigators_target_id
+            principal_investigator_target_id: principal_investigator_target_id
             start: start
             end: end
             operations: operations
@@ -757,7 +757,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            principal_investigators_target_id:
+            principal_investigator_target_id:
               align: ''
               separator: ''
               empty_column: false
