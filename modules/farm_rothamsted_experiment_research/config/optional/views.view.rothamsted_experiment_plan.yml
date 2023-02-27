@@ -1377,7 +1377,7 @@ display:
     id: page_design
     display_title: 'Experiment plans (page)'
     display_plugin: page
-    position: 1
+    position: 3
     display_options:
       arguments:
         experiment_design_target_id:
@@ -1428,6 +1428,36 @@ display:
         collapsible_filter:
           collapsible: true
       path: rothamsted/design/%rothamsted_design/plan
+      menu:
+        type: none
+        title: Plans
+        description: ''
+        weight: 0
+        expanded: false
+        menu_name: admin
+        parent: farm.base
+        context: '0'
+    cache_metadata:
+      max-age: 0
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - user.permissions
+      tags: {  }
+  page_research:
+    id: page_research
+    display_title: 'Experiment plans (page)'
+    display_plugin: page
+    position: 2
+    display_options:
+      display_description: ''
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
+      path: rothamsted/plan
       menu:
         type: none
         title: Plans

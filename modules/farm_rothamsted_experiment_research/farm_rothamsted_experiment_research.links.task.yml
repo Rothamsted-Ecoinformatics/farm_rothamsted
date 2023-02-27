@@ -12,12 +12,26 @@ farm_rothamsted_experiment_research.experiments:
   base_route: entity.rothamsted_program.collection
   weight: 10
 
+# Designs.
+farm_rothamsted_experiment_research.designs:
+  title: 'Designs'
+  route_name: entity.rothamsted_design.collection
+  base_route: entity.rothamsted_program.collection
+  weight: 20
+
+# Plans.
+farm_rothamsted_experiment_research.plans:
+  title: 'Plans'
+  route_name: view.rothamsted_experiment_plan.page_research
+  base_route: entity.rothamsted_program.collection
+  weight: 30
+
 # Researchers.
 farm_rothamsted_experiment_research.researchers:
   title: 'Researchers'
   route_name: entity.rothamsted_researcher.collection
   base_route: entity.rothamsted_program.collection
-  weight: 50
+  weight: 40
 
 # Program experiments.
 farm_rothamsted_experiment_research.program_experiment:
