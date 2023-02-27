@@ -26,7 +26,7 @@ use Drupal\user\UserInterface;
  *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
  *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "views_data" = "Drupal\entity\EntityViewsData",
  *     "form" = {
  *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
  *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
@@ -268,6 +268,43 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ->setDisplayOptions('view', [
         'label' => 'inline',
         'type' => 'entity_reference_label',
+      ]);
+
+    $fields['funder'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Funders'))
+      ->setDescription(t('The name of the organisation funding the Research Program.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('allowed_values', [
+        'funder_1' => t('Funder 1'),
+        'funder_2' => t('Funder 2'),
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'options_select',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'list_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['grant_code'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Grant codes'))
+      ->setDescription(t('The code assigned to the Research Program by the funder.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
       ]);
 
     $fields['start'] = BaseFieldDefinition::create('datetime')
