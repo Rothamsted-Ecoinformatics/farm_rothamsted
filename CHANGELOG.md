@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add farm_rothamsted_researcher module [#354](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/354)
 - Add farm_rothamsted_experiment_research module [#298](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/298)
 - Add farm_rothamsted_notification module and send CRUD emails [#299](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/299)
+- Add farm_rothamsted_date date format
 
 ## [2.9.3](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2023-02-14
 

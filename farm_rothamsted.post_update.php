@@ -5,6 +5,7 @@
  * Update hooks for farm_rothamsted.module.
  */
 
+use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\views\Entity\View;
 use Symfony\Component\Yaml\Yaml;
 
@@ -127,4 +128,16 @@ function farm_rothamsted_post_update_remove_rothamsted_asset_parent_action(&$san
   if (!\Drupal::configFactory()->get("system.action.$action_id")->isNew()) {
     \Drupal::configFactory()->getEditable("system.action.$action_id")->delete();
   }
+}
+
+/**
+ * Create Rothamsted date format.
+ */
+function farm_rothamsted_post_update_create_rothamsted_date_format(&$sandbox = NULL) {
+  DateFormat::create([
+    'id' => 'farm_rothamsted_date',
+    'label' => t('Rothamsted date format'),
+    'pattern' => 'd/m/Y',
+    'locked' => TRUE,
+  ])->save();
 }
