@@ -226,7 +226,7 @@ function farm_rothamsted_quick_post_update_material_quantities(&$sandbox = NULL)
     $log_quantity_subquery->innerJoin('log__quantity', 'lquantity', 'lquantity.entity_id = lquick.entity_id');
     $log_quantity_subquery->innerJoin('quantity', 'q', 'q.id = lquantity.quantity_target_id');
     $log_quantity_subquery
-      ->condition('q.type','material')
+      ->condition('q.type', 'material')
       ->condition('q.label', $target_quantity_labels, 'IN');
 
     // Select the quantity ids.
