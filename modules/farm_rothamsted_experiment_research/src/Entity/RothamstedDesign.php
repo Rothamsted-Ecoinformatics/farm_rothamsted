@@ -347,11 +347,26 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['num_treatments'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Number of treatments'))
+      ->setDescription(t('The number of treatmetns.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('min', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
     $fields['num_factor_level_combinations'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Factor Level Combinations'))
       ->setDescription(t('The number of factor level combinations.'))
       ->setRevisionable(TRUE)
-      ->setSetting('min', 1)
+      ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
@@ -366,7 +381,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setLabel(t('Number of Replicates'))
       ->setDescription(t('The number of replicates for each factor level combination.'))
       ->setRevisionable(TRUE)
-      ->setSetting('min', 1)
+      ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
