@@ -13,6 +13,13 @@ class ResearcherForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  protected function getNewRevisionDefault() {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $status = parent::save($form, $form_state);
     $entity_type_label = $this->entity->getEntityType()->getSingularLabel();
