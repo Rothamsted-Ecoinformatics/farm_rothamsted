@@ -98,7 +98,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   $params = [
     'highlight_fields' => $highlight_fields[$entity_type_id],
   ];
-  farm_rothamsted_notification_send_research_update('entity_create', $entity, $params);
+  farm_rothamsted_notification_send_research_update('entity_create', $entity, [], $params);
 }
 
 /**
