@@ -7,6 +7,8 @@ dependencies:
   - drupal:datetime
   - farm_rothamsted:farm_rothamsted_experiment
   - farm_rothamsted:farm_rothamsted_notification
+  - farm_rothamsted:farm_rothamsted_quick
   - farm_rothamsted:farm_rothamsted_researcher
   - entity:entity
   - entity_reference_integrity:entity_reference_integrity_enforce
+  - field_group:field_group
