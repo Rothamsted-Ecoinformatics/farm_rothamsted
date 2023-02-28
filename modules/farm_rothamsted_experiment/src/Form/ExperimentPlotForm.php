@@ -94,6 +94,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
 
     // Get the plan.
     $plan = Plan::load($form_state->getValue('plan_id'));
+    $revision_message = $form_state->getValue('revision_message');
 
     // Bail if no boundary.
     $boundary = $this->experimentBoundary($plan);
@@ -107,45 +108,102 @@ class ExperimentPlotForm extends ExperimentFormBase {
       return $form;
     }
 
-    // Create plots.
+    // Redirect to the plan variables page after processing.
+    $form_state->setRedirect('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
+
     $experiment_code = $plan->get('experiment_code')->value;
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $plot_field */
-    $plot_field = $plan->get('plot');
     $plot_count = $form_state->getValue('plot_count', 1);
-    foreach (range(1, $plot_count) as $plot_number) {
+
+    // Build batch operations to update plot geometries.
+    $operations[] = [
+      [self::class, 'updatePlotBatch'],
+      [$plan->id(), $plot_count, $experiment_code, $boundary->id(), $revision_message],
+    ];
+    $batch = [
+      'operations' => $operations,
+      'title' => $this->t('Creating plots'),
+      'progress_message' => $this->t('Creating plots'),
+      'error_message' => $this->t('Error creating plots.'),
+    ];
+    batch_set($batch);
+  }
+
+  /**
+   * Batch operation callback to update plot geometries.
+   *
+   * @param int $plan_id
+   *   The plan ID.
+   * @param int $plot_count
+   *   The plot count.
+   * @param string $experiment_code
+   *   The experiment code.
+   * @param int $boundary
+   *   The experiment boundary for plot parent.
+   * @param string $revision_message
+   *   The revision message.
+   * @param array $context
+   *   The batch context.
+   */
+  public static function updatePlotBatch(int $plan_id, int $plot_count, string $experiment_code, int $boundary, string $revision_message, array &$context) {
+
+    // Init the batch sandbox.
+    if (empty($context['sandbox'])) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['max'] = $plot_count;
+    }
+
+    // Parameters for the size of the batch.
+    $limit = 50;
+    $current = $context['sandbox']['progress'] + 1;
+    $end = min($current + $limit, $plot_count + 1);
+
+    // Create plots.
+    for ($i = $current; $i < $end; $i++) {
 
       // Create plot.
-      $plot_name = "$experiment_code: $plot_number";
+      $plot_name = "$experiment_code: $i";
       $plot = Asset::create([
         'type' => 'plot',
         'name' => $plot_name,
         'status' => 'active',
         'plot_type' => 'blank',
-        'plot_number' => $plot_number,
-        'plot_id' => $plot_number,
+        'plot_number' => $i,
+        'plot_id' => $i,
         'is_fixed' => TRUE,
         'is_location' => FALSE,
         'parent' => $boundary,
         'column_descriptors' => [],
       ]);
-      $plot->setRevisionLogMessage($form_state->getValue('revision_message'));
+      $plot->setRevisionLogMessage($revision_message);
       $plot->setNewRevision(TRUE);
       $plot->save();
 
-      // Append plot to plan.
-      $plot_field->appendItem($plot);
+      // Update sandbox.
+      $context['sandbox']['progress']++;
+      $context['sandbox']['current_id'] = $i;
+      $context['results'][] = $plot->id();
+      $context['message'] = \Drupal::translation()->formatPlural($context['sandbox']['progress'], 'Created @count plot.', 'Created @count plots.');
     }
 
-    // Save the plan.
-    $plan->setRevisionLogMessage($form_state->getValue('revision_message'));
-    $plan->setNewRevision(TRUE);
-    $plan->save();
+    // Update finished progress.
+    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+    else {
 
-    // Add message.
-    $this->messenger()->addMessage($this->t('Created @count plots.', ['@count' => $plot_count]));
+      // Append all IDs to the plan.
+      $plan = Plan::load($plan_id);
+      $plan->set('plot', $context['results']);
+      $plan->setRevisionLogMessage($revision_message);
+      $plan->setNewRevision(TRUE);
+      $plan->save();
 
-    // Redirect to the plan page.
-    $form_state->setRedirectUrl($plan->toUrl());
+      // Add success message.
+      \Drupal::messenger()->addStatus(
+        \Drupal::translation()->formatPlural($context['sandbox']['max'], 'Success. Created @count plot.', 'Success. Created @count plots.')
+      );
+    }
   }
 
 }
