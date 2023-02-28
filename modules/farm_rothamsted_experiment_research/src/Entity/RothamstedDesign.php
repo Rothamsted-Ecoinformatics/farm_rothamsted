@@ -28,8 +28,8 @@ use Drupal\user\UserInterface;
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
  *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
- *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
+ *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
+ *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
  *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *     },
  *     "route_provider" = {
