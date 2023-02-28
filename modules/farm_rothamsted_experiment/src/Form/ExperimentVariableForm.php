@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -424,14 +425,240 @@ class ExperimentVariableForm extends ExperimentFormBase {
       $error_msg = 'Missing plot_number 1. Make sure the plot number starts at 1.';
       $form_state->setError($form['plot_attributes'], $error_msg);
       $this->messenger()->addError($error_msg);
+      return;
     }
+
+    // Validate plot numbers.
+    $plot_numbers = array_column($plot_attributes, 'plot_number');
+    $expected_total = count($plot_attributes);
+    $expected_numbers = range(1, $expected_total);
+    $diff = array_diff($expected_numbers, $plot_numbers);
+    if (!empty($diff)) {
+      $missing_count = count($diff);
+      $error_msg = "Missing $missing_count plot numbers. Ensure plot numbers start at one and continue through the total number of plots.";
+      $form_state->setError($form['plot_attributes'], $error_msg);
+      $this->messenger()->addError($error_msg);
+      return;
+    }
+
+    // Validate the total and sequential of existing plot numbers.
+    // Subquery of plot IDs associated with the plan.
+    $plan_plot_query = \Drupal::database()->select('plan__plot', 'pp')
+      ->distinct(TRUE)
+      ->condition('pp.entity_id', $form_state->getValue('plan_id'))
+      ->condition('pp.deleted', 0);
+    $plan_plot_query->addField('pp', 'plot_target_id', 'plot_id');
+    $plot_number_query = \Drupal::database()->select('asset__plot_number', 'apm')
+      ->condition('apm.entity_id', $plan_plot_query, 'IN')
+      ->condition('apm.deleted', 0)
+      ->orderBy('apm.plot_number_value');
+    $plot_number_query->addField('apm', 'plot_number_value', 'plot_number');
+
+    // Validate total numbers.
+    $total_existing_plot = $plan_plot_query->countQuery()->execute()->fetchField();
+    if ((int) $total_existing_plot != $expected_total) {
+      $error_msg = "Total number of plots in CSV does not match number of existing plots created for this plan. CSV plots: $expected_total Existing: $total_existing_plot";
+      $form_state->setError($form['plot_attributes'], $error_msg);
+      $this->messenger()->addError($error_msg);
+      return;
+    }
+
+    // Validate that existing plot numbers are sequential with the CSV.
+    $plot_numbers = $plot_number_query->execute()->fetchCol();
+    $diff = array_diff($expected_numbers, $plot_numbers);
+    if (!empty($diff)) {
+      $missing_count = count($diff);
+      $error_msg = "The existing plot numbers do not match with those in the CSV. Missing $missing_count plots.";
+      $form_state->setError($form['plot_attributes'], $error_msg);
+      $this->messenger()->addError($error_msg);
+    }
+
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // @todo Implement submitForm() method.
+
+    // Get the plan.
+    $plan = Plan::load($form_state->getValue('plan_id'));
+    $revision_message = $form_state->getValue('revision_message');
+
+    // Parse uploaded files.
+    $file_data = $this->loadFiles($form_state);
+    $column_descriptors = $file_data['column_descriptors'];
+    $column_levels = $file_data['column_levels'];
+    $plot_attributes_mapping = $file_data['plot_attributes'] ?? [];
+
+    // Index by plot_number.
+    $plot_attributes_mapping = array_combine(array_column($plot_attributes_mapping, 'plot_number'), $plot_attributes_mapping);
+
+    // Build the plan column descriptors JSON for plan.column_descriptors.
+    $plan_column_descriptors = [];
+
+    // First add columns to plan_factors.
+    foreach ($column_descriptors as $column) {
+      $id = $column['column_id'];
+      $plan_column_descriptors[$id] = $column + ['column_levels' => []];
+    }
+
+    // Add column levels.
+    foreach ($column_levels as $column_level) {
+      $id = $column_level['column_id'];
+      $plan_column_descriptors[$id]['column_levels'][] = $column_level;
+    }
+
+    // Save the column descriptors.
+    $plan->set(
+      'column_descriptors',
+      json_encode(array_values($plan_column_descriptors), JSON_INVALID_UTF8_SUBSTITUTE),
+    );
+
+    // Save uploaded files.
+    $files = [
+      'column_descriptors',
+      'column_levels',
+      'plot_attributes',
+    ];
+    foreach ($files as $form_key) {
+      if ($file_ids = $form_state->getValue($form_key)) {
+        $plan->get('file')->appendItem(reset($file_ids));
+      }
+    }
+
+    // Finally, save the plan.
+    $plan->setNewRevision(TRUE);
+    $plan->setRevisionLogMessage($revision_message);
+    $plan->save();
+
+    // Redirect to the plan variables page after processing.
+    $form_state->setRedirect('farm_rothamsted_experiment.plan.variables', ['plan' => $plan->id()]);
+
+    // Build batch operations to update plot attributes.
+    $experiment_code = $plan->get('experiment_code')->value;
+    $operations[] = [
+      [self::class, 'updatePlotBatch'],
+      [$plan->id(), $experiment_code, $plot_attributes_mapping, $revision_message],
+    ];
+    $batch = [
+      'operations' => $operations,
+      'title' => $this->t('Updating plot attributes'),
+      'progress_message' => $this->t('Updating plot attributes'),
+      'error_message' => $this->t('Error updating plot attributes.'),
+    ];
+    batch_set($batch);
+  }
+
+  /**
+   * Batch operation callback to update plots.
+   *
+   * @param int $plan_id
+   *   The plan ID.
+   * @param string $experiment_code
+   *   The experiment code for the plot name.
+   * @param array $plot_data
+   *   Plot data to update on existing plots.
+   * @param string $revision_message
+   *   The revision message.
+   * @param array $context
+   *   The batch context.
+   */
+  public static function updatePlotBatch(int $plan_id, string $experiment_code, array $plot_data, string $revision_message, array &$context) {
+
+    // Init the batch sandbox.
+    if (empty($context['sandbox'])) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['current_id'] = 0;
+      $context['sandbox']['max'] = count($plot_data);
+    }
+
+    // Parameters for the size of the batch.
+    $limit = 50;
+    $current = $context['sandbox']['current_id'];
+
+    // Subquery of plot IDs associated with the plan.
+    $plan_plot_query = \Drupal::database()->select('plan__plot', 'pp')
+      ->distinct(TRUE)
+      ->condition('pp.entity_id', $plan_id)
+      ->condition('pp.deleted', 0);
+    $plan_plot_query->addField('pp', 'plot_target_id', 'plot_id');
+
+    // Query plots to update in this batch.
+    $asset_storage = \Drupal::entityTypeManager()->getStorage('asset');
+    $plot_ids = $asset_storage->getQuery()
+      ->condition('type', 'plot')
+      ->condition('status', 'active')
+      ->condition('id', $plan_plot_query, 'IN')
+      ->condition('plot_number', $current, '>')
+      ->range(0, $limit)
+      ->sort('plot_number')
+      ->execute();
+
+    // Iterate over plots and update values.
+    /** @var \Drupal\asset\Entity\AssetInterface[] $plots */
+    $plots = $asset_storage->loadMultiple($plot_ids);
+    foreach ($plots as $plot) {
+
+      // Get the plot number to match with the plot data.
+      $plot_number = (int) $plot->get('plot_number')->value;
+      $plot_attributes = $plot_data[$plot_number];
+      if (empty($plot_attributes)) {
+        continue;
+      }
+
+      // Build the plot name from the feature data.
+      $plot_id = $plot_attributes['plot_id'];
+      $plot->set('name', "$experiment_code: $plot_id");
+      $plot->set('status', 'active');
+
+      // Build column descriptors for the plot.
+      $column_descriptors = [];
+
+      // Assign plot field values.
+      $normal_fields = [
+        'plot_number',
+        'plot_id',
+        'plot_type',
+        'row',
+        'column',
+      ];
+      foreach ($plot_attributes as $column_name => $column_value) {
+
+        // Map the normal fields to the plot asset field.
+        if (in_array($column_name, $normal_fields)) {
+          $plot->set($column_name, $column_value);
+        }
+        // Else the column is a factor key/value pair.
+        // Don't include if the value is na.
+        elseif ($column_value != 'na') {
+          $column_descriptors[] = ['key' => $column_name, 'value' => $column_value];
+        }
+      }
+
+      // Update plot column_descriptors.
+      $plot->set('column_descriptors', $column_descriptors);
+
+      // Save the plot.
+      $plot->setNewRevision(TRUE);
+      $plot->setRevisionLogMessage($revision_message);
+      $plot->save();
+
+      // Update sandbox.
+      $context['sandbox']['progress']++;
+      $context['sandbox']['current_id'] = $plot_number;
+      $context['message'] = \Drupal::translation()->formatPlural($plot_number, 'Updated @count plot.', 'Updated @count plots.');
+    }
+
+    // Update finished progress.
+    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+    // Add success message.
+    else {
+      \Drupal::messenger()->addStatus(
+        \Drupal::translation()->formatPlural($context['sandbox']['max'], 'Success. Updated @count plot.', 'Success. Updated @count plots.')
+      );
+    }
   }
 
   /**
