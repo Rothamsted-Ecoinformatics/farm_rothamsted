@@ -344,6 +344,27 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         ],
       ]);
 
+    $fields['researcher'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Researchers'))
+      ->setDescription(t('Researchers that are associated with this experiment.'))
+      ->setRequired(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_researcher')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
     $fields['website'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Website'))
       ->setDescription(t('The URL for the experiment website.'))
@@ -396,25 +417,98 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         ],
       ]);
 
-    $fields['researcher'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Researchers'))
-      ->setDescription(t('Researchers that are associated with this experiment.'))
-      ->setRequired(TRUE)
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setSetting('target_type', 'rothamsted_researcher')
+    $fields['rotation_name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Rotation name'))
+      ->setDescription(t('The name of the rotation.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['rotation_description'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Rotation description'))
+      ->setDescription(t('A description of the rotation.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['rotation_crops'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Rotation Crops'))
+      ->setDescription(t('The crops in the rotation.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('handler', 'default:taxonomy_term')
+      ->setSetting('handler_settings', [
+        'sort' => [
+          'field' => 'name',
+          'direction' => 'asc',
+        ],
+        'auto_create' => FALSE,
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'settings' => [
-          'match_operator' => 'CONTAINS',
-          'size' => 60,
-          'placeholder' => '',
-        ],
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'label' => 'inline',
         'type' => 'entity_reference_label',
+        'settings' => [
+          'link' => TRUE,
+        ],
+      ]);
+
+    $fields['rotation_phasing'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Rotation phasing'))
+      ->setDescription(t('The phasing of the rotation. E.g. winter wheat - winter oilseed rape - autumn cover crop - spring beans.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['rotation_notes'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Rotation notes'))
+      ->setDescription(t('Any additional notes about the rotation.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
       ]);
 
     $fields['confidential_treatment'] = BaseFieldDefinition::create('boolean')
