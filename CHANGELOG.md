@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add farm_rothamsted_notification module and send CRUD emails [#299](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/299)
 - Add farm_rothamsted_date date format
 - Allow editing columns and column levels. [#276](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/276)
+- Allow editing plot geometry. [#337](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/337)
 
 ### Changed
 
