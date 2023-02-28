@@ -3,25 +3,10 @@ farm_rothamsted_experiment.plan.variables:
   defaults:
     _controller: Drupal\farm_rothamsted_experiment\Controller\ExperimentVariable::variables
     _title: 'Experiment variables'
-    _title_callback: '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm::getTitle'
   requirements:
     _entity_access: 'plan.view'
   options:
     no_cache: TRUE
-    parameters:
-      plan:
-        type: entity:plan
-        bundle:
-          - rothamsted_experiment
-farm_rothamsted_experiment.upload_experiment_form:
-  path: '/plan/{plan}/upload-experiment-data'
-  defaults:
-    _form:  '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm'
-    _title: 'Upload Experiment'
-    _title_callback: '\Drupal\farm_rothamsted_experiment\Form\UploadExperimentForm::getTitle'
-  requirements:
-    _entity_access: 'plan.update'
-  options:
     parameters:
       plan:
         type: entity:plan

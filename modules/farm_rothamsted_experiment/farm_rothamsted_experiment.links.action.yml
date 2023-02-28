@@ -1,9 +1,3 @@
-farm_rothamsted_experiment.upload_experiment_form:
-  route_name: farm_rothamsted_experiment.upload_experiment_form
-  title: 'Upload experiment'
-  appears_on:
-    - entity.plan.collection
-    - view.rothamsted_experiment_plans.page
 farm_rothamsted_experiment.experiment_variable_form:
   route_name: farm_rothamsted_experiment.experiment.variable_form
   title: 'Add variables'

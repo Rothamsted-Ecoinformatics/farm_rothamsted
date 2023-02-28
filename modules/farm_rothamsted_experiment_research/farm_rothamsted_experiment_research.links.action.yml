@@ -17,3 +17,12 @@ farm_rothamsted_experiment_research.add_design:
   appears_on:
     - entity.rothamsted_design.collection
     - view.rothamsted_experiment_design.page_experiment
+
+farm_rothamsted_experiment_research.add_plan:
+  route_name: entity.plan.add_form
+  route_parameters:
+    plan_type: 'rothamsted_experiment'
+  title: 'Add Experiment Plan'
+  appears_on:
+    - view.rothamsted_experiment_plan.page_research
+    - view.rothamsted_experiment_plan.page_design
