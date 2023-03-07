@@ -1,3 +1,13 @@
+farm_rothamsted_experiment.plan.edit_variables:
+  title: 'Edit variables'
+  route_name: farm_rothamsted_experiment.experiment.variable_form
+  parent_id: entity.entity_tasks:entity.plan.canonical
+  weight: 15
+farm_rothamsted_experiment.plan.edit_geometry:
+  title: 'Edit geometries'
+  route_name: farm_rothamsted_experiment.experiment_plot_geometry_form
+  parent_id: entity.entity_tasks:entity.plan.canonical
+  weight: 16
 farm_rothamsted_experiment.plan.variables:
   title: 'Variables'
   route_name: farm_rothamsted_experiment.plan.variables
