@@ -214,6 +214,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['experiment'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Related Experiment'))
+      ->setDescription(t('Please select the experiments that this design relates to.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('target_type', 'rothamsted_experiment')
