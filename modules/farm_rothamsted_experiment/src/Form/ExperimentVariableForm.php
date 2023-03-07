@@ -336,13 +336,13 @@ class ExperimentVariableForm extends ExperimentFormBase {
     // Get data from files.
     $plot_attributes = $file_data['plot_attributes'];
 
-    // Build a column id -> level id map for validation plot attributes.
-    // This makes it efficient to validate plot column id + level id pairs.
-    $column_ids = array_column($file_data['column_descriptors'], 'column_id');
-    $column_levels_map = array_fill_keys($column_ids, []);
+    // Build a column name -> level name map for validation plot attributes.
+    // This makes it efficient to validate plot column name + level name pairs.
+    $column_names = array_column($file_data['column_descriptors'], 'column_name');
+    $column_levels_map = array_fill_keys($column_names, []);
     foreach ($file_data['column_levels'] as $column_level) {
-      $column_id = $column_level['column_id'];
-      $column_levels_map[$column_id][] = $column_level['level_id'];
+      $column_id = $column_level['column_name'];
+      $column_levels_map[$column_id][] = $column_level['level_name'];
     }
 
     // Keep track of plot 1.
@@ -401,7 +401,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
         }
 
         // Ensure each column is a valid column_id.
-        if (!in_array($column_name, $column_ids)) {
+        if (!in_array($column_name, $column_names)) {
           $error_msg = "Plot in row $row has an invalid column_id: $column_name";
           $form_state->setError($form['plot_attributes'], $error_msg);
           $this->messenger()->addError($error_msg);
@@ -534,11 +534,21 @@ class ExperimentVariableForm extends ExperimentFormBase {
     // Redirect to the plan variables page after processing.
     $form_state->setRedirect('farm_rothamsted_experiment.plan.variables', ['plan' => $plan->id()]);
 
+    // Column name and column level map.
+    $column_names = array_column($file_data['column_descriptors'], 'column_name');
+    $column_ids = array_column($file_data['column_descriptors'], 'column_id');
+    $columns_map = array_combine($column_names, $column_ids);
+    $column_levels_map = array_fill_keys($column_names, []);
+    foreach ($file_data['column_levels'] as $column_level) {
+      $column_name = $column_level['column_name'];
+      $column_levels_map[$column_name][$column_level['level_name']] = $column_level['level_id'];
+    }
+
     // Build batch operations to update plot attributes.
     $experiment_code = $plan->get('experiment_code')->value;
     $operations[] = [
       [self::class, 'updatePlotBatch'],
-      [$plan->id(), $experiment_code, $plot_attributes_mapping, $revision_message],
+      [$plan->id(), $experiment_code, $plot_attributes_mapping, $columns_map, $column_levels_map, $revision_message],
     ];
     $batch = [
       'operations' => $operations,
@@ -563,7 +573,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
    * @param array $context
    *   The batch context.
    */
-  public static function updatePlotBatch(int $plan_id, string $experiment_code, array $plot_data, string $revision_message, array &$context) {
+  public static function updatePlotBatch(int $plan_id, string $experiment_code, array $plot_data, array $columns_map, array $column_levels_map, string $revision_message, array &$context) {
 
     // Init the batch sandbox.
     if (empty($context['sandbox'])) {
@@ -631,7 +641,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
         // Else the column is a factor key/value pair.
         // Don't include if the value is na.
         elseif ($column_value != 'na') {
-          $column_descriptors[] = ['key' => $column_name, 'value' => $column_value];
+          $column_id = $columns_map[$column_name];
+          $column_level_id = $column_levels_map[$column_name][$column_value];
+          $column_descriptors[] = ['key' => $column_id, 'value' => $column_level_id];
         }
       }
 

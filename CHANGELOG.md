@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Process experiment plot uploads in a batch operation. [#335](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/335)
+- Link plot attributes to column and level names. [#275](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/275)
 
 ## [2.9.3](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/15) 2023-02-14
 
