@@ -9,6 +9,8 @@ use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
+use Drupal\entity\BundleFieldDefinition;
+use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
@@ -162,7 +164,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the research program.'))
+      ->setDescription(t('The name of the experiment.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -214,6 +216,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
 
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Related Programs'))
+      ->setDescription(t('The research program which this experiment is part of.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -239,7 +242,6 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setLabel(t('Experiment code'))
       ->setDescription(t('The experiment code.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
@@ -365,21 +367,22 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         'type' => 'entity_reference_label',
       ]);
 
-    $fields['website'] = BaseFieldDefinition::create('string')
+    $fields['website'] = BaseFieldDefinition::create('link')
       ->setLabel(t('Website'))
       ->setDescription(t('The URL for the experiment website.'))
       ->setRevisionable(TRUE)
+      ->setSettings([
+        'title' => DRUPAL_DISABLED,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'settings' => [
-          'size' => 25,
-        ],
+        'type' => 'link',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'string',
         'label' => 'inline',
+        'type' => 'link',
       ]);
 
     $fields['objective'] = BaseFieldDefinition::create('text_long')
@@ -532,7 +535,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setLabel(t('Data license'))
       ->setDescription(t('The license associated with the experiment data.'))
       ->setRevisionable(TRUE)
-      ->setSetting('allowed_options', [
+      ->setSetting('allowed_values', [
         'public_domain' => t('Public Domain'),
         'cc0' => t('CC0 (No Rights Reserved, Public Domain'),
         'pddl' => t('PDDL (Open Data Commons Public Domain Dedication and License)'),
@@ -631,17 +634,22 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         ],
       ]);
 
-    $file_field_settings = [
-      'description_field' => TRUE,
+    // Common file field settings.
+    $file_settings = [
       'file_directory' => 'rothamsted/rothamsted_experiment/[date:custom:Y]-[date:custom:m]',
       'max_filesize' => '',
       'handler' => 'default:file',
       'handler_settings' => [],
     ];
+    $file_field_settings = $file_settings + [
+      'description_field' => TRUE,
+      'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
+    ];
     $fields['file'] = BaseFieldDefinition::create('file')
       ->setLabel(t('File'))
       ->setDescription(t('Upload files associated with this experiment.'))
       ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($file_field_settings)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -659,11 +667,15 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         ],
       ]);
 
+    $image_field_settings = $file_settings + [
+      'file_extensions' => 'png gif jpg jpeg',
+    ];
     $fields['image'] = BaseFieldDefinition::create('image')
       ->setLabel(t('Image'))
       ->setDescription(t('Upload files associated with this experiment.'))
       ->setRevisionable(TRUE)
-      ->setSettings($file_field_settings)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($image_field_settings)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'image_image',
@@ -680,6 +692,25 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
           'image_style' => 'large',
           'image_link' => 'file',
         ],
+      ]);
+
+    $fields['link'] = BaseFieldDefinition::create('link')
+      ->setLabel(t('Links'))
+      ->setDescription(t('Links to external website and documents associated with the experiment.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings([
+       'title' => DRUPAL_DISABLED,
+       'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'link',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'link',
       ]);
 
     return $fields;
