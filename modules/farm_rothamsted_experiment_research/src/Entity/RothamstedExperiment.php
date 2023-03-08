@@ -9,7 +9,6 @@ use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
-use Drupal\entity\BundleFieldDefinition;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
@@ -700,8 +699,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings([
-       'title' => DRUPAL_DISABLED,
-       'link_type' => LinkItemInterface::LINK_EXTERNAL,
+        'title' => DRUPAL_DISABLED,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

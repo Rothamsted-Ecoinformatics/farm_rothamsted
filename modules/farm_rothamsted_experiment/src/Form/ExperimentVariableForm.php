@@ -568,6 +568,10 @@ class ExperimentVariableForm extends ExperimentFormBase {
    *   The experiment code for the plot name.
    * @param array $plot_data
    *   Plot data to update on existing plots.
+   * @param array $columns_map
+   *   Array of column info.
+   * @param array $column_levels_map
+   *   Array of column level info.
    * @param string $revision_message
    *   The revision message.
    * @param array $context
