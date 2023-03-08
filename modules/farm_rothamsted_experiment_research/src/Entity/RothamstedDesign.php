@@ -246,10 +246,64 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
-    $fields['design_type'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Design type'))
-      ->setDescription(t('The type of statistical design.'))
+    $fields['blocking_structure'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Blocking Structure'))
+      ->setDescription(t('The blocking structure used for the experiment design.'))
       ->setRevisionable(TRUE)
+      ->setSetting('allowed_values', [
+        'crd' => t('Completely Randomised Design'),
+        'rcbd' => t('Randomised Complete Block Design'),
+        'rbd' => t('Resolvable Block Design'),
+        'nrbd' => t('Non-resolvable Block Design'),
+        'rrcd' => t('Resolvable Row-Column Design'),
+        'nrrcd' => t('Non-resolvable Row-Column Design'),
+        'spd' => t('Split Plot Design'),
+        'ad' => t('Augmented Design'),
+        'nr' => t('Not Randomised'),
+        'other' => t('Other'),
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['statistical_design'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Statistical Design'))
+      ->setDescription(t('The statistical design associated with the experiment and blocking structure.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_statistical_design_field_allowed_values')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['blocking_constraint'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Additional Blocking Constraints'))
+      ->setDescription(t('Any additional blocking constraints associated with the experiment design.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('allowed_values', [
+        't-latinization' => t('T-Latinization'),
+        'spatial_standards' => t('Spatial Standards'),
+        'spatial_design' => t('Spatial Design'),
+        'unequal_replication' => t('Unequal Replication'),
+        'other' => t('Other'),
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',

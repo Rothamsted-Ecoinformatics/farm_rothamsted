@@ -5,8 +5,10 @@
  * The farm rothamsted experiment research module.
  */
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\entity\BundleFieldDefinition;
 
 /**
@@ -43,6 +45,86 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
   }
 
   return $fields;
+}
+
+/**
+ * Allowed values callback function for the design blocking structure.
+ *
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ *   The field storage definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the allowed values can be cached. Defaults to TRUE.
+ *
+ * @return array
+ *   Returns an array of allowed values for use in form select options.
+ */
+function farm_rothamsted_experiment_research_statistical_design_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+  return farm_rothamsted_experiment_research_statistical_design_options();
+}
+
+/**
+ * Helper function to get statistical design allowed options.
+ *
+ * @param string|null $blocking_structure
+ *   The blocking structure used to determine statistical design options.
+ *
+ * @return array
+ *   The statistical design allowed options.
+ */
+function farm_rothamsted_experiment_research_statistical_design_options(string $blocking_structure = NULL): array {
+  $all_options = [
+    'crd' => [
+      'crd' => t('Completely Randomised Design'),
+    ],
+    'rcbd' => [
+      'rcbd' => t('Randomised Complete Block Design'),
+    ],
+    'rbd' => [
+      'bibd' => t('Balanced Incomplete Block Design'),
+      'ubd' => t('Unequal Block Design'),
+      'ad' => t('Alpha Design'),
+      'cd' => t('Cyclic Design'),
+    ],
+    'nrbd' => [
+      'ibd' => t('Incomplete Block Design'),
+      'ad' => t('Alpha Design'),
+      'cd' => t('Cyclic Design'),
+    ],
+    'rrcd' => [
+      'ls' => t('Latin Square'),
+      'cls' => t('Complete Latin Square'),
+      'qcls' => t('Quasi-Complete Latin Square'),
+      'lsd' => t('Lattice Square Design'),
+    ],
+    'nrrcd' => [
+      'description' => t('See Description'),
+    ],
+    'spd' => [
+      'spd' => t('Split Plot Design'),
+      'smpd' => t('Split Main Plots Design'),
+      'sspd' => t('Split-split Plot Design'),
+      'ccd' => t('Criss-cross (Strip Plot) Design'),
+    ],
+    'ad' => [
+      'description' => t('See Description'),
+    ],
+    'nr' => [
+      'description' => t('See Description'),
+    ],
+    'other' => [
+      'description' => t('See Description'),
+    ],
+  ];
+
+  // Return all options.
+  if (empty($blocking_structure)) {
+    return array_unique(array_merge(...array_values($all_options)));
+  }
+
+  // Else return specific options.
+  return $all_options[$blocking_structure] ?? [];
 }
 
 /**
