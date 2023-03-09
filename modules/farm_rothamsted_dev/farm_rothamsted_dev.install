@@ -254,7 +254,6 @@ function farm_rothamsted_dev_install() {
   $design = RothamstedDesign::create([
     'experiment' => $experiment,
     'name' => 'Design 1',
-    'design_type' => 'Test design',
     'description' => 'Initial design for experiment 1',
     'statistician' => reset($new_researchers),
   ]);
