@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment_research
+    - farm_rothamsted_researcher
+  enforced:
+    module:
+      - farm_rothamsted_experiment_research
+id: rothamsted_research_viewer
+label: 'Research viewer'
+weight: 2
+is_admin: null
+permissions:
+  - 'access rothamsted_design overview'
+  - 'access rothamsted_experiment overview'
+  - 'access rothamsted_program overview'
+  - 'access rothamsted_researcher overview'
+  - 'view any rothamsted_design'
+  - 'view any rothamsted_experiment'
+  - 'view any rothamsted_program'
+  - 'view any rothamsted_researcher'
+  - 'view own rothamsted_design'
+  - 'view own rothamsted_experiment'
+  - 'view own rothamsted_program'
+  - 'view own rothamsted_researcher'

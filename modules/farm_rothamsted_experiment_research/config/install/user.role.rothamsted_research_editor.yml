@@ -1,0 +1,46 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment_research
+    - farm_rothamsted_researcher
+  enforced:
+    module:
+      - farm_rothamsted_experiment_research
+id: rothamsted_research_editor
+label: 'Research editor'
+weight: 2
+is_admin: null
+permissions:
+  - 'access rothamsted_design overview'
+  - 'access rothamsted_experiment overview'
+  - 'access rothamsted_program overview'
+  - 'access rothamsted_researcher overview'
+  - 'create rothamsted_design'
+  - 'create rothamsted_experiment'
+  - 'create rothamsted_program'
+  - 'create rothamsted_researcher'
+  - 'delete any rothamsted_design'
+  - 'delete any rothamsted_experiment'
+  - 'delete any rothamsted_program'
+  - 'delete any rothamsted_researcher'
+  - 'delete own rothamsted_design'
+  - 'delete own rothamsted_experiment'
+  - 'delete own rothamsted_program'
+  - 'delete own rothamsted_researcher'
+  - 'update any rothamsted_design'
+  - 'update any rothamsted_experiment'
+  - 'update any rothamsted_program'
+  - 'update any rothamsted_researcher'
+  - 'update own rothamsted_design'
+  - 'update own rothamsted_experiment'
+  - 'update own rothamsted_program'
+  - 'update own rothamsted_researcher'
+  - 'view any rothamsted_design'
+  - 'view any rothamsted_experiment'
+  - 'view any rothamsted_program'
+  - 'view any rothamsted_researcher'
+  - 'view own rothamsted_design'
+  - 'view own rothamsted_experiment'
+  - 'view own rothamsted_program'
+  - 'view own rothamsted_researcher'
