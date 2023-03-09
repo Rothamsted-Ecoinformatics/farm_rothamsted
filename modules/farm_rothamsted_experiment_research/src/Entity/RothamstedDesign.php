@@ -317,40 +317,36 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
-    $fields['start'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Start date'))
-      ->setDescription(t('The start date of the experiment design.'))
+    $fields['start'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Start year'))
+      ->setDescription(t('The start year of the experiment design.'))
       ->setRevisionable(TRUE)
-      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
+      ->setSetting('min', 1800)
+      ->setSetting('max', 3000)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
+        'type' => 'number',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
+        'type' => 'number',
         'label' => 'inline',
-        'settings' => [
-          'format_type' => 'farm_rothamsted_date',
-        ],
       ]);
 
-    $fields['end'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('End date'))
-      ->setDescription(t('The end date of the experiment design.'))
+    $fields['end'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('End year'))
+      ->setDescription(t('The end year of the experiment design.'))
       ->setRevisionable(TRUE)
-      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
+      ->setSetting('min', 1800)
+      ->setSetting('max', 3000)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
+        'type' => 'number',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
+        'type' => 'number',
         'label' => 'inline',
-        'settings' => [
-          'format_type' => 'farm_rothamsted_date',
-        ],
       ]);
 
     $fields['statistician'] = BaseFieldDefinition::create('entity_reference')
