@@ -147,17 +147,17 @@ display:
           action_title: Action
           include_exclude: exclude
           selected_actions: {  }
-        location_target_id:
-          id: location_target_id
-          table: plan__location
-          field: location_target_id
+        status:
+          id: status
+          table: plan_field_data
+          field: status
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: plan
-          entity_field: location
+          entity_field: status
           plugin_id: field
-          label: 'Field Location'
+          label: Status
           exclude: false
           alter:
             alter_text: false
@@ -198,18 +198,17 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: ul
+          multi_type: separator
           separator: ', '
           field_api_classes: false
         name:
@@ -275,6 +274,71 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        location_target_id:
+          id: location_target_id
+          table: plan__location
+          field: location_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: location
+          plugin_id: field
+          label: 'Field Location'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
           separator: ', '
           field_api_classes: false
         experiment_code_value:
@@ -604,70 +668,6 @@ display:
           multi_type: ul
           separator: ', '
           field_api_classes: false
-        status:
-          id: status
-          table: plan_field_data
-          field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: status
-          plugin_id: field
-          label: Status
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: list_default
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         flag_value:
           id: flag_value
           table: plan__flag
@@ -814,6 +814,56 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        status:
+          id: status
+          table: plan_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: status
+          plugin_id: state_machine_state
+          operator: in
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: status_op
+            label: Status
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -1130,47 +1180,6 @@ display:
           hierarchy: true
           limit: true
           error_message: true
-        status:
-          id: status
-          table: plan_field_data
-          field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: status
-          plugin_id: state_machine_state
-          operator: in
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: status_op
-            label: Status
-            description: ''
-            use_operator: false
-            operator: status_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: status
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         flag_value:
           id: flag_value
           table: plan__flag
