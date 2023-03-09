@@ -25,7 +25,7 @@ use Drupal\user\UserInterface;
  *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
  *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "views_data" = "Drupal\entity\EntityViewsData",
  *     "form" = {
  *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
  *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
@@ -230,6 +230,29 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDisplayOptions('view', [
         'label' => 'inline',
         'type' => 'entity_reference_label',
+      ]);
+
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the experiment design.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values', [
+        'active' => t('Active'),
+        'archived' => t('Archived'),
+      ])
+      ->setDefaultValue('active')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
       ]);
 
     $fields['description'] = BaseFieldDefinition::create('text_long')

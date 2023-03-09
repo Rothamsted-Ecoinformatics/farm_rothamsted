@@ -19,6 +19,7 @@ class ExperimentEntityForm extends ResearchEntityForm {
         'fields' => [
           'program',
           'name',
+          'status',
           'code',
           'abbreviation',
           'description',

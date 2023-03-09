@@ -211,6 +211,29 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ->setDescription(t('The time that the research program was last edited.'))
       ->setRevisionable(TRUE);
 
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the program.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values', [
+        'active' => t('Active'),
+        'archived' => t('Archived'),
+      ])
+      ->setDefaultValue('active')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['project_code'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Project code'))
       ->setDescription(t('The project code assigned to the Research Programme.'))

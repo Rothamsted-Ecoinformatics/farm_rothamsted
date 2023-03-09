@@ -237,6 +237,29 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         'weight' => -15,
       ]);
 
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the experiment.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values', [
+        'active' => t('Active'),
+        'archived' => t('Archived'),
+      ])
+      ->setDefaultValue('active')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['code'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Experiment code'))
       ->setDescription(t('The experiment code.'))

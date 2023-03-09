@@ -20,6 +20,7 @@ class DesignEntityForm extends ResearchEntityForm {
         'fields' => [
           'experiment',
           'name',
+          'status',
           'description',
           'blocking_structure',
           'statistical_design',
