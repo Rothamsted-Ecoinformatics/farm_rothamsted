@@ -327,6 +327,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
         'norwegian_research_council' => 'Norwegian Research Council',
         'novo_nordisk_foundation' => 'Novo Nordisk Foundation',
         'novozyme' => 'Novozyme',
+        'lawes_agricultural_trust' => 'Lawes Agricultural Trust',
         'syngenta' => 'Syngenta',
         'the_royal_society' => 'The Royal Society',
         'the_alan_turing_institute' => 'The Alan Turing Institute',
