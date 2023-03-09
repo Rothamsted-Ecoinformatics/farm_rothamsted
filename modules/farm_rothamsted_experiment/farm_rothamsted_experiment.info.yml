@@ -5,6 +5,7 @@ package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
   - drupal:link
+  - drupal:datetime
   - farm_entity
   - farm_land
   - farm_observation

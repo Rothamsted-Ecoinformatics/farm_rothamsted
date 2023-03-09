@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
 use Symfony\Component\Yaml\Yaml;
 
@@ -226,5 +228,267 @@ function farm_rothamsted_experiment_post_update_create_sponsor_experiment_admin_
     $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment') . "/config/install/user.role.$role_id.yml";
     $data = Yaml::parseFile($config_path);
     \Drupal::configFactory()->getEditable("user.role.$role_id")->setData($data)->save(TRUE);
+  }
+}
+
+/**
+ * Enable datetime module.
+ */
+function farm_rothamsted_experiment_post_update_2_10_1_enable_datetime(&$sandbox = NULL) {
+  if (!\Drupal::service('module_handler')->moduleExists('datetime')) {
+    \Drupal::service('module_installer')->install(['datetime']);
+  }
+}
+
+/**
+ * Add experiment plan fields added with 2.10 release.
+ */
+function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox = NULL) {
+
+  // Additional fields added with 2.10.
+  $fields = [];
+  $fields['study_description'] = BundleFieldDefinition::create('text_long')
+    ->setLabel(t('Description'))
+    ->setDescription(t('A description of the study period.'))
+    ->setRevisionable(TRUE);
+  $fields['study_number'] = BundleFieldDefinition::create('integer')
+    ->setLabel(t('Study number'))
+    ->setDescription(t('A consecutive number that can be used to identify the study.'))
+    ->setRevisionable(TRUE)
+    ->setSetting('min', 0);
+  $fields['start'] = BundleFieldDefinition::create('datetime')
+    ->setLabel(t('Start date'))
+    ->setDescription(t('The start date of the program.'))
+    ->setRevisionable(TRUE)
+    ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE);
+  $fields['end'] = BundleFieldDefinition::create('datetime')
+    ->setLabel(t('End date'))
+    ->setDescription(t('The end date of the program.'))
+    ->setRevisionable(TRUE)
+    ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE);
+  $fields['current_phase'] = BundleFieldDefinition::create('string')
+    ->setLabel(t('Current Phase'))
+    ->setDescription(t('The current phase that the rotation is in.'))
+    ->setRevisionable(TRUE);
+  $fields['cost_code_allocation'] = BundleFieldDefinition::create('text_long')
+    ->setLabel(t('Cost code allocation'))
+    ->setDescription(t('List the cost codes and percentage allocations.'))
+    ->setRevisionable(TRUE);
+  $fields['amendments'] = BundleFieldDefinition::create('text_long')
+    ->setLabel(t('Amendments'))
+    ->setDescription(t('A description of any changes made to the experiment.'))
+    ->setRevisionable(TRUE);
+
+  $restriction_fields = [
+    'restriction_gm' => [
+      'boolean' => [
+        'label' => t('Genetically Modified (GM) Material'),
+        'description' => t('Is there any GM material being used?'),
+      ],
+      'text' => [
+        'label' => t('Description of GM material'),
+        'description' => t('Please describe the GM materials.'),
+      ],
+    ],
+    'restriction_ge' => [
+      'boolean' => [
+        'label' => t('Genetically Edited (GE) Material'),
+        'description' => t('Is there any GE material being used?'),
+      ],
+      'text' => [
+        'label' => t('Description of GE material'),
+        'description' => t('Please describe the GE materials.'),
+      ],
+    ],
+    'restriction_off_label' => [
+      'boolean' => [
+        'label' => t('Off-label Products'),
+        'description' => t('Is there a requirement for off-label or uncertified products (e.g. pesticides, growth regulators) to be applied?'),
+      ],
+      'text' => [
+        'label' => t('Description of off-label products'),
+        'description' => t('Please describe the off-label products.'),
+      ],
+    ],
+    'restriction_licence_perm' => [
+      'boolean' => [
+        'label' => t('Licence and Permissions'),
+        'description' => t('Do you need a specific licence or other permission?'),
+      ],
+      'text' => [
+        'label' => t('Licence and Permissions'),
+        'description' => t('Please describe the licence/permission restrictions.'),
+      ],
+    ],
+  ];
+
+  // Add boolean and text_long field for each restriction.
+  foreach ($restriction_fields as $restriction_field_id => $restriction_field_info) {
+    $fields[$restriction_field_id] = BundleFieldDefinition::create('boolean')
+      ->setLabel($restriction_field_info['boolean']['label'])
+      ->setDescription($restriction_field_info['boolean']['description'])
+      ->setRevisionable(TRUE);
+    $description_field_id = $restriction_field_id . '_desc';
+    $fields[$description_field_id] = BundleFieldDefinition::create('text_long')
+      ->setLabel($restriction_field_info['text']['label'])
+      ->setDescription($restriction_field_info['text']['description'])
+      ->setRevisionable(TRUE);
+  }
+
+  $fields['mgmt_seed_provision'] = BundleFieldDefinition::create('list_string')
+    ->setLabel(t('Seed Provision'))
+    ->setDescription(t('Please state who will provide the seed.'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE);
+
+  $management_fields = [
+    'seed_trt' => [
+      'label' => t('Seed treatments'),
+      'description' => t('Please specify any requirements relating ot seed treatments.'),
+    ],
+    'variety_notes' => [
+      'label' => t('Variety notes'),
+      'description' => t('Any other notes about the varieties requested/selected.'),
+    ],
+    'ploughing' => [
+      'label' => t('Ploughing'),
+      'description' => t('Detail any management related to ploughing.'),
+    ],
+    'levelling' => [
+      'label' => t('Levelling'),
+      'description' => t('Detail any management related to levelling.'),
+    ],
+    'seed_cultivation' => [
+      'label' => t('Seed bed cultivation'),
+      'description' => t('Detail any management related to seed bed cultivation.'),
+    ],
+    'planting_date' => [
+      'label' => t('Planting dates'),
+      'description' => t('Request specific planting dates.'),
+    ],
+    'seed_rate' => [
+      'label' => t('Seed rate'),
+      'description' => t('Request specific seed rates.'),
+    ],
+    'drilling_rate' => [
+      'label' => t('Drilling rate'),
+      'description' => t('Request specific drilling rates.'),
+    ],
+    'plant_estab' => [
+      'label' => t('Plant Establishment'),
+      'description' => t('Detail any management relating to plant establishment.'),
+    ],
+    'fungicide' => [
+      'label' => t('Fungicides'),
+      'description' => t('Please specify any requirements relating to fungicides and plant pathogen management.'),
+    ],
+    'herbicide' => [
+      'label' => t('Herbicides'),
+      'description' => t('Please specify any requirements relating to herbicides and weed management.'),
+    ],
+    'insecticide' => [
+      'label' => t('Insecticides'),
+      'description' => t('Please specify any requirements relating to insecticides and pest management.'),
+    ],
+    'nematicide' => [
+      'label' => t('Nematicides'),
+      'description' => t('Please specify any requirements relating to nematodes and nematicides.'),
+    ],
+    'molluscicide' => [
+      'label' => t('Molluscicides'),
+      'description' => t('Please specify any requirements relating to slugs, snails and molluscicide management.'),
+    ],
+    'pgr' => [
+      'label' => t('Plant growth regulators (PGR)'),
+      'description' => t('Please specify any requirements relating to lodging and plant growth regulators.'),
+    ],
+    'irrigation' => [
+      'label' => t('Irrigation'),
+      'description' => t('Please specify any requirements relating to irrigation.'),
+    ],
+    'nitrogen' => [
+      'label' => t('Nitrogen (N)'),
+      'description' => t('Please specify any nitrogen management requests.'),
+    ],
+    'potassium' => [
+      'label' => t('Potassium (P)'),
+      'description' => t('Please specify any potassium management requests.'),
+    ],
+    'phosphorous' => [
+      'label' => t('Phosphorous (K)'),
+      'description' => t('Please specify any phosphorous management requests.'),
+    ],
+    'magnesium' => [
+      'label' => t('Magnesium (Mg)'),
+      'description' => t('Please specify any magnesium management requests.'),
+    ],
+    'sulphur' => [
+      'label' => t('Sulphur (S)'),
+      'description' => t('Please specify any sulphur management requests.'),
+    ],
+    'micronutrients' => [
+      'label' => t('Micronutrients'),
+      'description' => t('Please specify any micronutrient management requests.'),
+    ],
+    'ph' => [
+      'label' => t('Liming (pH)'),
+      'description' => t('Please specify any pH management requests.'),
+    ],
+    'pre_harvest' => [
+      'label' => t('Pre-harvest sampling'),
+      'description' => t('Describe any pre-harvest sampling.'),
+    ],
+    'grain_samples' => [
+      'label' => t('Grain samples'),
+      'description' => t('Do you require any grain samples?'),
+    ],
+    'grain_harvest' => [
+      'label' => t('Grain harvest instructions'),
+      'description' => t('Please specify any grain handling instructions.'),
+    ],
+    'straw_samples' => [
+      'label' => t('Straw samples'),
+      'description' => t('Do you require straw samples?'),
+    ],
+    'straw_harvest' => [
+      'label' => t('Straw harvest instructions'),
+      'description' => t('Please specify any straw harvest instructions.'),
+    ],
+    'post_harvest' => [
+      'label' => t('Post-harvest management'),
+      'description' => t('Please specify any requirements for post-harvest management.'),
+    ],
+    'post_harvest_interval' => [
+      'label' => t('Post-harvest interval'),
+      'description' => t('Please specify a post-harvest interval if needed.'),
+    ],
+    'post_harvest_sampling' => [
+      'label' => t('Post-harvest sampling'),
+      'description' => t('Please describe any post-harvest sampling.'),
+    ],
+    'physical_obstructions' => [
+      'label' => t('Physical obstructions'),
+      'description' => t('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
+    ],
+    'other' => [
+      'label' => t('Other'),
+      'description' => t('Any other issues relating to the experiment management.'),
+    ],
+  ];
+  foreach ($management_fields as $management_field_id => $management_field_info) {
+    $fields["mgmt_$management_field_id"] = BundleFieldDefinition::create('text_long')
+      ->setLabel($management_field_info['label'])
+      ->setDescription($management_field_info['description'])
+      ->setRevisionable(TRUE);
+  }
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'plan',
+      'farm_rothamsted_experiment',
+      $field_definition,
+    );
   }
 }
