@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - farm_rothamsted_experiment_research
+    - link
     - options
     - user
   enforced:
@@ -220,6 +220,71 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        program_target_id:
+          id: program_target_id
+          table: rothamsted_experiment__program
+          field: program_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: program
+          plugin_id: field
+          label: 'Related Programs'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
         category:
           id: category
           table: rothamsted_experiment_data
@@ -349,71 +414,6 @@ display:
           multi_type: ul
           separator: ', '
           field_api_classes: false
-        program_target_id:
-          id: program_target_id
-          table: rothamsted_experiment__program
-          field: program_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: program
-          plugin_id: field
-          label: 'Related Programs'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
         start:
           id: start
           table: rothamsted_experiment_data
@@ -424,7 +424,7 @@ display:
           entity_type: rothamsted_experiment
           entity_field: start
           plugin_id: field
-          label: 'Start date'
+          label: 'Start year'
           exclude: false
           alter:
             alter_text: false
@@ -466,10 +466,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: number_integer
           settings:
-            timezone_override: ''
-            format_type: farm_rothamsted_date
+            thousand_separator: ''
+            prefix_suffix: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -490,7 +490,7 @@ display:
           entity_type: rothamsted_experiment
           entity_field: end
           plugin_id: field
-          label: 'End date'
+          label: 'End year'
           exclude: false
           alter:
             alter_text: false
@@ -532,10 +532,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: number_integer
           settings:
-            timezone_override: ''
-            format_type: farm_rothamsted_date
+            thousand_separator: ''
+            prefix_suffix: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -613,10 +613,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        website:
-          id: website
+        website__uri:
+          id: website__uri
           table: rothamsted_experiment_data
-          field: website
+          field: website__uri
           relationship: none
           group_type: group
           admin_label: ''
@@ -664,11 +664,15 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: string
+          click_sort_column: uri
+          type: link
           settings:
-            link_to_entity: false
-          group_column: value
+            trim_length: 80
+            url_only: false
+            url_plain: false
+            rel: '0'
+            target: _blank
+          group_column: ''
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1090,13 +1094,13 @@ display:
             name_1: name_1
             abbreviation: abbreviation
             code: code
+            program_target_id: program_target_id
             category: category
             researcher_target_id: researcher_target_id
-            program_target_id: program_target_id
             start: start
             end: end
             public_release: public_release
-            website: website
+            website__uri: website__uri
             operations: operations
           default: name_1
           info:
@@ -1121,6 +1125,11 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            program_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             category:
               sortable: true
               default_sort_order: asc
@@ -1129,11 +1138,6 @@ display:
               empty_column: false
               responsive: ''
             researcher_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            program_target_id:
               align: ''
               separator: ''
               empty_column: false
@@ -1159,7 +1163,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            website:
+            website__uri:
               sortable: false
               default_sort_order: asc
               align: ''
