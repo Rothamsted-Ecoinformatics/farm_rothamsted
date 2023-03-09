@@ -353,6 +353,7 @@ function farm_rothamsted_experiment_plot_type_options() {
     'observation' => t('Observation plot'),
     'seed_multiplication' => t('Seed multiplication'),
     'treated' => t('Treated plot'),
+    'undefined' => t('Undefined'),
   ];
 }
 

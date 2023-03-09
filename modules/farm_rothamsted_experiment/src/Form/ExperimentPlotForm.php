@@ -167,7 +167,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
         'type' => 'plot',
         'name' => $plot_name,
         'status' => 'active',
-        'plot_type' => 'blank',
+        'plot_type' => 'undefined',
         'plot_number' => $i,
         'plot_id' => $i,
         'is_fixed' => TRUE,
