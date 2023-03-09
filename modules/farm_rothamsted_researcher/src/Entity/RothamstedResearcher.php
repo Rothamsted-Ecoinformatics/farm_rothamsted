@@ -285,6 +285,20 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
         'label' => 'inline',
       ]);
 
+    $fields['job_title'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Job title'))
+      ->setDescription(t('The job title of the researcher.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['role'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Role'))
       ->setDescription(t('The role the person plays in relation to experiments.'))
