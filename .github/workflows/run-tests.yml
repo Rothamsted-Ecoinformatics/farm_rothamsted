@@ -30,6 +30,6 @@ jobs:
       - name: Run PHPUnit tests
         run: docker-compose exec -u www-data -T www phpunit /opt/drupal/web/modules/custom
       - name: Test installing farm_rothamsted modules
-        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted farm_rothamsted_quick farm_rothamsted_experiment -y"
+        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted farm_rothamsted_quick farm_rothamsted_experiment farm_rothamsted_experiment_research -y"
       - name: Test installing farm_rothamsted_dev
         run: docker-compose exec -u www-data -T www bash -c "drush en farm_rothamsted_dev -y"
