@@ -49,6 +49,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'layout_description',
           'horizontal_row_spacing',
           'vertical_row_spacing',
+          'plot_non_standard',
           'plot_length',
           'plot_width',
           'plot_area',
@@ -83,8 +84,11 @@ class DesignEntityForm extends ResearchEntityForm {
     ];
 
     // Build options.
+    $options = [];
     $blocking_structure = $form_state->getValue(['blocking_structure', 0, 'value']) ?? $this->entity->get('blocking_structure')->value;
-    $options = farm_rothamsted_experiment_research_statistical_design_options($blocking_structure);
+    if ($blocking_structure) {
+      $options = farm_rothamsted_experiment_research_statistical_design_options($blocking_structure);
+    }
     $form['statistical_design']['widget']['#options'] = $options;
 
     return $form;
