@@ -257,7 +257,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ]);
 
     $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Description'))
+      ->setLabel(t('Design description'))
       ->setDescription(t('A description of the experiment design.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
@@ -519,27 +519,49 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['plot_non_standard'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Non-standard plot size'))
+      ->setDescription(t('Check if the plots have non-standard lengths or widths.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+        'settings' => [
+          'format' => 'yes-no',
+        ],
+      ]);
+
     // Layout number fields.
     $number_fields = [
       'plot_length' => [
         'label' => t('Plot length'),
         'description' => t('The length of the plots.'),
+        'suffix' => 'm',
       ],
       'plot_width' => [
         'label' => t('Plot width'),
         'description' => t('The width of the plots.'),
+        'suffix' => 'm',
       ],
       'plot_area' => [
         'label' => t('Plot area'),
         'description' => t('The area of the plots.'),
+        'suffix' => 'm2',
       ],
       'total_plot_area' => [
         'label' => t('Total plot area'),
         'description' => t('The total area covered by the plots.'),
+        'suffix' => 'm2',
       ],
       'experiment_area' => [
         'label' => t('Experiment area'),
         'description' => t('The total area covered by the experiment.'),
+        'suffix' => 'm2',
       ],
       'num_rows' => [
         'label' => t('Number of rows'),
@@ -595,6 +617,11 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
           'type' => 'number',
           'label' => 'inline',
         ]);
+
+      // Add suffix.
+      if (isset($field_info['suffix'])) {
+        $fields[$field_id]->setSetting('suffix', $field_info['suffix']);
+      }
     }
 
     return $fields;
