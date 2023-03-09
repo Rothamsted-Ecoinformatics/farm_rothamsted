@@ -133,11 +133,20 @@ function farm_rothamsted_post_update_remove_rothamsted_asset_parent_action(&$san
 /**
  * Create Rothamsted date format.
  */
-function farm_rothamsted_post_update_create_rothamsted_date_format(&$sandbox = NULL) {
+function farm_rothamsted_post_update_2_10_1_create_rothamsted_date_format(&$sandbox = NULL) {
   DateFormat::create([
     'id' => 'farm_rothamsted_date',
     'label' => t('Rothamsted date format'),
     'pattern' => 'd/m/Y',
     'locked' => TRUE,
   ])->save();
+}
+
+/**
+ * Enable datetime module.
+ */
+function farm_rothamsted_post_update_2_10_2_enable_experiment_research(&$sandbox = NULL) {
+  if (!\Drupal::service('module_handler')->moduleExists('farm_rothamsted_experiment_research')) {
+    \Drupal::service('module_installer')->install(['farm_rothamsted_experiment_research']);
+  }
 }

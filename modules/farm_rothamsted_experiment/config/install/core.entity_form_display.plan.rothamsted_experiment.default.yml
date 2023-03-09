@@ -5,6 +5,7 @@ dependencies:
     - image.style.medium
     - plan.type.rothamsted_experiment
   module:
+    - datetime
     - field_group
     - file
     - image
@@ -14,9 +15,12 @@ third_party_settings:
   field_group:
     group_metadata:
       children:
-        - group_general
+        - group_description
+        - group_locations
         - group_people
-        - group_trial_design
+        - group_restrictions
+        - group_management_primary
+        - group_files
         - group_experiment_status
       label: Metadata
       region: content
@@ -29,21 +33,32 @@ third_party_settings:
         id: ''
         direction: vertical
         width_breakpoint: 640
-    group_general:
+    group_description:
       children:
+        - experiment_design
         - name
         - abbreviation
-        - status
-        - flag
         - experiment_code
         - project_code
+        - flag
+        - study_description
+        - study_number
+        - start
+        - end
+        - rres_experiment_category
+        - objective
+        - plant_type
+        - status
+        - current_phase
+        - drilling_year
+        - harvest_year
         - cost_code
-        - location
-        - asset
-      label: General
+        - cost_code_allocation
+        - amendments
+      label: Description
       region: content
       parent_name: group_metadata
-      weight: 20
+      weight: 2
       format_type: tab
       format_settings:
         classes: ''
@@ -58,29 +73,7 @@ third_party_settings:
       label: People
       region: content
       parent_name: group_metadata
-      weight: 22
-      format_type: tab
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-    group_trial_design:
-      children:
-        - rres_experiment_category
-        - objective
-        - plant_type
-        - drilling_year
-        - harvest_year
-        - experiment_plan_link
-        - experiment_file_link
-        - file
-      label: 'Trial Design'
-      region: content
-      parent_name: group_metadata
-      weight: 23
+      weight: 5
       format_type: tab
       format_settings:
         classes: ''
@@ -91,7 +84,6 @@ third_party_settings:
         required_fields: true
     group_experiment_status:
       children:
-        - image
         - deviations
         - growing_conditions
         - reason_for_failure
@@ -99,7 +91,7 @@ third_party_settings:
       label: 'Experiment status'
       region: content
       parent_name: group_metadata
-      weight: 24
+      weight: 9
       format_type: tab
       format_settings:
         classes: ''
@@ -108,6 +100,261 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
+    group_restrictions:
+      children:
+        - restriction_gm
+        - restriction_gm_desc
+        - restriction_ge
+        - restriction_ge_desc
+        - restriction_off_label
+        - restriction_off_label_desc
+        - restriction_licence_perm
+        - restriction_licence_perm_desc
+      label: Restrictions
+      region: content
+      parent_name: group_metadata
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_cultivation:
+      children:
+        - mgmt_seed_provision
+        - mgmt_seed_trt
+        - mgmt_variety_notes
+        - mgmt_ploughing
+        - mgmt_levelling
+        - mgmt_seed_cultivation
+      label: Cultivation
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 2
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_planting:
+      children:
+        - mgmt_planting_date
+        - mgmt_seed_rate
+        - mgmt_plant_estab
+        - mgmt_drilling_rate
+      label: Planting
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 3
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_spraying:
+      children:
+        - mgmt_fungicide
+        - mgmt_herbicide
+        - mgmt_insecticide
+        - mgmt_nematicide
+        - mgmt_molluscicide
+        - mgmt_pgr
+      label: Spraying
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_irrigation:
+      children:
+        - mgmt_irrigation
+      label: Irrigation
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 6
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_nutrition:
+      children:
+        - mgmt_nitrogen
+        - mgmt_potassium
+        - mgmt_phosphorous
+        - mgmt_magnesium
+        - mgmt_sulphur
+        - mgmt_micronutrients
+        - mgmt_ph
+      label: Nutrition
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_harvest:
+      children:
+        - mgmt_pre_harvest
+        - mgmt_grain_samples
+        - mgmt_grain_harvest
+        - mgmt_straw_samples
+        - mgmt_straw_harvest
+      label: Harvest
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_post_harvest:
+      children:
+        - mgmt_post_harvest
+        - mgmt_post_harvest_interval
+        - mgmt_post_harvest_sampling
+      label: Post-harvest
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 9
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_physical_obstructions:
+      children:
+        - mgmt_physical_obstructions
+      label: 'Physical obstructions'
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 10
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_other:
+      children:
+        - mgmt_other
+      label: Other
+      region: content
+      parent_name: group_mangement_secondary
+      weight: 11
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_management_primary:
+      children:
+        - group_mangement_secondary
+      label: Management
+      region: content
+      parent_name: group_metadata
+      weight: 7
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_mangement_secondary:
+      children:
+        - group_cultivation
+        - group_planting
+        - group_spraying
+        - group_irrigation
+        - group_nutrition
+        - group_harvest
+        - group_post_harvest
+        - group_physical_obstructions
+        - group_other
+      label: 'Mangement secondary'
+      region: content
+      parent_name: group_management_primary
+      weight: 29
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
+    group_locations:
+      children:
+        - location
+        - asset
+      label: Locations
+      region: content
+      parent_name: group_metadata
+      weight: 3
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_files:
+      children:
+        - experiment_plan_link
+        - experiment_file_link
+        - file
+        - image
+      label: Files
+      region: content
+      parent_name: group_metadata
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+_core:
+  default_config_hash: R5NxewCexxjF_nVbuRaNRcbceewewIVOV7wlOZlrZ2k
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
@@ -115,15 +362,23 @@ mode: default
 content:
   abbreviation:
     type: string_textfield
-    weight: 2
+    weight: 12
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  amendments:
+    type: text_textarea
+    weight: 29
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   asset:
     type: entity_reference_autocomplete
-    weight: 10
+    weight: 16
     region: content
     settings:
       match_operator: CONTAINS
@@ -133,7 +388,7 @@ content:
     third_party_settings: {  }
   contact:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 52
     region: content
     settings:
       match_operator: CONTAINS
@@ -143,7 +398,23 @@ content:
     third_party_settings: {  }
   cost_code:
     type: string_textfield
-    weight: 8
+    weight: 27
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  cost_code_allocation:
+    type: text_textarea
+    weight: 28
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  current_phase:
+    type: string_textfield
+    weight: 24
     region: content
     settings:
       size: 60
@@ -151,7 +422,7 @@ content:
     third_party_settings: {  }
   deviations:
     type: text_textarea
-    weight: 30
+    weight: 17
     region: content
     settings:
       rows: 5
@@ -159,74 +430,28 @@ content:
     third_party_settings: {  }
   drilling_year:
     type: number
-    weight: 26
+    weight: 25
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
+  end:
+    type: datetime_default
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   experiment_code:
     type: string_textfield
-    weight: 5
+    weight: 13
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  experiment_file_link:
-    type: link_default
-    weight: 29
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  experiment_plan_link:
-    type: link_default
-    weight: 28
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  file:
-    type: file_generic
-    weight: 30
-    region: content
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-  flag:
-    type: options_buttons
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  growing_conditions:
-    type: text_textarea
-    weight: 32
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  harvest_year:
-    type: number
-    weight: 27
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  image:
-    type: image_image
-    weight: 29
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: medium
-    third_party_settings: {  }
-  location:
+  experiment_design:
     type: entity_reference_autocomplete
-    weight: 9
+    weight: 10
     region: content
     settings:
       match_operator: CONTAINS
@@ -234,45 +459,93 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  name:
-    type: string_textfield
-    weight: 1
+  experiment_file_link:
+    type: link_default
+    weight: 30
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
-  notes:
-    type: text_textarea
-    weight: 34
+  experiment_plan_link:
+    type: link_default
+    weight: 29
     region: content
     settings:
-      rows: 5
-      placeholder: ''
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
-  objective:
-    type: text_textarea
-    weight: 24
+  file:
+    type: file_generic
+    weight: 31
     region: content
     settings:
-      rows: 5
-      placeholder: ''
+      progress_indicator: throbber
     third_party_settings: {  }
-  plant_type:
-    type: options_select
-    weight: 25
+  flag:
+    type: options_buttons
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
-  project_code:
-    type: string_textfield
-    weight: 6
+  growing_conditions:
+    type: text_textarea
+    weight: 18
     region: content
     settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  harvest_year:
+    type: number
+    weight: 26
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  image:
+    type: image_image
+    weight: 32
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: medium
+    third_party_settings: {  }
+  location:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  reason_for_failure:
+  mgmt_drilling_rate:
+    type: text_textarea
+    weight: 9
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_fungicide:
+    type: text_textarea
+    weight: 15
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_grain_harvest:
+    type: text_textarea
+    weight: 35
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_grain_samples:
     type: text_textarea
     weight: 33
     region: content
@@ -280,17 +553,382 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  mgmt_herbicide:
+    type: text_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_insecticide:
+    type: text_textarea
+    weight: 17
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_irrigation:
+    type: text_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_levelling:
+    type: text_textarea
+    weight: 12
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_magnesium:
+    type: text_textarea
+    weight: 29
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_micronutrients:
+    type: text_textarea
+    weight: 31
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_molluscicide:
+    type: text_textarea
+    weight: 20
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_nematicide:
+    type: text_textarea
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_nitrogen:
+    type: text_textarea
+    weight: 25
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_other:
+    type: text_textarea
+    weight: 48
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_pgr:
+    type: text_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_ph:
+    type: text_textarea
+    weight: 32
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_phosphorous:
+    type: text_textarea
+    weight: 28
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_physical_obstructions:
+    type: text_textarea
+    weight: 47
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_plant_estab:
+    type: text_textarea
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_planting_date:
+    type: text_textarea
+    weight: 6
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_ploughing:
+    type: text_textarea
+    weight: 11
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_post_harvest:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_post_harvest_interval:
+    type: text_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_post_harvest_sampling:
+    type: text_textarea
+    weight: 6
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_potassium:
+    type: text_textarea
+    weight: 27
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_pre_harvest:
+    type: text_textarea
+    weight: 32
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_seed_cultivation:
+    type: text_textarea
+    weight: 14
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_seed_provision:
+    type: options_select
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  mgmt_seed_rate:
+    type: text_textarea
+    weight: 7
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_seed_trt:
+    type: text_textarea
+    weight: 9
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_straw_harvest:
+    type: text_textarea
+    weight: 37
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_straw_samples:
+    type: text_textarea
+    weight: 36
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_sulphur:
+    type: text_textarea
+    weight: 30
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  mgmt_variety_notes:
+    type: text_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  notes:
+    type: text_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  objective:
+    type: text_textarea
+    weight: 21
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  plant_type:
+    type: options_select
+    weight: 22
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  project_code:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  reason_for_failure:
+    type: text_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_ge:
+    type: boolean_checkbox
+    weight: 9
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_ge_desc:
+    type: text_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_gm:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_gm_desc:
+    type: text_textarea
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_licence_perm:
+    type: boolean_checkbox
+    weight: 14
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_licence_perm_desc:
+    type: text_textarea
+    weight: 15
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_off_label:
+    type: boolean_checkbox
+    weight: 12
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_off_label_desc:
+    type: text_textarea
+    weight: 13
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   rres_experiment_category:
     type: options_select
-    weight: 23
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  start:
+    type: datetime_default
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: options_select
-    weight: 3
+    weight: 23
     region: content
     settings: {  }
+    third_party_settings: {  }
+  study_description:
+    type: text_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  study_number:
+    type: number
+    weight: 17
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
 hidden:
   column_descriptors: true
