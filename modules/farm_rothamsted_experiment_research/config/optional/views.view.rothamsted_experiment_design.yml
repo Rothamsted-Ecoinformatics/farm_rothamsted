@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies:
   module:
-    - datetime
     - farm_rothamsted_experiment_research
+    - options
     - user
   enforced:
     module:
@@ -89,71 +89,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        design_type:
-          id: design_type
-          table: rothamsted_design_data
-          field: design_type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_design
-          entity_field: design_type
-          plugin_id: field
-          label: 'Design type'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         statistician_target_id:
           id: statistician_target_id
           table: rothamsted_design__statistician
@@ -219,17 +154,17 @@ display:
           multi_type: ul
           separator: ', '
           field_api_classes: false
-        start:
-          id: start
+        statistical_design:
+          id: statistical_design
           table: rothamsted_design_data
-          field: start
+          field: statistical_design
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: rothamsted_design
-          entity_field: start
+          entity_field: statistical_design
           plugin_id: field
-          label: 'Start date'
+          label: 'Statistical Design'
           exclude: false
           alter:
             alter_text: false
@@ -271,10 +206,138 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        blocking_structure:
+          id: blocking_structure
+          table: rothamsted_design_data
+          field: blocking_structure
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: blocking_structure
+          plugin_id: field
+          label: 'Blocking Structure'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        start:
+          id: start
+          table: rothamsted_design_data
+          field: start
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: start
+          plugin_id: field
+          label: 'Start year'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
           settings:
-            timezone_override: ''
-            format_type: farm_rothamsted_date
+            thousand_separator: ''
+            prefix_suffix: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -295,7 +358,7 @@ display:
           entity_type: rothamsted_design
           entity_field: end
           plugin_id: field
-          label: 'End date'
+          label: 'End year'
           exclude: false
           alter:
             alter_text: false
@@ -337,10 +400,10 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: number_integer
           settings:
-            timezone_override: ''
-            format_type: farm_rothamsted_date
+            thousand_separator: ''
+            prefix_suffix: true
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -848,54 +911,6 @@ display:
       sorts: {  }
       arguments: {  }
       filters:
-        design_type:
-          id: design_type
-          table: rothamsted_design_data
-          field: design_type
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_design
-          entity_field: design_type
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: design_type_op
-            label: 'Design type'
-            description: ''
-            use_operator: false
-            operator: design_type_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: design_type
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         name:
           id: name
           table: rothamsted_design_data
@@ -1001,6 +1016,102 @@ display:
               field: name
               direction: ASC
             auto_create: false
+        blocking_structure:
+          id: blocking_structure
+          table: rothamsted_design_data
+          field: blocking_structure
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: blocking_structure
+          plugin_id: string
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: blocking_structure_op
+            label: 'Blocking Structure'
+            description: ''
+            use_operator: false
+            operator: blocking_structure_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: blocking_structure
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        statistical_design:
+          id: statistical_design
+          table: rothamsted_design_data
+          field: statistical_design
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: statistical_design
+          plugin_id: string
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: statistical_design_op
+            label: 'Statistical Design'
+            description: ''
+            use_operator: false
+            operator: statistical_design_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: statistical_design
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       style:
         type: table
         options:
@@ -1009,8 +1120,9 @@ display:
           default_row_class: true
           columns:
             name_1: name_1
-            design_type: design_type
             statistician_target_id: statistician_target_id
+            statistical_design: statistical_design
+            blocking_structure: blocking_structure
             start: start
             end: end
             num_treatments: num_treatments
@@ -1029,14 +1141,21 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            design_type:
+            statistician_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            statistical_design:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            statistician_target_id:
+            blocking_structure:
+              sortable: true
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
