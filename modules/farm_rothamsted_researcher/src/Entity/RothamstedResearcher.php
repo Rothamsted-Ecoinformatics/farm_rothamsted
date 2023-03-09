@@ -210,6 +210,29 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDescription(t('The time that the researcher was last edited.'))
       ->setRevisionable(TRUE);
 
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the researcher.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values', [
+        'active' => t('Active'),
+        'archived' => t('Archived'),
+      ])
+      ->setDefaultValue('active')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['farm_user'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('farmOS user profile'))
       ->setDescription(t('The user profile if they have access to farmOS.'))
