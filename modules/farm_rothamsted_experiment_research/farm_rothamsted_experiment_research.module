@@ -165,7 +165,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     'rothamsted_design' => [
       'name',
       'experiment',
-      'design_type',
+      'blocking_structure',
       'statistician',
     ],
     'rothamsted_researcher' => [
