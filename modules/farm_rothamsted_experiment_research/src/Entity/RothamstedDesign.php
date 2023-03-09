@@ -238,10 +238,11 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
+        'requested' => t('Requested'),
         'active' => t('Active'),
         'archived' => t('Archived'),
       ])
-      ->setDefaultValue('active')
+      ->setDefaultValue('requested')
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',

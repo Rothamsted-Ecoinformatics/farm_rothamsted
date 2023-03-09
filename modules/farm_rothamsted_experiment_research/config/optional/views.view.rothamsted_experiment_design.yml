@@ -986,8 +986,7 @@ display:
           entity_field: status
           plugin_id: list_field
           operator: or
-          value:
-            active: active
+          value: {  }
           group: 1
           exposed: true
           expose:

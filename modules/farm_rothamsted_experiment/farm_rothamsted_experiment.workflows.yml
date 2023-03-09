@@ -3,6 +3,8 @@ rothamsted_experiment_plan:
   group: plan
   label: 'Rothamsted Experiment'
   states:
+    requested:
+      label: Requested
     planning:
       label: Planning
     active:
@@ -14,23 +16,27 @@ rothamsted_experiment_plan:
     archived:
       label: Archived
   transitions:
+    to_requested:
+      label: 'Set status to requested'
+      from: [ active,completed,terminated,planning]
+      to: requested
     to_planning:
       label: 'Set status to planning'
-      from: [ active,completed,terminated,archived ]
+      from: [ active,completed,terminated,archived,requested ]
       to: planning
     to_active:
       label: 'Make active'
-      from: [ planning,completed,terminated,archived ]
+      from: [ planning,completed,terminated,archived,requested ]
       to: active
     complete:
       label: 'Set status to complete'
-      from: [ planning,active,terminated,archived ]
+      from: [ planning,active,terminated,archived,requested ]
       to: completed
     terminate:
       label: 'Terminate'
-      from: [ planning,active,completed,archived ]
+      from: [ planning,active,completed,archived,requested ]
       to: terminated
     archive:
       label: 'Archive'
-      from: [ planning,active,completed,terminated ]
+      from: [ planning,active,completed,terminated,requested ]
       to: archived
