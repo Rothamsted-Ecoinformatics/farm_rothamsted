@@ -170,6 +170,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     ],
     'rothamsted_researcher' => [
       'name',
+      'job_title',
       'role',
       'organization',
       'department',
