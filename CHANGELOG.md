@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow editing columns and column levels. [#276](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/276)
 - Allow editing plot geometry. [#337](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/337)
 - Add fields to experiment plan. [#358](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/358)
+- Add proposal entity. [#380](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/380)
 
 ### Changed
 

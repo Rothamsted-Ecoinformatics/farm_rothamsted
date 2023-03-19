@@ -5,19 +5,26 @@ farm_rothamsted_experiment_research.programs:
   base_route: entity.rothamsted_program.collection
   weight: 5
 
+# Proposals.
+farm_rothamsted_experiment_research.proposals:
+  title: 'Proposals'
+  route_name: entity.rothamsted_proposal.collection
+  base_route: entity.rothamsted_program.collection
+  weight: 15
+
 # Experiments.
 farm_rothamsted_experiment_research.experiments:
   title: 'Experiments'
   route_name: entity.rothamsted_experiment.collection
   base_route: entity.rothamsted_program.collection
-  weight: 10
+  weight: 15
 
 # Designs.
 farm_rothamsted_experiment_research.designs:
   title: 'Designs'
   route_name: entity.rothamsted_design.collection
   base_route: entity.rothamsted_program.collection
-  weight: 20
+  weight: 25
 
 # Plans.
 farm_rothamsted_experiment_research.plans:

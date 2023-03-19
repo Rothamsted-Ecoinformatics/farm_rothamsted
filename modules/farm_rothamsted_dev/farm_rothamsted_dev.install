@@ -9,6 +9,7 @@ use Drupal\asset\Entity\Asset;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesign;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposal;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\log\Entity\Log;
 use Drupal\plan\Entity\Plan;
@@ -266,4 +267,15 @@ function farm_rothamsted_dev_install() {
     'experiment_design' => $design,
   ]);
   $plan->save();
+
+  // Proposal.
+  $proposal = RothamstedProposal::create([
+    'name' => 'Test proposal',
+    'program' => $program,
+    'experiment' => $experiment,
+    'design' => $design,
+    'contact' => $new_researchers[0],
+    'reviewer' => $new_researchers[1],
+  ]);
+  $proposal->save();
 }

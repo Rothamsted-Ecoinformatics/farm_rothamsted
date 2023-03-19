@@ -1,0 +1,762 @@
+<?php
+
+namespace Drupal\farm_rothamsted_experiment_research\Entity;
+
+use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Entity\RevisionLogEntityTrait;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\link\LinkItemInterface;
+use Drupal\user\EntityOwnerTrait;
+use Drupal\user\UserInterface;
+
+/**
+ * Defines the research proposal entity class.
+ *
+ * @ContentEntityType(
+ *   id = "rothamsted_proposal",
+ *   label = @Translation("Proposal"),
+ *   label_collection = @Translation("Proposals"),
+ *   label_singular = @Translation("proposal"),
+ *   label_plural = @Translation("proposals"),
+ *   handlers = {
+ *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
+ *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
+ *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
+ *     "views_data" = "Drupal\entity\EntityViewsData",
+ *     "form" = {
+ *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
+ *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
+ *     },
+ *     "route_provider" = {
+ *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
+ *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
+ *     },
+ *     "local_task_provider" = {
+ *       "default" = "\Drupal\farm_rothamsted_experiment_research\Menu\DefaultSecondaryTaskProvider",
+ *     },
+ *   },
+ *   base_table = "rothamsted_proposal",
+ *   data_table = "rothamsted_proposal_data",
+ *   revision_table = "rothamsted_proposal_revision",
+ *   translatable = TRUE,
+ *   revisionable = TRUE,
+ *   show_revision_ui = TRUE,
+ *   admin_permission = "administer resarch proposals",
+ *   entity_keys = {
+ *     "id" = "id",
+ *     "uuid" = "uuid",
+ *     "revision" = "revision_id",
+ *     "label" = "name",
+ *     "owner" = "uid",
+ *     "langcode" = "langcode",
+ *   },
+ *   revision_metadata_keys = {
+ *     "revision_user" = "revision_user",
+ *     "revision_created" = "revision_created",
+ *     "revision_log_message" = "revision_log_message",
+ *   },
+ *   links = {
+ *     "canonical" = "/rothamsted/proposal/{rothamsted_proposal}",
+ *     "collection" = "/rothamsted/proposal",
+ *     "add-form" = "/rothamsted/proposal/add",
+ *     "edit-form" = "/rothamsted/proposal/{rothamsted_proposal}/edit",
+ *     "delete-form" = "/rothamsted/proposal/{rothamsted_proposal}/delete",
+ *     "version-history" = "/rothamsted/proposal/{rothamsted_proposal}/revisions",
+ *     "revision" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/view",
+ *     "revision-revert-form" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/revert",
+ *   }
+ * )
+ */
+class RothamstedProposal extends RevisionableContentEntityBase implements RothamstedProposalInterface {
+
+  use EntityChangedTrait;
+  use EntityOwnerTrait;
+  use RevisionLogEntityTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function label() {
+    return $this->getName();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getName() {
+    return $this->get('name')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setName($name) {
+    $this->set('name', $name);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCreatedTime() {
+    return $this->get('created')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCreatedTime($timestamp) {
+    $this->set('created', $timestamp);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwner() {
+    return $this->get('uid')->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwnerId() {
+    return $this->get('uid')->target_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwnerId($uid) {
+    $this->set('uid', $uid);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOwner(UserInterface $account) {
+    $this->set('uid', $account->id());
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getCurrentUserId() {
+    return [\Drupal::currentUser()->id()];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+    $fields = parent::baseFieldDefinitions($entity_type);
+    $fields += static::ownerBaseFieldDefinitions($entity_type);
+    $fields += static::revisionLogBaseFieldDefinitions($entity_type);
+
+    $fields['name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Name'))
+      ->setDescription(t('The name of the proposed experiment.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setSetting('text_processing', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
+
+    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Author'))
+      ->setDescription(t('The user ID of author of the research proposal.'))
+      ->setRevisionable(TRUE)
+      ->setDefaultValueCallback(static::class . '::getCurrentUserId')
+      ->setSetting('target_type', 'user')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'region' => 'hidden',
+      ]);
+
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Authored on'))
+      ->setDescription(t('The time that the research propsal was created.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'region' => 'hidden',
+      ]);
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the research proposal was last edited.'))
+      ->setRevisionable(TRUE);
+
+    $fields['program'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Programs'))
+      ->setDescription(t('The research program which this proposal is part of.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_program')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => -15,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => -15,
+      ]);
+
+    $fields['experiment'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Related Experiments'))
+      ->setDescription(t('The experiments which the proposal refers to.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_proposal')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => -15,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => -15,
+      ]);
+
+    $fields['design'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Related Designs'))
+      ->setDescription(t('The experiment designs which the proposal refers to.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_design')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => -15,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => -15,
+      ]);
+
+    $fields['contact'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Contacts'))
+      ->setDescription(t('List researchers that are contacts for this proposal.'))
+      ->setRequired(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_researcher')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
+    $fields['research_question'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Research questions'))
+      ->setDescription(t('The research question you expect to answer with the experiment, and how it relates to the research program.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['hypothesis'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Hypotheses'))
+      ->setDescription(t('The hypotheses that the experiment is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['amendments'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Proposed Amendments'))
+      ->setDescription(t('A description of any proposed changes made to the experiment or experiment design since the last study period.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['crop'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Crops'))
+      ->setDescription(t('The crops being proposed for study.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('handler', 'default:taxonomy_term')
+      ->setSetting('handler_settings', [
+        'sort' => [
+          'field' => 'name',
+          'direction' => 'asc',
+        ],
+        'auto_create' => FALSE,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'settings' => [
+          'link' => TRUE,
+        ],
+      ]);
+
+    $fields['treatment'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Treatments'))
+      ->setDescription(t('A description of the proposed treatments.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['num_treatments'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Number of treatments'))
+      ->setDescription(t('The proposed number of treatments.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('min', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['num_replicates'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Number of Replicates'))
+      ->setDescription(t('The proposed number of replicates for each factor level combination.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('min', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['num_plots_total'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Total number of plots'))
+      ->setDescription(t('The total number of plots being proposed.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('min', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['statistical_design'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Statistical Design'))
+      ->setDescription(t('The statistical design associated with the proposal.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_statistical_design_field_allowed_values')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['plot_length'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Plot length'))
+      ->setDescription(t('The proposed plot length.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('min', 0)
+      ->setSetting('suffix', 'm')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['plot_width'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Plot width'))
+      ->setDescription(t('The proposed plot width.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('min', 0)
+      ->setSetting('suffix', 'm')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['field_layout'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Field layout'))
+      ->setDescription(t('The field layout being proposed.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['measurements'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Measurements'))
+      ->setDescription(t('The measurements which are being proposed.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['experiment_management'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Experiment management'))
+      ->setDescription(t('The management strategy for the associated experiment.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['division_labor'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Division of labor'))
+      ->setDescription(t('The proposed division of labor (sponsor/farm/other)'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $restriction_fields = [
+      'restriction_gm' => [
+        'boolean' => [
+          'label' => t('Genetically Modified (GM) Material'),
+          'description' => t('Does the proposal include any genetically modified (GM) material?'),
+        ],
+        'text' => [
+          'label' => t('Description of GM material'),
+          'description' => t('Please describe the GM materials.'),
+        ],
+      ],
+      'restriction_ge' => [
+        'boolean' => [
+          'label' => t('Genetically Edited (GE) Material'),
+          'description' => t('Does the proposal include any genetically edited (GE) material?'),
+        ],
+        'text' => [
+          'label' => t('Description of GE material'),
+          'description' => t('Please describe the GE materials.'),
+        ],
+      ],
+      'restriction_off_label' => [
+        'boolean' => [
+          'label' => t('Off-label Products'),
+          'description' => t('Does this proposal require the use of off-label or uncertified products (e.g. pesticides, growth regulators)?'),
+        ],
+        'text' => [
+          'label' => t('Description of off-label products'),
+          'description' => t('Please describe the off-label products.'),
+        ],
+      ],
+      'restriction_licence_perm' => [
+        'boolean' => [
+          'label' => t('Licence and Permissions'),
+          'description' => t('Does the proposal require any other specialist licences or permissions?'),
+        ],
+        'text' => [
+          'label' => t('Licence and Permissions'),
+          'description' => t('Please describe the licence/permission restrictions.'),
+        ],
+      ],
+    ];
+
+    // Add boolean and text_long field for each restriction.
+    foreach ($restriction_fields as $restriction_field_id => $restriction_field_info) {
+      $fields[$restriction_field_id] = BaseFieldDefinition::create('boolean')
+        ->setLabel($restriction_field_info['boolean']['label'])
+        ->setDescription($restriction_field_info['boolean']['description'])
+        ->setRevisionable(TRUE)
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayOptions('form', [
+          'type' => 'boolean_checkbox',
+        ])
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'type' => 'boolean',
+          'label' => 'inline',
+          'settings' => [
+            'format' => 'yes-no',
+          ],
+        ]);
+      $description_field_id = $restriction_field_id . '_desc';
+      $fields[$description_field_id] = BaseFieldDefinition::create('text_long')
+        ->setLabel($restriction_field_info['text']['label'])
+        ->setDescription($restriction_field_info['text']['description'])
+        ->setRevisionable(TRUE)
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayOptions('form', [
+          'type' => 'text_textarea',
+        ])
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'type' => 'text_default',
+          'label' => 'inline',
+        ]);
+    }
+
+    // Common file field settings.
+    $file_settings = [
+      'file_directory' => 'rothamsted/rothamsted_proposal/[date:custom:Y]-[date:custom:m]',
+      'max_filesize' => '',
+      'handler' => 'default:file',
+      'handler_settings' => [],
+    ];
+    $file_field_settings = $file_settings + [
+      'description_field' => TRUE,
+      'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
+    ];
+    $fields['file'] = BaseFieldDefinition::create('file')
+      ->setLabel(t('File'))
+      ->setDescription(t('Upload files associated with this proposal.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($file_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'file_generic',
+        'settings' => [
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'file_table',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'use_description_as_link_text' => TRUE,
+        ],
+      ]);
+
+    $image_field_settings = $file_settings + [
+      'file_extensions' => 'png gif jpg jpeg',
+    ];
+    $fields['image'] = BaseFieldDefinition::create('image')
+      ->setLabel(t('Image'))
+      ->setDescription(t('Upload files associated with this proposal.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($image_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'image_image',
+        'settings' => [
+          'preview_image_style' => 'medium',
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'image',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'image_style' => 'large',
+          'image_link' => 'file',
+        ],
+      ]);
+
+    $fields['link'] = BaseFieldDefinition::create('link')
+      ->setLabel(t('Links'))
+      ->setDescription(t('Links to external website and documents associated with the proposal.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings([
+        'title' => DRUPAL_DISABLED,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'link',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'link',
+      ]);
+
+    $fields['reviewer'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Reviewers'))
+      ->setDescription(t('The researchers who have reviewed this proposal.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_researcher')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
+    $fields['status'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the proposal.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSetting('allowed_values', [
+        'submitted' => t('Submitted'),
+        'approved' => t('Approved'),
+        'rejected' => t('Rejected'),
+        'archived' => t('Archived'),
+      ])
+      ->setDefaultValue('submitted')
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    $fields['status_notes'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Status notes'))
+      ->setDescription(t('Any notes about the proposal status.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
+    return $fields;
+  }
+
+}
