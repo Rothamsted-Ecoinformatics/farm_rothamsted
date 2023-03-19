@@ -4,6 +4,12 @@ farm_rothamsted_experiment_research.add_program:
   appears_on:
     - entity.rothamsted_program.collection
 
+farm_rothamsted_experiment_research.add_proposal:
+  title: 'Add Proposal'
+  route_name: entity.rothamsted_proposal.add_form
+  appears_on:
+    - entity.rothamsted_proposal.collection
+
 farm_rothamsted_experiment_research.add_experiment:
   title: 'Add Experiment'
   route_name: entity.rothamsted_experiment.add_form
