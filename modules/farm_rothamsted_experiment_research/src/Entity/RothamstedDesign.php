@@ -423,7 +423,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of treatments'))
-      ->setDescription(t('The number of treatmetns.'))
+      ->setDescription(t('The number of treatments.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
