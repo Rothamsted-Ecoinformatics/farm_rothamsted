@@ -256,6 +256,23 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['status_notes'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Status notes'))
+      ->setDescription(t('Any notes about the design status.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['description'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Design description'))
       ->setDescription(t('A description of the experiment design.'))
@@ -407,10 +424,28 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['design_changes'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Changes from previous design'))
+      ->setDescription(t('Where relevant, please describe any changes from the previous statistical design and why the changes were made.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     // Treatments.
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Treatments'))
       ->setDescription(t('Describe the treatments for this statistical design.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -539,63 +574,77 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
     // Layout number fields.
     $number_fields = [
       'plot_length' => [
+        'type' => 'float',
         'label' => t('Plot length'),
         'description' => t('The length of the plots.'),
         'suffix' => 'm',
       ],
       'plot_width' => [
+        'type' => 'float',
         'label' => t('Plot width'),
         'description' => t('The width of the plots.'),
         'suffix' => 'm',
       ],
       'plot_area' => [
+        'type' => 'float',
         'label' => t('Plot area'),
         'description' => t('The area of the plots.'),
         'suffix' => 'm2',
       ],
       'total_plot_area' => [
+        'type' => 'float',
         'label' => t('Total plot area'),
         'description' => t('The total area covered by the plots.'),
         'suffix' => 'm2',
       ],
       'experiment_area' => [
+        'type' => 'float',
         'label' => t('Experiment area'),
         'description' => t('The total area covered by the experiment.'),
         'suffix' => 'm2',
       ],
       'num_rows' => [
+        'type' => 'integer',
         'label' => t('Number of rows'),
         'description' => t('The number of rows in the experiment.'),
       ],
       'num_columns' => [
+        'type' => 'integer',
         'label' => t('Number of columns'),
         'description' => t('The number of columns in the experiment.'),
       ],
       'num_blocks' => [
+        'type' => 'integer',
         'label' => t('Number of blocks'),
         'description' => t('The number of blocks in the experiment.'),
       ],
       'num_plots_block' => [
+        'type' => 'integer',
         'label' => t('Number of plots per block'),
         'description' => t('The number of plots per block.'),
       ],
       'num_mainplots' => [
+        'type' => 'integer',
         'label' => t('Number of main plots'),
         'description' => t('The number of main plots in the experiment.'),
       ],
       'num_subplots_mainplots' => [
+        'type' => 'integer',
         'label' => t('Number of subplots per main plot'),
         'description' => t('The number of subplots per main plot.'),
       ],
       'num_subplots' => [
+        'type' => 'integer',
         'label' => t('Number of subplots'),
         'description' => t('The number of subplots in the experiment.'),
       ],
       'num_subsubplots_subplot' => [
+        'type' => 'integer',
         'label' => t('Number of sub-subplots per subplot'),
         'description' => t('The number of sub-subplots per subplot.'),
       ],
       'num_subsubplots' => [
+        'type' => 'integer',
         'label' => t('Number of sub-subplots'),
         'description' => t('The number of sub-subplots in the experiment.'),
       ],
@@ -603,7 +652,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     // Create each number field.
     foreach ($number_fields as $field_id => $field_info) {
-      $fields[$field_id] = BaseFieldDefinition::create('integer')
+      $fields[$field_id] = BaseFieldDefinition::create($field_info['type'])
         ->setLabel($field_info['label'])
         ->setDescription($field_info['description'])
         ->setRevisionable(TRUE)

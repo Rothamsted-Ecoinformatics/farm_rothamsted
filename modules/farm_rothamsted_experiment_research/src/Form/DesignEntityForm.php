@@ -20,7 +20,6 @@ class DesignEntityForm extends ResearchEntityForm {
         'fields' => [
           'experiment',
           'name',
-          'status',
           'description',
           'blocking_structure',
           'statistical_design',
@@ -29,21 +28,11 @@ class DesignEntityForm extends ResearchEntityForm {
           'end',
           'statistician',
           'model',
-        ],
-      ],
-      'treatment' => [
-        'title' => $this->t('Treatments'),
-        'weight' => 5,
-        'fields' => [
-          'treatment',
-          'num_treatments',
-          'num_factor_level_combinations',
-          'num_replicates',
-          'notes',
+          'design_changes',
         ],
       ],
       'layout' => [
-        'title' => $this->t('Layout'),
+        'title' => $this->t('In-Field Layout'),
         'weight' => 10,
         'fields' => [
           'layout_description',
@@ -57,6 +46,16 @@ class DesignEntityForm extends ResearchEntityForm {
           'experiment_area',
           'num_rows',
           'num_columns',
+        ],
+      ],
+      'treatment' => [
+        'title' => $this->t('Treatments'),
+        'weight' => 5,
+        'fields' => [
+          'treatment',
+          'num_treatments',
+          'num_factor_level_combinations',
+          'num_replicates',
           'num_blocks',
           'num_plots_block',
           'num_mainplots',
@@ -64,6 +63,15 @@ class DesignEntityForm extends ResearchEntityForm {
           'num_subplots',
           'num_subsubplots_subplot',
           'num_subsubplots',
+          'notes',
+        ],
+      ],
+      'status' => [
+        'title' => $this->t('Status'),
+        'weight' => 20,
+        'fields' => [
+          'status',
+          'status_notes',
         ],
       ],
     ];

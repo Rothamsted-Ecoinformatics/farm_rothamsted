@@ -109,6 +109,11 @@ class Experiment extends FarmPlanType {
         'multiple' => TRUE,
       ],
       // Plan status fields.
+      'status_notes' => [
+        'type' => 'text_long',
+        'label' => $this->t('Status notes'),
+        'description' => $this->t('Any notes about the experiment plan status.'),
+      ],
       'deviations' => [
         'type' => 'text_long',
         'label' => $this->t('Deviations from plan'),
@@ -221,7 +226,7 @@ class Experiment extends FarmPlanType {
       ]);
     $fields['start'] = BundleFieldDefinition::create('datetime')
       ->setLabel($this->t('Start date'))
-      ->setDescription($this->t('The start date of the program.'))
+      ->setDescription($this->t('The start date of the plan.'))
       ->setRevisionable(TRUE)
       ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
@@ -238,7 +243,7 @@ class Experiment extends FarmPlanType {
       ]);
     $fields['end'] = BundleFieldDefinition::create('datetime')
       ->setLabel($this->t('End date'))
-      ->setDescription($this->t('The end date of the program.'))
+      ->setDescription($this->t('The end date of the plan.'))
       ->setRevisionable(TRUE)
       ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
@@ -294,6 +299,16 @@ class Experiment extends FarmPlanType {
       ]);
 
     $restriction_fields = [
+      'restriction_crop' => [
+        'boolean' => [
+          'label' => t('Crop Management Restrictions'),
+          'description' => t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
+        ],
+        'text' => [
+          'label' => t('Description of Crop Management Restrictions'),
+          'description' => t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
+        ],
+      ],
       'restriction_gm' => [
         'boolean' => [
           'label' => $this->t('Genetically Modified (GM) Material'),
@@ -370,6 +385,21 @@ class Experiment extends FarmPlanType {
         ]);
     }
 
+    $fields['restriction_other'] = BundleFieldDefinition::create('text_long')
+      ->setLabel(t('Other restrictions'))
+      ->setDescription(t('If there are any other restrictions not covered above, please add them below'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
     $fields['mgmt_seed_provision'] = BundleFieldDefinition::create('list_string')
       ->setLabel($this->t('Seed Provision'))
       ->setDescription($this->t('Please state who will provide the seed.'))
@@ -379,6 +409,7 @@ class Experiment extends FarmPlanType {
         'sponsor' => $this->t('Sponsor'),
         'farm' => $this->t('Farm'),
         'other' => $this->t('Other'),
+        'na' => $this->t('Not applicable'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
