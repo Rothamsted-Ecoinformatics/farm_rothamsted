@@ -5,10 +5,12 @@ dependencies:
     - plan.type.rothamsted_experiment
     - taxonomy.vocabulary.crop_family
   module:
+    - farm_rothamsted_experiment_research
     - options
     - plan
     - state_machine
     - taxonomy
+    - text
     - user
   enforced:
     module:
@@ -211,6 +213,70 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        status_notes_value:
+          id: status_notes_value
+          table: plan__status_notes
+          field: status_notes_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: status_notes
+          plugin_id: field
+          label: 'Status notes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: plan_field_data
@@ -226,6 +292,71 @@ display:
           alter:
             alter_text: true
             text: "{% if abbreviation_value %}\r\n    {{ name }} ({{ abbreviation_value }})\r\n{% else %}\r\n    {{ name }}\r\n{% endif %}"
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        name_1:
+          id: name_1
+          table: rothamsted_experiment_data
+          field: name
+          relationship: experiment
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: name
+          plugin_id: field
+          label: Experiment
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
             make_link: false
             path: ''
             absolute: false
@@ -396,6 +527,70 @@ display:
           type: string
           settings:
             link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        rres_experiment_category_value:
+          id: rres_experiment_category_value
+          table: plan__rres_experiment_category
+          field: rres_experiment_category_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: rres_experiment_category
+          plugin_id: field
+          label: 'Experiment Category'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -877,6 +1072,56 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        status_notes_value:
+          id: status_notes_value
+          table: plan__status_notes
+          field: status_notes_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: status_notes
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: status_notes_value_op
+            label: 'Status notes'
+            description: ''
+            use_operator: false
+            operator: status_notes_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status_notes_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         location_target_id:
           id: location_target_id
           table: plan__location
@@ -980,6 +1225,65 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        experiment:
+          id: experiment
+          table: rothamsted_design_data
+          field: experiment
+          relationship: experiment_design_target_id
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: experiment
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: experiment_op
+            label: 'Related Experiment'
+            description: ''
+            use_operator: false
+            operator: experiment_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: experiment
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          handler: 'default:rothamsted_experiment'
+          widget: autocomplete
+          handler_settings:
+            target_bundles: null
+            sort:
+              field: _none
+              direction: ASC
+            auto_create: false
         experiment_code_value:
           id: experiment_code_value
           table: plan__experiment_code
@@ -1026,6 +1330,57 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        rres_experiment_category_value:
+          id: rres_experiment_category_value
+          table: plan__rres_experiment_category
+          field: rres_experiment_category_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: rres_experiment_category
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: rres_experiment_category_value_op
+            label: 'Experiment Category'
+            description: ''
+            use_operator: false
+            operator: rres_experiment_category_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: rres_experiment_category_value
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
         drilling_year_value:
           id: drilling_year_value
           table: plan__drilling_year
@@ -1328,7 +1683,29 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      relationships: {  }
+      relationships:
+        experiment_design_target_id:
+          id: experiment_design_target_id
+          table: plan__experiment_design
+          field: experiment_design_target_id
+          relationship: none
+          group_type: group
+          admin_label: 'Experiment Design'
+          entity_type: plan
+          entity_field: experiment_design
+          plugin_id: standard
+          required: false
+        experiment:
+          id: experiment
+          table: rothamsted_design_data
+          field: experiment
+          relationship: experiment_design_target_id
+          group_type: group
+          admin_label: Experiment
+          entity_type: rothamsted_design
+          entity_field: experiment
+          plugin_id: standard
+          required: false
       header: {  }
       footer:
         result:

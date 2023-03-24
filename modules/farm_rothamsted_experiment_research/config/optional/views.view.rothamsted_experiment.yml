@@ -3,8 +3,8 @@ status: true
 dependencies:
   module:
     - farm_rothamsted_experiment_research
-    - link
     - options
+    - text
     - user
   enforced:
     module:
@@ -78,6 +78,70 @@ display:
           hide_alter_empty: true
           click_sort_column: value
           type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        status_notes__value:
+          id: status_notes__value
+          table: rothamsted_experiment_data
+          field: status_notes__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: status_notes
+          plugin_id: field
+          label: 'Status notes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
           settings: {  }
           group_column: value
           group_columns: {  }
@@ -284,6 +348,70 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        category:
+          id: category
+          table: rothamsted_experiment_data
+          field: category
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: category
+          plugin_id: field
+          label: Category
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         program_target_id:
           id: program_target_id
           table: rothamsted_experiment__program
@@ -349,70 +477,6 @@ display:
           multi_type: ul
           separator: ', '
           field_api_classes: false
-        category:
-          id: category
-          table: rothamsted_experiment_data
-          field: category
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: category
-          plugin_id: field
-          label: Category
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: list_default
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
         researcher_target_id:
           id: researcher_target_id
           table: rothamsted_experiment__researcher
@@ -476,6 +540,71 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        rotation_crops:
+          id: rotation_crops
+          table: rothamsted_experiment_data
+          field: rotation_crops
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: rotation_crops
+          plugin_id: field
+          label: Crops
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
           separator: ', '
           field_api_classes: false
         start:
@@ -601,142 +730,6 @@ display:
             thousand_separator: ''
             prefix_suffix: true
           group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        public_release:
-          id: public_release
-          table: rothamsted_experiment_data
-          field: public_release
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: public_release
-          plugin_id: field
-          label: 'Public release'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: boolean
-          settings:
-            format: yes-no
-            format_custom_false: ''
-            format_custom_true: ''
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        website__uri:
-          id: website__uri
-          table: rothamsted_experiment_data
-          field: website__uri
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: website
-          plugin_id: field
-          label: Website
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: uri
-          type: link
-          settings:
-            trim_length: 80
-            url_only: false
-            url_plain: false
-            rel: '0'
-            target: _blank
-          group_column: ''
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1148,32 +1141,32 @@ display:
               field: name
               direction: ASC
             auto_create: false
-        public_release:
-          id: public_release
+        rotation_crops:
+          id: rotation_crops
           table: rothamsted_experiment_data
-          field: public_release
+          field: rotation_crops
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: rothamsted_experiment
-          entity_field: public_release
-          plugin_id: boolean
-          operator: '='
-          value: All
+          entity_field: rotation_crops
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: ''
-            label: 'Public release'
+            operator_id: rotation_crops_op
+            label: 'Rotation Crops'
             description: ''
             use_operator: false
-            operator: public_release_op
+            operator: rotation_crops_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: public_release
+            identifier: rotation_crops
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -1183,6 +1176,9 @@ display:
               rothamsted_sponsor: '0'
               farm_viewer: '0'
               farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -1195,6 +1191,17 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
+          handler: 'default:taxonomy_term'
+          widget: autocomplete
+          handler_settings:
+            target_bundles:
+              plant_type: plant_type
+            sort:
+              field: name
+              direction: asc
+            auto_create: false
+            auto_create_bundle: ''
       filter_groups:
         operator: AND
         groups:
@@ -1207,20 +1214,27 @@ display:
           default_row_class: true
           columns:
             status: status
+            status_notes__value: status_notes__value
             name_1: name_1
             abbreviation: abbreviation
             code: code
-            program_target_id: program_target_id
+            rotation_crops: rotation_crops
             category: category
+            program_target_id: program_target_id
             researcher_target_id: researcher_target_id
             start: start
             end: end
-            public_release: public_release
-            website__uri: website__uri
             operations: operations
           default: name_1
           info:
             status:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            status_notes__value:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -1248,7 +1262,9 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            program_target_id:
+            rotation_crops:
+              sortable: true
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -1256,6 +1272,11 @@ display:
             category:
               sortable: true
               default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            program_target_id:
               align: ''
               separator: ''
               empty_column: false
@@ -1274,20 +1295,6 @@ display:
               responsive: ''
             end:
               sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            public_release:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            website__uri:
-              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
