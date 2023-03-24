@@ -5,7 +5,6 @@
  * Update hooks for farm_rothamsted_experiment.module.
  */
 
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
@@ -248,7 +247,7 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
 
   // Additional fields added with 2.10.
   $fields = [];
-  $fields['status_notes'] = BaseFieldDefinition::create('text_long')
+  $fields['status_notes'] = BundleFieldDefinition::create('text_long')
     ->setLabel(t('Status notes'))
     ->setDescription(t('Any notes about the design status.'))
     ->setRevisionable(TRUE);
