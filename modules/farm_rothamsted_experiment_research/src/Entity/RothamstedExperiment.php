@@ -497,6 +497,9 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler', 'default:taxonomy_term')
       ->setSetting('handler_settings', [
+        'target_bundles' => [
+          'plant_type' => 'plant_type',
+        ],
         'sort' => [
           'field' => 'name',
           'direction' => 'asc',
