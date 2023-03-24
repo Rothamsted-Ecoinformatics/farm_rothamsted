@@ -301,12 +301,12 @@ class Experiment extends FarmPlanType {
     $restriction_fields = [
       'restriction_crop' => [
         'boolean' => [
-          'label' => t('Crop Management Restrictions'),
-          'description' => t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
+          'label' => $this->t('Crop Management Restrictions'),
+          'description' => $this->t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
         ],
         'text' => [
-          'label' => t('Description of Crop Management Restrictions'),
-          'description' => t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
+          'label' => $this->t('Description of Crop Management Restrictions'),
+          'description' => $this->t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
         ],
       ],
       'restriction_gm' => [
@@ -386,8 +386,8 @@ class Experiment extends FarmPlanType {
     }
 
     $fields['restriction_other'] = BundleFieldDefinition::create('text_long')
-      ->setLabel(t('Other restrictions'))
-      ->setDescription(t('If there are any other restrictions not covered above, please add them below'))
+      ->setLabel($this->t('Other restrictions'))
+      ->setDescription($this->t('If there are any other restrictions not covered above, please add them below'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
