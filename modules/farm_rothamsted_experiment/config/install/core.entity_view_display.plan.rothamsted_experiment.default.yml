@@ -29,6 +29,7 @@ third_party_settings:
         - objective
         - plant_type
         - status
+        - status_notes
         - drilling_year
         - harvest_year
         - cost_code
@@ -94,6 +95,8 @@ third_party_settings:
         description: ''
     group_restrictions:
       children:
+        - restriction_crop
+        - restriction_crop_desc
         - restriction_gm
         - restriction_gm_desc
         - restriction_ge
@@ -102,6 +105,7 @@ third_party_settings:
         - restriction_off_label_desc
         - restriction_licence_perm
         - restriction_licence_perm_desc
+        - restriction_other
       label: Restrictions
       parent_name: ''
       region: content
@@ -177,8 +181,6 @@ third_party_settings:
         id: ''
         formatter: closed
         description: ''
-_core:
-  default_config_hash: fBZ2LOYNpn_0rmvKmTEWigTQKfvDSquGdhNna_CrUrQ
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
@@ -197,7 +199,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -82
+    weight: -81
     region: content
   asset:
     type: entity_reference_label
@@ -221,14 +223,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -85
+    weight: -84
     region: content
   cost_code_allocation:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -84
+    weight: -83
     region: content
   current_phase:
     type: string
@@ -236,7 +238,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -83
+    weight: -82
     region: content
   deviations:
     type: text_default
@@ -252,7 +254,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: -87
+    weight: -86
     region: content
   end:
     type: datetime_default
@@ -332,7 +334,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: -86
+    weight: -85
     region: content
   image:
     type: image
@@ -343,7 +345,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 51
+    weight: 52
     region: content
   location:
     type: entity_reference_label
@@ -358,245 +360,245 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 22
+    weight: 49
     region: content
   mgmt_fungicide:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 24
+    weight: 51
     region: content
   mgmt_grain_harvest:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 40
+    weight: 67
     region: content
   mgmt_grain_samples:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 39
+    weight: 66
     region: content
   mgmt_herbicide:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 25
+    weight: 52
     region: content
   mgmt_insecticide:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 26
+    weight: 53
     region: content
   mgmt_irrigation:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 30
+    weight: 57
     region: content
   mgmt_levelling:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 18
+    weight: 45
     region: content
   mgmt_magnesium:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 34
+    weight: 61
     region: content
   mgmt_micronutrients:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 36
+    weight: 63
     region: content
   mgmt_molluscicide:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 28
+    weight: 55
     region: content
   mgmt_nematicide:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 27
+    weight: 54
     region: content
   mgmt_nitrogen:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 31
+    weight: 58
     region: content
   mgmt_other:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 47
+    weight: 74
     region: content
   mgmt_pgr:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 29
+    weight: 56
     region: content
   mgmt_ph:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 37
+    weight: 64
     region: content
   mgmt_phosphorous:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 33
+    weight: 60
     region: content
   mgmt_physical_obstructions:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 46
+    weight: 73
     region: content
   mgmt_plant_estab:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 23
+    weight: 50
     region: content
   mgmt_planting_date:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 20
+    weight: 47
     region: content
   mgmt_ploughing:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 44
     region: content
   mgmt_post_harvest:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 43
+    weight: 70
     region: content
   mgmt_post_harvest_interval:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 44
+    weight: 71
     region: content
   mgmt_post_harvest_sampling:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 45
+    weight: 72
     region: content
   mgmt_potassium:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 32
+    weight: 59
     region: content
   mgmt_pre_harvest:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 38
+    weight: 65
     region: content
   mgmt_seed_cultivation:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 19
+    weight: 46
     region: content
   mgmt_seed_provision:
     type: list_key
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 14
+    weight: 41
     region: content
   mgmt_seed_rate:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 21
+    weight: 48
     region: content
   mgmt_seed_trt:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 15
+    weight: 42
     region: content
   mgmt_straw_harvest:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 42
+    weight: 69
     region: content
   mgmt_straw_samples:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 41
+    weight: 68
     region: content
   mgmt_sulphur:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 35
+    weight: 62
     region: content
   mgmt_variety_notes:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 16
+    weight: 43
     region: content
   notes:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 18
     region: content
   objective:
     type: text_default
@@ -626,7 +628,24 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 16
+    weight: 17
+    region: content
+  restriction_crop:
+    type: boolean
+    label: inline
+    settings:
+      format: yes-no
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  restriction_crop_desc:
+    type: text_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
     region: content
   restriction_ge:
     type: boolean
@@ -636,14 +655,14 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 7
+    weight: 10
     region: content
   restriction_ge_desc:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 8
+    weight: 11
     region: content
   restriction_gm:
     type: boolean
@@ -653,14 +672,14 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 5
+    weight: 8
     region: content
   restriction_gm_desc:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 9
     region: content
   restriction_licence_perm:
     type: boolean
@@ -670,14 +689,14 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 11
+    weight: 14
     region: content
   restriction_licence_perm_desc:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 15
     region: content
   restriction_off_label:
     type: boolean
@@ -687,14 +706,21 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 9
+    weight: 12
     region: content
   restriction_off_label_desc:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 10
+    weight: 13
+    region: content
+  restriction_other:
+    type: text_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
     region: content
   rres_experiment_category:
     type: list_default
@@ -718,6 +744,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: -88
+    region: content
+  status_notes:
+    type: text_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: -87
     region: content
   study_description:
     type: text_default

@@ -49,6 +49,7 @@ third_party_settings:
         - objective
         - plant_type
         - status
+        - status_notes
         - current_phase
         - drilling_year
         - harvest_year
@@ -102,6 +103,8 @@ third_party_settings:
         required_fields: true
     group_restrictions:
       children:
+        - restriction_crop
+        - restriction_crop_desc
         - restriction_gm
         - restriction_gm_desc
         - restriction_ge
@@ -110,6 +113,7 @@ third_party_settings:
         - restriction_off_label_desc
         - restriction_licence_perm
         - restriction_licence_perm_desc
+        - restriction_other
       label: Restrictions
       region: content
       parent_name: group_metadata
@@ -171,7 +175,7 @@ third_party_settings:
       label: Spraying
       region: content
       parent_name: group_mangement_secondary
-      weight: 5
+      weight: 4
       format_type: tab
       format_settings:
         classes: ''
@@ -186,7 +190,7 @@ third_party_settings:
       label: Irrigation
       region: content
       parent_name: group_mangement_secondary
-      weight: 6
+      weight: 5
       format_type: tab
       format_settings:
         classes: ''
@@ -207,7 +211,7 @@ third_party_settings:
       label: Nutrition
       region: content
       parent_name: group_mangement_secondary
-      weight: 7
+      weight: 6
       format_type: tab
       format_settings:
         classes: ''
@@ -226,7 +230,7 @@ third_party_settings:
       label: Harvest
       region: content
       parent_name: group_mangement_secondary
-      weight: 8
+      weight: 7
       format_type: tab
       format_settings:
         classes: ''
@@ -243,7 +247,7 @@ third_party_settings:
       label: Post-harvest
       region: content
       parent_name: group_mangement_secondary
-      weight: 9
+      weight: 8
       format_type: tab
       format_settings:
         classes: ''
@@ -258,7 +262,7 @@ third_party_settings:
       label: 'Physical obstructions'
       region: content
       parent_name: group_mangement_secondary
-      weight: 10
+      weight: 9
       format_type: tab
       format_settings:
         classes: ''
@@ -354,7 +358,7 @@ third_party_settings:
         description: ''
         required_fields: true
 _core:
-  default_config_hash: R5NxewCexxjF_nVbuRaNRcbceewewIVOV7wlOZlrZ2k
+  default_config_hash: rX1npIxIKF0xQCI86PFgzYpIBgt1fNNPD2DvkPBKf4Y
 id: plan.rothamsted_experiment.default
 targetEntityType: plan
 bundle: rothamsted_experiment
@@ -370,7 +374,7 @@ content:
     third_party_settings: {  }
   amendments:
     type: text_textarea
-    weight: 29
+    weight: 30
     region: content
     settings:
       rows: 5
@@ -398,7 +402,7 @@ content:
     third_party_settings: {  }
   cost_code:
     type: string_textfield
-    weight: 27
+    weight: 28
     region: content
     settings:
       size: 60
@@ -406,7 +410,7 @@ content:
     third_party_settings: {  }
   cost_code_allocation:
     type: text_textarea
-    weight: 28
+    weight: 29
     region: content
     settings:
       rows: 5
@@ -414,7 +418,7 @@ content:
     third_party_settings: {  }
   current_phase:
     type: string_textfield
-    weight: 24
+    weight: 25
     region: content
     settings:
       size: 60
@@ -422,7 +426,7 @@ content:
     third_party_settings: {  }
   deviations:
     type: text_textarea
-    weight: 17
+    weight: 55
     region: content
     settings:
       rows: 5
@@ -430,7 +434,7 @@ content:
     third_party_settings: {  }
   drilling_year:
     type: number
-    weight: 25
+    weight: 26
     region: content
     settings:
       placeholder: ''
@@ -490,7 +494,7 @@ content:
     third_party_settings: {  }
   growing_conditions:
     type: text_textarea
-    weight: 18
+    weight: 56
     region: content
     settings:
       rows: 5
@@ -498,14 +502,14 @@ content:
     third_party_settings: {  }
   harvest_year:
     type: number
-    weight: 26
+    weight: 27
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   image:
     type: image_image
-    weight: 32
+    weight: 33
     region: content
     settings:
       progress_indicator: throbber
@@ -523,7 +527,7 @@ content:
     third_party_settings: {  }
   mgmt_drilling_rate:
     type: text_textarea
-    weight: 9
+    weight: 25
     region: content
     settings:
       rows: 5
@@ -531,7 +535,7 @@ content:
     third_party_settings: {  }
   mgmt_fungicide:
     type: text_textarea
-    weight: 15
+    weight: 21
     region: content
     settings:
       rows: 5
@@ -555,7 +559,7 @@ content:
     third_party_settings: {  }
   mgmt_herbicide:
     type: text_textarea
-    weight: 16
+    weight: 22
     region: content
     settings:
       rows: 5
@@ -563,7 +567,7 @@ content:
     third_party_settings: {  }
   mgmt_insecticide:
     type: text_textarea
-    weight: 17
+    weight: 24
     region: content
     settings:
       rows: 5
@@ -579,7 +583,7 @@ content:
     third_party_settings: {  }
   mgmt_levelling:
     type: text_textarea
-    weight: 12
+    weight: 13
     region: content
     settings:
       rows: 5
@@ -603,7 +607,7 @@ content:
     third_party_settings: {  }
   mgmt_molluscicide:
     type: text_textarea
-    weight: 20
+    weight: 26
     region: content
     settings:
       rows: 5
@@ -611,7 +615,7 @@ content:
     third_party_settings: {  }
   mgmt_nematicide:
     type: text_textarea
-    weight: 18
+    weight: 25
     region: content
     settings:
       rows: 5
@@ -635,7 +639,7 @@ content:
     third_party_settings: {  }
   mgmt_pgr:
     type: text_textarea
-    weight: 21
+    weight: 27
     region: content
     settings:
       rows: 5
@@ -667,7 +671,7 @@ content:
     third_party_settings: {  }
   mgmt_plant_estab:
     type: text_textarea
-    weight: 8
+    weight: 24
     region: content
     settings:
       rows: 5
@@ -675,7 +679,7 @@ content:
     third_party_settings: {  }
   mgmt_planting_date:
     type: text_textarea
-    weight: 6
+    weight: 21
     region: content
     settings:
       rows: 5
@@ -683,7 +687,7 @@ content:
     third_party_settings: {  }
   mgmt_ploughing:
     type: text_textarea
-    weight: 11
+    weight: 12
     region: content
     settings:
       rows: 5
@@ -707,7 +711,7 @@ content:
     third_party_settings: {  }
   mgmt_post_harvest_sampling:
     type: text_textarea
-    weight: 6
+    weight: 7
     region: content
     settings:
       rows: 5
@@ -715,7 +719,7 @@ content:
     third_party_settings: {  }
   mgmt_potassium:
     type: text_textarea
-    weight: 27
+    weight: 26
     region: content
     settings:
       rows: 5
@@ -745,7 +749,7 @@ content:
     third_party_settings: {  }
   mgmt_seed_rate:
     type: text_textarea
-    weight: 7
+    weight: 23
     region: content
     settings:
       rows: 5
@@ -785,7 +789,7 @@ content:
     third_party_settings: {  }
   mgmt_variety_notes:
     type: text_textarea
-    weight: 10
+    weight: 11
     region: content
     settings:
       rows: 5
@@ -801,7 +805,7 @@ content:
     third_party_settings: {  }
   notes:
     type: text_textarea
-    weight: 21
+    weight: 58
     region: content
     settings:
       rows: 5
@@ -831,7 +835,22 @@ content:
     third_party_settings: {  }
   reason_for_failure:
     type: text_textarea
-    weight: 19
+    weight: 57
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_crop:
+    type: boolean_checkbox
+    weight: 10
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_crop_desc:
+    type: text_textarea
+    weight: 11
     region: content
     settings:
       rows: 5
@@ -839,42 +858,12 @@ content:
     third_party_settings: {  }
   restriction_ge:
     type: boolean_checkbox
-    weight: 9
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
-  restriction_ge_desc:
-    type: text_textarea
-    weight: 10
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  restriction_gm:
-    type: boolean_checkbox
-    weight: 7
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
-  restriction_gm_desc:
-    type: text_textarea
-    weight: 8
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  restriction_licence_perm:
-    type: boolean_checkbox
     weight: 14
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
-  restriction_licence_perm_desc:
+  restriction_ge_desc:
     type: text_textarea
     weight: 15
     region: content
@@ -882,16 +871,54 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  restriction_off_label:
+  restriction_gm:
     type: boolean_checkbox
     weight: 12
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
-  restriction_off_label_desc:
+  restriction_gm_desc:
     type: text_textarea
     weight: 13
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_licence_perm:
+    type: boolean_checkbox
+    weight: 18
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_licence_perm_desc:
+    type: text_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_off_label:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  restriction_off_label_desc:
+    type: text_textarea
+    weight: 17
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  restriction_other:
+    type: text_textarea
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -914,6 +941,14 @@ content:
     weight: 23
     region: content
     settings: {  }
+    third_party_settings: {  }
+  status_notes:
+    type: text_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
   study_description:
     type: text_textarea

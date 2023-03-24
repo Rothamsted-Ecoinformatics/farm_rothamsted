@@ -5,6 +5,7 @@
  * Update hooks for farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
@@ -247,6 +248,10 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
 
   // Additional fields added with 2.10.
   $fields = [];
+  $fields['status_notes'] = BaseFieldDefinition::create('text_long')
+    ->setLabel(t('Status notes'))
+    ->setDescription(t('Any notes about the design status.'))
+    ->setRevisionable(TRUE);
   $fields['study_description'] = BundleFieldDefinition::create('text_long')
     ->setLabel(t('Description'))
     ->setDescription(t('A description of the study period.'))
@@ -280,6 +285,16 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
     ->setRevisionable(TRUE);
 
   $restriction_fields = [
+    'restriction_crop' => [
+      'boolean' => [
+        'label' => t('Crop Management Restrictions'),
+        'description' => t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
+      ],
+      'text' => [
+        'label' => t('Description of Crop Management Restrictions'),
+        'description' => t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
+      ],
+    ],
     'restriction_gm' => [
       'boolean' => [
         'label' => t('Genetically Modified (GM) Material'),

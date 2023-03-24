@@ -19,7 +19,6 @@ class ExperimentEntityForm extends ResearchEntityForm {
         'fields' => [
           'program',
           'name',
-          'status',
           'code',
           'abbreviation',
           'description',
@@ -62,6 +61,14 @@ class ExperimentEntityForm extends ResearchEntityForm {
           'file',
           'image',
           'link',
+        ],
+      ],
+      'status' => [
+        'title' => $this->t('Status'),
+        'weight' => 20,
+        'fields' => [
+          'status',
+          'status_notes',
         ],
       ],
     ];

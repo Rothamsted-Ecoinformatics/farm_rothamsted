@@ -400,6 +400,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Treatments'))
       ->setDescription(t('A description of the proposed treatments.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setDisplayOptions('form', [
