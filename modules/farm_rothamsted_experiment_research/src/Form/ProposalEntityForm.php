@@ -19,12 +19,10 @@ class ProposalEntityForm extends ResearchEntityForm {
         'fields' => [
           'name',
           'program',
-          'experiment',
-          'design',
           'contact',
+          'experiment_category',
           'research_question',
           'hypothesis',
-          'amendments',
         ],
       ],
       'design' => [
@@ -41,14 +39,14 @@ class ProposalEntityForm extends ResearchEntityForm {
           'plot_width',
           'field_layout',
           'measurements',
-          'experiment_management',
-          'division_labor',
         ],
       ],
       'restriction' => [
         'title' => $this->t('Restrictions'),
         'weight' => 10,
         'fields' => [
+          'restriction_crop',
+          'restriction_crop_desc',
           'restriction_gm',
           'restriction_gm_desc',
           'restriction_ge',
@@ -57,11 +55,24 @@ class ProposalEntityForm extends ResearchEntityForm {
           'restriction_off_label_desc',
           'restriction_licence_perm',
           'restriction_licence_perm_desc',
+          'restriction_other',
+        ],
+      ],
+      'management' => [
+        'title' => $this->t('Farm Management'),
+        'weight' => 15,
+        'fields' => [
+          'experiment_management',
+          'management_seed_supply',
+          'management_seed_treatment',
+          'management_pesticide',
+          'management_nutrition',
+          'management_harvest',
         ],
       ],
       'file' => [
         'title' => $this->t('Files'),
-        'weight' => 15,
+        'weight' => 20,
         'fields' => [
           'file',
           'image',
@@ -70,8 +81,11 @@ class ProposalEntityForm extends ResearchEntityForm {
       ],
       'status' => [
         'title' => $this->t('Status'),
-        'weight' => 20,
+        'weight' => 25,
         'fields' => [
+          'experiment',
+          'design',
+          'amendments',
           'reviewer',
           'status',
           'status_notes',
@@ -88,6 +102,7 @@ class ProposalEntityForm extends ResearchEntityForm {
 
     // Hide restriction description fields until checked.
     $rotation_fields = [
+      'restriction_crop',
       'restriction_gm',
       'restriction_ge',
       'restriction_off_label',

@@ -162,7 +162,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setDescription(t('The name of the proposed experiment.'))
+      ->setDescription(t('The name of the proposal. If the experiment is already in FarmOS, please be consistent in how you name the proposal each year. For example "WGIN Diversity (2023)" should "WGIN Diversity (2024)" in the following cropping year.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -238,7 +238,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['experiment'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Related Experiments'))
-      ->setDescription(t('The experiments which the proposal refers to.'))
+      ->setDescription(t('The experiment(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_proposal')
@@ -261,7 +261,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['design'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Related Designs'))
-      ->setDescription(t('The experiment designs which the proposal refers to.'))
+      ->setDescription(t('The experiment design relating to this proposal. If this design has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, or if you wish to change the design from previous years, a new design will have to added after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_design')
@@ -303,9 +303,33 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'type' => 'entity_reference_label',
       ]);
 
+    $fields['experiment_category'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Experiment category'))
+      ->setDescription(t('The experiment category.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('allowed_values', [
+        'reserve_site' => t('Reserve Site'),
+        'annual_crop_experiment' => t('Annual Crop Experiment'),
+        'crop_sequence_experiment' => t('Crop Sequence Experiment'),
+        'classical_experiment' => t('Classical Experiment'),
+        'energy_crop_experiment' => t('Energy Crop Experiment'),
+        'longterm_experiment' => t('Longterm Experiment'),
+        'other' => t('Other'),
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'options_select',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'list_default',
+        'label' => 'inline',
+      ]);
+
     $fields['research_question'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Research questions'))
       ->setDescription(t('The research question you expect to answer with the experiment, and how it relates to the research program.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setDisplayOptions('form', [
@@ -320,6 +344,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
     $fields['hypothesis'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Hypotheses'))
       ->setDescription(t('The hypotheses that the experiment is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setDisplayOptions('form', [
@@ -333,8 +358,9 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['amendments'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Proposed Amendments'))
-      ->setDescription(t('A description of any proposed changes made to the experiment or experiment design since the last study period.'))
+      ->setDescription(t('A description of any proposed changes made to the experiment or experiment design since the last study period. Amendments required before the proposal can be approved'))
       ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
       ])
@@ -452,7 +478,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
-    $fields['plot_length'] = BaseFieldDefinition::create('integer')
+    $fields['plot_length'] = BaseFieldDefinition::create('float')
       ->setLabel(t('Plot length'))
       ->setDescription(t('The proposed plot length.'))
       ->setRevisionable(TRUE)
@@ -468,7 +494,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
-    $fields['plot_width'] = BaseFieldDefinition::create('integer')
+    $fields['plot_width'] = BaseFieldDefinition::create('float')
       ->setLabel(t('Plot width'))
       ->setDescription(t('The proposed plot width.'))
       ->setRevisionable(TRUE)
@@ -485,8 +511,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['field_layout'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Field layout'))
-      ->setDescription(t('The field layout being proposed.'))
+      ->setLabel(t('In-Field layout'))
+      ->setDescription(t('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -499,34 +525,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['measurements'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Measurements'))
-      ->setDescription(t('The measurements which are being proposed.'))
-      ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
-    $fields['experiment_management'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Experiment management'))
-      ->setDescription(t('The management strategy for the associated experiment.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
-    $fields['division_labor'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Division of labor'))
-      ->setDescription(t('The proposed division of labor (sponsor/farm/other)'))
+      ->setDescription(t('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setDisplayOptions('form', [
@@ -539,6 +539,16 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $restriction_fields = [
+      'restriction_crop' => [
+        'boolean' => [
+          'label' => t('Crop Management Restrictions'),
+          'description' => t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
+        ],
+        'text' => [
+          'label' => t('Description of Crop Management Restrictions'),
+          'description' => t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
+        ],
+      ],
       'restriction_gm' => [
         'boolean' => [
           'label' => t('Genetically Modified (GM) Material'),
@@ -611,6 +621,90 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ->setDisplayConfigurable('view', TRUE)
         ->setDisplayOptions('view', [
           'type' => 'text_default',
+          'label' => 'inline',
+        ]);
+    }
+
+    // Other restrictions.
+    $fields['restriction_other'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Other restrictions'))
+      ->setDescription(t('If there are any other restrictions not covered above, please add them below'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    // Management fields.
+    $fields['experiment_management'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Experiment management'))
+      ->setDescription(t('The management strategy for the associated experiment.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $management_options = [
+      'farm' => t('Farm'),
+      'sponsor' => t('Sponsor'),
+      'other' => t('Other'),
+    ];
+    $management_fields = [
+      'management_seed_supply' => [
+        'label' => t('Seed Supply'),
+        'description' => t('Who will supply the seed for this experiment. Please select multiple if this is a shared responsibility.'),
+        'options' => $management_options,
+      ],
+      'management_seed_treatment' => [
+        'label' => t('Seed Treatment'),
+        'description' => t('If the seed needs to be treated, please state who is responsible for this. Please select multiple if this is a shared responsibility.'),
+        'options' => $management_options + ['supplier' => t('Supplier')],
+      ],
+      'management_pesticide' => [
+        'label' => t('Pesticide Applications'),
+        'description' => t('Who is responsible for the pesticide applications? Please select multiple if this is a shared responsibility.'),
+        'options' => $management_options,
+      ],
+      'management_nutrition' => [
+        'label' => t('Nutrition Applications'),
+        'description' => t('Who is responsible for the nutrient applications? Please select multiple if this is a shared responsibility."'),
+        'options' => $management_options,
+      ],
+      'management_harvest' => [
+        'label' => t('Harvest'),
+        'description' => t('Who is responsible for harvesting the experiment? Please select multiple if this is a shared responsibility.'),
+        'options' => $management_options,
+      ],
+    ];
+    foreach ($management_fields as $field_id => $field_info) {
+      $fields[$field_id] = BaseFieldDefinition::create('list_string')
+        ->setLabel($field_info['label'])
+        ->setDescription($field_info['description'])
+        ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+        ->setRevisionable(TRUE)
+        ->setSetting('allowed_values', $field_info['options'])
+        ->setDefaultValue('submitted')
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayOptions('form', [
+          'type' => 'string_textfield',
+          'settings' => [
+            'size' => 25,
+          ],
+        ])
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'type' => 'string',
           'label' => 'inline',
         ]);
     }
