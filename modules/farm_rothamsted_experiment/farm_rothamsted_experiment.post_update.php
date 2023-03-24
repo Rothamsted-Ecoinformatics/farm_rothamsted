@@ -349,6 +349,11 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
       ->setRevisionable(TRUE);
   }
 
+  $fields['restriction_other'] = BundleFieldDefinition::create('text_long')
+    ->setLabel(t('Other restrictions'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE);
+
   $fields['mgmt_seed_provision'] = BundleFieldDefinition::create('list_string')
     ->setLabel(t('Seed Provision'))
     ->setDescription(t('Please state who will provide the seed.'))
