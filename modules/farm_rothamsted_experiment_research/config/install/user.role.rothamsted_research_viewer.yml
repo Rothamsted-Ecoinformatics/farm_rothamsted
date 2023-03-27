@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - farm_role
     - farm_rothamsted_experiment_research
     - farm_rothamsted_researcher
   enforced:
@@ -31,3 +32,7 @@ permissions:
   - 'view own rothamsted_program'
   - 'view own rothamsted_proposal'
   - 'view own rothamsted_researcher'
+third_party_settings:
+  farm_role:
+    access:
+      config: false
