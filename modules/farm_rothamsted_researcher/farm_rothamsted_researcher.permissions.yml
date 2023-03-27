@@ -1,0 +1,9 @@
+view all rothamsted_researcher revisions:
+  title: 'View all researcher revisions'
+  description: 'Allow viewing researcher entity revisions.'
+  restrict access: true
+
+revert all rothamsted_researcher revisions:
+  title: 'Revert all researcher revisions'
+  description: 'Allow reverting to a previous researcher entity revision.'
+  restrict access: true

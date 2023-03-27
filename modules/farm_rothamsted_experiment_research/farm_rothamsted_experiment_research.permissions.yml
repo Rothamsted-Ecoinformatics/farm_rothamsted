@@ -1,0 +1,39 @@
+view all rothamsted_design revisions:
+  title: 'View all design revisions'
+  description: 'Allow viewing design entity revisions.'
+  restrict access: true
+
+revert all rothamsted_design revisions:
+  title: 'Revert all design revisions'
+  description: 'Allow reverting to a previous design entity revision.'
+  restrict access: true
+
+view all rothamsted_experiment revisions:
+  title: 'View all experiment revisions'
+  description: 'Allow viewing experiment entity revisions.'
+  restrict access: true
+
+revert all rothamsted_experiment revisions:
+  title: 'Revert all experiment revisions'
+  description: 'Allow reverting to a previous experiment entity revision.'
+  restrict access: true
+
+view all rothamsted_program revisions:
+  title: 'View all program revisions'
+  description: 'Allow viewing program entity revisions.'
+  restrict access: true
+
+revert all rothamsted_program revisions:
+  title: 'Revert all program revisions'
+  description: 'Allow reverting to a previous program entity revision.'
+  restrict access: true
+
+view all rothamsted_proposal revisions:
+  title: 'View all proposal revisions'
+  description: 'Allow viewing proposal entity revisions.'
+  restrict access: true
+
+revert all rothamsted_proposal revisions:
+  title: 'Revert all proposal revisions'
+  description: 'Allow reverting to a previous proposal entity revision.'
+  restrict access: true
