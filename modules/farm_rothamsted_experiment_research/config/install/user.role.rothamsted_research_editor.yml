@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - farm_role
     - farm_rothamsted_experiment_research
     - farm_rothamsted_researcher
   enforced:
@@ -62,3 +63,7 @@ permissions:
   - 'revert all rothamsted_program revisions'
   - 'revert all rothamsted_proposal revisions'
   - 'revert all rothamsted_researcher revisions'
+third_party_settings:
+  farm_role:
+    access:
+      config: false
