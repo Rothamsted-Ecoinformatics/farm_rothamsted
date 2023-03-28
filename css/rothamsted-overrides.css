@@ -1,0 +1,4 @@
+/* Remove the help text below text formats like the notes field. */
+.filter-wrapper {
+  display: none;
+}

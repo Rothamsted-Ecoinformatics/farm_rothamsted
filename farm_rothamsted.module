@@ -164,6 +164,13 @@ function farm_rothamsted_asset_form_move_submit(array &$form, FormStateInterface
 }
 
 /**
+ * Implements hook_page_attachments().
+ */
+function farm_rothamsted_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'farm_rothamsted/farm_rothamsted_overrides';
+}
+
+/**
  * Defines the cossh hazard assessments options.
  *
  * @return array

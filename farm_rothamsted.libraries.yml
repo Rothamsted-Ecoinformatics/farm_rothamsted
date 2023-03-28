@@ -1,0 +1,4 @@
+farm_rothamsted_overrides:
+  css:
+    theme:
+      css/rothamsted-overrides.css: { }
