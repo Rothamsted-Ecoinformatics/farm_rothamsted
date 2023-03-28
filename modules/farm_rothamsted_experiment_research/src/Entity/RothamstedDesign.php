@@ -467,12 +467,12 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setDisplayOptions('form', [
-       'type' => 'text_textarea',
+        'type' => 'text_textarea',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-       'type' => 'text_default',
-       'label' => 'inline',
+        'type' => 'text_default',
+        'label' => 'inline',
       ]);
 
     $fields['treatment'] = BaseFieldDefinition::create('text_long')

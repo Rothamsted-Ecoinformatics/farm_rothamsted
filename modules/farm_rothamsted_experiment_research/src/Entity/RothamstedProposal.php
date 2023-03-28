@@ -294,7 +294,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
           'rothamsted_experiment' => 'rothamsted_experiment',
         ],
         'sort' => [
-          'field' => '_none'
+          'field' => '_none',
         ],
         'auto_create' => FALSE,
         'auto_create_bundle' => '',
