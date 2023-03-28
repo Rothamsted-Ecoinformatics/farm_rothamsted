@@ -85,6 +85,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         'fields' => [
           'experiment',
           'design',
+          'plan',
           'amendments',
           'reviewer',
           'status',

@@ -282,6 +282,40 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'weight' => -15,
       ]);
 
+    $fields['plan'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Related Experiment Plans'))
+      ->setDescription(t('The experiment plan relating to this proposal. If this plan has already been added to FarmOS, please select it here before submitting the proposal.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'plan')
+      ->setSetting('handler', 'default:plan')
+      ->setSetting('handler_settings', [
+        'target_bundles' => [
+          'rothamsted_experiment' => 'rothamsted_experiment',
+        ],
+        'sort' => [
+          'field' => '_none'
+        ],
+        'auto_create' => FALSE,
+        'auto_create_bundle' => '',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => -15,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'weight' => -15,
+      ]);
+
     $fields['contact'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Contacts'))
       ->setDescription(t('List researchers that are contacts for this proposal.'))
