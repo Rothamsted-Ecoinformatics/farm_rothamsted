@@ -442,6 +442,21 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ]);
 
     // Treatments.
+    $fields['hypothesis'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Hypotheses'))
+      ->setDescription(t('The hypotheses that the design is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+       'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+       'type' => 'text_default',
+       'label' => 'inline',
+      ]);
+
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Treatments'))
       ->setDescription(t('Describe the treatments for this statistical design.'))

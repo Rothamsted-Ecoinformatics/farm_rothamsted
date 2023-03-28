@@ -22,7 +22,6 @@ class ProposalEntityForm extends ResearchEntityForm {
           'contact',
           'experiment_category',
           'research_question',
-          'hypothesis',
         ],
       ],
       'design' => [

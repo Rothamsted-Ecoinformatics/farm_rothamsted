@@ -52,6 +52,7 @@ class DesignEntityForm extends ResearchEntityForm {
         'title' => $this->t('Treatments'),
         'weight' => 5,
         'fields' => [
+          'hypothesis',
           'treatment',
           'num_treatments',
           'num_factor_level_combinations',

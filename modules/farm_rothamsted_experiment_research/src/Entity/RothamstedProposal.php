@@ -375,21 +375,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
-    $fields['hypothesis'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Hypotheses'))
-      ->setDescription(t('The hypotheses that the experiment is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
     $fields['amendments'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Proposed Amendments'))
       ->setDescription(t('A description of any proposed changes made to the experiment or experiment design since the last study period. Amendments required before the proposal can be approved'))
