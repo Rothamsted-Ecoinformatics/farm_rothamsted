@@ -286,6 +286,24 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['objective'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Objective'))
+      ->setDescription(t('The objectives of the experiment design.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'settings' => [
+          'size' => 25,
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'inline',
+      ]);
+
     $fields['blocking_structure'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Blocking Structure'))
       ->setDescription(t('The blocking structure used for the experiment design.'))

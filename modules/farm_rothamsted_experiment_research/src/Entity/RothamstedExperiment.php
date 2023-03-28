@@ -421,24 +421,6 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         'type' => 'link',
       ]);
 
-    $fields['objective'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Objective'))
-      ->setDescription(t('The objectives of the experiment.'))
-      ->setRevisionable(TRUE)
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'settings' => [
-          'size' => 25,
-        ],
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'string',
-        'label' => 'inline',
-      ]);
-
     $fields['rotation_treatment'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Rotation as Treatment'))
       ->setDescription(t('Is the rotation a treatment in this experiment? Rotations which are part of the treatment structure should be added via the plot attributes.'))

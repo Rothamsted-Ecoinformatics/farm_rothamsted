@@ -21,6 +21,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'experiment',
           'name',
           'description',
+          'objective',
           'blocking_structure',
           'statistical_design',
           'blocking_constraint',

@@ -27,7 +27,6 @@ class ExperimentEntityForm extends ResearchEntityForm {
           'end',
           'researcher',
           'website',
-          'objective',
         ],
       ],
       'rotation' => [
