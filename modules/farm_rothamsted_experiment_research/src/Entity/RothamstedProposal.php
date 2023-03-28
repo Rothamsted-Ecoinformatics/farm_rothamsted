@@ -497,18 +497,14 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
-    $fields['statistical_design'] = BaseFieldDefinition::create('list_string')
+    $fields['statistical_design'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Statistical Design'))
-      ->setDescription(t('The statistical design associated with the proposal.'))
+      ->setDescription(t('Describe the statistical design associated with the proposal.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
-      ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_statistical_design_field_allowed_values')
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'settings' => [
-          'size' => 25,
-        ],
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
