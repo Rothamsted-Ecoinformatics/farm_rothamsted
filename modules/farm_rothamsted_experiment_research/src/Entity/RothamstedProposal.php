@@ -713,7 +713,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
         ->setRevisionable(TRUE)
         ->setSetting('allowed_values', $field_info['options'])
-        ->setDefaultValue('submitted')
         ->setDisplayConfigurable('form', TRUE)
         ->setDisplayOptions('form', [
           'type' => 'string_textfield',
