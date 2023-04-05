@@ -29,18 +29,6 @@ class ExperimentEntityForm extends ResearchEntityForm {
           'website',
         ],
       ],
-      'rotation' => [
-        'title' => $this->t('Rotation'),
-        'weight' => 5,
-        'fields' => [
-          'rotation_treatment',
-          'rotation_name',
-          'rotation_description',
-          'rotation_crops',
-          'rotation_phasing',
-          'rotation_notes',
-        ],
-      ],
       'permission' => [
         'title' => $this->t('Permissions'),
         'weight' => 10,
@@ -78,22 +66,6 @@ class ExperimentEntityForm extends ResearchEntityForm {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
-
-    // Hide rotation fields when the rotation is a treatment.
-    $rotation_fields = [
-      'rotation_name',
-      'rotation_description',
-      'rotation_crops',
-      'rotation_phasing',
-      'rotation_notes',
-    ];
-    foreach ($rotation_fields as $field) {
-      $form[$field]['#states'] = [
-        'visible' => [
-          ':input[name="rotation_treatment[value]"]' => ['checked' => FALSE],
-        ],
-      ];
-    }
 
     // Hide public release date until checked.
     $form['public_release_date']['#states'] = [

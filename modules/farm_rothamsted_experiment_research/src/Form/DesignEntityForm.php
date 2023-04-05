@@ -32,6 +32,18 @@ class DesignEntityForm extends ResearchEntityForm {
           'design_changes',
         ],
       ],
+      'rotation' => [
+        'title' => $this->t('Rotation'),
+        'weight' => 5,
+        'fields' => [
+          'rotation_treatment',
+          'rotation_name',
+          'rotation_description',
+          'rotation_crops',
+          'rotation_phasing',
+          'rotation_notes',
+        ],
+      ],
       'layout' => [
         'title' => $this->t('In-Field Layout'),
         'weight' => 10,
@@ -51,7 +63,7 @@ class DesignEntityForm extends ResearchEntityForm {
       ],
       'treatment' => [
         'title' => $this->t('Treatments'),
-        'weight' => 5,
+        'weight' => 15,
         'fields' => [
           'hypothesis',
           'treatment',
@@ -84,6 +96,22 @@ class DesignEntityForm extends ResearchEntityForm {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
+
+    // Hide rotation fields when the rotation is a treatment.
+    $rotation_fields = [
+      'rotation_name',
+      'rotation_description',
+      'rotation_crops',
+      'rotation_phasing',
+      'rotation_notes',
+    ];
+    foreach ($rotation_fields as $field) {
+      $form[$field]['#states'] = [
+        'visible' => [
+          ':input[name="rotation_treatment[value]"]' => ['checked' => FALSE],
+        ],
+      ];
+    }
 
     // Add ajax.
     $form['statistical_design']['#attributes']['id'] = 'statistical-design-wrapper';

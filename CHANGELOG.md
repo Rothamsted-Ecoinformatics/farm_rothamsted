@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Move rotation tab to design entity. [#400](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/400)
+
 ## [2.10.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-03-28
 
 ### Added
