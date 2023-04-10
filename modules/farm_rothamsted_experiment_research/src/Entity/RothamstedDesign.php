@@ -239,6 +239,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
         'requested' => t('Requested'),
+        'planning' => t('Planning'),
         'active' => t('Active'),
         'archived' => t('Archived'),
       ])

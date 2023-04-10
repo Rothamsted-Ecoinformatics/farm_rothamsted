@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add Planning status to experiment and design entities. [#402](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/402)
+
 ## [2.10.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-04-05
 
 ### Changed
