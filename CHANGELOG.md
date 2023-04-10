@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add Planning status to experiment and design entities. [#402](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/402)
 - Add Physical Obstructions restriction option. [#406](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/406)
+- Add requested location field to proposal entity. [#409](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/409)
 
 ### Changed
 
