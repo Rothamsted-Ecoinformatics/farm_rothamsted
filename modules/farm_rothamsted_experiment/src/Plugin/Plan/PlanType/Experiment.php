@@ -118,6 +118,7 @@ class Experiment extends FarmPlanType {
         'type' => 'text_long',
         'label' => $this->t('Deviations from plan'),
         'description' => $this->t('Any deviations from the original statistical design.'),
+        'multiple' => TRUE,
       ],
       'growing_conditions' => [
         'type' => 'text_long',
@@ -128,6 +129,7 @@ class Experiment extends FarmPlanType {
         'type' => 'text_long',
         'label' => $this->t('Reason for Failure'),
         'description' => $this->t('Notes about the cause of crop failure, where relevant.'),
+        'multiple' => TRUE,
       ],
     ];
     foreach ($field_info as $name => $info) {

@@ -63,14 +63,12 @@ third_party_settings:
         description: ''
     group_experiment_status:
       children:
-        - deviations
         - growing_conditions
-        - reason_for_failure
         - notes
       label: 'Experiment Status'
       parent_name: ''
       region: content
-      weight: 6
+      weight: 7
       format_type: tab
       format_settings:
         classes: ''
@@ -174,6 +172,21 @@ third_party_settings:
       parent_name: ''
       region: content
       weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        formatter: closed
+        description: ''
+    group_experiment_deviations:
+      children:
+        - deviations
+        - reason_for_failure
+      label: 'Experiment Deviations'
+      parent_name: ''
+      region: content
+      weight: 6
       format_type: tab
       format_settings:
         classes: ''
@@ -628,7 +641,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 15
     region: content
   restriction_crop:
     type: boolean
