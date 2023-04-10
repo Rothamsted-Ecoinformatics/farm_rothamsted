@@ -497,6 +497,34 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
+    $fields['measurements'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Measurements'))
+      ->setDescription(t('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
+    $fields['field_layout'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('In-Field layout'))
+      ->setDescription(t('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
     $fields['plot_length'] = BaseFieldDefinition::create('float')
       ->setLabel(t('Plot length'))
       ->setDescription(t('The proposed plot length.'))
@@ -526,34 +554,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'number',
-        'label' => 'inline',
-      ]);
-
-    $fields['field_layout'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('In-Field layout'))
-      ->setDescription(t('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
-    $fields['measurements'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Measurements'))
-      ->setDescription(t('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
         'label' => 'inline',
       ]);
 
