@@ -213,7 +213,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setRevisionable(TRUE);
 
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Programs'))
+      ->setLabel(t('Research Programs'))
       ->setDescription(t('The research program which this proposal is part of.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
