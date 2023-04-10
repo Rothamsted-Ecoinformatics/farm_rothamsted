@@ -104,7 +104,7 @@ class DesignEntityForm extends ResearchEntityForm {
       '#description' => $this->t('If the design is a rotation for the experiment please define the rotation below.'),
       '#default_value' => 1,
       // This weight works to render below Rotation treatment but is fragile.
-      '#weight' => 40
+      '#weight' => 40,
     ];
 
     $form = parent::form($form, $form_state);

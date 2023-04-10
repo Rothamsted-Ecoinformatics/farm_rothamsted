@@ -83,7 +83,7 @@ function farm_rothamsted_experiment_research_post_update_move_rotation_fields(&$
 /**
  * Add fields to proposal entity.
  */
-function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields(&$sandbox = NULL) {
+function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields_5(&$sandbox = NULL) {
 
   $fields = [];
 
@@ -163,4 +163,3 @@ function farm_rothamsted_experiment_research_post_update_2_11_statistical_design
     $proposal->save();
   }
 }
-
