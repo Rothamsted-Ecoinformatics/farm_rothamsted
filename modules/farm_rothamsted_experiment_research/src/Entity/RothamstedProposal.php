@@ -608,6 +608,16 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
           'description' => t('Please describe the licence/permission restrictions.'),
         ],
       ],
+      'restriction_physical' => [
+        'boolean' => [
+          'label' => t('Physical Obstructions'),
+          'description' => t('Are there any physical obstructions such as sampling equipment which might interfere with the trial management and/or farm machinery?')
+        ],
+        'text' => [
+          'label' => 'Physical Obstructions',
+          'description' => t('Please describe the physical obstructions.'),
+        ],
+      ],
     ];
 
     // Add boolean and text_long field for each restriction.

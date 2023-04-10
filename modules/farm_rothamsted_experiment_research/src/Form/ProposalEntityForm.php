@@ -54,6 +54,8 @@ class ProposalEntityForm extends ResearchEntityForm {
           'restriction_off_label_desc',
           'restriction_licence_perm',
           'restriction_licence_perm_desc',
+          'restriction_physical',
+          'restriction_physical_desc',
           'restriction_other',
         ],
       ],
@@ -107,6 +109,7 @@ class ProposalEntityForm extends ResearchEntityForm {
       'restriction_ge',
       'restriction_off_label',
       'restriction_licence_perm',
+      'restriction_physical',
     ];
     foreach ($rotation_fields as $field) {
       $form[$field . '_desc']['#states'] = [

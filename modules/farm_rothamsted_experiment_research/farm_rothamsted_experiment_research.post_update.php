@@ -77,3 +77,29 @@ function farm_rothamsted_experiment_research_post_update_move_rotation_fields(&$
     );
   }
 }
+
+/**
+ * Add fields to proposal entity.
+ */
+function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields(&$sandbox = NULL) {
+
+  $fields = [];
+
+  // Physical restriction fields.
+  $fields['restriction_physical'] = BaseFieldDefinition::create('boolean')
+    ->setLabel('Physical Obstructions')
+    ->setRevisionable(TRUE);
+  $fields['restriction_physical_desc'] = BaseFieldDefinition::create('text_long')
+    ->setLabel('Physical Obstructions')
+    ->setRevisionable(TRUE);
+
+  // Finally, add fields to rothamsted_proposal entity.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_proposal',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}
