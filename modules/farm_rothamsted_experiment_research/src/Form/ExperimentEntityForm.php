@@ -64,8 +64,8 @@ class ExperimentEntityForm extends ResearchEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildForm($form, $form_state);
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
 
     // Hide public release date until checked.
     $form['public_release_date']['#states'] = [

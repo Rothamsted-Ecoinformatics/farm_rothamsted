@@ -97,8 +97,8 @@ class ProposalEntityForm extends ResearchEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildForm($form, $form_state);
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
 
     // Hide restriction description fields until checked.
     $rotation_fields = [

@@ -59,6 +59,7 @@ class ResearchEntityForm extends ContentEntityForm {
           '#type' => 'details',
           '#title' => $tab_info['title'],
           '#group' => 'tabs',
+          '#weight' => $tab_info['weight'],
         ];
 
         // Move fields to tabs.
