@@ -37,6 +37,7 @@ class DesignEntityForm extends ResearchEntityForm {
         'weight' => 5,
         'fields' => [
           'rotation_treatment',
+          'add_rotation',
           'rotation_name',
           'rotation_description',
           'rotation_crops',
@@ -96,6 +97,18 @@ class DesignEntityForm extends ResearchEntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
 
+    // Add field to add a rotation.
+    $form['add_rotation'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add rotation'),
+      '#description' => $this->t('If the design is a rotation for the experiment please define the rotation below.'),
+      '#default_value' => 1,
+      // This weight works to render below Rotation treatment but is fragile.
+      '#weight' => 40
+    ];
+
+    $form = parent::form($form, $form_state);
+
     // Hide rotation fields when the rotation is a treatment.
     $rotation_fields = [
       'rotation_name',
@@ -107,7 +120,7 @@ class DesignEntityForm extends ResearchEntityForm {
     foreach ($rotation_fields as $field) {
       $form[$field]['#states'] = [
         'visible' => [
-          ':input[name="rotation_treatment[value]"]' => ['checked' => FALSE],
+          ':input[name="add_rotation"]' => ['checked' => TRUE],
         ],
       ];
     }

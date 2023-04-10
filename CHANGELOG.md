@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Change Related Programs text to be Related Research Programs for clarity.
-  [#403](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/403)
+- Change Related Programs text to be Related Research Programs for clarity. [#403](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/403)
+- Add treatment checkbox in UI to allow adding a rotation separate from rotation as treatment. [#404](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/404)
 
 ## [2.10.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-04-05
 
