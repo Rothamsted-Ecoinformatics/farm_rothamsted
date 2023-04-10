@@ -25,7 +25,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'design' => [
-        'title' => $this->t('Design'),
+        'title' => $this->t('Statistical Design'),
         'weight' => 5,
         'fields' => [
           'crop',
@@ -34,10 +34,16 @@ class ProposalEntityForm extends ResearchEntityForm {
           'num_replicates',
           'num_plots_total',
           'statistical_design',
+          'measurements',
+        ],
+      ],
+      'layout' => [
+        'title' => $this->t('In-Field Layout'),
+        'weight' => 7,
+        'fields' => [
+          'field_layout',
           'plot_length',
           'plot_width',
-          'field_layout',
-          'measurements',
         ],
       ],
       'restriction' => [
