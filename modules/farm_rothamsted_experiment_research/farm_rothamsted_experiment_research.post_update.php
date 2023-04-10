@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
 
 /**
  * Move rotation fields from experiment to design entity with 2.10.1 release.
@@ -103,3 +104,48 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields(&$
     );
   }
 }
+
+/**
+ * Change statistical design field to text_long.
+ */
+function farm_rothamsted_experiment_research_post_update_2_11_statistical_design(&$sandbox = NULL) {
+
+  // First collect existing data.
+  $proposal_storage = \Drupal::entityTypeManager()->getStorage('rothamsted_proposal');
+  $proposals = $proposal_storage->loadMultiple();
+  $existing_data = array_map(function (RothamstedProposalInterface $proposal) {
+    return $proposal->get('statistical_design')->value;
+  }, $proposals);
+
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Remove existing proposal statistical design field.
+  $old_definition = $update_manager->getFieldStorageDefinition('statistical_design', 'rothamsted_proposal');
+  $update_manager->uninstallFieldStorageDefinition($old_definition);
+  field_purge_batch(100);
+
+  // Create new definition.
+  $new_definition = BaseFieldDefinition::create('text_long')
+    ->setLabel(t('Statistical Design'))
+    ->setRevisionable(TRUE)
+    ->setRequired(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayOptions('form', [
+      'type' => 'string_textarea',
+    ])
+    ->setDisplayConfigurable('view', TRUE)
+    ->setDisplayOptions('view', [
+      'type' => 'string',
+      'label' => 'inline',
+    ]);
+  $update_manager->installFieldStorageDefinition('statistical_design', 'rothamsted_proposal', 'farm_rothamsted_experiment_research', $new_definition);
+
+  // Add back existing data.
+  foreach ($existing_data as $proposal_id => $design) {
+    $proposal = $proposal_storage->load($proposal_id);
+    $proposal->set('statistical_design', ['value' => $design, 'format' => 'default']);
+    $proposal->save();
+  }
+}
+
