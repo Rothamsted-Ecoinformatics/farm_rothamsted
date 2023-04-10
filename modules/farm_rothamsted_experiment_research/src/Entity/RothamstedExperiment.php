@@ -214,7 +214,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setRevisionable(TRUE);
 
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Programs'))
+      ->setLabel(t('Related Research Programs'))
       ->setDescription(t('The research program which this experiment is part of.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
