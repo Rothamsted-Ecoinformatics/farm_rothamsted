@@ -94,8 +94,7 @@ class DesignEntityForm extends ResearchEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildForm($form, $form_state);
+  public function form(array $form, FormStateInterface $form_state) {
 
     // Hide rotation fields when the rotation is a treatment.
     $rotation_fields = [
