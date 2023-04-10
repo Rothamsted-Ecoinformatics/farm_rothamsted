@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
 
 /**
@@ -93,6 +94,20 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields(&$
   $fields['restriction_physical_desc'] = BaseFieldDefinition::create('text_long')
     ->setLabel('Physical Obstructions')
     ->setRevisionable(TRUE);
+
+  // Requested location.
+  $fields['requested_location'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Requested Location'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSetting('target_type', 'asset')
+    ->setSetting('handler', 'views')
+    ->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_location_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => [],
+      ],
+    ]);
 
   // Finally, add fields to rothamsted_proposal entity.
   foreach ($fields as $field_id => $field_definition) {
