@@ -83,7 +83,7 @@ function farm_rothamsted_experiment_research_post_update_move_rotation_fields(&$
 /**
  * Add fields to proposal entity.
  */
-function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields_5(&$sandbox = NULL) {
+function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields_6(&$sandbox = NULL) {
 
   $fields = [];
 
@@ -108,6 +108,12 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_fields_5(
         'arguments' => [],
       ],
     ]);
+
+  // Initial quote.
+  $fields['initial_quote'] = BaseFieldDefinition::create('file')
+    ->setLabel(t('Initial Quote'))
+    ->setRevisionable(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
   // Finally, add fields to rothamsted_proposal entity.
   foreach ($fields as $field_id => $field_definition) {
