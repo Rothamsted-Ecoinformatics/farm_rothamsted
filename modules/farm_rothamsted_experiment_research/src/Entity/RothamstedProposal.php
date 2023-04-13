@@ -776,6 +776,29 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       'description_field' => TRUE,
       'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
     ];
+
+    $fields['initial_quote'] = BaseFieldDefinition::create('file')
+      ->setLabel(t('Initial Quote'))
+      ->setDescription(t('Preliminary quotations for the work proposed.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($file_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'file_generic',
+        'settings' => [
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'file_table',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'use_description_as_link_text' => TRUE,
+        ],
+      ]);
+
     $fields['file'] = BaseFieldDefinition::create('file')
       ->setLabel(t('File'))
       ->setDescription(t('Upload files associated with this proposal.'))

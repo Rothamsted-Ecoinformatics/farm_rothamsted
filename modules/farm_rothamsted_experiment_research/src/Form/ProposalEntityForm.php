@@ -82,6 +82,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         'title' => $this->t('Files'),
         'weight' => 20,
         'fields' => [
+          'initial_quote',
           'file',
           'image',
           'link',
