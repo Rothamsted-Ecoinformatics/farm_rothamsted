@@ -5,3 +5,7 @@ package: farmOS Custom
 core_version_requirement: ^9
 dependencies:
   - farm_rothamsted
+  - farm_rothamsted_quick
+  - farm_rothamsted_experiment
+  - farm_rothamsted_experiment_research
+  - farm_rothamsted_researcher
