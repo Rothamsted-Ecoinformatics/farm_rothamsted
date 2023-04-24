@@ -65,6 +65,7 @@ third_party_settings:
       children:
         - growing_conditions
         - notes
+        - agreed_quote
       label: 'Experiment Status'
       parent_name: ''
       region: content
@@ -206,6 +207,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: -99
+    region: content
+  agreed_quote:
+    type: file_table
+    label: visually_hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 17
     region: content
   amendments:
     type: text_default
@@ -611,7 +620,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 18
+    weight: 16
     region: content
   objective:
     type: text_default

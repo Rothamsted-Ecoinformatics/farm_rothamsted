@@ -21,8 +21,8 @@ third_party_settings:
         - group_restrictions
         - group_management_primary
         - group_files
-        - group_ex
         - group_experiment_status
+        - group_ex
       label: Metadata
       region: content
       parent_name: ''
@@ -88,10 +88,11 @@ third_party_settings:
       children:
         - growing_conditions
         - notes
+        - agreed_quote
       label: 'Experiment status'
       region: content
       parent_name: group_metadata
-      weight: 9
+      weight: 8
       format_type: tab
       format_settings:
         classes: ''
@@ -361,9 +362,9 @@ third_party_settings:
         - deviations
         - reason_for_failure
       label: 'Experiment Deviations'
-      region: hidden
+      region: content
       parent_name: group_metadata
-      weight: 8
+      weight: 9
       format_type: tab
       format_settings:
         classes: ''
@@ -384,6 +385,13 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  agreed_quote:
+    type: file_generic
+    weight: 58
+    region: content
+    settings:
+      progress_indicator: throbber
     third_party_settings: {  }
   amendments:
     type: text_textarea
@@ -818,7 +826,7 @@ content:
     third_party_settings: {  }
   notes:
     type: text_textarea
-    weight: 59
+    weight: 57
     region: content
     settings:
       rows: 5

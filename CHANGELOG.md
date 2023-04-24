@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add requested location field to proposal entity. [#409](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/409)
 - Add status messages in quick forms if required taxonomy hierarchy does not exist. [#360](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/360)
 - Add initial quote field to proposal entity. [#411](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/411)
+- Add agreed quote file field to experiment plan. [#415](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/415)
 
 ### Changed
 

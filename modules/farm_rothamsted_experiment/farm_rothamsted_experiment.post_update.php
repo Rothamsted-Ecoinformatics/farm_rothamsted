@@ -511,3 +511,26 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
     );
   }
 }
+
+/**
+ * Add fields to experiment plan.
+ */
+function farm_rothamsted_experiment_post_update_2_11_experiment_fields(&$sandbox = NULL) {
+
+  // Agreed quote.
+  $fields = [];
+  $fields['agreed_quote'] = BundleFieldDefinition::create('file')
+    ->setLabel(t('Agreed Quote'))
+    ->setRevisionable(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+
+  // Finally, add fields to rothamsted_experiment plan.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'plan',
+      'farm_rothamsted_experiment',
+      $field_definition,
+    );
+  }
+}

@@ -149,6 +149,38 @@ class Experiment extends FarmPlanType {
     $fields['location']->setSetting('handler_settings', $handler_settings);
 
     /* Create remaining special field types. */
+    // Common file field settings.
+    $file_settings = [
+      'file_directory' => 'farm/[date:custom:Y]-[date:custom:m]',
+      'max_filesize' => '',
+      'handler' => 'default:file',
+      'handler_settings' => [],
+    ];
+    $file_field_settings = $file_settings + [
+      'description_field' => TRUE,
+      'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
+    ];
+    $fields['agreed_quote'] = BundleFieldDefinition::create('file')
+      ->setLabel($this->t('Agreed Quote'))
+      ->setDescription($this->t('The final agreed quotation for the work proposed.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($file_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'file_generic',
+        'settings' => [
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'file_table',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'use_description_as_link_text' => TRUE,
+        ],
+      ]);
 
     // Experiment file link fields.
     $fields['experiment_plan_link'] = BundleFieldDefinition::create('link')
