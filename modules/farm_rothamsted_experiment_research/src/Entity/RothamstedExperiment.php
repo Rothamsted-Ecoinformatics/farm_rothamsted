@@ -426,9 +426,14 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setLabel(t('Confidential treatments'))
       ->setDescription(t('Are the treatments being applied in this experiment confidential?'))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Yes'),
+        'off_label' => t('No'),
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
+        'type' => 'options_buttons',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
@@ -511,9 +516,14 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setLabel(t('Public release'))
       ->setDescription(t('Is there a public release date for this data?'))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Yes'),
+        'off_label' => t('No'),
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
+        'type' => 'options_buttons',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [

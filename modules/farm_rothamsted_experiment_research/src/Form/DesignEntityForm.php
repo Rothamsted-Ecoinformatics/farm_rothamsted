@@ -97,12 +97,14 @@ class DesignEntityForm extends ResearchEntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
 
+    $has_rotation = !$this->entity->get('rotation_name')->isEmpty();
+
     // Add field to add a rotation.
     $form['add_rotation'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Add rotation'),
       '#description' => $this->t('If the design is a rotation for the experiment please define the rotation below.'),
-      '#default_value' => 1,
+      '#default_value' => $has_rotation,
       // This weight works to render below Rotation treatment but is fragile.
       '#weight' => 40,
     ];

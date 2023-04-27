@@ -654,9 +654,14 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ->setLabel($restriction_field_info['boolean']['label'])
         ->setDescription($restriction_field_info['boolean']['description'])
         ->setRevisionable(TRUE)
+        ->setRequired(TRUE)
+        ->setSettings([
+          'on_label' => t('Yes'),
+          'off_label' => t('No'),
+        ])
         ->setDisplayConfigurable('form', TRUE)
         ->setDisplayOptions('form', [
-          'type' => 'boolean_checkbox',
+          'type' => 'options_buttons',
         ])
         ->setDisplayConfigurable('view', TRUE)
         ->setDisplayOptions('view', [

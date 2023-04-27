@@ -122,7 +122,7 @@ class ProposalEntityForm extends ResearchEntityForm {
     foreach ($rotation_fields as $field) {
       $form[$field . '_desc']['#states'] = [
         'visible' => [
-          ':input[name="' . $field . '[value]"]' => ['checked' => TRUE],
+          ':input[name="' . $field . '"]' => ['value' => 1],
         ],
       ];
     }

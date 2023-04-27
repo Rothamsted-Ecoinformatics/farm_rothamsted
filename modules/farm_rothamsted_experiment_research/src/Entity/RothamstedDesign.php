@@ -464,9 +464,14 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setLabel(t('Rotation as Treatment'))
       ->setDescription(t('Is the rotation a treatment in this experiment design? Rotations which are part of the treatment structure should be added via the plot attributes.'))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Yes'),
+        'off_label' => t('No'),
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
+        'type' => 'options_buttons',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
@@ -706,9 +711,14 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setLabel(t('Non-standard plot size'))
       ->setDescription(t('Check if the plots have non-standard lengths or widths.'))
       ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Yes'),
+        'off_label' => t('No'),
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
+        'type' => 'options_buttons',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
