@@ -5,3 +5,7 @@ services:
       [ '@router.request_context', '@access_manager', '@router.no_access_checks', '@path_processor_manager', '@config.factory', '@title_resolver', '@current_user', '@path.current' ]
     tags:
       - { name: breadcrumb_builder, priority: 100 }
+  farm_rothamsted_experiment_research.route_subscriber:
+    class: Drupal\farm_rothamsted_experiment_research\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

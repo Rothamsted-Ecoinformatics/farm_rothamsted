@@ -33,6 +33,55 @@ farm_rothamsted_experiment_research.plans:
   base_route: entity.rothamsted_program.collection
   weight: 30
 
+farm_rothamsted_experiment_research.plans.active:
+  title: 'Active'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: active
+  weight: 0
+
+farm_rothamsted_experiment_research.plans.requested:
+  title: 'Requested'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: requested
+  weight: 10
+
+farm_rothamsted_experiment_research.plans.planning:
+  title: 'Planning'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: planning
+  weight: 10
+
+farm_rothamsted_experiment_research.plans.completed:
+  title: 'Completed'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: completed
+  weight: 10
+
+farm_rothamsted_experiment_research.plans.terminated:
+  title: 'Terminated'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: terminated
+  weight: 10
+
+farm_rothamsted_experiment_research.plans.archived:
+  title: 'Archived'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: archived
+  weight: 10
+
+
 # Researchers.
 farm_rothamsted_experiment_research.researchers:
   title: 'Researchers'
