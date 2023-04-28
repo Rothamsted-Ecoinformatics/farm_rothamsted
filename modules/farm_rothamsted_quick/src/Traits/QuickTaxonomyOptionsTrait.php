@@ -113,8 +113,12 @@ trait QuickTaxonomyOptionsTrait {
     $vocab = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary')->load($vocabulary_name);
     $url = new Url('entity.taxonomy_vocabulary.overview_form', ['taxonomy_vocabulary' => $vocabulary_name]);
     $url = $url->toString();
-    $missing_text = empty($child_name) ? 'No @label terms found.' : 'No child terms found for %child.';
-    $configure_text = $this->t("$missing_text Add a @label term <a href=\"@url\">here</a>.", ['@label' => $vocab->label(), '@url' => $url, '%child' => $child_name]);
+    if (empty($child_name)) {
+      $configure_text = $this->t('No @label terms found. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url]);
+    }
+    else {
+      $configure_text = $this->t('No child terms found for %child. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url, '%child' => $child_name]);
+    }
     $this->messenger()->addWarning($configure_text);
   }
 
