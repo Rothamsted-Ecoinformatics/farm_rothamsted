@@ -160,8 +160,8 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
     $fields += static::revisionLogBaseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the experiment design.'))
+      ->setLabel(t('Name of Design Period'))
+      ->setDescription(t('The name of the design period. The standard naming convention is the experiment name, followed by the design iteration and start year. For example Broadbalk: 3rd Design Period (1968 - )'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
