@@ -709,8 +709,8 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ]);
 
     $fields['plot_non_standard'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Non-standard plot size'))
-      ->setDescription(t('Check if the plots have non-standard lengths or widths.'))
+      ->setLabel(t('Varying plot sizes'))
+      ->setDescription(t('Check if the plots vary in size across the experiment.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSettings([
