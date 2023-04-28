@@ -241,7 +241,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDescription(t('The experiment(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setSetting('target_type', 'rothamsted_proposal')
+      ->setSetting('target_type', 'rothamsted_experiment')
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',

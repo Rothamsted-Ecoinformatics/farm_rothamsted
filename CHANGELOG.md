@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move design entity fields from Description to Statistical Design tab. [#417](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/417)
 - Change label and description of design entity name field. [#430](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/430)
 
+### Fixed
+
+- Correct proposal related experiment field. [#433](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/433)
+
 ## [2.10.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-04-05
 
 ### Changed
