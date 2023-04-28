@@ -419,24 +419,9 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ],
       ]);
 
-    $fields['treatment'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Treatments'))
-      ->setDescription(t('A description of the proposed treatments.'))
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Number of treatments'))
-      ->setDescription(t('The proposed number of treatments.'))
+      ->setLabel(t('Number of Treatment Factors'))
+      ->setDescription(t('The proposed number of treatment factors.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('min', 0)
@@ -447,6 +432,21 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'number',
+        'label' => 'inline',
+      ]);
+
+    $fields['treatment'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Treatment factors'))
+      ->setDescription(t('A description of the proposed treatment factors and factor levels.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
         'label' => 'inline',
       ]);
 
