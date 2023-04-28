@@ -29,8 +29,8 @@ class ProposalEntityForm extends ResearchEntityForm {
         'weight' => 5,
         'fields' => [
           'crop',
-          'treatment',
           'num_treatments',
+          'treatment',
           'num_replicates',
           'num_plots_total',
           'statistical_design',

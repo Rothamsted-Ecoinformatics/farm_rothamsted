@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove operations links from research entities table views. [#412](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/412)
 - Remove bulk operations from experiment plan views. [#396](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/396)
 - Change boolean checkboxes to required yes/no widget. [#413](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/413)
+- Edit treatment field label and descriptions. [#432](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/432)
 
 ## [2.10.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-04-05
 

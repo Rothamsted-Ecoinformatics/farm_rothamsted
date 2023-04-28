@@ -595,23 +595,9 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
-    $fields['treatment'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Treatments'))
-      ->setDescription(t('Describe the treatments for this statistical design.'))
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Number of treatments'))
-      ->setDescription(t('The number of treatments.'))
+      ->setLabel(t('Number of Treatment Factors'))
+      ->setDescription(t('The number of treatment factors.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
@@ -623,6 +609,21 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'type' => 'number',
         'label' => 'inline',
       ]);
+
+    $fields['treatment'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Treatment Factors'))
+      ->setDescription(t('Describe the treatment factors and factor levels for this statistical design.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
 
     $fields['num_factor_level_combinations'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Factor Level Combinations'))
