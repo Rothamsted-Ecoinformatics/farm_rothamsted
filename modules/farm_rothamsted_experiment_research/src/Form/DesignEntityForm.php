@@ -172,13 +172,6 @@ class DesignEntityForm extends ResearchEntityForm {
           'mgmt_post_harvest_sampling',
         ],
       ],
-      'mgmt_obstructions' => [
-        'title' => $this->t('Physical Obstructions'),
-        'weight' => 25,
-        'fields' => [
-          'mgmt_physical_obstructions',
-        ],
-      ],
       'mgmt_other' => [
         'title' => $this->t('Other'),
         'weight' => 25,
@@ -235,7 +228,6 @@ class DesignEntityForm extends ResearchEntityForm {
       'nutrition',
       'harvest',
       'post_harvest',
-      'obstructions',
       'other',
     ];
     foreach ($management_tabs as $tab_id) {

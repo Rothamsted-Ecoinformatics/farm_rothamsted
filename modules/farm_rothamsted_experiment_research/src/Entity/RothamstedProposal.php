@@ -639,7 +639,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       'restriction_physical' => [
         'boolean' => [
           'label' => t('Physical Obstructions'),
-          'description' => t('Are there any physical obstructions such as sampling equipment which might interfere with the trial management and/or farm machinery?'),
+          'description' => t('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
         ],
         'text' => [
           'label' => 'Physical Obstructions',
