@@ -1052,25 +1052,17 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => t('Liming (pH)'),
         'description' => t('Please specify any pH management requests.'),
       ],
-      'pre_harvest' => [
-        'label' => t('Pre-harvest sampling'),
-        'description' => t('Describe any pre-harvest sampling.'),
-      ],
-      'grain_samples' => [
-        'label' => t('Grain samples'),
-        'description' => t('Do you require any grain samples?'),
-      ],
       'grain_harvest' => [
-        'label' => t('Grain harvest instructions'),
-        'description' => t('Please specify any grain handling instructions.'),
-      ],
-      'straw_samples' => [
-        'label' => t('Straw samples'),
-        'description' => t('Do you require straw samples?'),
+        'label' => t('Grain harvest'),
+        'description' => t('Please specify any grain harvest management.'),
       ],
       'straw_harvest' => [
-        'label' => t('Straw harvest instructions'),
-        'description' => t('Please specify any straw harvest instructions.'),
+        'label' => t('Straw harvest'),
+        'description' => t('Please specify any straw harvest management.'),
+      ],
+      'other_harvest' => [
+        'label' => t('Other harvest'),
+        'description' => t('Please specify any other harvest management.'),
       ],
       'post_harvest' => [
         'label' => t('Post-harvest management'),
@@ -1079,10 +1071,6 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       'post_harvest_interval' => [
         'label' => t('Post-harvest interval'),
         'description' => t('Please specify a post-harvest interval if needed.'),
-      ],
-      'post_harvest_sampling' => [
-        'label' => t('Post-harvest sampling'),
-        'description' => t('Please describe any post-harvest sampling.'),
       ],
       'physical_obstructions' => [
         'label' => t('Physical obstructions'),

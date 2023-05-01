@@ -158,11 +158,9 @@ class DesignEntityForm extends ResearchEntityForm {
         'title' => $this->t('Harvest'),
         'weight' => 25,
         'fields' => [
-          'mgmt_pre_harvest',
-          'mgmt_grain_samples',
-          'mgmt_grain_harvest_instructions',
-          'mgmt_straw_samples',
-          'mgmt_straw_harvest_instructions',
+          'mgmt_grain_harvest',
+          'mgmt_straw_harvest',
+          'mgmt_other_harvest',
         ],
       ],
       'mgmt_post_harvest' => [
