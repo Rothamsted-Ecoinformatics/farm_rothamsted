@@ -5,7 +5,7 @@ dependencies:
     module:
       - farm_rothamsted_experiment
 id: plot_restriction_phosphorous
-label: 'Phosphorous restrictions (K)'
+label: 'Phosphorous restrictions (P)'
 entity_types:
   asset:
     - plot

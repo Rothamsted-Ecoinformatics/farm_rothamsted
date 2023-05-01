@@ -1091,19 +1091,19 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'description' => t('Please specify any nitrogen management requests.'),
       ],
       'potassium_treatment' => [
-        'label' => t('Potassium (P) as treatment'),
+        'label' => t('Potassium (K) as treatment'),
         'description' => t('Is potassium a part of the treatment structure?'),
       ],
       'potassium' => [
-        'label' => t('Potassium (P)'),
+        'label' => t('Potassium (K)'),
         'description' => t('Please specify any potassium management requests.'),
       ],
       'phosphorous_treatment' => [
-        'label' => t('Phosphorous (K) as treatment'),
+        'label' => t('Phosphorous (P) as treatment'),
         'description' => t('Is phosphorous a part of the treatment structure?'),
       ],
       'phosphorous' => [
-        'label' => t('Phosphorous (K)'),
+        'label' => t('Phosphorous (P)'),
         'description' => t('Please specify any phosphorous management requests.'),
       ],
       'magnesium_treatment' => [
