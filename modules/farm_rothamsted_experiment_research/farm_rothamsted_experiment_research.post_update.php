@@ -242,6 +242,16 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
         'description' => t('Please describe the licence/permission restrictions.'),
       ],
     ],
+    'restriction_physical' => [
+      'boolean' => [
+        'label' => t('Physical Obstructions'),
+        'description' => t('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
+      ],
+      'text' => [
+        'label' => 'Physical Obstructions',
+        'description' => t('Please describe the physical obstructions.'),
+      ],
+    ],
   ];
 
   // Add boolean and text_long field for each restriction.
@@ -380,10 +390,6 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
     'post_harvest_interval' => [
       'label' => t('Post-harvest interval'),
       'description' => t('Please specify a post-harvest interval if needed.'),
-    ],
-    'physical_obstructions' => [
-      'label' => t('Physical obstructions'),
-      'description' => t('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
     ],
     'other' => [
       'label' => t('Other'),
