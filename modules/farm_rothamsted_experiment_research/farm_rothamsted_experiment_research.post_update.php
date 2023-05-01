@@ -279,13 +279,25 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
     ->setRevisionable(TRUE);
 
   $management_fields = [
-    'seed_trt' => [
+    'seed_treatment' => [
+      'label' => t('Seed treatment as treatment'),
+      'description' => t('Are seed treatments a part of the treatment structure?'),
+    ],
+    'seed_treatments' => [
       'label' => t('Seed treatments'),
-      'description' => t('Please specify any requirements relating ot seed treatments.'),
+      'description' => t('Please specify any requirements relating to seed treatments.'),
+    ],
+    'variety_treatment' => [
+      'label' => t('Variety as treatment'),
+      'description' => t('Is variety a part of the treatment structure?'),
     ],
     'variety_notes' => [
       'label' => t('Variety notes'),
       'description' => t('Any other notes about the varieties requested/selected.'),
+    ],
+    'cultivation_treatment' => [
+      'label' => t('Cultivation as treatment'),
+      'description' => t('Is cultivation a part of the treatment structure?'),
     ],
     'ploughing' => [
       'label' => t('Ploughing'),
@@ -299,9 +311,17 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
       'label' => t('Seed bed cultivation'),
       'description' => t('Detail any management related to seed bed cultivation.'),
     ],
+    'planting_date_treatment' => [
+      'label' => t('Planting date as treatment'),
+      'description' => t('Is planting date a part of the treatment structure?'),
+    ],
     'planting_date' => [
       'label' => t('Planting dates'),
       'description' => t('Request specific planting dates.'),
+    ],
+    'planting_rate_treatment' => [
+      'label' => t('Planting rate as treatment'),
+      'description' => t('Is planting rate a part of the treatment structure?'),
     ],
     'seed_rate' => [
       'label' => t('Seed rate'),
@@ -315,57 +335,113 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
       'label' => t('Plant Establishment'),
       'description' => t('Detail any management relating to plant establishment.'),
     ],
+    'fungicide_treatment' => [
+      'label' => t('Fungicides as treatment'),
+      'description' => t('Are fungicides a part of the treatment structure?'),
+    ],
     'fungicide' => [
       'label' => t('Fungicides'),
       'description' => t('Please specify any requirements relating to fungicides and plant pathogen management.'),
+    ],
+    'herbicide_treatment' => [
+      'label' => t('Herbicides as treatment'),
+      'description' => t('Are herbicides a part of the treatment structure?'),
     ],
     'herbicide' => [
       'label' => t('Herbicides'),
       'description' => t('Please specify any requirements relating to herbicides and weed management.'),
     ],
+    'insecticide_treatment' => [
+      'label' => t('Insecticides as treatment'),
+      'description' => t('Are insecticides a part of the treatment structure?'),
+    ],
     'insecticide' => [
       'label' => t('Insecticides'),
       'description' => t('Please specify any requirements relating to insecticides and pest management.'),
+    ],
+    'nematicide_treatment' => [
+      'label' => t('Nematicides as treatment'),
+      'description' => t('Are nematicides a part of the treatment structure?'),
     ],
     'nematicide' => [
       'label' => t('Nematicides'),
       'description' => t('Please specify any requirements relating to nematodes and nematicides.'),
     ],
+    'molluscicide_treatment' => [
+      'label' => t('Molluscicides as treatment'),
+      'description' => t('Are molluscicides a part of the treatment structure?'),
+    ],
     'molluscicide' => [
       'label' => t('Molluscicides'),
       'description' => t('Please specify any requirements relating to slugs, snails and molluscicide management.'),
+    ],
+    'pgr_treatment' => [
+      'label' => t('Plant growth regulators (PGR) as treatment'),
+      'description' => t('Are plant growth regulators a part of the treatment structure?'),
     ],
     'pgr' => [
       'label' => t('Plant growth regulators (PGR)'),
       'description' => t('Please specify any requirements relating to lodging and plant growth regulators.'),
     ],
+    'irrigation_treatment' => [
+      'label' => t('Irrigation as treatment'),
+      'description' => t('Is irrigation a part of the treatment structure?'),
+    ],
     'irrigation' => [
       'label' => t('Irrigation'),
       'description' => t('Please specify any requirements relating to irrigation.'),
+    ],
+    'nitrogen_treatment' => [
+      'label' => t('Nitrogen (N) as treatment'),
+      'description' => t('Is nitrogen a part of the treatment structure?'),
     ],
     'nitrogen' => [
       'label' => t('Nitrogen (N)'),
       'description' => t('Please specify any nitrogen management requests.'),
     ],
+    'potassium_treatment' => [
+      'label' => t('Potassium (P) as treatment'),
+      'description' => t('Is potassium a part of the treatment structure?'),
+    ],
     'potassium' => [
       'label' => t('Potassium (P)'),
       'description' => t('Please specify any potassium management requests.'),
+    ],
+    'phosphorous_treatment' => [
+      'label' => t('Phosphorous (K) as treatment'),
+      'description' => t('Is phosphorous a part of the treatment structure?'),
     ],
     'phosphorous' => [
       'label' => t('Phosphorous (K)'),
       'description' => t('Please specify any phosphorous management requests.'),
     ],
+    'magnesium_treatment' => [
+      'label' => t('Magnesium (Mg) as treatment'),
+      'description' => t('Is magnesium a part of the treatment structure?'),
+    ],
     'magnesium' => [
       'label' => t('Magnesium (Mg)'),
       'description' => t('Please specify any magnesium management requests.'),
+    ],
+    'sulphur_treatment' => [
+      'label' => t('Sulphur (S) as treatment'),
+      'description' => t('Is sulphur a part of the treatment structure?'),
     ],
     'sulphur' => [
       'label' => t('Sulphur (S)'),
       'description' => t('Please specify any sulphur management requests.'),
     ],
+    'micronutrients_treatment' => [
+      'label' => t('Micronutrients as treatment'),
+      'description' => t('Are micronutrients a part of the treatment structure?'),
+    ],
     'micronutrients' => [
       'label' => t('Micronutrients'),
       'description' => t('Please specify any micronutrient management requests.'),
+    ],
+    'ph_treatment' => [
+      'label' => t('Liming (pH) as treatment'),
+      'description' => t('Is liming or pH a part of the treatment structure?'),
     ],
     'ph' => [
       'label' => t('Liming (pH)'),
@@ -391,16 +467,56 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
       'label' => t('Post-harvest interval'),
       'description' => t('Please specify a post-harvest interval if needed.'),
     ],
+    'other_treatment' => [
+      'label' => t('Other aspects of management as treatments'),
+      'description' => t('Are there any other aspects of management which form part of the treatment structure?'),
+    ],
     'other' => [
       'label' => t('Other'),
       'description' => t('Any other issues relating to the experiment management.'),
     ],
   ];
   foreach ($management_fields as $management_field_id => $management_field_info) {
-    $fields["mgmt_$management_field_id"] = BaseFieldDefinition::create('text_long')
-      ->setLabel($management_field_info['label'])
-      ->setDescription($management_field_info['description'])
-      ->setRevisionable(TRUE);
+    // Create boolean treatment field or text_long field.
+    $field_id = "mgmt_$management_field_id";
+    if (str_ends_with($management_field_id, 'treatment')) {
+      $fields[$field_id] = BaseFieldDefinition::create('boolean')
+        ->setLabel($management_field_info['label'])
+        ->setDescription($management_field_info['description'])
+        ->setRevisionable(TRUE)
+        ->setRequired(TRUE)
+        ->setSettings([
+          'on_label' => t('Yes'),
+          'off_label' => t('No'),
+        ])
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayOptions('form', [
+          'type' => 'options_buttons',
+        ])
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'type' => 'boolean',
+          'label' => 'inline',
+          'settings' => [
+            'format' => 'yes-no',
+          ],
+        ]);
+    }
+    else {
+      $fields[$field_id] = BaseFieldDefinition::create('text_long')
+        ->setLabel($management_field_info['label'])
+        ->setDescription($management_field_info['description'])
+        ->setRevisionable(TRUE)
+        ->setDisplayConfigurable('form', TRUE)
+        ->setDisplayOptions('form', [
+          'type' => 'text_textarea',
+        ])
+        ->setDisplayConfigurable('view', TRUE)
+        ->setDisplayOptions('view', [
+          'type' => 'text_default',
+          'label' => 'inline',
+        ]);
+    }
   }
 
   // Finally, install field storage definitions.
