@@ -398,6 +398,19 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
         ],
       ]);
 
+    $fields['notes'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Notes'))
+      ->setDescription(t('Notes about the research program.'))
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
     return $fields;
   }
 

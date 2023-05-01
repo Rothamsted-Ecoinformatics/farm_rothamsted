@@ -169,3 +169,19 @@ function farm_rothamsted_experiment_research_post_update_2_11_statistical_design
     $proposal->save();
   }
 }
+
+/**
+ * Add notes field to rothamsted_program entity.
+ */
+function farm_rothamsted_experiment_research_post_update_2_11_program_notes(&$sandbox = NULL) {
+
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Create notes field definition.
+  $new_definition = BaseFieldDefinition::create('text_long')
+    ->setLabel(t('Notes'))
+    ->setDescription(t('Notes about the research program.'))
+    ->setRevisionable(TRUE);
+  $update_manager->installFieldStorageDefinition('notes', 'rothamsted_program', 'farm_rothamsted_experiment_research', $new_definition);
+}
