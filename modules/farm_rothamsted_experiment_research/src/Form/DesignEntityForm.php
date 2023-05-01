@@ -81,9 +81,116 @@ class DesignEntityForm extends ResearchEntityForm {
           'notes',
         ],
       ],
+      'restriction' => [
+        'title' => $this->t('Restrictions'),
+        'weight' => 20,
+        'fields' => [
+          'restriction_crop',
+          'restriction_crop_desc',
+          'restriction_gm',
+          'restriction_gm_desc',
+          'restriction_ge',
+          'restriction_ge_desc',
+          'restriction_off_label',
+          'restriction_off_label_desc',
+          'restriction_licence_perm',
+          'restriction_licence_perm_desc',
+          'restriction_physical',
+          'restriction_physical_desc',
+          'restriction_other',
+        ],
+      ],
+      'mgmt_cultivation' => [
+        'title' => $this->t('Cultivation'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_seed_provision',
+          'mgmt_seed_trt',
+          'mgmt_variety_notes',
+          'mgmt_ploughing',
+          'mgmt_levelling',
+          'mgmt_seed_cultivation',
+        ],
+      ],
+      'mgmt_planting' => [
+        'title' => $this->t('Planting'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_planting_date',
+          'mgmt_seed_rate',
+          'mgmt_drilling_rate',
+          'mgmt_plant_estab',
+        ],
+      ],
+      'mgmt_spraying' => [
+        'title' => $this->t('Spraying'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_fungicide',
+          'mgmt_herbicide',
+          'mgmt_insecticide',
+          'mgmt_nematicide',
+          'mgmt_molluscicide',
+          'mgmt_pgr',
+        ],
+      ],
+      'mgmt_irrigation' => [
+        'title' => $this->t('Irrigation'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_irrigation',
+        ],
+      ],
+      'mgmt_nutrition' => [
+        'title' => $this->t('Nutrition'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_nitrogen',
+          'mgmt_potassium',
+          'mgmt_phosphorous',
+          'mgmt_magnesium',
+          'mgmt_sulphur',
+          'mgmt_micronutrients',
+          'mgmt_ph',
+        ],
+      ],
+      'mgmt_harvest' => [
+        'title' => $this->t('Harvest'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_pre_harvest',
+          'mgmt_grain_samples',
+          'mgmt_grain_harvest_instructions',
+          'mgmt_straw_samples',
+          'mgmt_straw_harvest_instructions',
+        ],
+      ],
+      'mgmt_post_harvest' => [
+        'title' => $this->t('Post-harvest'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_post_harvest',
+          'mgmt_post_harvest_interval',
+          'mgmt_post_harvest_sampling',
+        ],
+      ],
+      'mgmt_obstructions' => [
+        'title' => $this->t('Physical Obstructions'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_physical_obstructions',
+        ],
+      ],
+      'mgmt_other' => [
+        'title' => $this->t('Other'),
+        'weight' => 25,
+        'fields' => [
+          'mgmt_other',
+        ],
+      ],
       'status' => [
         'title' => $this->t('Status'),
-        'weight' => 20,
+        'weight' => 30,
         'fields' => [
           'status',
           'status_notes',
@@ -97,9 +204,8 @@ class DesignEntityForm extends ResearchEntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
 
-    $has_rotation = !$this->entity->get('rotation_name')->isEmpty();
-
     // Add field to add a rotation.
+    $has_rotation = !$this->entity->get('rotation_name')->isEmpty();
     $form['add_rotation'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Add rotation'),
@@ -110,6 +216,34 @@ class DesignEntityForm extends ResearchEntityForm {
     ];
 
     $form = parent::form($form, $form_state);
+
+    // Create parent tab for management sub-tabs.
+    $management_tab = 'tab_management';
+    $form[$management_tab . '_parent'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Management'),
+      '#group' => 'tabs',
+      '#weight' => 25,
+    ];
+    $form[$management_tab] = [
+      '#type' => 'vertical_tabs',
+      '#group' => $management_tab . '_parent',
+    ];
+    $management_tabs = [
+      'cultivation',
+      'planting',
+      'spraying',
+      'irrigation',
+      'nutrition',
+      'harvest',
+      'post_harvest',
+      'obstructions',
+      'other',
+    ];
+    foreach ($management_tabs as $tab_id) {
+      $tab_id = "tab_mgmt_$tab_id";
+      $form[$tab_id]['#group'] = $management_tab;
+    }
 
     // Hide rotation fields when the rotation is a treatment.
     $rotation_fields = [
@@ -123,6 +257,23 @@ class DesignEntityForm extends ResearchEntityForm {
       $form[$field]['#states'] = [
         'visible' => [
           ':input[name="add_rotation"]' => ['checked' => TRUE],
+        ],
+      ];
+    }
+
+    // Hide restriction description fields until checked.
+    $rotation_fields = [
+      'restriction_crop',
+      'restriction_gm',
+      'restriction_ge',
+      'restriction_off_label',
+      'restriction_licence_perm',
+      'restriction_physical',
+    ];
+    foreach ($rotation_fields as $field) {
+      $form[$field . '_desc']['#states'] = [
+        'visible' => [
+          ':input[name="' . $field . '"]' => ['value' => 1],
         ],
       ];
     }
