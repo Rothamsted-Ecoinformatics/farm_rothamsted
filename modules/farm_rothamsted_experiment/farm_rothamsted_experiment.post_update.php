@@ -430,11 +430,11 @@ function farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields(&$sandbox
       'description' => t('Please specify any nitrogen management requests.'),
     ],
     'potassium' => [
-      'label' => t('Potassium (P)'),
+      'label' => t('Potassium (K)'),
       'description' => t('Please specify any potassium management requests.'),
     ],
     'phosphorous' => [
-      'label' => t('Phosphorous (K)'),
+      'label' => t('Phosphorous (P)'),
       'description' => t('Please specify any phosphorous management requests.'),
     ],
     'magnesium' => [
@@ -687,11 +687,11 @@ function farm_rothamsted_experiment_post_update_2_11_remove_restriction_mgmt(&$s
       'description' => t('Please specify any nitrogen management requests.'),
     ],
     'potassium' => [
-      'label' => t('Potassium (P)'),
+      'label' => t('Potassium (K)'),
       'description' => t('Please specify any potassium management requests.'),
     ],
     'phosphorous' => [
-      'label' => t('Phosphorous (K)'),
+      'label' => t('Phosphorous (P)'),
       'description' => t('Please specify any phosphorous management requests.'),
     ],
     'magnesium' => [

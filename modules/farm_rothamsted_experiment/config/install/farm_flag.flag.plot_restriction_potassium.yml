@@ -5,7 +5,7 @@ dependencies:
     module:
       - farm_rothamsted_experiment
 id: plot_restriction_potassium
-label: 'Potassium restrictions (P)'
+label: 'Potassium restrictions (K)'
 entity_types:
   asset:
     - plot

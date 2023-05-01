@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Correct proposal related experiment field. [#433](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/433)
+- Correct phosphorous and potassium element names.
 
 ## [2.10.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/16) 2023-04-05
 
