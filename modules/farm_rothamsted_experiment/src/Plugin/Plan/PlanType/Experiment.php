@@ -27,16 +27,6 @@ class Experiment extends FarmPlanType {
     // Remove the plan log field.
     unset($fields['log']);
 
-    // Define RRES Experiment Cateogry options.
-    $rres_categories_options = [
-      'AN' => $this->t('Annual Experiments'),
-      'CS' => $this->t('Crop Sequence Experiments'),
-      'CL' => $this->t('Classical Experiments'),
-      'LTE' => $this->t('Long Term Experiments'),
-      'EC' => $this->t('Energy Crop Experiments'),
-      'NA' => $this->t('No Proposition Number'),
-    ];
-
     // Build fields using the FarmFieldFactory as possible.
     $field_info = [
       // Plot reference field.
@@ -60,11 +50,6 @@ class Experiment extends FarmPlanType {
         'label' => $this->t('Experiment Code'),
         'description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
       ],
-      'project_code' => [
-        'type' => 'string',
-        'label' => $this->t('Project Code'),
-        'description' => $this->t('The project code associated with the project.'),
-      ],
       'cost_code' => [
         'type' => 'string',
         'label' => $this->t('Cost Code'),
@@ -87,18 +72,6 @@ class Experiment extends FarmPlanType {
         'multiple' => TRUE,
       ],
       // Trial design fields.
-      'rres_experiment_category' => [
-        'type' => 'list_string',
-        'label' => $this->t('RRES Experiment Category'),
-        'description' => $this->t('The type of experiment.'),
-        'List (select one): Annual Experiments, Crop Sequence Experiments, Classical Experiments. Long Term Experiments, Energy Crop Experiments, No Proposition Number' => 1,
-        'allowed_values' => $rres_categories_options,
-      ],
-      'objective' => [
-        'type' => 'text_long',
-        'label' => $this->t('Objective'),
-        'description' => $this->t('The objective(s) of the experiment.'),
-      ],
       'plant_type' => [
         'type' => 'entity_reference',
         'label' => $this->t('Crop(s)'),
@@ -258,40 +231,6 @@ class Experiment extends FarmPlanType {
         'type' => 'number_integer',
         'label' => 'inline',
       ]);
-    $fields['start'] = BundleFieldDefinition::create('datetime')
-      ->setLabel($this->t('Start date'))
-      ->setDescription($this->t('The start date of the plan.'))
-      ->setRevisionable(TRUE)
-      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
-        'label' => 'inline',
-        'settings' => [
-          'format_type' => 'farm_rothamsted_date',
-        ],
-      ]);
-    $fields['end'] = BundleFieldDefinition::create('datetime')
-      ->setLabel($this->t('End date'))
-      ->setDescription($this->t('The end date of the plan.'))
-      ->setRevisionable(TRUE)
-      ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'datetime_default',
-        'label' => 'inline',
-        'settings' => [
-          'format_type' => 'farm_rothamsted_date',
-        ],
-      ]);
     $fields['current_phase'] = BundleFieldDefinition::create('string')
       ->setLabel($this->t('Current Phase'))
       ->setDescription($this->t('The current phase that the rotation is in.'))
@@ -308,19 +247,6 @@ class Experiment extends FarmPlanType {
     $fields['cost_code_allocation'] = BundleFieldDefinition::create('text_long')
       ->setLabel($this->t('Cost code allocation'))
       ->setDescription($this->t('List the cost codes and percentage allocations.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-    $fields['amendments'] = BundleFieldDefinition::create('text_long')
-      ->setLabel($this->t('Amendments'))
-      ->setDescription($this->t('A description of any changes made to the experiment.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

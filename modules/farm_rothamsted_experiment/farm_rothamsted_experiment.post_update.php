@@ -756,3 +756,23 @@ function farm_rothamsted_experiment_post_update_2_11_remove_restriction_mgmt(&$s
     $update_manager->uninstallFieldStorageDefinition($mgmt_field);
   }
 }
+
+/**
+ * Cleanup fields from experiment plans that are now on research entities.
+ */
+function farm_rothamsted_experiment_post_update_2_11_cleanup_experiment_plan_fields(&$sandbox = NULL) {
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $fields = [
+    'project_code',
+    'start',
+    'end',
+    'rres_experiment_category',
+    'objective',
+    'amendments',
+  ];
+  foreach ($fields as $field_id) {
+    $other_field = $update_manager->getFieldStorageDefinition($field_id, 'plan');
+    $update_manager->uninstallFieldStorageDefinition($other_field);
+  }
+}
