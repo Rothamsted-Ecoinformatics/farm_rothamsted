@@ -52,8 +52,8 @@ class Experiment extends FarmPlanType {
       // General fields.
       'abbreviation' => [
         'type' => 'string',
-        'label' => $this->t('Name (Abbreviation)'),
-        'description' => $this->t('An abbreviation of the experiment name.'),
+        'label' => $this->t('Study Abbreviation'),
+        'description' => $this->t('An abbreviation of the study name.'),
       ],
       'experiment_code' => [
         'type' => 'string',
