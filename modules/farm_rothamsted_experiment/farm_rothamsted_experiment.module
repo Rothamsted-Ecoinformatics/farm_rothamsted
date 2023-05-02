@@ -106,6 +106,33 @@ function farm_rothamsted_experiment_theme_registry_alter(&$theme_registry) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function farm_rothamsted_experiment_form_plan_rothamsted_experiment_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Alter the name title and description.
+  if (isset($form['name']['widget'][0])) {
+    $form['name']['widget'][0]['#after_build'][] = 'farm_rothamsted_experiment_alter_plan_name';
+  }
+}
+
+/**
+ * Preprocess function to change the name field title and description.
+ *
+ * @param array $element
+ *   The element to alter.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ *
+ * @return array
+ *   The element.
+ */
+function farm_rothamsted_experiment_alter_plan_name(array $element, FormStateInterface $form_state) {
+  $element['value']['#title'] = t('Study Name');
+  $element['value']['#description'] = t('The name of the study.');
+  return $element;
+}
+
+/**
  * Implements hook_ENTITY_TYPE_view().
  */
 function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
