@@ -282,6 +282,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
     $fields['code'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Experiment code'))
       ->setDescription(t('The experiment code.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

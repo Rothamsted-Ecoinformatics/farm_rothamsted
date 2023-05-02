@@ -529,3 +529,25 @@ function farm_rothamsted_experiment_research_post_update_2_11_design_restriction
     );
   }
 }
+
+/**
+ * Change rothamsted_experiment code to allow multiple values.
+ */
+function farm_rothamsted_experiment_research_post_update_2_11_experiment_code(&$sandbox = NULL) {
+
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Remove existing code field.
+  $old_definition = $update_manager->getFieldStorageDefinition('code', 'rothamsted_experiment');
+  $update_manager->uninstallFieldStorageDefinition($old_definition);
+  field_purge_batch(100);
+
+  // Create new definition.
+  $new_definition = BaseFieldDefinition::create('string')
+    ->setLabel(t('Experiment code'))
+    ->setDescription(t('The experiment code.'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE);
+  $update_manager->installFieldStorageDefinition('code', 'rothamsted_experiment', 'farm_rothamsted_experiment_research', $new_definition);
+}
