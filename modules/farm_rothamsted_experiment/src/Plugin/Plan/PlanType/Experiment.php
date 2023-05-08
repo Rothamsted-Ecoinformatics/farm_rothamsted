@@ -3,7 +3,6 @@
 namespace Drupal\farm_rothamsted_experiment\Plugin\Plan\PlanType;
 
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Plugin\Plan\PlanType\FarmPlanType;
 use Drupal\link\LinkItemInterface;
