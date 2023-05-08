@@ -350,6 +350,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'longterm_experiment' => t('Longterm Experiment'),
         'other' => t('Other'),
       ])
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['approved', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'options_select',
@@ -365,7 +366,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDescription(t('The research question you expect to answer with the experiment, and how it relates to the research program.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
       ])
@@ -406,6 +407,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ],
         'auto_create' => FALSE,
       ])
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
@@ -423,8 +425,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setLabel(t('Number of Treatment Factors'))
       ->setDescription(t('The proposed number of treatment factors.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setSetting('min', 0)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
@@ -440,7 +442,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDescription(t('A description of the proposed treatment factors and factor levels.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
       ])
@@ -454,8 +456,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setLabel(t('Number of Replicates'))
       ->setDescription(t('The proposed number of replicates for each factor level combination.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setSetting('min', 0)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
@@ -470,8 +472,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setLabel(t('Total number of plots'))
       ->setDescription(t('The total number of plots being proposed.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setSetting('min', 0)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
@@ -486,7 +488,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setLabel(t('Statistical Design'))
       ->setDescription(t('Describe the statistical design associated with the proposal.'))
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textarea',
@@ -502,7 +504,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDescription(t('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
+      ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
       ])
@@ -898,12 +900,13 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
+        'draft' => t('Draft'),
         'submitted' => t('Submitted'),
         'approved' => t('Approved'),
         'rejected' => t('Rejected'),
         'archived' => t('Archived'),
       ])
-      ->setDefaultValue('submitted')
+      ->setDefaultValue('draft')
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
