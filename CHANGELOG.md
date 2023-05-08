@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add requested status option to programs. [#428](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/428)
 - Add notes field to program. [#427](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/427)
 - Add 'is treatment' checkboxes to design management tab. [#420](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/420)
+- Add validation criteria based on proposal status. [#434](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/434)
 
 ### Changed
 
