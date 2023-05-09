@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix managed role comment permissions for experiment research module.
+
 ## [2.11.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/19) 2023-05-08
 
 ### Added
