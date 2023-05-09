@@ -5,7 +5,6 @@ dependencies:
     - image.style.large
     - plan.type.rothamsted_experiment
   module:
-    - datetime
     - field_group
     - file
     - image
@@ -19,14 +18,8 @@ third_party_settings:
         - experiment_design
         - abbreviation
         - experiment_code
-        - project_code
-        - flag
         - study_description
         - study_number
-        - start
-        - end
-        - rres_experiment_category
-        - objective
         - plant_type
         - status
         - status_notes
@@ -35,7 +28,6 @@ third_party_settings:
         - cost_code
         - cost_code_allocation
         - current_phase
-        - amendments
       label: Description
       parent_name: ''
       region: content
@@ -64,6 +56,7 @@ third_party_settings:
     group_experiment_status:
       children:
         - growing_conditions
+        - flag
         - notes
         - agreed_quote
       label: 'Experiment Status'
@@ -85,77 +78,6 @@ third_party_settings:
       parent_name: ''
       region: content
       weight: 1
-      format_type: tab
-      format_settings:
-        classes: ''
-        show_empty_fields: true
-        id: ''
-        formatter: closed
-        description: ''
-    group_restrictions:
-      children:
-        - restriction_crop
-        - restriction_crop_desc
-        - restriction_gm
-        - restriction_gm_desc
-        - restriction_ge
-        - restriction_ge_desc
-        - restriction_off_label
-        - restriction_off_label_desc
-        - restriction_licence_perm
-        - restriction_licence_perm_desc
-        - restriction_other
-      label: Restrictions
-      parent_name: ''
-      region: content
-      weight: 3
-      format_type: tab
-      format_settings:
-        classes: ''
-        show_empty_fields: true
-        id: ''
-        formatter: closed
-        description: ''
-    group_management:
-      children:
-        - mgmt_seed_provision
-        - mgmt_seed_trt
-        - mgmt_variety_notes
-        - mgmt_ploughing
-        - mgmt_levelling
-        - mgmt_seed_cultivation
-        - mgmt_planting_date
-        - mgmt_seed_rate
-        - mgmt_drilling_rate
-        - mgmt_plant_estab
-        - mgmt_fungicide
-        - mgmt_herbicide
-        - mgmt_insecticide
-        - mgmt_nematicide
-        - mgmt_molluscicide
-        - mgmt_pgr
-        - mgmt_irrigation
-        - mgmt_nitrogen
-        - mgmt_potassium
-        - mgmt_phosphorous
-        - mgmt_magnesium
-        - mgmt_sulphur
-        - mgmt_micronutrients
-        - mgmt_ph
-        - mgmt_pre_harvest
-        - mgmt_grain_samples
-        - mgmt_grain_harvest
-        - mgmt_straw_samples
-        - mgmt_straw_harvest
-        - mgmt_post_harvest
-        - mgmt_post_harvest_interval
-        - mgmt_post_harvest_sampling
-        - mgmt_physical_obstructions
-        - mgmt_other
-      label: Management
-      parent_name: ''
-      region: content
-      weight: 4
       format_type: tab
       format_settings:
         classes: ''
@@ -214,7 +136,7 @@ content:
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 17
+    weight: 18
     region: content
   amendments:
     type: text_default
@@ -340,7 +262,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -96
+    weight: 16
     region: content
   growing_conditions:
     type: text_default
@@ -620,7 +542,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 16
+    weight: 17
     region: content
   objective:
     type: text_default

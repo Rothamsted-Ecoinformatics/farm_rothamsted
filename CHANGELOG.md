@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move restriction and management fields from plan to design entity. [#419](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/419)
 - Allow multiple experiment code values on experiment entity. [#429](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/429)
 - Change label and description of experiment plan name and abbreviation fields. [#424](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/424)
+- Experiment plan cleanup. [#385](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/385)
 
 ### Fixed
 
