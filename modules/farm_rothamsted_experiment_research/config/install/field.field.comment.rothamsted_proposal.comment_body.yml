@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.rothamsted_proposal
+    - field.storage.comment.comment_body
+  enforced:
+    module:
+      - farm_rothamsted_experiment_research
+  module:
+    - text
+id: comment.rothamsted_proposal.comment_body
+field_name: comment_body
+entity_type: comment
+bundle: rothamsted_proposal
+label: Comment
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
