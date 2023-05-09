@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_experiment_research
+id: rothamsted_proposal
+label: 'Proposal comment'
+target_entity_type_id: rothamsted_proposal
+description: ''

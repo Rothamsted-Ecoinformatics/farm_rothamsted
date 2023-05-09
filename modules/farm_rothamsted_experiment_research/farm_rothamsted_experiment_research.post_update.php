@@ -8,6 +8,7 @@
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Move rotation fields from experiment to design entity with 2.10.1 release.
@@ -550,4 +551,35 @@ function farm_rothamsted_experiment_research_post_update_2_11_experiment_code(&$
     ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
     ->setRevisionable(TRUE);
   $update_manager->installFieldStorageDefinition('code', 'rothamsted_experiment', 'farm_rothamsted_experiment_research', $new_definition);
+}
+
+/**
+ * Enable comments for proposal entity.
+ */
+function farm_rothamsted_experiment_research_post_update_2_11_proposal_comment(&$sandbox = NULL) {
+
+  // First enable comment module.
+  if (!\Drupal::service('module_handler')->moduleExists('comment')) {
+    \Drupal::service('module_installer')->install(['comment']);
+  }
+
+  // Create rothamsted_proposal comment type.
+  $config_type_id = 'rothamsted_proposal';
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment_research') . '/config/install';
+  $configs = [
+    "comment.type.$config_type_id",
+    "field.field.comment.$config_type_id.comment_body",
+    "core.entity_form_display.comment.$config_type_id.default",
+    "core.entity_view_display.comment.$config_type_id.default",
+  ];
+  foreach ($configs as $config) {
+    $data = Yaml::parseFile("$config_path/$config.yml");
+    \Drupal::configFactory()->getEditable($config)->setData($data)->save(TRUE);
+  }
+
+  // Create new comment base field definition.
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $new_definition = farm_rothamsted_experiment_research_comment_base_field_definition('rothamsted_proposal');
+  $update_manager->installFieldStorageDefinition('comment', 'rothamsted_proposal', 'farm_rothamsted_experiment_research', $new_definition);
 }

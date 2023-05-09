@@ -5,6 +5,7 @@
  * The farm rothamsted experiment research module.
  */
 
+use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -220,6 +221,68 @@ function farm_rothamsted_experiment_research_entity_delete(EntityInterface $enti
     return;
   }
   farm_rothamsted_notification_send_research_update('entity_delete', $entity);
+}
+
+/**
+ * Helper function for generating a standard comment base field definition.
+ *
+ * @param string $entity_type
+ *   The entity type.
+ *
+ * @return \Drupal\Core\Field\BaseFieldDefinition
+ *   Returns a comment base field definition.
+ */
+function farm_rothamsted_experiment_research_comment_base_field_definition(string $entity_type) {
+
+  // Create a new comment field definition.
+  // We use BundleFieldDefinition instead of BaseFieldDefinition to force Drupal
+  // to create a separate database table for this field. Otherwise, if it is
+  // added to the base table then the comment field default value is always 0
+  // (CommentItemInterface::HIDDEN) instead of 2 (CommentItemInterface::OPEN),
+  // because the Drupal\comment\Plugin\Field\FieldType\CommentItem::schema()
+  // default is 0.
+
+  // A default value must be set for comment fields.
+  // Enable comments on entities by default.
+  $default_value = [
+    [
+      'status' => CommentItemInterface::OPEN,
+      'cid' => 0,
+      'last_comment_timestamp' => 0,
+      'last_comment_name' => '',
+      'last_comment_uid' => 0,
+      'comment_count' => 0,
+    ],
+  ];
+  return BundleFieldDefinition::create('comment')
+    ->setLabel(t('Comments'))
+    // We assume that the comment type matches the entity type.
+    ->setSetting('comment_type', $entity_type)
+    ->setDefaultValue($default_value)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayOptions('form', [
+      'type' => 'comment_default',
+      'weight' => 1000,
+    ])
+    // Display comments on the bottom of entity view displays by default,
+    // with the field label above them.
+    ->setDisplayConfigurable('view', TRUE)
+    ->setDisplayOptions('view', [
+      'label' => 'above',
+      'type' => 'comment_default',
+      'weight' => 1000,
+    ]);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function farm_rothamsted_experiment_research_theme($existing, $type, $theme, $path) {
+  return [
+    'comment__comment__rothamsted_proposal' => [
+      'base hook' => 'comment',
+    ],
+  ];
 }
 
 /**
