@@ -283,10 +283,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        code:
-          id: code
-          table: rothamsted_experiment_data
-          field: code
+        code_value:
+          id: code_value
+          table: rothamsted_experiment__code
+          field: code_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -345,7 +345,7 @@ display:
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: separator
+          multi_type: ul
           separator: ', '
           field_api_classes: false
         category:
@@ -540,71 +540,6 @@ display:
           delta_reversed: false
           delta_first_last: false
           multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        rotation_crops:
-          id: rotation_crops
-          table: rothamsted_experiment_data
-          field: rotation_crops
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: rotation_crops
-          plugin_id: field
-          label: Crops
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
           separator: ', '
           field_api_classes: false
         start:
@@ -936,10 +871,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        code:
-          id: code
-          table: rothamsted_experiment_data
-          field: code
+        code_value:
+          id: code_value
+          table: rothamsted_experiment__code
+          field: code_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -951,14 +886,14 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: code_op
+            operator_id: code_value_op
             label: 'Experiment code'
             description: ''
             use_operator: false
-            operator: code_op
+            operator: code_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: code
+            identifier: code_value
             required: false
             remember: false
             multiple: false
@@ -971,6 +906,9 @@ display:
               rothamsted_sponsor: '0'
               farm_viewer: '0'
               farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -1090,67 +1028,6 @@ display:
               field: name
               direction: ASC
             auto_create: false
-        rotation_crops:
-          id: rotation_crops
-          table: rothamsted_experiment_data
-          field: rotation_crops
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_experiment
-          entity_field: rotation_crops
-          plugin_id: entity_reference
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: rotation_crops_op
-            label: 'Rotation Crops'
-            description: ''
-            use_operator: false
-            operator: rotation_crops_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: rotation_crops
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          handler: 'default:taxonomy_term'
-          widget: autocomplete
-          handler_settings:
-            target_bundles:
-              plant_type: plant_type
-            sort:
-              field: name
-              direction: asc
-            auto_create: false
-            auto_create_bundle: ''
       filter_groups:
         operator: AND
         groups:
