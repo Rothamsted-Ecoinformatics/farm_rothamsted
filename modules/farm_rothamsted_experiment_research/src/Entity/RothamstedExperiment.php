@@ -333,15 +333,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setLabel(t('Category'))
       ->setDescription(t('The experiment category.'))
       ->setRevisionable(TRUE)
-      ->setSetting('allowed_values', [
-        'reserve_site' => t('Reserve Site'),
-        'annual_crop_experiment' => t('Annual Crop Experiment'),
-        'crop_sequence_experiment' => t('Crop Sequence Experiment'),
-        'classical_experiment' => t('Classical Experiment'),
-        'energy_crop_experiment' => t('Energy Crop Experiment'),
-        'longterm_experiment' => t('Longterm Experiment'),
-        'other' => t('Other'),
-      ])
+      ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_experiment_category_field_allowed_values')
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'options_select',

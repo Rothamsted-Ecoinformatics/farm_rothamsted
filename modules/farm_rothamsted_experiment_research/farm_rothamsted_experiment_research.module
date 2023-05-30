@@ -49,6 +49,41 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
 }
 
 /**
+ * Allowed values callback function for experiment category.
+ *
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ *   The field storage definition.
+ * @param \Drupal\Core\Entity\ContentEntityInterface|null $entity
+ *   The entity being created if applicable.
+ * @param bool $cacheable
+ *   Boolean indicating if the allowed values can be cached. Defaults to TRUE.
+ *
+ * @return array
+ *   Returns an array of allowed values for use in form select options.
+ */
+function farm_rothamsted_experiment_research_experiment_category_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+  return farm_rothamsted_experiment_research_experiment_category_options();
+}
+
+/**
+ * Helper function to get experiment category allowed options.
+ *
+ * @return array
+ *   The experiment category allowed options.
+ */
+function farm_rothamsted_experiment_research_experiment_category_options(): array {
+  return [
+    'reserve_site' => t('Reserve Site'),
+    'annual_crop_experiment' => t('Annual Crop Experiment'),
+    'crop_sequence_experiment' => t('Crop Sequence Experiment'),
+    'classical_experiment' => t('Classical Experiment'),
+    'energy_crop_experiment' => t('Energy Crop Experiment'),
+    'longterm_experiment' => t('Longterm Experiment'),
+    'other' => t('Other'),
+  ];
+}
+
+/**
  * Allowed values callback function for the design blocking structure.
  *
  * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
