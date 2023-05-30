@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix logs with missing asset references. [#444](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/444)
+
 ## 2.11.2 2023-05-09
 
 ### Fixed

@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Render\Element\Checkboxes;
 use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
@@ -1055,10 +1056,15 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'category' => $form_state->getValue('log_category', []),
     ];
 
-    // Save assets to the log. These are submitted in an array tree.
-    // Merge all values of the array tree.
-    $assets = array_merge(...array_values($form_state->getValue('assets', [])));
-    $log['asset'] = $assets;
+    // Save assets to log. These may be prepopulated or provided from selected
+    // locations. In either case assets are submitted as a tree of arrays for
+    // each group of checkboxes.
+    $selected_assets = [];
+    $assets = $form_state->getValue('assets', []);
+    foreach ($assets as $asset_array) {
+      array_push($selected_assets, ...Checkboxes::getCheckedCheckboxes($asset_array));
+    }
+    $log['asset'] = array_unique($selected_assets);
 
     // Save the selected locations to the log.
     $selected_locations = array_column($form_state->getValue('location', []), 'target_id');

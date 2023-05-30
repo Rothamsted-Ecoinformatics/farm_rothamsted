@@ -245,3 +245,17 @@ function farm_rothamsted_quick_post_update_material_quantities(&$sandbox = NULL)
   }
 
 }
+
+/**
+ * Remove missing asset references from logs created by quick forms.
+ */
+function farm_rothamsted_quick_post_update_2_11_3_fix_missing_asset_references(&$sandbox = NULL) {
+
+  // Delete references to asset ID 0.
+  \Drupal::database()->delete('log__asset')
+    ->condition('asset_target_id', 0)
+    ->execute();
+  \Drupal::database()->delete('log_revision__asset')
+    ->condition('asset_target_id', 0)
+    ->execute();
+}
