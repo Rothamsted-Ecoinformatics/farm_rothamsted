@@ -623,7 +623,7 @@ display:
           entity_type: plan
           entity_field: drilling_year
           plugin_id: field
-          label: 'Drilling Year'
+          label: 'Planting Year'
           exclude: false
           alter:
             alter_text: false
@@ -1388,7 +1388,7 @@ display:
           exposed: true
           expose:
             operator_id: drilling_year_value_op
-            label: 'Drilling Year'
+            label: 'Planting Year'
             description: ''
             use_operator: false
             operator: drilling_year_value_op
@@ -1405,6 +1405,7 @@ display:
               farm_operator: '0'
               farm_viewer: '0'
               farm_worker: '0'
+              farm_admin: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''

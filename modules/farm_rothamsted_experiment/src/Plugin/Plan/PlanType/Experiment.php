@@ -186,8 +186,8 @@ class Experiment extends FarmPlanType {
 
     // Integer year fields.
     $fields['drilling_year'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Drilling Year'))
-      ->setDescription($this->t('The year the experiment is to be drilled.'))
+      ->setLabel($this->t('Planting Year'))
+      ->setDescription($this->t('The planting year for the study.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
