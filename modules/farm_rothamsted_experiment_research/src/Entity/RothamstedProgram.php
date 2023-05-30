@@ -318,6 +318,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
         'esa' => 'European Space Agency (ESA)',
         'fcdo' => 'Foreign Commonwealth And Development Office',
         'ffar' => 'Foundation for Food and Agricultural Research',
+        'general_mills' => 'General Mills',
         'innovate_uk' => 'Innovate UK',
         'international_potato_centre' => 'International Potato Centre',
         'ireland_epa' => 'Ireland EPA',

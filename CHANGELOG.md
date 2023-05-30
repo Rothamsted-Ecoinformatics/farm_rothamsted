@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add unsuitable field location to proposals. [#447](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/447)
+- Add General Mills as funder option. [#461](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/461)
 
 ### Changed
 
