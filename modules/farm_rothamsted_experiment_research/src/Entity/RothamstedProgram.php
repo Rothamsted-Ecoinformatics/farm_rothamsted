@@ -346,7 +346,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['grant_code'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Grant codes'))
+      ->setLabel(t('Funder Grant codes'))
       ->setDescription(t('The code assigned to the Research Program by the funder.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)

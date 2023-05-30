@@ -423,7 +423,7 @@ display:
           entity_type: rothamsted_program
           entity_field: grant_code
           plugin_id: field
-          label: 'Grant codes'
+          label: 'Funder Grant Codes'
           exclude: false
           alter:
             alter_text: false
@@ -978,7 +978,7 @@ display:
           exposed: true
           expose:
             operator_id: grant_code_value_op
-            label: 'Grant codes'
+            label: 'Funder Grant Codes'
             description: ''
             use_operator: false
             operator: grant_code_value_op
@@ -997,6 +997,7 @@ display:
               rothamsted_sponsor: '0'
               farm_viewer: '0'
               farm_worker: '0'
+              farm_admin: '0'
             placeholder: ''
           is_grouped: false
           group_info:
