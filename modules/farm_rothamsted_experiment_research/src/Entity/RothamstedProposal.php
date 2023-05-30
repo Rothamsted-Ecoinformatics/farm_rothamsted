@@ -322,6 +322,14 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
+      ->setSetting('handler', 'views')
+      ->setSetting('handler_settings', [
+        'view' => [
+          'view_name' => 'rothamsted_researcher_reference',
+          'display_name' => 'entity_reference',
+          'arguments' => [],
+        ],
+      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
