@@ -614,3 +614,38 @@ function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$
     );
   }
 }
+
+/**
+ * Rothamsted design field changes.
+ */
+function farm_rothamsted_experiment_research_post_update_2_12_design_fields(&$sandbox = NULL) {
+
+  // Add previous cropping field.
+  $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Previous Cropping'))
+    ->setDescription(t('The crops which were grown in the same location immediately before the experiment.'))
+    ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE)
+    ->setSetting('target_type', 'taxonomy_term')
+    ->setSetting('handler', 'default:taxonomy_term')
+    ->setSetting('handler_settings', [
+      'target_bundles' => [
+        'plant_type' => 'plant_type',
+      ],
+      'sort' => [
+        'field' => 'name',
+        'direction' => 'asc',
+      ],
+      'auto_create' => FALSE,
+    ]);
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_design',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}

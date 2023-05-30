@@ -30,6 +30,7 @@ class DesignEntityForm extends ResearchEntityForm {
         'title' => $this->t('Rotation'),
         'weight' => 5,
         'fields' => [
+          'previous_cropping',
           'rotation_treatment',
           'add_rotation',
           'rotation_name',

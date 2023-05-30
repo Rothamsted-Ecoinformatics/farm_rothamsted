@@ -336,6 +336,36 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Previous Cropping'))
+      ->setDescription(t('The crop(s) which were grown in the same location immediately before the experiment.'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('handler', 'default:taxonomy_term')
+      ->setSetting('handler_settings', [
+        'target_bundles' => [
+          'plant_type' => 'plant_type',
+        ],
+        'sort' => [
+          'field' => 'name',
+          'direction' => 'asc',
+        ],
+        'auto_create' => FALSE,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+        'settings' => [
+          'link' => TRUE,
+        ],
+      ]);
+
     $fields['rotation_treatment'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Rotation as Treatment'))
       ->setDescription(t('Is the rotation a treatment in this experiment design? Rotations which are part of the treatment structure should be added via the plot attributes.'))
