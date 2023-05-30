@@ -73,6 +73,7 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
       // Changed fields.
       $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
       $update_fields = [
+        'comment',
         'changed',
         'revision_created',
         'revision_default',
