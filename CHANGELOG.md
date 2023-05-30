@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move and rename proposal requested field location. [#446](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/446)
 - Rename drilling year to planting year in experiment plan. [#457](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/457)
 - Rename grant code to funder grant code. [#462](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/462)
+- Use full pagination on rothamsted views. [#443](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/443)
 
 ### Removed
 
