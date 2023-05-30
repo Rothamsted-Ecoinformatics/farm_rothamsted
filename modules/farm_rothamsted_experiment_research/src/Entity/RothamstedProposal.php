@@ -542,6 +542,34 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'type' => 'entity_reference_label',
       ]);
 
+    $fields['unsuitable_location'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Unsuitable Field Location'))
+      ->setDescription(t('Please select any field locations which are not suitable for this proposal'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'asset')
+      ->setSetting('handler', 'views')
+      ->setSetting('handler_settings', [
+        'view' => [
+          'view_name' => 'farm_location_reference',
+          'display_name' => 'entity_reference',
+          'arguments' => [],
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
     $fields['field_layout'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('In-Field layout'))
       ->setDescription(t('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))

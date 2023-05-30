@@ -583,3 +583,34 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_comment(&
   $new_definition = farm_rothamsted_experiment_research_comment_base_field_definition('rothamsted_proposal');
   $update_manager->installFieldStorageDefinition('comment', 'rothamsted_proposal', 'farm_rothamsted_experiment_research', $new_definition);
 }
+
+/**
+ * Rothamsted proposal field changes.
+ */
+function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$sandbox = NULL) {
+
+  // Add unsuitable location field.
+  $fields['unsuitable_location'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Unsuitable Field Location'))
+    ->setDescription(t('Please select any field locations which are not suitable for this proposal'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSetting('target_type', 'asset')
+    ->setSetting('handler', 'views')
+    ->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_location_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => [],
+      ],
+    ]);
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_proposal',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}

@@ -51,6 +51,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         'weight' => 10,
         'fields' => [
           'requested_location',
+          'unsuitable_location',
           'restriction_crop',
           'restriction_crop_desc',
           'restriction_gm',

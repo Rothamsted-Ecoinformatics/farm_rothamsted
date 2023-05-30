@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add unsuitable field location to proposals. [#447](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/447)
+
 ### Changed
 
 - Add autocompleteclose and change events for quick form autocomplete. [#440](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/440)
