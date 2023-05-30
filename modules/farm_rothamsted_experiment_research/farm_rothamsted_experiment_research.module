@@ -79,6 +79,7 @@ function farm_rothamsted_experiment_research_experiment_category_options(): arra
     'classical_experiment' => t('Classical Experiment'),
     'energy_crop_experiment' => t('Energy Crop Experiment'),
     'longterm_experiment' => t('Longterm Experiment'),
+    'seed_bulking_plots' => t('Seed Bulking Plots'),
     'other' => t('Other'),
   ];
 }

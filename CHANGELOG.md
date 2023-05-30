@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unsuitable field location to proposals. [#447](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/447)
 - Add General Mills as funder option. [#461](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/461)
 - Add previous cropping field to design. [#460](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/460)
+- Add seed bulking plots experiment category. [#449](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/449)
 
 ### Changed
 
