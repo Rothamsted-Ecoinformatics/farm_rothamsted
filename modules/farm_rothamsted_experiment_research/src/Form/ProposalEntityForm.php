@@ -20,6 +20,8 @@ class ProposalEntityForm extends ResearchEntityForm {
           'name',
           'program',
           'contact',
+          'statistician',
+          'data_steward',
           'experiment_category',
           'research_question',
         ],

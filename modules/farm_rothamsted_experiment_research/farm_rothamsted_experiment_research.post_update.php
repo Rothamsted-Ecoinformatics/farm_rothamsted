@@ -610,6 +610,40 @@ function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$
       ],
     ]);
 
+  $fields['statistician'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Statistician'))
+    ->setDescription(t('Please select the statistician associated with this proposal.'))
+    ->setRequired(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSetting('target_type', 'rothamsted_researcher')
+    ->setSetting('handler', 'views')
+    ->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'rothamsted_researcher_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => [
+          'role' => 'statistician',
+        ],
+      ],
+    ]);
+
+  $fields['data_steward'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Data Steward'))
+    ->setDescription(t('Please select the data steward associated with this proposal.'))
+    ->setRequired(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSetting('target_type', 'rothamsted_researcher')
+    ->setSetting('handler', 'views')
+    ->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'rothamsted_researcher_reference',
+        'display_name' => 'entity_reference',
+        'arguments' => [
+          'role' => 'statistician',
+        ],
+      ],
+    ]);
+
   // Finally, install field storage definitions.
   foreach ($fields as $field_id => $field_definition) {
     $update_manager->installFieldStorageDefinition(

@@ -345,6 +345,68 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'type' => 'entity_reference_label',
       ]);
 
+    $fields['statistician'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Statistician'))
+      ->setDescription(t('Please select the statistician associated with this proposal.'))
+      ->setRequired(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_researcher')
+      ->setSetting('handler', 'views')
+      ->setSetting('handler_settings', [
+        'view' => [
+          'view_name' => 'rothamsted_researcher_reference',
+          'display_name' => 'entity_reference',
+          'arguments' => [
+            'role' => 'statistician',
+          ],
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
+    $fields['data_steward'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Data Steward'))
+      ->setDescription(t('Please select the data steward associated with this proposal.'))
+      ->setRequired(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'rothamsted_researcher')
+      ->setSetting('handler', 'views')
+      ->setSetting('handler_settings', [
+        'view' => [
+          'view_name' => 'rothamsted_researcher_reference',
+          'display_name' => 'entity_reference',
+          'arguments' => [
+            'role' => 'statistician',
+          ],
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'entity_reference_label',
+      ]);
+
     $fields['experiment_category'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Experiment category'))
       ->setDescription(t('The experiment category.'))
