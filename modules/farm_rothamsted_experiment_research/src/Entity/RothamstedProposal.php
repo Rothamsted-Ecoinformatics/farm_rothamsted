@@ -368,20 +368,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
-    $fields['amendments'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Proposed Amendments'))
-      ->setDescription(t('A description of any proposed changes made to the experiment or experiment design since the last study period. Amendments required before the proposal can be approved'))
-      ->setRevisionable(TRUE)
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
-      ]);
-
     $fields['crop'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Crops'))
       ->setDescription(t('The crops being proposed for study.'))

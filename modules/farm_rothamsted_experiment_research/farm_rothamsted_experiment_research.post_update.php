@@ -589,6 +589,12 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_comment(&
  */
 function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$sandbox = NULL) {
 
+  // Remove existing proposed amendments field.
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $old_definition = $update_manager->getFieldStorageDefinition('amendments', 'rothamsted_proposal');
+  $update_manager->uninstallFieldStorageDefinition($old_definition);
+
   // Add unsuitable location field.
   $fields['unsuitable_location'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Unsuitable Field Location'))
@@ -606,7 +612,7 @@ function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$
 
   // Finally, install field storage definitions.
   foreach ($fields as $field_id => $field_definition) {
-    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    $update_manager->installFieldStorageDefinition(
       $field_id,
       'rothamsted_proposal',
       'farm_rothamsted_experiment_research',

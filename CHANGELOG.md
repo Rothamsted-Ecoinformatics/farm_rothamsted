@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename drilling year to planting year in experiment plan. [#457](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/457)
 - Rename grant code to funder grant code. [#462](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/462)
 
+### Removed
+
+- Remove proposed amendments data field on Proposal. [#450](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/450)
+
 ## 2.11.3 2023-05-30
 
 ### Fixed
