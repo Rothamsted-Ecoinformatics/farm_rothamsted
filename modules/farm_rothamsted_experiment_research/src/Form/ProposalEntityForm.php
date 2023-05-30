@@ -41,7 +41,6 @@ class ProposalEntityForm extends ResearchEntityForm {
         'title' => $this->t('In-Field Layout'),
         'weight' => 7,
         'fields' => [
-          'requested_location',
           'field_layout',
           'plot_length',
           'plot_width',
@@ -51,6 +50,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         'title' => $this->t('Restrictions'),
         'weight' => 10,
         'fields' => [
+          'requested_location',
           'restriction_crop',
           'restriction_crop_desc',
           'restriction_gm',

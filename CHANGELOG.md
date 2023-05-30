@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add autocompleteclose and change events for quick form autocomplete. [#440](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/440)
 - Allow 4 decimal points in quick form quantity values. [#463](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/463)
+- Move and rename proposal requested field location. [#446](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/446)
 
 ## 2.11.3 2023-05-30
 

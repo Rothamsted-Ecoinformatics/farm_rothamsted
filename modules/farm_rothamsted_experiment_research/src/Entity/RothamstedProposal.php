@@ -515,7 +515,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['requested_location'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Requested Location'))
+      ->setLabel(t('Requested Field Location'))
       ->setDescription(t('If you have any specific location(s) where you would like to site the experiment, please include them here.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'asset')
