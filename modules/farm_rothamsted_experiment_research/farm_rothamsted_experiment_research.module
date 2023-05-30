@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
@@ -229,7 +230,14 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   $params = [
     'highlight_fields' => $highlight_fields[$entity_type_id],
   ];
-  farm_rothamsted_notification_send_research_update('entity_create', $entity, [], $params);
+
+  // Include email logic.
+  $emails = [];
+  if ($entity_type_id === 'rothamsted_proposal') {
+    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+  }
+
+  farm_rothamsted_notification_send_research_update('entity_create', $entity, $emails, $params);
 }
 
 /**
@@ -249,7 +257,14 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
   if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
     return;
   }
-  farm_rothamsted_notification_send_research_update('entity_update', $entity);
+
+  // Include email logic.
+  $emails = [];
+  if ($entity_type_id === 'rothamsted_proposal') {
+    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+  }
+
+  farm_rothamsted_notification_send_research_update('entity_update', $entity, $emails);
 }
 
 /**
@@ -269,7 +284,40 @@ function farm_rothamsted_experiment_research_entity_delete(EntityInterface $enti
   if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
     return;
   }
-  farm_rothamsted_notification_send_research_update('entity_delete', $entity);
+
+  // Include email logic.
+  $emails = [];
+  if ($entity_type_id === 'rothamsted_proposal') {
+    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+  }
+
+  farm_rothamsted_notification_send_research_update('entity_delete', $entity, $emails);
+}
+
+/**
+ * Helper function to collect proposal contact emails.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $proposal
+ *   The proposal entity.
+ *
+ * @return string[]
+ *   Array of contact emails.
+ */
+function farm_rothamsted_experiment_research_proposal_contacts(EntityInterface $proposal): array {
+
+  $notification_emails = [];
+  $contact_fields = [
+    'contact',
+    'statistician',
+    'data_steward',
+  ];
+  foreach ($contact_fields as $contact_field) {
+    $emails = array_map(function (RothamstedResearcherInterface $researcher) {
+      return $researcher->get('email')->value;
+    }, $proposal->get($contact_field)->referencedEntities());
+    array_push($notification_emails, ...$emails);
+  }
+  return array_unique(array_filter($notification_emails));
 }
 
 /**

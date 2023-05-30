@@ -144,13 +144,13 @@ function farm_rothamsted_notification_send_research_update(string $operation, En
     'roles' => 'rothamsted_experiment_admin',
   ]);
 
-  // Bail if there are no experiment admins to send email.
-  if (empty($experiment_admins)) {
+  // Bail if there is no one to send email.
+  if (empty($experiment_admins) && empty($emails)) {
     return;
   }
 
   // Build email string.
-  $emails = array_map(function (UserInterface $user) {
+  $admin_emails = array_map(function (UserInterface $user) {
     $name = $user->getDisplayName();
     $mail = $user->getEmail();
     if (empty($mail)) {
@@ -158,6 +158,7 @@ function farm_rothamsted_notification_send_research_update(string $operation, En
     }
     return "$name <$mail>";
   }, $experiment_admins);
+  array_push($emails, ...$admin_emails);
   $email_string = implode(', ', array_filter($emails));
 
   // Send mail.
