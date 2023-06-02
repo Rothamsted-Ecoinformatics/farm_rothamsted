@@ -33,6 +33,12 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
   $body_templates = [];
   switch ($key) {
 
+    case 'comment':
+      $subject_template = "[site:name]: [$entity_type_id:author:display-name] commented on [$entity_type_id:entity:name]";
+      $body_templates[] = "[$entity_type_id:author:display-name] commented on [$entity_type_id:entity:name]: [$entity_type_id:body]";
+      $body_templates[] = "View and respond to the $entity_type_label here: [$entity_type_id:url:absolute]";
+      break;
+
     case 'entity_create':
       $subject_template = "[site:name] $entity_type_label created: [$entity_type_id:name]";
       $body_templates[] = "A new $entity_type_label '[$entity_type_id:name]' was created by [$entity_type_id:uid:entity:display-name].";
@@ -159,7 +165,8 @@ function farm_rothamsted_notification_send_research_update(string $operation, En
     return "$name <$mail>";
   }, $experiment_admins);
   array_push($emails, ...$admin_emails);
-  $email_string = implode(', ', array_filter($emails));
+  $emails = array_unique(array_filter($emails));
+  $email_string = implode(', ', $emails);
 
   // Send mail.
   /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
