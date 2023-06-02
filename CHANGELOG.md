@@ -29,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove proposed amendments data field on Proposal. [#450](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/450)
 
+### Fixed
+
+- Cannot create new experiment plans due to email notification bug.
+
 ## 2.11.3 2023-05-30
 
 ### Fixed

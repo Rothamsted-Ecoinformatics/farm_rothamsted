@@ -49,7 +49,7 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
       $body_templates[] = "$entity_type_label info:";
       foreach ($highlight_fields as $field) {
         // Skip empty fields.
-        if ($entity->get($field)->isEmpty()) {
+        if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
           continue;
         }
         $field_label = $entity->get($field)->getFieldDefinition()->getLabel();
