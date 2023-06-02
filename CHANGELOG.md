@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add seed bulking plots experiment category. [#449](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/449)
 - Add statistician and data steward fields to proposal. [#445](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/445)
 - Send email alerts to proposal contacts. [#441](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/441)
+- Create new revisions by default. [#470](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/470)
 
 ### Changed
 

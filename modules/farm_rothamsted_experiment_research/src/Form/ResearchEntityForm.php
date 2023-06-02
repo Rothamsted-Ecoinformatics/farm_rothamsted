@@ -34,6 +34,11 @@ class ResearchEntityForm extends ContentEntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
+    // Require that a revision is always created.
+    $form['revision']['#title'] .= ' (' . $this->t('required') . ')';
+    $form['revision']['#required'] = TRUE;
+    $form['revision']['#disabled'] = TRUE;
+
     // Add tabs if specified.
     $tab_definitions = $this->getTabDefinitions();
     if (!empty($tab_definitions)) {
