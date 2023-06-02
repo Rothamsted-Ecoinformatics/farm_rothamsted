@@ -321,7 +321,6 @@ function farm_rothamsted_experiment_plan_insert(PlanInterface $plan) {
       'abbreviation',
       'experiment_design',
       'experiment_code',
-      'project_code',
       'cost_code',
     ],
   ];
