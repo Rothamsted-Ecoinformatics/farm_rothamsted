@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.12.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/30) 2023-06-02
+
 ### Added
 
 - Add unsuitable field location to proposals. [#447](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/447)
