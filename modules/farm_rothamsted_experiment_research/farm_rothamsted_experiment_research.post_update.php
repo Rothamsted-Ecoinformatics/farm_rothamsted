@@ -595,6 +595,25 @@ function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$
   $old_definition = $update_manager->getFieldStorageDefinition('amendments', 'rothamsted_proposal');
   $update_manager->uninstallFieldStorageDefinition($old_definition);
 
+  // Add previous cropping field.
+  $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Previous Cropping'))
+    ->setDescription(t('The crops which were grown in the same location immediately before the experiment.'))
+    ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE)
+    ->setSetting('target_type', 'taxonomy_term')
+    ->setSetting('handler', 'default:taxonomy_term')
+    ->setSetting('handler_settings', [
+      'target_bundles' => [
+        'plant_type' => 'plant_type',
+      ],
+      'sort' => [
+        'field' => 'name',
+        'direction' => 'asc',
+      ],
+      'auto_create' => FALSE,
+    ]);
+
   // Add unsuitable location field.
   $fields['unsuitable_location'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Unsuitable Field Location'))
