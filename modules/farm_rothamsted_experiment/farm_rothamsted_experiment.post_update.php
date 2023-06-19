@@ -776,3 +776,32 @@ function farm_rothamsted_experiment_post_update_2_11_cleanup_experiment_plan_fie
     $update_manager->uninstallFieldStorageDefinition($other_field);
   }
 }
+
+/**
+ * Create other_links field.
+ */
+function farm_rothamsted_experiment_post_update_2_13_add_generic_link_field(&$sandbox = NULL) {
+
+  // Experiment file link fields.
+  $fields['other_links'] = BundleFieldDefinition::create('link')
+    ->setLabel(t('Other links'))
+    ->setRequired(FALSE)
+    ->setRevisionable(TRUE)
+    ->setSettings([
+      'title' => DRUPAL_OPTIONAL,
+      // @see LinkItemInterface::LINK_EXTERNAL.
+      'link_type' => 0x10,
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+
+  // Install each field definition.
+  foreach ($fields as $field_name => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_name,
+      'plan',
+      'farm_rothamsted_experiment',
+      $field_definition,
+    );
+  }
+}

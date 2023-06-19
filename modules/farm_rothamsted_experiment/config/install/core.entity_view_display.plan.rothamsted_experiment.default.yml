@@ -89,6 +89,7 @@ third_party_settings:
       children:
         - experiment_plan_link
         - experiment_file_link
+        - other_links
         - file
         - image
       label: Files
@@ -136,7 +137,7 @@ content:
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 18
+    weight: 19
     region: content
   amendments:
     type: text_default
@@ -255,7 +256,7 @@ content:
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 50
+    weight: 51
     region: content
   flag:
     type: list_default
@@ -542,7 +543,7 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 18
     region: content
   objective:
     type: text_default
@@ -550,6 +551,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: -90
+    region: content
+  other_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 50
     region: content
   plant_type:
     type: entity_reference_label

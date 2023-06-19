@@ -175,6 +175,17 @@ class Experiment extends FarmPlanType {
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+    $fields['other_links'] = BundleFieldDefinition::create('link')
+      ->setLabel($this->t('Other links'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRequired(FALSE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'title' => DRUPAL_OPTIONAL,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     // Column descriptors.
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')

@@ -83,7 +83,7 @@ third_party_settings:
       label: 'Experiment status'
       region: content
       parent_name: group_metadata
-      weight: 8
+      weight: 7
       format_type: tab
       format_settings:
         classes: ''
@@ -112,12 +112,13 @@ third_party_settings:
       children:
         - experiment_plan_link
         - experiment_file_link
+        - other_links
         - file
         - image
       label: Files
       region: content
       parent_name: group_metadata
-      weight: 7
+      weight: 5
       format_type: tab
       format_settings:
         classes: ''
@@ -133,7 +134,7 @@ third_party_settings:
       label: 'Experiment Deviations'
       region: content
       parent_name: group_metadata
-      weight: 9
+      weight: 8
       format_type: tab
       format_settings:
         classes: ''
@@ -271,7 +272,7 @@ content:
     third_party_settings: {  }
   file:
     type: file_generic
-    weight: 31
+    weight: 32
     region: content
     settings:
       progress_indicator: throbber
@@ -609,6 +610,14 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  other_links:
+    type: link_default
+    weight: 31
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   plant_type:
     type: options_select
     weight: 22
@@ -625,7 +634,7 @@ content:
     third_party_settings: {  }
   reason_for_failure:
     type: text_textarea
-    weight: 56
+    weight: 57
     region: content
     settings:
       rows: 5
