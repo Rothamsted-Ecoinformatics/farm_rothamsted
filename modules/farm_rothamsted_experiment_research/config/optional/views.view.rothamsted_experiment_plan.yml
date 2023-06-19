@@ -419,17 +419,17 @@ display:
           multi_type: ul
           separator: ', '
           field_api_classes: false
-        experiment_code_value:
-          id: experiment_code_value
-          table: plan__experiment_code
-          field: experiment_code_value
+        study_period_id_value:
+          id: study_period_id_value
+          table: plan__study_period_id
+          field: study_period_id_value
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: plan
-          entity_field: experiment_code
+          entity_field: study_period_id
           plugin_id: field
-          label: 'Experiment Code'
+          label: 'Study Period ID'
           exclude: false
           alter:
             alter_text: false
@@ -474,70 +474,6 @@ display:
           type: string
           settings:
             link_to_entity: false
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        rres_experiment_category_value:
-          id: rres_experiment_category_value
-          table: plan__rres_experiment_category
-          field: rres_experiment_category_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: rres_experiment_category
-          plugin_id: field
-          label: 'Experiment Category'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: list_default
-          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -1167,6 +1103,56 @@ display:
               direction: ASC
             auto_create: false
             auto_create_bundle: ''
+        study_period_id_value:
+          id: study_period_id_value
+          table: plan__study_period_id
+          field: study_period_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: study_period_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_period_id_value_op
+            label: 'Study Period ID'
+            description: ''
+            use_operator: false
+            operator: study_period_id_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_period_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: plan_field_data
@@ -1272,103 +1258,6 @@ display:
               field: _none
               direction: ASC
             auto_create: false
-        experiment_code_value:
-          id: experiment_code_value
-          table: plan__experiment_code
-          field: experiment_code_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: experiment_code
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: experiment_code_value_op
-            label: 'Experiment Code'
-            description: ''
-            use_operator: false
-            operator: experiment_code_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: experiment_code_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        rres_experiment_category_value:
-          id: rres_experiment_category_value
-          table: plan__rres_experiment_category
-          field: rres_experiment_category_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: rres_experiment_category
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: rres_experiment_category_value_op
-            label: 'Experiment Category'
-            description: ''
-            use_operator: false
-            operator: rres_experiment_category_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: rres_experiment_category_value
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
         drilling_year_value:
           id: drilling_year_value
           table: plan__drilling_year
@@ -1578,14 +1467,16 @@ display:
           default_row_class: true
           columns:
             abbreviation_value: abbreviation_value
-            plan_bulk_form: plan_bulk_form
-            location_value: location_value
+            status: status
+            status_notes_value: status_notes_value
             name: name
-            experiment_code_value: experiment_code_value
+            name_1: name_1
+            location_target_id: location_target_id
+            study_period_id_value: study_period_id_value
+            experiment_design_target_id: experiment_design_target_id
             drilling_year_value: drilling_year_value
             harvest_year_value: harvest_year_value
             plant_type_target_id: plant_type_target_id
-            status: status
             flag_value: flag_value
           default: name
           info:
@@ -1596,12 +1487,16 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            plan_bulk_form:
+            status:
+              sortable: true
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            location_value:
+            status_notes_value:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -1613,8 +1508,27 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            experiment_code_value:
+            name_1:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            location_target_id:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            study_period_id_value:
               sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            experiment_design_target_id:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
@@ -1635,13 +1549,6 @@ display:
               empty_column: false
               responsive: ''
             plant_type_target_id:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            status:
-              sortable: true
-              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -2020,6 +1927,56 @@ display:
               direction: ASC
             auto_create: false
             auto_create_bundle: ''
+        study_period_id_value:
+          id: study_period_id_value
+          table: plan__study_period_id
+          field: study_period_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: study_period_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_period_id_value_op
+            label: 'Study Period ID'
+            description: ''
+            use_operator: false
+            operator: study_period_id_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_period_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: plan_field_data
@@ -2125,103 +2082,6 @@ display:
               field: _none
               direction: ASC
             auto_create: false
-        experiment_code_value:
-          id: experiment_code_value
-          table: plan__experiment_code
-          field: experiment_code_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: experiment_code
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: experiment_code_value_op
-            label: 'Experiment Code'
-            description: ''
-            use_operator: false
-            operator: experiment_code_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: experiment_code_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        rres_experiment_category_value:
-          id: rres_experiment_category_value
-          table: plan__rres_experiment_category
-          field: rres_experiment_category_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: plan
-          entity_field: rres_experiment_category
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: rres_experiment_category_value_op
-            label: 'Experiment Category'
-            description: ''
-            use_operator: false
-            operator: rres_experiment_category_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: rres_experiment_category_value
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
         drilling_year_value:
           id: drilling_year_value
           table: plan__drilling_year

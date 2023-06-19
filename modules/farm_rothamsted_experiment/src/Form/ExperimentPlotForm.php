@@ -111,7 +111,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
     // Redirect to the plan variables page after processing.
     $form_state->setRedirect('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
 
-    $experiment_code = $plan->get('experiment_code')->value;
+    $experiment_code = $plan->get('study_period_id')->value;
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $plot_field */
     $plot_count = $form_state->getValue('plot_count', 1);
 

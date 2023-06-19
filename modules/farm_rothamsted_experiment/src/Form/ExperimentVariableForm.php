@@ -554,7 +554,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     }
 
     // Build batch operations to update plot attributes.
-    $experiment_code = $plan->get('experiment_code')->value;
+    $experiment_code = $plan->get('study_period_id')->value;
     $operations[] = [
       [self::class, 'updatePlotBatch'],
       [$plan->id(), $experiment_code, $plot_attributes_mapping, $columns_map, $column_levels_map, $revision_message],

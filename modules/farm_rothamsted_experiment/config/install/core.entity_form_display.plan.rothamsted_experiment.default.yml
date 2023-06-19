@@ -36,7 +36,7 @@ third_party_settings:
         - experiment_design
         - name
         - abbreviation
-        - experiment_code
+        - study_period_id
         - study_description
         - study_number
         - plant_type
@@ -193,7 +193,7 @@ content:
     third_party_settings: {  }
   cost_code:
     type: string_textfield
-    weight: 28
+    weight: 22
     region: content
     settings:
       size: 60
@@ -201,7 +201,7 @@ content:
     third_party_settings: {  }
   cost_code_allocation:
     type: text_textarea
-    weight: 29
+    weight: 23
     region: content
     settings:
       rows: 5
@@ -209,7 +209,7 @@ content:
     third_party_settings: {  }
   current_phase:
     type: string_textfield
-    weight: 25
+    weight: 19
     region: content
     settings:
       size: 60
@@ -225,7 +225,7 @@ content:
     third_party_settings: {  }
   drilling_year:
     type: number
-    weight: 26
+    weight: 20
     region: content
     settings:
       placeholder: ''
@@ -235,14 +235,6 @@ content:
     weight: 19
     region: content
     settings: {  }
-    third_party_settings: {  }
-  experiment_code:
-    type: string_textfield
-    weight: 13
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   experiment_design:
     type: entity_reference_autocomplete
@@ -293,7 +285,7 @@ content:
     third_party_settings: {  }
   harvest_year:
     type: number
-    weight: 27
+    weight: 21
     region: content
     settings:
       placeholder: ''
@@ -620,7 +612,7 @@ content:
     third_party_settings: {  }
   plant_type:
     type: options_select
-    weight: 22
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -743,7 +735,7 @@ content:
     third_party_settings: {  }
   status_notes:
     type: text_textarea
-    weight: 24
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -751,7 +743,7 @@ content:
     third_party_settings: {  }
   study_description:
     type: text_textarea
-    weight: 16
+    weight: 15
     region: content
     settings:
       rows: 5
@@ -759,15 +751,24 @@ content:
     third_party_settings: {  }
   study_number:
     type: number
-    weight: 17
+    weight: 16
     region: content
     settings:
+      placeholder: ''
+    third_party_settings: {  }
+  study_period_id:
+    type: string_textfield
+    weight: 14
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
 hidden:
   column_descriptors: true
   created: true
   data: true
+  experiment_code: true
   log: true
   plot: true
   treatment_factors: true

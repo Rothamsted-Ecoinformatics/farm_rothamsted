@@ -17,7 +17,7 @@ third_party_settings:
       children:
         - experiment_design
         - abbreviation
-        - experiment_code
+        - study_period_id
         - study_description
         - study_number
         - plant_type
@@ -168,14 +168,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -84
+    weight: -89
     region: content
   cost_code_allocation:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -83
+    weight: -88
     region: content
   current_phase:
     type: string
@@ -183,7 +183,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: -82
+    weight: -87
     region: content
   deviations:
     type: text_default
@@ -199,7 +199,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: -86
+    weight: -91
     region: content
   end:
     type: datetime_default
@@ -209,14 +209,6 @@ content:
       format_type: farm_rothamsted_date
     third_party_settings: {  }
     weight: -92
-    region: content
-  experiment_code:
-    type: string
-    label: inline
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: -98
     region: content
   experiment_design:
     type: entity_reference_label
@@ -279,7 +271,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: -85
+    weight: -90
     region: content
   image:
     type: image
@@ -570,7 +562,7 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: -89
+    weight: -94
     region: content
   project_code:
     type: string
@@ -700,21 +692,21 @@ content:
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -88
+    weight: -93
     region: content
   status_notes:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -87
+    weight: -92
     region: content
   study_description:
     type: text_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: -95
+    weight: -96
     region: content
   study_number:
     type: number_integer
@@ -723,7 +715,15 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: -94
+    weight: -95
+    region: content
+  study_period_id:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -97
     region: content
   treatment_factors:
     type: treatment_factors_tables
@@ -735,6 +735,7 @@ content:
 hidden:
   column_descriptors: true
   data: true
+  experiment_code: true
   log: true
   plot: true
   uid: true

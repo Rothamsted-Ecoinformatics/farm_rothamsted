@@ -805,3 +805,60 @@ function farm_rothamsted_experiment_post_update_2_13_add_generic_link_field(&$sa
     );
   }
 }
+
+/**
+ * Migrate experiment code to study period field.
+ */
+function farm_rothamsted_experiment_post_update_2_13_migrate_experiment_code_study_period(&$sandbox) {
+
+  $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
+
+  // This function will be run as a batch operation. On the first run, we will
+  // make preparations. This logic should only run once.
+  if (!isset($sandbox['current_id'])) {
+
+    // Query the database for all experiment plans.
+    $sandbox['plan_ids'] = array_values($plan_storage->getQuery()
+      ->condition('type', 'rothamsted_experiment')
+      ->execute());
+
+    // Install the new total_price field.
+    $update_manager = \Drupal::entityDefinitionUpdateManager();
+    $options = [
+      'type' => 'string',
+      'label' => t('Study Period ID'),
+    ];
+    $field_definition = \Drupal::service('farm_field.factory')->bundleFieldDefinition($options);
+    $update_manager->installFieldStorageDefinition('study_period_id', 'plan', 'farm_rothamsted_experiment', $field_definition);
+
+    // Track progress.
+    $sandbox['current_id'] = 0;
+    $sandbox['#finished'] = 0;
+  }
+
+  // Iterate through plans, 10 at a time.
+  $quantity_count = count($sandbox['plan_ids']);
+  $end_quantity = $sandbox['current_id'] + 10;
+  $end_quantity = $end_quantity > $quantity_count ? $quantity_count : $end_quantity;
+  for ($i = $sandbox['current_id']; $i < $end_quantity; $i++) {
+
+    // Iterate the global counter.
+    $sandbox['current_id']++;
+
+    // Get the quantity ID.
+    if (isset($sandbox['plan_ids'][$i]) && $plan = $plan_storage->load($sandbox['plan_ids'][$i])) {
+      $plan->set('study_period_id', $plan->get('experiment_code')->value);
+      $plan->save();
+    }
+  }
+
+  // Update progress.
+  if (!empty($sandbox['plan_ids'])) {
+    $sandbox['#finished'] = $sandbox['current_id'] / count($sandbox['plan_ids']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
+
+  return NULL;
+}

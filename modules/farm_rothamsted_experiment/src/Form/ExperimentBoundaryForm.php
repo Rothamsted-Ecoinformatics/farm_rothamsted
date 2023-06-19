@@ -59,12 +59,12 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       '#value' => $this->t('The experiment code and experiment locations are required to create an experiment boundary. Verify that these are correct before creating the experiment boundary.'),
     ];
 
-    // Experiment code.
-    $form['experiment_code'] = [
+    // Study period.
+    $form['study_period_id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Experiment code'),
+      '#title' => $this->t('Study Period ID'),
       '#description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
-      '#default_value' => $plan->get('experiment_code')->value,
+      '#default_value' => $plan->get('study_period_id')->value,
       '#required' => TRUE,
     ];
 
@@ -118,9 +118,9 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     // Get the plan.
     $plan = Plan::load($form_state->getValue('plan_id'));
 
-    // Set the experiment code.
-    $code = $form_state->getValue('experiment_code');
-    $plan->set('experiment_code', $code);
+    // Set the study_period_id.
+    $code = $form_state->getValue('study_period_id');
+    $plan->set('study_period_id', $code);
 
     // Set the experiment location.
     $location = $form_state->getValue('location');
