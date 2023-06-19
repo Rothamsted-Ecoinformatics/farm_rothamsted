@@ -291,8 +291,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
           }
         }
 
-        // Ensure the level_id is numeric and within the column length.
-        // @todo Check that level_id is less than the column length.
+        // Ensure the level_id is numeric.
         if (!is_numeric($level['level_id'])) {
           $error_msg = "Column level in row $row has an invalid $key: $level[$key]";
           $form_state->setError($form['column_levels'], $error_msg);
@@ -315,6 +314,16 @@ class ExperimentVariableForm extends ExperimentFormBase {
       // Check lengths.
       if ($expected_length != $column_count) {
         $error_msg = "Incorrect number of column levels for column $column_id. Got $column_count expected $expected_length.";
+        $form_state->setError($form['column_levels'], $error_msg);
+        $this->messenger()->addError($error_msg);
+      }
+
+      // Check for valid level ids.
+      $expected_levels = range(1, $column_count);
+      $diff = array_diff($expected_levels, array_column($column_levels, 'level_id'));
+      if (!empty($diff)) {
+        $missing = reset($diff);
+        $error_msg = "Incorrect column levels for column $column_id. Missing level ID $missing. Check the level IDs.";
         $form_state->setError($form['column_levels'], $error_msg);
         $this->messenger()->addError($error_msg);
       }
