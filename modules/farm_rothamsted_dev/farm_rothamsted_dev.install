@@ -52,7 +52,8 @@ function farm_rothamsted_dev_install() {
     'log_category' => [
       'Drilling categories' => ['Drilling 1', 'Drilling 2'],
       'Fertiliser categories' => ['Fertiliser 1', 'Fertiliser 2'],
-      'Harvest categories' => ['Harvest 1', 'Harvest 2'],
+      'Trailer harvest categories' => ['Trailer harvest 1', 'Trailer harvest 2'],
+      'Combine harvest categories' => ['Combine harvest 1', 'Combine harvest 2'],
       'Operation categories' => ['Op 1', 'Op 2'],
       'Spraying categories' => ['Spraying 1', 'Spraying 2'],
     ],

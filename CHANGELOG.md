@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change trailer and combine quick form log categories. [#438](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/438)
+
 ### Fixed
 
 - Add validation for sequential column level ids. [#483](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/483)

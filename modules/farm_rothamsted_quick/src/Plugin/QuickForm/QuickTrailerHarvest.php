@@ -32,7 +32,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $parentLogCategoryName = 'Harvest categories';
+  protected $parentLogCategoryName = 'Trailer harvest categories';
 
   /**
    * {@inheritdoc}

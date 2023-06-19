@@ -30,7 +30,7 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $parentLogCategoryName = 'Harvest categories';
+  protected $parentLogCategoryName = 'Combine harvest categories';
 
   /**
    * {@inheritdoc}
