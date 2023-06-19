@@ -3,8 +3,8 @@
 namespace Drupal\farm_rothamsted_experiment\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\text\Plugin\Field\FieldFormatter\TextDefaultFormatter;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\text\Plugin\Field\FieldFormatter\TextDefaultFormatter;
 
 /**
  * Plugin implementation of the plot_column_descriptor formatter.
