@@ -207,7 +207,7 @@ class DesignEntityForm extends ResearchEntityForm {
       ],
       'file' => [
         'title' => $this->t('Files'),
-        'weight' => 25,
+        'weight' => 28,
         'fields' => [
           'file',
           'image',
