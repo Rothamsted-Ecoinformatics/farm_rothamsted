@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add generic links field to experiment plan. [#458](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/458)
 - Add files fields to design. [#452](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/452)
+- Email alerts for management records. [#469](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/469)
 
 ### Changed
 
