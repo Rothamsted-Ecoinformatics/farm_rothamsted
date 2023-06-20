@@ -134,8 +134,10 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
  *   Additional emails to send to.
  * @param array $params
  *   Additional parameters.
+ * @param bool $include_admin
+ *   Boolean to include experiment admins on email. Defaults to TRUE.
  */
-function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = []) {
+function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = [], bool $include_admin = TRUE) {
 
   // Build params.
   $entity_type_id = $entity->getEntityTypeId();
@@ -144,27 +146,29 @@ function farm_rothamsted_notification_send_research_update(string $operation, En
     $entity_type_id => $entity,
   ];
 
-  // Query experiment admins.
-  $experiment_admins = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
-    'status' => TRUE,
-    'roles' => 'rothamsted_experiment_admin',
-  ]);
+  // Include experiment admins.
+  if ($include_admin) {
+    $experiment_admins = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
+      'status' => TRUE,
+      'roles' => 'rothamsted_experiment_admin',
+    ]);
+    $admin_emails = array_map(function (UserInterface $user) {
+      $name = $user->getDisplayName();
+      $mail = $user->getEmail();
+      if (empty($mail)) {
+        return '';
+      }
+      return "$name <$mail>";
+    }, $experiment_admins);
+    array_push($emails, ...$admin_emails);
+  }
 
   // Bail if there is no one to send email.
-  if (empty($experiment_admins) && empty($emails)) {
+  if (empty($emails)) {
     return;
   }
 
   // Build email string.
-  $admin_emails = array_map(function (UserInterface $user) {
-    $name = $user->getDisplayName();
-    $mail = $user->getEmail();
-    if (empty($mail)) {
-      return '';
-    }
-    return "$name <$mail>";
-  }, $experiment_admins);
-  array_push($emails, ...$admin_emails);
   $emails = array_unique(array_filter($emails));
   $email_string = implode(', ', $emails);
 
