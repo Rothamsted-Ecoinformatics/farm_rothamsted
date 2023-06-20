@@ -611,7 +611,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings([
-        'title' => DRUPAL_DISABLED,
+        'title' => DRUPAL_OPTIONAL,
         'link_type' => LinkItemInterface::LINK_EXTERNAL,
       ])
       ->setDisplayConfigurable('form', TRUE)
