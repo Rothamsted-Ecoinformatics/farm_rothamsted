@@ -205,6 +205,15 @@ class DesignEntityForm extends ResearchEntityForm {
           'mgmt_other',
         ],
       ],
+      'file' => [
+        'title' => $this->t('Files'),
+        'weight' => 25,
+        'fields' => [
+          'file',
+          'image',
+          'link',
+        ],
+      ],
       'status' => [
         'title' => $this->t('Status'),
         'weight' => 30,

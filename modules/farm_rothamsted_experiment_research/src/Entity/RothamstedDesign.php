@@ -8,6 +8,7 @@ use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
@@ -1240,6 +1241,85 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
           ]);
       }
     }
+
+    // Common file field settings.
+    $file_settings = [
+      'file_directory' => 'rothamsted/rothamsted_design/[date:custom:Y]-[date:custom:m]',
+      'max_filesize' => '',
+      'handler' => 'default:file',
+      'handler_settings' => [],
+    ];
+    $file_field_settings = $file_settings + [
+      'description_field' => TRUE,
+      'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
+    ];
+    $fields['file'] = BaseFieldDefinition::create('file')
+      ->setLabel(t('File'))
+      ->setDescription(t('Upload files associated with this design.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($file_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'file_generic',
+        'settings' => [
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'file_table',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'use_description_as_link_text' => TRUE,
+        ],
+      ]);
+
+    $image_field_settings = $file_settings + [
+      'file_extensions' => 'png gif jpg jpeg',
+    ];
+    $fields['image'] = BaseFieldDefinition::create('image')
+      ->setLabel(t('Image'))
+      ->setDescription(t('Upload files associated with this design.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings($image_field_settings)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'image_image',
+        'settings' => [
+          'preview_image_style' => 'medium',
+          'progress_indicator' => 'throbber',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'image',
+        'label' => 'visually_hidden',
+        'settings' => [
+          'image_style' => 'large',
+          'image_link' => 'file',
+        ],
+      ]);
+
+    $fields['link'] = BaseFieldDefinition::create('link')
+      ->setLabel(t('Links'))
+      ->setDescription(t('Links to external website and documents associated with the design.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setSettings([
+        'title' => DRUPAL_OPTIONAL,
+        'link_type' => LinkItemInterface::LINK_EXTERNAL,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'link',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'link',
+      ]);
 
     return $fields;
   }

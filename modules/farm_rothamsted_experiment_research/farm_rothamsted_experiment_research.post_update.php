@@ -8,6 +8,7 @@
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
+use Drupal\link\LinkItemInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -696,6 +697,60 @@ function farm_rothamsted_experiment_research_post_update_2_12_design_fields(&$sa
         'direction' => 'asc',
       ],
       'auto_create' => FALSE,
+    ]);
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_design',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}
+
+/**
+ * Add rothamsted design file fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_13_file_fields(&$sandbox = NULL) {
+
+  // Common file field settings.
+  $file_settings = [
+    'file_directory' => 'rothamsted/rothamsted_design/[date:custom:Y]-[date:custom:m]',
+    'max_filesize' => '',
+    'handler' => 'default:file',
+    'handler_settings' => [],
+  ];
+  $file_field_settings = $file_settings + [
+    'description_field' => TRUE,
+    'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
+  ];
+  $fields['file'] = BaseFieldDefinition::create('file')
+    ->setLabel(t('File'))
+    ->setDescription(t('Upload files associated with this design.'))
+    ->setRevisionable(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSettings($file_field_settings);
+
+  $image_field_settings = $file_settings + [
+    'file_extensions' => 'png gif jpg jpeg',
+  ];
+  $fields['image'] = BaseFieldDefinition::create('image')
+    ->setLabel(t('Image'))
+    ->setDescription(t('Upload files associated with this design.'))
+    ->setRevisionable(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSettings($image_field_settings);
+
+  $fields['link'] = BaseFieldDefinition::create('link')
+    ->setLabel(t('Links'))
+    ->setDescription(t('Links to external website and documents associated with the design.'))
+    ->setRevisionable(TRUE)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setSettings([
+      'title' => DRUPAL_OPTIONAL,
+      'link_type' => LinkItemInterface::LINK_EXTERNAL,
     ]);
 
   // Finally, install field storage definitions.
