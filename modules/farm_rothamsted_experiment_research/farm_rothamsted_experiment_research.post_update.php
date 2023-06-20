@@ -763,3 +763,70 @@ function farm_rothamsted_experiment_research_post_update_2_13_file_fields(&$sand
     );
   }
 }
+
+/**
+ * Make rotation crop field multivalue.
+ */
+function farm_rothamsted_experiment_research_post_update_2_13_design_crop_field(&$sandbox = NULL) {
+
+  // Init sandbox.
+  if (!isset($sandbox['current_id'])) {
+
+    // Query existing data.
+    $sandbox['design_data'] = \Drupal::database()->select('rothamsted_design_data', 'rdd')
+      ->fields('rdd', ['id', 'rotation_crops'])
+      ->condition('rdd.rotation_crops', NULL, 'IS NOT NULL')
+      ->execute()
+      ->fetchAll();
+
+    // Create the new field definition.
+    $new_field = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Rotation Crops'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      'rotation_crop',
+      'rothamsted_design',
+      'farm_rothamsted_experiment_research',
+      $new_field,
+    );
+
+    // Track progress.
+    $sandbox['current_id'] = 0;
+    $sandbox['#finished'] = 0;
+  }
+
+  // Iterate through designs, 10 at a time.
+  $design_storage = \Drupal::entityTypeManager()->getStorage('rothamsted_design');
+  $quantity_count = count($sandbox['design_data']);
+  $end_id = $sandbox['current_id'] + 10;
+  $end_id = $end_id > $quantity_count ? $quantity_count : $end_id;
+  for ($i = $sandbox['current_id']; $i < $end_id; $i++) {
+
+    // Iterate the global counter.
+    $sandbox['current_id']++;
+
+    // Get the quantity ID.
+    if (isset($sandbox['design_data'][$i]->id) && $design = $design_storage->load($sandbox['design_data'][$i]->id)) {
+      $design->set('rotation_crop', $sandbox['design_data'][$i]->rotation_crops);
+      $design->save();
+    }
+  }
+
+  // Update progress.
+  if (!empty($sandbox['design_data'])) {
+    $sandbox['#finished'] = $sandbox['current_id'] / count($sandbox['design_data']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
+
+  // Remove old field definition.
+  if ($sandbox['#finished'] == 1) {
+    $update_manager = \Drupal::entityDefinitionUpdateManager();
+    $old_field = $update_manager->getFieldStorageDefinition('rotation_crops', 'rothamsted_design');
+    \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($old_field);
+  }
+
+  return NULL;
+}

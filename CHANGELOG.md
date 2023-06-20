@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add validation for sequential column level ids. [#483](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/483)
 - Correct data steward field reference to data curator researcher. [#445](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/445)
+- Allow multiple design crops. [#466](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/466)
 
 ## [2.12.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/30) 2023-06-02
 

@@ -35,7 +35,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'add_rotation',
           'rotation_name',
           'rotation_description',
-          'rotation_crops',
+          'rotation_crop',
           'rotation_phasing',
           'rotation_notes',
         ],
@@ -275,7 +275,7 @@ class DesignEntityForm extends ResearchEntityForm {
     $rotation_fields = [
       'rotation_name',
       'rotation_description',
-      'rotation_crops',
+      'rotation_crop',
       'rotation_phasing',
       'rotation_notes',
     ];

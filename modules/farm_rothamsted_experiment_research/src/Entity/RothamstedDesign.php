@@ -423,10 +423,11 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
-    $fields['rotation_crops'] = BaseFieldDefinition::create('entity_reference')
+    $fields['rotation_crop'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Rotation Crops'))
       ->setDescription(t('The crops in the rotation.'))
       ->setRevisionable(TRUE)
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler', 'default:taxonomy_term')
       ->setSetting('handler_settings', [
