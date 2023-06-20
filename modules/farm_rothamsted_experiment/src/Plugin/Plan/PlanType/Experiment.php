@@ -68,13 +68,6 @@ class Experiment extends FarmPlanType {
         'target_bundle' => 'land',
         'multiple' => TRUE,
       ],
-      // People fields.
-      'contact' => [
-        'type' => 'entity_reference',
-        'label' => $this->t('Contacts'),
-        'target_type' => 'user',
-        'multiple' => TRUE,
-      ],
       // Trial design fields.
       'plant_type' => [
         'type' => 'entity_reference',

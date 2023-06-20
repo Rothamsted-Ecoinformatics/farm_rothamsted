@@ -1,7 +1,11 @@
 <?php
 
-namespace Drupal\Tests\farm_rothamsted_experiment\Functional;
+namespace Drupal\Tests\farm_rothamsted_experiment_research\Functional;
 
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesign;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\plan\Entity\Plan;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 
@@ -29,6 +33,8 @@ class PlanAccessTest extends FarmBrowserTestBase {
    */
   protected static $modules = [
     'farm_rothamsted_experiment',
+    'farm_rothamsted_experiment_research',
+    'farm_rothamsted_researcher',
     'farm_ui_views',
   ];
 
@@ -37,14 +43,6 @@ class PlanAccessTest extends FarmBrowserTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-
-    // Create a plan.
-    $this->plan = Plan::create([
-      'name' => 'Test experiment plan',
-      'type' => 'rothamsted_experiment',
-      'column_descriptors' => '',
-    ]);
-    $this->plan->save();
 
     // Create and login a user with necessary permissions.
     $this->user = $this->createUser();
@@ -55,7 +53,72 @@ class PlanAccessTest extends FarmBrowserTestBase {
    * Test that custom blocks are added to the dashboard.
    */
   public function testPlanAccess() {
-    $plan_id = $this->plan->id();
+
+    // Research entities.
+    $new_researchers = [
+      [
+        'name' => 'Researcher 1',
+        'role' => 'lead_scientist',
+        'organization' => 'Rothamsted',
+        'department' => 'Pathology',
+      ],
+      [
+        'name' => 'Researcher 2',
+        'role' => 'phd_student',
+        'organization' => 'Rothamsted',
+        'department' => 'Soils',
+        'farm_user' => $this->user,
+      ],
+      [
+        'name' => 'Statistician',
+        'role' => 'statistician',
+        'organization' => 'Rothamsted',
+        'department' => 'Soils',
+      ],
+    ];
+    $researchers = [];
+    foreach ($new_researchers as $researcher) {
+      $new = RothamstedResearcher::create([
+        'name' => $researcher['name'],
+        'role' => $researcher['role'],
+        'organization' => $researcher['organization'],
+        'department' => $researcher['department'],
+        'farm_user' => $researcher['farm_user'] ?? NULL,
+      ]);
+      $new->save();
+      $researchers[] = $new;
+    }
+    $program = RothamstedProgram::create([
+      'code' => 'P01-TEST',
+      'name' => 'Program 1',
+      'abbreviation' => 'P01',
+      'principal_investigator' => $new_researchers[0],
+    ]);
+    $program->save();
+    $experiment = RothamstedExperiment::create([
+      'program' => $program,
+      'code' => 'P01-E01',
+      'name' => 'Experiment 1',
+      'abbreviation' => 'E01',
+    ]);
+    $experiment->save();
+    $design = RothamstedDesign::create([
+      'experiment' => $experiment,
+      'name' => 'Design 1',
+      'description' => 'Initial design for experiment 1',
+      'statistician' => reset($researchers),
+    ]);
+    $design->save();
+
+    // Experiment plan.
+    $plan = Plan::create([
+      'type' => 'rothamsted_experiment',
+      'name' => 'Experiment 1',
+      'experiment_design' => $design,
+    ]);
+    $plan->save();
+
+    $plan_id = $plan->id();
     $plan_path = "/plan/$plan_id";
 
     // Test new user has no access.
@@ -90,9 +153,9 @@ class PlanAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Add user to the plan.
-    $this->plan->get('contact')->appendItem($this->user);
-    $this->plan->save();
+    // Add user to the experiment.
+    $experiment->set('researcher', [$researchers[0], $researchers[1]]);
+    $experiment->save();
 
     // Test viewer + sponsor role has all access.
     $this->drupalGet($plan_path);
@@ -102,9 +165,9 @@ class PlanAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(200);
 
-    // Remove user from plan.
-    $this->plan->set('contact', []);
-    $this->plan->save();
+    // Remove user from experiment.
+    $experiment->set('researcher', [$researchers[0], $researchers[2]]);
+    $experiment->save();
 
     // Test viewer + sponsor role only has view access.
     $this->drupalGet($plan_path);

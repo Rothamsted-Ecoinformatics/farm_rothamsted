@@ -58,21 +58,6 @@ third_party_settings:
         formatter: open
         description: ''
         required_fields: true
-    group_people:
-      children:
-        - contact
-      label: People
-      region: content
-      parent_name: group_metadata
-      weight: 4
-      format_type: tab
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        formatter: closed
-        description: ''
-        required_fields: true
     group_experiment_status:
       children:
         - status
@@ -174,16 +159,6 @@ content:
   asset:
     type: entity_reference_autocomplete
     weight: 16
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  contact:
-    type: entity_reference_autocomplete
-    weight: 52
     region: content
     settings:
       match_operator: CONTAINS

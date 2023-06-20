@@ -6,12 +6,15 @@
  */
 
 use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
+use Drupal\plan\Entity\PlanInterface;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
@@ -47,6 +50,105 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_research_plan_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check experiment plans.
+  if ($entity->bundle() != 'rothamsted_experiment') {
+    return AccessResult::neutral();
+  }
+
+  // Only check update and delete operations.
+  if (!in_array($operation, ['create', 'update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  return farm_rothamsted_experiment_research_plan_account_access($entity, $account);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_research_asset_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check plot assets.
+  if ($entity->bundle() != 'plot') {
+    return AccessResult::neutral();
+  }
+
+  // Only check update and delete operations.
+  if (!in_array($operation, ['update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Find the plan associated with the plot.
+  $plans = \Drupal::entityTypeManager()->getStorage('plan')->loadByProperties([
+    'plot' => $entity->id(),
+  ]);
+
+  // Don't check if the plot is not associated with a plan.
+  if (empty($plans)) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  $plan = reset($plans);
+  return farm_rothamsted_experiment_research_plan_account_access($plan, $account)
+    ->addCacheableDependency($entity);
+}
+
+/**
+ * Helper function to determine if an account has access to edit a plan.
+ *
+ * @param \Drupal\plan\Entity\PlanInterface $plan
+ *   The plan.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   The account.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   The access result.
+ */
+function farm_rothamsted_experiment_research_plan_account_access(PlanInterface $plan, AccountInterface $account) {
+
+  // Allow users to update the plan if they are listed as a contact
+  // or if they are an experiment admin.
+  // We cannot use the access result's and/or logic to combine access results
+  // so check for each case and separately return an access result.
+
+  // Allow access if the user is an experiment admin.
+  if ($account->hasPermission('administer rothamsted_experiment plan')) {
+    return AccessResult::allowedIfHasPermission($account, 'administer rothamsted_experiment plan');
+  }
+
+  // Allow access if the user is a researcher on the overall experiment.
+  // Get the design.
+  $designs = $plan->get('experiment_design')->referencedEntities();
+  if (empty($designs)) {
+    return AccessResult::forbidden()
+      ->setCacheMaxAge(0);
+  }
+
+  // Get the experiment.
+  $design = reset($designs);
+  $experiments = $design->get('experiment')->referencedEntities();
+  if (empty($experiments)) {
+    return AccessResult::forbidden()
+      ->setCacheMaxAge(0);
+  }
+
+  // Check for matching researcher.
+  $experiment = reset($experiments);
+  $researchers = $experiment->get('researcher')->referencedEntities();
+  $is_researcher = array_filter($researchers, function (RothamstedResearcherInterface $researcher) use ($account) {
+    return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
+  });
+  return AccessResult::forbiddenIf(empty($is_researcher))
+    ->setCacheMaxAge(0);
 }
 
 /**

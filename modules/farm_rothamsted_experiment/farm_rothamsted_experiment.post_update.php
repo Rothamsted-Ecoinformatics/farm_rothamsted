@@ -862,3 +862,12 @@ function farm_rothamsted_experiment_post_update_2_13_migrate_experiment_code_stu
 
   return NULL;
 }
+
+/**
+ * Uninstall contact field.
+ */
+function farm_rothamsted_experiment_post_update_2_13_uninstall_contact_field(&$sandbox = NULL) {
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $contact_field = $update_manager->getFieldStorageDefinition('contact', 'plan');
+  \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($contact_field);
+}

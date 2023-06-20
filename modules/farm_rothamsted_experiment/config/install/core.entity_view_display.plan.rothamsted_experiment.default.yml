@@ -39,20 +39,6 @@ third_party_settings:
         id: ''
         formatter: open
         description: ''
-    group_people:
-      children:
-        - contact
-      label: People
-      parent_name: ''
-      region: content
-      weight: 2
-      format_type: tab
-      format_settings:
-        classes: ''
-        show_empty_fields: true
-        id: ''
-        formatter: closed
-        description: ''
     group_experiment_status:
       children:
         - growing_conditions
@@ -153,14 +139,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: -92
-    region: content
-  contact:
-    type: entity_reference_label
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 9
     region: content
   cost_code:
     type: string

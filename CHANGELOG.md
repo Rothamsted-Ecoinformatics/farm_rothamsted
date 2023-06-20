@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change trailer and combine quick form log categories. [#438](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/438)
 - Rename experiment code to study period ID. [#456](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/456)
+- Remove people tab from experiment plans. [#459](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/459)
 
 ### Fixed
 
