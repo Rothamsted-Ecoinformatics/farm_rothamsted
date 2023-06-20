@@ -339,35 +339,37 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     'highlight_fields' => $highlight_fields[$entity_type_id] ?? [],
   ];
 
-  // Include email logic.
-  $emails = [];
-  if ($entity_type_id === 'rothamsted_proposal') {
-    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
-  }
-
-  // Determine operation and handle comment logic.
+  // Add entity type logic.
   $operation = 'entity_create';
-  if ($entity_type_id == 'comment') {
-    $operation = 'comment';
+  $emails = [];
+  switch ($entity_type_id) {
+    case 'comment':
+      $operation = 'comment';
 
-    // Send comment update to all proposal contacts.
-    if ($entity->bundle() == 'rothamsted_proposal') {
-      array_push($emails, ...farm_rothamsted_experiment_research_proposal_contacts($entity->getCommentedEntity()));
-    }
-
-    // Send comment update to authors of parent comments.
-    $parent_count = 0;
-    /** @var \Drupal\comment\Entity\Comment $comment */
-    $comment = $entity;
-    while ($comment->hasParentComment() && $parent_count < 5) {
-      $parent_count++;
-      $comment = $comment->getParentComment();
-      if ($email = $comment->getAuthorEmail()) {
-        $emails[] = $email;
+      // Send comment update to all proposal contacts.
+      if ($entity->bundle() == 'rothamsted_proposal') {
+        array_push($emails, ...farm_rothamsted_experiment_research_proposal_contacts($entity->getCommentedEntity()));
       }
-    }
+
+      // Send comment update to authors of parent comments.
+      $parent_count = 0;
+      /** @var \Drupal\comment\Entity\Comment $comment */
+      $comment = $entity;
+      while ($comment->hasParentComment() && $parent_count < 5) {
+        $parent_count++;
+        $comment = $comment->getParentComment();
+        if ($email = $comment->getAuthorEmail()) {
+          $emails[] = $email;
+        }
+      }
+      break;
+
+    case 'rothamsted_proposal':
+      $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+      break;
   }
 
+  // Finally send the email.
   farm_rothamsted_notification_send_research_update($operation, $entity, $emails, $params);
 }
 
