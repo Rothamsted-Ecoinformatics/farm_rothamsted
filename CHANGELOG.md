@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/31) 2023-06-20
+
 ### Added
 
 - Add generic links field to experiment plan. [#458](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/458)
