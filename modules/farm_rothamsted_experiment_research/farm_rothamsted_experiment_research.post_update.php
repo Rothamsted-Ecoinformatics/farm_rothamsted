@@ -713,7 +713,7 @@ function farm_rothamsted_experiment_research_post_update_2_12_design_fields(&$sa
 /**
  * Add rothamsted design file fields.
  */
-function farm_rothamsted_experiment_research_post_update_2_13_file_fields(&$sandbox = NULL) {
+function farm_rothamsted_experiment_research_post_update_2_13_1_file_fields(&$sandbox = NULL) {
 
   // Common file field settings.
   $file_settings = [
@@ -767,7 +767,7 @@ function farm_rothamsted_experiment_research_post_update_2_13_file_fields(&$sand
 /**
  * Make rotation crop field multivalue.
  */
-function farm_rothamsted_experiment_research_post_update_2_13_design_crop_field(&$sandbox = NULL) {
+function farm_rothamsted_experiment_research_post_update_2_13_2_design_crop_field(&$sandbox = NULL) {
 
   // Init sandbox.
   if (!isset($sandbox['current_id'])) {
