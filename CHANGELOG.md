@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Correct data steward field reference to data curator researcher. [#445](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/445)
+
 ## [2.13.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/31) 2023-06-20
 
 ### Added

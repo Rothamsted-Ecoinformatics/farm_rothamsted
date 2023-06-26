@@ -357,7 +357,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
           'view_name' => 'rothamsted_researcher_reference',
           'display_name' => 'entity_reference',
           'arguments' => [
-            'role' => 'data_curator',
+            'role' => 'statistician',
           ],
         ],
       ])
@@ -388,7 +388,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
           'view_name' => 'rothamsted_researcher_reference',
           'display_name' => 'entity_reference',
           'arguments' => [
-            'role' => 'statistician',
+            'role' => 'data_curator',
           ],
         ],
       ])
