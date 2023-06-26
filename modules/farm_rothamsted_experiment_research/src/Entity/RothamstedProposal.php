@@ -438,6 +438,38 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
 
+    // Integer year fields.
+    $fields['planting_year'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Planting Year'))
+      ->setDescription(t('The planting year for the study.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('min', 1800)
+      ->setSetting('max', 3000)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+    $fields['harvest_year'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Harvest Year'))
+      ->setDescription(t('The year the experiment is to be harvested.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('min', 1800)
+      ->setSetting('max', 3000)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number',
+        'label' => 'inline',
+      ]);
+
     $fields['crop'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Crops'))
       ->setDescription(t('The crops being proposed for study.'))

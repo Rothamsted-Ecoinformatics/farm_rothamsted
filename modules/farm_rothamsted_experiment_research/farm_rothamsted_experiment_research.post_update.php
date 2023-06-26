@@ -830,3 +830,38 @@ function farm_rothamsted_experiment_research_post_update_2_13_2_design_crop_fiel
 
   return NULL;
 }
+
+/**
+ * Create planting and harvest year fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_14_add_year_fields(&$sandbox = NULL) {
+
+  // Integer year fields.
+  $fields['planting_year'] = BaseFieldDefinition::create('integer')
+    ->setLabel(t('Planting Year'))
+    ->setDescription(t('The planting year for the study.'))
+    ->setRevisionable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE)
+    ->setSetting('min', 1800)
+    ->setSetting('max', 3000);
+
+  $fields['harvest_year'] = BaseFieldDefinition::create('integer')
+    ->setLabel(t('Harvest Year'))
+    ->setDescription(t('The year the experiment is to be harvested.'))
+    ->setRevisionable(TRUE)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE)
+    ->setSetting('min', 1800)
+    ->setSetting('max', 3000);
+
+  // Install each field definition.
+  foreach ($fields as $field_name => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_name,
+      'rothamsted_proposal',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}

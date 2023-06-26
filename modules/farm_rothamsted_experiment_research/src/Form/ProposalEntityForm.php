@@ -30,6 +30,8 @@ class ProposalEntityForm extends ResearchEntityForm {
         'title' => $this->t('Statistical Design'),
         'weight' => 5,
         'fields' => [
+          'planting_year',
+          'harvest_year',
           'crop',
           'previous_cropping',
           'num_treatments',
