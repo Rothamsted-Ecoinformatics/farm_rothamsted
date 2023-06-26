@@ -2101,7 +2101,7 @@ display:
           exposed: true
           expose:
             operator_id: drilling_year_value_op
-            label: 'Drilling Year'
+            label: 'Planting Year'
             description: ''
             use_operator: false
             operator: drilling_year_value_op
@@ -2116,8 +2116,13 @@ display:
               anonymous: '0'
               farm_manager: '0'
               farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
               farm_viewer: '0'
               farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
