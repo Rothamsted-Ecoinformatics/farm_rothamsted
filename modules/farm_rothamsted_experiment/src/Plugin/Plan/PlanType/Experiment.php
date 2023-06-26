@@ -49,11 +49,6 @@ class Experiment extends FarmPlanType {
         'label' => $this->t('Study Period ID'),
         'description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
       ],
-      'experiment_code' => [
-        'type' => 'string',
-        'label' => $this->t('Experiment Code'),
-        'description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
-      ],
       'cost_code' => [
         'type' => 'string',
         'label' => $this->t('Cost Code'),
