@@ -363,14 +363,14 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
+        'type' => 'rothamsted_orcid_link',
         'settings' => [
           'size' => 25,
         ],
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'string',
+        'type' => 'rothamsted_orcid_link',
         'label' => 'inline',
       ]);
 

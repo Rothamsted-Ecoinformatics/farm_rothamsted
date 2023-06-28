@@ -20,3 +20,15 @@ function farm_rothamsted_researcher_post_update_2_12_create_researcher_reference
     \Drupal::configFactory()->getEditable("views.view.$view_id")->setData($data)->save(TRUE);
   }
 }
+
+/**
+ * Remove Orcid URL prefixes from orcid field values.
+ */
+function farm_rothamsted_researcher_post_update_2_14_remove_orcid_prefix(&$sandbox = NULL) {
+  foreach (['rothamsted_researcher_data', 'rothamsted_researcher_field_revision'] as $table) {
+    \Drupal::database()->update($table)
+      ->expression('orcid', "REPLACE(orcid, 'https://orcid.org/', '')")
+      ->condition('orcid', 'https://orcid.org/%', 'LIKE')
+      ->execute();
+  }
+}

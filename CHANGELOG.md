@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add planting and harvest year to proposals. [#481](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/481)
 - Filter proposals by harvest and planting year. [#480](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/480)
+- Make Orcid ID data field a hyperlink. [#451](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/451)
 
 ### Fixed
 
