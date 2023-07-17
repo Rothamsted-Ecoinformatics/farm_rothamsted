@@ -81,6 +81,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       ],
       '#upload_location' => $plan_file_location,
       '#limit_validation_errors' => [],
+      '#required' => TRUE,
     ];
 
     // Revision message.
@@ -192,6 +193,14 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Get the plan.
     $plan = Plan::load($form_state->getValue('plan_id'));
     $revision_message = $form_state->getValue('revision_message');
+
+    // Add the geojson file to the plan.
+    if ($file_ids = $form_state->getValue('geojson')) {
+      $file = $this->entityTypeManager->getStorage('file')->load(reset($file_ids));
+      $plan->get('file')->appendItem($file);
+      $plan->save();
+    }
+
     $geojson = $this->loadGeojson($form_state);
     $features = $geojson['features'] ?? [];
 

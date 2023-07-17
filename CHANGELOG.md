@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Correct data steward field reference to data curator researcher. [#445](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/445)
+- Save plot geojson files to experiment plan. [#484](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/484)
 
 ### Removed
 
