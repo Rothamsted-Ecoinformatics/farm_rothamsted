@@ -164,6 +164,34 @@ function farm_rothamsted_asset_form_move_submit(array &$form, FormStateInterface
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function farm_rothamsted_preprocess_field_multiple_value_form(&$variables) {
+
+  // Move field description to the table caption.
+  if (
+    $variables['multiple']
+    && !empty($variables['element']['#description'])
+    && !empty($variables['element']['#title'])
+  ) {
+    $title = $variables['element']['#title'];
+    $description = $variables['element']['#description'];
+    $variables['table']['#caption'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'h4',
+      '#value' => "$title: $description",
+      '#attributes' => [
+        'class' => [
+          'form-item__label',
+          'form-item__label--multiple-value-form',
+        ],
+      ],
+    ];
+    unset($variables['description']);
+  }
+}
+
+/**
  * Implements hook_page_attachments().
  */
 function farm_rothamsted_page_attachments(array &$attachments) {
