@@ -168,7 +168,7 @@ function farm_rothamsted_asset_form_move_submit(array &$form, FormStateInterface
  */
 function farm_rothamsted_preprocess_field_multiple_value_form(&$variables) {
 
-  // Move field description to the table caption.
+  // Move field description to after the field title in the table header.
   if (
     $variables['multiple']
     && !empty($variables['element']['#description'])
@@ -176,17 +176,12 @@ function farm_rothamsted_preprocess_field_multiple_value_form(&$variables) {
   ) {
     $title = $variables['element']['#title'];
     $description = $variables['element']['#description'];
-    $variables['table']['#caption'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'h4',
-      '#value' => "$title: $description",
-      '#attributes' => [
-        'class' => [
-          'form-item__label',
-          'form-item__label--multiple-value-form',
-        ],
-      ],
-    ];
+
+    // Update the field element title in $variables.
+    // This is necessary because claro's preprocess hook uses the element title
+    // and will always run after our hook because claro is a theme.
+    // @see claro_preprocess_field_multiple_value_form.
+    $variables['element']['#title'] = "$title: $description";
     unset($variables['description']);
   }
 }
