@@ -3,14 +3,42 @@
 namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\asset\Entity\Asset;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Experiment boundary form.
  */
 class ExperimentBoundaryForm extends ExperimentFormBase {
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Constructs a new ExperimentBoundaryForm.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -89,6 +117,16 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       '#required' => TRUE,
     ];
 
+    $form['geometry'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Experiment Boundary KML File'),
+      '#description' => $this->t('If you have a KML file with GIS coordinates for the experiment boundary, please add it here.'),
+      '#upload_location' => 'private://kml',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['kml'],
+      ],
+    ];
+
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
@@ -136,6 +174,20 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       'is_fixed' => TRUE,
       'is_location' => TRUE,
     ]);
+
+    // Add the geometry if provided.
+    $file_ids = $form_state->getValue('geometry', []);
+    if (count($file_ids)) {
+      /** @var \Drupal\file\FileInterface $file */
+      $file = $this->entityTypeManager->getStorage('file')->load(reset($file_ids));
+      $path = $file->getFileUri();
+      if ($data = file_get_contents($path)) {
+        $boundary->set('intrinsic_geometry', $data);
+        $boundary->set('file', $file);
+      }
+    }
+
+    // Save the boundary.
     $boundary->save();
 
     // Add land asset to the plan.
