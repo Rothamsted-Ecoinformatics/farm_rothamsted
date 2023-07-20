@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix orcid ID regex for checksum. [#451](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/451)
+
 ## [2.14.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/32) 2023-07-17
 
 ### Added
