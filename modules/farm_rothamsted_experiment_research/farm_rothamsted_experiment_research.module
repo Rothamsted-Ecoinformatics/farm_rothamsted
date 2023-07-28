@@ -228,17 +228,20 @@ function farm_rothamsted_experiment_research_statistical_design_options(string $
       'ubd' => t('Unequal Block Design'),
       'ad' => t('Alpha Design'),
       'cd' => t('Cyclic Design'),
+      'description' => t('Other (see description)'),
     ],
     'nrbd' => [
       'ibd' => t('Incomplete Block Design'),
       'ad' => t('Alpha Design'),
       'cd' => t('Cyclic Design'),
+      'description' => t('Other (see description)'),
     ],
     'rrcd' => [
       'ls' => t('Latin Square'),
       'cls' => t('Complete Latin Square'),
       'qcls' => t('Quasi-Complete Latin Square'),
       'lsd' => t('Lattice Square Design'),
+      'description' => t('Other (see description)'),
     ],
     'nrrcd' => [
       'description' => t('See Description'),
@@ -248,6 +251,7 @@ function farm_rothamsted_experiment_research_statistical_design_options(string $
       'smpd' => t('Split Main Plots Design'),
       'sspd' => t('Split-split Plot Design'),
       'ccd' => t('Criss-cross (Strip Plot) Design'),
+      'description' => t('Other (see description)'),
     ],
     'ad' => [
       'description' => t('See Description'),
