@@ -791,8 +791,8 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ],
       'num_plots_block' => [
         'type' => 'integer',
-        'label' => t('Number of plots per block'),
-        'description' => t('The number of plots per block.'),
+        'label' => t('Number of main plots per block'),
+        'description' => t('The number of main plots per block.'),
       ],
       'num_mainplots' => [
         'type' => 'integer',

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Error message when clearing quick form location. [#518](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/518)
+- Rename number of plots per block. [#523](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/523)
 
 ## [2.14.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/32) 2023-07-20
 
