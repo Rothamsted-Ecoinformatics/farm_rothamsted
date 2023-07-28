@@ -287,7 +287,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       // Load an existing location from form storage.
       $found_locations = $form_state->get('location') ?? [];
       if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'location') {
-        $found_locations = array_column($form_state->getValue('location', []), 'target_id');
+        $found_locations = array_column($form_state->getValue('location') ?? [], 'target_id');
       }
       $form_state->set('location', $found_locations);
 
