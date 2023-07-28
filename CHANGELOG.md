@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add other statistical design options. [#519](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/519)
 - Add none option for additional blocking constraints. [#520](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/520)
 
+### Changed
+
+- Move previous cropping to restrictions tab. [#512](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/512)
+
 ### Fixed
 
 - Error message when clearing quick form location. [#518](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/518)

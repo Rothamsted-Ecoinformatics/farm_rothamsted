@@ -33,7 +33,6 @@ class ProposalEntityForm extends ResearchEntityForm {
           'planting_year',
           'harvest_year',
           'crop',
-          'previous_cropping',
           'num_treatments',
           'treatment',
           'num_replicates',
@@ -55,6 +54,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         'title' => $this->t('Restrictions'),
         'weight' => 10,
         'fields' => [
+          'previous_cropping',
           'requested_location',
           'unsuitable_location',
           'restriction_crop',
