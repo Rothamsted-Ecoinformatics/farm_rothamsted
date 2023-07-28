@@ -1041,7 +1041,10 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'draft' => t('Draft'),
         'submitted' => t('Submitted'),
         'approved' => t('Approved'),
+        'planning' => t('Planning'),
+        'postponed' => t('Postponed'),
         'rejected' => t('Rejected'),
+        'cancelled' => t('Cancelled'),
         'archived' => t('Archived'),
       ])
       ->setDefaultValue('draft')
