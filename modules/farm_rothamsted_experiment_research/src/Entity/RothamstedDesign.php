@@ -600,13 +600,15 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
     $fields['blocking_constraint'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Additional Blocking Constraints'))
       ->setDescription(t('Any additional blocking constraints associated with the experiment design.'))
+      ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [
         't-latinization' => t('T-Latinization'),
         'spatial_standards' => t('Spatial Standards'),
         'spatial_design' => t('Spatial Design'),
         'unequal_replication' => t('Unequal Replication'),
-        'other' => t('Other'),
+        'other' => t('Other (see description)'),
+        'none' => t('None'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

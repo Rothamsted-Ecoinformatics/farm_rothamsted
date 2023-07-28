@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add genetically modified and edited experiment categories. [#509](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/509)
 - Add new status levels to proposals. [#504](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/504)
 - Add other statistical design options. [#519](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/519)
+- Add none option for additional blocking constraints. [#520](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/520)
 
 ### Fixed
 
