@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add genetically modified and edited experiment categories. [#509](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/509)
+
 ### Fixed
 
 - Error message when clearing quick form location. [#518](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/518)

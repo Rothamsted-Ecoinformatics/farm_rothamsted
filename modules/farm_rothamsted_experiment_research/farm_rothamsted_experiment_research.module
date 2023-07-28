@@ -181,6 +181,8 @@ function farm_rothamsted_experiment_research_experiment_category_options(): arra
     'crop_sequence_experiment' => t('Crop Sequence Experiment'),
     'classical_experiment' => t('Classical Experiment'),
     'energy_crop_experiment' => t('Energy Crop Experiment'),
+    'genetically_modified_experiment' => t('Genetically Modified Experiment'),
+    'genetically_edited_experiment' => t('Genetically Edited Experiment'),
     'longterm_experiment' => t('Longterm Experiment'),
     'seed_bulking_plots' => t('Seed Bulking Plots'),
     'other' => t('Other'),
