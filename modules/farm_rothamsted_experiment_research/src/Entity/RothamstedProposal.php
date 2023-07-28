@@ -503,7 +503,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Previous Cropping'))
-      ->setDescription(t('The crop(s) which were grown in the same location immediately before the experiment.'))
+      ->setDescription(t('If necessary, you can request that your experiment is planted in a field currently planted with a specific crop. You can also add multiple options. For example, if you are studying second wheat, you can request that the experiment is drilled in a field which is currently planted with winter wheat or spring wheat. Requests will be accommodated where possible.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'taxonomy_term')
