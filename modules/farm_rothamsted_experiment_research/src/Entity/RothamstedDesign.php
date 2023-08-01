@@ -1056,6 +1056,10 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => t('Drilling rate'),
         'description' => t('Request specific drilling rates.'),
       ],
+      'drill_spacing' => [
+        'label' => t('Drill spacing'),
+        'description' => t('Request specific drill spacing.'),
+      ],
       'plant_estab' => [
         'label' => t('Plant Establishment'),
         'description' => t('Detail any management relating to plant establishment.'),
@@ -1115,6 +1119,10 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       'irrigation' => [
         'label' => t('Irrigation'),
         'description' => t('Please specify any requirements relating to irrigation.'),
+      ],
+      'organic_amendments' => [
+        'label' => t('Organic amendments'),
+        'description' => t('Request specific organic amendments (farmyard manure, poultry manure, compost, etc).'),
       ],
       'nitrogen_treatment' => [
         'label' => t('Nitrogen (N) as treatment'),

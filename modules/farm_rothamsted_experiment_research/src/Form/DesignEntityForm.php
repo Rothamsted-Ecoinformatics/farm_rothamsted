@@ -131,6 +131,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'mgmt_planting_rate_treatment',
           'mgmt_seed_rate',
           'mgmt_drilling_rate',
+          'mgmt_drill_spacing',
           'mgmt_plant_estab',
         ],
       ],
@@ -164,6 +165,7 @@ class DesignEntityForm extends ResearchEntityForm {
         'title' => $this->t('Nutrition'),
         'weight' => 25,
         'fields' => [
+          'mgmt_organic_amendments',
           'mgmt_nitrogen_treatment',
           'mgmt_nitrogen',
           'mgmt_potassium_treatment',

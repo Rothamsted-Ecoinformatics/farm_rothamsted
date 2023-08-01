@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new status levels to proposals. [#504](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/504)
 - Add other statistical design options. [#519](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/519)
 - Add none option for additional blocking constraints. [#520](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/520)
+- Add drill spacing to design entity. [#490](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/490)
+- Add organic amendments to design entity. [#491](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/491)
 
 ### Changed
 

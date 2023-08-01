@@ -865,3 +865,48 @@ function farm_rothamsted_experiment_research_post_update_2_14_add_year_fields(&$
     );
   }
 }
+
+/**
+ * Add drill spacing and organic amendments design fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_15_add_design_fields(&$sandbox) {
+
+  // Create drill spacing and organic amendments fields.
+  $fields = [];
+  $management_fields = [
+    'drill_spacing' => [
+      'label' => t('Drill spacing'),
+      'description' => t('Request specific drill spacing.'),
+    ],
+    'organic_amendments' => [
+      'label' => t('Organic amendments'),
+      'description' => t('Request specific organic amendments (farmyard manure, poultry manure, compost, etc).'),
+    ],
+  ];
+  foreach ($management_fields as $management_field_id => $management_field_info) {
+    $field_id = "mgmt_$management_field_id";
+    $fields[$field_id] = BaseFieldDefinition::create('text_long')
+      ->setLabel($management_field_info['label'])
+      ->setDescription($management_field_info['description'])
+      ->setRevisionable(TRUE)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+  }
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_design',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}
