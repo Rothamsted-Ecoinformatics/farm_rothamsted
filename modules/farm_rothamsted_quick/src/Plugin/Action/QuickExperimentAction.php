@@ -20,10 +20,20 @@ class QuickExperimentAction extends QuickFormActionBase {
   /**
    * {@inheritdoc}
    */
-  public function getQuckFormId(): string {
+  public function getQuickFormId(): string {
     // Because this uses a deriver, the quick form id is the second part.
     $parts = explode(':', $this->getPluginId());
     return $parts[1];
+  }
+
+  /**
+   * Implement the old method name with misspelling.
+   *
+   * This can be removed once https://github.com/farmOS/farmOS/pull/703 is
+   * merged and deployed.
+   */
+  public function getQuckFormId(): string {
+    return $this->getQuickFormId();
   }
 
   /**
