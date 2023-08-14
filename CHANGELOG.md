@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Experiment study period ID a required field. [#530](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/530)
+- Use farmOS core secondary local task provider.
 
 ### Fixed
 

@@ -160,15 +160,6 @@ function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $en
 }
 
 /**
- * Implements hook_entity_type_build().
- */
-function farm_rothamsted_experiment_entity_type_build(array &$entity_types) {
-  // Override the asset local task provider.
-  $asset_local_task_provider = ['default' => 'Drupal\farm_rothamsted_experiment\Menu\RothamstedTaskProvider'];
-  $entity_types['plan']->setHandlerClass('local_task_provider', $asset_local_task_provider);
-}
-
-/**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function farm_rothamsted_experiment_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
