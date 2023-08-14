@@ -111,14 +111,14 @@ class ExperimentPlotForm extends ExperimentFormBase {
     // Redirect to the plan variables page after processing.
     $form_state->setRedirect('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
 
-    $experiment_code = $plan->get('study_period_id')->value;
+    $study_period = $plan->get('study_period_id')->value;
     /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $plot_field */
     $plot_count = $form_state->getValue('plot_count', 1);
 
     // Build batch operations to update plot geometries.
     $operations[] = [
       [self::class, 'updatePlotBatch'],
-      [$plan->id(), $plot_count, $experiment_code, $boundary->id(), $revision_message],
+      [$plan->id(), $plot_count, $study_period, $boundary->id(), $revision_message],
     ];
     $batch = [
       'operations' => $operations,
@@ -136,8 +136,8 @@ class ExperimentPlotForm extends ExperimentFormBase {
    *   The plan ID.
    * @param int $plot_count
    *   The plot count.
-   * @param string $experiment_code
-   *   The experiment code.
+   * @param string $study_period
+   *   The study period ID.
    * @param int $boundary
    *   The experiment boundary for plot parent.
    * @param string $revision_message
@@ -145,7 +145,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
    * @param array $context
    *   The batch context.
    */
-  public static function updatePlotBatch(int $plan_id, int $plot_count, string $experiment_code, int $boundary, string $revision_message, array &$context) {
+  public static function updatePlotBatch(int $plan_id, int $plot_count, string $study_period, int $boundary, string $revision_message, array &$context) {
 
     // Init the batch sandbox.
     if (empty($context['sandbox'])) {
@@ -162,7 +162,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
     for ($i = $current; $i < $end; $i++) {
 
       // Create plot.
-      $plot_name = "$experiment_code: $i";
+      $plot_name = "$study_period: $i";
       $plot = Asset::create([
         'type' => 'plot',
         'name' => $plot_name,
