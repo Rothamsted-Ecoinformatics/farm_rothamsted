@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Filter research entities by experiment category. [#507](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/507)
+
 ### Changed
 
 - Experiment study period ID a required field. [#530](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/530)
