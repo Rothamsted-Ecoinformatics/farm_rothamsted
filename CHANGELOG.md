@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Error message when unselecting a product type. [#531](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/531)
+
 ## [2.15.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/36) 2023-08-02
 
 ### Added
