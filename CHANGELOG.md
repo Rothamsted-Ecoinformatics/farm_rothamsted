@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Experiment study period ID a required field. [#530](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/530)
+
 ### Fixed
 
 - Error message when unselecting a product type. [#531](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/531)
