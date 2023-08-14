@@ -517,8 +517,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         if (($trigger = $form_state->getTriggeringElement())
             && NestedArray::getValue($trigger['#array_parents'], [2]) == $i
             && NestedArray::getValue($trigger['#array_parents'], [4]) == 'product_type') {
-          $product_type_id = $trigger['#value'];
-          $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+          if ($product_type_id = $trigger['#value']) {
+            $product_options = $this->getTermTreeOptions('material_type', $product_type_id);
+          }
         }
         // Else get the previous product_type from form state.
         elseif ($product_type_id = $form_state->get(['products', $i, 'product_wrapper', 'product_type'])) {
