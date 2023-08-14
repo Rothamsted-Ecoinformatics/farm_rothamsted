@@ -946,6 +946,117 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        experiment:
+          id: experiment
+          table: rothamsted_design_data
+          field: experiment
+          relationship: experiment_design_target_id
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: experiment
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: experiment_op
+            label: 'Related Experiment'
+            description: ''
+            use_operator: false
+            operator: experiment_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: experiment
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          handler: 'default:rothamsted_experiment'
+          widget: autocomplete
+          handler_settings:
+            target_bundles: null
+            sort:
+              field: _none
+              direction: ASC
+            auto_create: false
+        category:
+          id: category
+          table: rothamsted_experiment_data
+          field: category
+          relationship: experiment
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: category
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: category_op
+            label: 'Experiment category'
+            description: ''
+            use_operator: false
+            operator: category_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: category
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
         status:
           id: status
           table: plan_field_data
@@ -1199,65 +1310,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        experiment:
-          id: experiment
-          table: rothamsted_design_data
-          field: experiment
-          relationship: experiment_design_target_id
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_design
-          entity_field: experiment
-          plugin_id: entity_reference
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: experiment_op
-            label: 'Related Experiment'
-            description: ''
-            use_operator: false
-            operator: experiment_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: experiment
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          handler: 'default:rothamsted_experiment'
-          widget: autocomplete
-          handler_settings:
-            target_bundles: null
-            sort:
-              field: _none
-              direction: ASC
-            auto_create: false
         drilling_year_value:
           id: drilling_year_value
           table: plan__drilling_year
@@ -1820,6 +1872,117 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        experiment:
+          id: experiment
+          table: rothamsted_design_data
+          field: experiment
+          relationship: experiment_design_target_id
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: experiment
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: experiment_op
+            label: 'Related Experiment'
+            description: ''
+            use_operator: false
+            operator: experiment_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: experiment
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          handler: 'default:rothamsted_experiment'
+          widget: autocomplete
+          handler_settings:
+            target_bundles: null
+            sort:
+              field: _none
+              direction: ASC
+            auto_create: false
+        category:
+          id: category
+          table: rothamsted_experiment_data
+          field: category
+          relationship: experiment
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: category
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: category_op
+            label: 'Experiment category'
+            description: ''
+            use_operator: false
+            operator: category_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: category
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
         status_notes_value:
           id: status_notes_value
           table: plan__status_notes
@@ -2023,65 +2186,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        experiment:
-          id: experiment
-          table: rothamsted_design_data
-          field: experiment
-          relationship: experiment_design_target_id
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_design
-          entity_field: experiment
-          plugin_id: entity_reference
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: experiment_op
-            label: 'Related Experiment'
-            description: ''
-            use_operator: false
-            operator: experiment_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: experiment
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          handler: 'default:rothamsted_experiment'
-          widget: autocomplete
-          handler_settings:
-            target_bundles: null
-            sort:
-              field: _none
-              direction: ASC
-            auto_create: false
         drilling_year_value:
           id: drilling_year_value
           table: plan__drilling_year
