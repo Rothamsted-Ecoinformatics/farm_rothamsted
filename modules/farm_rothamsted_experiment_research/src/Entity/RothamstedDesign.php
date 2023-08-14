@@ -37,7 +37,7 @@ use Drupal\user\UserInterface;
  *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
  *     },
  *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_rothamsted_experiment_research\Menu\DefaultSecondaryTaskProvider",
+ *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
  *     },
  *   },
  *   base_table = "rothamsted_design",
