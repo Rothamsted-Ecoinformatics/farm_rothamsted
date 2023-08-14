@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Filter research entities by experiment category. [#507](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/507)
+- Visualize proposals by status. [#503](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/503)
 
 ### Changed
 
