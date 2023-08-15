@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.16.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/34) 2023-08-15
+
 ### Added
 
 - Filter research entities by experiment category. [#507](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/507)
