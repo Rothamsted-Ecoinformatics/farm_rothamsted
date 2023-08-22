@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Type error when creating experiment boundary. [#535](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/535)
+- Research programs visualised multiple times. [#536](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/536)
 
 ## [2.16.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/34) 2023-08-15
 

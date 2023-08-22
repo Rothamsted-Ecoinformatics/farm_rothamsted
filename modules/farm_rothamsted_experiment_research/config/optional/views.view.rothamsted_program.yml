@@ -274,14 +274,14 @@ display:
           type: string
           settings:
             link_to_entity: false
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
           delta_reversed: false
           delta_first_last: false
-          multi_type: separator
+          multi_type: ul
           separator: ', '
           field_api_classes: false
         principal_investigator_target_id:
@@ -339,7 +339,7 @@ display:
           type: entity_reference_label
           settings:
             link: true
-          group_column: target_id
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -403,7 +403,7 @@ display:
           click_sort_column: value
           type: list_default
           settings: {  }
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -468,7 +468,7 @@ display:
           type: string
           settings:
             link_to_entity: false
-          group_column: value
+          group_column: entity_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -1176,6 +1176,7 @@ display:
           entity_type: rothamsted_program
           plugin_id: entity_reverse
           required: false
+      group_by: true
       header: {  }
       footer:
         result:
