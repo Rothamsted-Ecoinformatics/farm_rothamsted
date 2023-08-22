@@ -148,7 +148,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     $plan = Plan::load($form_state->getValue('plan_id'));
 
     // Get the study_period_id.
-    $study_period = $plan->get('study_period_id')->getValue();
+    $study_period = $plan->get('study_period_id')->value;
 
     // Set the experiment location.
     $location = $form_state->getValue('location');
