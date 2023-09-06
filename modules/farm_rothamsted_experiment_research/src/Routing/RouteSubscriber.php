@@ -15,10 +15,10 @@ class RouteSubscriber extends RouteSubscriberBase {
    */
   public function alterRoutes(RouteCollection $collection) {
 
-    // view.farm_asset.page_term.
+    // view.farm_rothamsted_experiment_plan.page_research.
     if ($route = $collection->get('view.rothamsted_experiment_plan.page_research')) {
       // Set default status to mark primary tab as active.
-      $route->setDefault('status', 'active');
+      $route->setDefault('status', 'all');
     }
   }
 

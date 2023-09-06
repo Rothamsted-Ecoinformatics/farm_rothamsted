@@ -87,6 +87,14 @@ farm_rothamsted_experiment_research.plans:
   base_route: entity.rothamsted_program.collection
   weight: 30
 
+farm_rothamsted_experiment_research.plans.all:
+  title: 'All'
+  parent_id: farm_rothamsted_experiment_research.plans
+  route_name: view.rothamsted_experiment_plan.page_research
+  route_parameters:
+    status: all
+  weight: -10
+
 farm_rothamsted_experiment_research.plans.active:
   title: 'Active'
   parent_id: farm_rothamsted_experiment_research.plans
