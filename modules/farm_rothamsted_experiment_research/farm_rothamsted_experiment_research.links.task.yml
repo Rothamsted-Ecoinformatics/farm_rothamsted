@@ -8,9 +8,15 @@ farm_rothamsted_experiment_research.programs:
 # Proposals.
 farm_rothamsted_experiment_research.proposals:
   title: 'Proposals'
-  route_name: view.rothamsted_proposal.page_draft
+  route_name: view.rothamsted_proposal.page
   base_route: entity.rothamsted_program.collection
   weight: 15
+
+farm_rothamsted_experiment_research.proposals_all:
+  title: 'All'
+  parent_id: farm_rothamsted_experiment_research.proposals
+  route_name: view.rothamsted_proposal.page
+  weight: 0
 
 farm_rothamsted_experiment_research.proposals_draft:
   title: 'Draft'
