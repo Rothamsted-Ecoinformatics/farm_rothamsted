@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.16.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/34) 2023-09-06
+
 ### Added
 
 - Add All tab for proposals. [#503](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/503)
