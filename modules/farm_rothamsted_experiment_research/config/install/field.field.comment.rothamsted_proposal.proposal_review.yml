@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.rothamsted_proposal
+    - field.storage.comment.proposal_review
+id: comment.rothamsted_proposal.proposal_review
+field_name: proposal_review
+entity_type: comment
+bundle: rothamsted_proposal
+label: Reviewed
+description: 'Check if you have reviewed and accept this proposal.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Yes
+  off_label: No
+field_type: boolean
