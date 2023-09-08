@@ -8,6 +8,8 @@
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\link\LinkItemInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -908,5 +910,22 @@ function farm_rothamsted_experiment_research_post_update_2_15_add_design_fields(
       'farm_rothamsted_experiment_research',
       $field_definition,
     );
+  }
+}
+
+/**
+ * Add review field on proposal comments.
+ */
+function farm_rothamsted_experiment_research_post_update_2_17_proposal_comment_review(&$sandbox = NULL) {
+
+  // Create review field on rothamsted proposal comment.
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment_research') . '/config/install';
+  $yml = Yaml::parse(file_get_contents("$config_path/field.storage.comment.proposal_review.yml"));
+  if (!FieldStorageConfig::loadByName($yml['entity_type'], $yml['field_name'])) {
+    FieldStorageConfig::create($yml)->save();
+  }
+  $yml = Yaml::parse(file_get_contents("$config_path/field.field.comment.rothamsted_proposal.proposal_review.yml"));
+  if (!FieldConfig::loadByName($yml['entity_type'], $yml['bundle'], $yml['field_name'])) {
+    FieldConfig::create($yml)->save();
   }
 }
