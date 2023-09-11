@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add proposal review field
 - Add tab of related entities. [#524](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/524)
 - Add tab or related entities to assets. [#538](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/538) [#539](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/539I)
+- Add view/update own researcher access logic. [#373](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/373)
 
 ## [2.16.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/34) 2023-09-06
 
