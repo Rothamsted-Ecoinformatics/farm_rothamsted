@@ -271,27 +271,6 @@ class RelatedEntities extends ControllerBase {
     // Build menu items using admin_block.
     $menu_items = [];
 
-    // Add proposals.
-    if (!empty($proposals)) {
-      $proposal_links = array_map(function (EntityInterface $entity) {
-        return [
-          'title' => $entity->label(),
-          'url' => $entity->toUrl(),
-        ];
-      }, $proposals);
-      $menu_items['proposals'] = [
-        '#theme' => 'admin_block',
-        '#weight' => 0,
-        '#block' => [
-          'title' => $this->t('Proposals'),
-          'content' => [
-            '#theme' => 'admin_block_content',
-            '#content' => $proposal_links,
-          ],
-        ],
-      ];
-    }
-
     // Add programs.
     if (!empty($programs)) {
       $program_links = array_map(function (EntityInterface $entity) {
@@ -308,6 +287,27 @@ class RelatedEntities extends ControllerBase {
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $program_links,
+          ],
+        ],
+      ];
+    }
+
+    // Add proposals.
+    if (!empty($proposals)) {
+      $proposal_links = array_map(function (EntityInterface $entity) {
+        return [
+          'title' => $entity->label(),
+          'url' => $entity->toUrl(),
+        ];
+      }, $proposals);
+      $menu_items['proposals'] = [
+        '#theme' => 'admin_block',
+        '#weight' => 10,
+        '#block' => [
+          'title' => $this->t('Proposals'),
+          'content' => [
+            '#theme' => 'admin_block_content',
+            '#content' => $proposal_links,
           ],
         ],
       ];
