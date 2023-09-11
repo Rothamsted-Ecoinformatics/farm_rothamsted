@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted_researcher.module.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultAllowed;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_researcher_rothamsted_researcher_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check view and update operations.
+  if (!in_array($operation, ['update', 'view']) || $entity->get('farm_user')->isEmpty()) {
+    return AccessResult::neutral();
+  }
+
+  // Only check if the farm_user is the current user.
+  if ($entity->farm_user->entity->id() == $account->id()) {
+    // Allow access if the user has the view/update own permission.
+    return AccessResultAllowed::allowedIf($account->hasPermission("$operation own rothamsted_researcher"));
+  }
+
+  // Else return neutral.
+  return AccessResult::neutral();
+}
