@@ -1,0 +1,61 @@
+farm_rothamsted_experiment_research.proposal.related:
+  path: /rothamsted/proposal/{rothamsted_proposal}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::proposalRelationships
+  requirements:
+    _entity_access: rothamsted_proposal.view
+  options:
+    parameters:
+      rothamsted_proposal:
+        type: entity:rothamsted_proposal
+
+farm_rothamsted_experiment_research.program.related:
+  path: /rothamsted/program/{rothamsted_program}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::programRelationships
+  requirements:
+    _entity_access: rothamsted_program.view
+  options:
+    parameters:
+      rothamsted_program:
+        type: entity:rothamsted_program
+
+farm_rothamsted_experiment_research.experiment.related:
+  path: /rothamsted/experiment/{rothamsted_experiment}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::experimentRelationships
+  requirements:
+    _entity_access: rothamsted_experiment.view
+  options:
+    parameters:
+      rothamsted_experiment:
+        type: entity:rothamsted_experiment
+
+farm_rothamsted_experiment_research.design.related:
+  path: /rothamsted/design/{rothamsted_design}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::designRelationships
+  requirements:
+    _entity_access: rothamsted_design.view
+  options:
+    parameters:
+      rothamsted_design:
+        type: entity:rothamsted_design
+
+farm_rothamsted_experiment_research.plan.related:
+  path: /rothamsted/plan/{plan}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::planRelationships
+  requirements:
+    _entity_access: plan.view
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
