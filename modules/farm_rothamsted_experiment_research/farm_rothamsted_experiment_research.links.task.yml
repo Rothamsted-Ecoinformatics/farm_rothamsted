@@ -65,7 +65,6 @@ farm_rothamsted_experiment_research.proposals_archived:
   parent_id: farm_rothamsted_experiment_research.proposals
   route_name: view.rothamsted_proposal.page_archived
 
-
 # Experiments.
 farm_rothamsted_experiment_research.experiments:
   title: 'Experiments'
@@ -143,7 +142,6 @@ farm_rothamsted_experiment_research.plans.archived:
     status: archived
   weight: 10
 
-
 # Researchers.
 farm_rothamsted_experiment_research.researchers:
   title: 'Researchers'
@@ -151,23 +149,63 @@ farm_rothamsted_experiment_research.researchers:
   base_route: entity.rothamsted_program.collection
   weight: 40
 
-# Program experiments.
-farm_rothamsted_experiment_research.program_experiment:
-  title: 'Experiments'
-  route_name: view.rothamsted_experiment.page_program
+# Related tasks.
+farm_rothamsted_experiment_research.proposal.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.proposal.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
+  base_route: entity.rothamsted_proposal.canonical
+  weight: 20
+
+farm_rothamsted_experiment_research.program.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.program.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_program.canonical
   weight: 20
 
-# Experiment design.
-farm_rothamsted_experiment_research.experiment_design:
-  title: 'Experiment designs'
-  route_name: view.rothamsted_experiment_design.page_experiment
+farm_rothamsted_experiment_research.experiment.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.experiment.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_experiment.canonical
   weight: 20
 
-# Experiment design plans.
-farm_rothamsted_experiment_research.design_plan:
-  title: 'Plans'
-  route_name: view.rothamsted_experiment_plan.page_design
+farm_rothamsted_experiment_research.design.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.design.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_design.canonical
+  weight: 20
+
+farm_rothamsted_experiment_research.plan.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.plan.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
+  base_route: entity.plan.canonical
   weight: 20
