@@ -1,3 +1,16 @@
+farm_rothamsted_experiment_research.asset.related:
+  path: /asset/{asset}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::assetRelationships
+  requirements:
+    _entity_access: asset.view
+    _custom_access: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::assetAccess
+  options:
+    parameters:
+      asset:
+        type: entity:asset
+
 farm_rothamsted_experiment_research.proposal.related:
   path: /rothamsted/proposal/{rothamsted_proposal}/related
   defaults:

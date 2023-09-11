@@ -2,8 +2,12 @@
 
 namespace Drupal\farm_rothamsted_experiment_research\Controller;
 
+use Drupal\asset\Entity\AssetInterface;
+use Drupal\Core\Access\AccessResultForbidden;
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface;
@@ -23,6 +27,67 @@ class RelatedEntities extends ControllerBase {
    */
   public function title() {
     return $this->t('Related');
+  }
+
+  /**
+   * Access callback for asset pages.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The current user.
+   * @param \Drupal\asset\Entity\AssetInterface|null $asset
+   *   The asset entity.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   The access result.
+   */
+  public function assetAccess(AccountInterface $account, AssetInterface $asset = NULL): AccessResultInterface {
+
+    // Ensure access to view the asset.
+    $access = $asset->access('view', $account, TRUE);
+
+    // If view access check for existing plan relationship.
+    if ($access->isAllowed()) {
+      $plan_query = $this->entityTypeManager()->getStorage('plan')->getAggregateQuery()
+        ->condition('type', 'rothamsted_experiment');
+      $or_group = $plan_query->orConditionGroup()
+        ->condition('asset', $asset->id())
+        ->condition('location', $asset->id())
+        ->condition('plot', $asset->id());
+      $plan_query->condition($or_group);
+      $has_relationship = AccessResultForbidden::forbiddenIf($plan_query->count()->execute() == 0);
+      $access->andIf($has_relationship);
+    }
+    return $access;
+  }
+
+  /**
+   * Asset relationshps.
+   *
+   * @param \Drupal\asset\Entity\AssetInterface $asset
+   *   The asset entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function assetRelationships(AssetInterface $asset): array {
+
+    $plan_query = $this->entityTypeManager()->getStorage('plan')->getQuery()
+      ->condition('type', 'rothamsted_experiment');
+
+    $or_group = $plan_query->orConditionGroup()
+      ->condition('asset', $asset->id())
+      ->condition('location', $asset->id())
+      ->condition('plot', $asset->id());
+
+    $plan_query->condition($or_group);
+
+    $plans = [];
+    $plan_ids = $plan_query->execute();
+    if (!empty($plan_ids)) {
+      $plans = $this->entityTypeManager()->getStorage('plan')->loadMultiple($plan_ids);
+    }
+
+    return $this->buildIndex([], [], [], [], $plans);
   }
 
   /**
