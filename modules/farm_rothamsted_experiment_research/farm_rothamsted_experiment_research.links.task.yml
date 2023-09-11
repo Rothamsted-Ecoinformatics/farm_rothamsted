@@ -150,6 +150,18 @@ farm_rothamsted_experiment_research.researchers:
   weight: 40
 
 # Related tasks.
+farm_rothamsted_experiment_research.asset.related:
+  title: 'Related'
+  route_name: farm_rothamsted_experiment_research.asset.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
+  base_route: entity.asset.canonical
+  weight: 20
+
 farm_rothamsted_experiment_research.proposal.related:
   title: 'Related'
   route_name: farm_rothamsted_experiment_research.proposal.related
