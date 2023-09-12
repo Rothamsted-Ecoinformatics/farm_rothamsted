@@ -11,9 +11,9 @@ use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use Drupal\user\Entity\Role;
 
 /**
- * Tests the farmOS dashboard functionality.
+ * Tests the hierarchical research access logic.
  */
-class PlanAccessTest extends FarmBrowserTestBase {
+class ResearchAccessTest extends FarmBrowserTestBase {
 
   /**
    * Test user.
@@ -21,6 +21,34 @@ class PlanAccessTest extends FarmBrowserTestBase {
    * @var \Drupal\user\Entity\User
    */
   protected $user;
+
+  /**
+   * Test researchers.
+   *
+   * @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface[]
+   */
+  protected $researchers;
+
+  /**
+   * Test program.
+   *
+   * @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface
+   */
+  protected $program;
+
+  /**
+   * Test experiment.
+   *
+   * @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface
+   */
+  protected $experiment;
+
+  /**
+   * Test design.
+   *
+   * @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface
+   */
+  protected $design;
 
   /**
    * Test experiment plan.
@@ -45,13 +73,79 @@ class PlanAccessTest extends FarmBrowserTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    // Create and login a user with necessary permissions.
+    // Create user.
     $this->user = $this->createUser();
+
+    // Research entities.
+    $new_researchers = [
+      [
+        'name' => 'Researcher 1',
+        'role' => 'lead_scientist',
+        'organization' => 'Rothamsted',
+        'department' => 'Pathology',
+      ],
+      [
+        'name' => 'Researcher 2',
+        'role' => 'phd_student',
+        'organization' => 'Rothamsted',
+        'department' => 'Soils',
+        'farm_user' => $this->user,
+      ],
+      [
+        'name' => 'Statistician',
+        'role' => 'statistician',
+        'organization' => 'Rothamsted',
+        'department' => 'Soils',
+      ],
+    ];
+    $this->researchers = [];
+    foreach ($new_researchers as $researcher) {
+      $new = RothamstedResearcher::create([
+        'name' => $researcher['name'],
+        'role' => $researcher['role'],
+        'organization' => $researcher['organization'],
+        'department' => $researcher['department'],
+        'farm_user' => $researcher['farm_user'] ?? NULL,
+      ]);
+      $new->save();
+      $this->researchers[] = $new;
+    }
+    $this->program = RothamstedProgram::create([
+      'code' => 'P01-TEST',
+      'name' => 'Program 1',
+      'abbreviation' => 'P01',
+      'principal_investigator' => $new_researchers[0],
+    ]);
+    $this->program->save();
+    $this->experiment = RothamstedExperiment::create([
+      'program' => $this->program,
+      'code' => 'P01-E01',
+      'name' => 'Experiment 1',
+      'abbreviation' => 'E01',
+    ]);
+    $this->experiment->save();
+    $this->design = RothamstedDesign::create([
+      'experiment' => $this->experiment,
+      'name' => 'Design 1',
+      'description' => 'Initial design for experiment 1',
+      'statistician' => reset($this->researchers),
+    ]);
+    $this->design->save();
+
+    // Experiment plan.
+    $this->plan = Plan::create([
+      'type' => 'rothamsted_experiment',
+      'name' => 'Experiment 1',
+      'experiment_design' => $this->design,
+    ]);
+    $this->plan->save();
+
+    // Login user.
     $this->drupalLogin($this->user);
   }
 
   /**
-   * Test that custom blocks are added to the dashboard.
+   * Test access logic on plans.
    */
   public function testPlanAccess() {
 
@@ -85,71 +179,7 @@ class PlanAccessTest extends FarmBrowserTestBase {
       ],
     ])->save();
 
-    // Research entities.
-    $new_researchers = [
-      [
-        'name' => 'Researcher 1',
-        'role' => 'lead_scientist',
-        'organization' => 'Rothamsted',
-        'department' => 'Pathology',
-      ],
-      [
-        'name' => 'Researcher 2',
-        'role' => 'phd_student',
-        'organization' => 'Rothamsted',
-        'department' => 'Soils',
-        'farm_user' => $this->user,
-      ],
-      [
-        'name' => 'Statistician',
-        'role' => 'statistician',
-        'organization' => 'Rothamsted',
-        'department' => 'Soils',
-      ],
-    ];
-    $researchers = [];
-    foreach ($new_researchers as $researcher) {
-      $new = RothamstedResearcher::create([
-        'name' => $researcher['name'],
-        'role' => $researcher['role'],
-        'organization' => $researcher['organization'],
-        'department' => $researcher['department'],
-        'farm_user' => $researcher['farm_user'] ?? NULL,
-      ]);
-      $new->save();
-      $researchers[] = $new;
-    }
-    $program = RothamstedProgram::create([
-      'code' => 'P01-TEST',
-      'name' => 'Program 1',
-      'abbreviation' => 'P01',
-      'principal_investigator' => $new_researchers[0],
-    ]);
-    $program->save();
-    $experiment = RothamstedExperiment::create([
-      'program' => $program,
-      'code' => 'P01-E01',
-      'name' => 'Experiment 1',
-      'abbreviation' => 'E01',
-    ]);
-    $experiment->save();
-    $design = RothamstedDesign::create([
-      'experiment' => $experiment,
-      'name' => 'Design 1',
-      'description' => 'Initial design for experiment 1',
-      'statistician' => reset($researchers),
-    ]);
-    $design->save();
-
-    // Experiment plan.
-    $plan = Plan::create([
-      'type' => 'rothamsted_experiment',
-      'name' => 'Experiment 1',
-      'experiment_design' => $design,
-    ]);
-    $plan->save();
-
-    $plan_id = $plan->id();
+    $plan_id = $this->plan->id();
     $plan_path = "/plan/$plan_id";
 
     // Test new user has no access.
@@ -177,8 +207,8 @@ class PlanAccessTest extends FarmBrowserTestBase {
     $this->user->save();
 
     // Add user to the experiment.
-    $experiment->set('researcher', [$researchers[0], $researchers[1]]);
-    $experiment->save();
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
 
     // Test user has no view access.
     $this->drupalGet($plan_path);
