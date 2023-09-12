@@ -8,6 +8,7 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\plan\Entity\Plan;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
+use Drupal\user\Entity\Role;
 
 /**
  * Tests the farmOS dashboard functionality.
@@ -53,6 +54,36 @@ class PlanAccessTest extends FarmBrowserTestBase {
    * Test that custom blocks are added to the dashboard.
    */
   public function testPlanAccess() {
+
+    // Create roles for view/update assigned/any.
+    Role::create([
+      'id' => 'plan_view_assigned',
+      'label' => 'View assigned',
+      'permissions' => [
+        'view research_assigned rothamsted_experiment plan',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'plan_view_any',
+      'label' => 'View any',
+      'permissions' => [
+        'view any rothamsted_experiment plan',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'plan_update_assigned',
+      'label' => 'Update assigned',
+      'permissions' => [
+        'update research_assigned rothamsted_experiment plan',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'plan_update_any',
+      'label' => 'Update any',
+      'permissions' => [
+        'update any rothamsted_experiment plan',
+      ],
+    ])->save();
 
     // Research entities.
     $new_researchers = [
@@ -129,11 +160,11 @@ class PlanAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user viewer role.
-    $this->user->addRole('farm_viewer');
+    // Grant user view any role.
+    $this->user->addRole('plan_view_any');
     $this->user->save();
 
-    // Test viewer role user only has view access.
+    // Test user only has view access.
     $this->drupalGet($plan_path);
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plan_path/edit");
@@ -141,43 +172,62 @@ class PlanAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user sponsor role.
-    $this->user->addRole('rothamsted_sponsor');
+    // Remove role.
+    $this->user->removeRole('plan_view_any');
     $this->user->save();
-
-    // Test viewer + sponsor only has view access.
-    $this->drupalGet($plan_path);
-    $this->assertSession()->statusCodeEquals(200);
-    $this->drupalGet("$plan_path/edit");
-    $this->assertSession()->statusCodeEquals(403);
-    $this->drupalGet("$plan_path/delete");
-    $this->assertSession()->statusCodeEquals(403);
 
     // Add user to the experiment.
     $experiment->set('researcher', [$researchers[0], $researchers[1]]);
     $experiment->save();
 
-    // Test viewer + sponsor role has all access.
+    // Test user has no view access.
+    $this->drupalGet($plan_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$plan_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$plan_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the view assigned role.
+    $this->user->addRole('plan_view_assigned');
+    $this->user->save();
+
+    // Test user only has view access.
+    $this->drupalGet($plan_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$plan_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$plan_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the update assigned role.
+    $this->user->addRole('plan_update_assigned');
+    $this->user->save();
+
+    // Test user has view + update access.
     $this->drupalGet($plan_path);
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plan_path/edit");
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plan_path/delete");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->statusCodeEquals(403);
 
-    // Remove user from experiment.
-    $experiment->set('researcher', [$researchers[0], $researchers[2]]);
-    $experiment->save();
+    // Grant user the update any assigned role.
+    $this->user->removeRole('plan_update_assigned');
+    $this->user->addRole('plan_update_any');
+    $this->user->save();
 
-    // Test viewer + sponsor role only has view access.
+    // Test user has view + update access.
     $this->drupalGet($plan_path);
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plan_path/edit");
-    $this->assertSession()->statusCodeEquals(403);
+    $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
     // Grant user the experiment admin role.
+    $this->user->removeRole('plan_view_assigned');
+    $this->user->removeRole('plan_update_any');
     $this->user->addRole('rothamsted_experiment_admin');
     $this->user->save();
 
