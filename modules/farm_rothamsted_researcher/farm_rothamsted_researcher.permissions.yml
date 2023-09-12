@@ -7,3 +7,11 @@ revert all rothamsted_researcher revisions:
   title: 'Revert all researcher revisions'
   description: 'Allow reverting to a previous researcher entity revision.'
   restrict access: true
+
+view assigned rothamsted_researcher:
+  title: 'View assigned researcher'
+  description: 'Allow viewing the researcher assigned to the user.'
+
+update assigned rothamsted_researcher:
+  title: 'Update assigned researcher'
+  description: 'Allow updating the researcher assigned to the user.'
