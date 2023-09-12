@@ -39,12 +39,12 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    // Create roles for view/update own/any.
+    // Create roles for view/update assigned/any.
     Role::create([
-      'id' => 'researcher_view_own',
-      'label' => 'View own',
+      'id' => 'researcher_view_assigned',
+      'label' => 'View assigned',
       'permissions' => [
-        'view own rothamsted_researcher',
+        'view assigned rothamsted_researcher',
       ],
     ])->save();
     Role::create([
@@ -55,10 +55,10 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
       ],
     ])->save();
     Role::create([
-      'id' => 'researcher_update_own',
-      'label' => 'Update own',
+      'id' => 'researcher_update_assigned',
+      'label' => 'Update assigned',
       'permissions' => [
-        'update own rothamsted_researcher',
+        'update assigned rothamsted_researcher',
       ],
     ])->save();
     Role::create([
@@ -126,8 +126,8 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$researcher_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user view own role.
-    $this->user->addRole('researcher_view_own');
+    // Grant user view assigned role.
+    $this->user->addRole('researcher_view_assigned');
     $this->user->save();
 
     // Test user only has view access.
@@ -138,8 +138,8 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$researcher_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user update own researcher permission.
-    $this->user->addRole('researcher_update_own');
+    // Grant user update assigned researcher permission.
+    $this->user->addRole('researcher_update_assigned');
     $this->user->save();
 
     // Test that user has edit access.
@@ -151,7 +151,7 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(403);
 
     // Grant user update any researcher permission.
-    $this->user->removeRole('researcher_update_own');
+    $this->user->removeRole('researcher_update_assigned');
     $this->user->addRole('researcher_update_any');
     $this->user->save();
 
