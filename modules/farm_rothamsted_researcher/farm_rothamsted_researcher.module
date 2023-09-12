@@ -23,7 +23,7 @@ function farm_rothamsted_researcher_rothamsted_researcher_access(EntityInterface
   // Only check if the farm_user is the current user.
   if ($entity->farm_user->entity->id() == $account->id()) {
     // Allow access if the user has the view/update own permission.
-    return AccessResultAllowed::allowedIf($account->hasPermission("$operation own rothamsted_researcher"));
+    return AccessResultAllowed::allowedIf($account->hasPermission("$operation assigned rothamsted_researcher"));
   }
 
   // Else return neutral.
