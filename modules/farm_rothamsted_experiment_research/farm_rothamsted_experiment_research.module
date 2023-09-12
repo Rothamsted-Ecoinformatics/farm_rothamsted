@@ -14,7 +14,6 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
-use Drupal\plan\Entity\PlanInterface;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
@@ -68,7 +67,7 @@ function farm_rothamsted_experiment_research_plan_access(EntityInterface $entity
   }
 
   // Delegate to helper function.
-  return farm_rothamsted_experiment_research_plan_account_access($entity, $account);
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $account);
 }
 
 /**
@@ -98,57 +97,83 @@ function farm_rothamsted_experiment_research_asset_access(EntityInterface $entit
 
   // Delegate to helper function.
   $plan = reset($plans);
-  return farm_rothamsted_experiment_research_plan_account_access($plan, $account)
+  return farm_rothamsted_experiment_research_research_entity_access($plan, $account)
     ->addCacheableDependency($entity);
 }
 
 /**
- * Helper function to determine if an account has access to edit a plan.
+ * Helper function to determine account access to research entities.
  *
- * @param \Drupal\plan\Entity\PlanInterface $plan
- *   The plan.
+ * Access is granted if accounts are the experiment admin or if accounts are
+ * associated with a researcher that is assigned to the experiment atop
+ * the research hierarchy.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity to check.
  * @param \Drupal\Core\Session\AccountInterface $account
  *   The account.
  *
  * @return \Drupal\Core\Access\AccessResult
  *   The access result.
  */
-function farm_rothamsted_experiment_research_plan_account_access(PlanInterface $plan, AccountInterface $account) {
-
-  // Allow users to update the plan if they are listed as a contact
-  // or if they are an experiment admin.
-  // We cannot use the access result's and/or logic to combine access results
-  // so check for each case and separately return an access result.
+function farm_rothamsted_experiment_research_research_entity_access(EntityInterface $entity, AccountInterface $account): AccessResult {
 
   // Allow access if the user is an experiment admin.
   if ($account->hasPermission('administer rothamsted_experiment plan')) {
     return AccessResult::allowedIfHasPermission($account, 'administer rothamsted_experiment plan');
   }
 
-  // Allow access if the user is a researcher on the overall experiment.
-  // Get the design.
-  $designs = $plan->get('experiment_design')->referencedEntities();
-  if (empty($designs)) {
-    return AccessResult::forbidden()
-      ->setCacheMaxAge(0);
+  // Allow access if the user has research access.
+  return farm_rothamsted_experiment_research_researcher_account_access($entity, $account);
+}
+
+/**
+ * Recursive helper function to determine account access to research entities.
+ *
+ * Access is allowed if accounts are associated with a researcher that is
+ * assigned to the experiment at the top of the research hierarchy.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity to check.
+ * @param \Drupal\Core\Session\AccountInterface $account
+ *   The account.
+ *
+ * @return \Drupal\Core\Access\AccessResult
+ *   The access result.
+ */
+function farm_rothamsted_experiment_research_researcher_account_access(EntityInterface $entity, AccountInterface $account): AccessResult {
+
+  switch ($entity->getEntityTypeId()) {
+
+    case 'rothamsted_experiment':
+      // For experiments, check for a matching researcher.
+      $is_researcher = array_filter($entity->get('researcher')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {
+        return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
+      });
+      return AccessResult::forbiddenIf(empty($is_researcher))->setCacheMaxAge(0);
+
+    case 'rothamsted_design':
+      // For designs, check the experiment.
+      if ($entity->get('experiment')->isEmpty()) {
+        return AccessResult::forbidden()->setCacheMaxAge(0);
+      }
+      else {
+        return farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment')->entity, $account);
+      }
+
+    case 'plan':
+      // For plans, check the design.
+      if ($entity->get('experiment_design')->isEmpty()) {
+        return AccessResult::forbidden()->setCacheMaxAge(0);
+      }
+      else {
+        return farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment_design')->entity, $account);
+      }
+
+    default:
+      return AccessResult::forbidden();
   }
 
-  // Get the experiment.
-  $design = reset($designs);
-  $experiments = $design->get('experiment')->referencedEntities();
-  if (empty($experiments)) {
-    return AccessResult::forbidden()
-      ->setCacheMaxAge(0);
-  }
-
-  // Check for matching researcher.
-  $experiment = reset($experiments);
-  $researchers = $experiment->get('researcher')->referencedEntities();
-  $is_researcher = array_filter($researchers, function (RothamstedResearcherInterface $researcher) use ($account) {
-    return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
-  });
-  return AccessResult::forbiddenIf(empty($is_researcher))
-    ->setCacheMaxAge(0);
 }
 
 /**
