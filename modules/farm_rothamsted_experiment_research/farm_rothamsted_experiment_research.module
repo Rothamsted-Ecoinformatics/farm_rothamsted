@@ -98,11 +98,6 @@ function farm_rothamsted_experiment_research_plan_access(EntityInterface $entity
  */
 function farm_rothamsted_experiment_research_asset_access(EntityInterface $entity, $operation, AccountInterface $account) {
 
-  // Only check plot assets.
-  if ($entity->bundle() != 'plot') {
-    return AccessResult::neutral();
-  }
-
   // Only check view, update and delete operations.
   if (!in_array($operation, ['view', 'update', 'delete'])) {
     return AccessResult::neutral();
