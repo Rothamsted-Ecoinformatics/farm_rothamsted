@@ -162,14 +162,21 @@ function farm_rothamsted_experiment_research_researcher_account_access(EntityInt
 
     case 'asset':
       // Find the plan associated with the plot.
-      $plans = \Drupal::entityTypeManager()->getStorage('plan')->loadByProperties([
-        'plot' => $entity->id(),
-      ]);
-      if (empty($plans)) {
+      $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
+      $query = $plan_storage->getQuery()
+        ->condition('type', 'rothamsted_experiment');
+      $asset_reference = $query->orConditionGroup()
+        ->condition('plot', $entity->id())
+        ->condition('asset', $entity->id())
+        ->condition('location', $entity->id());
+      $query->condition($asset_reference);
+      $plan_ids = $query->execute();
+      if (empty($plan_ids)) {
         return AccessResult::neutral()->setCacheMaxAge(0);
       }
       else {
-        return farm_rothamsted_experiment_research_researcher_account_access(reset($plans), $account);
+        $plan = $plan_storage->load(reset($plan_ids));
+        return farm_rothamsted_experiment_research_researcher_account_access($plan, $account);
       }
 
     case 'rothamsted_proposal':
