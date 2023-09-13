@@ -1,0 +1,42 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_role
+    - farm_rothamsted_experiment_research
+    - farm_rothamsted_researcher
+  enforced:
+    module:
+      - farm_rothamsted_experiment_research
+id: rothamsted_research_restricted_viewer
+label: 'Research Restricted Viewer'
+weight: 2
+is_admin: null
+permissions:
+  - 'access rothamsted_design overview'
+  - 'view all rothamsted_design revisions'
+  - 'view research_assigned rothamsted_design'
+  - 'access rothamsted_experiment overview'
+  - 'view all rothamsted_experiment revisions'
+  - 'view research_assigned rothamsted_experiment'
+  - 'access rothamsted_program overview'
+  - 'view all rothamsted_program revisions'
+  - 'view research_assigned rothamsted_program'
+  - 'access rothamsted_proposal overview'
+  - 'view all rothamsted_proposal revisions'
+  - 'view research_assigned rothamsted_proposal'
+  - 'access rothamsted_researcher overview'
+  - 'create rothamsted_researcher'
+  - 'update assigned rothamsted_researcher'
+  - 'view all rothamsted_researcher revisions'
+  - 'view assigned rothamsted_researcher'
+  - 'update assigned rothamsted_researcher'
+  - 'view research_assigned rothamsted_experiment plan'
+  - 'view any asset'
+  - 'view any log'
+  - 'view any quantity'
+  - 'access taxonomy overview'
+third_party_settings:
+  farm_role:
+    access:
+      config: false
