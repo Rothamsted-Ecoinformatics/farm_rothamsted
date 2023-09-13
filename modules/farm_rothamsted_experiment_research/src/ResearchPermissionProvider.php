@@ -55,6 +55,26 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
   }
 
   /**
+   * Build plan permissions.
+   *
+   * @return array
+   *   Permissions array.
+   */
+  public function planPermissions(): array {
+    return $this->buildPermissions($this->entityTypeManager->getStorage('plan')->getEntityType());
+  }
+
+  /**
+   * Build asset permissions.
+   *
+   * @return array
+   *   Permissions array.
+   */
+  public function assetPermissions(): array {
+    return $this->buildPermissions($this->entityTypeManager->getStorage('asset')->getEntityType());
+  }
+
+  /**
    * Build research permissions for an entity type.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type

@@ -1,18 +1,6 @@
-view research_assigned rothamsted_experiment plan:
-  title: 'View research-assigned experiment plans'
-  description: 'Allow viewing experiment plans that are assigned to the Researcher.'
-
-update research_assigned rothamsted_experiment plan:
-  title: 'Update research-assigned experiment plans'
-  description: 'Allow updating experiment plans that are assigned to the Researcher.'
-
-view research_assigned plot asset:
-  title: 'View research-assigned plot assets'
-  description: 'Allow viewing plot assets that are assigned to the Researcher.'
-
-update research_assigned plot asset:
-  title: 'Update research-assigned plot assets'
-  description: 'Allow updating plot assets that are assigned to the Researcher.'
+permission_callbacks:
+  - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::assetPermissions
+  - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::planPermissions
 
 view all rothamsted_design revisions:
   title: 'View all design revisions'
