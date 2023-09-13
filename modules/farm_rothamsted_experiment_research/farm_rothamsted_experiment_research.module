@@ -85,19 +85,8 @@ function farm_rothamsted_experiment_research_asset_access(EntityInterface $entit
     return AccessResult::neutral();
   }
 
-  // Find the plan associated with the plot.
-  $plans = \Drupal::entityTypeManager()->getStorage('plan')->loadByProperties([
-    'plot' => $entity->id(),
-  ]);
-
-  // Don't check if the plot is not associated with a plan.
-  if (empty($plans)) {
-    return AccessResult::neutral();
-  }
-
   // Delegate to helper function.
-  $plan = reset($plans);
-  return farm_rothamsted_experiment_research_research_entity_access($plan, $operation, $account)
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
     ->addCacheableDependency($entity);
 }
 
@@ -152,6 +141,18 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
 function farm_rothamsted_experiment_research_researcher_account_access(EntityInterface $entity, AccountInterface $account): AccessResult {
 
   switch ($entity->getEntityTypeId()) {
+
+    case 'asset':
+      // Find the plan associated with the plot.
+      $plans = \Drupal::entityTypeManager()->getStorage('plan')->loadByProperties([
+        'plot' => $entity->id(),
+      ]);
+      if (empty($plans)) {
+        return AccessResult::neutral()->setCacheMaxAge(0);
+      }
+      else {
+        return farm_rothamsted_experiment_research_researcher_account_access(reset($plans), $account);
+      }
 
     case 'rothamsted_experiment':
       // For experiments, check for a matching researcher.
