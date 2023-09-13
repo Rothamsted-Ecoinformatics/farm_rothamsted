@@ -202,21 +202,15 @@ function farm_rothamsted_experiment_research_researcher_account_access(EntityInt
 
     case 'rothamsted_design':
       // For designs, check the experiment.
-      if ($entity->get('experiment')->isEmpty()) {
-        return AccessResult::neutral()->setCacheMaxAge(0);
-      }
-      else {
-        return farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment')->entity, $account);
-      }
+      return $entity->get('experiment')->isEmpty() ?
+        AccessResult::neutral()->setCacheMaxAge(0) :
+        farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment')->entity, $account);
 
     case 'plan':
       // For plans, check the design.
-      if ($entity->get('experiment_design')->isEmpty()) {
-        return AccessResult::neutral()->setCacheMaxAge(0);
-      }
-      else {
-        return farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment_design')->entity, $account);
-      }
+      return $entity->get('experiment_design')->isEmpty() ?
+        AccessResult::neutral()->setCacheMaxAge(0) :
+        farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment_design')->entity, $account);
 
     default:
       return AccessResult::neutral();
