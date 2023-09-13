@@ -6,6 +6,7 @@ use Drupal\asset\Entity\Asset;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesign;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposal;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\plan\Entity\Plan;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
@@ -50,6 +51,13 @@ class ResearchAccessTest extends FarmBrowserTestBase {
    * @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface
    */
   protected $design;
+
+  /**
+   * Test proposal.
+   *
+   * @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface
+   */
+  protected $proposal;
 
   /**
    * Test experiment plan.
@@ -132,6 +140,11 @@ class ResearchAccessTest extends FarmBrowserTestBase {
       'statistician' => reset($this->researchers),
     ]);
     $this->design->save();
+    $this->proposal = RothamstedProposal::create([
+      'name' => 'Proposal 1',
+      'program' => $this->program,
+    ]);
+    $this->proposal->save();
 
     // Experiment plan.
     $this->plan = Plan::create([
@@ -143,6 +156,132 @@ class ResearchAccessTest extends FarmBrowserTestBase {
 
     // Login user.
     $this->drupalLogin($this->user);
+  }
+
+  /**
+   * Test access logic on proposals.
+   */
+  public function testProposalAccess() {
+
+    // Create roles for view/update assigned/any.
+    Role::create([
+      'id' => 'proposal_view_assigned',
+      'label' => 'View assigned',
+      'permissions' => [
+        'view research_assigned rothamsted_proposal',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'proposal_view_any',
+      'label' => 'View any',
+      'permissions' => [
+        'view any rothamsted_proposal',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'proposal_update_assigned',
+      'label' => 'Update assigned',
+      'permissions' => [
+        'update research_assigned rothamsted_proposal',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'proposal_update_any',
+      'label' => 'Update any',
+      'permissions' => [
+        'update any rothamsted_proposal',
+      ],
+    ])->save();
+
+    $proposal_id = $this->proposal->id();
+    $proposal_path = "/rothamsted/proposal/$proposal_id";
+
+    // Test new user has no access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user view any role.
+    $this->user->addRole('proposal_view_any');
+    $this->user->save();
+
+    // Test user only has view access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Remove role.
+    $this->user->removeRole('proposal_view_any');
+    $this->user->save();
+
+    // Add user to the program.
+    $this->proposal->set('contact', [$this->researchers[0], $this->researchers[1]]);
+    $this->proposal->save();
+
+    // Test user has no view access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the view assigned role.
+    $this->user->addRole('proposal_view_assigned');
+    $this->user->save();
+
+    // Test user only has view access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the update assigned role.
+    $this->user->addRole('proposal_update_assigned');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the update any assigned role.
+    $this->user->removeRole('proposal_update_assigned');
+    $this->user->addRole('proposal_update_any');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the experiment admin role.
+    $this->user->removeRole('proposal_view_assigned');
+    $this->user->removeRole('proposal_update_any');
+    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->save();
+
+    // Test experiment admin role has all access.
+    $this->drupalGet($proposal_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$proposal_path/delete");
+    $this->assertSession()->statusCodeEquals(200);
   }
 
   /**
