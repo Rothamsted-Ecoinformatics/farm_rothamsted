@@ -177,6 +177,13 @@ function farm_rothamsted_experiment_research_researcher_account_access(EntityInt
         return farm_rothamsted_experiment_research_researcher_account_access(reset($plans), $account);
       }
 
+    case 'rothamsted_program':
+      // For programs, check for a matching principal investigator.
+      $is_pi = array_filter($entity->get('principal_investigator')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {
+        return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
+      });
+      return AccessResult::allowedIf(!empty($is_pi))->setCacheMaxAge(0);
+
     case 'rothamsted_experiment':
       // For experiments, check for a matching researcher.
       $is_researcher = array_filter($entity->get('researcher')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {

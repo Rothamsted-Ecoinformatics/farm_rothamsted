@@ -146,6 +146,132 @@ class ResearchAccessTest extends FarmBrowserTestBase {
   }
 
   /**
+   * Test access logic on programs.
+   */
+  public function testProgramAccess() {
+
+    // Create roles for view/update assigned/any.
+    Role::create([
+      'id' => 'program_view_assigned',
+      'label' => 'View assigned',
+      'permissions' => [
+        'view research_assigned rothamsted_program',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'program_view_any',
+      'label' => 'View any',
+      'permissions' => [
+        'view any rothamsted_program',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'program_update_assigned',
+      'label' => 'Update assigned',
+      'permissions' => [
+        'update research_assigned rothamsted_program',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'program_update_any',
+      'label' => 'Update any',
+      'permissions' => [
+        'update any rothamsted_program',
+      ],
+    ])->save();
+
+    $program_id = $this->program->id();
+    $program_path = "/rothamsted/program/$program_id";
+
+    // Test new user has no access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user view any role.
+    $this->user->addRole('program_view_any');
+    $this->user->save();
+
+    // Test user only has view access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Remove role.
+    $this->user->removeRole('program_view_any');
+    $this->user->save();
+
+    // Add user to the program.
+    $this->program->set('principal_investigator', [$this->researchers[0], $this->researchers[1]]);
+    $this->program->save();
+
+    // Test user has no view access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the view assigned role.
+    $this->user->addRole('program_view_assigned');
+    $this->user->save();
+
+    // Test user only has view access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the update assigned role.
+    $this->user->addRole('program_update_assigned');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the update any assigned role.
+    $this->user->removeRole('program_update_assigned');
+    $this->user->addRole('program_update_any');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Grant user the experiment admin role.
+    $this->user->removeRole('program_view_assigned');
+    $this->user->removeRole('program_update_any');
+    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->save();
+
+    // Test experiment admin role has all access.
+    $this->drupalGet($program_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$program_path/delete");
+    $this->assertSession()->statusCodeEquals(200);
+  }
+
+  /**
    * Test access logic on experiments.
    */
   public function testExperimentAccess() {
