@@ -52,6 +52,29 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
 }
 
 /**
+ * Implements hook_entity_access().
+ */
+function farm_rothamsted_experiment_research_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  $research_entity_types = [
+    'rothamsted_proposal',
+    'rothamsted_program',
+    'rothamsted_experiment',
+    'rothamsted_design',
+  ];
+  if (!in_array($entity->getEntityTypeId(), $research_entity_types)) {
+    return AccessResult::neutral();
+  }
+
+  // Only check view, update and delete operations.
+  if (!in_array($operation, ['view', 'update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
+}
+
+/**
  * Implements hook_ENTITY_TYPE_access().
  */
 function farm_rothamsted_experiment_research_plan_access(EntityInterface $entity, $operation, AccountInterface $account) {

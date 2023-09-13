@@ -24,7 +24,7 @@ use Drupal\user\UserInterface;
  *   handlers = {
  *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
  *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
- *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
+ *     "permission_provider" = "Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\entity\EntityViewsData",
  *     "form" = {
