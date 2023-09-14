@@ -134,83 +134,72 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
   $has_bundle = (bool) $entity->getEntityType()->getBundleEntityType();
   $assigned_research_permission = $has_bundle ? "$operation research_assigned {$entity->bundle()} {$entity->getEntityTypeId()}" : "$operation research_assigned {$entity->getEntityTypeId()}";
 
-  // Check access if the user has research_assigned permission.
-  if ($account->hasPermission($assigned_research_permission)) {
-    return farm_rothamsted_experiment_research_researcher_account_access($entity, $account);
+  // Only check access if the user has research_assigned permission.
+  if (!$account->hasPermission($assigned_research_permission)) {
+    return AccessResult::neutral();
   }
 
-  return AccessResult::neutral();
-}
-
-/**
- * Recursive helper function to determine account access to research entities.
- *
- * Access is allowed if accounts are associated with a researcher that is
- * assigned to the experiment at the top of the research hierarchy.
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The entity to check.
- * @param \Drupal\Core\Session\AccountInterface $account
- *   The account.
- *
- * @return \Drupal\Core\Access\AccessResult
- *   The access result.
- */
-function farm_rothamsted_experiment_research_researcher_account_access(EntityInterface $entity, AccountInterface $account): AccessResult {
-
+  // Logic based on entity type.
   switch ($entity->getEntityTypeId()) {
 
     case 'asset':
       // Find the plan associated with the plot.
-      $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
-      $query = $plan_storage->getQuery()
-        ->condition('type', 'rothamsted_experiment');
+      $query = \Drupal::entityQuery('plan')
+        ->accessCheck(FALSE)
+        ->condition('type', 'rothamsted_experiment')
+        ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id());
       $asset_reference = $query->orConditionGroup()
         ->condition('plot', $entity->id())
         ->condition('asset', $entity->id())
         ->condition('location', $entity->id());
       $query->condition($asset_reference);
-      $plan_ids = $query->execute();
-      if (empty($plan_ids)) {
-        return AccessResult::neutral()->setCacheMaxAge(0);
-      }
-      else {
-        $plan = $plan_storage->load(reset($plan_ids));
-        return farm_rothamsted_experiment_research_researcher_account_access($plan, $account);
-      }
+      $plan_count = $query->count()->execute();
+      return AccessResult::allowedIf($plan_count !== 0);
 
     case 'rothamsted_proposal':
       // For proposals, check for a matching contact.
-      $is_contact = array_filter($entity->get('contact')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {
-        return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
-      });
-      return AccessResult::allowedIf(!empty($is_contact))->setCacheMaxAge(0);
+      $program_count = \Drupal::entityQuery('rothamsted_proposal')
+        ->accessCheck(FALSE)
+        ->condition('contact.entity:rothamsted_researcher.farm_user', $account->id())
+        ->count()
+        ->execute();
+      return AccessResult::allowedIf($program_count !== 0);
 
     case 'rothamsted_program':
       // For programs, check for a matching principal investigator.
-      $is_pi = array_filter($entity->get('principal_investigator')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {
-        return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
-      });
-      return AccessResult::allowedIf(!empty($is_pi))->setCacheMaxAge(0);
+      $program_count = \Drupal::entityQuery('rothamsted_program')
+        ->accessCheck(FALSE)
+        ->condition('principal_investigator.entity:rothamsted_researcher.farm_user', $account->id())
+        ->count()
+        ->execute();
+      return AccessResult::allowedIf($program_count !== 0);
 
     case 'rothamsted_experiment':
       // For experiments, check for a matching researcher.
-      $is_researcher = array_filter($entity->get('researcher')->referencedEntities(), function (RothamstedResearcherInterface $researcher) use ($account) {
-        return !$researcher->get('farm_user')->isEmpty() && $researcher->get('farm_user')->first()->target_id == $account->id();
-      });
-      return AccessResult::allowedIf(!empty($is_researcher))->setCacheMaxAge(0);
+      $experiment_count = \Drupal::entityQuery('rothamsted_experiment')
+        ->accessCheck(FALSE)
+        ->condition('researcher.entity:rothamsted_researcher.farm_user', $account->id())
+        ->count()
+        ->execute();
+      return AccessResult::allowedIf($experiment_count !== 0);
 
     case 'rothamsted_design':
       // For designs, check the experiment.
-      return $entity->get('experiment')->isEmpty() ?
-        AccessResult::neutral()->setCacheMaxAge(0) :
-        farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment')->entity, $account);
+      $design_count = \Drupal::entityQuery('rothamsted_design')
+        ->accessCheck(FALSE)
+        ->condition('experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
+        ->count()
+        ->execute();
+      return AccessResult::allowedIf($design_count !== 0);
 
     case 'plan':
       // For plans, check the design.
-      return $entity->get('experiment_design')->isEmpty() ?
-        AccessResult::neutral()->setCacheMaxAge(0) :
-        farm_rothamsted_experiment_research_researcher_account_access($entity->get('experiment_design')->entity, $account);
+      $plan_count = \Drupal::entityQuery('plan')
+        ->accessCheck(FALSE)
+        ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
+        ->count()
+        ->execute();
+      return AccessResult::allowedIf($plan_count !== 0);
 
     default:
       return AccessResult::neutral();
