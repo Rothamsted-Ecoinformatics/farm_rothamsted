@@ -4,11 +4,13 @@ dependencies:
   config:
     - comment.type.rothamsted_proposal
     - field.field.comment.rothamsted_proposal.comment_body
+    - field.field.comment.rothamsted_proposal.proposal_review
+  module:
+    - farm_field
+    - text
   enforced:
     module:
       - farm_rothamsted_experiment_research
-  module:
-    - text
 id: comment.rothamsted_proposal.default
 targetEntityType: comment
 bundle: rothamsted_proposal
@@ -23,6 +25,18 @@ content:
     region: content
   links:
     settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  proposal_review:
+    type: hideable_boolean
+    label: inline
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+      hide_if_false: true
+      hide_if_true: false
     third_party_settings: {  }
     weight: 1
     region: content
