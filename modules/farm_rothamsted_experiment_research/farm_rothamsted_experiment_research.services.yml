@@ -9,3 +9,9 @@ services:
     class: Drupal\farm_rothamsted_experiment_research\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  farm_rothamsted_experiment_research.query_access_event_subscriber:
+    class: Drupal\farm_rothamsted_experiment_research\EventSubscriber\QueryAccessEventSubscriber
+    arguments:
+      [ '@entity_type.manager' ]
+    tags:
+      - { name: 'event_subscriber' }
