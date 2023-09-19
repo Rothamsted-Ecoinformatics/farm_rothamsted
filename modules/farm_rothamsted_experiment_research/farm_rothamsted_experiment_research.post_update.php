@@ -929,3 +929,88 @@ function farm_rothamsted_experiment_research_post_update_2_17_proposal_comment_r
     FieldConfig::create($yml)->save();
   }
 }
+
+/**
+ * Migrate design plot fields to notes field.
+ */
+function farm_rothamsted_experiment_research_post_update_2_17_migrate_design_plot_fields(&$sandbox = NULL) {
+
+  // Init sandbox.
+  $design_storage = \Drupal::entityTypeManager()->getStorage('rothamsted_design');
+  if (!isset($sandbox['current_id'])) {
+
+    // Query existing data.
+    $sandbox['design_ids'] = array_values($design_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->execute() ?? []);
+
+    // Track progress.
+    $sandbox['current_id'] = 0;
+    $sandbox['#finished'] = 0;
+  }
+
+  // Bail if no designs exist.
+  if (empty($sandbox['design_ids'])) {
+    $sandbox['#finished'] = 1;
+    return NULL;
+  }
+
+  $fields_to_remove = [
+    'num_blocks',
+    'num_plots_block',
+    'num_mainplots',
+    'num_subplots_mainplots',
+    'num_subplots',
+    'num_subsubplots_subplot',
+    'num_subsubplots',
+    'horizontal_row_spacing',
+    'vertical_row_spacing',
+    'plot_length',
+    'plot_width',
+    'plot_area',
+    'num_rows',
+    'num_columns',
+  ];
+
+  // Copy all relevant fields to the notes.
+  // Keep track if data is migrated so we can update the revision notes.
+  $notes = [];
+  /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface $design */
+  $current_id = $sandbox['design_ids'][$sandbox['current_id']];
+  if ($current_id && $design = $design_storage->load($current_id)) {
+    foreach ($fields_to_remove as $field_id) {
+      if (!$design->get($field_id)->isEmpty()) {
+        /** @var \Drupal\Core\Field\FieldItemInterface $field */
+        $field = $design->get($field_id);
+        $label = $field->getFieldDefinition()->getLabel();
+        $notes[] = "$label: {$field->value}";
+      }
+    }
+
+    // Save the notes field with a revision message.
+    if (count($notes)) {
+      $notes_format = $design->get('notes')->format;
+      $notes_value = $design->get('notes')->value;
+      foreach ($notes as $note_line) {
+        $notes_value .= "$note_line \n";
+      }
+      $design->set('notes', ['value' => $notes_value, 'format' => $notes_format]);
+      $design->setNewRevision(TRUE);
+      $design->setRevisionLogMessage('Design plot metadata copied to notes field.');
+      $design->save();
+    }
+  }
+
+  // Iterate the global counter.
+  $sandbox['current_id']++;
+
+  // Update progress.
+  if (!empty($sandbox['design_ids'])) {
+    $sandbox['#finished'] = $sandbox['current_id'] / count($sandbox['design_ids']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
+
+  return NULL;
+}
