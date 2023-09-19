@@ -211,6 +211,11 @@ class DesignEntityForm extends ResearchEntityForm {
 
     $form = parent::form($form, $form_state);
 
+    // Require revision log message.
+    if (isset($form['revision_log_message']['widget'][0]['value'])) {
+      $form['revision_log_message']['widget'][0]['value']['#required'] = TRUE;
+    }
+
     // Create parent tab for management sub-tabs.
     $management_tab = 'tab_management';
     $form[$management_tab . '_parent'] = [
