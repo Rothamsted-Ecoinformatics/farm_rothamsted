@@ -699,12 +699,11 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDescription(t('The spacing of the horizontal rows between the plots. For example, 3 rows of 1.5m followed by 1 row of 3m.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
+        'region' => 'hidden',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
+        'region' => 'hidden',
       ]);
 
     $fields['vertical_row_spacing'] = BaseFieldDefinition::create('text_long')
@@ -712,12 +711,11 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDescription(t('The spacing of the vertical rows between the plots. For example, 3 rows of 1.5m followed by 1 row of 3m.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
+        'region' => 'hidden',
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'inline',
+        'region' => 'hidden',
       ]);
 
     $fields['plot_non_standard'] = BaseFieldDefinition::create('boolean')
@@ -749,18 +747,21 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => t('Plot length'),
         'description' => t('The length of the plots.'),
         'suffix' => 'm',
+        'hidden' => TRUE,
       ],
       'plot_width' => [
         'type' => 'float',
         'label' => t('Plot width'),
         'description' => t('The width of the plots.'),
         'suffix' => 'm',
+        'hidden' => TRUE,
       ],
       'plot_area' => [
         'type' => 'float',
         'label' => t('Plot area'),
         'description' => t('The area of the plots.'),
         'suffix' => 'm2',
+        'hidden' => TRUE,
       ],
       'total_plot_area' => [
         'type' => 'float',
@@ -778,46 +779,55 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'type' => 'integer',
         'label' => t('Number of rows'),
         'description' => t('The number of rows in the experiment.'),
+        'hidden' => TRUE,
       ],
       'num_columns' => [
         'type' => 'integer',
         'label' => t('Number of columns'),
         'description' => t('The number of columns in the experiment.'),
+        'hidden' => TRUE,
       ],
       'num_blocks' => [
         'type' => 'integer',
         'label' => t('Number of blocks'),
         'description' => t('The number of blocks in the experiment.'),
+        'hidden' => TRUE,
       ],
       'num_plots_block' => [
         'type' => 'integer',
         'label' => t('Number of main plots per block'),
         'description' => t('The number of main plots per block.'),
+        'hidden' => TRUE,
       ],
       'num_mainplots' => [
         'type' => 'integer',
         'label' => t('Number of main plots'),
         'description' => t('The number of main plots in the experiment.'),
+        'hidden' => TRUE,
       ],
       'num_subplots_mainplots' => [
         'type' => 'integer',
         'label' => t('Number of subplots per main plot'),
         'description' => t('The number of subplots per main plot.'),
+        'hidden' => TRUE,
       ],
       'num_subplots' => [
         'type' => 'integer',
         'label' => t('Number of subplots'),
         'description' => t('The number of subplots in the experiment.'),
+        'hidden' => TRUE,
       ],
       'num_subsubplots_subplot' => [
         'type' => 'integer',
         'label' => t('Number of sub-subplots per subplot'),
         'description' => t('The number of sub-subplots per subplot.'),
+        'hidden' => TRUE,
       ],
       'num_subsubplots' => [
         'type' => 'integer',
         'label' => t('Number of sub-subplots'),
         'description' => t('The number of sub-subplots in the experiment.'),
+        'hidden' => TRUE,
       ],
     ];
 
@@ -837,6 +847,12 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
           'type' => 'number',
           'label' => 'inline',
         ]);
+
+      // Hide fields if specified.
+      if ($field_info['hidden'] ?? FALSE) {
+        $fields[$field_id]->setDisplayOptions('form', ['region' => 'hidden']);
+        $fields[$field_id]->setDisplayOptions('view', ['region' => 'hidden']);
+      }
 
       // Add suffix.
       if (isset($field_info['suffix'])) {
