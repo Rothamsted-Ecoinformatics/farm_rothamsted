@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update research viewer role permissions. [#546](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/546)
 - Migrate and hide design plot fields. [#549](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/549)
+- Change design entity required fields. [#553](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/553)
 
 ### Removed
 - Remove design as treatment fields. [#552](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/552)

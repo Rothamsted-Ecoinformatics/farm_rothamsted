@@ -372,6 +372,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDescription(t('Is the rotation a treatment in this experiment design? Rotations which are part of the treatment structure should be added via the plot attributes.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
+      ->setDefaultValue(0)
       ->setSettings([
         'on_label' => t('Yes'),
         'off_label' => t('No'),
@@ -540,7 +541,6 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDescription(t('The hypotheses that the design is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
       ])
@@ -601,6 +601,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setLabel(t('Additional Blocking Constraints'))
       ->setDescription(t('Any additional blocking constraints associated with the experiment design.'))
       ->setRequired(TRUE)
+      ->setDefaultValue('none')
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [
         't-latinization' => t('T-Latinization'),
@@ -723,6 +724,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setDescription(t('Check if the plots vary in size across the experiment.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
+      ->setDefaultValue(0)
       ->setSettings([
         'on_label' => t('Yes'),
         'off_label' => t('No'),
@@ -951,6 +953,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         ->setDescription($restriction_field_info['boolean']['description'])
         ->setRevisionable(TRUE)
         ->setRequired(TRUE)
+        ->setDefaultValue(0)
         ->setSettings([
           'on_label' => t('Yes'),
           'off_label' => t('No'),
