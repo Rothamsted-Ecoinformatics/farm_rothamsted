@@ -1014,3 +1014,36 @@ function farm_rothamsted_experiment_research_post_update_2_17_migrate_design_plo
 
   return NULL;
 }
+
+/**
+ * Remove design as treatment fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_17_remove_design_as_treatment_fields(&$sandbox = NULL) {
+  $fields_to_remove = [
+    'seed_treatment',
+    'variety_treatment',
+    'cultivation_treatment',
+    'planting_date_treatment',
+    'planting_rate_treatment',
+    'fungicide_treatment',
+    'herbicide_treatment',
+    'insecticide_treatment',
+    'nematicide_treatment',
+    'molluscicide_treatment',
+    'pgr_treatment',
+    'irrigation_treatment',
+    'nitrogen_treatment',
+    'potassium_treatment',
+    'phosphorous_treatment',
+    'magnesium_treatment',
+    'sulphur_treatment',
+    'micronutrients_treatment',
+    'ph_treatment',
+    'other_treatment',
+  ];
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  foreach ($fields_to_remove as $field_id) {
+    $old_field = $update_manager->getFieldStorageDefinition("mgmt_$field_id", 'rothamsted_design');
+    \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($old_field);
+  }
+}
