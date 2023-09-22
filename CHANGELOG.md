@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add tab or related entities to assets. [#538](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/538) [#539](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/539I)
 - Add view/update own researcher access logic. [#373](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/373)
 - Add design dependent variables field. [#550](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/550)
+- Add design unequal replication field. [#551](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/551)
 
 ### Changed
 
