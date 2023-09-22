@@ -1060,6 +1060,17 @@ function farm_rothamsted_experiment_research_post_update_2_17_add_design_fields(
     ->setDescription(t('Describe the dependant variables, adding a new box for each variable. These are also called outcome or response variables, and are the measurement values that are being predicted (or their variation measured) by this experiment.'))
     ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
     ->setRevisionable(TRUE);
+  $fields['unequal_replication'] = BaseFieldDefinition::create('boolean')
+    ->setLabel(t('Unequal Replication'))
+    ->setDescription(t('Please check if the experiment has unequal replication, in which case the replication strategy should be fully described in the Design Description.'))
+    ->setRevisionable(TRUE)
+    ->setRequired(TRUE)
+    ->setDefaultValue(0)
+    ->setSettings([
+      'on_label' => t('Yes'),
+      'off_label' => t('No'),
+    ])
+    ->setInitialValue(0);
 
   // Finally, install field storage definitions.
   foreach ($fields as $field_id => $field_definition) {

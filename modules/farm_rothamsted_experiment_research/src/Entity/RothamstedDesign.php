@@ -667,6 +667,29 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['unequal_replication'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Unequal Replication'))
+      ->setDescription(t('Please check if the experiment has unequal replication, in which case the replication strategy should be fully described in the Design Description.'))
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setDefaultValue(0)
+      ->setSettings([
+        'on_label' => t('Yes'),
+        'off_label' => t('No'),
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'options_buttons',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+        'settings' => [
+          'format' => 'yes-no',
+        ],
+      ]);
+
     $fields['num_replicates'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Replicates'))
       ->setDescription(t('The number of replicates for each factor level combination.'))

@@ -64,6 +64,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'blocking_constraint',
           'model',
           'num_factor_level_combinations',
+          'unequal_replication',
           'num_replicates',
           'statistician',
           'notes',
@@ -260,6 +261,13 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ];
     }
+
+    // Disable number of replicates if unequal replication.
+    $form['num_replicates']['#states'] = [
+      'disabled' => [
+        ':input[name="unequal_replication"]' => ['value' => 1],
+      ],
+    ];
 
     // Hide restriction description fields until checked.
     $rotation_fields = [
