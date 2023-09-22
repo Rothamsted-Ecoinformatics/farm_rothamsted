@@ -57,6 +57,7 @@ class DesignEntityForm extends ResearchEntityForm {
           'objective',
           'num_treatments',
           'treatment',
+          'dependent_variables',
           'hypothesis',
           'blocking_structure',
           'statistical_design',
