@@ -536,6 +536,20 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
+    $fields['dependent_variables'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Dependant Variables'))
+      ->setDescription(t('Describe the dependant variables, adding a new box for each variable. These are also called outcome or response variables, and are the measurement values that are being predicted (or their variation measured) by this experiment.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRevisionable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'inline',
+      ]);
+
     $fields['hypothesis'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Hypotheses'))
       ->setDescription(t('The hypotheses that the design is testing. This must define your predictions. See https://scientific-publishing.webshop.elsevier.com/manuscript-preparation/what-how-write-good-hypothesis-research/'))

@@ -1047,3 +1047,27 @@ function farm_rothamsted_experiment_research_post_update_2_17_remove_design_as_t
     \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($old_field);
   }
 }
+
+/**
+ * Add design fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_17_add_design_fields(&$sandbox) {
+
+  // Create dependent_variables and unequal_replication fields.
+  $fields = [];
+  $fields['dependent_variables'] = BaseFieldDefinition::create('text_long')
+    ->setLabel(t('Dependant Variables'))
+    ->setDescription(t('Describe the dependant variables, adding a new box for each variable. These are also called outcome or response variables, and are the measurement values that are being predicted (or their variation measured) by this experiment.'))
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+    ->setRevisionable(TRUE);
+
+  // Finally, install field storage definitions.
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_design',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}
