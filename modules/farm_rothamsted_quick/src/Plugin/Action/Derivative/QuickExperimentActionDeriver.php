@@ -6,7 +6,7 @@ use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\farm_quick\QuickFormManager;
+use Drupal\farm_quick\QuickFormPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +21,7 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
   /**
    * The quick form manager.
    *
-   * @var \Drupal\farm_quick\QuickFormManager
+   * @var \Drupal\farm_quick\QuickFormPluginManager
    */
   protected $quickFormManager;
 
@@ -30,10 +30,10 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
    *
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
-   * @param \Drupal\farm_quick\QuickFormManager $quick_form_manager
+   * @param \Drupal\farm_quick\QuickFormPluginManager $quick_form_manager
    *   The quick form manager service.
    */
-  public function __construct(TranslationInterface $string_translation, QuickFormManager $quick_form_manager) {
+  public function __construct(TranslationInterface $string_translation, QuickFormPluginManager $quick_form_manager) {
     $this->stringTranslation = $string_translation;
     $this->quickFormManager = $quick_form_manager;
   }
