@@ -160,6 +160,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       // For proposals, check for a matching contact.
       $program_count = \Drupal::entityQuery('rothamsted_proposal')
         ->accessCheck(FALSE)
+        ->condition('id', $entity->id())
         ->condition('contact.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
@@ -169,6 +170,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       // For programs, check for a matching principal investigator.
       $program_count = \Drupal::entityQuery('rothamsted_program')
         ->accessCheck(FALSE)
+        ->condition('id', $entity->id())
         ->condition('principal_investigator.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
@@ -178,6 +180,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       // For experiments, check for a matching researcher.
       $experiment_count = \Drupal::entityQuery('rothamsted_experiment')
         ->accessCheck(FALSE)
+        ->condition('id', $entity->id())
         ->condition('researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
@@ -187,6 +190,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       // For designs, check the experiment.
       $design_count = \Drupal::entityQuery('rothamsted_design')
         ->accessCheck(FALSE)
+        ->condition('id', $entity->id())
         ->condition('experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
@@ -196,6 +200,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       // For plans, check the design.
       $plan_count = \Drupal::entityQuery('plan')
         ->accessCheck(FALSE)
+        ->condition('id', $entity->id())
         ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
