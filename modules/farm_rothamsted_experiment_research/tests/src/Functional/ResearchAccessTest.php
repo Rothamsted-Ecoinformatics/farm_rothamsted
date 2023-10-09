@@ -85,7 +85,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Create user.
     $this->user = $this->createUser();
 
-    // Research entities.
+    // Create research entities for use in testing.
     $new_researchers = [
       [
         'name' => 'Researcher 1',
@@ -154,6 +154,43 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     ]);
     $this->plan->save();
 
+    // Create a second set of research entities that the user has access to.
+    // These entities will not directly be used in testing, but are important
+    // for testing that a user does not have access to other entities, when
+    // they are correctly assigned to some.
+    $test_program = RothamstedProgram::create([
+      'code' => 'P02-TEST',
+      'name' => 'Program 2',
+      'abbreviation' => 'P02',
+      'principal_investigator' => $this->researchers[1],
+    ]);
+    $test_program->save();
+    RothamstedProposal::create([
+      'name' => 'Proposal 2',
+      'program' => $test_program,
+      'contact' => $this->researchers[1],
+    ])->save();
+    $test_experiment = RothamstedExperiment::create([
+      'program' => $test_program,
+      'code' => 'P02-E01',
+      'name' => 'Experiment 2',
+      'abbreviation' => 'E02',
+      'researcher' => $this->researchers[1],
+    ]);
+    $test_experiment->save();
+    $test_design = RothamstedDesign::create([
+      'experiment' => $test_experiment,
+      'name' => 'Design 2',
+      'description' => 'Initial design for experiment 2',
+      'statistician' => reset($this->researchers),
+    ]);
+    $test_design->save();
+    Plan::create([
+      'type' => 'rothamsted_experiment',
+      'name' => 'Experiment 2',
+      'experiment_design' => $test_design,
+    ])->save();
+
     // Login user.
     $this->drupalLogin($this->user);
   }
@@ -216,13 +253,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$proposal_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
     $this->user->removeRole('proposal_view_any');
+    $this->user->addRole('proposal_view_assigned');
     $this->user->save();
-
-    // Add user to the program.
-    $this->proposal->set('contact', [$this->researchers[0], $this->researchers[1]]);
-    $this->proposal->save();
 
     // Test user has no view access.
     $this->drupalGet($proposal_path);
@@ -232,9 +266,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$proposal_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('proposal_view_assigned');
-    $this->user->save();
+    // Add user to the program.
+    $this->proposal->set('contact', [$this->researchers[0], $this->researchers[1]]);
+    $this->proposal->save();
 
     // Test user only has view access.
     $this->drupalGet($proposal_path);
@@ -342,13 +376,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$program_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
     $this->user->removeRole('program_view_any');
+    $this->user->addRole('program_view_assigned');
     $this->user->save();
-
-    // Add user to the program.
-    $this->program->set('principal_investigator', [$this->researchers[0], $this->researchers[1]]);
-    $this->program->save();
 
     // Test user has no view access.
     $this->drupalGet($program_path);
@@ -358,9 +389,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$program_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('program_view_assigned');
-    $this->user->save();
+    // Add user to the program.
+    $this->program->set('principal_investigator', [$this->researchers[0], $this->researchers[1]]);
+    $this->program->save();
 
     // Test user only has view access.
     $this->drupalGet($program_path);
@@ -468,13 +499,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$experiment_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
     $this->user->removeRole('experiment_view_any');
+    $this->user->addRole('experiment_view_assigned');
     $this->user->save();
-
-    // Add user to the experiment.
-    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
-    $this->experiment->save();
 
     // Test user has no view access.
     $this->drupalGet($experiment_path);
@@ -484,9 +512,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$experiment_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('experiment_view_assigned');
-    $this->user->save();
+    // Add user to the experiment.
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
 
     // Test user only has view access.
     $this->drupalGet($experiment_path);
@@ -594,13 +622,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$design_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
     $this->user->removeRole('design_view_any');
+    $this->user->addRole('design_view_assigned');
     $this->user->save();
-
-    // Add user to the experiment.
-    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
-    $this->experiment->save();
 
     // Test user has no view access.
     $this->drupalGet($design_path);
@@ -610,9 +635,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$design_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('design_view_assigned');
-    $this->user->save();
+    // Add user to the experiment.
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
 
     // Test user only has view access.
     $this->drupalGet($design_path);
@@ -720,13 +745,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
+    $this->user->addRole('plan_view_assigned');
     $this->user->removeRole('plan_view_any');
     $this->user->save();
-
-    // Add user to the experiment.
-    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
-    $this->experiment->save();
 
     // Test user has no view access.
     $this->drupalGet($plan_path);
@@ -736,9 +758,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plan_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('plan_view_assigned');
-    $this->user->save();
+    // Add user to the experiment.
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
 
     // Test user only has view access.
     $this->drupalGet($plan_path);
@@ -856,13 +878,10 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plot_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Remove role.
+    // Grant user the view assigned role.
     $this->user->removeRole('plot_view_any');
+    $this->user->addRole('plot_view_assigned');
     $this->user->save();
-
-    // Add user to the experiment.
-    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
-    $this->experiment->save();
 
     // Test user has no view access.
     $this->drupalGet($plot_path);
@@ -872,9 +891,9 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->drupalGet("$plot_path/delete");
     $this->assertSession()->statusCodeEquals(403);
 
-    // Grant user the view assigned role.
-    $this->user->addRole('plot_view_assigned');
-    $this->user->save();
+    // Add user to the experiment.
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
 
     // Test user only has view access.
     $this->drupalGet($plot_path);
