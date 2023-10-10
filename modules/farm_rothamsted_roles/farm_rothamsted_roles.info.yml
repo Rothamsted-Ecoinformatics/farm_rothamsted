@@ -1,0 +1,10 @@
+name: farmOS Rothamsted Roles
+description: Adds roles specific to Rothamsted Research
+type: module
+package: farmOS Custom
+core_version_requirement: ^9
+dependencies:
+  - farm_role
+  - farm_role_account_admin
+  - farm_role_roles
+  - farm_rothamsted:farm_rothamsted

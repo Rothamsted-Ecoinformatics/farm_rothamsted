@@ -1,0 +1,59 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_roles
+  module:
+    - farm_role
+id: rothamsted_operator_advanced
+label: 'Operator (advanced)'
+weight: 5
+is_admin: false
+permissions: { }
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        view all: true
+        create all: false
+        update all: false
+        delete all: false
+        type:
+          asset:
+            create:
+              - all
+            view any:
+              - all
+            update any:
+              - all
+            delete own:
+              - all
+          log:
+            create:
+              - all
+            view any:
+              - all
+            update own:
+              - all
+            delete own:
+              - all
+          quantity:
+            create:
+              - all
+            view any:
+              - all
+            update own:
+              - all
+            delete own:
+              - all
+          taxonomy:
+            create:
+              - all
+            view any:
+              - all
+            update any:
+              - all
+            delete own:
+              - all
