@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Datetime\Entity\DateFormat;
+use Drupal\user\Entity\Role;
 use Drupal\views\Entity\View;
 use Symfony\Component\Yaml\Yaml;
 
@@ -148,5 +149,33 @@ function farm_rothamsted_post_update_2_10_1_create_rothamsted_date_format(&$sand
 function farm_rothamsted_post_update_2_10_2_enable_experiment_research(&$sandbox = NULL) {
   if (!\Drupal::service('module_handler')->moduleExists('farm_rothamsted_experiment_research')) {
     \Drupal::service('module_installer')->install(['farm_rothamsted_experiment_research']);
+  }
+}
+
+/**
+ * Enable role submodule.
+ */
+function farm_rothamsted_post_update_2_17_enable_role_submodule(&$sandbox = NULL) {
+
+  // Load current operator users.
+  $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
+    'roles' => ['farm_operator'],
+  ]);
+
+  // Delete old operator role.
+  if ($old_role = Role::load('farm_operator')) {
+    $old_role->delete();
+  }
+
+  // Enable roles submodule.
+  if (!\Drupal::service('module_handler')->moduleExists('farm_rothamsted_roles')) {
+    \Drupal::service('module_installer')->install(['farm_rothamsted_roles']);
+  }
+
+  // Grant old operators the rothamsted_operator_basic role.
+  /** @var \Drupal\user\UserInterface $user */
+  foreach ($users as $user) {
+    $user->get('roles')->appendItem('rothamsted_operator_basic');
+    $user->save();
   }
 }

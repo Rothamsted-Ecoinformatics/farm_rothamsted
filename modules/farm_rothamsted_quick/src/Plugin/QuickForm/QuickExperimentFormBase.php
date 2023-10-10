@@ -688,7 +688,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $status['general'] = $this->buildInlineWrapper();
 
     // Operator field.
-    $operator_options = $this->getUserOptions(['farm_operator']);
+    $operator_options = $this->getUserOptions(['rothamsted_operator_basic', 'rothamsted_operator_advanced']);
     $status['general']['owner'] = [
       '#type' => 'select',
       '#title' => $this->t('Operator'),
