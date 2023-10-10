@@ -30,6 +30,7 @@ class RolePermissions {
       'rothamsted_research_lead' => ['create', 'view', 'update_assigned'],
       'rothamsted_research_editor' => ['view', 'update_assigned'],
       'rothamsted_research_restricted_viewer' => ['view_assigned'],
+      'rothamsted_research_reviewer' => ['view'],
     ];
     if (!isset($role_perms_mapping[$role->id()])) {
       return $perms;
