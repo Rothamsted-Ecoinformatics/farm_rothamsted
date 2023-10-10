@@ -11,6 +11,7 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterfac
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\link\LinkItemInterface;
+use Drupal\user\Entity\Role;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -1080,5 +1081,15 @@ function farm_rothamsted_experiment_research_post_update_2_17_add_design_fields(
       'farm_rothamsted_experiment_research',
       $field_definition,
     );
+  }
+}
+
+/**
+ * Update roles.
+ */
+function farm_rothamsted_experiment_research_post_update_2_17_update_research_roles(&$sandbox) {
+  // Delete research viewer.
+  if ($research_viewer = Role::load('rothamsted_research_viewer')) {
+    $research_viewer->delete();
   }
 }
