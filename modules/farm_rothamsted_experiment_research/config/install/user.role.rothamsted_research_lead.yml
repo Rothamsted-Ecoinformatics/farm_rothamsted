@@ -13,48 +13,29 @@ label: 'Research Lead'
 weight: 2
 is_admin: null
 permissions:
-  - 'access rothamsted_design overview'
-  - 'create rothamsted_design'
-  - 'update own rothamsted_design'
-  - 'update research_assigned rothamsted_design'
-  - 'view all rothamsted_design revisions'
-  - 'view any rothamsted_design'
-  - 'access rothamsted_experiment overview'
-  - 'create rothamsted_experiment'
-  - 'update own rothamsted_experiment'
-  - 'update research_assigned rothamsted_experiment'
-  - 'view all rothamsted_experiment revisions'
-  - 'view any rothamsted_experiment'
-  - 'access rothamsted_program overview'
-  - 'create rothamsted_program'
-  - 'update own rothamsted_program'
-  - 'update research_assigned rothamsted_program'
-  - 'view all rothamsted_program revisions'
-  - 'view any rothamsted_program'
-  - 'access rothamsted_proposal overview'
-  - 'create rothamsted_proposal'
-  - 'update own rothamsted_proposal'
-  - 'update research_assigned rothamsted_proposal'
-  - 'view all rothamsted_proposal revisions'
-  - 'view any rothamsted_proposal'
   - 'access rothamsted_researcher overview'
   - 'create rothamsted_researcher'
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'
   - 'view any rothamsted_researcher'
-  - 'create rothamsted_experiment plan'
-  - 'update research_assigned rothamsted_experiment plan'
-  - 'view all plan revisions'
-  - 'view any rothamsted_experiment plan'
-  - 'view any asset'
-  - 'update research_assigned land asset'
-  - 'update research_assigned plot asset'
-  - 'update research_assigned structure asset'
-  - 'update research_assigned sensor asset'
-  - 'view any log'
-  - 'view any quantity'
-  - 'access taxonomy overview'
 third_party_settings:
   farm_role:
     access:
       config: false
+      entity:
+        view all: true
+        create all: false
+        update all: false
+        delete all: false
+        type:
+          asset:
+            update research_assigned:
+              - land
+              - plot
+              - structure
+              - sensor
+          plan:
+            create:
+              - rothamsted_experiment
+            update research_assigned:
+              - rothamsted_experiment

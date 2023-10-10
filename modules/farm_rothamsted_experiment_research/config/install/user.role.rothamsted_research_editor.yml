@@ -13,39 +13,27 @@ label: 'Research editor'
 weight: 2
 is_admin: null
 permissions:
-  - 'access rothamsted_design overview'
-  - 'update research_assigned rothamsted_design'
-  - 'view all rothamsted_design revisions'
-  - 'view any rothamsted_design'
-  - 'access rothamsted_experiment overview'
-  - 'update research_assigned rothamsted_experiment'
-  - 'view all rothamsted_experiment revisions'
-  - 'view any rothamsted_experiment'
-  - 'access rothamsted_program overview'
-  - 'update research_assigned rothamsted_program'
-  - 'view all rothamsted_program revisions'
-  - 'view any rothamsted_program'
-  - 'access rothamsted_proposal overview'
-  - 'update research_assigned rothamsted_proposal'
-  - 'view all rothamsted_proposal revisions'
-  - 'view any rothamsted_proposal'
   - 'access rothamsted_researcher overview'
   - 'create rothamsted_researcher'
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'
-  - 'update research_assigned rothamsted_experiment plan'
   - 'view any rothamsted_researcher'
-  - 'view any rothamsted_experiment plan'
-  - 'view any asset'
-  - 'update research_assigned land asset'
-  - 'update research_assigned plot asset'
-  - 'update research_assigned structure asset'
-  - 'update research_assigned sensor asset'
-  - 'update research_assigned plot asset'
-  - 'view any log'
-  - 'view any quantity'
-  - 'access taxonomy overview'
 third_party_settings:
   farm_role:
     access:
       config: false
+      entity:
+        view all: true
+        create all: false
+        update all: false
+        delete all: false
+        type:
+          asset:
+            update research_assigned:
+              - land
+              - plot
+              - structure
+              - sensor
+          plan:
+            update research_assigned:
+              - rothamsted_experiment
