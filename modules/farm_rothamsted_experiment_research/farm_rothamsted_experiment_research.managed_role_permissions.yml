@@ -4,3 +4,5 @@ farm_rothamsted_experiment_research:
     - post comments
     - skip comment approval
     - edit own comments
+  permission_callbacks:
+    - Drupal\farm_rothamsted_experiment_research\RolePermissions::permissions
