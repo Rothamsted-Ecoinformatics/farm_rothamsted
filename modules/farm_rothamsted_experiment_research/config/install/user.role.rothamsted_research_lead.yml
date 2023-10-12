@@ -18,6 +18,11 @@ permissions:
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'
   - 'view any rothamsted_researcher'
+  - 'create quantity'
+  - 'view any quantity'
+  - 'update research_assigned quantity'
+  - 'update own quantity'
+  - 'delete own quantity'
 third_party_settings:
   farm_role:
     access:
@@ -34,6 +39,15 @@ third_party_settings:
               - plot
               - structure
               - sensor
+          log:
+            create:
+              - observation
+            update own:
+              - all
+            update research_assigned:
+              - all
+            delete own:
+              - all
           plan:
             create:
               - rothamsted_experiment

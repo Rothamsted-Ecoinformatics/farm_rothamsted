@@ -8,7 +8,9 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposal;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
+use Drupal\log\Entity\Log;
 use Drupal\plan\Entity\Plan;
+use Drupal\quantity\Entity\Quantity;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
 use Drupal\user\Entity\Role;
 
@@ -70,6 +72,8 @@ class ResearchAccessTest extends FarmBrowserTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'farm_quantity_standard',
+    'farm_rothamsted',
     'farm_rothamsted_experiment',
     'farm_rothamsted_experiment_research',
     'farm_rothamsted_researcher',
@@ -941,6 +945,223 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->drupalGet("$plot_path/delete");
     $this->assertSession()->statusCodeEquals(200);
+  }
+
+  /**
+   * Test access logic on logs.
+   *
+   * @group test
+   */
+  public function testLogAccess() {
+
+    // Create roles for view/update assigned/any.
+    Role::create([
+      'id' => 'activity_view_assigned',
+      'label' => 'View assigned',
+      'permissions' => [
+        'view research_assigned activity log',
+        'view research_assigned quantity',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'activity_view_any',
+      'label' => 'View any',
+      'permissions' => [
+        'view any activity log',
+        'view any quantity',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'activity_update_assigned',
+      'label' => 'Update assigned',
+      'permissions' => [
+        'update research_assigned activity log',
+        'update research_assigned quantity',
+      ],
+    ])->save();
+    Role::create([
+      'id' => 'activity_update_any',
+      'label' => 'Update any',
+      'permissions' => [
+        'update any activity log',
+        'update any quantity',
+      ],
+    ])->save();
+
+    // Create a plot and add to the plan.
+    $plot = Asset::create([
+      'type' => 'plot',
+      'plot_id' => 1,
+    ]);
+    $plot->save();
+    $this->plan->set('plot', $plot);
+    $this->plan->save();
+
+    // Create an activity log referencing the plot.
+    $quantity = Quantity::create([
+      'type' => 'standard',
+      'value' => 100,
+      'measure' => 'weight',
+    ]);
+    $quantity->save();
+    $log = Log::create([
+      'type' => 'activity',
+      'quantity' => $quantity,
+    ]);
+    $log->save();
+
+    // Log path.
+    $log_id = $log->id();
+    $log_path = "/log/$log_id";
+
+    // Get quantity access handler.
+    $quantity_access = \Drupal::entityTypeManager()->getAccessControlHandler('quantity');
+
+    // Test new user has no access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertFalse($quantity->access('view', $this->user));
+    $this->assertFalse($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Grant user view any role.
+    $this->user->addRole('activity_view_any');
+    $this->user->save();
+
+    // Test user only has view access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertTrue($log->access('view', $this->user));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertFalse($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Grant user the view assigned role.
+    $this->user->removeRole('activity_view_any');
+    $this->user->addRole('activity_view_assigned');
+    $this->user->save();
+
+    // Test user has no view access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertFalse($quantity->access('view', $this->user));
+    $this->assertFalse($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Make the log reference the plot.
+    $log->set('asset', $plot);
+    $log->save();
+
+    // Test user has no view access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertFalse($quantity->access('view', $this->user));
+    $this->assertFalse($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Add user to the experiment.
+    $this->experiment->set('researcher', [$this->researchers[0], $this->researchers[1]]);
+    $this->experiment->save();
+
+    // Test user only has view access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertFalse($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Grant user the update assigned role.
+    $this->user->addRole('activity_update_assigned');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertTrue($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Change the log to reference the plot by location field.
+    $log->set('asset', []);
+    $log->set('location', $plot);
+    $log->save();
+
+    // Test user has view + update access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertTrue($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Grant user the update any assigned role.
+    $this->user->removeRole('activity_update_assigned');
+    $this->user->addRole('activity_update_any');
+    $this->user->save();
+
+    // Test user has view + update access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertTrue($quantity->access('update', $this->user));
+    $this->assertFalse($quantity->access('delete', $this->user));
+
+    // Grant user the experiment admin role.
+    $this->user->removeRole('activity_view_assigned');
+    $this->user->removeRole('activity_update_any');
+    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->save();
+
+    // Test experiment admin role has all access.
+    $quantity_access->resetCache();
+    $this->drupalGet($log_path);
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/edit");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->drupalGet("$log_path/delete");
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertTrue($quantity->access('view', $this->user));
+    $this->assertTrue($quantity->access('update', $this->user));
+    $this->assertTrue($quantity->access('delete', $this->user));
   }
 
 }

@@ -19,6 +19,7 @@ permissions:
   - 'view all rothamsted_researcher revisions'
   - 'view assigned rothamsted_researcher'
   - 'update assigned rothamsted_researcher'
+  - 'view research_assigned quantity'
 third_party_settings:
   farm_role:
     access:
@@ -40,10 +41,7 @@ third_party_settings:
               - structure
               - sensor
           log:
-            view any:
-              - all
-          quantity:
-            view any:
+            view research_assigned:
               - all
           plan:
             view research_assigned:

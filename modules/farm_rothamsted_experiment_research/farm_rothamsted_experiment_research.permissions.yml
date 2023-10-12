@@ -1,6 +1,8 @@
 permission_callbacks:
   - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::assetPermissions
+  - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::logPermissions
   - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::planPermissions
+  - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::quantityPermissions
 
 view all rothamsted_design revisions:
   title: 'View all design revisions'
