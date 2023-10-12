@@ -75,6 +75,26 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
   }
 
   /**
+   * Build log permissions.
+   *
+   * @return array
+   *   Permissions array.
+   */
+  public function logPermissions(): array {
+    return $this->buildPermissions($this->entityTypeManager->getStorage('log')->getEntityType());
+  }
+
+  /**
+   * Build quantity permissions.
+   *
+   * @return array
+   *   Permissions array.
+   */
+  public function quantityPermissions(): array {
+    return $this->buildPermissions($this->entityTypeManager->getStorage('quantity')->getEntityType());
+  }
+
+  /**
    * Build research permissions for an entity type.
    *
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
@@ -84,8 +104,8 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
    *   Permissions array.
    */
   public function buildPermissions(EntityTypeInterface $entity_type): array {
-    $has_bundle = (bool) $entity_type->getBundleEntityType();
-    return $has_bundle ? $this->buildBundlePermissions($entity_type) : $this->buildEntityTypePermissions($entity_type);
+    $bundle_permissions = $entity_type->getPermissionGranularity() == 'bundle';
+    return $bundle_permissions ? $this->buildBundlePermissions($entity_type) : $this->buildEntityTypePermissions($entity_type);
   }
 
   /**

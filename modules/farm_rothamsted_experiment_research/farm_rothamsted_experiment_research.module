@@ -109,6 +109,36 @@ function farm_rothamsted_experiment_research_asset_access(EntityInterface $entit
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_research_log_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check view, update and delete operations.
+  if (!in_array($operation, ['view', 'update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
+    ->addCacheableDependency($entity);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+function farm_rothamsted_experiment_research_quantity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  // Only check view, update and delete operations.
+  if (!in_array($operation, ['view', 'update', 'delete'])) {
+    return AccessResult::neutral();
+  }
+
+  // Delegate to helper function.
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
+    ->setCacheMaxAge(0);
+}
+
+/**
  * Helper function to determine account access to research entities.
  *
  * Access is granted if accounts are the experiment admin or if accounts are
@@ -131,8 +161,8 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
   }
 
   // Build the research_assigned permission string.
-  $has_bundle = (bool) $entity->getEntityType()->getBundleEntityType();
-  $assigned_research_permission = $has_bundle ? "$operation research_assigned {$entity->bundle()} {$entity->getEntityTypeId()}" : "$operation research_assigned {$entity->getEntityTypeId()}";
+  $bundle_permissions = $entity->getEntityType()->getPermissionGranularity() == 'bundle';
+  $assigned_research_permission = $bundle_permissions ? "$operation research_assigned {$entity->bundle()} {$entity->getEntityTypeId()}" : "$operation research_assigned {$entity->getEntityTypeId()}";
 
   // Only check access if the user has research_assigned permission.
   if (!$account->hasPermission($assigned_research_permission)) {
@@ -141,6 +171,44 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
 
   // Logic based on entity type.
   switch ($entity->getEntityTypeId()) {
+
+    case 'quantity':
+      // Get the log that references the quantity.
+      $logs = \Drupal::entityTypeManager()->getStorage('log')->loadByProperties([
+        'quantity' => $entity->id(),
+      ]);
+
+      // Bail if there are no logs.
+      if (empty($logs)) {
+        return AccessResult::neutral();
+      }
+
+      // Delegate to log access logic.
+      return farm_rothamsted_experiment_research_research_entity_access(reset($logs), $operation, $account);
+
+    case 'log':
+      // Collect asset IDs the log references.
+      $asset_ids = array_column($entity->get('asset')->getValue(), 'target_id');
+      $location_ids = array_column($entity->get('location')->getValue(), 'target_id');
+      $log_asset_ids = array_merge($asset_ids, $location_ids);
+
+      // Bail if log does not reference any asset.
+      if (empty($log_asset_ids)) {
+        return AccessResult::forbidden();
+      }
+
+      // Find the plan associated with the asset.
+      $query = \Drupal::entityQuery('plan')
+        ->accessCheck(FALSE)
+        ->condition('type', 'rothamsted_experiment')
+        ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id());
+      $asset_reference = $query->orConditionGroup()
+        ->condition('plot', $log_asset_ids, 'IN')
+        ->condition('asset', $log_asset_ids, 'IN')
+        ->condition('location', $log_asset_ids, 'IN');
+      $query->condition($asset_reference);
+      $plan_count = $query->count()->execute();
+      return AccessResult::allowedIf($plan_count !== 0);
 
     case 'asset':
       // Find the plan associated with the plot.
