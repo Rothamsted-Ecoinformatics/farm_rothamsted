@@ -1,3 +1,5 @@
 farm_rothamsted_experiment:
   config_permissions:
-    - use rothamsted_experiment plan uploader
+    - create rothamsted_experiment plan boundary
+    - upload rothamsted_experiment plan geometries
+    - upload rothamsted_experiment plan variables
