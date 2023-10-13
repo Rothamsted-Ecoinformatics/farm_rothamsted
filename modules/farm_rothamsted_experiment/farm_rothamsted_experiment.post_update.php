@@ -8,6 +8,7 @@
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\user\Entity\Role;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -879,4 +880,14 @@ function farm_rothamsted_experiment_post_update_2_14_uninstall_experiment_code_f
   $update_manager = \Drupal::entityDefinitionUpdateManager();
   $contact_field = $update_manager->getFieldStorageDefinition('experiment_code', 'plan');
   \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($contact_field);
+}
+
+/**
+ * Remove sponsor role.
+ */
+function farm_rothamsted_experiment_post_update_2_17_remove_sponsor_role(&$sandbox) {
+  // Delete sponsor.
+  if ($research_viewer = Role::load('rothamsted_sponsor')) {
+    $research_viewer->delete();
+  }
 }
