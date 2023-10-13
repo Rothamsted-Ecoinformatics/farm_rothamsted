@@ -5,6 +5,7 @@
  * The farm rothamsted experiment research module.
  */
 
+use Drupal\comment\CommentInterface;
 use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -51,6 +52,48 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function farm_rothamsted_experiment_research_comment_insert(EntityInterface $entity) {
+  if ($entity->bundle() == 'rothamsted_proposal' && $entity->get('proposal_review')->value) {
+    farm_rothamsted_experiment_research_update_proposal_reviewer($entity);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function farm_rothamsted_experiment_research_comment_update(EntityInterface $entity) {
+  if ($entity->bundle() == 'rothamsted_proposal' && $entity->get('proposal_review')->value) {
+    farm_rothamsted_experiment_research_update_proposal_reviewer($entity);
+  }
+}
+
+/**
+ * Helper function to update proposal reviewers for a comment.
+ *
+ * @param \Drupal\comment\CommentInterface $comment
+ *   The comment entity.
+ */
+function farm_rothamsted_experiment_research_update_proposal_reviewer(CommentInterface $comment) {
+
+  // Get matching researcher.
+  $researcher = \Drupal::entityTypeManager()->getStorage('rothamsted_researcher')->loadByProperties([
+    'farm_user' => $comment->getOwnerId(),
+  ]);
+  if (empty($researcher)) {
+    return;
+  }
+
+  // Update the proposal.reviewer field.
+  $proposal = $comment->getCommentedEntity();
+  $reviewer_ids = array_column($proposal->get('reviewer')->getValue(), 'target_id');
+  $reviewer_ids[] = reset($researcher)->id();
+  $proposal->set('reviewer', array_unique($reviewer_ids));
+  $proposal->save();
 }
 
 /**
