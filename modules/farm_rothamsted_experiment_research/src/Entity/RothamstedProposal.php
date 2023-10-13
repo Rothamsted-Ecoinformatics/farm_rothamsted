@@ -533,7 +533,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Treatment Factors'))
-      ->setDescription(t('The proposed number of treatment factors.'))
+      ->setDescription(t('The number of treatment factors being tested in the experiment, where a treatment factor is a variable under the control of the experimenter (sometimes also called explanatory variables) with two or more levels.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -549,7 +549,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Treatment factors'))
-      ->setDescription(t('A description of the proposed treatment factors and factor levels.'))
+      ->setDescription(t('A description of the treatment factor(s) being tested in the experiment, with a list of the factor levels where applicable. Please add a new box for each treatment factor. For example: "Fungicide exposure (high, medium, low, none)" in one box and "Plant Breed Line (Cadenza, KWS Zyatt, KWS Extase) in another.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -564,7 +564,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     $fields['num_replicates'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Replicates'))
-      ->setDescription(t('The proposed number of replicates for each factor level combination.'))
+      ->setDescription(t('The number of times each factor level combination is repeated in the experiment.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
