@@ -10,7 +10,15 @@ weight: 1
 is_admin: null
 permissions:
   - 'administer rothamsted_experiment plan'
+  - 'create rothamsted_experiment plan boundary'
+  - 'upload rothamsted_experiment plan geometries'
+  - 'upload rothamsted_experiment plan variables'
 third_party_settings:
   farm_role:
     access:
       config: false
+      entity:
+        view all: true
+        create all: true
+        update all: true
+        delete all: true
