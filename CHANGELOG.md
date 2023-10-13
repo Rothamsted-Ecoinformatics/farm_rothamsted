@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add view/update own researcher access logic. [#373](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/373)
 - Add design dependent variables field. [#550](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/550)
 - Add design unequal replication field. [#551](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/551)
+- Restrict users from changing username and email. [#568](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/568)
 
 ### Changed
 
