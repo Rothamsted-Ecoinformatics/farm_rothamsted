@@ -509,7 +509,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Treatment Factors'))
-      ->setDescription(t('The number of treatment factors.'))
+      ->setDescription(t('The number of treatment factors being tested in the experiment, where a treatment factor is a variable under the control of the experimenter (sometimes also called explanatory variables) with two or more levels.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
@@ -524,7 +524,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
       ->setLabel(t('Treatment Factors'))
-      ->setDescription(t('Describe the treatment factors and factor levels for this statistical design.'))
+      ->setDescription(t('A description of the treatment factor(s) being tested in the experiment, with a list of the factor levels where applicable. Please add a new box for each treatment factor. For example: "Fungicide exposure (high, medium, low, none)" in one box and "Plant Breed Line (Cadenza, KWS Zyatt, KWS Extase) in another.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
@@ -654,7 +654,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['num_factor_level_combinations'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Factor Level Combinations'))
-      ->setDescription(t('The number of factor level combinations.'))
+      ->setDescription(t('The number of unique treatments, where a unique treatment might be a combination of factor levels from two different treatment factors. For example, if you have two treatments factors, one for Fungicide Exposure with four factor levels (high, medium, low, none) and a second treatment factor for Wheat Variety with two factor levels (Variety 1 and Variety 2) and all four fungicide treatments are applied to each of the two varieties, then there are 8 factor level combinations (Variety 1 with high fungicide exposure, Variety 2 with high fungicide exposure, Variety 1 with medium fungicide exposure, Variety 2 with medium fungicide exposure, etc).'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
@@ -692,7 +692,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     $fields['num_replicates'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Number of Replicates'))
-      ->setDescription(t('The number of replicates for each factor level combination.'))
+      ->setDescription(t('The number of times each factor level combination is repeated in the experiment.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
