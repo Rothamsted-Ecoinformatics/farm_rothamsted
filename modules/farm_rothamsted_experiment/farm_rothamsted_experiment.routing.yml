@@ -18,7 +18,7 @@ farm_rothamsted_experiment.experiment_boundary_form:
     _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentBoundaryForm
     _title: 'Create experiment boundary'
   requirements:
-    _entity_access: 'plan.update'
+    _custom_access:  \Drupal\farm_rothamsted_experiment\Form\ExperimentBoundaryForm::access
   options:
     parameters:
       plan:
@@ -44,7 +44,7 @@ farm_rothamsted_experiment.experiment_plot_geometry_form:
     _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentPlotGeometryForm
     _title: 'Update plot geometry'
   requirements:
-    _entity_access: 'plan.update'
+    _custom_access:  \Drupal\farm_rothamsted_experiment\Form\ExperimentPlotGeometryForm::access
   options:
     parameters:
       plan:
@@ -57,7 +57,7 @@ farm_rothamsted_experiment.experiment.variable_form:
     _form:  \Drupal\farm_rothamsted_experiment\Form\ExperimentVariableForm
     _title: 'Update experiment variables'
   requirements:
-    _entity_access: 'plan.update'
+    _custom_access:  \Drupal\farm_rothamsted_experiment\Form\ExperimentVariableForm::access
   options:
     parameters:
       plan:

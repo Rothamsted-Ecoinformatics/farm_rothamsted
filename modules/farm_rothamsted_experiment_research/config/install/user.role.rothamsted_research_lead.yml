@@ -13,6 +13,9 @@ label: 'Research Lead'
 weight: 2
 is_admin: null
 permissions:
+  - 'create rothamsted_experiment plan boundary'
+  - 'upload rothamsted_experiment plan geometries'
+  - 'upload rothamsted_experiment plan variables'
   - 'access rothamsted_researcher overview'
   - 'create rothamsted_researcher'
   - 'update assigned rothamsted_researcher'

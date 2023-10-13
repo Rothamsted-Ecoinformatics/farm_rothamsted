@@ -1,4 +1,8 @@
-use rothamsted_experiment plan uploader:
-  title: 'Use Rothamsted experiment plan uploader'
 administer rothamsted_experiment plan:
   title: 'Administer Rothamsted experiment plans'
+create rothamsted_experiment plan boundary:
+  title: 'Create Rothamsted Experiment plan boundary'
+upload rothamsted_experiment plan geometries:
+  title: 'Upload Rothamsted Experiment plan geometries'
+upload rothamsted_experiment plan variables:
+  title: 'Upload Rothamsted Experiment plan variables'

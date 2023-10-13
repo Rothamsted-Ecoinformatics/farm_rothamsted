@@ -29,7 +29,6 @@ permissions:
   - 'update own plot asset'
   - 'update own quantity'
   - 'update own rothamsted_experiment plan'
-  - 'use rothamsted_experiment plan uploader'
   - 'view any observation log'
   - 'view any plan'
   - 'view any plot asset'

@@ -3,8 +3,10 @@
 namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -45,6 +47,21 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
    */
   public function getFormId() {
     return 'rothamsted_experiment_plot_geometry_form';
+  }
+
+  /**
+   * Access check.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   Run access checks for this account.
+   * @param \Drupal\plan\Entity\PlanInterface $plan
+   *   The plan entity.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   The access result.
+   */
+  public function access(AccountInterface $account, PlanInterface $plan) {
+    return $plan->access('update', $account, TRUE)->andIf(AccessResult::allowedIfHasPermission($account, 'upload rothamsted_experiment plan geometries'));
   }
 
   /**

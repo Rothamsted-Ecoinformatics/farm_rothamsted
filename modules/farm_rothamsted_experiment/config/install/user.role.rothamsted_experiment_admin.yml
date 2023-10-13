@@ -10,7 +10,6 @@ weight: 1
 is_admin: null
 permissions:
   - 'administer rothamsted_experiment plan'
-  - 'use rothamsted_experiment plan uploader'
 third_party_settings:
   farm_role:
     access:
