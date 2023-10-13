@@ -104,8 +104,7 @@ function farm_rothamsted_experiment_research_asset_access(EntityInterface $entit
   }
 
   // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
-    ->addCacheableDependency($entity);
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
 }
 
 /**
@@ -119,8 +118,7 @@ function farm_rothamsted_experiment_research_log_access(EntityInterface $entity,
   }
 
   // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
-    ->addCacheableDependency($entity);
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
 }
 
 /**
@@ -134,8 +132,7 @@ function farm_rothamsted_experiment_research_quantity_access(EntityInterface $en
   }
 
   // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account)
-    ->setCacheMaxAge(0);
+  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
 }
 
 /**
@@ -160,13 +157,27 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
     return AccessResult::allowedIfHasPermission($account, 'administer rothamsted_experiment plan');
   }
 
+  // Add cache tags to all other access results. This ensures that secondary
+  // task items are rebuilt on the entity page when other entities change.
+  // For example, if a researcher is removed from an Experiment entity,
+  // the plan should be updated to not have the "edit" tab. Without these cache
+  // tags the previous result can be cached.
+  $research_entity_cache_tags = [
+    'rothamsted_researcher_list',
+    'rothamsted_proposal_list',
+    'rothamsted_program_list',
+    'rothamsted_experiment_list',
+    'rothamsted_design_list',
+    'plan_list:rothamsted_experiment',
+  ];
+
   // Build the research_assigned permission string.
   $bundle_permissions = $entity->getEntityType()->getPermissionGranularity() == 'bundle';
   $assigned_research_permission = $bundle_permissions ? "$operation research_assigned {$entity->bundle()} {$entity->getEntityTypeId()}" : "$operation research_assigned {$entity->getEntityTypeId()}";
 
   // Only check access if the user has research_assigned permission.
   if (!$account->hasPermission($assigned_research_permission)) {
-    return AccessResult::neutral();
+    return AccessResult::neutral()->addCacheTags($research_entity_cache_tags);
   }
 
   // Logic based on entity type.
@@ -208,7 +219,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('location', $log_asset_ids, 'IN');
       $query->condition($asset_reference);
       $plan_count = $query->count()->execute();
-      return AccessResult::allowedIf($plan_count !== 0);
+      return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'asset':
       // Find the plan associated with the plot.
@@ -222,7 +233,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('location', $entity->id());
       $query->condition($asset_reference);
       $plan_count = $query->count()->execute();
-      return AccessResult::allowedIf($plan_count !== 0);
+      return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_proposal':
       // For proposals, check for a matching contact.
@@ -232,7 +243,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('contact.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
-      return AccessResult::allowedIf($program_count !== 0);
+      return AccessResult::allowedIf($program_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_program':
       // For programs, check for a matching principal investigator.
@@ -242,7 +253,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('principal_investigator.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
-      return AccessResult::allowedIf($program_count !== 0);
+      return AccessResult::allowedIf($program_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_experiment':
       // For experiments, check for a matching researcher.
@@ -252,7 +263,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
-      return AccessResult::allowedIf($experiment_count !== 0);
+      return AccessResult::allowedIf($experiment_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_design':
       // For designs, check the experiment.
@@ -262,7 +273,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
-      return AccessResult::allowedIf($design_count !== 0);
+      return AccessResult::allowedIf($design_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'plan':
       // For plans, check the design.
@@ -272,10 +283,10 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
         ->count()
         ->execute();
-      return AccessResult::allowedIf($plan_count !== 0);
+      return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     default:
-      return AccessResult::neutral();
+      return AccessResult::neutral()->addCacheTags($research_entity_cache_tags);
   }
 
 }
