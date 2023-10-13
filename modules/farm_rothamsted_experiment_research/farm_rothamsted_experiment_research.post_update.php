@@ -1092,4 +1092,11 @@ function farm_rothamsted_experiment_research_post_update_2_17_update_research_ro
   if ($research_viewer = Role::load('rothamsted_research_viewer')) {
     $research_viewer->delete();
   }
+
+  // Create new roles.
+  foreach (['rothamsted_research_lead', 'rothamsted_research_restricted_viewer', 'rothamsted_research_reviewer'] as $role_id) {
+    $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment_research') . "/config/install/user.role.$role_id.yml";
+    $data = Yaml::parseFile($config_path);
+    \Drupal::configFactory()->getEditable("user.role.$role_id")->setData($data)->save(TRUE);
+  }
 }
