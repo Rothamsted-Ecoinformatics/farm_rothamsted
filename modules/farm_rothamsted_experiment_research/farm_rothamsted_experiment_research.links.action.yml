@@ -9,6 +9,15 @@ farm_rothamsted_experiment_research.add_proposal:
   route_name: entity.rothamsted_proposal.add_form
   appears_on:
     - entity.rothamsted_proposal.collection
+    - view.rothamsted_proposal.page
+    - view.rothamsted_proposal.page_draft
+    - view.rothamsted_proposal.page_submitted
+    - view.rothamsted_proposal.page_approved
+    - view.rothamsted_proposal.page_planning
+    - view.rothamsted_proposal.page_postponed
+    - view.rothamsted_proposal.page_rejected
+    - view.rothamsted_proposal.page_cancelled
+    - view.rothamsted_proposal.page_archived
 
 farm_rothamsted_experiment_research.add_experiment:
   title: 'Add Experiment'
