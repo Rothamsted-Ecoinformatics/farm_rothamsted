@@ -4,6 +4,9 @@ permission_callbacks:
   - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::planPermissions
   - Drupal\farm_rothamsted_experiment_research\ResearchPermissionProvider::quantityPermissions
 
+review rothamsted_proposal:
+  title: 'Review rothamsted proposals'
+
 view all rothamsted_design revisions:
   title: 'View all design revisions'
   description: 'Allow viewing design entity revisions.'

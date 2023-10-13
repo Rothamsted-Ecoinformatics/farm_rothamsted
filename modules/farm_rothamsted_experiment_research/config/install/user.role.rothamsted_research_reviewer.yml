@@ -16,6 +16,7 @@ permissions:
   - 'access rothamsted_researcher overview'
   - 'view all rothamsted_researcher revisions'
   - 'view any rothamsted_researcher'
+  - 'review rothamsted_proposal'
 third_party_settings:
   farm_role:
     access:
