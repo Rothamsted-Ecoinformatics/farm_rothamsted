@@ -55,7 +55,7 @@ class RelatedEntities extends ControllerBase {
         ->condition('plot', $asset->id());
       $plan_query->condition($or_group);
       $has_relationship = AccessResultForbidden::forbiddenIf($plan_query->count()->execute() == 0);
-      $access->andIf($has_relationship);
+      $access = $access->orif($has_relationship);
     }
     return $access;
   }
