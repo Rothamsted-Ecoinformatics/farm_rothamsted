@@ -1,0 +1,3 @@
+farm_rothamsted_researcher:
+  permission_callbacks:
+    - Drupal\farm_rothamsted_researcher\RolePermissions::permissions
