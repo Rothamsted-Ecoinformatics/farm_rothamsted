@@ -5,8 +5,8 @@ dependencies:
     - farm_role
     - farm_rothamsted_experiment
 id: rothamsted_experiment_admin
-label: 'Rothamsted experiment admin'
-weight: 1
+label: 'Research Admin'
+weight: 3
 is_admin: null
 permissions:
   - 'administer rothamsted_experiment plan'

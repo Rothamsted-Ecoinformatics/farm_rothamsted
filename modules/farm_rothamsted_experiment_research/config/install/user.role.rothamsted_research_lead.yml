@@ -10,7 +10,7 @@ dependencies:
       - farm_rothamsted_experiment_research
 id: rothamsted_research_lead
 label: 'Research Lead'
-weight: 2
+weight: 3
 is_admin: null
 permissions:
   - 'access farm setup'
