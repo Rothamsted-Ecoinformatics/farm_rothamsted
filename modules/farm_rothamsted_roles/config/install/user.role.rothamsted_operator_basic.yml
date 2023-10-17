@@ -8,7 +8,7 @@ dependencies:
     - farm_role
 id: rothamsted_operator_basic
 label: 'Operator (basic)'
-weight: 4
+weight: 2
 is_admin: false
 permissions:
   - 'access farm setup'
