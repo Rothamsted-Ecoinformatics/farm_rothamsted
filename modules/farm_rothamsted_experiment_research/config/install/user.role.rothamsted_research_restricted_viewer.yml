@@ -13,6 +13,8 @@ label: 'Research Restricted Viewer'
 weight: 2
 is_admin: null
 permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
   - 'access rothamsted_researcher overview'
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'

@@ -10,7 +10,9 @@ id: rothamsted_operator_advanced
 label: 'Operator (advanced)'
 weight: 5
 is_admin: false
-permissions: { }
+permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
 third_party_settings:
   farm_role:
     access:
