@@ -17,7 +17,6 @@ permissions:
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
   - 'access rothamsted_researcher overview'
-  - 'create rothamsted_researcher'
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'
   - 'view any rothamsted_researcher'

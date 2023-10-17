@@ -14,11 +14,9 @@ weight: 2
 is_admin: null
 permissions:
   - 'access rothamsted_researcher overview'
-  - 'create rothamsted_researcher'
   - 'update assigned rothamsted_researcher'
   - 'view all rothamsted_researcher revisions'
   - 'view assigned rothamsted_researcher'
-  - 'update assigned rothamsted_researcher'
   - 'view research_assigned quantity'
 third_party_settings:
   farm_role:
