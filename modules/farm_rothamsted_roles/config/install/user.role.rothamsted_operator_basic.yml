@@ -10,7 +10,9 @@ id: rothamsted_operator_basic
 label: 'Operator (basic)'
 weight: 4
 is_admin: false
-permissions: { }
+permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
 third_party_settings:
   farm_role:
     access:

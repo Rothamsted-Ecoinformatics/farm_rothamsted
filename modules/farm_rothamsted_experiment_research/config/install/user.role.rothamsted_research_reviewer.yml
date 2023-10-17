@@ -13,6 +13,8 @@ label: 'Reviewer'
 weight: 2
 is_admin: null
 permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
   - 'access rothamsted_researcher overview'
   - 'view all rothamsted_researcher revisions'
   - 'view any rothamsted_researcher'

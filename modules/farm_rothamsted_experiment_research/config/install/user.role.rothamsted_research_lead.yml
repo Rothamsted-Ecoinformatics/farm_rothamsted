@@ -13,6 +13,8 @@ label: 'Research Lead'
 weight: 2
 is_admin: null
 permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
   - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
