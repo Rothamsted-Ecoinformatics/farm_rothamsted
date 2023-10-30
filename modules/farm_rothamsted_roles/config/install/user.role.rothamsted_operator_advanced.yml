@@ -30,16 +30,12 @@ third_party_settings:
               - all
             update any:
               - all
-            delete own:
-              - all
           log:
             create:
               - all
             view any:
               - all
             update own:
-              - all
-            delete own:
               - all
           quantity:
             create:
@@ -56,6 +52,4 @@ third_party_settings:
             view any:
               - all
             update any:
-              - all
-            delete own:
               - all
