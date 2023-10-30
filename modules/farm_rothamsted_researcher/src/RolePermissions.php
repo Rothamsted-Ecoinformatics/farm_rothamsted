@@ -23,8 +23,8 @@ class RolePermissions {
 
     // Only add perms for specific roles.
     $role_perms_mapping = [
-      'farm_manager' => ['view'],
-      'farm_viewer' => ['view'],
+      'rothamsted_farm_manager' => ['view'],
+      'rothamsted_farm_viewer' => ['view'],
       'rothamsted_experiment_admin' => ['create', 'view', 'update_any'],
       'rothamsted_operator_basic' => ['view'],
       'rothamsted_operator_advanced' => ['view'],

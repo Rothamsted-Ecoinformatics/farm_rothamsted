@@ -6,5 +6,4 @@ core_version_requirement: ^9
 dependencies:
   - farm_role
   - farm_role_account_admin
-  - farm_role_roles
   - farm_rothamsted:farm_rothamsted
