@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_roles
+  module:
+    - farm_role
+id: rothamsted_farm_manager
+label: 'Farm Manager'
+weight: 1
+is_admin: false
+permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'
+third_party_settings:
+  farm_role:
+    access:
+      config: true
+      entity:
+        view all: true
+        create all: true
+        update all: true
+        delete all: false
