@@ -25,7 +25,7 @@ class RolePermissions {
     $role_perms_mapping = [
       'rothamsted_farm_manager' => ['view'],
       'rothamsted_farm_viewer' => ['view'],
-      'rothamsted_experiment_admin' => ['create', 'view', 'update_any'],
+      'rothamsted_data_admin' => ['create', 'view', 'update_any'],
       'rothamsted_operator_basic' => ['view'],
       'rothamsted_operator_advanced' => ['view'],
       'rothamsted_research_lead' => ['create', 'view', 'update_assigned'],
