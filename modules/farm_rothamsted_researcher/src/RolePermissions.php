@@ -23,9 +23,9 @@ class RolePermissions {
 
     // Only add perms for specific roles.
     $role_perms_mapping = [
-      'rothamsted_farm_manager' => ['view'],
+      'rothamsted_farm_manager' => ['create', 'view', 'update_any'],
       'rothamsted_farm_viewer' => ['view'],
-      'rothamsted_data_admin' => ['create', 'view', 'update_any'],
+      'rothamsted_data_admin' => ['create', 'view', 'update_any', 'delete_any'],
       'rothamsted_operator_basic' => ['view'],
       'rothamsted_operator_advanced' => ['view'],
     ];
@@ -50,10 +50,12 @@ class RolePermissions {
       ],
       'update_any' => [
         'update any {entity_type}',
-        'delete any {entity_type}',
       ],
       'update_assigned' => [
         'update assigned {entity_type}',
+      ],
+      'delete_any' => [
+        'delete any {entity_type}',
       ],
     ];
 
