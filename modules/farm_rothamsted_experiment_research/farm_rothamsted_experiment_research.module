@@ -270,8 +270,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id());
       $asset_reference = $query->orConditionGroup()
         ->condition('plot', $log_asset_ids, 'IN')
-        ->condition('asset', $log_asset_ids, 'IN')
-        ->condition('location', $log_asset_ids, 'IN');
+        ->condition('asset', $log_asset_ids, 'IN');
       $query->condition($asset_reference);
       $plan_count = $query->count()->execute();
       return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
@@ -284,8 +283,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
         ->condition('experiment_design.entity:rothamsted_design.experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id());
       $asset_reference = $query->orConditionGroup()
         ->condition('plot', $entity->id())
-        ->condition('asset', $entity->id())
-        ->condition('location', $entity->id());
+        ->condition('asset', $entity->id());
       $query->condition($asset_reference);
       $plan_count = $query->count()->execute();
       return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
