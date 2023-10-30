@@ -2,7 +2,7 @@ name: farmOS Rothamsted Research Experiment
 description: Rothamsted Research features for experiment plans.
 type: module
 package: farmOS Custom
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - drupal:comment
   - drupal:datetime

@@ -2,7 +2,7 @@ name: farmOS Rothamsted Quick Forms
 description: Custom Quick Forms for Rothamsted Research.
 type: module
 package: farmOS Custom
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - autocomplete_deluxe:autocomplete_deluxe
   - farm_activity

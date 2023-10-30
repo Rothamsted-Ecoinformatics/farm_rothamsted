@@ -2,7 +2,7 @@ name: farmOS Rothamsted Development
 description: Development module for the Rothamsted module.
 type: module
 package: farmOS Custom
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - farm_rothamsted
   - farm_rothamsted_quick

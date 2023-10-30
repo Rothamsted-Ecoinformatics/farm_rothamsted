@@ -2,7 +2,7 @@ name: farmOS Rothamsted Researcher
 description: Adds a Researcher entity for Rothamsted Research.
 type: module
 package: farmOS Custom
-core_version_requirement: ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - farm:farm_ui_menu
   - farm_rothamsted:farm_rothamsted
