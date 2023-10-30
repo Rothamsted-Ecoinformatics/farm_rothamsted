@@ -1,13 +1,15 @@
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_roles
   module:
     - farm_role
-    - farm_rothamsted_experiment
-id: rothamsted_experiment_admin
-label: 'Research Admin'
-weight: 3
-is_admin: null
+id: rothamsted_data_admin
+label: 'Farm Data Admin'
+weight: 1
+is_admin: false
 permissions:
   - 'administer rothamsted_experiment plan'
   - 'create rothamsted_experiment plan boundary'
@@ -16,7 +18,7 @@ permissions:
 third_party_settings:
   farm_role:
     access:
-      config: false
+      config: true
       entity:
         view all: true
         create all: true

@@ -176,7 +176,7 @@ function farm_rothamsted_notification_send_research_update(string $operation, En
   if ($include_admin) {
     $experiment_admins = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
       'status' => TRUE,
-      'roles' => 'rothamsted_experiment_admin',
+      'roles' => 'rothamsted_data_admin',
     ]);
     $admin_emails = array_map(function (UserInterface $user) {
       $name = $user->getDisplayName();

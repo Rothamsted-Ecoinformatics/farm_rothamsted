@@ -310,7 +310,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('proposal_view_assigned');
     $this->user->removeRole('proposal_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -433,7 +433,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('program_view_assigned');
     $this->user->removeRole('program_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -556,7 +556,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('experiment_view_assigned');
     $this->user->removeRole('experiment_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -679,7 +679,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('design_view_assigned');
     $this->user->removeRole('design_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -802,7 +802,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('plan_view_assigned');
     $this->user->removeRole('plan_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -935,7 +935,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('plot_view_assigned');
     $this->user->removeRole('plot_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.
@@ -1148,7 +1148,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Grant user the experiment admin role.
     $this->user->removeRole('activity_view_assigned');
     $this->user->removeRole('activity_update_any');
-    $this->user->addRole('rothamsted_experiment_admin');
+    $this->user->addRole('rothamsted_data_admin');
     $this->user->save();
 
     // Test experiment admin role has all access.

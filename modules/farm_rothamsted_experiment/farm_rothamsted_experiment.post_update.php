@@ -885,9 +885,13 @@ function farm_rothamsted_experiment_post_update_2_14_uninstall_experiment_code_f
 /**
  * Remove sponsor role.
  */
-function farm_rothamsted_experiment_post_update_2_17_remove_sponsor_role(&$sandbox) {
+function farm_rothamsted_experiment_post_update_2_17_remove_roles(&$sandbox) {
   // Delete sponsor.
   if ($research_viewer = Role::load('rothamsted_sponsor')) {
     $research_viewer->delete();
+  }
+  // Delete experiment admin.
+  if ($experiment_admin = Role::load('rothamsted_experiment_admin')) {
+    $experiment_admin->delete();
   }
 }
