@@ -50,7 +50,7 @@ third_party_settings:
               - all
             delete own:
               - all
-          taxonomy:
+          taxonomy_term:
             create:
               - all
             view any:
