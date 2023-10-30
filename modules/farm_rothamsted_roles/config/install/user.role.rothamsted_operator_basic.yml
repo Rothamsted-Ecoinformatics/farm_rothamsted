@@ -30,8 +30,6 @@ third_party_settings:
               - all
             update own:
               - all
-            delete own:
-              - all
           quantity:
             create:
               - all

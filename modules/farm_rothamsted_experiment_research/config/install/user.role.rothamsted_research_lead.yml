@@ -50,8 +50,6 @@ third_party_settings:
               - all
             update research_assigned:
               - all
-            delete own:
-              - all
           plan:
             create:
               - rothamsted_experiment
