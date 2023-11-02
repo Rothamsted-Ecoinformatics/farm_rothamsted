@@ -25,7 +25,7 @@ class RolePermissions {
     $role_perms_mapping = [
       'rothamsted_farm_manager' => ['create', 'view', 'update_any'],
       'rothamsted_farm_viewer' => ['view'],
-      'rothamsted_data_admin' => ['create', 'view', 'update_any', 'delete_any'],
+      'rothamsted_data_admin' => ['create', 'view', 'update_any', 'revert_any', 'delete_any'],
       'rothamsted_operator_basic' => ['view'],
       'rothamsted_operator_advanced' => ['view'],
     ];
@@ -53,6 +53,9 @@ class RolePermissions {
       ],
       'update_assigned' => [
         'update assigned {entity_type}',
+      ],
+      'revert_any' => [
+        'revert all {entity_type} revisions',
       ],
       'delete_any' => [
         'delete any {entity_type}',
