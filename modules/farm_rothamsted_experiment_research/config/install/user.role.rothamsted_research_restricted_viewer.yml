@@ -20,6 +20,9 @@ permissions:
   - 'view all rothamsted_researcher revisions'
   - 'view assigned rothamsted_researcher'
   - 'view research_assigned quantity'
+  - 'view all asset revisions'
+  - 'view all log revisions'
+  - 'view all plan revisions'
 third_party_settings:
   farm_role:
     access:
