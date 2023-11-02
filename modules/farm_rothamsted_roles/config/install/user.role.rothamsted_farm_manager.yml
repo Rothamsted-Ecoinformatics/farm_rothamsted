@@ -20,5 +20,21 @@ third_party_settings:
       entity:
         view all: true
         create all: true
-        update all: true
+        update all: false
         delete all: false
+        type:
+          asset:
+            update any:
+              - all
+          log:
+            update any:
+              - all
+          plan:
+            update any:
+              - all
+          quantity:
+            update any:
+              - all
+          taxonomy_term:
+            update any:
+              - all
