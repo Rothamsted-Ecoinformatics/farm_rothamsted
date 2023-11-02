@@ -28,6 +28,10 @@ class RolePermissions {
       'rothamsted_data_admin' => ['create', 'view', 'update_any', 'revert_any', 'delete_any'],
       'rothamsted_operator_basic' => ['view'],
       'rothamsted_operator_advanced' => ['view'],
+      'rothamsted_research_lead' => ['view', 'update_assigned'],
+      'rothamsted_research_editor' => ['view', 'update_assigned'],
+      'rothamsted_research_restricted_viewer' => ['view_assigned'],
+      'rothamsted_research_reviewer' => ['view'],
     ];
     if (!isset($role_perms_mapping[$role->id()])) {
       return $perms;
