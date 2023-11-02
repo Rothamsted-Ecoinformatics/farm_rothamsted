@@ -25,11 +25,23 @@ third_party_settings:
         type:
           asset:
             create:
-              - all
+              - equipment
+              - group
+              - land
+              - plant
+              - sensor
+              - structure
+              - water
             view any:
               - all
-            update any:
-              - all
+            update own:
+              - equipment
+              - group
+              - land
+              - plant
+              - sensor
+              - structure
+              - water
           log:
             create:
               - all
