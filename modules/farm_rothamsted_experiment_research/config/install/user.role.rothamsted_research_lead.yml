@@ -48,9 +48,7 @@ third_party_settings:
             create:
               - observation
             update own:
-              - all
-            update research_assigned:
-              - all
+              - observation
           plan:
             create:
               - rothamsted_experiment
