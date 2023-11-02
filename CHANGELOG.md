@@ -16,10 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add design dependent variables field. [#550](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/550)
 - Add design unequal replication field. [#551](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/551)
 - Restrict users from changing username and email. [#568](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/568)
+- Add Rothamsted Roles module. [#373](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/373)
 
 ### Changed
 
-- Update research viewer role permissions. [#546](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/546)
+- Change rothamsted research roles. [#373](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/373)
 - Migrate and hide design plot fields. [#549](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/549)
 - Change design entity required fields. [#553](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/553)
 - Update treatment field descriptions. [#454](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/454)
