@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres:12
+    image: postgres:15
     environment:
       POSTGRES_USER: farm
       POSTGRES_PASSWORD: farm
@@ -10,7 +10,7 @@ services:
   www:
     depends_on:
       - db
-    image: farmos/farmos:2.x-dev
+    image: farmos/farmos:3.x-dev
     ports:
       - '80:80'
     volumes:
