@@ -43,7 +43,7 @@ class RothamstedStatusConstraint extends Constraint {
   /**
    * {@inheritDoc}
    */
-  public function __get($option) {
+  public function __get($option): mixed {
     if ('requiredStatuses' === $option) {
       return $this->requiredStatuses;
     }
