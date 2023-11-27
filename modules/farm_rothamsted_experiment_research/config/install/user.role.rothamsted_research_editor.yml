@@ -18,11 +18,6 @@ permissions:
   - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
-  - 'create quantity'
-  - 'view any quantity'
-  - 'update research_assigned quantity'
-  - 'update own quantity'
-  - 'delete own quantity'
 third_party_settings:
   farm_role:
     access:
@@ -48,3 +43,12 @@ third_party_settings:
           plan:
             update research_assigned:
               - rothamsted_experiment
+          quantity:
+            create:
+              - all
+            update research_assigned:
+              - all
+            update own:
+              - all
+            delete own:
+              - all
