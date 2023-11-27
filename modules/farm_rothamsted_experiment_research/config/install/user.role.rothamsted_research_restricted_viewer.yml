@@ -15,7 +15,6 @@ is_admin: null
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
-  - 'view research_assigned quantity'
   - 'view all asset revisions'
   - 'view all log revisions'
   - 'view all plan revisions'
@@ -45,6 +44,9 @@ third_party_settings:
           plan:
             view research_assigned:
               - rothamsted_experiment
+          quantity:
+            view research_assigned:
+              - all
           taxonomy_term:
             view any:
               - all

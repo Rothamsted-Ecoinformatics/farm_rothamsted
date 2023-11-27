@@ -961,7 +961,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
       'label' => 'View assigned',
       'permissions' => [
         'view research_assigned activity log',
-        'view research_assigned quantity',
+        'view research_assigned standard quantity',
       ],
     ])->save();
     Role::create([
@@ -969,7 +969,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
       'label' => 'View any',
       'permissions' => [
         'view any activity log',
-        'view any quantity',
+        'view any standard quantity',
       ],
     ])->save();
     Role::create([
@@ -977,7 +977,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
       'label' => 'Update assigned',
       'permissions' => [
         'update research_assigned activity log',
-        'update research_assigned quantity',
+        'update research_assigned standard quantity',
       ],
     ])->save();
     Role::create([
@@ -985,7 +985,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
       'label' => 'Update any',
       'permissions' => [
         'update any activity log',
-        'update any quantity',
+        'update any standard quantity',
       ],
     ])->save();
 
