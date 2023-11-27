@@ -588,6 +588,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
       }
 
       $query = \Drupal::entityTypeManager()->getStorage('plan')->getQuery()
+        ->accessCheck(TRUE)
         ->condition('type', 'rothamsted_experiment')
         ->condition('experiment_design.entity:rothamsted_design.experiment', NULL, 'IS NOT NULL');
       $or_group = $query->orConditionGroup()

@@ -52,6 +52,7 @@ function farm_rothamsted_quick_post_update_log_categories_288(&$sandbox = NULL) 
 
     // Query logs submitted for the quick form that contain the notes value.
     $logs = $log_storage->getQuery()
+      ->accessCheck(FALSE)
       ->condition('quick', $quick_id)
       ->condition('notes.value', $notes_query, 'CONTAINS')
       ->execute();
@@ -105,6 +106,7 @@ function farm_rothamsted_quick_post_update_seed_dressing_notes_2(&$sandbox = NUL
   // Query logs submitted for the quick form that contain the notes value.
   $notes_query = 'Seed dressings:';
   $logs = $log_storage->getQuery()
+    ->accessCheck(FALSE)
     ->condition('quick', 'drilling')
     ->condition('notes.value', $notes_query, 'CONTAINS')
     ->execute();

@@ -48,6 +48,7 @@ class RelatedEntities extends ControllerBase {
     // If view access check for existing plan relationship.
     if ($access->isAllowed()) {
       $plan_query = $this->entityTypeManager()->getStorage('plan')->getAggregateQuery()
+        ->accessCheck(TRUE)
         ->condition('type', 'rothamsted_experiment');
       $or_group = $plan_query->orConditionGroup()
         ->condition('asset', $asset->id())
@@ -72,6 +73,7 @@ class RelatedEntities extends ControllerBase {
   public function assetRelationships(AssetInterface $asset): array {
 
     $plan_query = $this->entityTypeManager()->getStorage('plan')->getQuery()
+      ->accessCheck(TRUE)
       ->condition('type', 'rothamsted_experiment');
 
     $or_group = $plan_query->orConditionGroup()

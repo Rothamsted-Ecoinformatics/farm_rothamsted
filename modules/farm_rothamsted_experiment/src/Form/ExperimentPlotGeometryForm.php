@@ -278,6 +278,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Query plots to update in this batch.
     $asset_storage = \Drupal::entityTypeManager()->getStorage('asset');
     $plot_ids = $asset_storage->getQuery()
+      ->accessCheck(TRUE)
       ->condition('type', 'plot')
       ->condition('status', 'active')
       ->condition('id', $plan_plot_query, 'IN')

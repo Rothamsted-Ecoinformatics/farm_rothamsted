@@ -820,6 +820,7 @@ function farm_rothamsted_experiment_post_update_2_13_migrate_experiment_code_stu
 
     // Query the database for all experiment plans.
     $sandbox['plan_ids'] = array_values($plan_storage->getQuery()
+      ->accessCheck(FALSE)
       ->condition('type', 'rothamsted_experiment')
       ->execute());
 
