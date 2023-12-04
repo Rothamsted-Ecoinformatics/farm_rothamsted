@@ -1100,3 +1100,30 @@ function farm_rothamsted_experiment_research_post_update_2_17_update_research_ro
     \Drupal::configFactory()->getEditable("user.role.$role_id")->setData($data)->save(TRUE);
   }
 }
+
+/**
+ * Remove old design fields.
+ */
+function farm_rothamsted_experiment_research_post_update_2_18_remove_old_design_fields(&$sandbox = NULL) {
+  $fields_to_remove = [
+    'num_blocks',
+    'num_plots_block',
+    'num_mainplots',
+    'num_subplots_mainplots',
+    'num_subplots',
+    'num_subsubplots_subplot',
+    'num_subsubplots',
+    'horizontal_row_spacing',
+    'vertical_row_spacing',
+    'plot_length',
+    'plot_width',
+    'plot_area',
+    'num_rows',
+    'num_columns',
+  ];
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  foreach ($fields_to_remove as $field_id) {
+    $old_field = $update_manager->getFieldStorageDefinition($field_id, 'rothamsted_design');
+    \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($old_field);
+  }
+}

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support Drupal 10 and farmOS v3
 
+### Removed
+
+- Remove fields from database for design entity. [#549](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/549)
+
 ## [2.17.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/37) 2023-11-02
 
 ### Added

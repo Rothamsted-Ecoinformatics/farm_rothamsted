@@ -732,30 +732,6 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => 'inline',
       ]);
 
-    $fields['horizontal_row_spacing'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Horizontal row spacing'))
-      ->setDescription(t('The spacing of the horizontal rows between the plots. For example, 3 rows of 1.5m followed by 1 row of 3m.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('form', [
-        'region' => 'hidden',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'region' => 'hidden',
-      ]);
-
-    $fields['vertical_row_spacing'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Vertical row spacing'))
-      ->setDescription(t('The spacing of the vertical rows between the plots. For example, 3 rows of 1.5m followed by 1 row of 3m.'))
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('form', [
-        'region' => 'hidden',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'region' => 'hidden',
-      ]);
-
     $fields['plot_non_standard'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Varying plot sizes'))
       ->setDescription(t('Check if the plots vary in size across the experiment.'))
@@ -781,27 +757,6 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     // Layout number fields.
     $number_fields = [
-      'plot_length' => [
-        'type' => 'float',
-        'label' => t('Plot length'),
-        'description' => t('The length of the plots.'),
-        'suffix' => 'm',
-        'hidden' => TRUE,
-      ],
-      'plot_width' => [
-        'type' => 'float',
-        'label' => t('Plot width'),
-        'description' => t('The width of the plots.'),
-        'suffix' => 'm',
-        'hidden' => TRUE,
-      ],
-      'plot_area' => [
-        'type' => 'float',
-        'label' => t('Plot area'),
-        'description' => t('The area of the plots.'),
-        'suffix' => 'm2',
-        'hidden' => TRUE,
-      ],
       'total_plot_area' => [
         'type' => 'float',
         'label' => t('Total plot area'),
@@ -813,60 +768,6 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'label' => t('Experiment area'),
         'description' => t('The total area covered by the experiment.'),
         'suffix' => 'm2',
-      ],
-      'num_rows' => [
-        'type' => 'integer',
-        'label' => t('Number of rows'),
-        'description' => t('The number of rows in the experiment.'),
-        'hidden' => TRUE,
-      ],
-      'num_columns' => [
-        'type' => 'integer',
-        'label' => t('Number of columns'),
-        'description' => t('The number of columns in the experiment.'),
-        'hidden' => TRUE,
-      ],
-      'num_blocks' => [
-        'type' => 'integer',
-        'label' => t('Number of blocks'),
-        'description' => t('The number of blocks in the experiment.'),
-        'hidden' => TRUE,
-      ],
-      'num_plots_block' => [
-        'type' => 'integer',
-        'label' => t('Number of main plots per block'),
-        'description' => t('The number of main plots per block.'),
-        'hidden' => TRUE,
-      ],
-      'num_mainplots' => [
-        'type' => 'integer',
-        'label' => t('Number of main plots'),
-        'description' => t('The number of main plots in the experiment.'),
-        'hidden' => TRUE,
-      ],
-      'num_subplots_mainplots' => [
-        'type' => 'integer',
-        'label' => t('Number of subplots per main plot'),
-        'description' => t('The number of subplots per main plot.'),
-        'hidden' => TRUE,
-      ],
-      'num_subplots' => [
-        'type' => 'integer',
-        'label' => t('Number of subplots'),
-        'description' => t('The number of subplots in the experiment.'),
-        'hidden' => TRUE,
-      ],
-      'num_subsubplots_subplot' => [
-        'type' => 'integer',
-        'label' => t('Number of sub-subplots per subplot'),
-        'description' => t('The number of sub-subplots per subplot.'),
-        'hidden' => TRUE,
-      ],
-      'num_subsubplots' => [
-        'type' => 'integer',
-        'label' => t('Number of sub-subplots'),
-        'description' => t('The number of sub-subplots in the experiment.'),
-        'hidden' => TRUE,
       ],
     ];
 
