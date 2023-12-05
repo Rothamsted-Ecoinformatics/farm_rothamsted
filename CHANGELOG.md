@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support Drupal 10 and farmOS v3
 
+### Fixed
+
+- Zeros not displaying in plot attributes. [#590](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/590)
+
 ### Removed
 
 - Remove fields from database for design entity. [#549](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/549)

@@ -129,9 +129,9 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
         $elements[$delta]['value'] = $value_elements[$delta];
       }
       else {
-        if ($column_name = $column_levels[(int) $item->value - 1]) {
+        if (isset($column_levels[(int) $item->value - 1])) {
           $elements[$delta]['value'] = [
-            '#plain_text' => $column_name,
+            '#plain_text' => $column_levels[(int) $item->value - 1],
           ];
         }
       }
