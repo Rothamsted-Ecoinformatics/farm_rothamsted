@@ -6,8 +6,36 @@
  */
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() == 'user') {
+    $fields['rothamsted_notification_email'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Email notifications'))
+      ->setDescription(t('Enable email notifications for this user.'))
+      ->setDefaultValue(TRUE)
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Enabled'),
+        'off_label' => t('Disabled'),
+      ])
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+      ]);
+  }
+  return $fields;
+}
 
 /**
  * Implements hook_mail().

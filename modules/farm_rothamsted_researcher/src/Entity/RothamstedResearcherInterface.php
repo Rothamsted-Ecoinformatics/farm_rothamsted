@@ -50,4 +50,12 @@ interface RothamstedResearcherInterface extends ContentEntityInterface, EntityCh
    */
   public function setCreatedTime($timestamp);
 
+  /**
+   * Helper function to get the researcher's notification email.
+   *
+   * @return string|null
+   *   Returns NULL if the farm user account has email disabled.
+   */
+  public function getNotificationEmail(): ?string;
+
 }

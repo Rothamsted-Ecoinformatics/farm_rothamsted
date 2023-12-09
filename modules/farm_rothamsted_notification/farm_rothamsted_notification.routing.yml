@@ -1,0 +1,11 @@
+farm_rothamsted_notification.user_notification_form:
+  path: '/user/{user}/notifications'
+  defaults:
+    _form: Drupal\farm_rothamsted_notification\Form\UserNotificationForm
+    _title: Notifications
+  requirements:
+    _entity_access: 'user.update'
+  options:
+    parameters:
+      user:
+        type: entity:user
