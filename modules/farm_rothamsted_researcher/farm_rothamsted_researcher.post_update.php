@@ -61,3 +61,19 @@ function farm_rothamsted_researcher_post_update_2_16_notification_field(&$sandbo
     ->fields(['notification_enabled' => TRUE])
     ->execute();
 }
+
+/**
+ * Remove researcher email notification fields.
+ */
+function farm_rothamsted_researcher_post_update_2_18_remove_email_notification_fields(&$sandbox = NULL) {
+
+  // Remove the researcher notification field.
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $notification_field = $update_manager->getFieldStorageDefinition('notification_enabled', 'rothamsted_researcher');
+  \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($notification_field);
+
+  // Remove the researcher email field.
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $email_field = $update_manager->getFieldStorageDefinition('email', 'rothamsted_researcher');
+  \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($email_field);
+}

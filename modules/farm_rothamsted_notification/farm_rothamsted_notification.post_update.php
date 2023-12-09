@@ -41,9 +41,4 @@ function farm_rothamsted_notification_post_update_2_18_move_email_notification_f
       $user->save();
     }
   }
-
-  // Remove the researcher notification field.
-  $update_manager = \Drupal::entityDefinitionUpdateManager();
-  $notification_field = $update_manager->getFieldStorageDefinition('notification_enabled', 'rothamsted_researcher');
-  \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($notification_field);
 }
