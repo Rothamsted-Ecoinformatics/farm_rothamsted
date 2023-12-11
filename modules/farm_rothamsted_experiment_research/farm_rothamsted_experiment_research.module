@@ -289,14 +289,17 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
       return AccessResult::allowedIf($plan_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_proposal':
-      // For proposals, check for a matching contact.
-      $program_count = \Drupal::entityQuery('rothamsted_proposal')
+      // For proposals check for contact, statistician or data steward.
+      $query = \Drupal::entityQuery('rothamsted_proposal')
         ->accessCheck(FALSE)
-        ->condition('id', $entity->id())
+        ->condition('id', $entity->id());
+      $user_reference = $query->orConditionGroup()
         ->condition('contact.entity:rothamsted_researcher.farm_user', $account->id())
-        ->count()
-        ->execute();
-      return AccessResult::allowedIf($program_count !== 0)->addCacheTags($research_entity_cache_tags);
+        ->condition('statistician.entity:rothamsted_researcher.farm_user', $account->id())
+        ->condition('data_steward.entity:rothamsted_researcher.farm_user', $account->id());
+      $query->condition($user_reference);
+      $proposal_count = $query->count()->execute();
+      return AccessResult::allowedIf($proposal_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'rothamsted_program':
       // For programs, check for a matching principal investigator.
