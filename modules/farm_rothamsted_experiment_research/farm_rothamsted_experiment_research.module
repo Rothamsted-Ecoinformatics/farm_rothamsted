@@ -550,7 +550,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   // Add entity type logic.
   $operation = 'entity_create';
   $emails = [];
-  $include_admin = TRUE;
+  $include_admin = FALSE;
   switch ($entity_type_id) {
     case 'comment':
       $operation = 'comment';

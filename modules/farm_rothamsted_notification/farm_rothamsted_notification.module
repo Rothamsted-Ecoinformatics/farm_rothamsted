@@ -189,9 +189,9 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
  * @param array $params
  *   Additional parameters.
  * @param bool $include_admin
- *   Boolean to include experiment admins on email. Defaults to TRUE.
+ *   Boolean to include experiment admins on email. Defaults to FALSE.
  */
-function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = [], bool $include_admin = TRUE) {
+function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = [], bool $include_admin = FALSE) {
 
   // Build params.
   $entity_type_id = $entity->getEntityTypeId();
