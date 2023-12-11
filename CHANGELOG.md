@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Move email notifications from researcher to user entity. [#589](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/589)
+- Change fertiliser total volume applied to total applied as weight quantity. [#588](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/588)
 
 ### Fixed
 

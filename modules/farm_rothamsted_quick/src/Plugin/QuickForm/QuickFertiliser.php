@@ -99,15 +99,15 @@ class QuickFertiliser extends QuickExperimentFormBase {
       'required' => TRUE,
     ]);
 
-    // Application volume units.
-    $application_volume_units_options = $this->getChildTermOptionsByName('unit', 'Volume');
+    // Total applied units.
+    $total_applied_unit_options = $this->getChildTermOptionsByName('unit', 'Weight');
 
-    // Total volume applied.
-    $fertiliser['treated_wrapper']['total_volume_applied'] = $this->buildQuantityField([
-      'title' => $this->t('Total volume applied'),
+    // Total applied.
+    $fertiliser['treated_wrapper']['total_applied'] = $this->buildQuantityField([
+      'title' => $this->t('Total applied'),
       'description' => $this->t('The total amount of product required to cover the field area(s).'),
-      'measure' => ['#value' => 'volume'],
-      'units' => ['#options' => $application_volume_units_options],
+      'measure' => ['#value' => 'weight'],
+      'units' => ['#options' => $total_applied_unit_options],
       'required' => TRUE,
     ]);
 
@@ -187,7 +187,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
     $field_keys[] = 'machine_treated_area';
     $field_keys[] = 'field_treated_area';
-    $field_keys[] = 'total_volume_applied';
+    $field_keys[] = 'total_applied';
     $field_keys[] = 'target_application_rate';
     return parent::getQuantities($field_keys, $form_state);
   }
