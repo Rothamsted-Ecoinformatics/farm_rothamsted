@@ -24,7 +24,7 @@ use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
   $fields = [];
 
-  // Add an Equipment reference field to logs.
+  // Add a design reference field to experiment plans.
   if ($entity_type->id() == 'plan' && $bundle == 'rothamsted_experiment') {
 
     // Reference to the experiment design.
