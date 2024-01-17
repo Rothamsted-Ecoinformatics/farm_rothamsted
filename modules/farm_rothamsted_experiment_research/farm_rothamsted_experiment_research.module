@@ -16,6 +16,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 
 /**
@@ -478,6 +479,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   $rothamsted_entity_type_ids = [
     'log',
     'comment',
+    'plan',
     'rothamsted_design',
     'rothamsted_experiment',
     'rothamsted_program',
@@ -550,11 +552,27 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     'highlight_fields' => $highlight_fields[$entity_type_id] ?? [],
   ];
 
+  /** @var \Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler $notification_handler */
+  $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
+
   // Add entity type logic.
-  $operation = 'entity_create';
+  $operation = NULL;
   $emails = [];
   $include_admin = FALSE;
   switch ($entity_type_id) {
+    case 'rothamsted_proposal':
+    case 'rothamsted_program':
+    case 'rothamsted_experiment':
+    case 'rothamsted_design':
+      $notification_handler->buildNewEntityAlert($entity);
+      return;
+
+    case 'plan':
+      if ($entity->bundle() == 'rothamsted_experiment') {
+        $notification_handler->buildNewEntityAlert($entity);
+      }
+      return;
+
     case 'comment':
       $operation = 'comment';
 
@@ -632,10 +650,6 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
         }, $experiment->get('researcher')->referencedEntities());
         array_push($emails, ...$researcher_emails);
       }
-      break;
-
-    case 'rothamsted_proposal':
-      $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
       break;
   }
 

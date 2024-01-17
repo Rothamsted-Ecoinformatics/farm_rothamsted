@@ -42,23 +42,19 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
  */
 function farm_rothamsted_notification_mail($key, &$message, $params) {
 
-  // Bail if no entity type id is provided.
-  if (!isset($params['entity_type_id'])) {
-    $message['send'] = FALSE;
-  }
-
   // Get entity type information.
-  $entity_type_manager = \Drupal::entityTypeManager();
-  $entity_type_id = $params['entity_type_id'];
-  $entity_type_label = $entity_type_manager->getDefinition($entity_type_id)->getLabel();
-  /** @var \Drupal\Core\Entity\EntityInterface $entity */
-  $entity = $params[$entity_type_id];
+  if (isset($params['entity_type_id']) && $entity_type_id = $params['entity_type_id']) {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $entity_type_label = $entity_type_manager->getDefinition($entity_type_id)->getLabel();
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
+    $entity = $params[$entity_type_id];
+  }
 
   // Build the message.
   $token_service = \Drupal::token();
   $variables = $params;
-  $subject_template = '';
-  $body_templates = [];
+  $subject_template = NULL;
+  $body_templates = NULL;
   switch ($key) {
 
     case 'comment':
@@ -158,6 +154,18 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
     case 'entity_delete':
       $subject_template = "[site:name] $entity_type_label deleted: [$entity_type_id:name]";
       $body_templates[] = "The $entity_type_label '[$entity_type_id:name]' was deleted.";
+      break;
+
+    case 'entity_template':
+
+      // Get the entity and add a token variable for the entity type.
+      $entity = $params['entity'];
+      $entity_type_id = $entity->getEntityTypeId();
+      $variables[$entity_type_id] = $entity;
+
+      // Set subject and body template.
+      $subject_template ??= $params['subject_template'];
+      $body_templates ??= $params['body_template'];
       break;
 
     // Do not send the message.
