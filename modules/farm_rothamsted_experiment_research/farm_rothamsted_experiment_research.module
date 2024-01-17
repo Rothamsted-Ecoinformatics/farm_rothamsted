@@ -675,6 +675,11 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
     return;
   }
 
+  // Send new entity alert emails to notify if new researchers were added.
+  /** @var \Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler $notification_handler */
+  $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
+  $notification_handler->buildNewEntityAlert($entity, TRUE);
+
   // Include email logic.
   $emails = [];
   if ($entity_type_id === 'rothamsted_proposal') {
