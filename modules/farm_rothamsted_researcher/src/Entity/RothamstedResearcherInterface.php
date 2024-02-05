@@ -55,10 +55,12 @@ interface RothamstedResearcherInterface extends ContentEntityInterface, EntityCh
    *
    * @param bool $force
    *   A boolean to enforce returning an email despite user preferences.
+   * @param string|null $notification_type
+   *   An optional notification type.
    *
    * @return string|null
    *   Returns NULL if the farm user account has email disabled.
    */
-  public function getNotificationEmail(bool $force = FALSE): ?string;
+  public function getNotificationEmail(bool $force = FALSE, string $notification_type = NULL): ?string;
 
 }

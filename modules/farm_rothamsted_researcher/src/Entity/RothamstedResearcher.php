@@ -378,7 +378,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
   /**
    * {@inheritdoc}
    */
-  public function getNotificationEmail(bool $force = FALSE): ?string {
+  public function getNotificationEmail(bool $force = FALSE, string $notification_type = NULL): ?string {
 
     // Bail if no farm_user.
     if ($this->get('farm_user')->isEmpty()) {
@@ -389,6 +389,17 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
     $emails_enabled = $this->get('farm_user')->entity->get('rothamsted_notification_email')->value;
     if (!$force && !$emails_enabled) {
       return NULL;
+    }
+
+    // Add logic for notification types.
+    switch ($notification_type) {
+
+      // Log notifications require the rothamsted_notification_log field.
+      case 'log':
+        if (!$force && !$this->get('farm_user')->entity->get('rothamsted_notification_log')->value) {
+          return NULL;
+        }
+        break;
     }
 
     return $this->get('farm_user')->entity->get('mail')->value ?? NULL;

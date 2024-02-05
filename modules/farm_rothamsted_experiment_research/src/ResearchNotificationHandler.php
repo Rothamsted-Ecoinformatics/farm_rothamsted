@@ -417,7 +417,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
       // Check for matching researcher.
       $experiment = reset($experiments);
       $researcher_emails = array_map(function (RothamstedResearcherInterface $researcher) {
-        return $researcher->getNotificationEmail();
+        return $researcher->getNotificationEmail(FALSE, 'log');
       }, $experiment->get('researcher')->referencedEntities());
       array_push($emails, ...$researcher_emails);
     }
@@ -425,7 +425,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Include owner emails.
     if (!$log->get('owner')->isEmpty()) {
       $owner_emails = array_map(function (UserInterface $user) {
-        return $user->getEmail();
+        if ($user->get('rothamsted_notification_log')->value) {
+          return $user->getEmail();
+        }
+        return NULL;
       }, $log->get('owner')->referencedEntities());
       array_push($emails, ...$owner_emails);
     }
