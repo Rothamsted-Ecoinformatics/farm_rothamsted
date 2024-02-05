@@ -560,6 +560,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   $emails = [];
   $include_admin = FALSE;
   switch ($entity_type_id) {
+    case 'rothamsted_researcher':
     case 'rothamsted_proposal':
     case 'rothamsted_program':
     case 'rothamsted_experiment':

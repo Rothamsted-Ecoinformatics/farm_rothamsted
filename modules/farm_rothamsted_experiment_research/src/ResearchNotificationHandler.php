@@ -84,6 +84,51 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   }
 
   /**
+   * Build a new alert for Rothamsted researcher.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $researcher
+   *   The researcher entity.
+   * @param bool $new_researcher
+   *   Boolean if emails should only send to new researchers.
+   *
+   */
+  protected function buildNewRothamstedResearcherAlert(EntityInterface $researcher, bool $new_researcher = FALSE) {
+
+    // Check the farm_user.
+    $email = NULL;
+    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value ) {
+      $email = $user_email;
+    }
+
+    // Exclude the previous farm_user email.
+    if ($new_researcher && !$researcher->isNew()) {
+      if (!$researcher->original->get('farm_user')->isEmpty() && $old_user_email = $researcher->original->get('farm_user')->entity->get('mail')->value ) {
+        $email = $email == $old_user_email ? NULL : $email;
+      }
+    }
+
+    // Bail if no email.
+    if (empty($email)) {
+      return;
+    }
+
+    // Build email content.
+    $entity_type_id = $researcher->getEntityTypeId();
+    $label = $researcher->get('title')->isEmpty() ? "[$entity_type_id:name]" : "[$entity_type_id:title] [$entity_type_id:name]";
+    $subject = "[site:name]: You have been added as a Researcher to FarmOS";
+    $body[] = "[$entity_type_id:uid:entity:display-name] has added you as a Researcher to FarmOS. You can click here to view your profile:";
+    $body[] = "$label: [$entity_type_id:url:absolute]";
+    $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
+    $body[] = "You will continue to receive updates about this Research Profile if it is edited by a Farm Manager or Farm Data Administrator. To change your alert preferences please [click here].";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator. [hyperlink list]";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($researcher, [$email], $params);
+  }
+
+  /**
    * Build a new alert for Rothamsted Proposal.
    *
    * @param \Drupal\Core\Entity\EntityInterface $proposal
@@ -98,7 +143,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $statisticians = $this->getResearcherEmails($proposal->get('statistician'));
     $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'));
 
-    if ($new_researcher && $proposal->isNew()) {
+    if ($new_researcher && !$proposal->isNew()) {
       $researchLeads = array_diff($researchLeads, $this->getResearcherEmails($proposal->original->get('contact')));
       $statisticians = array_diff($statisticians, $this->getResearcherEmails($proposal->original->get('statistician')));
       $dataStewards = array_diff($dataStewards, $this->getResearcherEmails($proposal->original->get('data_steward')));
