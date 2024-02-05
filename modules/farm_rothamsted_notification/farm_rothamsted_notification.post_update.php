@@ -42,3 +42,20 @@ function farm_rothamsted_notification_post_update_2_18_move_email_notification_f
     }
   }
 }
+
+/**
+ * Add log notification field to user entity.
+ */
+function farm_rothamsted_notification_post_update_2_19_add_log_notification_field(&$sandbox = NULL) {
+  $field_definition = BaseFieldDefinition::create('boolean')
+    ->setLabel('Log notifications')
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE)
+    ->setRevisionable(TRUE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'rothamsted_notification_log',
+    'user',
+    'farm_rothamsted_notification',
+    $field_definition,
+  );
+}

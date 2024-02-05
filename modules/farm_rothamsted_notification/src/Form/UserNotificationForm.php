@@ -35,6 +35,12 @@ class UserNotificationForm extends FormBase {
       '#default_value' => $user->get('rothamsted_notification_email')->value,
     ];
 
+    $form['log'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Log notifications'),
+      '#default_value' => $user->get('rothamsted_notification_log')->value,
+    ];
+
     $form['actions'] = [
       '#type' => 'actions',
       'submit' => [
@@ -54,6 +60,7 @@ class UserNotificationForm extends FormBase {
     $user = $form_state->get('user');
     if ($user && $form_state->hasValue('enabled')) {
       $user->set('rothamsted_notification_email', $form_state->getValue('enabled', FALSE));
+      $user->set('rothamsted_notification_log', $form_state->getValue('log', FALSE));
       $user->save();
       $this->messenger()->addStatus($this->t('Updated notification settings.'));
     }

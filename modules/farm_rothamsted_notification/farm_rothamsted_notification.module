@@ -33,6 +33,23 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
         'type' => 'boolean',
         'label' => 'inline',
       ]);
+
+    $fields['rothamsted_notification_log'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Log notifications'))
+      ->setDescription(t('Enable email notifications for log updates.'))
+      ->setDefaultValue(TRUE)
+      ->setRevisionable(TRUE)
+      ->setRequired(TRUE)
+      ->setSettings([
+        'on_label' => t('Enabled'),
+        'off_label' => t('Disabled'),
+      ])
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+      ]);
   }
   return $fields;
 }
