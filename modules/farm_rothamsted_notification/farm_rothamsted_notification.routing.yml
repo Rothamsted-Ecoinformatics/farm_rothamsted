@@ -1,3 +1,9 @@
+farm_rothamsted_notification.user_notification_redirect:
+  path: '/user/configure-notifications'
+  defaults:
+    _controller: Drupal\farm_rothamsted_notification\Controller\UserNotificationRoute::notificationRedirect
+  requirements:
+    _user_is_logged_in: 'TRUE'
 farm_rothamsted_notification.user_notification_form:
   path: '/user/{user}/notifications'
   defaults:

@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Url;
 use Drupal\user\UserInterface;
 
 /**
@@ -171,6 +172,10 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
   $body = array_map(function ($line) use ($token_service, $variables) {
     return $token_service->replace($line, $variables);
   }, $body_templates);
+
+  // Add configure-notifications link.
+  $url = Url::fromRoute('farm_rothamsted_notification.user_notification_redirect')->setAbsolute()->toString();
+  $body = str_replace('[configure-notifications]', $url, $body);
 
   $message['subject'] = $subject;
   $message['body'] = $body;
