@@ -11,6 +11,8 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\log\Entity\LogInterface;
+use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -64,6 +66,41 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
       $container->get('plugin.manager.mail'),
       $container->get('current_user')
     );
+  }
+
+  /**
+   * Build a new alert for Log entities.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $log
+   *   The log entity.
+   *
+   */
+  public function buildNewLogAlert(EntityInterface $log) {
+
+    // Build email content.
+    $entity_type_id = $log->getEntityTypeId();
+    $log_type = $log->get('type')->entity->label();
+    $subject = "[site:name]: $log_type Log added: [$entity_type_id:name]";
+    $body[] = "[$entity_type_id:uid:entity:display-name] has added a $log_type Log to FarmOS:";
+    $body[] = "- [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "- Timestamp: [$entity_type_id:timestamp]";
+
+    if (!$log->get('asset')->isEmpty()) {
+      $body[] = "- Asset: [$entity_type_id:asset]";
+    }
+    if (!$log->get('location')->isEmpty()) {
+      $body[] = "- Location: [$entity_type_id:location]";
+    }
+
+    $body[] = "Please check the details are correct. If you notice anything that needs to be amended, please comment on the log and mark it as 'Needs Review'. Alternatively, if you are named as the owner of this log, you can edit it.";
+    $body[] = "If you no longer want to receive log alerts, please [click here] and opt out of Log Alerts.";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator. [hyperlink list]";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $emails = $this->getLogExperimentEmails($log);
+    $this->sendMail($log, $emails, $params);
   }
 
   /**
@@ -325,6 +362,75 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     return array_map(function (RothamstedResearcherInterface $researcher) {
       return $researcher->getNotificationEmail();
     }, $field->referencedEntities());
+  }
+
+  protected function getLogExperimentEmails(LogInterface $log) {
+
+    $emails = [];
+
+    // Query plans that the log references (asset, location or plot).
+    $asset_ids = array_column($log->get('asset')->getValue(), 'target_id');
+    $location_ids = array_column($log->get('location')->getValue(), 'target_id');
+    $all_asset_ids = array_merge($asset_ids, $location_ids);
+
+    // Bail if the log does not reference any asset.
+    if (empty($all_asset_ids)) {
+      return $emails;
+    }
+
+    // Query for experiment plans that include this asset.
+    $query = \Drupal::entityTypeManager()->getStorage('plan')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'rothamsted_experiment')
+      ->condition('experiment_design.entity:rothamsted_design.experiment', NULL, 'IS NOT NULL');
+    $or_group = $query->orConditionGroup()
+      ->condition('plot.entity:asset', $all_asset_ids, 'IN')
+      ->condition('asset.entity:asset', $all_asset_ids, 'IN')
+      ->condition('location.entity:asset', $all_asset_ids, 'IN');
+    $plan_ids = $query
+      ->condition($or_group)
+      ->execute();
+    $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
+    $plans = $plan_storage->loadMultiple($plan_ids);
+
+    // Do not send email if there are no matching plans.
+    if (empty($plans)) {
+      return $emails;
+    }
+
+    // Collect experiment emails for each plan.
+    foreach ($plans as $plan) {
+
+      // Get the design.
+      $designs = $plan->get('experiment_design')->referencedEntities();
+      if (empty($designs)) {
+        continue;
+      }
+
+      // Get the experiment.
+      $design = reset($designs);
+      $experiments = $design->get('experiment')->referencedEntities();
+      if (empty($experiments)) {
+        continue;
+      }
+
+      // Check for matching researcher.
+      $experiment = reset($experiments);
+      $researcher_emails = array_map(function (RothamstedResearcherInterface $researcher) {
+        return $researcher->getNotificationEmail();
+      }, $experiment->get('researcher')->referencedEntities());
+      array_push($emails, ...$researcher_emails);
+    }
+
+    // Include owner emails.
+    if (!$log->get('owner')->isEmpty()) {
+      $owner_emails = array_map(function (UserInterface $user) {
+        return $user->getEmail();
+      }, $log->get('owner')->referencedEntities());
+      array_push($emails, ...$owner_emails);
+    }
+
+    return $emails;
   }
 
   /**

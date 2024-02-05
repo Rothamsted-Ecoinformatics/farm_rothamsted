@@ -63,32 +63,6 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
       $body_templates[] = "View and respond to the $entity_type_label here: [$entity_type_id:url:absolute]";
       break;
 
-    case 'experiment_management_record':
-      $subject_template = "[site:name] Management record: [$entity_type_id:name]";
-      $body_templates[] = "Management record created': '[$entity_type_id:name]' by [$entity_type_id:uid:entity:display-name].";
-
-      // Include revision message.
-      $revision_message = 'None.';
-      if ($entity instanceof RevisionLogInterface && !empty($entity->getRevisionLogMessage())) {
-        $revision_message = "[$entity_type_id:revision_log_message]";
-      }
-      $body_templates[] = "Revision message: $revision_message";
-
-      // Highlight fields.
-      $highlight_fields = $params['highlight_fields'] ?? [];
-      $body_templates[] = "$entity_type_label info:";
-      foreach ($highlight_fields as $field) {
-        // Skip empty fields.
-        if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
-          continue;
-        }
-        $field_label = $entity->get($field)->getFieldDefinition()->getLabel();
-        $body_templates[] = "- $field_label: [$entity_type_id:$field]";
-      }
-
-      $body_templates[] = "View the new $entity_type_label here: [$entity_type_id:url:absolute]";
-      break;
-
     case 'entity_create':
       $subject_template = "[site:name] $entity_type_label created: [$entity_type_id:name]";
       $body_templates[] = "A new $entity_type_label '[$entity_type_id:name]' was created by [$entity_type_id:uid:entity:display-name].";
