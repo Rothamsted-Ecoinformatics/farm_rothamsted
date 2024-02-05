@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- User field to configure log notifications.
+
+### Changed
+
+- Email notifications for new research and log entities. [#597](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/597)
+
 ## [2.18.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/39) 2023-12-11
 
 ### Added
