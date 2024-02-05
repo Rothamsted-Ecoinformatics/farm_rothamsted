@@ -378,11 +378,20 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
   /**
    * {@inheritdoc}
    */
-  public function getNotificationEmail(): ?string {
+  public function getNotificationEmail(bool $force = FALSE): ?string {
+
+    // Bail if no farm_user.
     if ($this->get('farm_user')->isEmpty()) {
       return NULL;
     }
-    return $this->get('farm_user')->entity->get('rothamsted_notification_email')->value ? $this->get('farm_user')->entity->get('mail')->value : NULL;
+
+    // Bail if not forced and emails are disabled.
+    $emails_enabled = $this->get('farm_user')->entity->get('rothamsted_notification_email')->value;
+    if (!$force && !$emails_enabled) {
+      return NULL;
+    }
+
+    return $this->get('farm_user')->entity->get('mail')->value ?? NULL;
   }
 
 }

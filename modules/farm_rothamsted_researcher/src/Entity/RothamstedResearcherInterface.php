@@ -53,9 +53,12 @@ interface RothamstedResearcherInterface extends ContentEntityInterface, EntityCh
   /**
    * Helper function to get the researcher's notification email.
    *
+   * @param bool $force
+   *   A boolean to enforce returning an email despite user preferences.
+   *
    * @return string|null
    *   Returns NULL if the farm user account has email disabled.
    */
-  public function getNotificationEmail(): ?string;
+  public function getNotificationEmail(bool $force = FALSE): ?string;
 
 }

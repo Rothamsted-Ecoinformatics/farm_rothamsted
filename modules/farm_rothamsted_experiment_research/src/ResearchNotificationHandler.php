@@ -360,7 +360,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    */
   protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field) {
     return array_map(function (RothamstedResearcherInterface $researcher) {
-      return $researcher->getNotificationEmail();
+      return $researcher->getNotificationEmail(TRUE);
     }, $field->referencedEntities());
   }
 
