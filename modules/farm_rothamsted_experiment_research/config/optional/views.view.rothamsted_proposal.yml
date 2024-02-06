@@ -6402,13 +6402,13 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
-  page_postponed:
-    id: page_postponed
-    display_title: Postponed
+  page_completed:
+    id: page_completed
+    display_title: Completed
     display_plugin: page
     position: 6
     display_options:
-      title: 'Postponed proposals'
+      title: 'Completed proposals'
       fields:
         name:
           id: name
@@ -7009,7 +7009,7 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            postponed: postponed
+            completed: completed
           group: 1
           exposed: false
           expose:
@@ -7326,7 +7326,7 @@ display:
       display_extenders:
         collapsible_filter:
           collapsible: true
-      path: rothamsted/proposal/postponed
+      path: rothamsted/proposal/completed
     cache_metadata:
       max-age: -1
       contexts:

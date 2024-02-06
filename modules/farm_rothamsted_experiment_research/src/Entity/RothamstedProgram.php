@@ -219,6 +219,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ->setSetting('allowed_values', [
         'requested' => t('Requested'),
         'active' => t('Active'),
+        'completed' => t('Completed'),
         'archived' => t('Archived'),
       ])
       ->setDefaultValue('requested')

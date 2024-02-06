@@ -1127,3 +1127,30 @@ function farm_rothamsted_experiment_research_post_update_2_18_remove_old_design_
     \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($old_field);
   }
 }
+
+/**
+ * Update postponed proposal to new cancelled status.
+ */
+function farm_rothamsted_experiment_research_post_update_2_19_update_proposal_postponed_status(&$sandbox = NULL) {
+
+  // Update asset_field_data.
+  \Drupal::database()->update('rothamsted_proposal_data')
+    ->fields([
+      'status' => 'cancelled',
+    ])
+    ->condition('status', 'postponed')
+    ->execute();
+
+  // Update asset_field_revision.
+  \Drupal::database()->update('rothamsted_proposal_field_revision')
+    ->fields([
+      'status' => 'cancelled',
+    ])
+    ->condition('status', 'postponed')
+    ->execute();
+
+  // Invalidate cache for proposal.
+  /** @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator */
+  $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
+  $cache_tags_invalidator->invalidateTags(['rothamsted_proposal_list']);
+}

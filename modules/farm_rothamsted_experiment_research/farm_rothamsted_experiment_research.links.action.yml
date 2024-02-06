@@ -14,7 +14,7 @@ farm_rothamsted_experiment_research.add_proposal:
     - view.rothamsted_proposal.page_submitted
     - view.rothamsted_proposal.page_approved
     - view.rothamsted_proposal.page_planning
-    - view.rothamsted_proposal.page_postponed
+    - view.rothamsted_proposal.page_completed
     - view.rothamsted_proposal.page_rejected
     - view.rothamsted_proposal.page_cancelled
     - view.rothamsted_proposal.page_archived

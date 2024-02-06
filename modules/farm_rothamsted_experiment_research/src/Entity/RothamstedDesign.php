@@ -242,6 +242,8 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
         'requested' => t('Requested'),
         'planning' => t('Planning'),
         'active' => t('Active'),
+        'completed' => t('Completed'),
+        'cancelled' => t('Cancelled'),
         'archived' => t('Archived'),
       ])
       ->setDefaultValue('requested')

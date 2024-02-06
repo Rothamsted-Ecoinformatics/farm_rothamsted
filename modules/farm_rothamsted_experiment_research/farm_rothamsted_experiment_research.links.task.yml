@@ -36,6 +36,11 @@ farm_rothamsted_experiment_research.proposals_approved:
   route_name: view.rothamsted_proposal.page_approved
   weight: 0
 
+farm_rothamsted_experiment_research.proposals_rejected:
+  title: 'Rejected'
+  parent_id: farm_rothamsted_experiment_research.proposals
+  route_name: view.rothamsted_proposal.page_rejected
+  weight: 0
 
 farm_rothamsted_experiment_research.proposals_planning:
   title: 'Planned'
@@ -43,16 +48,10 @@ farm_rothamsted_experiment_research.proposals_planning:
   route_name: view.rothamsted_proposal.page_planning
   weight: 0
 
-farm_rothamsted_experiment_research.proposals_postponed:
-  title: 'Postponed'
+farm_rothamsted_experiment_research.proposals_completed:
+  title: 'Completed'
   parent_id: farm_rothamsted_experiment_research.proposals
-  route_name: view.rothamsted_proposal.page_postponed
-  weight: 0
-
-farm_rothamsted_experiment_research.proposals_rejected:
-  title: 'Rejected'
-  parent_id: farm_rothamsted_experiment_research.proposals
-  route_name: view.rothamsted_proposal.page_rejected
+  route_name: view.rothamsted_proposal.page_completed
   weight: 0
 
 farm_rothamsted_experiment_research.proposals_cancelled:
@@ -126,12 +125,12 @@ farm_rothamsted_experiment_research.plans.completed:
     status: completed
   weight: 10
 
-farm_rothamsted_experiment_research.plans.terminated:
-  title: 'Terminated'
+farm_rothamsted_experiment_research.plans.cancelled:
+  title: 'Cancelled'
   parent_id: farm_rothamsted_experiment_research.plans
   route_name: view.rothamsted_experiment_plan.page_research
   route_parameters:
-    status: terminated
+    status: cancelled
   weight: 10
 
 farm_rothamsted_experiment_research.plans.archived:

@@ -896,3 +896,30 @@ function farm_rothamsted_experiment_post_update_2_17_remove_roles(&$sandbox) {
     $experiment_admin->delete();
   }
 }
+
+/**
+ * Update terminated plan to cancelled status.
+ */
+function farm_rothamsted_experiment_post_update_2_19_update_plan_terminated_status(&$sandbox = NULL) {
+
+  // Update asset_field_data.
+  \Drupal::database()->update('plan_field_data')
+    ->fields([
+      'status' => 'cancelled',
+    ])
+    ->condition('status', 'terminated')
+    ->execute();
+
+  // Update asset_field_revision.
+  \Drupal::database()->update('plan_field_revision')
+    ->fields([
+      'status' => 'cancelled',
+    ])
+    ->condition('status', 'terminated')
+    ->execute();
+
+  // Invalidate cache for proposal.
+  /** @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator */
+  $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
+  $cache_tags_invalidator->invalidateTags(['plan_list', 'plan_list:rothamsted_experiment']);
+}
