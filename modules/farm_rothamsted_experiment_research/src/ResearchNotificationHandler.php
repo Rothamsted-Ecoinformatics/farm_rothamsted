@@ -2,15 +2,15 @@
 
 namespace Drupal\farm_rothamsted_experiment_research;
 
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Mail\MailManagerInterface;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
-use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\log\Entity\LogInterface;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -58,7 +58,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
@@ -73,7 +73,6 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $log
    *   The log entity.
-   *
    */
   public function buildNewLogAlert(EntityInterface $log) {
 
@@ -127,19 +126,18 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *   The researcher entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
-   *
    */
   protected function buildNewRothamstedResearcherAlert(EntityInterface $researcher, bool $new_researcher = FALSE) {
 
     // Check the farm_user.
     $email = NULL;
-    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value ) {
+    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value) {
       $email = $user_email;
     }
 
     // Exclude the previous farm_user email.
     if ($new_researcher && !$researcher->isNew()) {
-      if (!$researcher->original->get('farm_user')->isEmpty() && $old_user_email = $researcher->original->get('farm_user')->entity->get('mail')->value ) {
+      if (!$researcher->original->get('farm_user')->isEmpty() && $old_user_email = $researcher->original->get('farm_user')->entity->get('mail')->value) {
         $email = $email == $old_user_email ? NULL : $email;
       }
     }
@@ -208,7 +206,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    * @param \Drupal\Core\Entity\EntityInterface $program
    *   The program entity.
    * @param bool $new_researcher
-   *  Boolean if emails should only send to new researchers.
+   *   Boolean if emails should only send to new researchers.
    */
   protected function buildNewRothamstedProgramAlert(EntityInterface $program, bool $new_researcher = FALSE) {
 
@@ -239,7 +237,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface $experiment
    *   The experiment entity.
    * @param bool $new_researcher
-   *    Boolean if emails should only send to new researchers.
+   *   Boolean if emails should only send to new researchers.
    */
   protected function buildNewRothamstedExperimentAlert(RothamstedExperimentInterface $experiment, bool $new_researcher = FALSE) {
     $emails = $this->getExperimentResearcherEmails($experiment, $new_researcher);
@@ -333,7 +331,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface $experiment
    *   The experiment entity.
    * @param bool $new_researcher
-   *    Boolean if emails should only send to new researchers.
+   *   Boolean if emails should only send to new researchers.
    *
    * @return array
    *   An array of researcher emails.
@@ -364,6 +362,17 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     }, $field->referencedEntities());
   }
 
+  /**
+   * Helper function to get log experiment emails.
+   *
+   * Returns user emails associated with an experiment that the log references.
+   *
+   * @param \Drupal\log\Entity\LogInterface $log
+   *   The log entity.
+   *
+   * @return array
+   *   Array of emails.
+   */
   protected function getLogExperimentEmails(LogInterface $log) {
 
     $emails = [];
@@ -379,7 +388,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     }
 
     // Query for experiment plans that include this asset.
-    $query = \Drupal::entityTypeManager()->getStorage('plan')->getQuery()
+    $query = $this->entityTypeManager->getStorage('plan')->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'rothamsted_experiment')
       ->condition('experiment_design.entity:rothamsted_design.experiment', NULL, 'IS NOT NULL');
@@ -390,7 +399,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $plan_ids = $query
       ->condition($or_group)
       ->execute();
-    $plan_storage = \Drupal::entityTypeManager()->getStorage('plan');
+    $plan_storage = $this->entityTypeManager->getStorage('plan');
     $plans = $plan_storage->loadMultiple($plan_ids);
 
     // Do not send email if there are no matching plans.
@@ -441,9 +450,9 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity that the mail is about.
-   * @param array                              $emails
+   * @param array $emails
    *   The recipient emails.
-   * @param array                              $params
+   * @param array $params
    *   An array of parameters for the mail.
    */
   protected function sendMail(EntityInterface $entity, array $emails, array $params = []) {
@@ -465,4 +474,5 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Delegate to farm_rothamsted_notification.
     $this->mailManager->mail('farm_rothamsted_notification', 'entity_template', implode(', ', $emails), 'en', $params);
   }
+
 }
