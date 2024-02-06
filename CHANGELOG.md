@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Email notifications for new research and log entities. [#597](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/597)
 - Update status options. [#586](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/586)
+- Allow design statistician to edit design. [#591](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/591)
 
 ## [2.18.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/39) 2023-12-11
 

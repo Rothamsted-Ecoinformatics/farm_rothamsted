@@ -324,12 +324,14 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
 
     case 'rothamsted_design':
       // For designs, check the experiment.
-      $design_count = \Drupal::entityQuery('rothamsted_design')
+      $query = \Drupal::entityQuery('rothamsted_design')
         ->accessCheck(FALSE)
-        ->condition('id', $entity->id())
-        ->condition('experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id())
-        ->count()
-        ->execute();
+        ->condition('id', $entity->id());
+      $user_reference = $query->orConditionGroup()
+        ->condition('statistician.entity:rothamsted_researcher.farm_user', $account->id())
+        ->condition('experiment.entity:rothamsted_experiment.researcher.entity:rothamsted_researcher.farm_user', $account->id());
+      $query->condition($user_reference);
+      $design_count = $query->count()->execute();
       return AccessResult::allowedIf($design_count !== 0)->addCacheTags($research_entity_cache_tags);
 
     case 'plan':
