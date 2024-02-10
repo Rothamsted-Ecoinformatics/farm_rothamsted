@@ -79,6 +79,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     'farm_rothamsted_researcher',
     'farm_rothamsted_roles',
     'farm_ui_views',
+    'filter',
   ];
 
   /**
