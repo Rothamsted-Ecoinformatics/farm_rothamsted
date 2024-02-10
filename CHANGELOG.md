@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - User field to configure log notifications.
+- Add static scopes for rothamsted_data_admin and rothamsted_farm_manager.
 
 ### Changed
 
