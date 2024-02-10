@@ -11,25 +11,42 @@ on:
       - '2.x'
 
 jobs:
-  build:
+  run-tests:
     name: Run tests
     runs-on: ubuntu-latest
     env:
-      COMPOSE_FILE: docker-compose.testing.yml
+      MODULE_NAME: farm_rothamsted
+      PACKAGE_NAME: farmier/farm_rothamsted
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
-      - name: Start containers
-        run: docker-compose up -d
-      - name: Include module dependencies
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          path: ${{ env.MODULE_NAME }}
+      - name: Run farmOS development environment containers.
         run: |
-          docker-compose exec -u www-data -T www composer config --merge --json extra.merge-plugin.include '["web/modules/custom/*/*.json"]'
-          docker-compose exec -u www-data -T www composer update
+          curl -O https://raw.githubusercontent.com/farmOS/farmOS/3.x/docker/docker-compose.testing.common.yml
+          curl -O https://raw.githubusercontent.com/farmOS/farmOS/3.x/docker/docker-compose.testing.pgsql.yml
+          docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.pgsql.yml config > docker-compose.yml
+          docker compose up -d
+        env:
+          DB_URL: pgsql://farm:farm@db/farm
+      - name: Wait until www container is ready
+        # The www-container-fs-ready file is only created once we expect the
+        # containers to be online so waiting for that lets us know it is safe to
+        # start the tests.
+        run: until [ -f ./www/www-container-fs-ready ]; do sleep 0.1; done
+      - name: Install the module via Composer
+        run: |
+          sudo mv ${MODULE_NAME} www/${MODULE_NAME}
+          docker compose exec -u www-data -T www composer config repositories.${MODULE_NAME} path ./${MODULE_NAME}
+          docker compose exec -u www-data -T www composer update
+          docker compose exec -u www-data -T www composer require ${PACKAGE_NAME}:*
       - name: Run PHP CodeSniffer
-        run: docker-compose exec -u www-data -T www phpcs /opt/drupal/web/modules/custom --exclude=DrupalPractice.InfoFiles.NamespacedDependency
+        run: docker compose exec -u www-data -T www phpcs /opt/drupal/web/modules/${MODULE_NAME} --exclude=DrupalPractice.InfoFiles.NamespacedDependency
       - name: Run PHPUnit tests
-        run: docker-compose exec -u www-data -T www phpunit /opt/drupal/web/modules/custom
-      - name: Test installing farm_rothamsted modules
-        run: docker-compose exec -u www-data -T www bash -c "drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base' && drush en farm_rothamsted farm_rothamsted_quick farm_rothamsted_experiment farm_rothamsted_experiment_research -y"
-      - name: Test installing farm_rothamsted_dev
-        run: docker-compose exec -u www-data -T www bash -c "drush en farm_rothamsted_dev -y"
+        run: docker compose exec -u www-data -T www phpunit --verbose --debug /opt/drupal/web/modules/${MODULE_NAME}
+      - name: Test installing farmOS and the module
+        run: |
+          docker compose exec -u www-data -T www drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base'
+          docker compose exec -u www-data -T www drush en farm_rothamsted farm_rothamsted_quick farm_rothamsted_experiment farm_rothamsted_experiment_research -y
+          docker compose exec -u www-data -T www drush en farm_rothamsted_dev -y
