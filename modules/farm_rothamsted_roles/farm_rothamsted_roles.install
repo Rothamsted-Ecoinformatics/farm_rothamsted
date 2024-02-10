@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall functions for the farm_rothamsted_roles module.
+ */
+
+use Drupal\consumers\Entity\Consumer;
+
+/**
+ * Implements hook_install().
+ */
+function farm_rothamsted_roles_install() {
+
+  // Check for an existing rothamsted consumer.
+  $consumers = \Drupal::entityTypeManager()->getStorage('consumer')
+    ->loadByProperties(['client_id' => 'rothamsted']);
+
+  // If not found, create the rothamsted consumer.
+  if (empty($consumers)) {
+    $consumer = Consumer::create([
+      'label' => 'Rothamsted',
+      'client_id' => 'rothamsted',
+      'access_token_expiration' => 3600,
+      'grant_types' => [
+        'refresh_token',
+        'password',
+      ],
+      'is_default' => FALSE,
+      'secret' => NULL,
+      'confidential' => FALSE,
+      'third_party' => FALSE,
+    ]);
+    $consumer->save();
+  }
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function farm_rothamsted_roles_uninstall() {
+
+  // Load the default farm consumer.
+  $consumers = \Drupal::entityTypeManager()->getStorage('consumer')
+    ->loadByProperties(['client_id' => 'rothamsted']);
+
+  // If found, delete the consumer.
+  if (!empty($consumers)) {
+    $consumer = reset($consumers);
+    $consumer->delete();
+  }
+}
