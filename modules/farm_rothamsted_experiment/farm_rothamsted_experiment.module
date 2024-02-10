@@ -157,6 +157,49 @@ function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $en
     \Drupal::messenger()->addWarning(t('No experiment plots have been been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
   }
 
+  // Create details for each field group.
+  $field_groups = [
+    'default' => [
+      'location' => 'main',
+      'title' => 'Experiment',
+      'weight' => -50,
+    ],
+    'meta' => [
+      'location' => 'sidebar',
+      'title' => t('Status'),
+      'weight' => 0,
+    ],
+    'file' => [
+      'location' => 'main',
+      'title' => t('Files'),
+      'weight' => 150,
+    ],
+  ] + \Drupal::moduleHandler()->invokeAll('farm_ui_theme_field_groups', ['plan', 'rothamsted_experiment']);
+  foreach ($field_groups as $tab_id => $tab_info) {
+    $tab_id = "{$tab_id}_field_group";
+    $build[$tab_id] = [
+      '#type' => 'details',
+      '#title' => $tab_info['title'],
+      '#weight' => $tab_info['weight'],
+      '#open' => $tab_id === 'default_field_group',
+    ];
+  }
+
+  // Ask modules for a list of field group items.
+  $field_map = \Drupal::moduleHandler()->invokeAll(
+    'farm_ui_theme_field_group_items',
+    ['plan', 'rothamsted_experiment'],
+  );
+
+  // Set field group for each display component.
+  foreach ($display->getComponents() as $field_id => $options) {
+    $group = $field_map[$field_id] ?? 'default';
+    if (isset($build[$field_id])) {
+      $build["{$group}_field_group"][$field_id] = $build[$field_id];
+      unset($build[$field_id]);
+    }
+  }
+
 }
 
 /**
@@ -271,6 +314,50 @@ function farm_rothamsted_experiment_plan_delete(PlanInterface $plan) {
   }
 
   farm_rothamsted_notification_send_research_update('entity_delete', $plan);
+}
+
+/**
+ * Implements hook_farm_ui_theme_field_groups().
+ */
+function farm_rothamsted_experiment_farm_ui_theme_field_groups(string $entity_type, string $bundle) {
+
+  // Add a field group for group membership fields on logs.
+  if ($entity_type === 'plan' && $bundle === 'rothamsted_experiment') {
+    return [
+      'locations' => [
+        'location' => 'main',
+        'title' => t('Locations'),
+        'weight' => 20,
+      ],
+      'deviations' => [
+        'location' => 'main',
+        'title' => t('Deviations'),
+        'weight' => 170,
+      ],
+    ];
+  }
+  return [];
+}
+
+/**
+ * Implements hook_farm_ui_theme_field_group_items().
+ */
+function farm_rothamsted_experiment_farm_ui_theme_field_group_items(string $entity_type, string $bundle) {
+  if ($entity_type === 'plan' && $bundle === 'rothamsted_experiment') {
+    return [
+      'location' => 'locations',
+      'asset' => 'locations',
+      'experiment_plan_link' => 'file',
+      'experiment_file_link' => 'file',
+      'other_links' => 'file',
+      'growing_conditions' => 'meta',
+      'agreed_quote' => 'meta',
+      'status_notes' => 'meta',
+      'deviations' => 'deviations',
+      'reason_for_failure' => 'deviations',
+    ];
+  }
+  return [];
 }
 
 /**

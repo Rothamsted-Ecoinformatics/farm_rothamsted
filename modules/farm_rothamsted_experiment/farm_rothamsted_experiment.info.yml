@@ -11,7 +11,6 @@ dependencies:
   - farm_observation
   - farm_role
   - farm_rothamsted:farm_rothamsted_quick
-  - field_group:field_group
   - json_field:json_field
   - key_value_field:key_value_field
   - plan
