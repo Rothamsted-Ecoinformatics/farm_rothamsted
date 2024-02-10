@@ -26,6 +26,12 @@ class Experiment extends FarmPlanType {
     // Remove the plan log field.
     unset($fields['log']);
 
+    // Set weight of asset field higher than locations field.
+    $fields['asset']->setDisplayOptions('form', [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 5,
+    ]);
+
     // Build fields using the FarmFieldFactory as possible.
     $field_info = [
       // Plot reference field.
@@ -43,18 +49,30 @@ class Experiment extends FarmPlanType {
         'type' => 'string',
         'label' => $this->t('Study Abbreviation'),
         'description' => $this->t('An abbreviation of the study name.'),
+        'weight' => [
+          'form' => 0,
+          'view' => 0,
+        ],
       ],
       'study_period_id' => [
         'type' => 'string',
         'label' => $this->t('Study Period ID'),
         'description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
         'required' => TRUE,
+        'weight' => [
+          'form' => 5,
+          'view' => 5,
+        ],
       ],
       'cost_code' => [
         'type' => 'string',
         'label' => $this->t('Cost Code'),
         'description' => $this->t('The cost code associated with the project.'),
         'multiple' => TRUE,
+        'weight' => [
+          'form' => 40,
+          'view' => 40,
+        ],
       ],
       'location' => [
         'type' => 'entity_reference',
@@ -63,6 +81,10 @@ class Experiment extends FarmPlanType {
         'target_type' => 'asset',
         'target_bundle' => 'land',
         'multiple' => TRUE,
+        'weight' => [
+          'form' => 0,
+          'view' => 0,
+        ],
       ],
       // Trial design fields.
       'plant_type' => [
@@ -73,6 +95,10 @@ class Experiment extends FarmPlanType {
         'target_bundle' => 'crop_family',
         'auto_create' => FALSE,
         'multiple' => TRUE,
+        'weight' => [
+          'form' => 20,
+          'view' => 20,
+        ],
       ],
       // Plan status fields.
       'status_notes' => [
@@ -158,7 +184,16 @@ class Experiment extends FarmPlanType {
         'link_type' => LinkItemInterface::LINK_EXTERNAL,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayOptions('form', [
+        'type' => 'link_default',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'link',
+        'label' => 'inline',
+        'view' => 0,
+      ]);
     $fields['experiment_file_link'] = BundleFieldDefinition::create('link')
       ->setLabel($this->t('Experiment file'))
       ->setRequired(FALSE)
@@ -168,7 +203,16 @@ class Experiment extends FarmPlanType {
         'link_type' => LinkItemInterface::LINK_EXTERNAL,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayOptions('form', [
+        'type' => 'link_default',
+        'weight' => 5,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'link',
+        'label' => 'inline',
+        'view' => 5,
+      ]);
     $fields['other_links'] = BundleFieldDefinition::create('link')
       ->setLabel($this->t('Other links'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -179,7 +223,16 @@ class Experiment extends FarmPlanType {
         'link_type' => LinkItemInterface::LINK_EXTERNAL,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayOptions('form', [
+        'type' => 'link_default',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'link',
+        'label' => 'inline',
+        'view' => 10,
+      ]);
 
     // Column descriptors.
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
@@ -194,18 +247,36 @@ class Experiment extends FarmPlanType {
       ->setLabel($this->t('Planting Year'))
       ->setDescription($this->t('The planting year for the study.'))
       ->setRevisionable(TRUE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
       ->setSetting('min', 1800)
-      ->setSetting('max', 3000);
+      ->setSetting('max', 3000)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+        'weight' => 30,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number_integer',
+        'label' => 'inline',
+        'view' => 30,
+      ]);
     $fields['harvest_year'] = BundleFieldDefinition::create('integer')
       ->setLabel($this->t('Harvest Year'))
       ->setDescription($this->t('The year the experiment is to be harvested.'))
       ->setRevisionable(TRUE)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
       ->setSetting('min', 1800)
-      ->setSetting('max', 3000);
+      ->setSetting('max', 3000)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+        'weight' => 35,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number_integer',
+        'label' => 'inline',
+        'weight' => 35,
+      ]);
 
     // Additional fields added with 2.10.
     $fields['study_description'] = BundleFieldDefinition::create('text_long')
@@ -215,11 +286,13 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
+        'weight' => 10,
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'text_default',
         'label' => 'inline',
+        'weight' => 10,
       ]);
     $fields['study_number'] = BundleFieldDefinition::create('integer')
       ->setLabel($this->t('Study number'))
@@ -229,11 +302,13 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'number',
+        'weight' => 15,
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'number_integer',
         'label' => 'inline',
+        'weight' => 15,
       ]);
     $fields['current_phase'] = BundleFieldDefinition::create('string')
       ->setLabel($this->t('Current Phase'))
@@ -242,11 +317,13 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
+        'weight' => 25,
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 25,
       ]);
     $fields['cost_code_allocation'] = BundleFieldDefinition::create('text_long')
       ->setLabel($this->t('Cost code allocation'))
@@ -255,11 +332,13 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
+        'weight' => 45,
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'text_default',
         'label' => 'inline',
+        'weight' => 45,
       ]);
 
     return $fields;
