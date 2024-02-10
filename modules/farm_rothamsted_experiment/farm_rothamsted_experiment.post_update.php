@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted_experiment.module.
  */
 
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\entity\BundleFieldDefinition;
@@ -922,4 +924,24 @@ function farm_rothamsted_experiment_post_update_2_19_update_plan_terminated_stat
   /** @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator */
   $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
   $cache_tags_invalidator->invalidateTags(['plan_list', 'plan_list:rothamsted_experiment']);
+}
+
+/**
+ * Remove experiment plan dependency on field_group.
+ */
+function farm_rothamsted_experiment_post_update_2_19_remove_field_group(&$sandbox = NULL) {
+
+  // First remove form and view display config.
+  if ($form = EntityFormDisplay::load('plan.rothamsted_experiment.default')) {
+    $form->delete();
+  }
+  if ($view = EntityViewDisplay::load('plan.rothamsted_experiment.default')) {
+    $view->delete();
+  }
+
+  // Then uninstall the field_group module.
+  if (\Drupal::service('module_handler')->moduleExists('field_group')) {
+    \Drupal::service('module_installer')->uninstall(['field_group']);
+  }
+
 }
