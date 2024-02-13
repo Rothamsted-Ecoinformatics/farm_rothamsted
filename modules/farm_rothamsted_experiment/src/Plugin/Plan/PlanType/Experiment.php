@@ -31,6 +31,14 @@ class Experiment extends FarmPlanType {
       'type' => 'entity_reference_autocomplete',
       'weight' => 5,
     ]);
+    $fields['asset']->setDisplayOptions('view', [
+      'type' => 'entity_reference_label',
+      'label' => 'inline',
+      'weight' => 5,
+      'settings' => [
+        'link' => TRUE,
+      ],
+    ]);
 
     // Build fields using the FarmFieldFactory as possible.
     $field_info = [
