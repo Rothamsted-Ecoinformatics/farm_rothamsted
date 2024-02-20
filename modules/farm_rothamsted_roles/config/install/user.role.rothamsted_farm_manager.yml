@@ -36,5 +36,5 @@ third_party_settings:
             update any:
               - all
           taxonomy_term:
-            update any:
+            edit:
               - all

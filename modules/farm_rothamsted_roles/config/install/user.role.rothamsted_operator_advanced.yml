@@ -63,5 +63,5 @@ third_party_settings:
               - all
             view any:
               - all
-            update own:
+            edit:
               - all

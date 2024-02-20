@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow design statistician to edit design. [#591](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/591)
 - Depend on farmOS v3.
 
+### Fixed
+
+- Fix managed permissions to edit taxonomy terms. [#622](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/622)
+
 ## [2.18.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/39) 2023-12-11
 
 ### Added
