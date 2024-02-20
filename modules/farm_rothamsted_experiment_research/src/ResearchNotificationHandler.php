@@ -191,7 +191,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $proposal->getEntityTypeId();
     $subject = "[site:name]: [$entity_type_id:uid:entity:display-name] has added you to a Research Proposal in FarmOS";
     $body[] = "You have been added to the following Research Proposal by [$entity_type_id:uid:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
-    $body[] = "You will receive [period] updates about this proposal. To change your alert preferences please click here: [configure-notifications]";
+    $body[] = "You will continue to receive updates about this proposal. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
     // Send mail.
@@ -246,8 +246,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     $subject = "[site:name]: [$entity_type_id:uid:entity:display-name] has added you to an experiment in farmOS";
     $body[] = "You have been added to the following experiment by [$entity_type_id:uid:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
-    $body[] = 'You will receive [period] updates about this experiment. You may change your alert preferences [here].';
-    $body[] = 'If you have any questions or queries, please contact your FarmOS Data Administrator. [link].';
+    $body[] = 'You will continue to receive updates about this experiment. To change your alert preferences please click here: [configure-notifications]';
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
     $params['subject_template'] = $subject;
     $params['body_template'] = $body;
