@@ -54,7 +54,7 @@ class RothamstedStatusConstraint extends Constraint {
   /**
    * {@inheritDoc}
    */
-  public function __isset($option) {
+  public function __isset($option): bool {
     if ('requiredStatuses' === $option) {
       return TRUE;
     }
