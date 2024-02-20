@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix managed permissions to edit taxonomy terms. [#622](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/622)
+- Fix statistical design issue when uploading files to design entity. [#616](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/616)
 
 ## [2.18.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/39) 2023-12-11
 

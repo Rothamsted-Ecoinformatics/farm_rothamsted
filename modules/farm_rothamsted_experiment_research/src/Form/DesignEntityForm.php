@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_experiment_research\Form;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -283,7 +284,8 @@ class DesignEntityForm extends ResearchEntityForm {
       ];
     }
 
-    // Add ajax.
+    // Add ajax to update the statistical design field after changing the
+    // selected blocking structure.
     $form['statistical_design']['#attributes']['id'] = 'statistical-design-wrapper';
     $form['blocking_structure']['widget']['#ajax'] = [
       'callback' => [$this, 'blockingStructureCallback'],
@@ -291,9 +293,20 @@ class DesignEntityForm extends ResearchEntityForm {
       'event' => 'change',
     ];
 
-    // Build options.
+    // Build options from the selected blocking structure.
+    // Check if a value has been set to the form state storage (not form state
+    // values) via AJAX before using entity's current field value.
+    // This prevents errors from happening when other elements reset the form
+    // state, like file uploads. See issue #616.
+    $blocking_structure = $form_state->get('blocking_structure') ?? $this->entity->get('blocking_structure')->value;
+    if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [0]) == 'blocking_structure') {
+      $blocking_structure = $trigger['#value'];
+    }
+    // Save the blocking structure to form state storage.
+    $form_state->set('blocking_structure', $blocking_structure);
+
+    // Load the statistical design options.
     $options = [];
-    $blocking_structure = $form_state->getValue(['blocking_structure', 0, 'value']) ?? $this->entity->get('blocking_structure')->value;
     if ($blocking_structure) {
       $options = farm_rothamsted_experiment_research_statistical_design_options($blocking_structure);
     }
