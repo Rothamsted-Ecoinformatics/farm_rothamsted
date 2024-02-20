@@ -743,6 +743,18 @@ function farm_rothamsted_experiment_research_comment_base_field_definition(strin
 }
 
 /**
+ * Implements hook_local_tasks_alter().
+ */
+function farm_rothamsted_experiment_research_local_tasks_alter(&$local_tasks) {
+
+  // Disable Drupal core revisions local tasks.
+  $target_entity_types = ['rothamsted_program', 'rothamsted_experiment', 'rothamsted_design'];
+  foreach ($target_entity_types as $entity_type) {
+    unset($local_tasks['entity.version_history:' . $entity_type . '.version_history']);
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function farm_rothamsted_experiment_research_theme($existing, $type, $theme, $path) {

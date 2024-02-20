@@ -29,3 +29,11 @@ function farm_rothamsted_researcher_rothamsted_researcher_access(EntityInterface
   // Else return neutral.
   return AccessResult::neutral();
 }
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function farm_rothamsted_researcher_local_tasks_alter(&$local_tasks) {
+  // Disable Drupal core revisions local tasks.
+  unset($local_tasks['entity.version_history:rothamsted_researcher.version_history']);
+}
