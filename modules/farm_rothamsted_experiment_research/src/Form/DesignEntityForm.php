@@ -219,16 +219,13 @@ class DesignEntityForm extends ResearchEntityForm {
     }
 
     // Create parent tab for management sub-tabs.
+    // Sub-tabs will be rendered as details elements within the management tab.
     $management_tab = 'tab_management';
-    $form[$management_tab . '_parent'] = [
+    $form[$management_tab] = [
       '#type' => 'details',
       '#title' => $this->t('Management'),
       '#group' => 'tabs',
       '#weight' => 25,
-    ];
-    $form[$management_tab] = [
-      '#type' => 'vertical_tabs',
-      '#group' => $management_tab . '_parent',
     ];
     $management_tabs = [
       'seed',
