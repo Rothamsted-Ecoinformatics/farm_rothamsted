@@ -118,6 +118,14 @@ function farm_rothamsted_form_alter(&$form, FormStateInterface $form_state, $for
     return;
   }
 
+  // Make sure the movement quick form is enabled.
+  /** @var \Drupal\farm_quick\QuickFormInstanceManagerInterface $quick_form_manager */
+  $quick_form_manager = \Drupal::service('quick_form.instance_manager');
+  $quick_form = $quick_form_manager->getInstance('movement');
+  if ($quick_form === NULL || !$quick_form->status()) {
+    return;
+  }
+
   // Load the assets current location.
   /** @var \Drupal\farm_location\AssetLocationInterface $asset_location */
   $asset_location = \Drupal::service('asset.location');
@@ -134,6 +142,7 @@ function farm_rothamsted_form_alter(&$form, FormStateInterface $form_state, $for
       'style' => ['display: flex; flex-wrap: wrap; column-gap: 2em; align-items: center;'],
     ],
     '#weight' => $form['name']['#weight'] + 1,
+    '#group' => 'location_field_group',
   ];
 
   // Add disabled textfield displaying the current location.
