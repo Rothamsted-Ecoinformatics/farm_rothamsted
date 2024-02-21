@@ -80,7 +80,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $log->getEntityTypeId();
     $log_type = $log->get('type')->entity->label();
     $subject = "[site:name]: $log_type Log added: [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:uid:entity:display-name] has added a $log_type Log to FarmOS:";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a $log_type Log to FarmOS:";
     $body[] = "- [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "- Timestamp: [$entity_type_id:timestamp]";
 
@@ -151,7 +151,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $researcher->getEntityTypeId();
     $label = $researcher->get('title')->isEmpty() ? "[$entity_type_id:name]" : "[$entity_type_id:title] [$entity_type_id:name]";
     $subject = "[site:name]: You have been added as a Researcher to FarmOS";
-    $body[] = "[$entity_type_id:uid:entity:display-name] has added you as a Researcher to FarmOS. You can click here to view your profile:";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added you as a Researcher to FarmOS. You can click here to view your profile:";
     $body[] = "$label: [$entity_type_id:url:absolute]";
     $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
     $body[] = "You will continue to receive updates about this Research Profile if it is edited by a Farm Manager or Farm Data Administrator. To change your alert preferences please click here: [configure-notifications]";
@@ -189,8 +189,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Build email content.
     $entity_type_id = $proposal->getEntityTypeId();
-    $subject = "[site:name]: [$entity_type_id:uid:entity:display-name] has added you to a Research Proposal in FarmOS";
-    $body[] = "You have been added to the following Research Proposal by [$entity_type_id:uid:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added you to a Research Proposal in FarmOS";
+    $body[] = "You have been added to the following Research Proposal by [$entity_type_id:revision_user:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You will continue to receive updates about this proposal. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
@@ -220,7 +220,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $program->getEntityTypeId();
     $subject = "[site:name]: You have been named as a Principal Investigator on [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:uid:entity:display-name] has added you as a Principal Investigator on the following Research Program: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added you as a Principal Investigator on the following Research Program: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
     $body[] = "You will continue to receive updates about this Research Profile if it is edited by a Farm Manager or Farm Data Administrator. To change your alert, preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
@@ -244,8 +244,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     $entity_type_id = $experiment->getEntityTypeId();
 
-    $subject = "[site:name]: [$entity_type_id:uid:entity:display-name] has added you to an experiment in farmOS";
-    $body[] = "You have been added to the following experiment by [$entity_type_id:uid:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added you to an experiment in farmOS";
+    $body[] = "You have been added to the following experiment by [$entity_type_id:revision_user:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = 'You will continue to receive updates about this experiment. To change your alert preferences please click here: [configure-notifications]';
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
@@ -269,7 +269,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $design->getEntityTypeId();
     $subject = "[site:name]: An Experiment Design has been added to [$entity_type_id:experiment:entity:name]";
-    $body[] = "[$entity_type_id:uid:entity:display-name] has added the following Experiment Design to [$entity_type_id:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added the following Experiment Design to [$entity_type_id:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on [$entity_type_id:experiment:entity:name] or because you have been nominated as a Statistician for this Experiment Design. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
@@ -291,7 +291,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
     $subject = "[site:name]: An Experiment Plan has been added to [$entity_type_id:experiment_design:entity:experiment:entity:name]";
-    $body[] = "[$entity_type_id:uid:entity:display-name] has added the following Experiment Plan to [$entity_type_id:experiment_design:entity:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added the following Experiment Plan to [$entity_type_id:experiment_design:entity:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on [$entity_type_id:experiment_design:entity:experiment:entity:name]. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
