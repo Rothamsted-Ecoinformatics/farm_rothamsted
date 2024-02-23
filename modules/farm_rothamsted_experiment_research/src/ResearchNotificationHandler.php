@@ -80,16 +80,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $log->getEntityTypeId();
     $log_type = $log->get('type')->entity->label();
     $subject = "[site:name]: $log_type Log added: [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a $log_type Log to FarmOS:";
-    $body[] = "- [$entity_type_id:name] [$entity_type_id:url:absolute]";
-    $body[] = "- Timestamp: [$entity_type_id:timestamp]";
-
-    if (!$log->get('asset')->isEmpty()) {
-      $body[] = "- Asset: [$entity_type_id:asset]";
-    }
-    if (!$log->get('location')->isEmpty()) {
-      $body[] = "- Location: [$entity_type_id:location]";
-    }
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a new $log_type Log to FarmOS: [$entity_type_id:name]";
+    $body[] = "[$entity_type_id:url:absolute]";
 
     $body[] = "Please check the details are correct. If you notice anything that needs to be amended, please comment on the log and mark it as 'Needs Review'. Alternatively, if you are named as the owner of this log, you can edit it.";
     $body[] = "If you no longer want to receive log alerts, please click here and opt out of Log Alerts: [configure-notifications]";
