@@ -212,7 +212,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     if (!empty($diff)) {
       $missing_count = count($diff);
       $error_msg = "The existing plot numbers do not match with those in the GeoJSON. Missing $missing_count plots.";
-      $form_state->setError($form['plot_attributes'], $error_msg);
+      $form_state->setError($form['geojson'], $error_msg);
       $this->messenger()->addError($error_msg);
     }
 
