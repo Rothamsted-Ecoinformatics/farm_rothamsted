@@ -123,6 +123,13 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#limit_validation_errors' => [],
     ];
 
+    $form['validate_plot_ids'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Validate Plot IDs'),
+      '#description' => $this->t('Only uncheck this box if you are confident that you are uploading attributes for correct plot number and plot ID pairs.'),
+      '#default_value' => TRUE,
+    ];
+
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
@@ -375,6 +382,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $has_plot_1 = FALSE;
 
     // Ensure all required values are provided.
+    $plot_mapping = [];
     $valid_plot_types = array_keys(farm_rothamsted_experiment_plot_type_options());
     $required_columns = [
       'plot_number' => 'numeric',
@@ -426,6 +434,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
           continue;
         }
 
+        // Build plot mapping of plot id and plot number.
+        $plot_mapping[(int) $attributes['plot_number']] = $attributes['plot_id'];
+
         // Ensure each column is a valid column_id.
         if (!in_array($column_name, $column_names)) {
           $error_msg = "Plot in row $row has an invalid column_id: $column_name";
@@ -474,14 +485,18 @@ class ExperimentVariableForm extends ExperimentFormBase {
       ->condition('pp.entity_id', $form_state->getValue('plan_id'))
       ->condition('pp.deleted', 0);
     $plan_plot_query->addField('pp', 'plot_target_id', 'plot_id');
-    $plot_number_query = \Drupal::database()->select('asset__plot_number', 'apm')
+    $existing_plot_query = \Drupal::database()->select('asset__plot_number', 'apm')
       ->condition('apm.entity_id', $plan_plot_query, 'IN')
-      ->condition('apm.deleted', 0)
-      ->orderBy('apm.plot_number_value');
-    $plot_number_query->addField('apm', 'plot_number_value', 'plot_number');
+      ->condition('apm.deleted', 0);
+    $existing_plot_query->join('asset__plot_id', 'api', 'api.entity_id = apm.entity_id AND api.deleted = 0');
+    $existing_plot_query->addField('apm', 'plot_number_value', 'plot_number');
+    $existing_plot_query->addField('api', 'plot_id_value', 'plot_id');
+    $existing_plot_query->orderBy('plot_number');
+    // Fetch existing plot ids keyed by plot number, sorted by plot.
+    $existing_plots = $existing_plot_query->execute()->fetchAllKeyed();
 
     // Validate total numbers.
-    $total_existing_plot = $plan_plot_query->countQuery()->execute()->fetchField();
+    $total_existing_plot = count($existing_plots);
     if ((int) $total_existing_plot != $expected_total) {
       $error_msg = "Total number of plots in CSV does not match number of existing plots created for this plan. CSV plots: $expected_total Existing: $total_existing_plot";
       $form_state->setError($form['plot_attributes'], $error_msg);
@@ -490,13 +505,26 @@ class ExperimentVariableForm extends ExperimentFormBase {
     }
 
     // Validate that existing plot numbers are sequential with the CSV.
-    $plot_numbers = $plot_number_query->execute()->fetchCol();
+    $plot_numbers = array_keys($existing_plots);
     $diff = array_diff($expected_numbers, $plot_numbers);
     if (!empty($diff)) {
       $missing_count = count($diff);
       $error_msg = "The existing plot numbers do not match with those in the CSV. Missing $missing_count plots.";
       $form_state->setError($form['plot_attributes'], $error_msg);
       $this->messenger()->addError($error_msg);
+    }
+
+    // Validate that plot numbers and plot IDs match with existing plots.
+    if ($form_state->getValue('validate_plot_ids', TRUE)) {
+      ksort($plot_mapping);
+      if ($plot_mapping !== $existing_plots) {
+        $diff = array_diff($plot_mapping, $existing_plots);
+        $plot_number = array_key_first($diff);
+        $plot_id = reset($diff);
+        $error_msg = "Mismatched plot_number and plot_id: $plot_number - $plot_id";
+        $form_state->setError($form['plot_attributes'], $error_msg);
+        $this->messenger()->addError($error_msg);
+      }
     }
 
   }
