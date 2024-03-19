@@ -92,7 +92,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     $form['geojson'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Plot geometries'),
-      '#description' => $this->t('GeoJSON file containing each plot number and geometry.'),
+      '#description' => $this->t('GeoJSON file containing each plot number, plot ID and geometry.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
@@ -151,11 +151,23 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       return;
     }
 
+    // Build mapping of plot IDs keyed by plot number.
+    $plot_mapping = [];
+    foreach ($features as $feature) {
+      $plot_number = $feature['properties']['plot_number'] ?? NULL;
+      $plot_id = $feature['properties']['plot_id'] ?? NULL;
+      if (!$plot_number || !$plot_id) {
+        $error_msg = "Feature missing plot_number or plot_id. Ensure all features have correct plot_number and plot_id properties.";
+        $form_state->setError($form['geojson'], $error_msg);
+        $this->messenger()->addError($error_msg);
+        return;
+      }
+      $plot_mapping[(int) $plot_number] = $plot_id;
+    }
+    ksort($plot_mapping);
+
     // Validate plot count.
-    $plot_numbers = array_map(function ($feature) {
-      return (int) $feature['properties']['plot_number'] ?? NULL;
-    }, $features);
-    $plot_numbers = array_filter($plot_numbers);
+    $plot_numbers = array_keys($plot_mapping);
     $expected_total = count($plot_numbers);
     $expected_numbers = range(1, $expected_total);
 
@@ -175,14 +187,18 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       ->condition('pp.entity_id', $form_state->getValue('plan_id'))
       ->condition('pp.deleted', 0);
     $plan_plot_query->addField('pp', 'plot_target_id', 'plot_id');
-    $plot_number_query = \Drupal::database()->select('asset__plot_number', 'apm')
+    $existing_plot_query = \Drupal::database()->select('asset__plot_number', 'apm')
       ->condition('apm.entity_id', $plan_plot_query, 'IN')
-      ->condition('apm.deleted', 0)
-      ->orderBy('apm.plot_number_value');
-    $plot_number_query->addField('apm', 'plot_number_value', 'plot_number');
+      ->condition('apm.deleted', 0);
+    $existing_plot_query->join('asset__plot_id', 'api', 'api.entity_id = apm.entity_id AND api.deleted = 0');
+    $existing_plot_query->addField('apm', 'plot_number_value', 'plot_number');
+    $existing_plot_query->addField('api', 'plot_id_value', 'plot_id');
+    $existing_plot_query->orderBy('plot_number');
+    // Fetch existing plot ids keyed by plot number, sorted by plot.
+    $existing_plots = $existing_plot_query->execute()->fetchAllKeyed();
 
     // Validate total numbers.
-    $total_existing_plot = $plan_plot_query->countQuery()->execute()->fetchField();
+    $total_existing_plot = count($existing_plots);
     if ((int) $total_existing_plot != $expected_total) {
       $error_msg = "Total number of plots in GeoJSON does not match number of existing plots created for this plan. GeoJSON plots: $expected_total Existing: $total_existing_plot";
       $form_state->setError($form['geojson'], $error_msg);
@@ -191,12 +207,22 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     }
 
     // Validate that existing plot numbers are sequential with the GeoJSON.
-    $plot_numbers = $plot_number_query->execute()->fetchCol();
+    $plot_numbers = array_keys($existing_plots);
     $diff = array_diff($expected_numbers, $plot_numbers);
     if (!empty($diff)) {
       $missing_count = count($diff);
       $error_msg = "The existing plot numbers do not match with those in the GeoJSON. Missing $missing_count plots.";
       $form_state->setError($form['plot_attributes'], $error_msg);
+      $this->messenger()->addError($error_msg);
+    }
+
+    // Validate that plot numbers and plot IDs match with existing plots.
+    if ($plot_mapping !== $existing_plots) {
+      $diff = array_diff($plot_mapping, $existing_plots);
+      $plot_number = array_key_first($diff);
+      $plot_id = reset($diff);
+      $error_msg = "Mismatched plot_number and plot_id: $plot_number - $plot_id";
+      $form_state->setError($form['geojson'], $error_msg);
       $this->messenger()->addError($error_msg);
     }
 
