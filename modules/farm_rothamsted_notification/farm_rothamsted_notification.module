@@ -7,7 +7,6 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Url;
 use Drupal\user\UserInterface;
@@ -64,8 +63,6 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
   if (isset($params['entity_type_id']) && $entity_type_id = $params['entity_type_id']) {
     $entity_type_manager = \Drupal::entityTypeManager();
     $entity_type_label = $entity_type_manager->getDefinition($entity_type_id)->getLabel();
-    /** @var \Drupal\Core\Entity\EntityInterface $entity */
-    $entity = $params[$entity_type_id];
   }
 
   // Build the message.
@@ -79,73 +76,6 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
       $subject_template = "[site:name]: [$entity_type_id:author:display-name] commented on [$entity_type_id:entity:name]";
       $body_templates[] = "[$entity_type_id:author:display-name] commented on [$entity_type_id:entity:name]: [$entity_type_id:body]";
       $body_templates[] = "View and respond to the $entity_type_label here: [$entity_type_id:url:absolute]";
-      break;
-
-    case 'entity_create':
-      $subject_template = "[site:name] $entity_type_label created: [$entity_type_id:name]";
-      $body_templates[] = "A new $entity_type_label '[$entity_type_id:name]' was created by [$entity_type_id:uid:entity:display-name].";
-
-      // Include revision message.
-      $revision_message = 'None.';
-      if ($entity instanceof RevisionLogInterface && !empty($entity->getRevisionLogMessage())) {
-        $revision_message = "[$entity_type_id:revision_log_message]";
-      }
-      $body_templates[] = "Revision message: $revision_message";
-
-      // Highlight fields.
-      $highlight_fields = $params['highlight_fields'] ?? [];
-      $body_templates[] = "$entity_type_label info:";
-      foreach ($highlight_fields as $field) {
-        // Skip empty fields.
-        if (!$entity->hasField($field) || $entity->get($field)->isEmpty()) {
-          continue;
-        }
-        $field_label = $entity->get($field)->getFieldDefinition()->getLabel();
-        $body_templates[] = "- $field_label: [$entity_type_id:$field]";
-      }
-
-      $body_templates[] = "View the new $entity_type_label here: [$entity_type_id:url:absolute]";
-      break;
-
-    case 'entity_update':
-      $subject_template = "[site:name] $entity_type_label updated: [$entity_type_id:name]";
-      $body_templates[] = "The $entity_type_label '[$entity_type_id:name]' was updated by [$entity_type_id:revision_user:entity:display-name].";
-
-      // Include revision message.
-      $revision_message = 'None.';
-      if ($entity instanceof RevisionLogInterface && !empty($entity->getRevisionLogMessage())) {
-        $revision_message = "[$entity_type_id:revision_log_message]";
-      }
-      $body_templates[] = "Revision message: $revision_message";
-
-      // Changed fields.
-      $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
-      $update_fields = [
-        'comment',
-        'changed',
-        'revision_created',
-        'revision_default',
-        'revision_id',
-        'revision_log_message',
-        'revision_translation_affected',
-        'revision_user',
-      ];
-      $changed_fields = array_diff($all_field_changes, $update_fields);
-      if (!empty($changed_fields)) {
-        $field_labels = [];
-        foreach ($changed_fields ?? [] as $field) {
-          $field_labels[] = $entity->get($field)->getFieldDefinition()->getLabel();
-        }
-        $field_label_text = implode(', ', $field_labels);
-        $body_templates[] = "Changed values: $field_label_text";
-      }
-
-      $body_templates[] = "View the new $entity_type_label here: [$entity_type_id:url:absolute]";
-      break;
-
-    case 'entity_delete':
-      $subject_template = "[site:name] $entity_type_label deleted: [$entity_type_id:name]";
-      $body_templates[] = "The $entity_type_label '[$entity_type_id:name]' was deleted.";
       break;
 
     case 'entity_template':

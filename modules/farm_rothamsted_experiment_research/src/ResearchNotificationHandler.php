@@ -333,7 +333,6 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $this->sendMail($program, $emails, $params);
   }
 
-
   /**
    * Build an updated alert for Rothamsted Program.
    *
@@ -694,13 +693,13 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity with fields.
-   * @param $excluded_fields
+   * @param array $excluded_fields
    *   Array of fields to exclude. Defaults to sensible list.
    *
    * @return string
    *   A string describing the changed fields.
    */
-  protected function getEntityFieldDifferences(EntityInterface $entity, $excluded_fields = []): string {
+  protected function getEntityFieldDifferences(EntityInterface $entity, array $excluded_fields = []): string {
 
     // Get changed fields.
     $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
