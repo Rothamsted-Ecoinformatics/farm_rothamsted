@@ -598,7 +598,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
       break;
 
     case 'log':
-      $notification_handler->buildNewLogAlert($entity, $emails);
+      $notification_handler->buildNewLogAlert($entity);
       return;
   }
 
@@ -613,6 +613,8 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
 
   // Only send emails for these entity types.
   $rothamsted_entity_type_ids = [
+    'log',
+    'plan',
     'rothamsted_design',
     'rothamsted_experiment',
     'rothamsted_program',
@@ -624,18 +626,33 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
     return;
   }
 
-  // Send new entity alert emails to notify if new researchers were added.
   /** @var \Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler $notification_handler */
   $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
-  $notification_handler->buildNewEntityAlert($entity, TRUE);
 
-  // Include email logic.
-  $emails = [];
-  if ($entity_type_id === 'rothamsted_proposal') {
-    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+  // Add entity type logic.
+  // Send new entity alert emails to notify if new researchers were added
+  // and also send updated entity alerts for all users.
+  switch ($entity_type_id) {
+    case 'rothamsted_researcher':
+    case 'rothamsted_proposal':
+    case 'rothamsted_program':
+    case 'rothamsted_experiment':
+    case 'rothamsted_design':
+      $notification_handler->buildNewEntityAlert($entity, TRUE);
+      $notification_handler->buildUpdatedEntityAlert($entity);
+      return;
+
+    case 'plan':
+      if ($entity->bundle() == 'rothamsted_experiment') {
+        $notification_handler->buildUpdatedEntityAlert($entity);
+      }
+      return;
+
+    case 'log':
+      $notification_handler->buildNewLogAlert($entity);
+      $notification_handler->buildUpdatedLogAlert($entity);
+      return;
   }
-
-  farm_rothamsted_notification_send_research_update('entity_update', $entity, $emails);
 }
 
 /**
