@@ -87,18 +87,18 @@ display:
           action_title: Action
           include_exclude: exclude
           selected_actions: {  }
-        plot_number_value:
-          id: plot_number_value
-          table: asset__plot_number
-          field: plot_number_value
+        id:
+          id: id
+          table: asset_field_data
+          field: id
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: asset
-          entity_field: plot_number
+          entity_field: id
           plugin_id: field
-          label: 'Plot number'
-          exclude: false
+          label: ID
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -484,7 +484,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -691,20 +690,20 @@ display:
           default_row_class: true
           columns:
             asset_bulk_form: asset_bulk_form
-            plot_number_value: plot_number_value
+            id: id
             plot_id_value: plot_id_value
             plot_type_value: plot_type_value
             flag_value: flag_value
             status: status
-          default: plot_number_value
+          default: id
           info:
             asset_bulk_form:
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            plot_number_value:
-              sortable: true
+            id:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''

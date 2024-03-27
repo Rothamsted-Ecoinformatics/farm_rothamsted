@@ -79,10 +79,34 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $log->getEntityTypeId();
     $log_type = $log->get('type')->entity->label();
-    $subject = "[site:name]: $log_type Log added: [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a new $log_type Log to FarmOS: [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:url:absolute]";
+    $subject = "[site:name]: New $log_type Log";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a new $log_type Log to FarmOS:";
+    $body[] = "[$entity_type_id:name]: [$entity_type_id:url:absolute]";
+    $body[] = "Please check the details are correct. If you notice anything that needs to be amended, please comment on the log and mark it as 'Needs Review'. Alternatively, if you are named as the owner of this log, you can edit it.";
+    $body[] = "If you no longer want to receive log alerts, please click here and opt out of Log Alerts: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $emails = $this->getLogExperimentEmails($log);
+    $this->sendMail($log, $emails, $params);
+  }
+
+  /**
+   * Build an updated alert for Log entities.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $log
+   *   The log entity.
+   */
+  public function buildUpdatedLogAlert(EntityInterface $log) {
+
+    // Build email content.
+    $entity_type_id = $log->getEntityTypeId();
+    $subject = "[site:name]: [$entity_type_id:name] has been updated in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a log you are associated with:";
+    $body[] = "[$entity_type_id:name]: [$entity_type_id:url:absolute]";
+    $body[] = $this->getEntityFieldDifferences($log);
     $body[] = "Please check the details are correct. If you notice anything that needs to be amended, please comment on the log and mark it as 'Needs Review'. Alternatively, if you are named as the owner of this log, you can edit it.";
     $body[] = "If you no longer want to receive log alerts, please click here and opt out of Log Alerts: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
@@ -105,6 +129,23 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   public function buildNewEntityAlert(EntityInterface $entity, bool $new_researcher = FALSE) {
     $entity_type = $entity->getEntityTypeId();
     $function_name = lcfirst(str_replace('_', '', ucwords("build_new_{$entity_type}_alert", '_')));
+    if (!is_callable([$this, $function_name])) {
+      return;
+    }
+    $this->$function_name($entity, $new_researcher);
+  }
+
+  /**
+   * Builds an updated entity alert.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity to create an alert for.
+   * @param bool $new_researcher
+   *   Boolean if emails should only send to new researchers.
+   */
+  public function buildUpdatedEntityAlert(EntityInterface $entity, bool $new_researcher = FALSE) {
+    $entity_type = $entity->getEntityTypeId();
+    $function_name = lcfirst(str_replace('_', '', ucwords("build_updated_{$entity_type}_alert", '_')));
     if (!is_callable([$this, $function_name])) {
       return;
     }
@@ -156,6 +197,43 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   }
 
   /**
+   * Build an updated alert for Rothamsted researcher.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $researcher
+   *   The researcher entity.
+   */
+  protected function buildUpdatedRothamstedResearcherAlert(EntityInterface $researcher) {
+
+    // Check the farm_user.
+    $email = NULL;
+    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value) {
+      $email = $user_email;
+    }
+
+    // Bail if no email.
+    if (empty($email)) {
+      return;
+    }
+
+    // Build email content.
+    $entity_type_id = $researcher->getEntityTypeId();
+    $label = $researcher->get('title')->isEmpty() ? "[$entity_type_id:name]" : "[$entity_type_id:title] [$entity_type_id:name]";
+    $subject = "[site:name]: Update to your FarmOS Researcher Profile";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited your FarmOS Researcher Profile:";
+    $body[] = $this->getEntityFieldDifferences($researcher);
+    $body[] = "To view your profile please click the link below:";
+    $body[] = "$label: [$entity_type_id:url:absolute]";
+    $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
+    $body[] = "You will continue to receive updates about this Research Profile if it is edited by a Farm Manager or Farm Data Administrator. To change your alert preferences please click here: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($researcher, [$email], $params);
+  }
+
+  /**
    * Build a new alert for Rothamsted Proposal.
    *
    * @param \Drupal\Core\Entity\EntityInterface $proposal
@@ -193,6 +271,38 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   }
 
   /**
+   * Build an updated alert for Rothamsted Proposal.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $proposal
+   *   The research proposal entity.
+   */
+  protected function buildUpdatedRothamstedProposalAlert(EntityInterface $proposal) {
+
+    // Get the researchers from the research proposal entity.
+    $researchLeads = $this->getResearcherEmails($proposal->get('contact'));
+    $statisticians = $this->getResearcherEmails($proposal->get('statistician'));
+    $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'));
+
+    // Merge all the emails into an array, limiting to non-duplicate values.
+    $emails = array_unique(array_merge($researchLeads, $statisticians, $dataStewards));
+
+    // Build email content.
+    $entity_type_id = $proposal->getEntityTypeId();
+    $subject = "[site:name]: Update to your Research Proposal in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has updated a FarmOS Research Proposal you are associated with:";
+    $body[] = $this->getEntityFieldDifferences($proposal);
+    $body[] = "To view the Research Proposal please click the link below:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "You will continue to receive updates about this proposal. To change your alert preferences please click here: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($proposal, $emails, $params);
+  }
+
+  /**
    * Build a new alert for Rothamsted Program.
    *
    * @param \Drupal\Core\Entity\EntityInterface $program
@@ -211,10 +321,38 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Build email content.
     $entity_type_id = $program->getEntityTypeId();
-    $subject = "[site:name]: You have been named as a Principal Investigator on [$entity_type_id:name]";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added you as a Principal Investigator on the following Research Program: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $subject = "[site:name]: You have been named as a Principal Investigator on a Research Proposal";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has named you as a Principal Investigator on the following Research Program: [$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
-    $body[] = "You will continue to receive updates about this Research Profile if it is edited by a Farm Manager or Farm Data Administrator. To change your alert, preferences please click here: [configure-notifications]";
+    $body[] = "You will continue to receive updates about this Research Program if it is edited by a Farm Manager or Farm Data Administrator. To change your alert, preferences please click here: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($program, $emails, $params);
+  }
+
+  /**
+   * Build an updated alert for Rothamsted Program.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $program
+   *   The program entity.
+   */
+  protected function buildUpdatedRothamstedProgramAlert(EntityInterface $program) {
+
+    // Get principal investigator emails.
+    $emails = $this->getResearcherEmails($program->get('principal_investigator'));
+
+    // Build email content.
+    $entity_type_id = $program->getEntityTypeId();
+    $subject = "[site:name]: Update to your Research Program in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a FarmOS Research Program you are associated with:";
+    $body[] = $this->getEntityFieldDifferences($program);
+    $body[] = "To view the Research Program please click the link below:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "Please check the details are correct. If not, please amend them by clicking on the above link and pressing 'edit'.";
+    $body[] = "You will continue to receive updates about this Research Program if it is edited by a Farm Manager or Farm Data Administrator. To change your alert, preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
     // Send mail.
@@ -234,10 +372,34 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildNewRothamstedExperimentAlert(RothamstedExperimentInterface $experiment, bool $new_researcher = FALSE) {
     $emails = $this->getExperimentResearcherEmails($experiment, $new_researcher);
 
+    // Build email content.
     $entity_type_id = $experiment->getEntityTypeId();
-
     $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added you to an experiment in farmOS";
     $body[] = "You have been added to the following experiment by [$entity_type_id:revision_user:entity:display-name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = 'You will continue to receive updates about this experiment. To change your alert preferences please click here: [configure-notifications]';
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($experiment, $emails, $params);
+  }
+
+  /**
+   * Build an updated alert for Rothamsted Experiment.
+   *
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface $experiment
+   *   The experiment entity.
+   */
+  protected function buildUpdatedRothamstedExperimentAlert(RothamstedExperimentInterface $experiment) {
+    $emails = $this->getExperimentResearcherEmails($experiment);
+
+    // Build email content.
+    $entity_type_id = $experiment->getEntityTypeId();
+    $subject = "[site:name]: Update to your Research Experiment in farmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Research Experiment you are associated with:";
+    $body[] = $this->getEntityFieldDifferences($experiment);
+    $body[] = "To view the Research Experiment please click the link below:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = 'You will continue to receive updates about this experiment. To change your alert preferences please click here: [configure-notifications]';
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
@@ -260,9 +422,38 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Build email content.
     $entity_type_id = $design->getEntityTypeId();
-    $subject = "[site:name]: An Experiment Design has been added to [$entity_type_id:experiment:entity:name]";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added the following Experiment Design to [$entity_type_id:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
-    $body[] = "You are receiving this email because you are named on [$entity_type_id:experiment:entity:name] or because you have been nominated as a Statistician for this Experiment Design. To change your alert preferences please click here: [configure-notifications]";
+    $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added a Design to your Experiment in FarmOS";
+    $body[] = "Experiment Name: [$entity_type_id:experiment:entity:name]";
+    $body[] = "A Design has been added to the above Experiment by [$entity_type_id:revision_user:entity:display-name]:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "You are receiving this email because you are named on the above experiment or because you have been nominated as a Statistician for this Experiment Design. To change your alert preferences please click here: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($design, $emails, $params);
+  }
+
+  /**
+   * Build an updated alert for Rothamsted Design.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $design
+   *   The design entity.
+   */
+  protected function buildUpdatedRothamstedDesignAlert(EntityInterface $design) {
+
+    $emails = $this->getDesignResearcherEmails($design);
+
+    // Build email content.
+    $entity_type_id = $design->getEntityTypeId();
+    $subject = "[site:name]: Update to your Research Design in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Research Design you are associated with:";
+    $body[] = "Experiment Name: [$entity_type_id:experiment:entity:name]";
+    $body[] = $this->getEntityFieldDifferences($design);
+    $body[] = "To view the Research Design please click the link below:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "You are receiving this email because you are named on the above experiment or because you have been nominated as a Statistician for this Experiment Design. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
     // Send mail.
@@ -282,9 +473,39 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
-    $subject = "[site:name]: An Experiment Plan has been added to [$entity_type_id:experiment_design:entity:experiment:entity:name]";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added the following Experiment Plan to [$entity_type_id:experiment_design:entity:experiment:entity:name]: [$entity_type_id:name] [$entity_type_id:url:absolute]";
-    $body[] = "You are receiving this email because you are named on [$entity_type_id:experiment_design:entity:experiment:entity:name]. To change your alert preferences please click here: [configure-notifications]";
+    $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added a Plan to your Experiment in FarmOS";
+    $body[] = "Experiment Name: [$entity_type_id:experiment_design:entity:experiment:entity:name]";
+    $body[] = "Experiment Design: [$entity_type_id:experiment_design:entity:name]";
+    $body[] = "A Plan has been added to the above Experiment Design by [$entity_type_id:revision_user:entity:display-name]:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "You are receiving this email because you are named on the above Experiment or because you have been nominated as a Statistician for the experiment design. To change your alert preferences please click here: [configure-notifications]";
+    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($plan, $emails, $params);
+  }
+
+  /**
+   * Build an updated alert for Plan.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $plan
+   *   The plan entity.
+   */
+  protected function buildUpdatedPlanAlert(EntityInterface $plan) {
+    $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity);
+
+    // Build email content.
+    $entity_type_id = $plan->getEntityTypeId();
+    $subject = "[site:name]: Update to your Research Plan in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Research Plan you are associated with:";
+    $body[] = "Experiment Name: [$entity_type_id:experiment_design:entity:experiment:entity:name]";
+    $body[] = "Experiment Design: [$entity_type_id:experiment_design:entity:name]";
+    $body[] = $this->getEntityFieldDifferences($plan);
+    $body[] = "To view the Research Plan please click the link below:";
+    $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
+    $body[] = "You are receiving this email because you are named on the above Experiment or because you have been nominated as a Statistician for the experiment design. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
 
     // Send mail.
@@ -465,6 +686,44 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Delegate to farm_rothamsted_notification.
     $this->mailManager->mail('farm_rothamsted_notification', 'entity_template', implode(', ', $emails), 'en', $params);
+  }
+
+  /**
+   * Helper function to build a list of changed field values.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity with fields.
+   * @param array $excluded_fields
+   *   Array of fields to exclude. Defaults to sensible list.
+   *
+   * @return string
+   *   A string describing the changed fields.
+   */
+  protected function getEntityFieldDifferences(EntityInterface $entity, array $excluded_fields = []): string {
+
+    // Get changed fields.
+    $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
+    $excluded_fields = !empty($excluded_fields) ? $excluded_fields : [
+      'comment',
+      'changed',
+      'revision_created',
+      'revision_default',
+      'revision_id',
+      'revision_log_message',
+      'revision_translation_affected',
+      'revision_user',
+    ];
+    $changed_fields = array_diff($all_field_changes, $excluded_fields);
+    if (!empty($changed_fields)) {
+      $field_labels = [];
+      foreach ($changed_fields ?? [] as $field) {
+        $field_labels[] = $entity->get($field)->getFieldDefinition()->getLabel();
+      }
+      $field_label_text = implode(', ', $field_labels);
+      return "Changed values: $field_label_text";
+    }
+
+    return "No field changes.";
   }
 
 }

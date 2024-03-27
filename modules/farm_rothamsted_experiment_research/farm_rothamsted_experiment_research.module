@@ -498,62 +498,6 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     return;
   }
 
-  $highlight_fields = [
-    'log' => [
-      'name',
-      'timestamp',
-      'status',
-      'owner',
-      'location',
-      'log_category',
-    ],
-    'rothamsted_proposal' => [
-      'name',
-      'program',
-      'experiment',
-      'design',
-      'plan',
-      'contact',
-      'statistician',
-      'data_steward',
-    ],
-    'rothamsted_program' => [
-      'name',
-      'abbreviation',
-      'project_code',
-      'principal_investigator',
-      'start',
-      'end',
-    ],
-    'rothamsted_experiment' => [
-      'name',
-      'program',
-      'code',
-      'description',
-      'researcher',
-      'start',
-      'end',
-    ],
-    'rothamsted_design' => [
-      'name',
-      'experiment',
-      'blocking_structure',
-      'statistician',
-    ],
-    'rothamsted_researcher' => [
-      'name',
-      'job_title',
-      'role',
-      'organization',
-      'department',
-    ],
-  ];
-
-  // Build params.
-  $params = [
-    'highlight_fields' => $highlight_fields[$entity_type_id] ?? [],
-  ];
-
   /** @var \Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler $notification_handler */
   $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
 
@@ -598,12 +542,12 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
       break;
 
     case 'log':
-      $notification_handler->buildNewLogAlert($entity, $emails);
+      $notification_handler->buildNewLogAlert($entity);
       return;
   }
 
-  // Finally send the email.
-  farm_rothamsted_notification_send_research_update($operation, $entity, $emails, $params, $include_admin);
+  // Finally send the comment email.
+  farm_rothamsted_notification_send_research_update($operation, $entity, $emails, [], $include_admin);
 }
 
 /**
@@ -613,6 +557,8 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
 
   // Only send emails for these entity types.
   $rothamsted_entity_type_ids = [
+    'log',
+    'plan',
     'rothamsted_design',
     'rothamsted_experiment',
     'rothamsted_program',
@@ -624,45 +570,33 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
     return;
   }
 
-  // Send new entity alert emails to notify if new researchers were added.
   /** @var \Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler $notification_handler */
   $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
-  $notification_handler->buildNewEntityAlert($entity, TRUE);
 
-  // Include email logic.
-  $emails = [];
-  if ($entity_type_id === 'rothamsted_proposal') {
-    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
+  // Add entity type logic.
+  // Send new entity alert emails to notify if new researchers were added
+  // and also send updated entity alerts for all users.
+  switch ($entity_type_id) {
+    case 'rothamsted_researcher':
+    case 'rothamsted_proposal':
+    case 'rothamsted_program':
+    case 'rothamsted_experiment':
+    case 'rothamsted_design':
+      $notification_handler->buildNewEntityAlert($entity, TRUE);
+      $notification_handler->buildUpdatedEntityAlert($entity);
+      return;
+
+    case 'plan':
+      if ($entity->bundle() == 'rothamsted_experiment') {
+        $notification_handler->buildUpdatedEntityAlert($entity);
+      }
+      return;
+
+    case 'log':
+      $notification_handler->buildNewLogAlert($entity);
+      $notification_handler->buildUpdatedLogAlert($entity);
+      return;
   }
-
-  farm_rothamsted_notification_send_research_update('entity_update', $entity, $emails);
-}
-
-/**
- * Implements hook_entity_delete().
- */
-function farm_rothamsted_experiment_research_entity_delete(EntityInterface $entity) {
-
-  // Only send emails for these entity types.
-  $rothamsted_entity_type_ids = [
-    'rothamsted_design',
-    'rothamsted_experiment',
-    'rothamsted_program',
-    'rothamsted_proposal',
-    'rothamsted_researcher',
-  ];
-  $entity_type_id = $entity->getEntityTypeId();
-  if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
-    return;
-  }
-
-  // Include email logic.
-  $emails = [];
-  if ($entity_type_id === 'rothamsted_proposal') {
-    $emails = farm_rothamsted_experiment_research_proposal_contacts($entity);
-  }
-
-  farm_rothamsted_notification_send_research_update('entity_delete', $entity, $emails);
 }
 
 /**
