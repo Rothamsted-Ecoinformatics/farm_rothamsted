@@ -12,7 +12,6 @@
     "farmos/farmos": "^3",
     "drupal/autocomplete_deluxe": "^2.0",
     "drupal/farm_rei": "^2.0.0-beta3",
-    "drupal/field_group": "^3.2",
     "drupal/gin": "^3.0.0-beta5",
     "drupal/json_field": "^1.0@RC",
     "drupal/key_value_field": "^1.2"
