@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add optional validation for plot IDs when uploading variables. [#632](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/632)
 - Change wording for new email alerts. [#627](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/627)
 - Change wording for updated email alerts. [#605](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/605)
+- Only allow uploading geometry after variables are uploaded. [#632](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/632)
 
 ## [2.19.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/40) 2024-02-23
 

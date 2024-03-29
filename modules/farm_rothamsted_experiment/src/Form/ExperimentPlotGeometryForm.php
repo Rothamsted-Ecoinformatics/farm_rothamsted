@@ -87,6 +87,13 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       return $this->redirect('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $plan->id()]);
     }
 
+    // Ensure plot variables have been uploaded. This ensures geometry will
+    // have proper plot ID and plot number values.
+    if ($plan->get('column_descriptors')->isEmpty()) {
+      $this->messenger()->addWarning($this->t('Upload experiment variables before uploading plot geometry.'));
+      return $this->redirect('farm_rothamsted_experiment.experiment.variable_form', ['plan' => $plan->id()]);
+    }
+
     // Allow uploading a geojson.
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
     $form['geojson'] = [
