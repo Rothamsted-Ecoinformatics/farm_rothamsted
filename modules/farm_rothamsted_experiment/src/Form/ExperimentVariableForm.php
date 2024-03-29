@@ -130,6 +130,13 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#default_value' => TRUE,
     ];
 
+    $form['reset_geometry'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Reset Plot geometries'),
+      '#description' => $this->t('Check this box to reset the geometry on all plots. This may be useful when correcting Plot IDs and Plot Numbers.'),
+      '#default_value' => FALSE,
+    ];
+
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
@@ -602,7 +609,15 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $experiment_code = $plan->get('study_period_id')->value;
     $operations[] = [
       [self::class, 'updatePlotBatch'],
-      [$plan->id(), $experiment_code, $plot_attributes_mapping, $columns_map, $column_levels_map, $revision_message],
+      [
+        $plan->id(),
+        $experiment_code,
+        $plot_attributes_mapping,
+        (boolean) $form_state->getValue('reset_geometry') ?? FALSE,
+        $columns_map,
+        $column_levels_map,
+        $revision_message,
+      ],
     ];
     $batch = [
       'operations' => $operations,
@@ -622,6 +637,8 @@ class ExperimentVariableForm extends ExperimentFormBase {
    *   The experiment code for the plot name.
    * @param array $plot_data
    *   Plot data to update on existing plots.
+   * @param bool $reset_geometry
+   *   Boolean to reset plot geometry. Defaults to FALSE.
    * @param array $columns_map
    *   Array of column info.
    * @param array $column_levels_map
@@ -631,7 +648,16 @@ class ExperimentVariableForm extends ExperimentFormBase {
    * @param array $context
    *   The batch context.
    */
-  public static function updatePlotBatch(int $plan_id, string $experiment_code, array $plot_data, array $columns_map, array $column_levels_map, string $revision_message, array &$context) {
+  public static function updatePlotBatch(
+    int $plan_id,
+    string $experiment_code,
+    array $plot_data,
+    bool $reset_geometry,
+    array $columns_map,
+    array $column_levels_map,
+    string $revision_message,
+    array &$context
+  ) {
 
     // Init the batch sandbox.
     if (empty($context['sandbox'])) {
@@ -708,6 +734,11 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
       // Update plot column_descriptors.
       $plot->set('column_descriptors', $column_descriptors);
+
+      // Reset plot geometry if necessary.
+      if ($reset_geometry) {
+        $plot->set('intrinsic_geometry', NULL);
+      }
 
       // Save the plot.
       $plot->setNewRevision(TRUE);

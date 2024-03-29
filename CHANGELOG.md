@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Allow resetting plot geometries when uploading variables. [#632](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/632)
+
 ### Changed
 
 - Hide plot_number in plots view. [#634](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/634)
