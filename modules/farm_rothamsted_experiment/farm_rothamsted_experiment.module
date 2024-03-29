@@ -154,7 +154,7 @@ function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $en
   $has_plots = !$entity->get('plot')->isEmpty();
   if (!$has_plots) {
     $url = Url::fromRoute('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $entity->id()])->setAbsolute()->toString();
-    \Drupal::messenger()->addWarning(t('No experiment plots have been been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
+    \Drupal::messenger()->addWarning(t('No experiment plots have been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
   }
 
   // Create details for each field group.
