@@ -423,7 +423,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $design->getEntityTypeId();
     $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added a Design to your Experiment in FarmOS";
-    $body[] = "Experiment Name: [$entity_type_id:experiment:entity:name]";
+    $body[] = "Experiment Name: \"[$entity_type_id:experiment:entity:name]\"";
     $body[] = "A Design has been added to the above Experiment by [$entity_type_id:revision_user:entity:display-name]:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on the above experiment or because you have been nominated as a Statistician for this Experiment Design. To change your alert preferences please click here: [configure-notifications]";
@@ -449,7 +449,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $design->getEntityTypeId();
     $subject = "[site:name]: Update to your Research Design in FarmOS";
     $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Research Design you are associated with:";
-    $body[] = "Experiment Name: [$entity_type_id:experiment:entity:name]";
+    $body[] = "Experiment Name: \"[$entity_type_id:experiment:entity:name]\"";
     $body[] = $this->getEntityFieldDifferences($design);
     $body[] = "To view the Research Design please click the link below:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
@@ -474,8 +474,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
     $subject = "[site:name]: [$entity_type_id:revision_user:entity:display-name] has added a Plan to your Experiment in FarmOS";
-    $body[] = "Experiment Name: [$entity_type_id:experiment_design:entity:experiment:entity:name]";
-    $body[] = "Experiment Design: [$entity_type_id:experiment_design:entity:name]";
+    $body[] = "Experiment Name: \"[$entity_type_id:experiment_design:entity:experiment:entity:name]\"";
+    $body[] = "Experiment Design: \"[$entity_type_id:experiment_design:entity:name]\"";
     $body[] = "A Plan has been added to the above Experiment Design by [$entity_type_id:revision_user:entity:display-name]:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on the above Experiment or because you have been nominated as a Statistician for the experiment design. To change your alert preferences please click here: [configure-notifications]";
@@ -500,8 +500,8 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $entity_type_id = $plan->getEntityTypeId();
     $subject = "[site:name]: Update to your Research Plan in FarmOS";
     $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Research Plan you are associated with:";
-    $body[] = "Experiment Name: [$entity_type_id:experiment_design:entity:experiment:entity:name]";
-    $body[] = "Experiment Design: [$entity_type_id:experiment_design:entity:name]";
+    $body[] = "Experiment Name: \"[$entity_type_id:experiment_design:entity:experiment:entity:name]\"";
+    $body[] = "Experiment Design: \"[$entity_type_id:experiment_design:entity:name]\"";
     $body[] = $this->getEntityFieldDifferences($plan);
     $body[] = "To view the Research Plan please click the link below:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
