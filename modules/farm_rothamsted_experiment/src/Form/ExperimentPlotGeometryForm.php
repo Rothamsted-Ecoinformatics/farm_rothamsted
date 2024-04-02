@@ -235,9 +235,10 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Validate that plot numbers and plot IDs match with existing plots.
     if ($plot_mapping !== $existing_plots) {
       $diff = array_diff($plot_mapping, $existing_plots);
+      $count = count($diff);
       $plot_number = array_key_first($diff);
       $plot_id = reset($diff);
-      $error_msg = "Mismatched plot_number and plot_id: $plot_number - $plot_id";
+      $error_msg = "$count mismatched plot_number and plot_id pairs. The first is plot number: $plot_number,  plot ID: $plot_id";
       $form_state->setError($form['geojson'], $error_msg);
       $this->messenger()->addError($error_msg);
     }
