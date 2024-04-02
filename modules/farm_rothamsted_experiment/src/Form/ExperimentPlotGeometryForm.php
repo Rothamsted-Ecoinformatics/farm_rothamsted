@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultForbidden;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -61,6 +62,14 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
    *   The access result.
    */
   public function access(AccountInterface $account, PlanInterface $plan) {
+
+    // Ensure plots have been created.
+    // Ensure plot variables have been uploaded. This ensures geometry will
+    // have proper plot ID and plot number values.
+    if ($plan->get('plot')->isEmpty() || $plan->get('column_descriptors')->isEmpty()) {
+      return AccessResultForbidden::forbidden()->addCacheableDependency($plan);
+    }
+
     return $plan->access('update', $account, TRUE)->andIf(AccessResult::allowedIfHasPermission($account, 'upload rothamsted_experiment plan geometries'));
   }
 
