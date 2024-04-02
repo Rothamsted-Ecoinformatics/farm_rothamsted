@@ -126,7 +126,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $form['validate_plot_ids'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Validate Plot IDs'),
-      '#description' => $this->t('Only uncheck this box if you are confident that you are uploading attributes for correct plot number and plot ID pairs.'),
+      '#description' => $this->t('Plot IDs are sequential numbers matching the Plot Number by default. Only uncheck this box if you are confident that you are uploading attributes for correct plot number and plot ID pairs.'),
       '#default_value' => TRUE,
     ];
 
