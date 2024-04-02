@@ -139,20 +139,19 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $geojson = $this->loadGeojson($form_state);
 
     // Special case when a file is uploaded.
     $trigger = $form_state->getTriggeringElement();
-    if (empty($trigger['#array_parents']) || $trigger['#array_parents'][0] != 'geojson') {
-      return;
-    }
+    if (!empty($trigger['#array_parents']) && $trigger['#array_parents'][0] == 'geojson') {
 
-    // Do not validate when removing a file.
-    if ($trigger['#array_parents'][1] === 'remove_button') {
-      return;
+      // Do not validate when removing a file.
+      if ($trigger['#array_parents'][1] === 'remove_button') {
+        return;
+      }
     }
 
     // Validate geojson and features.
+    $geojson = $this->loadGeojson($form_state);
     if (empty($geojson)) {
       $error_msg = 'Could not parse GeoJSON.';
       $form_state->setError($form['geojson'], $error_msg);
