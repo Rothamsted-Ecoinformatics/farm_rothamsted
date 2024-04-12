@@ -505,7 +505,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $body[] = "Experiment Name: \"[$entity_type_id:experiment_design:entity:experiment:entity:name]\"";
     $body[] = "Experiment Design: \"[$entity_type_id:experiment_design:entity:name]\"";
     array_push($body, ...$this->getEntityFieldDifferences($plan));
-    $body[] = "To view th Experiment Plan please click the link below:";
+    $body[] = "To view the Experiment Plan please click the link below:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on the above Experiment or because you have been nominated as a Statistician for the Experiment Design. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
