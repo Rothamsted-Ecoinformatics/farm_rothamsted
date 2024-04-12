@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.20.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/41) 2024-04-12
+
 ### Added
 
 - Allow resetting plot geometries when uploading variables. [#632](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/632)
