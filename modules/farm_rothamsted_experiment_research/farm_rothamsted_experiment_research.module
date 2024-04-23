@@ -6,9 +6,10 @@
  */
 
 use Drupal\comment\CommentInterface;
-use Drupal\comment\Plugin\Field\FieldType\CommentItemInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -53,6 +54,52 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ */
+function farm_rothamsted_experiment_research_entity_form_display_alter(EntityFormDisplayInterface $form_display, array $context) {
+  $comment_bundles = ['rothamsted_proposal'];
+  if ($form_display->getTargetEntityTypeId() == 'comment' && in_array($context['bundle'], $comment_bundles) && $form_display->getMode() == 'default' && $form_display->isNew()) {
+    $form_display->setComponent('author', [
+      'region' => 'content',
+      'settings' => [],
+      'weight' => 0,
+    ]);
+    $form_display->setComponent('comment_body', [
+      'type' => 'text_textarea',
+      'region' => 'content',
+      'settings' => [
+        'rows' => 5,
+        'placeholder' => '',
+      ],
+      'weight' => 1,
+    ]);
+    $form_display->removeComponent('subject');
+  }
+}
+
+/**
+ * Implements hook_entity_view_display_alter().
+ */
+function farm_rothamsted_experiment_research_entity_view_display_alter(EntityViewDisplayInterface $display, array $context) {
+  $comment_bundles = ['rothamsted_proposal'];
+  $display_modes = ['default', 'full'];
+  if ($context['entity_type'] == 'comment' && in_array($context['bundle'], $comment_bundles) && in_array($display->getMode(), $display_modes) && $display->isNew()) {
+    $display->setComponent('comment_body', [
+      'type' => 'text_default',
+      'label' => 'hidden',
+      'region' => 'content',
+      'settings' => [],
+      'weight' => 0,
+    ]);
+    $display->setComponent('links', [
+      'region' => 'content',
+      'settings' => [],
+      'weight' => 1,
+    ]);
+  }
 }
 
 /**
@@ -626,57 +673,6 @@ function farm_rothamsted_experiment_research_proposal_contacts(EntityInterface $
 }
 
 /**
- * Helper function for generating a standard comment base field definition.
- *
- * @param string $entity_type
- *   The entity type.
- *
- * @return \Drupal\Core\Field\BaseFieldDefinition
- *   Returns a comment base field definition.
- */
-function farm_rothamsted_experiment_research_comment_base_field_definition(string $entity_type) {
-
-  // Create a new comment field definition.
-  // We use BundleFieldDefinition instead of BaseFieldDefinition to force Drupal
-  // to create a separate database table for this field. Otherwise, if it is
-  // added to the base table then the comment field default value is always 0
-  // (CommentItemInterface::HIDDEN) instead of 2 (CommentItemInterface::OPEN),
-  // because the Drupal\comment\Plugin\Field\FieldType\CommentItem::schema()
-  // default is 0.
-
-  // A default value must be set for comment fields.
-  // Enable comments on entities by default.
-  $default_value = [
-    [
-      'status' => CommentItemInterface::OPEN,
-      'cid' => 0,
-      'last_comment_timestamp' => 0,
-      'last_comment_name' => '',
-      'last_comment_uid' => 0,
-      'comment_count' => 0,
-    ],
-  ];
-  return BundleFieldDefinition::create('comment')
-    ->setLabel(t('Comments'))
-    // We assume that the comment type matches the entity type.
-    ->setSetting('comment_type', $entity_type)
-    ->setDefaultValue($default_value)
-    ->setDisplayConfigurable('form', TRUE)
-    ->setDisplayOptions('form', [
-      'type' => 'comment_default',
-      'weight' => 1000,
-    ])
-    // Display comments on the bottom of entity view displays by default,
-    // with the field label above them.
-    ->setDisplayConfigurable('view', TRUE)
-    ->setDisplayOptions('view', [
-      'label' => 'above',
-      'type' => 'comment_default',
-      'weight' => 1000,
-    ]);
-}
-
-/**
  * Implements hook_local_tasks_alter().
  */
 function farm_rothamsted_experiment_research_local_tasks_alter(&$local_tasks) {
@@ -686,17 +682,6 @@ function farm_rothamsted_experiment_research_local_tasks_alter(&$local_tasks) {
   foreach ($target_entity_types as $entity_type) {
     unset($local_tasks['entity.version_history:' . $entity_type . '.version_history']);
   }
-}
-
-/**
- * Implements hook_theme().
- */
-function farm_rothamsted_experiment_research_theme($existing, $type, $theme, $path) {
-  return [
-    'comment__comment__rothamsted_proposal' => [
-      'base hook' => 'comment',
-    ],
-  ];
 }
 
 /**

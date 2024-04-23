@@ -584,7 +584,7 @@ function farm_rothamsted_experiment_research_post_update_2_11_proposal_comment(&
   // Create new comment base field definition.
   /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
   $update_manager = \Drupal::entityDefinitionUpdateManager();
-  $new_definition = farm_rothamsted_experiment_research_comment_base_field_definition('rothamsted_proposal');
+  $new_definition = farm_comment_base_field_definition('rothamsted_proposal');
   $update_manager->installFieldStorageDefinition('comment', 'rothamsted_proposal', 'farm_rothamsted_experiment_research', $new_definition);
 }
 
@@ -1153,4 +1153,16 @@ function farm_rothamsted_experiment_research_post_update_2_19_update_proposal_po
   /** @var \Drupal\Core\Cache\CacheTagsInvalidatorInterface $cache_tags_invalidator */
   $cache_tags_invalidator = Drupal::service('cache_tags.invalidator');
   $cache_tags_invalidator->invalidateTags(['rothamsted_proposal_list']);
+}
+
+/**
+ * Update and add research comments.
+ */
+function farm_rothamsted_experiment_research_post_update_2_21_comments(&$sandbox = NULL) {
+
+  // First enable farm_comment module.
+  if (!\Drupal::service('module_handler')->moduleExists('farm_comment')) {
+    \Drupal::service('module_installer')->install(['farm_comment']);
+  }
+
 }

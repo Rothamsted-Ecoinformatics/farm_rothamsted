@@ -1079,7 +1079,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     // Add comment field.
-    $fields['comment'] = farm_rothamsted_experiment_research_comment_base_field_definition('rothamsted_proposal');
+    $fields['comment'] = farm_comment_base_field_definition('rothamsted_proposal');
 
     return $fields;
   }
