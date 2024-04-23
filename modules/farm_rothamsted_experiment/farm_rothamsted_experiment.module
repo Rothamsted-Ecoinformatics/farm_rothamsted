@@ -193,6 +193,12 @@ function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $en
 
   // Set field group for each display component.
   foreach ($display->getComponents() as $field_id => $options) {
+
+    // Don't modify the comment field.
+    if ($field_id == 'comment') {
+      continue;
+    }
+
     $group = $field_map[$field_id] ?? 'default';
     if (isset($build[$field_id])) {
       $build["{$group}_field_group"][$field_id] = $build[$field_id];
