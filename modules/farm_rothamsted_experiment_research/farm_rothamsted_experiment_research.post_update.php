@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted_experiment_research.module.
  */
 
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
@@ -1164,5 +1166,14 @@ function farm_rothamsted_experiment_research_post_update_2_21_comments(&$sandbox
   if (!\Drupal::service('module_handler')->moduleExists('farm_comment')) {
     \Drupal::service('module_installer')->install(['farm_comment']);
   }
+
+  // Delete old displays that are now managed with hook_display_alter().
+  if ($display = EntityFormDisplay::load('comment.rothamsted_proposal.default')) {
+    $display->delete();
+  }
+  if ($display = EntityViewDisplay::load('comment.rothamsted_proposal.default')) {
+    $display->delete();
+  }
+
 
 }

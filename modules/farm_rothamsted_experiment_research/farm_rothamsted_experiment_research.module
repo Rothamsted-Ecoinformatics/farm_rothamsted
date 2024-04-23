@@ -77,6 +77,18 @@ function farm_rothamsted_experiment_research_entity_form_display_alter(EntityFor
       'weight' => 1,
     ]);
     $form_display->removeComponent('subject');
+
+    // Alter proposal comments.
+    if ($context['bundle'] == 'rothamsted_proposal') {
+      $form_display->setComponent('proposal_review', [
+        'type' => 'boolean_checkbox',
+        'region'   => 'content',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight'   => 2,
+      ]);
+    }
   }
 }
 
@@ -99,6 +111,21 @@ function farm_rothamsted_experiment_research_entity_view_display_alter(EntityVie
       'settings' => [],
       'weight' => 1,
     ]);
+
+    // Alter proposal comments.
+    if ($context['bundle'] == 'rothamsted_proposal') {
+      $display->setComponent('proposal_review', [
+        'type' => 'hideable_boolean',
+        'label' => 'inline',
+        'region'   => 'content',
+        'settings' => [
+          'format' => 'default',
+          'hide_if_false' => TRUE,
+          'hide_if_true' => FALSE,
+        ],
+        'weight'   => 1,
+      ]);
+    }
   }
 }
 
