@@ -1175,5 +1175,24 @@ function farm_rothamsted_experiment_research_post_update_2_21_comments(&$sandbox
     $display->delete();
   }
 
+  // Create new comment types.
+  $comment_types = ['rothamsted_program'];
+  foreach ($comment_types as $comment_type_id) {
+    $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment_research') . '/config/install';
+    $configs = [
+      "comment.type.$comment_type_id",
+      "field.field.comment.$comment_type_id.comment_body",
+    ];
+    foreach ($configs as $config) {
+      $data = Yaml::parseFile("$config_path/$config.yml");
+      \Drupal::configFactory()->getEditable($config)->setData($data)->save(TRUE);
+    }
+
+    // Create new comment base field definition.
+    /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+    $update_manager = \Drupal::entityDefinitionUpdateManager();
+    $new_definition = farm_comment_base_field_definition($comment_type_id);
+    $update_manager->installFieldStorageDefinition('comment', $comment_type_id, 'farm_rothamsted_experiment_research', $new_definition);
+  }
 
 }

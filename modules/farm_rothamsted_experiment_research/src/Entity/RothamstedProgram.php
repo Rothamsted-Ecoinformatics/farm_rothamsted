@@ -413,6 +413,9 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
         'label' => 'inline',
       ]);
 
+    // Add comment field.
+    $fields['comment'] = farm_comment_base_field_definition('rothamsted_program');
+
     return $fields;
   }
 

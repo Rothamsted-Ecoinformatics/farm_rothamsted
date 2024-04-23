@@ -60,7 +60,10 @@ function farm_rothamsted_experiment_research_farm_entity_bundle_field_info(Entit
  * Implements hook_entity_form_display_alter().
  */
 function farm_rothamsted_experiment_research_entity_form_display_alter(EntityFormDisplayInterface $form_display, array $context) {
-  $comment_bundles = ['rothamsted_proposal'];
+  $comment_bundles = [
+    'rothamsted_proposal',
+    'rothamsted_program',
+  ];
   if ($form_display->getTargetEntityTypeId() == 'comment' && in_array($context['bundle'], $comment_bundles) && $form_display->getMode() == 'default' && $form_display->isNew()) {
     $form_display->setComponent('author', [
       'region' => 'content',
@@ -96,7 +99,10 @@ function farm_rothamsted_experiment_research_entity_form_display_alter(EntityFor
  * Implements hook_entity_view_display_alter().
  */
 function farm_rothamsted_experiment_research_entity_view_display_alter(EntityViewDisplayInterface $display, array $context) {
-  $comment_bundles = ['rothamsted_proposal'];
+  $comment_bundles = [
+    'rothamsted_proposal',
+    'rothamsted_program',
+  ];
   $display_modes = ['default', 'full'];
   if ($context['entity_type'] == 'comment' && in_array($context['bundle'], $comment_bundles) && in_array($display->getMode(), $display_modes) && $display->isNew()) {
     $display->setComponent('comment_body', [
