@@ -1176,7 +1176,7 @@ function farm_rothamsted_experiment_research_post_update_2_21_comments(&$sandbox
   }
 
   // Create new comment types.
-  $comment_types = ['rothamsted_program'];
+  $comment_types = ['rothamsted_program', 'rothamsted_experiment'];
   foreach ($comment_types as $comment_type_id) {
     $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment_research') . '/config/install';
     $configs = [

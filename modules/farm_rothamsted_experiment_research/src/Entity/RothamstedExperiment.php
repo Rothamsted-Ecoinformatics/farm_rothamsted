@@ -626,6 +626,9 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
         'type' => 'link',
       ]);
 
+    // Add comment field.
+    $fields['comment'] = farm_comment_base_field_definition('rothamsted_experiment');
+
     return $fields;
   }
 
