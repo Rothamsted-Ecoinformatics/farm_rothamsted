@@ -15,6 +15,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
@@ -719,6 +720,60 @@ function farm_rothamsted_experiment_research_local_tasks_alter(&$local_tasks) {
   foreach ($target_entity_types as $entity_type) {
     unset($local_tasks['entity.version_history:' . $entity_type . '.version_history']);
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function farm_rothamsted_experiment_research_theme() {
+  return [
+    'rothamsted_proposal' => [
+      'render element' => 'elements',
+      'template' => 'rothamsted-research-entity',
+      'preprocess functions' => [
+        'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
+      ],
+    ],
+    'rothamsted_program' => [
+      'render element' => 'elements',
+      'template' => 'rothamsted-research-entity',
+      'preprocess functions' => [
+        'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
+      ],
+    ],
+    'rothamsted_experiment' => [
+      'render element' => 'elements',
+      'template' => 'rothamsted-research-entity',
+      'preprocess functions' => [
+        'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
+      ],
+    ],
+    'rothamsted_design' => [
+      'render element' => 'elements',
+      'template' => 'rothamsted-research-entity',
+      'preprocess functions' => [
+        'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity(&$variables) {
+
+  // Make sure this is a research entity.
+  if (isset($variables['theme_hook_original']) && isset($variables['elements']["#{$variables['theme_hook_original']}"])) {
+    $entity_id = $variables['theme_hook_original'];
+  }
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
+  farm_ui_theme_build_stacked_twocol_layout($variables, $entity_id);
 }
 
 /**

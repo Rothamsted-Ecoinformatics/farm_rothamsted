@@ -1,0 +1,22 @@
+{#
+/**
+ * @file rothamsted_researcher.html.twig
+ * Default theme implementation to present research entity data.
+ *
+ * This template is used when viewing asset pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_rothamsted_research_entity()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('rothamsted_researcher') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>
