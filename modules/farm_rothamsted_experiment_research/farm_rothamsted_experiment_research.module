@@ -64,6 +64,7 @@ function farm_rothamsted_experiment_research_entity_form_display_alter(EntityFor
     'rothamsted_proposal',
     'rothamsted_program',
     'rothamsted_experiment',
+    'rothamsted_design',
   ];
   if ($form_display->getTargetEntityTypeId() == 'comment' && in_array($context['bundle'], $comment_bundles) && $form_display->getMode() == 'default' && $form_display->isNew()) {
     $form_display->setComponent('author', [
@@ -104,6 +105,7 @@ function farm_rothamsted_experiment_research_entity_view_display_alter(EntityVie
     'rothamsted_proposal',
     'rothamsted_program',
     'rothamsted_experiment',
+    'rothamsted_design',
   ];
   $display_modes = ['default', 'full'];
   if ($context['entity_type'] == 'comment' && in_array($context['bundle'], $comment_bundles) && in_array($display->getMode(), $display_modes) && $display->isNew()) {
