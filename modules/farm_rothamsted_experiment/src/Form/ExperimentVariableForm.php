@@ -657,7 +657,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     array $columns_map,
     array $column_levels_map,
     string $revision_message,
-    array &$context
+    array &$context,
   ) {
 
     // Init the batch sandbox.
