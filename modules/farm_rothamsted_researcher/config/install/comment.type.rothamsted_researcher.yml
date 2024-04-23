@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_researcher
+id: rothamsted_researcher
+label: 'Researcher comment'
+target_entity_type_id: rothamsted_researcher
+description: ''

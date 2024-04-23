@@ -77,3 +77,33 @@ function farm_rothamsted_researcher_post_update_2_18_remove_email_notification_f
   $email_field = $update_manager->getFieldStorageDefinition('email', 'rothamsted_researcher');
   \Drupal::entityDefinitionUpdateManager()->uninstallFieldStorageDefinition($email_field);
 }
+
+/**
+ * Add comments to researchers.
+ */
+function farm_rothamsted_researcher_post_update_2_21_comments(&$sandbox = NULL) {
+
+  // First enable farm_comment module.
+  if (!\Drupal::service('module_handler')->moduleExists('farm_comment')) {
+    \Drupal::service('module_installer')->install(['farm_comment']);
+  }
+
+  // Create comment type.
+  $comment_type_id = 'rothamsted_researcher';
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_researcher') . '/config/install';
+  $configs = [
+    "comment.type.$comment_type_id",
+    "field.field.comment.$comment_type_id.comment_body",
+  ];
+  foreach ($configs as $config) {
+    $data = Yaml::parseFile("$config_path/$config.yml");
+    \Drupal::configFactory()->getEditable($config)->setData($data)->save(TRUE);
+  }
+
+  // Create new comment base field definition.
+  /** @var \Drupal\Core\Entity\EntityDefinitionUpdateManagerInterface $update_manager */
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $new_definition = farm_comment_base_field_definition($comment_type_id);
+  $update_manager->installFieldStorageDefinition('comment', $comment_type_id, 'farm_rothamsted_experiment_research', $new_definition);
+
+}

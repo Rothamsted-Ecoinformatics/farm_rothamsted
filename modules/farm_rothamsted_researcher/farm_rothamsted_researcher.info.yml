@@ -4,6 +4,7 @@ type: module
 package: farmOS Custom
 core_version_requirement: ^9 || ^10
 dependencies:
+  - farm:farm_comment
   - farm:farm_ui_menu
   - farm_rothamsted:farm_rothamsted
   - entity:entity

@@ -372,6 +372,9 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
         'label' => 'inline',
       ]);
 
+    // Add comment field.
+    $fields['comment'] = farm_comment_base_field_definition('rothamsted_researcher');
+
     return $fields;
   }
 
