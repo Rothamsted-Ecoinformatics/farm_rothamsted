@@ -1188,6 +1188,10 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
 
     // Add comment field.
     $fields['comment'] = farm_comment_base_field_definition('rothamsted_design');
+    $fields['comment']->setDisplayOptions('form', [
+      'type' => 'comment_default',
+      'region' => 'hidden',
+    ]);
 
     return $fields;
   }

@@ -415,6 +415,10 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
 
     // Add comment field.
     $fields['comment'] = farm_comment_base_field_definition('rothamsted_program');
+    $fields['comment']->setDisplayOptions('form', [
+      'type' => 'comment_default',
+      'region' => 'hidden',
+    ]);
 
     return $fields;
   }

@@ -374,6 +374,10 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
 
     // Add comment field.
     $fields['comment'] = farm_comment_base_field_definition('rothamsted_researcher');
+    $fields['comment']->setDisplayOptions('form', [
+      'type' => 'comment_default',
+      'region' => 'hidden',
+    ]);
 
     return $fields;
   }
