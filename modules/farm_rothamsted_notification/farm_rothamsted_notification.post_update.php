@@ -61,7 +61,7 @@ function farm_rothamsted_notification_post_update_2_19_add_log_notification_fiel
 }
 
 /**
- * Add log notification field to user entity.
+ * Add user notification fields.
  */
 function farm_rothamsted_notification_post_update_2_21_add_fields(&$sandbox = NULL) {
 
