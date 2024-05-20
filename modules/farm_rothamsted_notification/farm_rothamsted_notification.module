@@ -5,11 +5,9 @@
  * Contains farm_rothamsted_notification.module.
  */
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Url;
-use Drupal\user\UserInterface;
 
 /**
  * Implements hook_entity_base_field_info().
@@ -51,20 +49,20 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
       ]);
 
     $fields['rothamsted_notification_program'] = BaseFieldDefinition::create('boolean')
-     ->setLabel(t('Research Program updates'))
-     ->setDescription(t('Enable email notifications for research program updates.'))
-     ->setDefaultValue(TRUE)
-     ->setRevisionable(TRUE)
-     ->setSettings([
-       'on_label' => t('Enabled'),
-       'off_label' => t('Disabled'),
-     ])
-     ->setDisplayConfigurable('form', FALSE)
-     ->setDisplayConfigurable('view', TRUE)
-     ->setDisplayOptions('view', [
-       'type' => 'boolean',
-       'label' => 'inline',
-     ]);
+      ->setLabel(t('Research Program updates'))
+      ->setDescription(t('Enable email notifications for research program updates.'))
+      ->setDefaultValue(TRUE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'on_label' => t('Enabled'),
+        'off_label' => t('Disabled'),
+      ])
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+      ]);
 
     $fields['rothamsted_notification_log'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Log notifications'))

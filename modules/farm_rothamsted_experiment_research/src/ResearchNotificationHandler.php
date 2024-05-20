@@ -110,7 +110,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         break;
 
       case 'rothamsted_researcher':
-        /** @var RothamstedResearcherInterface $researcher */
+        /** @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher */
         $researcher = $commented;
         if ($user_email = $researcher->getNotificationEmail(FALSE, 'researcher')) {
           $emails = [$user_email];
@@ -138,9 +138,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $email_string = implode(', ', $emails);
 
     // Send mail.
-    /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
-    $mail_manager = \Drupal::service('plugin.manager.mail');
-    $mail_manager->mail('farm_rothamsted_notification', 'comment', $email_string, 'en', $params);
+    $this->mailManager->mail('farm_rothamsted_notification', 'comment', $email_string, 'en', $params);
   }
 
   /**

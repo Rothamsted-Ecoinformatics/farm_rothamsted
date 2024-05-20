@@ -11,6 +11,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\log\Entity\LogInterface;
 use Drupal\user\UserInterface;
 
+/**
+ * Implements hook_form_alter().
+ */
 function farm_rothamsted_comment_form_alter(array &$form, FormStateInterface &$form_state, string $form_id) {
 
   // Bail if not the right form.
@@ -27,6 +30,9 @@ function farm_rothamsted_comment_form_alter(array &$form, FormStateInterface &$f
   $form['actions']['submit']['#submit'][] = 'farm_rothamsted_comment_form_log_flag_submit';
 }
 
+/**
+ * Submit callback for comment log flag form field.
+ */
 function farm_rothamsted_comment_form_log_flag_submit(array $form, FormStateInterface $form_state) {
 
   // Check if the box was checked to flag the log for review.
