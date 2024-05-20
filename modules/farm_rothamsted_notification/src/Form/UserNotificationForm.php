@@ -32,6 +32,7 @@ class UserNotificationForm extends FormBase {
     $form['enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Email notifications'),
+      '#description' => $this->t('Enable email notifications for updates to records you are associated with in FarmOS. On by default. Note that some email notifications are critical and cannot be turned off.'),
       '#default_value' => $user->get('rothamsted_notification_email')->value,
     ];
 
@@ -51,7 +52,8 @@ class UserNotificationForm extends FormBase {
 
     $form['log'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Log notifications'),
+      '#title' => $this->t('Log updates'),
+      '#description' => $this->t('Receive updates if someone adds or makes changes to a log you are associated with. On by default, sent as soon as a log is created or a change is made.'),
       '#default_value' => $user->get('rothamsted_notification_log')->value,
     ];
 
