@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_experiment_research;
 
+use Drupal\comment\CommentInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -67,6 +68,55 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
       $container->get('plugin.manager.mail'),
       $container->get('current_user')
     );
+  }
+
+  /**
+   * Build a new alert for research comments.
+   *
+   * @param \Drupal\comment\CommentInterface $comment
+   *   The comment entity.
+   */
+  public function buildNewCommentAlert(CommentInterface $comment) {
+
+    $emails = [];
+
+    // Send comment update to all proposal contacts.
+    $commented = $comment->getCommentedEntity();
+    switch ($commented->bundle()) {
+
+      case 'rothamsted_proposal':
+        // Get the researchers from the research proposal entity.
+        $researchLeads = $this->getResearcherEmails($commented->get('contact'));
+        $statisticians = $this->getResearcherEmails($commented->get('statistician'));
+        $dataStewards = $this->getResearcherEmails($commented->get('data_steward'));
+
+        // Merge all the emails into an array, limiting to non-duplicate values.
+        $emails = array_unique(array_merge($researchLeads, $statisticians, $dataStewards));
+        break;
+    }
+
+    // Send comment update to authors of parent comments.
+    $parent_count = 0;
+    while ($comment->hasParentComment() && $parent_count < 5) {
+      $parent_count++;
+      $comment = $comment->getParentComment();
+      if ($email = $comment->getAuthorEmail()) {
+        $emails[] = $email;
+      }
+    }
+
+    // Get the entity and add a token variable for the entity type.
+    $entity_type_id = $comment->getEntityTypeId();
+    $params[$entity_type_id] = $comment;
+
+    // Build email string.
+    $emails = array_unique(array_filter($emails));
+    $email_string = implode(', ', $emails);
+
+    // Send mail.
+    /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
+    $mail_manager = \Drupal::service('plugin.manager.mail');
+    $mail_manager->mail('farm_rothamsted_notification', 'comment', $email_string, 'en', $params);
   }
 
   /**

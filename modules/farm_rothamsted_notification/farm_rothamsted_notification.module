@@ -112,61 +112,6 @@ function farm_rothamsted_notification_mail($key, &$message, $params) {
 }
 
 /**
- * Helper function to determine who to send a notification to.
- *
- * @param string $operation
- *   The operation.
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The entity.
- * @param array $emails
- *   Additional emails to send to.
- * @param array $params
- *   Additional parameters.
- * @param bool $include_admin
- *   Boolean to include experiment admins on email. Defaults to FALSE.
- */
-function farm_rothamsted_notification_send_research_update(string $operation, EntityInterface $entity, array $emails = [], array $params = [], bool $include_admin = FALSE) {
-
-  // Build params.
-  $entity_type_id = $entity->getEntityTypeId();
-  $params += [
-    'entity_type_id' => $entity_type_id,
-    $entity_type_id => $entity,
-  ];
-
-  // Include experiment admins.
-  if ($include_admin) {
-    $experiment_admins = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties([
-      'status' => TRUE,
-      'roles' => 'rothamsted_data_admin',
-    ]);
-    $admin_emails = array_map(function (UserInterface $user) {
-      $name = $user->getDisplayName();
-      $mail = $user->getEmail();
-      if (empty($mail)) {
-        return '';
-      }
-      return "$name <$mail>";
-    }, $experiment_admins);
-    array_push($emails, ...$admin_emails);
-  }
-
-  // Bail if there is no one to send email.
-  if (empty($emails)) {
-    return;
-  }
-
-  // Build email string.
-  $emails = array_unique(array_filter($emails));
-  $email_string = implode(', ', $emails);
-
-  // Send mail.
-  /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
-  $mail_manager = \Drupal::service('plugin.manager.mail');
-  $mail_manager->mail('farm_rothamsted_notification', $operation, $email_string, 'en', $params);
-}
-
-/**
  * Helper function to compare two entity object arrays.
  *
  * Modified from the core DiffArray::diffAssocRecursive() to work for

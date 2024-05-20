@@ -587,9 +587,6 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   $notification_handler = \Drupal::classResolver(ResearchNotificationHandler::class);
 
   // Add entity type logic.
-  $operation = NULL;
-  $emails = [];
-  $include_admin = FALSE;
   switch ($entity_type_id) {
     case 'rothamsted_researcher':
     case 'rothamsted_proposal':
@@ -606,33 +603,13 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
       return;
 
     case 'comment':
-      $operation = 'comment';
-
-      // Send comment update to all proposal contacts.
-      if ($entity->bundle() == 'rothamsted_proposal') {
-        array_push($emails, ...farm_rothamsted_experiment_research_proposal_contacts($entity->getCommentedEntity()));
-      }
-
-      // Send comment update to authors of parent comments.
-      $parent_count = 0;
-      /** @var \Drupal\comment\Entity\Comment $comment */
-      $comment = $entity;
-      while ($comment->hasParentComment() && $parent_count < 5) {
-        $parent_count++;
-        $comment = $comment->getParentComment();
-        if ($email = $comment->getAuthorEmail()) {
-          $emails[] = $email;
-        }
-      }
-      break;
+      $notification_handler->buildNewCommentAlert($entity);
+      return;
 
     case 'log':
       $notification_handler->buildNewLogAlert($entity);
       return;
   }
-
-  // Finally send the comment email.
-  farm_rothamsted_notification_send_research_update($operation, $entity, $emails, [], $include_admin);
 }
 
 /**
@@ -682,32 +659,6 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
       $notification_handler->buildUpdatedLogAlert($entity);
       return;
   }
-}
-
-/**
- * Helper function to collect proposal contact emails.
- *
- * @param \Drupal\Core\Entity\EntityInterface $proposal
- *   The proposal entity.
- *
- * @return string[]
- *   Array of contact emails.
- */
-function farm_rothamsted_experiment_research_proposal_contacts(EntityInterface $proposal): array {
-
-  $notification_emails = [];
-  $contact_fields = [
-    'contact',
-    'statistician',
-    'data_steward',
-  ];
-  foreach ($contact_fields as $contact_field) {
-    $emails = array_map(function (RothamstedResearcherInterface $researcher) {
-      return $researcher->getNotificationEmail();
-    }, $proposal->get($contact_field)->referencedEntities());
-    array_push($notification_emails, ...$emails);
-  }
-  return array_unique(array_filter($notification_emails));
 }
 
 /**
