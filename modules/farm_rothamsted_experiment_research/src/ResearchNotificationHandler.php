@@ -78,20 +78,41 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    */
   public function buildNewCommentAlert(CommentInterface $comment) {
 
+    // Send comment update to research contacts.
     $emails = [];
-
-    // Send comment update to all proposal contacts.
     $commented = $comment->getCommentedEntity();
-    switch ($commented->bundle()) {
+    switch ($comment->bundle()) {
+      case 'plan':
+        if ($commented->bundle() != 'rothamsted_experiment') {
+          return;
+        }
+        $emails = $this->getDesignResearcherEmails($commented->get('experiment_design')->entity);
+        break;
+
+      case 'rothamsted_design':
+        $emails = $this->getDesignResearcherEmails($commented);
+        break;
+
+      case 'rothamsted_experiment':
+        $emails = $this->getExperimentResearcherEmails($commented);
+        break;
+
+      case 'rothamsted_program':
+        $emails = $this->getResearcherEmails($commented->get('principal_investigator'));
+        break;
 
       case 'rothamsted_proposal':
-        // Get the researchers from the research proposal entity.
+        // Merge all the emails into an array, limiting to non-duplicate values.
         $researchLeads = $this->getResearcherEmails($commented->get('contact'));
         $statisticians = $this->getResearcherEmails($commented->get('statistician'));
         $dataStewards = $this->getResearcherEmails($commented->get('data_steward'));
-
-        // Merge all the emails into an array, limiting to non-duplicate values.
         $emails = array_unique(array_merge($researchLeads, $statisticians, $dataStewards));
+        break;
+
+      case 'rothamsted_researcher':
+        if (!$commented->get('farm_user')->isEmpty() && $user_email = $commented->get('farm_user')->entity->get('mail')->value) {
+          $emails = [$user_email];
+        }
         break;
     }
 
@@ -107,6 +128,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Get the entity and add a token variable for the entity type.
     $entity_type_id = $comment->getEntityTypeId();
+    $params['entity_type_id'] = $entity_type_id;
     $params[$entity_type_id] = $comment;
 
     // Build email string.

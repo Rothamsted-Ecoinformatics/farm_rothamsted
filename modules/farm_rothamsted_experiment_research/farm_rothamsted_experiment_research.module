@@ -563,9 +563,12 @@ function farm_rothamsted_experiment_research_statistical_design_options(string $
 function farm_rothamsted_experiment_research_entity_insert(EntityInterface $entity) {
 
   // Only send emails for these entity types.
-  $rothamsted_entity_type_ids = [
-    'log',
+  $core_entity_type_ids = [
     'comment',
+    'log',
+    'plan',
+  ];
+  $rothamsted_entity_type_ids = [
     'plan',
     'rothamsted_design',
     'rothamsted_experiment',
@@ -574,7 +577,7 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
     'rothamsted_researcher',
   ];
   $entity_type_id = $entity->getEntityTypeId();
-  if (!in_array($entity_type_id, $rothamsted_entity_type_ids)) {
+  if (!in_array($entity_type_id, $rothamsted_entity_type_ids) && !in_array($entity_type_id, $core_entity_type_ids)) {
     return;
   }
 
