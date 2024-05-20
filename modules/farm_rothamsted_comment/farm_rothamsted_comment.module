@@ -57,6 +57,7 @@ function farm_rothamsted_comment_entity_insert(EntityInterface $entity) {
 
   // Get the entity and add a token variable for the entity type.
   $entity_type_id = $entity->getEntityTypeId();
+  $params['entity_type_id'] = $entity_type_id;
   $params[$entity_type_id] = $entity;
 
   // Build email string.
