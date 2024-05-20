@@ -19,7 +19,6 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
-use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 
 /**
  * Implements hook_farm_entity_bundle_field_info().
