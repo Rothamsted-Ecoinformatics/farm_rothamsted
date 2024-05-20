@@ -98,7 +98,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         break;
 
       case 'rothamsted_program':
-        $emails = $this->getResearcherEmails($commented->get('principal_investigator'));
+        $emails = $this->getResearcherEmails($commented->get('principal_investigator'), 'program');
         break;
 
       case 'rothamsted_proposal':
@@ -110,7 +110,9 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         break;
 
       case 'rothamsted_researcher':
-        if (!$commented->get('farm_user')->isEmpty() && $user_email = $commented->get('farm_user')->entity->get('mail')->value) {
+        /** @var RothamstedResearcherInterface $researcher */
+        $researcher = $commented;
+        if ($user_email = $researcher->getNotificationEmail(FALSE, 'researcher')) {
           $emails = [$user_email];
         }
         break;
@@ -238,7 +240,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Check the farm_user.
     $email = NULL;
-    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value) {
+    if ($user_email = $researcher->getNotificationEmail(TRUE)) {
       $email = $user_email;
     }
 
@@ -280,7 +282,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Check the farm_user.
     $email = NULL;
-    if (!$researcher->get('farm_user')->isEmpty() && $user_email = $researcher->get('farm_user')->entity->get('mail')->value) {
+    if ($user_email = $researcher->getNotificationEmail(FALSE, 'researcher')) {
       $email = $user_email;
     }
 
@@ -416,7 +418,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildUpdatedRothamstedProgramAlert(EntityInterface $program) {
 
     // Get principal investigator emails.
-    $emails = $this->getResearcherEmails($program->get('principal_investigator'));
+    $emails = $this->getResearcherEmails($program->get('principal_investigator'), 'program');
 
     // Build email content.
     $entity_type_id = $program->getEntityTypeId();
@@ -639,13 +641,15 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $field
    *   The field list containing the researchers.
+   * @param string|null $notification_type
+   *   An optional notification type to check if allowed.
    *
    * @return array
    *   An array of researcher emails.
    */
-  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field) {
-    return array_map(function (RothamstedResearcherInterface $researcher) {
-      return $researcher->getNotificationEmail(TRUE);
+  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field, string $notification_type = NULL) {
+    return array_map(function (RothamstedResearcherInterface $researcher) use ($notification_type) {
+      return $researcher->getNotificationEmail(TRUE, $notification_type);
     }, $field->referencedEntities());
   }
 

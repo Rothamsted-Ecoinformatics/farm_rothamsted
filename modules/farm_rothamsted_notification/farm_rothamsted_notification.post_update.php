@@ -59,3 +59,34 @@ function farm_rothamsted_notification_post_update_2_19_add_log_notification_fiel
     $field_definition,
   );
 }
+
+/**
+ * Add log notification field to user entity.
+ */
+function farm_rothamsted_notification_post_update_2_21_add_fields(&$sandbox = NULL) {
+
+  // Create researcher field.
+  $field_definition = BaseFieldDefinition::create('boolean')
+    ->setLabel('Researcher updates')
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE)
+    ->setRevisionable(TRUE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'rothamsted_notification_researcher',
+    'user',
+    'farm_rothamsted_notification',
+    $field_definition,
+  );
+
+  $field_definition = BaseFieldDefinition::create('boolean')
+    ->setLabel('Research Program updates')
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE)
+    ->setRevisionable(TRUE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'rothamsted_notification_program',
+    'user',
+    'farm_rothamsted_notification',
+    $field_definition,
+  );
+}

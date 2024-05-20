@@ -401,9 +401,10 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
     // Add logic for notification types.
     switch ($notification_type) {
 
-      // Log notifications require the rothamsted_notification_log field.
+      case 'researcher':
+      case 'program':
       case 'log':
-        if (!$force && !$this->get('farm_user')->entity->get('rothamsted_notification_log')->value) {
+        if (!$force && !$this->get('farm_user')->entity->get("rothamsted_notification_$notification_type")?->value) {
           return NULL;
         }
         break;
