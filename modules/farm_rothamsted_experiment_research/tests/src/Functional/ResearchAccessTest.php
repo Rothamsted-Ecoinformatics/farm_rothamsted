@@ -74,6 +74,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
   protected static $modules = [
     'farm_quantity_standard',
     'farm_rothamsted',
+    'farm_rothamsted_comment',
     'farm_rothamsted_experiment',
     'farm_rothamsted_experiment_research',
     'farm_rothamsted_researcher',
