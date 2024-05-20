@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add farm_rothamsted_comment module for assets, logs and plans.
+- Add comments for all research entities.
+- Include notifications for new comment types. [#651](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/651)
+- Add ability to flag logs via comments. [#598](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/598)
+
 ## [2.20.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/41) 2024-04-12
 
 ### Added
