@@ -5,8 +5,57 @@
  * The farm rothamsted comment module.
  */
 
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\log\Entity\LogInterface;
 use Drupal\user\UserInterface;
+
+function farm_rothamsted_comment_form_alter(array &$form, FormStateInterface &$form_state, string $form_id) {
+
+  // Bail if not the right form.
+  $form_object = $form_state->getFormObject();
+  if ($form_id != 'comment_log_form' || !$form_object instanceof EntityFormInterface) {
+    return;
+  }
+
+  // Add checkbox to flag log for review.
+  $form['log_flag_review'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Flag that the Log "Needs Review"'),
+  ];
+  $form['actions']['submit']['#submit'][] = 'farm_rothamsted_comment_form_log_flag_submit';
+}
+
+function farm_rothamsted_comment_form_log_flag_submit(array $form, FormStateInterface $form_state) {
+
+  // Check if the box was checked to flag the log for review.
+  if (!$form_state->getValue('log_flag_review')) {
+    return;
+  }
+
+  // Check that we have a commented log.
+  /** @var \Drupal\comment\CommentInterface $comment */
+  $comment = $form_state->getFormObject()->getEntity();
+  $log = $comment->getCommentedEntity();
+  if (($log instanceof LogInterface) && $log->hasField('flag')) {
+
+    // Add review to log flags.
+    $flag_field = $log->get('flag');
+    $existing_flags = array_column($flag_field->getValue(), 'value');
+    $flag_field->setValue([]);
+    $new_flags = array_unique(array_merge($existing_flags, ['review']));
+    foreach ($new_flags as $flag) {
+      $flag_field->appendItem($flag);
+    }
+
+    // Set a revision and save the log.
+    $log->setNewRevision(TRUE);
+    $log->setRevisionUser($comment->getOwner());
+    $log->setRevisionLogMessage(t('@user flagged log for review.', ['@user' => $comment->getOwner()->getDisplayName()]));
+    $log->save();
+  }
+}
 
 /**
  * Implements hook_entity_insert().
