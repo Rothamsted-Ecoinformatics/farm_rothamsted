@@ -657,7 +657,6 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
       return;
 
     case 'log':
-      $notification_handler->buildNewLogAlert($entity);
       $notification_handler->buildUpdatedLogAlert($entity);
       return;
   }
