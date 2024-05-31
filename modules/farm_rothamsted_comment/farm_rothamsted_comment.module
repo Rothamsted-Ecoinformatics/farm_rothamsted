@@ -22,10 +22,15 @@ function farm_rothamsted_comment_form_alter(array &$form, FormStateInterface &$f
     return;
   }
 
+  // Default value.
+  $existing_flags = array_column($form_object->getEntity()->getCommentedEntity()?->get('flag')?->getValue() ?? [], 'value');
+  $default = in_array('review', $existing_flags);
+
   // Add checkbox to flag log for review.
   $form['log_flag_review'] = [
     '#type' => 'checkbox',
     '#title' => t('Flag that the Log "Needs Review"'),
+    '#default_value' => $default,
   ];
   $form['actions']['submit']['#submit'][] = 'farm_rothamsted_comment_form_log_flag_submit';
 }
@@ -35,10 +40,13 @@ function farm_rothamsted_comment_form_alter(array &$form, FormStateInterface &$f
  */
 function farm_rothamsted_comment_form_log_flag_submit(array $form, FormStateInterface $form_state) {
 
-  // Check if the box was checked to flag the log for review.
-  if (!$form_state->getValue('log_flag_review')) {
+  // Check that the log_flag_review field is set.
+  if (!$form_state->hasValue('log_flag_review')) {
     return;
   }
+
+  // Check if the box was checked to flag the log for review.
+  $review_flag = $form_state->getValue('log_flag_review');
 
   // Check that we have a commented log.
   /** @var \Drupal\comment\CommentInterface $comment */
@@ -50,15 +58,29 @@ function farm_rothamsted_comment_form_log_flag_submit(array $form, FormStateInte
     $flag_field = $log->get('flag');
     $existing_flags = array_column($flag_field->getValue(), 'value');
     $flag_field->setValue([]);
-    $new_flags = array_unique(array_merge($existing_flags, ['review']));
+
+    // Append or remove the review flag.
+    if ($review_flag) {
+      $new_flags = array_unique(array_merge($existing_flags, ['review']));
+      $message = '@user flagged log for review.';
+    }
+    else {
+      $new_flags = array_diff($existing_flags, ['review']);
+      $message = '@user unflagged log for review.';
+    }
     foreach ($new_flags as $flag) {
       $flag_field->appendItem($flag);
+    }
+
+    // Return if there are no changes to the flag field.
+    if ($new_flags === $existing_flags) {
+      return;
     }
 
     // Set a revision and save the log.
     $log->setNewRevision(TRUE);
     $log->setRevisionUser($comment->getOwner());
-    $log->setRevisionLogMessage(t('@user flagged log for review.', ['@user' => $comment->getOwner()->getDisplayName()]));
+    $log->setRevisionLogMessage(t($message, ['@user' => $comment->getOwner()->getDisplayName()]));
     $log->save();
   }
 }
