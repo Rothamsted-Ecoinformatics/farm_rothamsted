@@ -80,6 +80,7 @@ function farm_rothamsted_comment_form_log_flag_submit(array $form, FormStateInte
     // Set a revision and save the log.
     $log->setNewRevision(TRUE);
     $log->setRevisionUser($comment->getOwner());
+    // phpcs:ignore
     $log->setRevisionLogMessage(t($message, ['@user' => $comment->getOwner()->getDisplayName()]));
     $log->save();
   }
