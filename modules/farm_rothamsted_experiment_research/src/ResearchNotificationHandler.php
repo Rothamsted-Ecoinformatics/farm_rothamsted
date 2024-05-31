@@ -666,6 +666,17 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     $emails = [];
 
+    // First, include owner emails.
+    if (!$log->get('owner')->isEmpty()) {
+      $owner_emails = array_map(function (UserInterface $user) {
+        if ($user->get('rothamsted_notification_log')->value) {
+          return $user->getEmail();
+        }
+        return NULL;
+      }, $log->get('owner')->referencedEntities());
+      array_push($emails, ...$owner_emails);
+    }
+
     // Query plans that the log references (asset, location or plot).
     $asset_ids = array_column($log->get('asset')->getValue(), 'target_id');
     $location_ids = array_column($log->get('location')->getValue(), 'target_id');
@@ -718,17 +729,6 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         return $researcher->getNotificationEmail(FALSE, 'log');
       }, $experiment->get('researcher')->referencedEntities());
       array_push($emails, ...$researcher_emails);
-    }
-
-    // Include owner emails.
-    if (!$log->get('owner')->isEmpty()) {
-      $owner_emails = array_map(function (UserInterface $user) {
-        if ($user->get('rothamsted_notification_log')->value) {
-          return $user->getEmail();
-        }
-        return NULL;
-      }, $log->get('owner')->referencedEntities());
-      array_push($emails, ...$owner_emails);
     }
 
     return $emails;
