@@ -167,6 +167,12 @@ function farm_rothamsted_notification_compare_entity_fields(array $array1, array
       }
       // Field length differences.
       elseif (count($value) !== count($array2[$key])) {
+        // Check that a value actually exists when comparing compound fields.
+        // This fixes a bug where notes always appears to be changing when
+        // there is no value.
+        if (count($value) === 0 && isset($array2[$key][0]) && is_null($array2[$key][0]['value'])) {
+          continue;
+        }
         $difference[] = $key;
       }
       // Recursive difference.
