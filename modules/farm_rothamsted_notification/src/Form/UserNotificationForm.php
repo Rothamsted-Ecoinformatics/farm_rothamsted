@@ -32,28 +32,28 @@ class UserNotificationForm extends FormBase {
     $form['enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Email notifications'),
-      '#description' => $this->t('Enable email notifications for updates to records you are associated with in FarmOS. On by default. Note that some email notifications are critical and cannot be turned off.'),
+      '#description' => $this->t('Switch on/ off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'),
       '#default_value' => $user->get('rothamsted_notification_email')->value,
     ];
 
     $form['researcher'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Researcher updates'),
-      '#description' => $this->t('Receive updates if someone makes a change to your Researcher profile. On by default, sent as soon as a change is made.'),
+      '#title' => $this->t('Researcher Profile notifications'),
+      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to your Researcher profile in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits your Researcher profile (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_researcher')->value,
     ];
 
     $form['program'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Research Program updates'),
-      '#description' => $this->t('Receive updates if someone makes changes to Research Program where you are named as a Principal Investigator. On by default, sent as soon as a change is made.'),
+      '#title' => $this->t('Research Program notifications'),
+      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_program')->value,
     ];
 
     $form['log'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Log updates'),
-      '#description' => $this->t('Receive updates if someone adds or makes changes to a log you are associated with. On by default, sent as soon as a log is created or a change is made.'),
+      '#title' => $this->t('Log notifications'),
+      '#description' => $this->t('Switch on/off e-mail notifications for logs. If this is switched of you will no longer receive notifications when someone (e.g. farm staff) adds or edits the logs associated with the experiments you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as new logs are added or any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_log')->value,
     ];
 

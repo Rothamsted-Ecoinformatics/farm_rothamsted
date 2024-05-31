@@ -17,7 +17,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
   if ($entity_type->id() == 'user') {
     $fields['rothamsted_notification_email'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Email notifications'))
-      ->setDescription(t('Enable email notifications for this user.'))
+      ->setDescription(t('Switch on/ off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
@@ -34,7 +34,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
 
     $fields['rothamsted_notification_researcher'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Researcher updates'))
-      ->setDescription(t('Enable email notifications for researcher updates.'))
+      ->setDescription(t('Switch on/off e-mail notifications relating to changes to your Researcher profile in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits your Researcher profile (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -50,7 +50,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
 
     $fields['rothamsted_notification_program'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Research Program updates'))
-      ->setDescription(t('Enable email notifications for research program updates.'))
+      ->setDescription(t('Switch on/off e-mail notifications relating to changes to any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -66,7 +66,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
 
     $fields['rothamsted_notification_log'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Log notifications'))
-      ->setDescription(t('Enable email notifications for log updates.'))
+      ->setDescription(t('Switch on/off e-mail notifications for logs. If this is switched of you will no longer receive notifications when someone (e.g. farm staff) adds or edits the logs associated with the experiments you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as new logs are added or any changes are made.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
