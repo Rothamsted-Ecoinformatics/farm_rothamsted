@@ -17,7 +17,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
   if ($entity_type->id() == 'user') {
     $fields['rothamsted_notification_email'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Email notifications'))
-      ->setDescription(t('Switch on/ off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'))
+      ->setDescription(t('Switch off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
