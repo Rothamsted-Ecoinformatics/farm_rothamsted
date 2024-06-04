@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Allow Email Notifications toggle to disable all other notification options.
+- Change description of Research Program notifications.
 
 ## [2.21.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/42)
 

@@ -50,7 +50,7 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
 
     $fields['rothamsted_notification_program'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Research Program updates'))
-      ->setDescription(t('Switch on/off e-mail notifications relating to changes to any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
+      ->setDescription(t('Switch on/off e-mail notifications relating to changes to a or any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
       ->setDefaultValue(TRUE)
       ->setRevisionable(TRUE)
       ->setSettings([

@@ -51,7 +51,7 @@ class UserNotificationForm extends FormBase {
     $form['program'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Research Program notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_program')->value,
       '#states' => [
         'disabled' => [
