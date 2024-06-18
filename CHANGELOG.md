@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/43)
+
 ### Changed
 
 - Change Experiment plan label to Experiment Plan. [#652](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/652)
