@@ -12,7 +12,7 @@ use Drupal\link\LinkItemInterface;
  *
  * @PlanType(
  *   id = "rothamsted_experiment",
- *   label = @Translation("Experiment"),
+ *   label = @Translation("Experiment Plan"),
  * )
  */
 class Experiment extends FarmPlanType {

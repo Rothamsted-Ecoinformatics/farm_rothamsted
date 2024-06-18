@@ -5,7 +5,7 @@ dependencies:
     module:
       - farm_rothamsted_experiment
 id: rothamsted_experiment
-label: 'Experiment'
+label: 'Experiment Plan'
 description: ''
 workflow: rothamsted_experiment_plan
 new_revision: true
