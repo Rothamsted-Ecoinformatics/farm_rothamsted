@@ -163,7 +163,7 @@ display:
           entity_type: rothamsted_experiment
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Experiment name
           exclude: false
           alter:
             alter_text: false
@@ -846,7 +846,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Experiment name
             description: ''
             use_operator: false
             operator: name_op

@@ -100,7 +100,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -784,7 +784,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -1260,7 +1260,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -2013,7 +2013,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -2379,7 +2379,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -3067,7 +3067,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -3313,7 +3313,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -4001,7 +4001,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -4247,7 +4247,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -4870,7 +4870,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -5236,7 +5236,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -6054,7 +6054,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -6420,7 +6420,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -7108,7 +7108,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -7354,7 +7354,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -8042,7 +8042,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op
@@ -8288,7 +8288,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Proposal name
           exclude: false
           alter:
             alter_text: false
@@ -9041,7 +9041,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Proposal name
             description: ''
             use_operator: false
             operator: name_op

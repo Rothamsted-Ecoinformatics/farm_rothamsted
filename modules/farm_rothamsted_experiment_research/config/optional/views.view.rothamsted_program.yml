@@ -99,7 +99,7 @@ display:
           entity_type: rothamsted_program
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Program name
           exclude: false
           alter:
             alter_text: false
@@ -783,7 +783,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Program name
             description: ''
             use_operator: false
             operator: name_op

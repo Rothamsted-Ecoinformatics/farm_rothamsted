@@ -234,7 +234,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: 'Experiment name'
+          label: 'Plan name'
           exclude: false
           alter:
             alter_text: true
@@ -1280,7 +1280,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: 'Experiment name'
+            label: 'Plan name'
             description: ''
             use_operator: false
             operator: name_op
@@ -2207,7 +2207,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: 'Experiment name'
+            label: 'Plan name'
             description: ''
             use_operator: false
             operator: name_op
