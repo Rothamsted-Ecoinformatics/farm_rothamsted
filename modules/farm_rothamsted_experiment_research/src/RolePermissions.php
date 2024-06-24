@@ -41,6 +41,7 @@ class RolePermissions {
     $operation_perm_mapping = [
       'create' => [
         'create {entity_type}',
+        'duplicate any {entity_type}',
       ],
       'view' => [
         'access {entity_type} overview',

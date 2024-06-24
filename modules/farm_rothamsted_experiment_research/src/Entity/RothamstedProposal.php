@@ -31,6 +31,7 @@ use Drupal\user\UserInterface;
  *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
  *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
  *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
+ *       "duplicate" = "Drupal\farm_rothamsted_experiment_research\Form\DuplicateProposalForm",
  *     },
  *     "route_provider" = {
  *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
@@ -66,6 +67,7 @@ use Drupal\user\UserInterface;
  *     "add-form" = "/rothamsted/proposal/add",
  *     "edit-form" = "/rothamsted/proposal/{rothamsted_proposal}/edit",
  *     "delete-form" = "/rothamsted/proposal/{rothamsted_proposal}/delete",
+ *     "duplicate-form" = "/rothamsted/proposal/{rothamsted_proposal}/duplicate",
  *     "version-history" = "/rothamsted/proposal/{rothamsted_proposal}/revisions",
  *     "revision" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/view",
  *     "revision-revert-form" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/revert",
