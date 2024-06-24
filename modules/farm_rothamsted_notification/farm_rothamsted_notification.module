@@ -64,6 +64,38 @@ function farm_rothamsted_notification_entity_base_field_info(EntityTypeInterface
         'label' => 'inline',
       ]);
 
+    $fields['rothamsted_notification_proposal'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Proposal updates'))
+      ->setDescription(t('Switch on/off e-mail notifications relating to changes to a or any Proposals you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Proposal you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
+      ->setDefaultValue(TRUE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'on_label' => t('Enabled'),
+        'off_label' => t('Disabled'),
+      ])
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+      ]);
+
+    $fields['rothamsted_notification_experiment'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Experiment updates'))
+      ->setDescription(t('Switch on/off e-mail notifications relating to changes to a or any Experiment, Design or Plan you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits an Experiment, Design or Plan you are associated with. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'))
+      ->setDefaultValue(TRUE)
+      ->setRevisionable(TRUE)
+      ->setSettings([
+        'on_label' => t('Enabled'),
+        'off_label' => t('Disabled'),
+      ])
+      ->setDisplayConfigurable('form', FALSE)
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'inline',
+      ]);
+
     $fields['rothamsted_notification_log'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Log notifications'))
       ->setDescription(t('Switch on/off e-mail notifications for logs. If this is switched of you will no longer receive notifications when someone (e.g. farm staff) adds or edits the logs associated with the experiments you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as new logs are added or any changes are made.'))

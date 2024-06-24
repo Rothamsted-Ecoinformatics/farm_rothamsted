@@ -403,6 +403,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
 
       case 'researcher':
       case 'program':
+      case 'proposal':
+      case 'experiment':
       case 'log':
         if (!$force && !$this->get('farm_user')->entity->get("rothamsted_notification_$notification_type")?->value) {
           return NULL;

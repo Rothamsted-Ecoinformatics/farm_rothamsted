@@ -90,3 +90,34 @@ function farm_rothamsted_notification_post_update_2_21_add_fields(&$sandbox = NU
     $field_definition,
   );
 }
+
+/**
+ * Add user notification fields.
+ */
+function farm_rothamsted_notification_post_update_2_22_add_fields(&$sandbox = NULL) {
+
+  // Create researcher field.
+  $field_definition = BaseFieldDefinition::create('boolean')
+    ->setLabel('Proposal updates')
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE)
+    ->setRevisionable(TRUE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'rothamsted_notification_proposal',
+    'user',
+    'farm_rothamsted_notification',
+    $field_definition,
+  );
+
+  $field_definition = BaseFieldDefinition::create('boolean')
+    ->setLabel('Experiment updates')
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE)
+    ->setRevisionable(TRUE);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'rothamsted_notification_experiment',
+    'user',
+    'farm_rothamsted_notification',
+    $field_definition,
+  );
+}

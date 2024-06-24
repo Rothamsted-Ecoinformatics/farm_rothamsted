@@ -60,6 +60,30 @@ class UserNotificationForm extends FormBase {
       ],
     ];
 
+    $form['proposal'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Proposal notifications'),
+      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Proposals you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Proposal you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#default_value' => $user->get('rothamsted_notification_proposal')->value,
+      '#states' => [
+        'disabled' => [
+          ':input[name="enabled"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+
+    $form['experiment'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Experiment notifications'),
+      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Experiment, Design or Plan you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits an Experiment, Design or Plan you are associated with. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#default_value' => $user->get('rothamsted_notification_experiment')->value,
+      '#states' => [
+        'disabled' => [
+          ':input[name="enabled"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+
     $form['log'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Log notifications'),
@@ -93,6 +117,8 @@ class UserNotificationForm extends FormBase {
       $user->set('rothamsted_notification_email', $form_state->getValue('enabled', FALSE));
       $user->set('rothamsted_notification_researcher', $form_state->getValue('researcher', FALSE));
       $user->set('rothamsted_notification_program', $form_state->getValue('program', FALSE));
+      $user->set('rothamsted_notification_proposal', $form_state->getValue('proposal', FALSE));
+      $user->set('rothamsted_notification_experiment', $form_state->getValue('experiment', FALSE));
       $user->set('rothamsted_notification_log', $form_state->getValue('log', FALSE));
       $user->save();
       $this->messenger()->addStatus($this->t('Updated notification settings.'));

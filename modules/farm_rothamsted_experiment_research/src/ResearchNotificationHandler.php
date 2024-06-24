@@ -98,14 +98,14 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         break;
 
       case 'rothamsted_program':
-        $emails = $this->getResearcherEmails($commented->get('principal_investigator'), 'program');
+        $emails = $this->getResearcherEmails($commented->get('principal_investigator'), FALSE, 'program');
         break;
 
       case 'rothamsted_proposal':
         // Merge all the emails into an array, limiting to non-duplicate values.
-        $researchLeads = $this->getResearcherEmails($commented->get('contact'));
-        $statisticians = $this->getResearcherEmails($commented->get('statistician'));
-        $dataStewards = $this->getResearcherEmails($commented->get('data_steward'));
+        $researchLeads = $this->getResearcherEmails($commented->get('contact'), FALSE, 'proposal');
+        $statisticians = $this->getResearcherEmails($commented->get('statistician'), FALSE, 'proposal');
+        $dataStewards = $this->getResearcherEmails($commented->get('data_steward'), FALSE, 'proposal');
         $emails = array_unique(array_merge($researchLeads, $statisticians, $dataStewards));
         break;
 
@@ -238,7 +238,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Check the farm_user.
     $email = NULL;
-    if ($user_email = $researcher->getNotificationEmail(TRUE)) {
+    if ($user_email = $researcher->getNotificationEmail(TRUE, 'researcher')) {
       $email = $user_email;
     }
 
@@ -318,14 +318,14 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildNewRothamstedProposalAlert(EntityInterface $proposal, bool $new_researcher = FALSE) {
 
     // Get the researchers from the research proposal entity.
-    $researchLeads = $this->getResearcherEmails($proposal->get('contact'));
-    $statisticians = $this->getResearcherEmails($proposal->get('statistician'));
-    $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'));
+    $researchLeads = $this->getResearcherEmails($proposal->get('contact'), TRUE, 'proposal');
+    $statisticians = $this->getResearcherEmails($proposal->get('statistician'), TRUE, 'proposal');
+    $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'), TRUE, 'proposal');
 
     if ($new_researcher && !$proposal->isNew()) {
-      $researchLeads = array_diff($researchLeads, $this->getResearcherEmails($proposal->original->get('contact')));
-      $statisticians = array_diff($statisticians, $this->getResearcherEmails($proposal->original->get('statistician')));
-      $dataStewards = array_diff($dataStewards, $this->getResearcherEmails($proposal->original->get('data_steward')));
+      $researchLeads = array_diff($researchLeads, $this->getResearcherEmails($proposal->original->get('contact'), TRUE, 'proposal'));
+      $statisticians = array_diff($statisticians, $this->getResearcherEmails($proposal->original->get('statistician'), TRUE, 'proposal'));
+      $dataStewards = array_diff($dataStewards, $this->getResearcherEmails($proposal->original->get('data_steward'), TRUE, 'proposal'));
     }
 
     // Merge all the emails into an array, limiting to non-duplicate values.
@@ -353,9 +353,9 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildUpdatedRothamstedProposalAlert(EntityInterface $proposal) {
 
     // Get the researchers from the research proposal entity.
-    $researchLeads = $this->getResearcherEmails($proposal->get('contact'));
-    $statisticians = $this->getResearcherEmails($proposal->get('statistician'));
-    $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'));
+    $researchLeads = $this->getResearcherEmails($proposal->get('contact'), FALSE, 'proposal');
+    $statisticians = $this->getResearcherEmails($proposal->get('statistician'), FALSE, 'proposal');
+    $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'), FALSE, 'proposal');
 
     // Merge all the emails into an array, limiting to non-duplicate values.
     $emails = array_unique(array_merge($researchLeads, $statisticians, $dataStewards));
@@ -387,9 +387,9 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildNewRothamstedProgramAlert(EntityInterface $program, bool $new_researcher = FALSE) {
 
     // Get principal investigator emails.
-    $emails = $this->getResearcherEmails($program->get('principal_investigator'));
+    $emails = $this->getResearcherEmails($program->get('principal_investigator'), TRUE, 'program');
     if ($new_researcher && !$program->isNew()) {
-      $old_emails = $this->getResearcherEmails($program->original->get('principal_investigator'));
+      $old_emails = $this->getResearcherEmails($program->original->get('principal_investigator'), TRUE, 'program');
       $emails = array_diff($emails, $old_emails);
     }
 
@@ -416,7 +416,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function buildUpdatedRothamstedProgramAlert(EntityInterface $program) {
 
     // Get principal investigator emails.
-    $emails = $this->getResearcherEmails($program->get('principal_investigator'), 'program');
+    $emails = $this->getResearcherEmails($program->get('principal_investigator'), FALSE, 'program');
 
     // Build email content.
     $entity_type_id = $program->getEntityTypeId();
@@ -492,7 +492,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    */
   protected function buildNewRothamstedDesignAlert(EntityInterface $design, bool $new_researcher = FALSE) {
 
-    $emails = $this->getDesignResearcherEmails($design, $new_researcher);
+    $emails = $this->getDesignResearcherEmails($design, $new_researcher, TRUE);
 
     // Build email content.
     $entity_type_id = $design->getEntityTypeId();
@@ -517,7 +517,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    */
   protected function buildUpdatedRothamstedDesignAlert(EntityInterface $design) {
 
-    $emails = $this->getDesignResearcherEmails($design);
+    $emails = $this->getDesignResearcherEmails($design, FALSE, FALSE);
 
     // Build email content.
     $entity_type_id = $design->getEntityTypeId();
@@ -543,7 +543,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *   The plan entity.
    */
   protected function buildNewPlanAlert(EntityInterface $plan) {
-    $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity);
+    $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity, FALSE, TRUE);
 
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
@@ -568,7 +568,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *   The plan entity.
    */
   protected function buildUpdatedPlanAlert(EntityInterface $plan) {
-    $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity);
+    $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity, FALSE, FALSE);
 
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
@@ -595,16 +595,18 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *   The design entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
+   * @param bool $force
+   *   A boolean to enforce returning an email despite user preferences.
    *
    * @return array
    *   An array of researcher emails.
    */
-  protected function getDesignResearcherEmails(RothamstedDesignInterface $design, bool $new_researcher = FALSE) {
+  protected function getDesignResearcherEmails(RothamstedDesignInterface $design, bool $new_researcher = FALSE, bool $force = FALSE) {
     // Get the researcher and statistician from the research design entity.
-    $researchers = $this->getExperimentResearcherEmails($design->get('experiment')->entity);
-    $statisticians = $this->getResearcherEmails($design->get('statistician'));
+    $researchers = $this->getExperimentResearcherEmails($design->get('experiment')->entity, FALSE, $force);
+    $statisticians = $this->getResearcherEmails($design->get('statistician'), $force, 'experiment');
     if ($new_researcher && !$design->isNew()) {
-      $old_stats = $this->getResearcherEmails($design->original->get('statistician'));
+      $old_stats = $this->getResearcherEmails($design->original->get('statistician'), $force, 'experiment');
       $statisticians = array_diff($statisticians, $old_stats);
     }
 
@@ -619,15 +621,17 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *   The experiment entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
+   * @param bool $force
+   *   A boolean to enforce returning an email despite user preferences.
    *
    * @return array
    *   An array of researcher emails.
    */
-  protected function getExperimentResearcherEmails(RothamstedExperimentInterface $experiment, bool $new_researcher = FALSE) {
-    $current_emails = $this->getResearcherEmails($experiment->get('researcher'));
+  protected function getExperimentResearcherEmails(RothamstedExperimentInterface $experiment, bool $new_researcher = FALSE, bool $force = FALSE) {
+    $current_emails = $this->getResearcherEmails($experiment->get('researcher'), $force, 'experiment');
 
     if ($new_researcher && !$experiment->isNew()) {
-      $old_emails = $this->getResearcherEmails($experiment->original->get('researcher'));
+      $old_emails = $this->getResearcherEmails($experiment->original->get('researcher'), $force, 'experiment');
       return array_diff($current_emails, $old_emails);
     }
 
@@ -639,13 +643,15 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    *
    * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $field
    *   The field list containing the researchers.
+   * @param bool $force
+   *   A boolean to enforce returning an email despite user preferences.
    * @param string|null $notification_type
    *   An optional notification type to check if allowed.
    *
    * @return array
    *   An array of researcher emails.
    */
-  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field, string $notification_type = NULL) {
+  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field, bool $force = FALSE, string $notification_type = NULL) {
     return array_map(function (RothamstedResearcherInterface $researcher) use ($notification_type) {
       return $researcher->getNotificationEmail(TRUE, $notification_type);
     }, $field->referencedEntities());
