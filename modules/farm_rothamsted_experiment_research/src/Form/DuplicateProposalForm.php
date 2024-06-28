@@ -19,7 +19,7 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
    */
   public function setEntity(EntityInterface $entity) {
     parent::setEntity($entity);
-    foreach (['name', 'experiment', 'design', 'plan', 'status_notes'] as $field_name) {
+    foreach (['name', 'design', 'plan', 'status_notes'] as $field_name) {
       $this->entity->set($field_name, NULL);
     }
     $this->entity->set('status', 'draft');
@@ -34,8 +34,7 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
     $source_link = $this->sourceEntity->toUrl()->setAbsolute()->toString();
     $status_notes = "This proposal was created by duplicating \"$source_name\". Please refer to that proposal for previous versions and a revision history. $source_link";
     $this->entity->set('status_notes', $status_notes);
-    $revision_message = "Copy of $source_name: $source_link";
-    $this->entity->setRevisionLogMessage($revision_message);
+    $this->entity->setRevisionLogMessage($status_notes);
   }
 
   /**
