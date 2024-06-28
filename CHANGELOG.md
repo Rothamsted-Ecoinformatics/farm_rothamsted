@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.22.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/43)
+
 ### Added
 
 - Experiment module: Duplicate proposals. [#659](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/659)
