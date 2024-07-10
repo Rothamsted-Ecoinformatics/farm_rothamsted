@@ -148,9 +148,9 @@ farm_rothamsted_experiment_research.researchers:
   base_route: entity.rothamsted_program.collection
   weight: 40
 
-# Related tasks.
+# Quick links tasks.
 farm_rothamsted_experiment_research.asset.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.asset.related
   options:
     attributes:
@@ -162,7 +162,7 @@ farm_rothamsted_experiment_research.asset.related:
   weight: 20
 
 farm_rothamsted_experiment_research.proposal.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.proposal.related
   options:
     attributes:
@@ -174,7 +174,7 @@ farm_rothamsted_experiment_research.proposal.related:
   weight: 20
 
 farm_rothamsted_experiment_research.program.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.program.related
   options:
     attributes:
@@ -186,7 +186,7 @@ farm_rothamsted_experiment_research.program.related:
   weight: 20
 
 farm_rothamsted_experiment_research.experiment.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.experiment.related
   options:
     attributes:
@@ -198,7 +198,7 @@ farm_rothamsted_experiment_research.experiment.related:
   weight: 20
 
 farm_rothamsted_experiment_research.design.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.design.related
   options:
     attributes:
@@ -210,7 +210,7 @@ farm_rothamsted_experiment_research.design.related:
   weight: 20
 
 farm_rothamsted_experiment_research.plan.related:
-  title: 'Related'
+  title: 'Quick Links'
   route_name: farm_rothamsted_experiment_research.plan.related
   options:
     attributes:
