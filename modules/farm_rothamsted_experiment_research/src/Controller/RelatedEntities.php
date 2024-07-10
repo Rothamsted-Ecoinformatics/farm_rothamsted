@@ -26,7 +26,7 @@ class RelatedEntities extends ControllerBase {
    *   Title.
    */
   public function title() {
-    return $this->t('Related');
+    return $this->t('Quick Links');
   }
 
   /**
