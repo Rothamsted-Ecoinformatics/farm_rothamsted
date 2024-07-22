@@ -41,8 +41,11 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $source_name = $this->sourceEntity->label();
-    $this->messenger()->addWarning("This will create a new proposal from \"$source_name\"");
+    // Only display message on initial form load.
+    if (empty($form_state->getUserInput())) {
+      $source_name = $this->sourceEntity->label();
+      $this->messenger()->addWarning("This will create a new proposal from \"$source_name\"");
+    }
     return parent::buildForm($form, $form_state);
   }
 
