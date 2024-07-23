@@ -122,7 +122,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     ]);
 
     // Trailer load count.
-    $trailer_count = range(1, 10);
+    $trailer_count = range(1, 25);
     $trailer['trailer_load_count'] = [
       '#type' => 'select',
       '#title' => $this->t('How many trailer loads?'),

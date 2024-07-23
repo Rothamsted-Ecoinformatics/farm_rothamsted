@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Rename Related to Quick Links. [#672](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/672)
+- Increase number of trailer loads to 25. [#706](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/706)
 
 ## [2.22.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/43)
 
