@@ -17,6 +17,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
 
@@ -136,6 +137,20 @@ function farm_rothamsted_experiment_research_entity_view_display_alter(EntityVie
         'weight'   => 1,
       ]);
     }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function farm_rothamsted_experiment_research_rothamsted_proposal_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if (!$entity) {
+    return;
+  }
+  // Display link to submit the proposal.
+  $url = Url::fromRoute('farm_rothamsted_experiment_research.proposal.submit_form', ['rothamsted_proposal' => $entity->id()], ['query' => ['destination' => $entity->toUrl()->toString()]]);
+  if ($url->access(\Drupal::currentUser())) {
+    \Drupal::messenger()->addMessage(t('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
   }
 }
 

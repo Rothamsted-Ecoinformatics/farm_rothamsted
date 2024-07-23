@@ -1,3 +1,15 @@
+farm_rothamsted_experiment_research.proposal.submit_form:
+  path: /rothamsted/proposal/{rothamsted_proposal}/submit
+  defaults:
+    _form: Drupal\farm_rothamsted_experiment_research\Form\SubmitProposalForm
+    _title: Submit Proposal
+  requirements:
+    _custom_access: Drupal\farm_rothamsted_experiment_research\Form\SubmitProposalForm::access
+  options:
+    parameters:
+      rothamsted_proposal:
+        type: entity:rothamsted_proposal
+
 farm_rothamsted_experiment_research.asset.related:
   path: /asset/{asset}/related
   defaults:

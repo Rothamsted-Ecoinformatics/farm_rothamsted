@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add submit button to proposals. [#658](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/658)
+
 ### Changed
 
 - Rename Related to Quick Links. [#672](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/672)
