@@ -150,7 +150,7 @@ function farm_rothamsted_experiment_research_rothamsted_proposal_view(array &$bu
   // Display link to submit the proposal.
   $url = Url::fromRoute('farm_rothamsted_experiment_research.proposal.submit_form', ['rothamsted_proposal' => $entity->id()], ['query' => ['destination' => $entity->toUrl()->toString()]]);
   if ($url->access(\Drupal::currentUser())) {
-    \Drupal::messenger()->addMessage(t('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
+    \Drupal::messenger()->addWarning(t('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
   }
 }
 
