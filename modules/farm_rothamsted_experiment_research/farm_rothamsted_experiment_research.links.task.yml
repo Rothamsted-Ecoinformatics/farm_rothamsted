@@ -159,7 +159,7 @@ farm_rothamsted_experiment_research.asset.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.asset.canonical
-  weight: 20
+  weight: 50
 
 farm_rothamsted_experiment_research.proposal.related:
   title: 'Quick Links'
@@ -171,7 +171,7 @@ farm_rothamsted_experiment_research.proposal.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_proposal.canonical
-  weight: 20
+  weight: 50
 
 farm_rothamsted_experiment_research.program.related:
   title: 'Quick Links'
@@ -183,7 +183,7 @@ farm_rothamsted_experiment_research.program.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_program.canonical
-  weight: 20
+  weight: 50
 
 farm_rothamsted_experiment_research.experiment.related:
   title: 'Quick Links'
@@ -195,7 +195,7 @@ farm_rothamsted_experiment_research.experiment.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_experiment.canonical
-  weight: 20
+  weight: 50
 
 farm_rothamsted_experiment_research.design.related:
   title: 'Quick Links'
@@ -207,7 +207,7 @@ farm_rothamsted_experiment_research.design.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.rothamsted_design.canonical
-  weight: 20
+  weight: 50
 
 farm_rothamsted_experiment_research.plan.related:
   title: 'Quick Links'
@@ -219,4 +219,4 @@ farm_rothamsted_experiment_research.plan.related:
       data-dialog-type: 'modal'
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.plan.canonical
-  weight: 20
+  weight: 50
