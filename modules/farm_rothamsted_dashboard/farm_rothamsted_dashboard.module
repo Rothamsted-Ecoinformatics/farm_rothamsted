@@ -16,5 +16,17 @@ function farm_rothamsted_dashboard_farm_dashboard_panes() {
       'region' => 'top',
       'weight' => 100,
     ],
+    'rothamsted_user_proposals' => [
+      'block' => 'rothamsted_user_proposals',
+      'title' => t('My Proposals'),
+      'region' => 'first',
+      'weight' => 0,
+    ],
+    'rothamsted_user_studies' => [
+      'block' => 'rothamsted_user_studies',
+      'title' => t('My Studies'),
+      'region' => 'second',
+      'weight' => 0,
+    ],
   ];
 }
