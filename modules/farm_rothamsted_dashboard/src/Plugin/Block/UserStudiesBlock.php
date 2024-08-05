@@ -98,10 +98,14 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
           'data' => $this->t('Study Period ID'),
         ],
         [
+          'data' => $this->t('Study'),
+        ],
+
+        [
           'data' => $this->t('Design'),
         ],
         [
-          'data' => $this->t('Study'),
+          'data' => $this->t('Experiment'),
         ],
         [
           'data' => $this->t('Location'),
@@ -113,6 +117,22 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
     /** @var \Drupal\plan\Entity\PlanInterface[] $entities */
     $entities = $this->entityTypeManager->getStorage('plan')->loadMultiple($ids);
     foreach ($entities as $entity) {
+
+      // Build links to associated design and experiment.
+      $design_link = NULL;
+      $experiment_link = NULL;
+      if (!$entity->get('experiment_design')->isEmpty()) {
+        /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface[] $designs */
+        $designs = $entity->get('experiment_design')->referencedEntities();
+        $design = reset($designs);
+        $design_link = $design->toLink($design->label());
+        if (!$design->get('experiment')->isEmpty()) {
+          /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface[] $experiments */
+          $experiments = $design->get('experiment')->referencedEntities();
+          $experiment = reset($experiments);
+          $experiment_link = $experiment->toLink($experiment->label());
+        }
+      }
       $render['results']['#rows'][$entity->id()] = [
         [
           'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
@@ -121,10 +141,13 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
           'data' => $entity->get('study_period_id')->view(['label' => 'visually_hidden']),
         ],
         [
-          'data' => $entity->get('experiment_design')->view(['label' => 'visually_hidden']),
+          'data' => $entity->toLink($entity->label()),
         ],
         [
-          'data' => $entity->toLink($entity->label()),
+          'data' => $design_link,
+        ],
+        [
+          'data' => $experiment_link,
         ],
         [
           'data' => $entity->get('location')->view(['label' => 'visually_hidden']),
