@@ -73,8 +73,14 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
     $uid = $this->currentUser->id();
     $proposal_query = $this->entityTypeManager->getStorage('rothamsted_proposal')->getQuery()
       ->accessCheck(TRUE)
-      ->condition('uid', $uid)
       ->sort('name', 'ASC');
+    $or = $proposal_query->orConditionGroup();
+    $or
+      ->condition('uid', $uid)
+      ->condition('contact.entity.farm_user.entity.uid', $uid)
+      ->condition('statistician.entity.farm_user.entity.uid', $uid)
+      ->condition('data_steward.entity.farm_user.entity.uid', $uid);
+    $proposal_query->condition($or);
     $ids = $proposal_query->execute();
 
     $caption = new PluralTranslatableMarkup(
