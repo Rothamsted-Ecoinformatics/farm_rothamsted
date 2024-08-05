@@ -74,8 +74,13 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
     $proposal_query = $this->entityTypeManager->getStorage('plan')->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'rothamsted_experiment')
-      ->condition('uid', $uid)
       ->sort('name', 'ASC');
+    $or = $proposal_query->orConditionGroup();
+    $or
+      ->condition('uid', $uid)
+      ->condition('experiment_design.entity.statistician.entity.farm_user.entity.uid', $uid)
+      ->condition('experiment_design.entity.experiment.entity.researcher.entity.farm_user.entity.uid', $uid);
+    $proposal_query->condition($or);
     $ids = $proposal_query->execute();
     $caption = new PluralTranslatableMarkup(
       count($ids),
