@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * The rothamsted dashboard module.
+ */
+
+/**
+ * Implements hook_farm_dashboard_panes().
+ */
+function farm_rothamsted_dashboard_farm_dashboard_panes() {
+  return [
+    'rothamsted_search' => [
+      'block' => 'rothamsted_search',
+      'title' => t('Search'),
+      'region' => 'top',
+      'weight' => 100,
+    ],
+  ];
+}
