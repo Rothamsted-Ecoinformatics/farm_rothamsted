@@ -683,7 +683,12 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
 function farm_rothamsted_experiment_research_local_tasks_alter(&$local_tasks) {
 
   // Disable Drupal core revisions local tasks.
-  $target_entity_types = ['rothamsted_program', 'rothamsted_experiment', 'rothamsted_design'];
+  $target_entity_types = [
+    'rothamsted_program',
+    'rothamsted_proposal',
+    'rothamsted_experiment',
+    'rothamsted_design',
+  ];
   foreach ($target_entity_types as $entity_type) {
     unset($local_tasks['entity.version_history:' . $entity_type . '.version_history']);
   }
