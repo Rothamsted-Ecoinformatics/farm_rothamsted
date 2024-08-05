@@ -1,0 +1,11 @@
+name: farmOS Rothamsted Dashboard
+description: Rothamsted dashboard features.
+type: module
+package: farmOS Custom
+core_version_requirement: ^10
+dependencies:
+  - farm_rothamsted:farm_rothamsted_experiment
+  - farm_rothamsted:farm_rothamsted_experiment_research
+  - farm_rothamsted:farm_rothamsted_notification
+  - farm_rothamsted:farm_rothamsted_quick
+  - farm_rothamsted:farm_rothamsted_researcher
