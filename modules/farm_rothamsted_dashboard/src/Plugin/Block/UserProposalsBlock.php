@@ -88,7 +88,7 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
       '@count Proposal',
       '@count Proposals',
     );
-    $render['results'] = [
+    $table = [
       '#type' => 'table',
       '#caption' => $caption,
       '#header' => [
@@ -105,7 +105,7 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
     /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface[] $entities */
     $entities = $this->entityTypeManager->getStorage('rothamsted_proposal')->loadMultiple($ids);
     foreach ($entities as $entity) {
-      $render['results']['#rows'][$entity->id()] = [
+      $table['#rows'][$entity->id()] = [
         [
           'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
         ],
@@ -114,6 +114,19 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
         ],
       ];
     }
+
+    // Render the table in a wrapper container to constrain the height.
+    $render['wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['rothamsted-user-entity-table'],
+      ],
+      '#attached' => [
+        'library' => ['farm_rothamsted_dashboard/user-entity'],
+      ],
+      'table' => $table,
+    ];
+
     return $render;
   }
 

@@ -1,0 +1,12 @@
+/* Limit height of user entity tables on the dashboard. */
+.dashboard-pane .fieldset__wrapper .rothamsted-user-entity-table {
+  overflow: auto;
+  height: 350px;
+  margin-top: var(--space-m);
+}
+
+/* Disable gin table scroll wrapper. */
+.dashboard-pane .fieldset__wrapper .rothamsted-user-entity-table .gin-table-scroll-wrapper {
+  padding-bottom: initial;
+  margin-bottom: initial;
+}

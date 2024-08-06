@@ -2,3 +2,7 @@ search:
   css:
     theme:
       css/search.css: { }
+user-entity:
+  css:
+    theme:
+      css/user-entity.css: { }
