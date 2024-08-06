@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_dashboard\Form;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Form\FormBase;
@@ -28,25 +29,53 @@ class RothamstedSearchForm extends FormBase {
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 
     // Add inline container wrapper.
+    $wrapper_id = Html::getUniqueId('search');
     $form['#attributes']['class'][] = 'rothamsted-search';
     $form['wrapper'] = [
       '#type' => 'container',
       '#attributes' => [
         'class' => ['inline-container'],
+        'id' => $wrapper_id,
       ],
       '#attached' => [
         'library' => ['farm_rothamsted_dashboard/search'],
       ],
     ];
 
+    // Define entity type search options.
+    $entity_types = [
+      'land_asset' => [
+        'label' => $this->t('Field'),
+        'help' => $this->t('Search by field name'),
+      ],
+      'plant_asset' => [
+        'label' => $this->t('Crop asset'),
+        'help' => $this->t('Search by plant asset name or plant type'),
+      ],
+      'experiment' => [
+        'label' => $this->t('Experiment'),
+        'help' => $this->t('Search by experiment name, code or researcher'),
+      ],
+    ];
+    $entity_type_options = array_map(function($option) {
+      return $option['label'];
+    }, $entity_types);
+    $default = 'land_asset';
+
+    $selected_entity_type = $form_state->hasValue('entity_type') ? $form_state->getValue('entity_type') : $default;
     $form['wrapper']['entity_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Entity type'),
       '#title_display' => 'visually_hidden',
-      '#options' => [
-        'land_asset' => $this->t('Field'),
-        'plant_asset' => $this->t('Crop asset'),
-        'experiment' => $this->t('Experiment'),
+      '#options' => $entity_type_options,
+      '#default_value' => $default,
+      '#ajax' => [
+        'callback' => '::wrapperCallback',
+        'wrapper' => $wrapper_id,
+        'event' => 'change',
+        'progress' => [
+          'type' => 'none',
+        ],
       ],
     ];
 
@@ -54,6 +83,9 @@ class RothamstedSearchForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Search'),
       '#title_display' => 'visually_hidden',
+      '#attributes' => [
+        'placeholder' => $entity_types[$selected_entity_type]['help'] ?? NULL,
+      ],
       '#ajax' => [
         'callback' => '::resultsCallback',
         'wrapper' => 'search-results',
@@ -89,6 +121,21 @@ class RothamstedSearchForm extends FormBase {
     }
 
     return $form;
+  }
+
+  /**
+   * Wrapper callback.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state.
+   *
+   * @return mixed
+   *   Render array.
+   */
+  public function wrapperCallback(array &$form, FormStateInterface $form_state) {
+    return $form['wrapper'];
   }
 
   /**
