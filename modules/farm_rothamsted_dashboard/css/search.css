@@ -1,0 +1,15 @@
+/* Add space above form in modal. */
+div#drupal-modal form.rothamsted-search {
+  margin-top: var(--space-l);
+}
+
+/* Inline styles for search bar. */
+form.rothamsted-search .inline-container {
+  display: flex;
+  justify-content: center;
+  column-gap: 1em;
+}
+form.rothamsted-search .inline-container .form-item,
+form.rothamsted-search .inline-container input {
+  margin-block: 0;
+}
