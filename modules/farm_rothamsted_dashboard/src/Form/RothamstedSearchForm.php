@@ -24,11 +24,25 @@ class RothamstedSearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // Add ajax.
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
 
-    $form['entity_type'] = [
+    // Add inline container wrapper.
+    $form['#attributes']['class'][] = 'rothamsted-search';
+    $form['wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['inline-container'],
+      ],
+      '#attached' => [
+        'library' => ['farm_rothamsted_dashboard/search'],
+      ],
+    ];
+
+    $form['wrapper']['entity_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Entity type'),
+      '#title_display' => 'visually_hidden',
       '#options' => [
         'land_asset' => $this->t('Field'),
         'plant_asset' => $this->t('Crop asset'),
@@ -36,17 +50,19 @@ class RothamstedSearchForm extends FormBase {
       ],
     ];
 
-    $form['search'] = [
+    $form['wrapper']['search'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search'),
+      '#title_display' => 'visually_hidden',
       '#ajax' => [
         'callback' => '::resultsCallback',
         'wrapper' => 'search-results',
         'event' => 'change',
       ],
+      '#size' => 30,
     ];
 
-    $form['actions']['submit'] = [
+    $form['wrapper']['submit'] = [
       '#type' => 'submit',
       '#submit' => ['::searchCallback'],
       '#value' => $this->t('Search'),
@@ -101,7 +117,7 @@ class RothamstedSearchForm extends FormBase {
   public function resultsCallback(array &$form, FormStateInterface $form_state) {
     $dialog_options = [
       'modal' => TRUE,
-      'width' => 700,
+      'width' => 800,
     ];
     $response = new AjaxResponse();
     $response->addCommand(new OpenModalDialogCommand('Search result', $form, $dialog_options));
