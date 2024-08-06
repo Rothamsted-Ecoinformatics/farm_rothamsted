@@ -87,7 +87,7 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
       '@count Study',
       '@count Studies',
     );
-    $render['results'] = [
+    $table = [
       '#type' => 'table',
       '#caption' => $caption,
       '#header' => [
@@ -133,7 +133,7 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
           $experiment_link = $experiment->toLink($experiment->label());
         }
       }
-      $render['results']['#rows'][$entity->id()] = [
+      $table['#rows'][$entity->id()] = [
         [
           'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
         ],
@@ -154,6 +154,19 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
         ],
       ];
     }
+
+    // Render the table in a wrapper container to constrain the height.
+    $render['wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['rothamsted-user-entity-table'],
+      ],
+      '#attached' => [
+        'library' => ['farm_rothamsted_dashboard/user-entity'],
+      ],
+      'table' => $table,
+    ];
+
     return $render;
   }
 
