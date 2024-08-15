@@ -5,14 +5,42 @@ namespace Drupal\farm_rothamsted_dashboard\Form;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Dashboard search form.
  */
 class RothamstedSearchForm extends FormBase {
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Constructs a new RothamstedSearchForm.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -57,7 +85,7 @@ class RothamstedSearchForm extends FormBase {
         'help' => $this->t('Search by experiment name, code or researcher'),
       ],
     ];
-    $entity_type_options = array_map(function($option) {
+    $entity_type_options = array_map(function ($option) {
       return $option['label'];
     }, $entity_types);
     $default = 'land_asset';
@@ -190,8 +218,7 @@ class RothamstedSearchForm extends FormBase {
    *   Results render array.
    */
   public function getFieldResults(string $query): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $asset_query = $entity_type_manager->getStorage('asset')->getQuery()
+    $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 'active')
       ->condition('type', 'land')
@@ -225,7 +252,7 @@ class RothamstedSearchForm extends FormBase {
     ];
 
     /** @var \Drupal\asset\Entity\AssetInterface[] $entities */
-    $entities = $entity_type_manager->getStorage('asset')->loadMultiple($ids);
+    $entities = $this->entityTypeManager->getStorage('asset')->loadMultiple($ids);
     foreach ($entities as $entity) {
       $render['results']['#rows'][$entity->id()] = [
         [
@@ -249,8 +276,7 @@ class RothamstedSearchForm extends FormBase {
    *   Results render array.
    */
   public function getPlantResults(string $query): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $asset_query = $entity_type_manager->getStorage('asset')->getQuery()
+    $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 'active')
       ->condition('type', 'plant')
@@ -290,7 +316,7 @@ class RothamstedSearchForm extends FormBase {
     ];
 
     /** @var \Drupal\asset\Entity\AssetInterface[] $entities */
-    $entities = $entity_type_manager->getStorage('asset')->loadMultiple($ids);
+    $entities = $this->entityTypeManager->getStorage('asset')->loadMultiple($ids);
     foreach ($entities as $entity) {
       $render['results']['#rows'][$entity->id()] = [
         [
@@ -317,8 +343,7 @@ class RothamstedSearchForm extends FormBase {
    *   Results render array.
    */
   public function getExperimentResults(string $query): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $experiment_query = $entity_type_manager->getStorage('rothamsted_experiment')->getQuery()
+    $experiment_query = $this->entityTypeManager->getStorage('rothamsted_experiment')->getQuery()
       ->accessCheck(TRUE)
       ->sort('name', 'ASC');
     $or = $experiment_query->orConditionGroup()
@@ -363,7 +388,7 @@ class RothamstedSearchForm extends FormBase {
     ];
 
     /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment[] $entities */
-    $entities = $entity_type_manager->getStorage('rothamsted_experiment')->loadMultiple($ids);
+    $entities = $this->entityTypeManager->getStorage('rothamsted_experiment')->loadMultiple($ids);
     foreach ($entities as $entity) {
       $render['results']['#rows'][$entity->id()] = [
         [
@@ -396,8 +421,7 @@ class RothamstedSearchForm extends FormBase {
    *   Results render array.
    */
   public function getDesignResults(string $query): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $experiment_query = $entity_type_manager->getStorage('rothamsted_design')->getQuery()
+    $experiment_query = $this->entityTypeManager->getStorage('rothamsted_design')->getQuery()
       ->accessCheck(TRUE)
       ->sort('name', 'ASC');
     $or = $experiment_query->orConditionGroup()
@@ -452,7 +476,7 @@ class RothamstedSearchForm extends FormBase {
     ];
 
     /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface[] $entities */
-    $entities = $entity_type_manager->getStorage('rothamsted_design')->loadMultiple($ids);
+    $entities = $this->entityTypeManager->getStorage('rothamsted_design')->loadMultiple($ids);
     foreach ($entities as $entity) {
       $render['results']['#rows'][$entity->id()] = [
         [
@@ -485,8 +509,7 @@ class RothamstedSearchForm extends FormBase {
    *   Results render array.
    */
   public function getPlanResults(string $query): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $experiment_query = $entity_type_manager->getStorage('plan')->getQuery()
+    $experiment_query = $this->entityTypeManager->getStorage('plan')->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'rothamsted_experiment')
       ->sort('name', 'ASC');
@@ -534,7 +557,7 @@ class RothamstedSearchForm extends FormBase {
     ];
 
     /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface[] $entities */
-    $entities = $entity_type_manager->getStorage('plan')->loadMultiple($ids);
+    $entities = $this->entityTypeManager->getStorage('plan')->loadMultiple($ids);
     foreach ($entities as $entity) {
       $render['results']['#rows'][$entity->id()] = [
         [
