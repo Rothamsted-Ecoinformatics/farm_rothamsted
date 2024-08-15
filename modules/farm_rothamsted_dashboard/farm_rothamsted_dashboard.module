@@ -6,6 +6,28 @@
  */
 
 /**
+ * Implements hook_farm_dashboard_groups().
+ */
+function farm_rothamsted_dashboard_farm_dashboard_groups() {
+  return [
+    'top' => [
+      'rothamsted_user_proposals' => [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => t('My Proposals'),
+        '#weight' => 105,
+      ],
+      'rothamsted_user_studies' => [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => t('My Studies'),
+        '#weight' => 110,
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_farm_dashboard_panes().
  */
 function farm_rothamsted_dashboard_farm_dashboard_panes() {
@@ -18,15 +40,13 @@ function farm_rothamsted_dashboard_farm_dashboard_panes() {
     ],
     'rothamsted_user_proposals' => [
       'block' => 'rothamsted_user_proposals',
-      'title' => t('My Proposals'),
-      'region' => 'first',
-      'weight' => 0,
+      'region' => 'top',
+      'group' => 'rothamsted_user_proposals',
     ],
     'rothamsted_user_studies' => [
       'block' => 'rothamsted_user_studies',
-      'title' => t('My Studies'),
-      'region' => 'second',
-      'weight' => 0,
+      'region' => 'top',
+      'group' => 'rothamsted_user_studies',
     ],
   ];
 }
