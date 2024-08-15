@@ -115,7 +115,9 @@ class RothamstedSearchForm extends FormBase {
           break;
 
         case 'experiment':
-          $form['results'] = $this->getExperimentResults($search);
+          $form['experiments'] = $this->getExperimentResults($search);
+          $form['designs'] = $this->getDesignResults($search);
+          $form['plans'] = $this->getPlanResults($search);
           break;
       }
     }
@@ -331,8 +333,8 @@ class RothamstedSearchForm extends FormBase {
 
     $caption = new PluralTranslatableMarkup(
       count($ids),
-      '@count search result: %query',
-      '@count search results: %query',
+      '<strong>Experiments:</strong> @count result',
+      '<strong>Experiments</strong> @count results',
       [
         '%query' => $query,
       ],
@@ -378,6 +380,174 @@ class RothamstedSearchForm extends FormBase {
         ],
         [
           'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
+        ],
+      ];
+    }
+    return $render;
+  }
+
+  /**
+   * Helper function to return design results.
+   *
+   * @param string $query
+   *   Search query.
+   *
+   * @return array
+   *   Results render array.
+   */
+  public function getDesignResults(string $query): array {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $experiment_query = $entity_type_manager->getStorage('rothamsted_design')->getQuery()
+      ->accessCheck(TRUE)
+      ->sort('name', 'ASC');
+    $or = $experiment_query->orConditionGroup()
+      ->condition('name', $query, 'CONTAINS')
+      ->condition('description', $query, 'CONTAINS')
+      ->condition('design_changes', $query, 'CONTAINS')
+      ->condition('rotation_description', $query, 'CONTAINS')
+      ->condition('rotation_phasing', $query, 'CONTAINS')
+      ->condition('rotation_notes', $query, 'CONTAINS')
+      ->condition('objective', $query, 'CONTAINS')
+      ->condition('treatment', $query, 'CONTAINS')
+      ->condition('dependent_variables', $query, 'CONTAINS')
+      ->condition('hypothesis', $query, 'CONTAINS')
+      ->condition('model', $query, 'CONTAINS')
+      ->condition('notes', $query, 'CONTAINS')
+      ->condition('layout_description', $query, 'CONTAINS')
+      ->condition('statistician.entity.name', $query, 'CONTAINS');
+    $experiment_query->condition($or);
+    if (!$ids = $experiment_query->execute()) {
+      return $this->noResults('Designs', $query);
+    }
+
+    $caption = new PluralTranslatableMarkup(
+      count($ids),
+      '<strong>Designs:</strong> @count result',
+      '<strong>Designs:</strong> @count results',
+      [
+        '%query' => $query,
+      ],
+    );
+    $render['results'] = [
+      '#type' => 'table',
+      '#caption' => $caption,
+      '#header' => [
+        [
+          'data' => $this->t('Design'),
+        ],
+        [
+          'data' => $this->t('Experiment'),
+        ],
+        [
+          'data' => $this->t('Statisticians'),
+        ],
+        [
+          'data' => $this->t('Start'),
+        ],
+        [
+          'data' => $this->t('End'),
+        ],
+      ],
+      '#rows' => [],
+    ];
+
+    /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface[] $entities */
+    $entities = $entity_type_manager->getStorage('rothamsted_design')->loadMultiple($ids);
+    foreach ($entities as $entity) {
+      $render['results']['#rows'][$entity->id()] = [
+        [
+          'data' => $entity->toLink($entity->label()),
+        ],
+        [
+          'data' => $entity->get('experiment')->view(['label' => 'visually_hidden']),
+        ],
+        [
+          'data' => $entity->get('statistician')->view(['label' => 'visually_hidden']),
+        ],
+        [
+          'data' => $entity->get('start')->view(['label' => 'visually_hidden']),
+        ],
+        [
+          'data' => $entity->get('end')->view(['label' => 'visually_hidden']),
+        ],
+      ];
+    }
+    return $render;
+  }
+
+  /**
+   * Helper function to return experiment plan results.
+   *
+   * @param string $query
+   *   Search query.
+   *
+   * @return array
+   *   Results render array.
+   */
+  public function getPlanResults(string $query): array {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $experiment_query = $entity_type_manager->getStorage('plan')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'rothamsted_experiment')
+      ->sort('name', 'ASC');
+    $or = $experiment_query->orConditionGroup()
+      ->condition('name', $query, 'CONTAINS')
+      ->condition('abbreviation', $query, 'CONTAINS')
+      ->condition('study_period_id', $query, 'CONTAINS')
+      ->condition('cost_code', $query, 'CONTAINS')
+      ->condition('deviations', $query, 'CONTAINS')
+      ->condition('growing_conditions', $query, 'CONTAINS')
+      ->condition('study_description', $query, 'CONTAINS')
+      ->condition('current_phase', $query, 'CONTAINS')
+      ->condition('notes', $query, 'CONTAINS');
+    $experiment_query->condition($or);
+    if (!$ids = $experiment_query->execute()) {
+      return $this->noResults('Study plans', $query);
+    }
+
+    $caption = new PluralTranslatableMarkup(
+      count($ids),
+      '<strong>Study plans:</strong> @count result',
+      '<strong>Study plans:</strong> @count results',
+      [
+        '%query' => $query,
+      ],
+    );
+    $render['results'] = [
+      '#type' => 'table',
+      '#caption' => $caption,
+      '#header' => [
+        [
+          'data' => $this->t('Study plan'),
+        ],
+        [
+          'data' => $this->t('Study Period ID'),
+        ],
+        [
+          'data' => $this->t('Design'),
+        ],
+        [
+          'data' => $this->t('Location'),
+        ],
+      ],
+      '#rows' => [],
+    ];
+
+    /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface[] $entities */
+    $entities = $entity_type_manager->getStorage('plan')->loadMultiple($ids);
+    foreach ($entities as $entity) {
+      $render['results']['#rows'][$entity->id()] = [
+        [
+          'data' => $entity->toLink($entity->label()),
+        ],
+        [
+          'data' => $entity->get('study_period_id')->view(['label' => 'visually_hidden']),
+        ],
+        [
+          'data' => $entity->get('experiment_design')->view(['label' => 'visually_hidden']),
+        ],
+        [
+          'data' => $entity->get('location')->view(['label' => 'visually_hidden']),
         ],
       ];
     }
