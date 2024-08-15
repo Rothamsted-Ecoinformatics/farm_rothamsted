@@ -197,7 +197,7 @@ class RothamstedSearchForm extends FormBase {
       ->condition('name', $query, 'CONTAINS')
       ->sort('name', 'ASC');
     if (!$ids = $asset_query->execute()) {
-      return $this->noResults($query);
+      return $this->noResults('Fields', $query);
     }
 
     $caption = new PluralTranslatableMarkup(
@@ -259,7 +259,7 @@ class RothamstedSearchForm extends FormBase {
       ->condition('season.entity.name', $query, 'CONTAINS');
     $asset_query->condition($or);
     if (!$ids = $asset_query->execute()) {
-      return $this->noResults($query);
+      return $this->noResults('Crop assets', $query);
     }
 
     $caption = new PluralTranslatableMarkup(
@@ -326,7 +326,7 @@ class RothamstedSearchForm extends FormBase {
       ->condition('researcher.entity.name', $query, 'CONTAINS');
     $experiment_query->condition($or);
     if (!$ids = $experiment_query->execute()) {
-      return $this->noResults($query);
+      return $this->noResults('Experiment', $query);
     }
 
     $caption = new PluralTranslatableMarkup(
@@ -387,17 +387,19 @@ class RothamstedSearchForm extends FormBase {
   /**
    * Helper function to return no results.
    *
+   * @param string $label
+   *   Search label.
    * @param string $query
    *   Search query.
    *
    * @return array
    *   Render array.
    */
-  public function noResults(string $query): array {
+  public function noResults(string $label, string $query): array {
     return [
       '#type' => 'table',
       '#caption' => [
-        '#markup' => $this->t('No results for search query: %query', ['%query' => $query]),
+        '#markup' => $this->t('<strong>@label:</strong> No results for search query "@query"', ['@label' => $label, '@query' => $query]),
       ],
     ];
   }
