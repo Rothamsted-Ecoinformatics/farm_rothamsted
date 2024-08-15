@@ -76,7 +76,6 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
       ->sort('name', 'ASC');
     $or = $proposal_query->orConditionGroup();
     $or
-      ->condition('uid', $uid)
       ->condition('contact.entity.farm_user.entity.uid', $uid)
       ->condition('statistician.entity.farm_user.entity.uid', $uid)
       ->condition('data_steward.entity.farm_user.entity.uid', $uid);
