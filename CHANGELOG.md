@@ -10,11 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add submit button to proposals. [#658](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/658)
+- Add user proposals and study plans to dashboard. [#679](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/679)
+- Add initial search feature to dashboard. [#679](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/679)
 
 ### Changed
 
 - Rename Related to Quick Links. [#672](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/672)
 - Increase number of trailer loads to 25. [#706](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/706)
+
+### Fixed
+
+- Fix duplicate revisions tab for proposal entities.
 
 ## [2.22.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/43)
 
