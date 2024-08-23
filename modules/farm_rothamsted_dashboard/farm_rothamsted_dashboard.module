@@ -16,12 +16,18 @@ function farm_rothamsted_dashboard_farm_dashboard_groups() {
         '#open' => FALSE,
         '#title' => t('My Studies'),
         '#weight' => 105,
+        '#attributes' => [
+          'class' => ['dashboard-pane'],
+        ],
       ],
       'rothamsted_user_proposals' => [
         '#type' => 'details',
         '#open' => FALSE,
         '#title' => t('My Proposals'),
         '#weight' => 110,
+        '#attributes' => [
+          'class' => ['dashboard-pane'],
+        ],
       ],
     ],
   ];

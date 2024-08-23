@@ -1,3 +1,8 @@
+/* Remove margin from details. */
+details.dashboard-pane {
+  margin: 0;
+}
+
 /* Limit height of user entity tables on the dashboard. */
 .dashboard-pane .fieldset__wrapper .rothamsted-user-entity-table {
   overflow: auto;
