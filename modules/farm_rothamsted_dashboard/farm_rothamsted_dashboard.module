@@ -11,16 +11,16 @@
 function farm_rothamsted_dashboard_farm_dashboard_groups() {
   return [
     'top' => [
-      'rothamsted_user_proposals' => [
-        '#type' => 'details',
-        '#open' => TRUE,
-        '#title' => t('My Proposals'),
-        '#weight' => 105,
-      ],
       'rothamsted_user_studies' => [
         '#type' => 'details',
-        '#open' => TRUE,
+        '#open' => FALSE,
         '#title' => t('My Studies'),
+        '#weight' => 105,
+      ],
+      'rothamsted_user_proposals' => [
+        '#type' => 'details',
+        '#open' => FALSE,
+        '#title' => t('My Proposals'),
         '#weight' => 110,
       ],
     ],
