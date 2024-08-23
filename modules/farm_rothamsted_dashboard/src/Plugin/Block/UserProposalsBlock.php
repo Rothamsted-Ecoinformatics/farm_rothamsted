@@ -70,9 +70,17 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function build() {
+    $proposal_status = [
+      'draft',
+      'submitted',
+      'approved',
+      'rejected',
+      'planning',
+    ];
     $uid = $this->currentUser->id();
     $proposal_query = $this->entityTypeManager->getStorage('rothamsted_proposal')->getQuery()
       ->accessCheck(TRUE)
+      ->condition('status', $proposal_status, 'IN')
       ->sort('name', 'ASC');
     $or = $proposal_query->orConditionGroup();
     $or
@@ -84,8 +92,8 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
 
     $caption = new PluralTranslatableMarkup(
       count($ids),
-      '@count Proposal',
-      '@count Proposals',
+      '@count active proposal',
+      '@count active proposals',
     );
     $table = [
       '#type' => 'table',

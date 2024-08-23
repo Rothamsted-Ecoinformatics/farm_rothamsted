@@ -70,10 +70,16 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
    * {@inheritdoc}
    */
   public function build() {
+    $plan_status = [
+      'requested',
+      'planning',
+      'active',
+    ];
     $uid = $this->currentUser->id();
     $proposal_query = $this->entityTypeManager->getStorage('plan')->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'rothamsted_experiment')
+      ->condition('status', $plan_status, 'IN')
       ->sort('name', 'ASC');
     $or = $proposal_query->orConditionGroup();
     $or
@@ -83,8 +89,8 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
     $ids = $proposal_query->execute();
     $caption = new PluralTranslatableMarkup(
       count($ids),
-      '@count Study',
-      '@count Studies',
+      '@count active study',
+      '@count active studies',
     );
     $table = [
       '#type' => 'table',
