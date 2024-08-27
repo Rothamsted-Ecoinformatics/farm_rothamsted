@@ -56,3 +56,20 @@ function farm_rothamsted_dashboard_farm_dashboard_panes() {
     ],
   ];
 }
+
+/**
+ * Implements hook_farm_dashboard_panes_alter().
+ */
+function farm_rothamsted_dashboard_farm_dashboard_panes_alter(&$panes) {
+  $allowed_panes = [
+    'rothamsted_search',
+    'rothamsted_user_proposals',
+    'rothamsted_user_studies',
+    'dashboard_map',
+  ];
+  foreach (array_keys($panes) as $pane) {
+    if (!in_array($pane, $allowed_panes)) {
+      unset($panes[$pane]);
+    }
+  }
+}
