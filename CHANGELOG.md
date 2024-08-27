@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add CRS validation for geometry uploads. [#584](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/584)
 - Allow editing name when creating an experiment boundary. [#688](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/688)
+- Remove default core widgets from the dashboard. [#748](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/748)
 
 ### Changed
 
