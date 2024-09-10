@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update farm_rei version. [#753](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/753)
+
 ## [2.23.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/44)
 
 ### Changed
