@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add CRS validation for geometry uploads. [#584](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/584)
+
 ### Changed
 
 - Update farm_rei version. [#753](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/753)

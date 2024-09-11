@@ -158,6 +158,18 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       $this->messenger()->addError($error_msg);
       return;
     }
+
+    // Validate CRS if specified.
+    $valid_crs = ['urn:ogc:def:crs:EPSG::4326', 'urn:ogc:def:crs:OGC:1.3:CRS84'];
+    $crs = $geojson['crs']['properties']['name'] ?? NULL;
+    if (!empty($crs) && !in_array($crs, $valid_crs)) {
+      $error_msg = "GeoJSON has incompatible coordinate reference system: '$crs' must be CRS84 or EPSG::4326";
+      $form_state->setError($form['geojson'], $error_msg);
+      $this->messenger()->addError($error_msg);
+      return;
+    }
+
+    // Validate features.
     $features = $geojson['features'] ?? [];
     if (empty($features)) {
       $error_msg = 'No features found in GeoJSON.';
