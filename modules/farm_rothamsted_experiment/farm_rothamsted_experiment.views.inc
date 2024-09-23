@@ -26,8 +26,8 @@ function farm_rothamsted_experiment_views_data_alter(array &$data) {
 
   // Add a reverse relationship for all experiment plan logs.
   $data['log_field_data']['reverse__rothamsted_experiment_log'] = [
-    'title' => t('Experiment plan'),
-    'help' => t('Relate each log with the rothamsted experiment plan ALL.'),
+    'title' => t('Study Plan'),
+    'help' => t('Relate each log with the rothamsted study plan ALL.'),
     'relationship' => [
       'id' => 'standard',
       'join_id' => 'rothamsted_experiment_logs',
@@ -42,8 +42,8 @@ function farm_rothamsted_experiment_views_data_alter(array &$data) {
 
   // Add a reverse relationship for only experiment plan logs via plan.asset.
   $data['log_field_data']['reverse__rothamsted_experiment_asset_log'] = [
-    'title' => t('Experiment plan'),
-    'help' => t('Relate each log with the rothamsted experiment plan ASSET.'),
+    'title' => t('Study Plan'),
+    'help' => t('Relate each log with the rothamsted study plan ASSET.'),
     'relationship' => [
       'id' => 'standard',
       'join_id' => 'rothamsted_experiment_asset_logs',
@@ -58,8 +58,8 @@ function farm_rothamsted_experiment_views_data_alter(array &$data) {
 
   // Add a reverse relationship for only experiment plan logs via plan.plot.
   $data['log_field_data']['reverse__rothamsted_experiment_plot_log'] = [
-    'title' => t('Experiment plan'),
-    'help' => t('Relate each log with the rothamsted experiment plan PLOT.'),
+    'title' => t('Study Plan'),
+    'help' => t('Relate each log with the rothamsted study plan PLOT.'),
     'relationship' => [
       'id' => 'standard',
       'join_id' => 'rothamsted_experiment_plot_logs',

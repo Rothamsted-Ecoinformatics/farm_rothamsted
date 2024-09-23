@@ -6,6 +6,6 @@ dependencies:
       - farm_rothamsted_experiment
 id: farm_rothamsted_experiment_plot_layer
 label: Experiment plot layers
-description: 'Creates a layer of plots associated with an experiment plan.'
+description: 'Creates a layer of plots associated with a study plan.'
 library: 'farm_rothamsted_experiment/behavior_farm_rothamsted_experiment_plot_layer'
 settings: {  }

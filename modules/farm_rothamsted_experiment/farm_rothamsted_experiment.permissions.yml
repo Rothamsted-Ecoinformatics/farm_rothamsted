@@ -1,8 +1,8 @@
 administer rothamsted_experiment plan:
-  title: 'Administer Rothamsted experiment plans'
+  title: 'Administer Rothamsted Study plans'
 create rothamsted_experiment plan boundary:
-  title: 'Create Rothamsted Experiment plan boundary'
+  title: 'Create Rothamsted Study plan boundary'
 upload rothamsted_experiment plan geometries:
-  title: 'Upload Rothamsted Experiment plan geometries'
+  title: 'Upload Rothamsted Study plan geometries'
 upload rothamsted_experiment plan variables:
-  title: 'Upload Rothamsted Experiment plan variables'
+  title: 'Upload Rothamsted Study plan variables'

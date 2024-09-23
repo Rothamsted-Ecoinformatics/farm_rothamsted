@@ -14,7 +14,7 @@ dependencies:
     module:
       - farm_ui_views
 id: rothamsted_experiment_plans
-label: 'Experiment Plans'
+label: 'Study Plans'
 module: views
 description: ''
 tag: ''
@@ -27,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Experiment plans'
+      title: 'Study Plans'
       fields:
         abbreviation_value:
           id: abbreviation_value

@@ -10,9 +10,11 @@ use Drupal\link\LinkItemInterface;
 /**
  * Provides the experiment plan type.
  *
+ * Renamed to be Study Plan in text labels.
+ *
  * @PlanType(
  *   id = "rothamsted_experiment",
- *   label = @Translation("Experiment Plan"),
+ *   label = @Translation("Study Plan"),
  * )
  */
 class Experiment extends FarmPlanType {
@@ -112,7 +114,7 @@ class Experiment extends FarmPlanType {
       'status_notes' => [
         'type' => 'text_long',
         'label' => $this->t('Status notes'),
-        'description' => $this->t('Any notes about the experiment plan status.'),
+        'description' => $this->t('Any notes about the Study plan status.'),
       ],
       'deviations' => [
         'type' => 'text_long',

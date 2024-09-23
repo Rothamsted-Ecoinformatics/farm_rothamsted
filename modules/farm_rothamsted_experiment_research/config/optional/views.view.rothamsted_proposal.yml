@@ -2641,7 +2641,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: experiment
           plugin_id: field
-          label: 'Related Experiments'
+          label: 'Related Studies'
           exclude: false
           alter:
             alter_text: false
@@ -2771,7 +2771,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: plan
           plugin_id: field
-          label: 'Related Experiment Plans'
+          label: 'Related Study Plans'
           exclude: false
           alter:
             alter_text: false
@@ -3575,7 +3575,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: experiment
           plugin_id: field
-          label: 'Related Experiments'
+          label: 'Related Studies'
           exclude: false
           alter:
             alter_text: false
@@ -3705,7 +3705,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: plan
           plugin_id: field
-          label: 'Related Experiment Plans'
+          label: 'Related Study Plans'
           exclude: false
           alter:
             alter_text: false
@@ -5498,7 +5498,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: experiment
           plugin_id: field
-          label: 'Related Experiments'
+          label: 'Related Studies'
           exclude: false
           alter:
             alter_text: false
@@ -5628,7 +5628,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: plan
           plugin_id: field
-          label: 'Related Experiment Plans'
+          label: 'Related Study Plans'
           exclude: false
           alter:
             alter_text: false
@@ -6682,7 +6682,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: experiment
           plugin_id: field
-          label: 'Related Experiments'
+          label: 'Related Studies'
           exclude: false
           alter:
             alter_text: false
@@ -6812,7 +6812,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: plan
           plugin_id: field
-          label: 'Related Experiment Plans'
+          label: 'Related Study Plans'
           exclude: false
           alter:
             alter_text: false
@@ -7616,7 +7616,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: experiment
           plugin_id: field
-          label: 'Related Experiments'
+          label: 'Related Studies'
           exclude: false
           alter:
             alter_text: false
@@ -7746,7 +7746,7 @@ display:
           entity_type: rothamsted_proposal
           entity_field: plan
           plugin_id: field
-          label: 'Related Experiment Plans'
+          label: 'Related Study Plans'
           exclude: false
           alter:
             alter_text: false

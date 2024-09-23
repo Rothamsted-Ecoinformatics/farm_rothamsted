@@ -16,7 +16,7 @@ dependencies:
     module:
       - farm_rothamsted_experiment_research
 id: rothamsted_experiment_plan
-label: 'Rothamsted Experiment Plan'
+label: 'Rothamsted Study Plan'
 module: views
 description: ''
 tag: ''
@@ -29,7 +29,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Experiment plans'
+      title: 'Study Plans'
       fields:
         abbreviation_value:
           id: abbreviation_value
@@ -234,7 +234,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: 'Plan name'
+          label: 'Study name'
           exclude: false
           alter:
             alter_text: true
@@ -1280,7 +1280,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: 'Plan name'
+            label: 'Study name'
             description: ''
             use_operator: false
             operator: name_op
@@ -2207,7 +2207,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: 'Plan name'
+            label: 'Study name'
             description: ''
             use_operator: false
             operator: name_op

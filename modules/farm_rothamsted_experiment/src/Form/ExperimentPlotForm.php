@@ -46,7 +46,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
     $form['plot_count'] = [
       '#type' => 'number',
       '#title' => $this->t('Number of plots'),
-      '#description' => $this->t('Enter the number of plots to create for this experiment plan. This cannot be changed after plots are created.'),
+      '#description' => $this->t('Enter the number of plots to create for this Study Plan. This cannot be changed after plots are created.'),
       '#min' => 1,
       '#step' => 1,
       '#required' => TRUE,

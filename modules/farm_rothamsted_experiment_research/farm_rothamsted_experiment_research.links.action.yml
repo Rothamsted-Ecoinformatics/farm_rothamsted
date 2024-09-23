@@ -37,7 +37,7 @@ farm_rothamsted_experiment_research.add_plan:
   route_name: entity.plan.add_form
   route_parameters:
     plan_type: 'rothamsted_experiment'
-  title: 'Add Experiment Plan'
+  title: 'Add Study Plan'
   appears_on:
     - view.rothamsted_experiment_plan.page_research
     - view.rothamsted_experiment_plan.page_design

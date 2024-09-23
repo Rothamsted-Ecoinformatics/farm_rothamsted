@@ -572,12 +572,12 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Build email content.
     $entity_type_id = $plan->getEntityTypeId();
-    $subject = "[site:name]: Update to your Experiment Plan in FarmOS";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited an Experiment Plan you are associated with in FarmOS:";
+    $subject = "[site:name]: Update to your Study Plan in FarmOS";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has edited a Study Plan you are associated with in FarmOS:";
     $body[] = "Experiment Name: \"[$entity_type_id:experiment_design:entity:experiment:entity:name]\"";
     $body[] = "Experiment Design: \"[$entity_type_id:experiment_design:entity:name]\"";
     array_push($body, ...$this->getEntityFieldDifferences($plan));
-    $body[] = "To view the Experiment Plan please click the link below:";
+    $body[] = "To view the Study Plan please click the link below:";
     $body[] = "[$entity_type_id:name] [$entity_type_id:url:absolute]";
     $body[] = "You are receiving this email because you are named on the above Experiment or because you have been nominated as a Statistician for the Experiment Design. To change your alert preferences please click here: [configure-notifications]";
     $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
