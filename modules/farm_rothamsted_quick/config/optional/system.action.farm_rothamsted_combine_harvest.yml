@@ -1,13 +1,14 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - asset
+    - farm_rothamsted_quick
   enforced:
     module:
       - farm_rothamsted_quick
-  module:
-    - asset
 id: farm_rothamsted_combine_harvest
 label: 'Record combine harvest'
 type: asset
-plugin: farm_rothamsted_quick_experiment:combine_harvest
+plugin: 'farm_rothamsted_quick_experiment:combine_harvest'
 configuration: {  }

@@ -1,13 +1,14 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - asset
+    - farm_rothamsted_quick
   enforced:
     module:
       - farm_rothamsted_quick
-  module:
-    - asset
 id: farm_rothamsted_field_operations
 label: 'Record field operation'
 type: asset
-plugin: farm_rothamsted_quick_experiment:field_operations
+plugin: 'farm_rothamsted_quick_experiment:field_operations'
 configuration: {  }

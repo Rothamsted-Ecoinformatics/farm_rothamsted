@@ -1,13 +1,14 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - asset
+    - farm_rothamsted_quick
   enforced:
     module:
       - farm_rothamsted_quick
-  module:
-    - asset
 id: farm_rothamsted_trailer_harvest
 label: 'Record trailer harvest'
 type: asset
-plugin: farm_rothamsted_quick_experiment:trailer_harvest
+plugin: 'farm_rothamsted_quick_experiment:trailer_harvest'
 configuration: {  }
