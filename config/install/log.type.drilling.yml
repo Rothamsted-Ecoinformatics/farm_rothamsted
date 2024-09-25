@@ -1,15 +1,17 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_log_quantity
   enforced:
     module:
       - farm_rothamsted
+third_party_settings:
+  farm_log_quantity:
+    default_quantity_type: material
 id: drilling
 label: Drilling
 description: ''
 name_pattern: 'Drilling log [log:id]'
 workflow: log_default
 new_revision: true
-third_party_settings:
-  farm_log_quantity:
-    default_quantity_type: material
