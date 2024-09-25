@@ -100,7 +100,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -615,6 +615,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 20
           total_pages: null
           id: 0
@@ -784,7 +785,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -982,8 +983,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -1042,8 +1043,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -1101,8 +1102,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -1260,7 +1261,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -2013,7 +2014,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -2211,8 +2212,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -2271,8 +2272,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -2330,8 +2331,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -2379,7 +2380,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -3067,7 +3068,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -3264,8 +3265,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -3313,7 +3314,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -4001,7 +4002,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -4198,8 +4199,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -4229,6 +4230,940 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
+  page_completed:
+    id: page_completed
+    display_title: Completed
+    display_plugin: page
+    position: 6
+    display_options:
+      title: 'Completed proposals'
+      fields:
+        name:
+          id: name
+          table: rothamsted_proposal_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: null
+          entity_field: name
+          plugin_id: field
+          label: 'Proposal name'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        program_target_id:
+          id: program_target_id
+          table: rothamsted_proposal__program
+          field: program_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: program
+          plugin_id: field
+          label: Programs
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        planting_year:
+          id: planting_year
+          table: rothamsted_proposal_data
+          field: planting_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: planting_year
+          plugin_id: field
+          label: 'Planting Year'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        harvest_year:
+          id: harvest_year
+          table: rothamsted_proposal_data
+          field: harvest_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: harvest_year
+          plugin_id: field
+          label: 'Harvest Year'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_integer
+          settings:
+            thousand_separator: ''
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        experiment_target_id:
+          id: experiment_target_id
+          table: rothamsted_proposal__experiment
+          field: experiment_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: experiment
+          plugin_id: field
+          label: 'Related Studies'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        design_target_id:
+          id: design_target_id
+          table: rothamsted_proposal__design
+          field: design_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: design
+          plugin_id: field
+          label: 'Related Designs'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        plan_target_id:
+          id: plan_target_id
+          table: rothamsted_proposal__plan
+          field: plan_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: plan
+          plugin_id: field
+          label: 'Related Study Plans'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        contact_target_id:
+          id: contact_target_id
+          table: rothamsted_proposal__contact
+          field: contact_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: contact
+          plugin_id: field
+          label: Contacts
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: ul
+          separator: ', '
+          field_api_classes: false
+        status_notes__value:
+          id: status_notes__value
+          table: rothamsted_proposal_data
+          field: status_notes__value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: status_notes
+          plugin_id: field
+          label: 'Status notes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      filters:
+        status:
+          id: status
+          table: rothamsted_proposal_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: status
+          plugin_id: list_field
+          operator: or
+          value:
+            completed: completed
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        experiment_category:
+          id: experiment_category
+          table: rothamsted_proposal_data
+          field: experiment_category
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: experiment_category
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: experiment_category_op
+            label: 'Experiment category'
+            description: ''
+            use_operator: false
+            operator: experiment_category_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: experiment_category
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        name:
+          id: name
+          table: rothamsted_proposal_data
+          field: name
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: name
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: name_op
+            label: 'Proposal name'
+            description: ''
+            use_operator: false
+            operator: name_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: name
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        planting_year:
+          id: planting_year
+          table: rothamsted_proposal_data
+          field: planting_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: planting_year
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: planting_year_op
+            label: 'Planting Year'
+            description: ''
+            use_operator: false
+            operator: planting_year_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: planting_year
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        harvest_year:
+          id: harvest_year
+          table: rothamsted_proposal_data
+          field: harvest_year
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: harvest_year
+          plugin_id: numeric
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: harvest_year_op
+            label: 'Harvest Year'
+            description: ''
+            use_operator: false
+            operator: harvest_year_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: harvest_year
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              farm_admin: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        contact_target_id:
+          id: contact_target_id
+          table: rothamsted_proposal__contact
+          field: contact_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: contact
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: contact_target_id_op
+            label: Contacts
+            description: ''
+            use_operator: false
+            operator: contact_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: contact_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_manager: '0'
+              farm_operator: '0'
+              rothamsted_experiment_admin: '0'
+              rothamsted_sponsor: '0'
+              farm_viewer: '0'
+              farm_worker: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_viewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          widget: autocomplete
+          handler: 'default:rothamsted_researcher'
+          handler_settings:
+            target_bundles: null
+            sort:
+              field: name
+              direction: ASC
+            auto_create: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        fields: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        collapsible_filter:
+          collapsible: true
+      path: rothamsted/proposal/completed
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user.permissions
+      tags: {  }
   page_draft:
     id: page_draft
     display_title: Draft
@@ -4247,7 +5182,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -4870,7 +5805,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -5068,8 +6003,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -5128,8 +6063,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -5187,8 +6122,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -5236,7 +6171,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -6054,7 +6989,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -6252,8 +7187,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -6312,8 +7247,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -6371,8 +7306,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -6402,940 +7337,6 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
-  page_completed:
-    id: page_completed
-    display_title: Completed
-    display_plugin: page
-    position: 6
-    display_options:
-      title: 'Completed proposals'
-      fields:
-        name:
-          id: name
-          table: rothamsted_proposal_data
-          field: name
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: null
-          entity_field: name
-          plugin_id: field
-          label: Proposal name
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        program_target_id:
-          id: program_target_id
-          table: rothamsted_proposal__program
-          field: program_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: program
-          plugin_id: field
-          label: Programs
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        planting_year:
-          id: planting_year
-          table: rothamsted_proposal_data
-          field: planting_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: planting_year
-          plugin_id: field
-          label: 'Planting Year'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        harvest_year:
-          id: harvest_year
-          table: rothamsted_proposal_data
-          field: harvest_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: harvest_year
-          plugin_id: field
-          label: 'Harvest Year'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        experiment_target_id:
-          id: experiment_target_id
-          table: rothamsted_proposal__experiment
-          field: experiment_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: experiment
-          plugin_id: field
-          label: 'Related Studies'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        design_target_id:
-          id: design_target_id
-          table: rothamsted_proposal__design
-          field: design_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: design
-          plugin_id: field
-          label: 'Related Designs'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        plan_target_id:
-          id: plan_target_id
-          table: rothamsted_proposal__plan
-          field: plan_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: plan
-          plugin_id: field
-          label: 'Related Study Plans'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        contact_target_id:
-          id: contact_target_id
-          table: rothamsted_proposal__contact
-          field: contact_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: contact
-          plugin_id: field
-          label: Contacts
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: ul
-          separator: ', '
-          field_api_classes: false
-        status_notes__value:
-          id: status_notes__value
-          table: rothamsted_proposal_data
-          field: status_notes__value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: status_notes
-          plugin_id: field
-          label: 'Status notes'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: text_default
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-      filters:
-        status:
-          id: status
-          table: rothamsted_proposal_data
-          field: status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: status
-          plugin_id: list_field
-          operator: or
-          value:
-            completed: completed
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-        experiment_category:
-          id: experiment_category
-          table: rothamsted_proposal_data
-          field: experiment_category
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: experiment_category
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: experiment_category_op
-            label: 'Experiment category'
-            description: ''
-            use_operator: false
-            operator: experiment_category_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: experiment_category
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              farm_admin: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-        name:
-          id: name
-          table: rothamsted_proposal_data
-          field: name
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: name
-          plugin_id: string
-          operator: contains
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: name_op
-            label: Proposal name
-            description: ''
-            use_operator: false
-            operator: name_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: name
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        planting_year:
-          id: planting_year
-          table: rothamsted_proposal_data
-          field: planting_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: planting_year
-          plugin_id: numeric
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: planting_year_op
-            label: 'Planting Year'
-            description: ''
-            use_operator: false
-            operator: planting_year_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: planting_year
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              farm_admin: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        harvest_year:
-          id: harvest_year
-          table: rothamsted_proposal_data
-          field: harvest_year
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: harvest_year
-          plugin_id: numeric
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: harvest_year_op
-            label: 'Harvest Year'
-            description: ''
-            use_operator: false
-            operator: harvest_year_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: harvest_year
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              farm_admin: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        contact_target_id:
-          id: contact_target_id
-          table: rothamsted_proposal__contact
-          field: contact_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: rothamsted_proposal
-          entity_field: contact
-          plugin_id: entity_reference
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: contact_target_id_op
-            label: Contacts
-            description: ''
-            use_operator: false
-            operator: contact_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: contact_target_id
-            required: false
-            remember: false
-            multiple: true
-            remember_roles:
-              authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
-              rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
-          widget: autocomplete
-          handler_settings:
-            target_bundles: null
-            sort:
-              field: name
-              direction: ASC
-            auto_create: false
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      defaults:
-        title: false
-        fields: false
-        filters: false
-        filter_groups: false
-      display_description: ''
-      display_extenders:
-        collapsible_filter:
-          collapsible: true
-      path: rothamsted/proposal/completed
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-        - user.permissions
-      tags: {  }
   page_rejected:
     id: page_rejected
     display_title: Rejected
@@ -7354,7 +7355,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -8042,7 +8043,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -8239,8 +8240,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -8288,7 +8289,7 @@ display:
           entity_type: null
           entity_field: name
           plugin_id: field
-          label: Proposal name
+          label: 'Proposal name'
           exclude: false
           alter:
             alter_text: false
@@ -9041,7 +9042,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Proposal name
+            label: 'Proposal name'
             description: ''
             use_operator: false
             operator: name_op
@@ -9239,8 +9240,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -9299,8 +9300,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -9358,8 +9359,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:

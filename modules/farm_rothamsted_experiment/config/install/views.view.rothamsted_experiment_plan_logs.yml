@@ -3,14 +3,12 @@ status: true
 dependencies:
   config:
     - plan.type.rothamsted_experiment
-    - taxonomy.vocabulary.log_category
   module:
     - entity_reference_revisions
     - log
     - options
     - plan
     - state_machine
-    - taxonomy
     - user
   enforced:
     module:
@@ -212,6 +210,15 @@ display:
             date_format: html_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -745,6 +752,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -813,7 +821,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1224,8 +1231,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: views
           widget: select
+          handler: views
           handler_settings:
             view:
               view_name: farm_people
@@ -1273,8 +1280,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: views
           widget: autocomplete
+          handler: views
           handler_settings:
             view:
               view_name: farm_asset_reference
@@ -1322,8 +1329,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: views
           widget: autocomplete
+          handler: views
           handler_settings:
             view:
               view_name: farm_location_reference
@@ -1479,7 +1486,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page:
@@ -1522,7 +1528,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_asset:
@@ -1553,7 +1558,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1623,7 +1627,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_plot:
@@ -1654,7 +1657,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1724,6 +1726,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }

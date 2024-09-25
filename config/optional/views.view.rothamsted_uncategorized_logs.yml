@@ -207,6 +207,15 @@ display:
             date_format: html_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -740,6 +749,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -1180,8 +1190,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
           widget: select
+          handler: views
           handler_settings:
             view:
               view_name: farm_people
@@ -1229,8 +1239,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
           widget: autocomplete
+          handler: views
           handler_settings:
             view:
               view_name: farm_asset_reference
@@ -1278,8 +1288,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          handler: views
           widget: autocomplete
+          handler: views
           handler_settings:
             view:
               view_name: farm_location_reference

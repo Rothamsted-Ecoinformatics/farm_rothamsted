@@ -163,7 +163,7 @@ display:
           entity_type: rothamsted_experiment
           entity_field: name
           plugin_id: field
-          label: Experiment name
+          label: 'Experiment name'
           exclude: false
           alter:
             alter_text: false
@@ -678,6 +678,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 20
           total_pages: null
           id: 0
@@ -846,7 +847,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Experiment name
+            label: 'Experiment name'
             description: ''
             use_operator: false
             operator: name_op
@@ -1026,8 +1027,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
@@ -1212,7 +1213,7 @@ display:
           admin_label: ''
           entity_type: rothamsted_experiment
           entity_field: program
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: 'not found'
           exception:
             value: all
@@ -1223,7 +1224,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1244,6 +1244,7 @@ display:
             multiple: 0
           break_phrase: false
           not: false
+          target_entity_type_id: rothamsted_program
       defaults:
         arguments: false
       display_description: ''

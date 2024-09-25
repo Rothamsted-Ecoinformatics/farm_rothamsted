@@ -3,13 +3,11 @@ status: true
 dependencies:
   config:
     - plan.type.rothamsted_experiment
-    - taxonomy.vocabulary.crop_family
   module:
     - farm_rothamsted_experiment_research
     - options
     - plan
     - state_machine
-    - taxonomy
     - text
     - user
   enforced:
@@ -814,6 +812,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -882,7 +881,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: true
           summary_options:
             base_path: ''
             count: true
@@ -997,8 +995,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_experiment'
           widget: autocomplete
+          handler: 'default:rothamsted_experiment'
           handler_settings:
             target_bundles: null
             sort:
@@ -1204,8 +1202,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:asset'
           widget: autocomplete
+          handler: 'default:asset'
           handler_settings:
             target_bundles:
               land: land
@@ -1674,7 +1672,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page:
@@ -1704,7 +1701,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_design:
@@ -1723,7 +1719,7 @@ display:
           admin_label: ''
           entity_type: plan
           entity_field: experiment_design
-          plugin_id: numeric
+          plugin_id: entity_target_id
           default_action: 'not found'
           exception:
             value: all
@@ -1734,7 +1730,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: ''
-          default_argument_skip_url: false
           summary_options:
             base_path: ''
             count: true
@@ -1755,6 +1750,7 @@ display:
             multiple: 0
           break_phrase: false
           not: false
+          target_entity_type_id: rothamsted_design
       defaults:
         arguments: false
       display_description: ''
@@ -1778,7 +1774,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page_research:
@@ -1808,7 +1803,6 @@ display:
           default_argument_type: fixed
           default_argument_options:
             argument: active
-          default_argument_skip_url: true
           summary_options:
             base_path: ''
             count: true
@@ -1974,8 +1968,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_experiment'
           widget: autocomplete
+          handler: 'default:rothamsted_experiment'
           handler_settings:
             target_bundles: null
             sort:
@@ -2131,8 +2125,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:asset'
           widget: autocomplete
+          handler: 'default:asset'
           handler_settings:
             target_bundles:
               land: land
@@ -2467,6 +2461,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }

@@ -3,12 +3,10 @@ status: false
 dependencies:
   config:
     - plan.type.rothamsted_experiment
-    - taxonomy.vocabulary.crop_family
   module:
     - options
     - plan
     - state_machine
-    - taxonomy
     - user
   enforced:
     module:
@@ -671,6 +669,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 50
           total_pages: null
           id: 0
@@ -809,8 +808,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:asset'
           widget: autocomplete
+          handler: 'default:asset'
           handler_settings:
             target_bundles:
               land: land
@@ -1275,7 +1274,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }
   page:
@@ -1305,6 +1303,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - user.permissions
       tags: {  }

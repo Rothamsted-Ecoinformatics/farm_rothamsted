@@ -99,7 +99,7 @@ display:
           entity_type: rothamsted_program
           entity_field: name
           plugin_id: field
-          label: Program name
+          label: 'Program name'
           exclude: false
           alter:
             alter_text: false
@@ -614,6 +614,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 20
           total_pages: null
           id: 0
@@ -783,7 +784,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Program name
+            label: 'Program name'
             description: ''
             use_operator: false
             operator: name_op
@@ -960,8 +961,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          handler: 'default:rothamsted_researcher'
           widget: autocomplete
+          handler: 'default:rothamsted_researcher'
           handler_settings:
             target_bundles: null
             sort:
