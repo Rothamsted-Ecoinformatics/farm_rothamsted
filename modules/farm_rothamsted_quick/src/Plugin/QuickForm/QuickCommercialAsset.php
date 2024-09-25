@@ -312,7 +312,7 @@ class QuickCommercialAsset extends QuickFormBase {
 
     // Get the variety names.
     $variety_names = [];
-    if ($variety_ids = $form_state->getValue('plant_type', [])) {
+    if ($variety_ids = $form_state->getValue('plant_type')) {
       if ($varieties = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($variety_ids)) {
         $variety_names = array_map(function (TermInterface $variety) {
           return $variety->label();
@@ -322,7 +322,7 @@ class QuickCommercialAsset extends QuickFormBase {
 
     // Get the location name.
     $location_names = [];
-    if ($location_ids = array_column($form_state->getValue('location', []), 'target_id')) {
+    if ($location_ids = array_column($form_state->getValue('location') ?? [], 'target_id')) {
       if ($locations = $this->entityTypeManager->getStorage('asset')->loadMultiple($location_ids)) {
         $location_names = array_map(function (AssetInterface $location) {
           return $location->label();
