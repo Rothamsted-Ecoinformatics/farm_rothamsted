@@ -30,7 +30,7 @@ trait QuickTaxonomyOptionsTrait {
    * @return array
    *   An array of taxonomy labels ordered alphabetically.
    */
-  protected function getChildTermOptionsByName(string $vocabulary_name, string $term_name, int $depth = NULL): array {
+  protected function getChildTermOptionsByName(string $vocabulary_name, string $term_name, ?int $depth = NULL): array {
     // Search for a parent term.
     $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
     $matching_terms = $term_storage->loadByProperties([
@@ -70,7 +70,7 @@ trait QuickTaxonomyOptionsTrait {
    * @return array
    *   An array of term labels indexed by term ID and sorted alphabetically.
    */
-  protected function getTermTreeOptions(string $vocabulary_name, int $parent = 0, int $depth = NULL, bool $warning = TRUE): array {
+  protected function getTermTreeOptions(string $vocabulary_name, int $parent = 0, ?int $depth = NULL, bool $warning = TRUE): array {
 
     // Load terms.
     /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
@@ -109,7 +109,7 @@ trait QuickTaxonomyOptionsTrait {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function addEmptyTaxonomyWarning(string $vocabulary_name, string $child_name = NULL) {
+  protected function addEmptyTaxonomyWarning(string $vocabulary_name, ?string $child_name = NULL) {
     $vocab = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary')->load($vocabulary_name);
     $url = new Url('entity.taxonomy_vocabulary.overview_form', ['taxonomy_vocabulary' => $vocabulary_name]);
     $url = $url->toString();

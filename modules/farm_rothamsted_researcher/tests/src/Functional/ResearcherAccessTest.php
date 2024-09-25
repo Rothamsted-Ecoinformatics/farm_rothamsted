@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\farm_rothamsted_experiment_research\Functional;
 
-use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\Tests\farm_test\Functional\FarmBrowserTestBase;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\user\Entity\Role;
 
 /**

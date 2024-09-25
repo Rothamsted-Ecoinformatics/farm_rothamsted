@@ -5,7 +5,6 @@
  * Contains farm_rothamsted.module.
  */
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFormInterface;
@@ -15,6 +14,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\system\Entity\Action;
 
 /**
@@ -81,7 +81,7 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
 /**
  * Implements hook_entity_field_access().
  */
-function farm_rothamsted_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+function farm_rothamsted_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, ?FieldItemListInterface $items = NULL) {
   // Add field access check to prevent users from changing username and email.
   if ($operation == 'edit' && $field_definition->getTargetEntityTypeId() == 'user' && in_array($field_definition->getName(), ['name', 'mail'])) {
     return AccessResult::forbiddenIf(!$account->hasPermission('administer users'));
@@ -284,7 +284,7 @@ function farm_rothamsted_ppe_options() {
  * @return array
  *   Returns an array of allowed values for use in form select options.
  */
-function farm_rothamsted_ppe_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+function farm_rothamsted_ppe_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_ppe_options();
 }
 
@@ -301,6 +301,6 @@ function farm_rothamsted_ppe_field_allowed_values(FieldStorageDefinitionInterfac
  * @return array
  *   Returns an array of allowed values for use in form select options.
  */
-function farm_rothamsted_cossh_hazard_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+function farm_rothamsted_cossh_hazard_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_cossh_hazard_options();
 }

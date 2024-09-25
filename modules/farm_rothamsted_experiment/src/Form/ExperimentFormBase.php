@@ -2,9 +2,9 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -18,7 +18,7 @@ abstract class ExperimentFormBase extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, PlanInterface $plan = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?PlanInterface $plan = NULL) {
     return $form;
   }
 

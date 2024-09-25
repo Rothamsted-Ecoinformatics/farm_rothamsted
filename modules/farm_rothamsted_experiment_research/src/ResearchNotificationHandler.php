@@ -2,7 +2,6 @@
 
 namespace Drupal\farm_rothamsted_experiment_research;
 
-use Drupal\comment\CommentInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -10,6 +9,7 @@ use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\comment\CommentInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
@@ -651,7 +651,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    * @return array
    *   An array of researcher emails.
    */
-  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field, bool $force = FALSE, string $notification_type = NULL) {
+  protected function getResearcherEmails(EntityReferenceFieldItemListInterface $field, bool $force = FALSE, ?string $notification_type = NULL) {
     return array_map(function (RothamstedResearcherInterface $researcher) use ($notification_type) {
       return $researcher->getNotificationEmail(TRUE, $notification_type);
     }, $field->referencedEntities());

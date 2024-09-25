@@ -61,6 +61,6 @@ interface RothamstedResearcherInterface extends ContentEntityInterface, EntityCh
    * @return string|null
    *   Returns NULL if the farm user account has email disabled.
    */
-  public function getNotificationEmail(bool $force = FALSE, string $notification_type = NULL): ?string;
+  public function getNotificationEmail(bool $force = FALSE, ?string $notification_type = NULL): ?string;
 
 }

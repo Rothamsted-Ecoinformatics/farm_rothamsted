@@ -2,12 +2,12 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\asset\Entity\Asset;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,7 +68,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, PlanInterface $plan = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?PlanInterface $plan = NULL) {
 
     // Bail if no plan.
     if (empty($plan)) {
@@ -272,6 +272,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
    *   The form state.
    *
    * @return string
+   *   The boundary name.
    */
   protected function generateBoundaryName(FormStateInterface $form_state): string {
     if ($plan = Plan::load($form_state->getValue('plan_id'))) {

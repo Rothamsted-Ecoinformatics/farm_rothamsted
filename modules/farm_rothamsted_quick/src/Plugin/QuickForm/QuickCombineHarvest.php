@@ -45,7 +45,7 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, string $id = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $id = NULL) {
     $form = parent::buildForm($form, $form_state);
 
     // Change the tractor field to load Combine and Forage Harvester equipment.

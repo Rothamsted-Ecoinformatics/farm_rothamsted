@@ -4,8 +4,8 @@ namespace Drupal\farm_rothamsted_researcher\Entity;
 
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
+use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
@@ -385,7 +385,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
   /**
    * {@inheritdoc}
    */
-  public function getNotificationEmail(bool $force = FALSE, string $notification_type = NULL): ?string {
+  public function getNotificationEmail(bool $force = FALSE, ?string $notification_type = NULL): ?string {
 
     // Bail if no farm_user.
     if ($this->get('farm_user')->isEmpty()) {

@@ -2,12 +2,12 @@
 
 namespace Drupal\farm_rothamsted_experiment_research\Controller;
 
-use Drupal\asset\Entity\AssetInterface;
 use Drupal\Core\Access\AccessResultForbidden;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface;
@@ -40,7 +40,7 @@ class RelatedEntities extends ControllerBase {
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public function assetAccess(AccountInterface $account, AssetInterface $asset = NULL): AccessResultInterface {
+  public function assetAccess(AccountInterface $account, ?AssetInterface $asset = NULL): AccessResultInterface {
 
     // Ensure access to view the asset.
     $access = $asset->access('view', $account, TRUE);

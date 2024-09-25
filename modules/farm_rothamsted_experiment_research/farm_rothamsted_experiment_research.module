@@ -5,7 +5,6 @@
  * The farm rothamsted experiment research module.
  */
 
-use Drupal\comment\CommentInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
@@ -18,6 +17,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\comment\CommentInterface;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
 
@@ -199,7 +199,7 @@ function farm_rothamsted_experiment_research_update_proposal_reviewer(CommentInt
 /**
  * Implements hook_entity_field_access().
  */
-function farm_rothamsted_experiment_research_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+function farm_rothamsted_experiment_research_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, ?FieldItemListInterface $items = NULL) {
   if ($operation == 'edit' && $field_definition->getTargetEntityTypeId() == 'comment' && $field_definition->getName() == 'proposal_review') {
     return AccessResult::forbiddenIf(!$account->hasPermission('review rothamsted_proposal'));
   }
@@ -462,7 +462,7 @@ function farm_rothamsted_experiment_research_research_entity_access(EntityInterf
  * @return array
  *   Returns an array of allowed values for use in form select options.
  */
-function farm_rothamsted_experiment_research_experiment_category_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+function farm_rothamsted_experiment_research_experiment_category_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_experiment_research_experiment_category_options();
 }
 
@@ -500,7 +500,7 @@ function farm_rothamsted_experiment_research_experiment_category_options(): arra
  * @return array
  *   Returns an array of allowed values for use in form select options.
  */
-function farm_rothamsted_experiment_research_statistical_design_field_allowed_values(FieldStorageDefinitionInterface $definition, ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
+function farm_rothamsted_experiment_research_statistical_design_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_experiment_research_statistical_design_options();
 }
 
@@ -513,7 +513,7 @@ function farm_rothamsted_experiment_research_statistical_design_field_allowed_va
  * @return array
  *   The statistical design allowed options.
  */
-function farm_rothamsted_experiment_research_statistical_design_options(string $blocking_structure = NULL): array {
+function farm_rothamsted_experiment_research_statistical_design_options(?string $blocking_structure = NULL): array {
   $all_options = [
     'crd' => [
       'crd' => t('Completely Randomised Design'),

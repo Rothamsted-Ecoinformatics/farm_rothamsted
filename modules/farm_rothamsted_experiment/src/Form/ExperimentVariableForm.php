@@ -66,7 +66,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, PlanInterface $plan = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?PlanInterface $plan = NULL) {
 
     // Bail if no plan.
     if (empty($plan)) {

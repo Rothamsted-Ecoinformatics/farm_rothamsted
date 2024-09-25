@@ -2,8 +2,8 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
-use Drupal\asset\Entity\Asset;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\asset\Entity\Asset;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -22,7 +22,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, PlanInterface $plan = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?PlanInterface $plan = NULL) {
 
     // Bail if no plan.
     if (empty($plan)) {

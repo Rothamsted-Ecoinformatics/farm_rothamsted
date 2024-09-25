@@ -39,7 +39,7 @@ class QuickExperimentAction extends QuickFormActionBase {
   /**
    * {@inheritdoc}
    */
-  public function access($object, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access($object, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
 
     // Only allow plant and plot assets.
     $allowed_bundle = AccessResult::forbiddenIf(!in_array($object->bundle(), ['plant', 'plot']));

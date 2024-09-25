@@ -30,7 +30,7 @@ class SubmitProposalForm extends FormBase {
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The access result.
    */
-  public function access(RothamstedProposalInterface $rothamsted_proposal = NULL) {
+  public function access(?RothamstedProposalInterface $rothamsted_proposal = NULL) {
     if (empty($rothamsted_proposal)) {
       return AccessResult::forbidden();
     }
@@ -41,7 +41,7 @@ class SubmitProposalForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, RothamstedProposalInterface $rothamsted_proposal = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?RothamstedProposalInterface $rothamsted_proposal = NULL) {
 
     // Build form. See ConfirmFormBase.
     $form_state->set('entity', $rothamsted_proposal);
