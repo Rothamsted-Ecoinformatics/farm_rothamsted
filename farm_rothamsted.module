@@ -15,6 +15,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\inline_entity_form\Plugin\Field\FieldWidget\InlineEntityFormComplex;
 use Drupal\system\Entity\Action;
 
 /**
@@ -76,6 +77,22 @@ function farm_rothamsted_farm_entity_bundle_field_info(EntityTypeInterface $enti
   }
 
   return $fields;
+}
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ */
+function farm_rothamsted_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+
+  // Keep quantity entities when deleting references to log quantities.
+  // Modify behavior from https://github.com/farmOS/farmOS/pull/877.
+  if ($entity_type->id() === 'log' && isset($fields['quantity'])) {
+    $form_options = $fields['quantity']->getDisplayOptions('form');
+    if ($form_options['type'] === 'inline_entity_form_complex') {
+      $form_options['settings']['removed_reference'] = InlineEntityFormComplex::REMOVED_KEEP;
+      $fields['quantity']->setDisplayOptions('form', $form_options);
+    }
+  }
 }
 
 /**

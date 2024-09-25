@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update farm_rei version. [#753](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/753)
 - Rename experiment plans to study plans. [#751](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/751)
+- Keep quantity entities when deleting references to log quantities
 
 ## [2.23.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/44)
 
