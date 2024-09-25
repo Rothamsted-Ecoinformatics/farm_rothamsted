@@ -1191,8 +1191,8 @@ display:
             group_items: {  }
           reduce_duplicates: true
           widget: select
-          handler: views
-          handler_settings:
+          sub_handler: views
+          sub_handler_settings:
             view:
               view_name: farm_people
               display_name: entity_reference
@@ -1240,8 +1240,8 @@ display:
             group_items: {  }
           reduce_duplicates: true
           widget: autocomplete
-          handler: views
-          handler_settings:
+          sub_handler: views
+          sub_handler_settings:
             view:
               view_name: farm_asset_reference
               display_name: entity_reference
@@ -1289,8 +1289,8 @@ display:
             group_items: {  }
           reduce_duplicates: true
           widget: autocomplete
-          handler: views
-          handler_settings:
+          sub_handler: views
+          sub_handler_settings:
             view:
               view_name: farm_location_reference
               display_name: entity_reference

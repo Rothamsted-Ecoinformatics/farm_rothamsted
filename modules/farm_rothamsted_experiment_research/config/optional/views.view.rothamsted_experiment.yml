@@ -1028,8 +1028,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:rothamsted_researcher'
-          handler_settings:
+          sub_handler: 'default:rothamsted_researcher'
+          sub_handler_settings:
             target_bundles: null
             sort:
               field: name

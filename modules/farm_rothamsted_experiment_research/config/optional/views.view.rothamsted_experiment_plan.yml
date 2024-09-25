@@ -996,8 +996,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:rothamsted_experiment'
-          handler_settings:
+          sub_handler: 'default:rothamsted_experiment'
+          sub_handler_settings:
             target_bundles: null
             sort:
               field: _none
@@ -1203,8 +1203,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:asset'
-          handler_settings:
+          sub_handler: 'default:asset'
+          sub_handler_settings:
             target_bundles:
               land: land
             sort:
@@ -1969,8 +1969,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:rothamsted_experiment'
-          handler_settings:
+          sub_handler: 'default:rothamsted_experiment'
+          sub_handler_settings:
             target_bundles: null
             sort:
               field: _none
@@ -2126,8 +2126,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:asset'
-          handler_settings:
+          sub_handler: 'default:asset'
+          sub_handler_settings:
             target_bundles:
               land: land
             sort:

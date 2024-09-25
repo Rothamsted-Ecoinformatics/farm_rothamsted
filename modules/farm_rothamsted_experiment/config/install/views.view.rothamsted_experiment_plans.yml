@@ -809,8 +809,8 @@ display:
             group_items: {  }
           reduce_duplicates: false
           widget: autocomplete
-          handler: 'default:asset'
-          handler_settings:
+          sub_handler: 'default:asset'
+          sub_handler_settings:
             target_bundles:
               land: land
             sort:
