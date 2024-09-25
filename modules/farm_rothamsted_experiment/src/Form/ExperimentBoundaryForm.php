@@ -7,6 +7,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -135,6 +136,31 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       ],
     ];
 
+    // Provide a checkbox to allow customizing the asset name.
+    $form['name_wrapper'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'boundary-name'],
+    ];
+    $form['custom_name'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Customize experiment boundary name'),
+      '#description' => $this->t('The name of the experiment boundary. Defaults to: "[Study Period] ([Study Plan name])"'),
+      '#default_value' => FALSE,
+      '#ajax' => [
+        'callback' => [$this, 'boundaryNameCallback'],
+        'wrapper' => 'boundary-name',
+      ],
+    ];
+    if ($form_state->getValue('custom_name', FALSE)) {
+      $form['name_wrapper']['name'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Experiment boundary name'),
+        '#maxlength' => 255,
+        '#default_value' => $this->generateBoundaryName($form_state),
+        '#required' => TRUE,
+      ];
+    }
+
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
@@ -157,6 +183,21 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
   }
 
   /**
+   * Ajax callback for boundary name field.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The render array.
+   */
+  public function boundaryNameCallback(array $form, FormStateInterface $form_state) {
+    return $form['name_wrapper'];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
@@ -164,8 +205,11 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     // Get the plan.
     $plan = Plan::load($form_state->getValue('plan_id'));
 
-    // Get the study_period_id.
-    $study_period = $plan->get('study_period_id')->value;
+    // If a custom boundary name was provided, use that. Otherwise generate one.
+    $boundary_name = $this->generateBoundaryName($form_state);
+    if ($form_state->getValue('custom_name', FALSE) && $form_state->hasValue('name')) {
+      $boundary_name = $form_state->getValue('name');
+    }
 
     // Set the experiment location.
     $location = $form_state->getValue('location');
@@ -175,7 +219,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     $boundary = Asset::create([
       'type' => 'land',
       'land_type' => 'experiment_boundary',
-      'name' => $this->t('@study_period (@plan_name): Experiment Boundary', ['@study_period' => $study_period, '@plan_name' => $plan->label()]),
+      'name' => $boundary_name,
       'status' => 'active',
       'parent' => $location,
       'is_fixed' => TRUE,
@@ -219,6 +263,22 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
 
     // Redirect to the plan page.
     $form_state->setRedirectUrl($plan->toUrl());
+  }
+
+  /**
+   * Helper function to generate the boundary name.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return string
+   */
+  protected function generateBoundaryName(FormStateInterface $form_state): string {
+    if ($plan = Plan::load($form_state->getValue('plan_id'))) {
+      $study_period = $plan->get('study_period_id')->value;
+      return new TranslatableMarkup('@study_period (@plan_name): Experiment Boundary', ['@study_period' => $study_period, '@plan_name' => $plan->label()]);
+    }
+    return '';
   }
 
 }
