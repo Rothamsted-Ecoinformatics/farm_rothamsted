@@ -1,11 +1,39 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_role
+    - farm_setup
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_roles
-  module:
-    - farm_role
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        'view all': true
+        'create all': false
+        'update all': false
+        'delete all': false
+        type:
+          log:
+            create:
+              - all
+            'view any':
+              - all
+            'update own':
+              - all
+          quantity:
+            create:
+              - all
+            'view any':
+              - all
+            'update own':
+              - all
+            'delete own':
+              - all
 id: rothamsted_operator_basic
 label: 'Operator (basic)'
 weight: 2
@@ -13,29 +41,3 @@ is_admin: false
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
-third_party_settings:
-  farm_role:
-    access:
-      config: false
-      entity:
-        view all: true
-        create all: false
-        update all: false
-        delete all: false
-        type:
-          log:
-            create:
-              - all
-            view any:
-              - all
-            update own:
-              - all
-          quantity:
-            create:
-              - all
-            view any:
-              - all
-            update own:
-              - all
-            delete own:
-              - all

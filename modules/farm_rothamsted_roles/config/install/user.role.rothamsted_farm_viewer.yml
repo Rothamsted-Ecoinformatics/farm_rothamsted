@@ -1,11 +1,22 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_role
+    - farm_setup
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_roles
-  module:
-    - farm_role
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        'view all': true
+        'create all': false
+        'update all': false
+        'delete all': false
 id: rothamsted_farm_viewer
 label: 'Farm Viewer'
 weight: 1
@@ -13,12 +24,3 @@ is_admin: false
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
-third_party_settings:
-  farm_role:
-    access:
-      config: false
-      entity:
-        view all: true
-        create all: false
-        update all: false
-        delete all: false

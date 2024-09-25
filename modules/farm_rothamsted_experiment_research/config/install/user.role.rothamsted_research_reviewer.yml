@@ -4,10 +4,20 @@ dependencies:
   module:
     - farm_role
     - farm_rothamsted_experiment_research
-    - farm_rothamsted_researcher
+    - farm_setup
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_experiment_research
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        'view all': true
+        'create all': false
+        'update all': false
+        'delete all': false
 id: rothamsted_research_reviewer
 label: 'Research Reviewer'
 weight: 5
@@ -16,12 +26,3 @@ permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
   - 'review rothamsted_proposal'
-third_party_settings:
-  farm_role:
-    access:
-      config: false
-      entity:
-        view all: true
-        create all: false
-        update all: false
-        delete all: false

@@ -1,11 +1,21 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_role
+    - farm_rothamsted_experiment
   enforced:
     module:
       - farm_rothamsted_roles
-  module:
-    - farm_role
+third_party_settings:
+  farm_role:
+    access:
+      config: true
+      entity:
+        'view all': true
+        'create all': true
+        'update all': true
+        'delete all': true
 id: rothamsted_data_admin
 label: 'Farm Data Admin'
 weight: 1
@@ -15,12 +25,3 @@ permissions:
   - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
-third_party_settings:
-  farm_role:
-    access:
-      config: true
-      entity:
-        view all: true
-        create all: true
-        update all: true
-        delete all: true

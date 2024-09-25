@@ -2,12 +2,47 @@ langcode: en
 status: true
 dependencies:
   module:
+    - asset
     - farm_role
-    - farm_rothamsted_experiment_research
-    - farm_rothamsted_researcher
+    - farm_setup
+    - log
+    - plan
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_experiment_research
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        'view all': false
+        'create all': false
+        'update all': false
+        'delete all': false
+        type:
+          asset:
+            'view any':
+              - equipment
+            'view research_assigned':
+              - group
+              - plant
+              - land
+              - plot
+              - structure
+              - sensor
+          log:
+            'view research_assigned':
+              - all
+          plan:
+            'view research_assigned':
+              - rothamsted_experiment
+          quantity:
+            'view research_assigned':
+              - all
+          taxonomy_term:
+            'view any':
+              - all
 id: rothamsted_research_restricted_viewer
 label: 'Restricted Viewer'
 weight: 5
@@ -18,35 +53,3 @@ permissions:
   - 'view all asset revisions'
   - 'view all log revisions'
   - 'view all plan revisions'
-third_party_settings:
-  farm_role:
-    access:
-      config: false
-      entity:
-        view all: false
-        create all: false
-        update all: false
-        delete all: false
-        type:
-          asset:
-            view any:
-              - equipment
-            view research_assigned:
-              - group
-              - plant
-              - land
-              - plot
-              - structure
-              - sensor
-          log:
-            view research_assigned:
-              - all
-          plan:
-            view research_assigned:
-              - rothamsted_experiment
-          quantity:
-            view research_assigned:
-              - all
-          taxonomy_term:
-            view any:
-              - all

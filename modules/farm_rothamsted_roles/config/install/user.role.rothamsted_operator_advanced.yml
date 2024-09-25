@@ -1,27 +1,22 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_role
+    - farm_setup
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_roles
-  module:
-    - farm_role
-id: rothamsted_operator_advanced
-label: 'Operator (advanced)'
-weight: 2
-is_admin: false
-permissions:
-  - 'access farm setup'
-  - 'access taxonomy overview'
 third_party_settings:
   farm_role:
     access:
       config: false
       entity:
-        view all: true
-        create all: false
-        update all: false
-        delete all: false
+        'view all': true
+        'create all': false
+        'update all': false
+        'delete all': false
         type:
           asset:
             create:
@@ -32,9 +27,9 @@ third_party_settings:
               - sensor
               - structure
               - water
-            view any:
+            'view any':
               - all
-            update own:
+            'update own':
               - equipment
               - group
               - land
@@ -45,23 +40,30 @@ third_party_settings:
           log:
             create:
               - all
-            view any:
+            'view any':
               - all
-            update own:
+            'update own':
               - all
           quantity:
             create:
               - all
-            view any:
+            'view any':
               - all
-            update own:
+            'update own':
               - all
-            delete own:
+            'delete own':
               - all
           taxonomy_term:
             create:
               - all
-            view any:
+            'view any':
               - all
             edit:
               - all
+id: rothamsted_operator_advanced
+label: 'Operator (advanced)'
+weight: 2
+is_admin: false
+permissions:
+  - 'access farm setup'
+  - 'access taxonomy overview'

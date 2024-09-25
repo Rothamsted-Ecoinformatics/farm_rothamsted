@@ -3,11 +3,48 @@ status: true
 dependencies:
   module:
     - farm_role
-    - farm_rothamsted_experiment_research
-    - farm_rothamsted_researcher
+    - farm_rothamsted_experiment
+    - farm_setup
+    - taxonomy
   enforced:
     module:
       - farm_rothamsted_experiment_research
+third_party_settings:
+  farm_role:
+    access:
+      config: false
+      entity:
+        'view all': true
+        'create all': false
+        'update all': false
+        'delete all': false
+        type:
+          asset:
+            'update research_assigned':
+              - land
+              - plant
+              - plot
+              - structure
+              - sensor
+          log:
+            create:
+              - observation
+            'update own':
+              - observation
+          plan:
+            create:
+              - rothamsted_experiment
+            'update research_assigned':
+              - rothamsted_experiment
+          quantity:
+            create:
+              - all
+            'update research_assigned':
+              - all
+            'update own':
+              - all
+            'delete own':
+              - all
 id: rothamsted_research_lead
 label: 'Research Lead'
 weight: 3
@@ -18,39 +55,3 @@ permissions:
   - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
-third_party_settings:
-  farm_role:
-    access:
-      config: false
-      entity:
-        view all: true
-        create all: false
-        update all: false
-        delete all: false
-        type:
-          asset:
-            update research_assigned:
-              - land
-              - plant
-              - plot
-              - structure
-              - sensor
-          log:
-            create:
-              - observation
-            update own:
-              - observation
-          plan:
-            create:
-              - rothamsted_experiment
-            update research_assigned:
-              - rothamsted_experiment
-          quantity:
-            create:
-              - all
-            update research_assigned:
-              - all
-            update own:
-              - all
-            delete own:
-              - all
