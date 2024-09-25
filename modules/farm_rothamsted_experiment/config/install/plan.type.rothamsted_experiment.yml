@@ -1,6 +1,8 @@
 langcode: en
 status: true
 dependencies:
+  module:
+    - farm_rothamsted_experiment
   enforced:
     module:
       - farm_rothamsted_experiment
