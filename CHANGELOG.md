@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.24.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
+
 ### Fixed
 
 - Only alter rothamsted_experiment plan view.
