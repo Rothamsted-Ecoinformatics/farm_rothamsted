@@ -135,6 +135,11 @@ function farm_rothamsted_experiment_alter_plan_name(array $element, FormStateInt
  */
 function farm_rothamsted_experiment_plan_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
 
+  // Only modify experiment plans.
+  if ($entity->bundle() !== 'rothamsted_experiment') {
+    return;
+  }
+
   $boundary = NULL;
   /** @var \Drupal\asset\Entity\AssetInterface[] $plan_assets */
   $plan_assets = $entity->get('asset')->referencedEntities();
