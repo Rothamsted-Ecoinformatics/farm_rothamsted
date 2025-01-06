@@ -162,6 +162,59 @@ class Experiment extends FarmPlanType {
       'description_field' => TRUE,
       'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
     ];
+    $fields['columns_file'] = BundleFieldDefinition::create('file')
+      ->setLabel($this->t('Columns'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(1)
+      ->setSettings([
+        'description_field' => FALSE,
+        'file_extensions' => 'csv',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+     $fields['column_levels_file'] = BundleFieldDefinition::create('file')
+      ->setLabel($this->t('Column levels'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(1)
+      ->setSettings([
+        'description_field' => FALSE,
+        'file_extensions' => 'csv',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+     $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
+      ->setLabel($this->t('Plot attributes'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(1)
+      ->setSettings([
+        'description_field' => FALSE,
+        'file_extensions' => 'csv',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+     $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
+      ->setLabel($this->t('Plot geometries'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(1)
+      ->setSettings([
+        'description_field' => FALSE,
+        'file_extensions' => 'geojson',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'region' => 'hidden',
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['agreed_quote'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Agreed Quote'))
       ->setDescription($this->t('The final agreed quotation for the work proposed.'))
