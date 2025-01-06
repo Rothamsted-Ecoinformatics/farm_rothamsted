@@ -107,6 +107,30 @@ class QuickOperation extends QuickExperimentFormBase {
       '#weight' => 13,
     ];
 
+    // Water volume.
+    $water_volume_units_options = [
+      'l' => 'l',
+      'gal' => 'gal',
+    ];
+    $task['water_volume'] = $this->buildQuantityField([
+      'title' => $this->t('Water volume'),
+      'description' => $this->t('The total amount of water added to the tank, as required to cover the field area(s).'),
+      'measure' => ['#value' => 'volume'],
+      'units' => ['#options' => $water_volume_units_options],
+    ]);
+
+    // Water rate.
+    $water_rate_units_options = [
+      'm3/ha' => 'm3/ha',
+      'mm/ha' => 'mm/ha',
+    ];
+    $task['water_rate'] = $this->buildQuantityField([
+      'title' => $this->t('Water rate'),
+      'description' => $this->t('The amount of water added per unit area to the field area(s).'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#options' => $water_rate_units_options],
+    ]);
+
     // Move recommendation fields to task group.
     foreach (['recommendation_number', 'recommendation_files'] as $field_name) {
       $task[$field_name] = $form['setup'][$field_name];
@@ -150,8 +174,13 @@ class QuickOperation extends QuickExperimentFormBase {
    * {@inheritdoc}
    */
   protected function getQuantities(array $field_keys, FormStateInterface $form_state): array {
-    $field_keys[] = 'depth';
-    $field_keys[] = 'working_width';
+    array_push(
+      $field_keys,
+      'depth',
+      'working_width',
+      'water_volume',
+      'water_rate',
+    );
     return parent::getQuantities($field_keys, $form_state);
   }
 
