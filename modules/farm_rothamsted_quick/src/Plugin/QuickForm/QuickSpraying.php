@@ -170,6 +170,18 @@ class QuickSpraying extends QuickExperimentFormBase {
       'required' => TRUE,
     ]);
 
+    // Water rate.
+    $water_rate_units_options = [
+      'm3/ha' => 'm3/ha',
+      'mm/ha' => 'mm/ha',
+    ];
+    $tank['water_rate'] = $this->buildQuantityField([
+      'title' => $this->t('Water rate'),
+      'description' => $this->t('The amount of water added per unit area to the field area(s).'),
+      'measure' => ['#value' => 'rate'],
+      'units' => ['#options' => $water_rate_units_options],
+    ]);
+
     // Tank mix ID.
     $tank['tank_mix_id'] = [
       '#type' => 'textfield',
@@ -408,6 +420,7 @@ class QuickSpraying extends QuickExperimentFormBase {
       'harvest_interval',
       'pressure',
       'water_volume',
+      'water_rate',
       'tank_volume_remaining',
       'wind_speed',
       'temperature',
