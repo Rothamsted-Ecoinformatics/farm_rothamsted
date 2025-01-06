@@ -1032,3 +1032,45 @@ function farm_rothamsted_experiment_post_update_2_26_plan_status_change_actions(
     \Drupal::configFactory()->getEditable("system.action.$action_id")->setData($data)->save(TRUE);
   }
 }
+
+function farm_rothamsted_experiment_post_update_2_30_add_file_fields(&$sandbox = NULL) {
+
+  $fields['columns_file'] = BundleFieldDefinition::create('file')
+    ->setRevisionable(TRUE)
+    ->setCardinality(1)
+    ->setSettings([
+      'description_field' => FALSE,
+      'file_extensions' => 'csv',
+    ]);
+  $fields['column_levels_file'] = BundleFieldDefinition::create('file')
+    ->setRevisionable(TRUE)
+    ->setCardinality(1)
+    ->setSettings([
+      'description_field' => FALSE,
+      'file_extensions' => 'csv',
+    ]);
+  $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
+    ->setRevisionable(TRUE)
+    ->setCardinality(1)
+    ->setSettings([
+      'description_field' => FALSE,
+      'file_extensions' => 'csv',
+    ]);
+  $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
+    ->setRevisionable(TRUE)
+    ->setCardinality(1)
+    ->setSettings([
+      'description_field' => FALSE,
+      'file_extensions' => 'geojson',
+    ]);
+
+  // Install each field definition.
+  foreach ($fields as $field_name => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_name,
+      'plan',
+      'farm_rothamsted_experiment',
+      $field_definition,
+    );
+  }
+}

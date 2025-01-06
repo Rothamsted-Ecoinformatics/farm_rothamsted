@@ -293,6 +293,10 @@ function farm_rothamsted_experiment_farm_ui_theme_field_group_items(string $enti
     return [
       'location' => 'locations',
       'asset' => 'locations',
+      'columns_file' => 'file',
+      'column_levels_file' => 'file',
+      'plot_attributes_file' => 'file',
+      'plot_geometry_file' => 'file',
       'experiment_plan_link' => 'file',
       'experiment_file_link' => 'file',
       'other_links' => 'file',
