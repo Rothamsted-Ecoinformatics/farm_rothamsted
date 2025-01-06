@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add PHPStan level 1 to test runs.
+- Add water rate to spraying quick form. [#638](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/638)
 
 ## [2.24.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
 
