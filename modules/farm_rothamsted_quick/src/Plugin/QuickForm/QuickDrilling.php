@@ -4,7 +4,6 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\taxonomy\TermInterface;
 
 /**
  * Drilling quick form.
@@ -68,40 +67,99 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#weight' => 1,
     ];
 
-    // Crop and variety wrapper.
-    $drilling['crop'] = $this->buildInlineWrapper();
-
-    // Crop type.
-    $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
-    $drilling['crop']['crop'] = [
+    // Crop count.
+    $crop_counts = range(1, 10);
+    $drilling['crop_count'] = [
       '#type' => 'select',
-      '#title' => $this->t('Crop'),
-      '#description' => $this->t('The crop being drilled.'),
-      '#options' => $crop_type_options,
-      '#required' => TRUE,
+      '#title' => $this->t('How many crops?'),
+      '#options' => array_combine($crop_counts, $crop_counts),
+      '#default_value' => 1,
       '#ajax' => [
-        'callback' => [$this, 'cropVarietyCallback'],
+        'callback' => [$this, 'cropsCallback'],
         'event' => 'change',
-        'wrapper' => 'crop-variety-wrapper',
+        'wrapper' => 'farm-rothamsted-crops',
       ],
     ];
 
-    // Crop variety.
-    $crop_variety_options = NestedArray::getValue($form_state->getStorage(), ['plant_type']) ?? [];
-    if ($crop_id = $form_state->getValue('crop')) {
-      $crop_variety_options = $this->getTermTreeOptions('plant_type', $crop_id);
-      NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
-    }
-    $drilling['crop']['crop_variety'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Variety(s)'),
-      '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
-      '#options' => $crop_variety_options,
-      '#multiple' => TRUE,
-      '#required' => TRUE,
-      '#prefix' => '<div id="crop-variety-wrapper">',
-      '#suffix' => '</div>',
+    // Crops wrapper.
+    $drilling['crops'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'id' => 'farm-rothamsted-crops',
+      ],
+      '#tree' => TRUE,
     ];
+
+    // Add fields for each nutrient.
+    $crop_count = $form_state->get('crop_count') ?? 1;
+    if (($trigger = $form_state->getTriggeringElement()) && NestedArray::getValue($trigger['#array_parents'], [1]) == 'crop_count') {
+      $crop_count = (int) $trigger['#value'];
+    }
+    $form_state->set('crop_count', $crop_count);
+    for ($i = 0; $i < $crop_count; $i++) {
+
+      // Fieldset for each product.
+      $drilling['crops'][$i] = [
+        '#type' => 'details',
+        '#title' => $this->t('Crop @number', ['@number' => $i + 1]),
+        '#collapsible' => TRUE,
+        '#open' => TRUE,
+      ];
+
+      // Crop wrapper.
+      $crop_wrapper = $this->buildInlineWrapper();
+
+      // Get values from form state.
+      $variety_options = [];
+      $crop_type_id = NULL;
+
+      // If the crop_type changed, get the new value for this delta.
+      if (($trigger = $form_state->getTriggeringElement())
+          && NestedArray::getValue($trigger['#array_parents'], [2]) == $i
+          && NestedArray::getValue($trigger['#array_parents'], [4]) == 'crop_type') {
+        if ($crop_type_id = $trigger['#value']) {
+          $variety_options = $this->getTermTreeOptions('plant_type', $crop_type_id);
+        }
+      }
+      // Else get the previous product_type from form state.
+      elseif ($crop_type_id = $form_state->get(['crops', $i, 'crop_wrapper', 'crop_type'])) {
+        $variety_options = $this->getTermTreeOptions('plant_type', $crop_type_id);
+      }
+
+      // Always save the crop_type to form state.
+      $form_state->set(['crops', $i, 'crop_wrapper', 'crop_type'], $crop_type_id);
+
+      // Crop type.
+      $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
+      $crop_wrapper['crop_type'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Crop'),
+        '#description' => $this->t('A list of different crop types. The list can be expanded or amended in the plant types taxonomy.'),
+        '#options' => $crop_type_options,
+        '#required' => TRUE,
+        '#ajax' => [
+          'callback' => [$this, 'cropVarietyCallback'],
+          'event' => 'change',
+          'wrapper' => "crop-$i-wrapper",
+        ],
+      ];
+
+      // Variety.
+      $crop_wrapper['variety'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Variety'),
+        '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
+        '#options' => $variety_options,
+        '#multiple' => TRUE,
+        '#required' => TRUE,
+        '#prefix' => "<div id='crop-$i-wrapper'>",
+        '#suffic' => '</div',
+      ];
+
+      // Assign the wrapper to the form.
+      $drilling['crops'][$i]['crop_wrapper'] = $crop_wrapper;
+    }
 
     // Target plant population units options.
     $target_plant_population_units_options = [
@@ -229,10 +287,36 @@ class QuickDrilling extends QuickExperimentFormBase {
   }
 
   /**
-   * Ajax callback for the crop variety field.
+   * Crops ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The crops render array.
    */
-  public function cropVarietyCallback(array $form, FormStateInterface $form_state) {
-    return $form['drilling']['crop']['crop_variety'];
+  public function cropsCallback(array &$form, FormStateInterface $form_state) {
+    return $form['drilling']['crops'];
+  }
+
+  /**
+   * Crop variety ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The products render array.
+   */
+  public function cropVarietyCallback(array &$form, FormStateInterface $form_state) {
+    // Get the triggering element to return the correct crop offset.
+    $target_crop = $form_state->getTriggeringElement();
+    $target_crop_offset = $target_crop['#parents'][1];
+    return $form['drilling']['crops'][$target_crop_offset]['crop_wrapper']['variety'];
   }
 
   /**
@@ -241,10 +325,19 @@ class QuickDrilling extends QuickExperimentFormBase {
   public function prepareLog(array $form, FormStateInterface $form_state): array {
     $log = parent::prepareLog($form, $form_state);
 
-    // Add the crop and variety to the drilling log plant_type.
-    $crop = [$form_state->getValue('crop')];
-    $variety = $form_state->getValue('crop_variety');
-    $log['plant_type'] = array_merge($crop, $variety);
+    // Add the crops and varieties to the drilling log plant_type.
+    $plant_types = [];
+    $crop_count = $form_state->getValue('crop_count');
+    for ($i = 0; $i < $crop_count; $i++) {
+      if ($crop = $form_state->getValue(['crops', $i, 'crop_wrapper', 'crop_type'])) {
+        $plant_types[] = $crop;
+      }
+      if ($varieties = $form_state->getValue(['crops', $i, 'crop_wrapper', 'variety'])) {
+        $varieties = (array) $varieties;
+        $plant_types = array_merge($plant_types, array_values($varieties));
+      }
+    }
+    $log['plant_type'] = array_unique($plant_types);
 
     // Add the drilling log seed_dressing.
     $log['seed_dressing'] = $form_state->getValue('seed_dressing');
@@ -257,27 +350,26 @@ class QuickDrilling extends QuickExperimentFormBase {
    */
   protected function getLogName(array $form, FormStateInterface $form_state): string {
 
-    // Get the crop name.
-    $crop = $form_state->getValue('crop');
-    $crop_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop)->label();
-
-    // Get the crop/variety names.
-    /** @var \Drupal\taxonomy\TermInterface[] $variety */
-    $varieties = $form_state->getValue('crop_variety', []);
+    // Aggregate all crop and variety names.
+    $crop_names = [];
     $variety_names = [];
-    foreach ($varieties as $variety) {
-      if (is_numeric($variety)) {
-        $variety = $this->entityTypeManager->getStorage('taxonomy_term')->load($variety);
+    $crop_count = $form_state->getValue('crop_count');
+    for ($i = 0; $i < $crop_count; $i++) {
+      if ($crop = $form_state->getValue(['crops', $i, 'crop_wrapper', 'crop_type'])) {
+        $crop_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop)->label();
       }
-      if ($variety instanceof TermInterface) {
-        $variety_names[] = $variety->label();
+      if ($varieties = $form_state->getValue(['crops', $i, 'crop_wrapper', 'variety'])) {
+        $varieties = (array) $varieties;
+        foreach ($varieties as $variety) {
+          $variety_names[] = $this->entityTypeManager->getStorage('taxonomy_term')->load($variety)->label();
+        }
       }
     }
 
     // Generate the log name.
     $name_parts = [
       'prefix' => 'Drilling: ',
-      'crop' => $crop_name,
+      'crop' => implode(', ', $crop_names),
       'variety' => ' (' . implode(', ', $variety_names) . ')',
     ];
     $priority_keys = ['prefix', 'crop', 'variety'];
