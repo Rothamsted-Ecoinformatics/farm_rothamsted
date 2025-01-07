@@ -968,7 +968,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $group_members = $this->groupMembership->getGroupMembers($groups);
 
     // If specified, filter group members to a single asset type.
-    if (!empty($asset_type)) {
+    if (!empty($asset_types)) {
       $group_members = array_filter($group_members, function (AssetInterface $asset) use ($asset_types) {
         return in_array($asset->getEntityTypeId(), $asset_types);
       });
