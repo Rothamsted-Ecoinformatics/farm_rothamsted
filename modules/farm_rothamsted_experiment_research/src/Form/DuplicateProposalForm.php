@@ -23,6 +23,7 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
       $this->entity->set($field_name, NULL);
     }
     $this->entity->set('status', 'draft');
+    return $this;
   }
 
   /**
@@ -35,6 +36,7 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
     $status_notes = "This proposal was created by duplicating \"$source_name\". Please refer to that proposal for previous versions and a revision history. $source_link";
     $this->entity->set('status_notes', $status_notes);
     $this->entity->setRevisionLogMessage($status_notes);
+    return $this;
   }
 
   /**

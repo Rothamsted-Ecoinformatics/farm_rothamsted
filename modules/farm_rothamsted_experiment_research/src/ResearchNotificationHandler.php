@@ -799,7 +799,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $changed_field_message = "No field changes.";
     if (!empty($changed_fields)) {
       $field_labels = [];
-      foreach ($changed_fields ?? [] as $field) {
+      foreach ($changed_fields as $field) {
         $field_labels[] = $entity->get($field)->getFieldDefinition()->getLabel();
       }
       $field_label_text = implode(', ', $field_labels);

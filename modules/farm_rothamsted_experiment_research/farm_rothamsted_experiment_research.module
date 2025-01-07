@@ -737,7 +737,10 @@ function farm_rothamsted_experiment_research_preprocess_rothamsted_research_enti
 
   // Make sure this is a research entity.
   if (isset($variables['theme_hook_original']) && isset($variables['elements']["#{$variables['theme_hook_original']}"])) {
-    $entity_id = $variables['theme_hook_original'];
+    $entity_type_id = $variables['theme_hook_original'];
+  }
+  if (empty($entity_type_id)) {
+    return;
   }
 
   // Helpful $content variable for templates.
@@ -745,7 +748,7 @@ function farm_rothamsted_experiment_research_preprocess_rothamsted_research_enti
     $variables['content'][$key] = $variables['elements'][$key];
   }
   $variables['#attached']['library'][] = 'farm_ui_theme/layout';
-  farm_ui_theme_build_stacked_twocol_layout($variables, $entity_id);
+  farm_ui_theme_build_stacked_twocol_layout($variables, $entity_type_id);
 }
 
 /**
