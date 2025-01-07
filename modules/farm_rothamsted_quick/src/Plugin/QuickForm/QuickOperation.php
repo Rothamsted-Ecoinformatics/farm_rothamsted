@@ -114,19 +114,19 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
     $task['water_volume'] = $this->buildQuantityField([
       'title' => $this->t('Water volume'),
-      'description' => $this->t('The total amount of water added to the tank, as required to cover the field area(s).'),
+      'description' => $this->t('The total amount of water used.'),
       'measure' => ['#value' => 'volume'],
       'units' => ['#options' => $water_volume_units_options],
+      'required' => TRUE,
     ]);
 
     // Water rate.
     $water_rate_units_options = [
-      'm3/ha' => 'm3/ha',
-      'mm/ha' => 'mm/ha',
+      'mm' => 'mm',
     ];
     $task['water_rate'] = $this->buildQuantityField([
       'title' => $this->t('Water rate'),
-      'description' => $this->t('The amount of water added per unit area to the field area(s).'),
+      'description' => $this->t('Used for recording irrigation. The amount of water applied in mm, as equivalent to what would be recorded for a rain gauge. 24mm is equivalent to an inch of rain (12mm for half an inch).'),
       'measure' => ['#value' => 'rate'],
       'units' => ['#options' => $water_rate_units_options],
     ]);
