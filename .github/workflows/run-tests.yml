@@ -42,7 +42,7 @@ jobs:
           docker compose exec -u www-data -T www composer update
           docker compose exec -u www-data -T www composer require ${PACKAGE_NAME}:*
       - name: Run PHP CodeSniffer
-        run: docker compose exec -u www-data -T www phpcs /opt/drupal/web/modules/${MODULE_NAME} --exclude=DrupalPractice.InfoFiles.NamespacedDependency,SlevomatCodingStandard.TypeHints.DeclareStrictTypes
+        run: docker compose exec -u www-data -T www phpcs /opt/drupal/web/modules/${MODULE_NAME} --exclude=DrupalPractice.InfoFiles.NamespacedDependency
       - name: Run PHPUnit tests
         run: docker compose exec -u www-data -T www phpunit --verbose --debug /opt/drupal/web/modules/${MODULE_NAME}
       - name: Test installing farmOS and the module

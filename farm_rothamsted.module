@@ -5,6 +5,8 @@
  * Contains farm_rothamsted.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFormInterface;

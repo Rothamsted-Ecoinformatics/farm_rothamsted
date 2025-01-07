@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add declare(strict_types=1) everywhere.
+
 ## [2.24.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
 
 ### Fixed

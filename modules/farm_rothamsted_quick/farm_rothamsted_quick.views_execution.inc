@@ -5,6 +5,8 @@
  * Provides Views runtime hooks for farm_rothamsted_quick.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 use Drupal\views\ViewExecutable;
 

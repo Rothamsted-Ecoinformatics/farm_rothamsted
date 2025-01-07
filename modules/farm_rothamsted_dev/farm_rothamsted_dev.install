@@ -5,6 +5,8 @@
  * Install, update and uninstall functions for the farm_rothamsted_dev module.
  */
 
+declare(strict_types=1);
+
 use Drupal\asset\Entity\Asset;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesign;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;

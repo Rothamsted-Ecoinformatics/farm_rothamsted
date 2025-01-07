@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\views\Entity\View;
 use Symfony\Component\Yaml\Yaml;
 

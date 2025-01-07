@@ -5,6 +5,8 @@
  * Install, update and uninstall functions for farm_rothamsted module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Datetime\Entity\DateFormat;
 
 /**

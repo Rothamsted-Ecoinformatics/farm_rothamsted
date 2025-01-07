@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Component\Utility\NestedArray;

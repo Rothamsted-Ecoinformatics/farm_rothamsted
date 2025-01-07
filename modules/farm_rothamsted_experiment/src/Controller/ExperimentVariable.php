@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\farm_rothamsted_experiment\Controller;
 
 use Drupal\Component\Serialization\Json;

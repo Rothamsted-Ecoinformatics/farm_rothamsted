@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\farm_rothamsted\Plugin\Log\LogType;
 
 use Drupal\farm_entity\Plugin\Log\LogType\FarmLogType;

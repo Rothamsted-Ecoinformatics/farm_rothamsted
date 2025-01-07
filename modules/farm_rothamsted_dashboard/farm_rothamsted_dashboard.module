@@ -5,6 +5,8 @@
  * The rothamsted dashboard module.
  */
 
+declare(strict_types=1);
+
 /**
  * Implements hook_farm_dashboard_groups().
  */

@@ -5,6 +5,8 @@
  * Provides Views runtime hooks for farm_rothamsted.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\plan\Entity\Plan;
 use Drupal\views\ViewExecutable;
 

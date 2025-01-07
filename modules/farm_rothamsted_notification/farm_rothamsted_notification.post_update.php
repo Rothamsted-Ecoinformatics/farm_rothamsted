@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted_notification.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\user\Entity\User;
 

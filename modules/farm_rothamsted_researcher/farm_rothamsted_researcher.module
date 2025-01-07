@@ -5,6 +5,8 @@
  * Contains farm_rothamsted_researcher.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;

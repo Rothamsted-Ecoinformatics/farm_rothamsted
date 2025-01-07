@@ -5,6 +5,8 @@
  * Update hooks for farm_rothamsted.module.
  */
 
+declare(strict_types=1);
+
 use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\user\Entity\Role;
 use Drupal\views\Entity\View;
