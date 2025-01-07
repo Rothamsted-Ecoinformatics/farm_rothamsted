@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Update ResearchBreadcrumbBuilder::applies declaration to be compatible with parent method.
+
 ## [2.24.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
 
 ### Fixed
