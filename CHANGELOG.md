@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Update ResearchBreadcrumbBuilder::applies declaration to be compatible with parent method.
+- Update drupal/gin dependency to ^4.0.
 
 ## [2.24.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
 
