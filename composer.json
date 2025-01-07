@@ -12,7 +12,7 @@
     "farmos/farmos": "^3.3",
     "drupal/autocomplete_deluxe": "^2.0",
     "drupal/farm_rei": "^2.0.0-beta4",
-    "drupal/gin": "^3.0.0-beta5",
+    "drupal/gin": "^4.0",
     "drupal/json_field": "^1.0@RC",
     "drupal/key_value_field": "^1.2"
   }
