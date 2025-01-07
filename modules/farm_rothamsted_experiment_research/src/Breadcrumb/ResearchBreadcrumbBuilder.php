@@ -3,6 +3,7 @@
 namespace Drupal\farm_rothamsted_experiment_research\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -18,7 +19,7 @@ class ResearchBreadcrumbBuilder extends PathBasedBreadcrumbBuilder {
   /**
    * {@inheritdoc}
    */
-  public function applies(RouteMatchInterface $route_match) {
+  public function applies(RouteMatchInterface $route_match, ?CacheableMetadata $cacheable_metadata = NULL) {
 
     // Only apply to experiment plans.
     if ($route_match->getRouteName() == 'entity.plan.canonical') {
