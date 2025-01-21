@@ -188,7 +188,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     ];
     $tank['water_rate'] = $this->buildQuantityField([
       'title' => $this->t('Water rate'),
-      'description' => $this->t('Used for recording irrigation. The amount of water applied in mm, as equivalent to what would be recorded for a rain gauge. 24mm is equivalent to an inch of rain (12mm for half an inch).'),
+      'description' => $this->t('Used for recording irrigation. The amount of water applied in mm as a rain gauge would record it. A water rate of 1mm = 10m3 water/ha. For older systems measuring in inches, 24mm is equivalent to an inch of rain (12mm for half an inch).'),
       'measure' => ['#value' => 'rate'],
       'units' => ['#options' => $water_rate_units_options],
     ]);
