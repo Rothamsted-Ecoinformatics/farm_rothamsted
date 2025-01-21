@@ -1,0 +1,36 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 2
+			path: modules/farm_rothamsted_experiment/src/Form/ExperimentPlotGeometryForm.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 2
+			path: modules/farm_rothamsted_experiment/src/Form/ExperimentVariableForm.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: modules/farm_rothamsted_experiment/src/Plugin/views/join/RothamstedExperimentAssetLogs.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: modules/farm_rothamsted_experiment/src/Plugin/views/join/RothamstedExperimentLogs.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: modules/farm_rothamsted_experiment/src/Plugin/views/join/RothamstedExperimentPlotLogs.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: modules/farm_rothamsted_experiment_research/src/ResearchEntityPermissionProvider.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 9
+			path: modules/farm_rothamsted_quick/src/Plugin/QuickForm/QuickExperimentFormBase.php
