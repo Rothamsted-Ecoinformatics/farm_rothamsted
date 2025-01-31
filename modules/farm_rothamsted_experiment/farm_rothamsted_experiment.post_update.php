@@ -945,3 +945,70 @@ function farm_rothamsted_experiment_post_update_2_19_remove_field_group(&$sandbo
   }
 
 }
+
+/**
+ * Update hook to parse kml asset geometries to wkt.
+ */
+function farm_rothamsted_experiment_post_update_2_25_parse_asset_kml_to_wkt(&$sandbox) {
+
+  /** @var \Drupal\asset\AssetStorage $asset_storage */
+  $asset_storage = \Drupal::entityTypeManager()->getStorage('asset');
+
+  /** @var \Drupal\geofield\GeoPHP\GeoPHPInterface $geophp */
+  $geophp = Drupal::service('geofield.geophp');
+
+  // This function will be run as a batch operation. On the first run, we will
+  // make preparations. This logic should only run once.
+  if (!isset($sandbox['current_id'])) {
+
+    // Query the database for assets with invalid geometry values.
+    $asset_ids = $asset_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('intrinsic_geometry.value', '<?xml', 'STARTS_WITH')
+      ->execute();
+    $sandbox['asset_ids'] = array_values($asset_ids);
+
+    // Add logger message.
+    $count = count($asset_ids);
+    \Drupal::logger('farm_rothamsted_experiment')->info("Parsing KML values to WKT for $count assets.");
+
+    // Track progress.
+    $sandbox['current_id'] = 0;
+    $sandbox['#finished'] = 0;
+  }
+
+  // Iterate through assets, 5 at a time.
+  $asset_count = count($sandbox['asset_ids']);
+  $end_asset = $sandbox['current_id'] + 5;
+  $end_asset = $end_asset > $asset_count ? $asset_count : $end_asset;
+  for ($i = $sandbox['current_id']; $i < $end_asset; $i++) {
+
+    // Iterate the global counter.
+    $sandbox['current_id']++;
+
+    // Load asset and reset geometry.
+    /** @var \Drupal\asset\Entity\AssetInterface $asset */
+    if (isset($sandbox['asset_ids'][$i]) && $asset = $asset_storage->load($sandbox['asset_ids'][$i])) {
+      if (!$asset->get('intrinsic_geometry')->isEmpty()) {
+        $old_geom = $asset->get('intrinsic_geometry')->first()->getValue()["value"];
+        if ($new_geom = $geophp->load($old_geom)) {
+          $asset->set('intrinsic_geometry', $new_geom->out('wkt'));
+          $asset->setRevisionLogMessage('Automated fix to parse KML geoemtry to WKT value.');
+          $asset->setNewRevision();
+          $asset->save();
+          \Drupal::logger('farm_rothamsted_experiment')->info("Parsed KML to WKT for {$asset->id()}.");
+        }
+      }
+    }
+  }
+
+  // Update progress.
+  if (!empty($sandbox['asset_ids'])) {
+    $sandbox['#finished'] = $sandbox['current_id'] / count($sandbox['asset_ids']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
+
+  return NULL;
+}
