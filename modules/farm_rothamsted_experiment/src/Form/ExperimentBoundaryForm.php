@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\asset\Entity\Asset;
+use Drupal\geofield\GeoPHP\GeoPHPInterface;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,13 +26,23 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
   protected $entityTypeManager;
 
   /**
+   * The geophp wrapper.
+   *
+   * @var \Drupal\geofield\GeoPHP\GeoPHPInterface
+   */
+  protected $geophp;
+
+  /**
    * Constructs a new ExperimentBoundaryForm.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\geofield\GeoPHP\GeoPHPInterface $geophp
+   *   The GeoPHP wrapper.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, GeoPHPInterface $geophp) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->geophp = $geophp;
   }
 
   /**
@@ -40,6 +51,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
+      $container->get('geofield.geophp'),
     );
   }
 
@@ -232,8 +244,8 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       /** @var \Drupal\file\FileInterface $file */
       $file = $this->entityTypeManager->getStorage('file')->load(reset($file_ids));
       $path = $file->getFileUri();
-      if ($data = file_get_contents($path)) {
-        $boundary->set('intrinsic_geometry', $data);
+      if (($data = file_get_contents($path)) && $geom = $this->geophp->load($data)) {
+        $boundary->set('intrinsic_geometry', $geom->out('wkt'));
         $boundary->set('file', $file);
       }
     }

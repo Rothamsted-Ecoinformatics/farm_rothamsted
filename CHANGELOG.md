@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add application rate and water rate to spraying quick form. [#638](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/638)
 - Add water volume and water rate to operations quick form. [#699](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/699)
 
+### Fixed
+
+- Bug: raw KML saved directly to experiment boundary assets. [#769](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/769)
+
 ## [2.24.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/45)
 
 ### Fixed
