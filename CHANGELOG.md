@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Enable farmOS-map snapshot behavior. [#669](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/669)
 
+### Fixed
+
+- Fix incorrectly named link to Experiments. [#776](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/776)
+
 ## [2.25.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/46)
 
 ### Added
