@@ -1,0 +1,5 @@
+services:
+  map_render_event_subscriber:
+    class: Drupal\farm_rothamsted\EventSubscriber\MapRenderEventSubscriber
+    tags:
+      - { name: 'event_subscriber' }

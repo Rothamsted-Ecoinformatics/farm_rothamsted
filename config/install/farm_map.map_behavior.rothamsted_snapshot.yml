@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted
+id: rothamsted_snapshot
+label: Rothamsted Snapshot
+description: 'Enables snapshot behavior.'
+library: 'farm_rothamsted/farm_rothamsted_snapshot'
+settings: {  }
