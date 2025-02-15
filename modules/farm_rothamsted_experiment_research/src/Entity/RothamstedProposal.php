@@ -239,8 +239,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['experiment'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Study Plans'))
-      ->setDescription(t('The Study Plan(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
+      ->setLabel(t('Related Experiments'))
+      ->setDescription(t('The experiment(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_experiment')
