@@ -1196,3 +1196,26 @@ function farm_rothamsted_experiment_research_post_update_2_21_comments(&$sandbox
   }
 
 }
+
+/**
+ * Add study_id field to proposals.
+ */
+function farm_rothamsted_experiment_research_post_update_2_26_add_study_id_field(&$sandbox) {
+
+  $fields = [];
+  $fields['study_id'] = BaseFieldDefinition::create('string')
+    ->setLabel(t('Study ID'))
+    ->setRevisionable(TRUE)
+    ->setSetting('max_length', 255)
+    ->setSetting('text_processing', 0)
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+  foreach ($fields as $field_id => $field_definition) {
+    \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+      $field_id,
+      'rothamsted_proposal',
+      'farm_rothamsted_experiment_research',
+      $field_definition,
+    );
+  }
+}

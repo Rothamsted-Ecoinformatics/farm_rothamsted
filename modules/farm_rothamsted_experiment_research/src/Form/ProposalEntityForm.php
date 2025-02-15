@@ -102,6 +102,7 @@ class ProposalEntityForm extends ResearchEntityForm {
           'design',
           'plan',
           'reviewer',
+          'study_id',
           'status',
           'status_notes',
         ],
