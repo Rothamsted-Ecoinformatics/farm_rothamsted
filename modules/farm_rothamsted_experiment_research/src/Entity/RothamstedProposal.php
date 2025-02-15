@@ -318,6 +318,22 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'weight' => -15,
       ]);
 
+    $fields['study_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Study ID'))
+      ->setRevisionable(TRUE)
+      ->setSetting('max_length', 255)
+      ->setSetting('text_processing', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -15,
+      ]);
+
     $fields['contact'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Contacts'))
       ->setDescription(t('List researchers that are contacts for this proposal.'))
@@ -1027,6 +1043,7 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
           'size' => 60,
           'placeholder' => '',
         ],
+        'weight' => -15,
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
