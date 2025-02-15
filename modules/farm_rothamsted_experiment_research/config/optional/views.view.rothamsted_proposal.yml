@@ -90,6 +90,71 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -769,6 +834,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -983,8 +1100,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -1043,8 +1160,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -1102,8 +1219,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -1251,6 +1368,71 @@ display:
     display_options:
       title: 'Approved proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -1998,6 +2180,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -2212,8 +2446,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -2272,8 +2506,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -2331,8 +2565,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -2370,6 +2604,71 @@ display:
     display_options:
       title: 'Archived proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -3052,6 +3351,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -3265,8 +3616,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -3304,6 +3655,71 @@ display:
     display_options:
       title: 'Cancelled proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -3986,6 +4402,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -4199,8 +4667,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -4238,6 +4706,71 @@ display:
     display_options:
       title: 'Completed proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -4920,6 +5453,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -5133,8 +5718,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -5172,6 +5757,71 @@ display:
     display_options:
       title: 'Draft proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -5789,6 +6439,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -6003,8 +6705,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -6063,8 +6765,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -6122,8 +6824,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -6161,6 +6863,71 @@ display:
     display_options:
       title: 'Planned proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -6973,6 +7740,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -7187,8 +8006,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -7247,8 +8066,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -7306,8 +8125,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -7345,6 +8164,71 @@ display:
     display_options:
       title: 'Rejected proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -8027,6 +8911,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -8240,8 +9176,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -8279,6 +9215,71 @@ display:
     display_options:
       title: 'Submitted proposals'
       fields:
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: field
+          label: 'Study ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
         name:
           id: name
           table: rothamsted_proposal_data
@@ -9026,6 +10027,58 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        study_id:
+          id: study_id
+          table: rothamsted_proposal_data
+          field: study_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          entity_field: study_id
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: study_id_op
+            label: 'Study ID'
+            description: ''
+            use_operator: false
+            operator: study_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: study_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
+              rothamsted_research_editor: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         name:
           id: name
           table: rothamsted_proposal_data
@@ -9240,8 +10293,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -9300,8 +10353,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -9359,8 +10412,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
