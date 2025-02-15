@@ -2,3 +2,8 @@ farm_rothamsted_overrides:
   css:
     theme:
       css/rothamsted-overrides.css: { }
+farm_rothamsted_snapshot:
+  js:
+    js/farmOS.map.behaviors.rothamsted_snapshot.js: { }
+  dependencies:
+    - farm_map/farmOS-map

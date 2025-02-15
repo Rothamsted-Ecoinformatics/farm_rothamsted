@@ -179,3 +179,12 @@ function farm_rothamsted_post_update_2_17_enable_role_submodule(&$sandbox = NULL
     $user->save();
   }
 }
+
+/**
+ * Enable map snapshot behavior.
+ */
+function farm_rothamsted_post_update_2_26_map_snapshot(&$sandbox = NULL) {
+  $config_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted') . "/config/install/farm_map.map_behavior.rothamsted_snapshot.yml";
+  $data = Yaml::parseFile($config_path);
+  \Drupal::configFactory()->getEditable("farm_map.map_behavior.rothamsted_snapshot")->setData($data)->save(TRUE);
+}

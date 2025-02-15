@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Enable farmOS-map snapshot behavior. [#669](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/669)
+
 ## [2.25.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/46)
 
 ### Added
