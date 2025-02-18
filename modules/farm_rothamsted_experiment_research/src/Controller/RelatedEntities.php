@@ -12,6 +12,7 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\plan\Entity\PlanInterface;
 
 /**
@@ -249,6 +250,48 @@ class RelatedEntities extends ControllerBase {
     }
 
     return $this->buildIndex($proposals, $programs, [$experiment], [$design], []);
+  }
+
+  /**
+   * Researcher relationships.
+   *
+   * @param \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $rothamsted_researcher
+   *   The researcher entity.
+   *
+   * @return array
+   *   Render array.
+   */
+  public function researcherRelationships(RothamstedResearcherInterface $rothamsted_researcher): array {
+
+    // Proposals reference the researcher as a contact, statistician,
+    // data_steward or reviewer.
+    $proposal_query = $this->entityTypeManager()->getStorage('rothamsted_proposal')->getQuery()
+      ->accessCheck(TRUE);
+    $researcher_group = $proposal_query->orConditionGroup()
+      ->condition('contact', $rothamsted_researcher->id())
+      ->condition('statistician', $rothamsted_researcher->id())
+      ->condition('data_steward', $rothamsted_researcher->id())
+      ->condition('reviewer', $rothamsted_researcher->id());
+    $proposal_ids = $proposal_query->condition($researcher_group)
+      ->execute();
+    $proposals = $this->entityTypeManager()->getStorage('rothamsted_proposal')->loadMultiple($proposal_ids);
+
+    // Program reference the researcher as principal_investigator.
+    $programs = $this->entityTypeManager()->getStorage('rothamsted_program')->loadByProperties([
+      'principal_investigator' => $rothamsted_researcher->id(),
+    ]);
+
+    // Experiments reference the researcher by researcher.
+    $experiments = $this->entityTypeManager()->getStorage('rothamsted_experiment')->loadByProperties([
+      'researcher' => $rothamsted_researcher->id(),
+    ]);
+
+    // Designs reference the researcher by statistician.
+    $designs = $this->entityTypeManager()->getStorage('rothamsted_design')->loadByProperties([
+      'statistician' => $rothamsted_researcher->id(),
+    ]);
+
+    return $this->buildIndex($proposals, $programs, $experiments, $designs, []);
   }
 
   /**
