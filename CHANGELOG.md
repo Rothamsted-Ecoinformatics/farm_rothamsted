@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Study ID field to Proposals. [#662](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/662)
 - Add Study ID filter and column to proposal view. [#773](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/773)
 
+### Changed
+
+- Show all items on plots tab #362
+
 ### Fixed
 
 - Fix incorrectly named link to Experiments. [#776](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/776)
