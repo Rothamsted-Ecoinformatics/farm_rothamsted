@@ -420,6 +420,10 @@ class RelatedEntities extends ControllerBase {
         ],
       ];
     }
+
+    // Disable cache for this page.
+    $menu_items['#cache'] = ['max-age' => 0];
+
     return $menu_items;
   }
 
