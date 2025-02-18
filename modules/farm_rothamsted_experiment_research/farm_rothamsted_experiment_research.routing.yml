@@ -84,3 +84,15 @@ farm_rothamsted_experiment_research.plan.related:
         type: entity:plan
         bundle:
           - rothamsted_experiment
+
+farm_rothamsted_experiment_research.researcher.related:
+  path: /rothamsted/researcher/{rothamsted_researcher}/related
+  defaults:
+    _title_callback: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::title
+    _controller: Drupal\farm_rothamsted_experiment_research\Controller\RelatedEntities::researcherRelationships
+  requirements:
+    _entity_access: rothamsted_researcher.view
+  options:
+    parameters:
+      rothamsted_researcher:
+        type: entity:rothamsted_researcher

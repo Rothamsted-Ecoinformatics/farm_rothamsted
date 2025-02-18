@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enable farmOS-map snapshot behavior. [#669](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/669)
 - Add Study ID field to Proposals. [#662](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/662)
 - Add Study ID filter and column to proposal view. [#773](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/773)
+- Add Quick Links to researchers. [#729](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/729)
 
 ### Changed
 

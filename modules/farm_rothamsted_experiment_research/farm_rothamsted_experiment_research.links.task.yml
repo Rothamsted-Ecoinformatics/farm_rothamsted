@@ -220,3 +220,15 @@ farm_rothamsted_experiment_research.plan.related:
       data-dialog-options: '{"height":"auto","width":"600px"}'
   base_route: entity.plan.canonical
   weight: 50
+
+farm_rothamsted_experiment_research.researcher.related:
+  title: 'Quick Links'
+  route_name: farm_rothamsted_experiment_research.researcher.related
+  options:
+    attributes:
+      class:
+        - 'use-ajax'
+      data-dialog-type: 'modal'
+      data-dialog-options: '{"height":"auto","width":"600px"}'
+  base_route: entity.rothamsted_researcher.canonical
+  weight: 50
