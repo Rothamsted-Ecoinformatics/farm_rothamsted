@@ -25,6 +25,59 @@ display:
     display_options:
       title: Experiments
       fields:
+        rothamsted_experiment_bulk_form:
+          id: rothamsted_experiment_bulk_form
+          table: rothamsted_experiment
+          field: rothamsted_experiment_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         status:
           id: status
           table: rothamsted_experiment_data
@@ -1027,8 +1080,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -1046,20 +1099,24 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            rothamsted_experiment_bulk_form: rothamsted_experiment_bulk_form
             status: status
             status_notes__value: status_notes__value
             name_1: name_1
             abbreviation: abbreviation
-            code: code
-            rotation_crops: rotation_crops
+            code_value: code_value
             category: category
             program_target_id: program_target_id
             researcher_target_id: researcher_target_id
             start: start
             end: end
-            operations: operations
           default: name_1
           info:
+            rothamsted_experiment_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             status:
               sortable: true
               default_sort_order: asc
@@ -1088,16 +1145,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            code:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            rotation_crops:
-              sortable: true
-              default_sort_order: asc
+            code_value:
               align: ''
               separator: ''
               empty_column: false
@@ -1133,11 +1181,6 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            operations:
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
           override: true
           sticky: false
           summary: ''
@@ -1169,7 +1212,7 @@ display:
           content: 'Displaying @start - @end of @total'
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1189,7 +1232,7 @@ display:
           collapsible: true
       path: rothamsted/experiment
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1253,7 +1296,7 @@ display:
           collapsible: true
       path: rothamsted/program/%rothamsted_program/experiment
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
