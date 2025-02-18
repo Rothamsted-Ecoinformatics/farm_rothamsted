@@ -214,6 +214,22 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDescription(t('The time that the research proposal was last edited.'))
       ->setRevisionable(TRUE);
 
+    $fields['study_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Study ID'))
+      ->setRevisionable(TRUE)
+      ->setSetting('max_length', 255)
+      ->setSetting('text_processing', 0)
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -15,
+      ]);
+
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Research Programs'))
       ->setDescription(t('The research program which this proposal is part of.'))
@@ -315,22 +331,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ->setDisplayOptions('view', [
         'label' => 'inline',
         'type' => 'entity_reference_label',
-        'weight' => -15,
-      ]);
-
-    $fields['study_id'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Study ID'))
-      ->setRevisionable(TRUE)
-      ->setSetting('max_length', 255)
-      ->setSetting('text_processing', 0)
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'inline',
-        'type' => 'string',
         'weight' => -15,
       ]);
 
