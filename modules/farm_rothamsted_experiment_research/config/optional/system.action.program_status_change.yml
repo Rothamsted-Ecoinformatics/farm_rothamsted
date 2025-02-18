@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment_research
+id: program_status_change
+label: 'Change status'
+type: rothamsted_program
+plugin: entity:status_change_action:rothamsted_program
+configuration: {  }

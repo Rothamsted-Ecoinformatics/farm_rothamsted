@@ -32,10 +32,12 @@ use Drupal\user\UserInterface;
  *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm",
  *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm",
  *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
+ *       "entity-status-action-form" = "Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm",
  *     },
  *     "route_provider" = {
  *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
  *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
+ *       "status-change" = "Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider",
  *     },
  *     "local_task_provider" = {
  *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
@@ -70,6 +72,7 @@ use Drupal\user\UserInterface;
  *     "version-history" = "/rothamsted/experiment/{rothamsted_experiment}/revisions",
  *     "revision" = "/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/view",
  *     "revision-revert-form" = "/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/revert",
+ *     "entity-status-action-form" = "/rothamsted/experiment/change-status"
  *   }
  * )
  */
