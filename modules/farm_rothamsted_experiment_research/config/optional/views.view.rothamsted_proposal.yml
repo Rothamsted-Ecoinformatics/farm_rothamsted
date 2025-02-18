@@ -26,6 +26,59 @@ display:
     display_options:
       title: Proposals
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         status:
           id: status
           table: rothamsted_proposal_data
@@ -1238,6 +1291,8 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            rothamsted_proposal_bulk_form: rothamsted_proposal_bulk_form
+            study_id: study_id
             name: name
             program_target_id: program_target_id
             planting_year: planting_year
@@ -1249,6 +1304,18 @@ display:
             status_notes__value: status_notes__value
           default: name
           info:
+            rothamsted_proposal_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            study_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             name:
               sortable: true
               default_sort_order: asc
@@ -1333,7 +1400,7 @@ display:
           content: 'Displaying @start - @end of @total'
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1352,7 +1419,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/all
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1368,6 +1435,59 @@ display:
     display_options:
       title: 'Approved proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -2588,7 +2708,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/approved
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -2604,6 +2724,59 @@ display:
     display_options:
       title: 'Archived proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -3639,7 +3812,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/archived
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -3655,6 +3828,59 @@ display:
     display_options:
       title: 'Cancelled proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -4690,7 +4916,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/cancelled
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -4706,6 +4932,59 @@ display:
     display_options:
       title: 'Completed proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -5741,7 +6020,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/completed
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -5757,6 +6036,59 @@ display:
     display_options:
       title: 'Draft proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -6847,7 +7179,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/draft
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -6863,6 +7195,59 @@ display:
     display_options:
       title: 'Planned proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -8148,7 +8533,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/planning
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -8164,6 +8549,59 @@ display:
     display_options:
       title: 'Rejected proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -9199,7 +9637,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/rejected
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -9215,6 +9653,59 @@ display:
     display_options:
       title: 'Submitted proposals'
       fields:
+        rothamsted_proposal_bulk_form:
+          id: rothamsted_proposal_bulk_form
+          table: rothamsted_proposal
+          field: rothamsted_proposal_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_proposal
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         study_id:
           id: study_id
           table: rothamsted_proposal_data
@@ -10435,7 +10926,7 @@ display:
           collapsible: true
       path: rothamsted/proposal/submitted
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'

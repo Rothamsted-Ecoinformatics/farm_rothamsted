@@ -25,6 +25,59 @@ display:
     display_options:
       title: 'Experiment Designs'
       fields:
+        rothamsted_design_bulk_form:
+          id: rothamsted_design_bulk_form
+          table: rothamsted_design
+          field: rothamsted_design_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          plugin_id: bulk_form
+          label: 'Bulk update'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         status:
           id: status
           table: rothamsted_design_data
@@ -929,8 +982,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:rothamsted_researcher'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles: null
             sort:
@@ -1288,7 +1341,7 @@ display:
           content: 'Displaying @start - @end of @total'
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1308,7 +1361,7 @@ display:
           collapsible: true
       path: rothamsted/design
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1372,7 +1425,7 @@ display:
           collapsible: true
       path: rothamsted/experiment/%rothamsted_experiment/design
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
