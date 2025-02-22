@@ -4,6 +4,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Form;
 
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -175,17 +176,21 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
         // Validate the entity before saving.
         $violations = $entity->validate();
         if ($violations->count() > 0) {
+          $fields = [];
+          foreach ($violations as $violation) {
+            if (($path = $violation->getPropertyPath()) && $entity->get($path) instanceof FieldItemListInterface) {
+              $fields[$path] = $entity->get($path)->getFieldDefinition()->getLabel();
+            }
+          }
           $this->messenger()->addWarning(
-            $this->t('Could not change status of <a href=":entity_link">%entity_label</a>: validation failed:',
+            $this->t('Could not change status of <a href=":entity_link">%entity_label</a>. The following fields are required and incomplete: %fields',
               [
                 ':entity_link' => $entity->toUrl()->setAbsolute()->toString(),
                 '%entity_label' => $entity->label(),
+                '%fields' => implode(', ', $fields),
               ],
             ),
           );
-          foreach ($violations as $violation) {
-            $this->messenger()->addWarning($violation->getMessage());
-          }
           continue;
         }
 
