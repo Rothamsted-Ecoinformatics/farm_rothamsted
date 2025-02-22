@@ -65,7 +65,7 @@ use Drupal\user\UserInterface;
  *   },
  *   links = {
  *     "canonical" = "/rothamsted/proposal/{rothamsted_proposal}",
- *     "collection" = "/rothamsted/proposal",
+ *     "collection" = "/rothamsted/proposal/all",
  *     "add-form" = "/rothamsted/proposal/add",
  *     "edit-form" = "/rothamsted/proposal/{rothamsted_proposal}/edit",
  *     "delete-form" = "/rothamsted/proposal/{rothamsted_proposal}/delete",
