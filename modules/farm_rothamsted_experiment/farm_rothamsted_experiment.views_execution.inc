@@ -97,30 +97,32 @@ function farm_rothamsted_experiment_views_pre_view(ViewExecutable $view) {
  */
 function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
 
-  // Bail if not the plan_plots view.
-  if ($view->id() !== 'rothamsted_experiment_plan_plots' || $view->current_display !== 'page') {
-    return;
+  // Remove map from plot asset page view.
+  if ($view->id() === 'farm_asset' && $view->current_display === 'page_type' && $view->args[0] === 'plot') {
+    unset($view->attachment_before['asset_map']);
   }
 
-  // Build the map render array.
-  $map = [
-    '#type' => 'farm_map',
-    '#map_type' => 'farm_rothamsted_experiment_plots',
-  ];
-  $map['#map_settings']['farm_rothamsted_experiment_plot_layer'] = [
-    'plan' => \Drupal::routeMatch()->getRawParameter('plan'),
-    'filters' => $view->getExposedInput(),
-  ];
+  // Add map to experiment plots view..
+  if ($view->id() === 'rothamsted_experiment_plan_plots' && $view->current_display === 'page') {
+    $map = [
+      '#type' => 'farm_map',
+      '#map_type' => 'farm_rothamsted_experiment_plots',
+    ];
+    $map['#map_settings']['farm_rothamsted_experiment_plot_layer'] = [
+      'plan' => \Drupal::routeMatch()->getRawParameter('plan'),
+      'filters' => $view->getExposedInput(),
+    ];
 
-  // Add "All locations" layer.
-  $map['#map_settings']['asset_type_layers']['all_locations'] = [
-    'label' => t('All locations'),
-    'filters' => [
-      'is_location' => 1,
-    ],
-    'color' => 'grey',
-  ];
+    // Add "All locations" layer.
+    $map['#map_settings']['asset_type_layers']['all_locations'] = [
+      'label' => t('All locations'),
+      'filters' => [
+        'is_location' => 1,
+      ],
+      'color' => 'grey',
+    ];
 
-  // Render the map.
-  $view->attachment_before['asset_map'] = $map;
+    // Render the map.
+    $view->attachment_before['asset_map'] = $map;
+  }
 }
