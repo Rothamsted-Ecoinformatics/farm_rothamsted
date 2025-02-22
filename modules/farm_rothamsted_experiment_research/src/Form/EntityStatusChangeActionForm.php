@@ -216,7 +216,10 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
       ]));
     }
     $this->tempStore->delete($this->currentUser()->id() . ':' . $this->entityType->id());
-    $form_state->setRedirectUrl($this->getCancelUrl());
+    $url = $this->getCancelUrl()
+      ->setOption('query', ['status' => $form_state->getValue('status')]);
+    $form_state->setRedirectUrl($url);
+    $form_state->setIgnoreDestination();
   }
 
 }
