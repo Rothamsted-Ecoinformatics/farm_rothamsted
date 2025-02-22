@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix incorrectly named link to Experiments. [#776](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/776)
+- Fix plot maps not rendering on Plots list. [#789](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/789)
 
 ## [2.25.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/46)
 
