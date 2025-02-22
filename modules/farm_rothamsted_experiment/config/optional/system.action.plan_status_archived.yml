@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_archived
+label: 'Set status to archived'
+type: plan
+plugin: 'plan_archived_action'
+configuration: {  }

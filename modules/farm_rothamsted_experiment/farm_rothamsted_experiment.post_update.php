@@ -1012,3 +1012,23 @@ function farm_rothamsted_experiment_post_update_2_25_parse_asset_kml_to_wkt(&$sa
 
   return NULL;
 }
+
+/**
+ * Create experiment/study plan change status actions.
+ */
+function farm_rothamsted_experiment_post_update_2_26_plan_status_change_actions(&$sandbox = NULL) {
+  $action_ids = [
+    'plan_status_active',
+    'plan_status_archived',
+    'plan_status_cancelled',
+    'plan_status_completed',
+    'plan_status_planning',
+    'plan_status_requested',
+  ];
+  $module_path = \Drupal::service('extension.list.module')->getPath('farm_rothamsted_experiment');
+  foreach ($action_ids as $action_id) {
+    $config_path = "$module_path/config/optional/system.action.$action_id.yml";
+    $data = Yaml::parseFile($config_path);
+    \Drupal::configFactory()->getEditable("system.action.$action_id")->setData($data)->save(TRUE);
+  }
+}

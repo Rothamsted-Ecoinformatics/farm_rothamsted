@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_planning
+label: 'Set status to planning'
+type: plan
+plugin: 'plan_planning_action'
+configuration: {  }

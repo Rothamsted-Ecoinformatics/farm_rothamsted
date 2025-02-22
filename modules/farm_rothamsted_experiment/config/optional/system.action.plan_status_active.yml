@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_active
+label: 'Set status to active'
+type: plan
+plugin: 'plan_active_action'
+configuration: {  }

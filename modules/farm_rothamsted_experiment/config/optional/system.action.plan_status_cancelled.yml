@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_cancelled
+label: 'Set status to cancelled'
+type: plan
+plugin: 'plan_cancelled_action'
+configuration: {  }
