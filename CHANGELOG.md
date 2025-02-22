@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Show all items on plots tab #362
+- Require farmOS ^3.4
 
 ### Fixed
 
