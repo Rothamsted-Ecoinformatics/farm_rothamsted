@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_completed
+label: 'Set status to completed'
+type: plan
+plugin: 'plan_completed_action'
+configuration: {  }

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment
+id: plan_status_requested
+label: 'Set status to requested'
+type: plan
+plugin: 'plan_requested_action'
+configuration: {  }

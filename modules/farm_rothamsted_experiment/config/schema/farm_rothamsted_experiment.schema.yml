@@ -21,3 +21,23 @@ views.filter.column_level:
 views.filter.plan_plot_type:
   type: views.filter.many_to_one
   label: 'Plan plot type filter'
+
+# Schema for plan status actions.
+action.configuration.plan_active_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status active'
+action.configuration.plan_archived_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status archived'
+action.configuration.plan_cancelled_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status cancelled'
+action.configuration.plan_completed_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status completed'
+action.configuration.plan_planning_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status planning'
+action.configuration.plan_requested_action:
+  type: action_configuration_default
+  label: 'Configuration for the plan status requested'
