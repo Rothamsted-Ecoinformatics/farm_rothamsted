@@ -415,7 +415,7 @@ display:
         options:
           offset: 0
           pagination_heading_level: h4
-          items_per_page: 100
+          items_per_page: 1500
           total_pages: null
           id: 0
           tags:
@@ -426,7 +426,7 @@ display:
           expose:
             items_per_page: true
             items_per_page_label: 'Items per page'
-            items_per_page_options: '100, 250, 500'
+            items_per_page_options: '1500'
             items_per_page_options_all: true
             items_per_page_options_all_label: '- All -'
             offset: false

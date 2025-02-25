@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Show all items on plots tab #362
+- Limit plots tab to 1500 items [#362](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/362)
 - Require farmOS ^3.4
 
 ### Fixed
