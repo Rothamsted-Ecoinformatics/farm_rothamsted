@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.26.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/47)
+
 ### Changed
 
 - Water volume is not required on operations quick form. [#799](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/799)
