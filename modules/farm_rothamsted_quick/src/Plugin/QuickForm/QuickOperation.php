@@ -117,7 +117,6 @@ class QuickOperation extends QuickExperimentFormBase {
       'description' => $this->t('The total amount of water used.'),
       'measure' => ['#value' => 'volume'],
       'units' => ['#options' => $water_volume_units_options],
-      'required' => TRUE,
     ]);
 
     // Water rate.
