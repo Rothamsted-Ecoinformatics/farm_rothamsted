@@ -114,6 +114,13 @@ class AssetLog extends DataExportTypeBase {
       // Load and export logs.
       $logs = Log::loadMultiple($log_ids);
       $output = $this->serializeEntities($logs, 'csv', 'log', $config['log_type']);
+
+      // Add message if no data is returned.
+      if (empty($output)) {
+        $output = "No log data found.";
+      }
+
+      // Save to file.
       $filename = "$filename_prefix-asset-{$config['log_type']}-logs.csv";
       if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();
@@ -146,6 +153,13 @@ class AssetLog extends DataExportTypeBase {
         $quantities = Quantity::loadMultiple($quantity_query->execute());
       }
       $output = $this->serializeEntities($quantities, 'csv', 'quantity', $config['quantity_type']);
+
+      // Add message if no data is returned.
+      if (empty($output)) {
+        $output = "No quantity data found.";
+      }
+
+      // Save to file.
       $filename = "$filename_prefix-quantity-{$config['quantity_type']}.csv";
       if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();

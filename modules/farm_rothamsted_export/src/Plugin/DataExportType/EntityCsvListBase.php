@@ -24,6 +24,11 @@ abstract class EntityCsvListBase extends DataExportTypeBase {
     // Serialize entities.
     $output = $this->serializeEntities($entities, 'csv', $this->entityTypeId);
 
+    // Add message if no data is returned.
+    if (empty($output)) {
+      $output = "No $this->entityTypeId data found.";
+    }
+
     // Save to file.
     $filename_prefix = $config['filename'] ?? '';
     $filename = "$filename_prefix-$this->entityTypeId-list.csv";
