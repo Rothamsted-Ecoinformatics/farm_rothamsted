@@ -147,6 +147,7 @@ display:
           action_title: Action
           include_exclude: include
           selected_actions:
+            - plan_export_data
             - plan_flag_action
             - plan_status_active
             - plan_status_archived
