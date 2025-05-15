@@ -133,7 +133,7 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
         'strip_tags' => FALSE,
       ],
     ];
-    return $this->serializer->serialize($entities, $format, array_merge($context, $default_context));
+    return $this->serializer->serialize(array_values($entities), $format, array_merge($context, $default_context));
   }
 
   /**
