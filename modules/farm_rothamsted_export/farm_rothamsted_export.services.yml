@@ -1,0 +1,4 @@
+services:
+  farm_rothamsted_export.data_export_type_plugin_manager:
+    class: Drupal\farm_rothamsted_export\DataExportTypePluginManager
+    parent: default_plugin_manager

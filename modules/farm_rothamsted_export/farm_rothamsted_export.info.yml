@@ -1,0 +1,5 @@
+name: farmOS Rothamsted Export
+description: Rothamsted Data Export Features
+type: module
+package: farmOS Custom
+core_version_requirement: ^10
