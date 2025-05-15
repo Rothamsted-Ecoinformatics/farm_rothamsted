@@ -2,13 +2,13 @@ langcode: en
 status: true
 dependencies:
   module:
-    - asset
+    - log
     - farm_rothamsted_export
   enforced:
     module:
       - farm_rothamsted_export
-id: asset_export_data
+id: log_export_data
 label: 'Export data'
-type: asset
-plugin: entity:export_data:asset
+type: log
+plugin: entity:export_data:log
 configuration: {  }

@@ -11,16 +11,16 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\farm_rothamsted_export\DataExportTypePluginManager;
+use Drupal\farm_rothamsted_export\Plugin\Action\Derivative\ExportDataDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides an action for exporting entity data.
  */
 #[Action(
-  id: 'export_data',
-  label: new TranslatableMarkup('Export Data'),
-  confirm_form_route_name: 'entity.asset.export_data_action_form',
-  type: 'asset',
+  id: 'entity:export_data',
+  action_label: new TranslatableMarkup('Export Data'),
+  deriver: ExportDataDeriver::class,
 )]
 class ExportData extends EntityActionBase {
 
@@ -67,7 +67,7 @@ class ExportData extends EntityActionBase {
    */
   public function executeMultiple(array $entities) {
     // Store entities for export in temp store.
-    $this->tempStore->set($this->currentUser->id() . ':asset', $entities);
+    $this->tempStore->set("{$this->currentUser->id()}:{$this->getPluginDefinition()['type']}", $entities);
   }
 
   /**
