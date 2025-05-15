@@ -24,6 +24,59 @@ display:
     display_options:
       title: Researchers
       fields:
+        rothamsted_researcher_bulk_form:
+          id: rothamsted_researcher_bulk_form
+          table: rothamsted_researcher
+          field: rothamsted_researcher_bulk_form
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_researcher
+          plugin_id: bulk_form
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          action_title: Action
+          include_exclude: exclude
+          selected_actions: {  }
         status:
           id: status
           table: rothamsted_researcher_data
@@ -1113,18 +1166,24 @@ display:
           row_class: ''
           default_row_class: true
           columns:
+            rothamsted_researcher_bulk_form: rothamsted_researcher_bulk_form
             status: status
             title: title
             name_1: name_1
+            job_title: job_title
             role: role
             organization: organization
             department: department
-            email: email
             orcid: orcid
             farm_user: farm_user
             operations: operations
           default: name_1
           info:
+            rothamsted_researcher_bulk_form:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             status:
               sortable: true
               default_sort_order: asc
@@ -1146,6 +1205,13 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
+            job_title:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             role:
               sortable: true
               default_sort_order: asc
@@ -1161,13 +1227,6 @@ display:
               empty_column: false
               responsive: ''
             department:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            email:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -1224,7 +1283,7 @@ display:
           content: 'Displaying @start - @end of @total'
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -1243,7 +1302,7 @@ display:
           collapsible: true
       path: rothamsted/researcher
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
