@@ -15,11 +15,17 @@ use Drupal\farm_rothamsted_export\Routing\ExportDataActionRouteProvider;
  */
 function farm_rothamsted_export_entity_type_build(array &$entity_types) {
 
-  // Enable the entity export data action on assets.
+  // Enable the entity export data action on target entity types.
   $target_entity_types = [
     'asset',
     'log',
     'quantity',
+    'plan',
+    'rothamsted_researcher',
+    'rothamsted_design',
+    'rothamsted_experiment',
+    'rothamsted_program',
+    'rothamsted_proposal',
   ];
   foreach ($target_entity_types as $entity_type) {
     if (!empty($entity_types[$entity_type])) {

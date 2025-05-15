@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - plan
+    - farm_rothamsted_export
+  enforced:
+    module:
+      - farm_rothamsted_export
+id: plan_export_data
+label: 'Export data'
+type: plan
+plugin: entity:export_data:plan
+configuration: {  }

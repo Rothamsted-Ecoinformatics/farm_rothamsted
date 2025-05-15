@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_experiment_research
+    - farm_rothamsted_export
+  enforced:
+    module:
+      - farm_rothamsted_export
+id: rothamsted_experiment_export_data
+label: 'Export data'
+type: rothamsted_experiment
+plugin: entity:export_data:rothamsted_experiment
+configuration: {  }

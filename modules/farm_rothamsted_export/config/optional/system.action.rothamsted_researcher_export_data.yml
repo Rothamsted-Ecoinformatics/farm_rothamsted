@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - farm_rothamsted_researcher
+    - farm_rothamsted_export
+  enforced:
+    module:
+      - farm_rothamsted_export
+id: rothamsted_researcher_export_data
+label: 'Export data'
+type: rothamsted_researcher
+plugin: entity:export_data:rothamsted_researcher
+configuration: {  }

@@ -38,7 +38,17 @@ class ExportDataDeriver extends EntityActionDeriverBase {
    * {@inheritdoc}
    */
   protected function isApplicable(EntityTypeInterface $entity_type) {
-    return in_array($entity_type->id(), ['asset', 'log', 'quantity']);
+    return in_array($entity_type->id(), [
+      'asset',
+      'log',
+      'quantity',
+      'plan',
+      'rothamsted_researcher',
+      'rothamsted_design',
+      'rothamsted_experiment',
+      'rothamsted_program',
+      'rothamsted_proposal',
+    ]);
   }
 
 }
