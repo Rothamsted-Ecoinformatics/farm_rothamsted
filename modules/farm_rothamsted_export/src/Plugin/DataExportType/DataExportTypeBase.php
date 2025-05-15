@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_export\Plugin\DataExportType;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -83,8 +84,8 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
    * {@inheritdoc}
    */
   public function processBatch(array $entities, array &$context): void {
-    $results = $this->export($entities);
-    $context['results'] = array_merge($context['results'], $results);
+    $results = $this->export($entities, $context['export_config'] ?? []);
+    $context['results']['files'] = array_merge($context['results']['files'] ?? [], $results);
     $context['message'] = 'Processed ' . $this->getPluginId();
   }
 
@@ -156,6 +157,7 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
 
     // Create the file.
     $destination = "$write_directory/$filename";
+    $destination = $this->fileSystem->getDestinationFilename($destination, FileExists::Rename);
     try {
       $file = $this->fileRepository->writeData($content, $destination);
     }

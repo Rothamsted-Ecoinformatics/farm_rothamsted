@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_export\Form;
 
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -64,14 +65,14 @@ class ExportDataActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Export selected entities');
+    return $this->t('Export data');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->t('Choose an export type and configure export settings.');
+    return $this->t('Choose data types to export. A zip file will be created with the specified export filename.');
   }
 
   /**
@@ -107,10 +108,17 @@ class ExportDataActionForm extends ConfirmFormBase {
     }
     $form['export_type'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Export Type'),
-      '#description' => $this->t('Choose the export type for your entities.'),
+      '#title' => $this->t('Data types'),
+      '#description' => $this->t('Choose related data types to export.'),
       '#options' => $export_type_options,
       '#required' => TRUE,
+    ];
+
+    $form['filename'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Export filename'),
+      '#required' => TRUE,
+      '#default_value' => date('c'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -126,11 +134,12 @@ class ExportDataActionForm extends ConfirmFormBase {
     $tempstore_id = "{$this->currentUser->id()}:$entity_type_id";
 
     // Build batch operations.
+    $filename = $form_state->getValue('filename');
     $plugins = Checkboxes::getCheckedCheckboxes($form_state->getValue('export_type'));
-    $operations = array_map(function ($plugin_id) use ($tempstore_id) {
+    $operations = array_map(function ($plugin_id) use ($tempstore_id, $filename) {
       return [
         [self::class, 'processPluginBatch'],
-        [$tempstore_id, $plugin_id],
+        [$tempstore_id, $filename, $plugin_id],
       ];
     }, $plugins);
 
@@ -151,6 +160,8 @@ class ExportDataActionForm extends ConfirmFormBase {
    *
    * @param string $entity_cache_id
    *   The temporary cache ID that contains the entities to process.
+   * @param string $filename
+   *   The filename prefix.
    * @param string $plugin_id
    *   The plugin ID.
    * @param array $context
@@ -158,7 +169,7 @@ class ExportDataActionForm extends ConfirmFormBase {
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    */
-  public static function processPluginBatch(string $entity_cache_id, string $plugin_id, array &$context) {
+  public static function processPluginBatch(string $entity_cache_id, string $filename, string $plugin_id, array &$context) {
 
     // Create the export plugin instance.
     /** @var \Drupal\farm_rothamsted_export\DataExportTypePluginManager $export_plugin_manager */
@@ -168,6 +179,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     // Load entities.
     $temp_store = \Drupal::service('tempstore.private')->get('export_data_action');
     $entities = $temp_store->get($entity_cache_id);
+
+    // Save filename to context.
+    $context['export_config']['filename'] = $filename;
+    $context['results']['filename'] = $filename;
 
     // Delegate to plugin processBatch function.
     $export_plugin->processBatch($entities, $context);
@@ -187,29 +202,35 @@ class ExportDataActionForm extends ConfirmFormBase {
       // Check operations.
     }
 
-    $file_system = \Drupal::service('file_system');
+    // Build filename.
+    $zip_name = $results['filename'];
+    $zip_filename = "$zip_name.zip";
 
     // Prepare the file directory.
+    $file_system = \Drupal::service('file_system');
     $scheme = \Drupal::configFactory()->get('system.file')->get('default_scheme') ?? 'public';
-    $directory = "$scheme://export-data";
+    $directory = "$scheme://export-data/$zip_name";
     $file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY);
 
     // Open zip archive.
     $zip = new \ZipArchive();
-    $zip_private_path = $directory . '/export-' . date('c') . '.zip';
-    $zip_filename = $file_system->realpath($zip_private_path);
-    $result = $zip->open($zip_filename, constant('ZipArchive::CREATE'));
+    $zip_path = "$directory/$zip_filename";
+    $zip_path = $file_system->getDestinationFilename($zip_path, FileExists::Rename);
+    $zip_real_path = $file_system->realpath($zip_path);
+    $result = $zip->open($zip_real_path, constant('ZipArchive::CREATE'));
     if ($result !== TRUE) {
       \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created. Error code: $result");
     }
 
     // Add result files to zip.
-    $files = File::loadMultiple($results);
-    foreach ($files as $file) {
-      $filepath = $file_system->realpath($file->getFileUri());
-      $result = $zip->addFile($filepath, basename($file->getFileUri()));
-      if (!$result) {
-        \Drupal::logger('farm_rothamsted_export')->warning('File could not be added to zip archive.');
+    if (!empty($results['files'])) {
+      $files = File::loadMultiple($results['files']);
+      foreach ($files as $file) {
+        $filepath = $file_system->realpath($file->getFileUri());
+        $result = $zip->addFile($filepath, basename($file->getFileUri()));
+        if (!$result) {
+          \Drupal::logger('farm_rothamsted_export')->warning('File could not be added to zip archive.');
+        }
       }
     }
 
@@ -221,7 +242,7 @@ class ExportDataActionForm extends ConfirmFormBase {
 
     // Create file entity for zip.
     $zip_file = File::create([
-      'uri' => $zip_private_path,
+      'uri' => $zip_path,
       'status' => 0,
       'uid' => \Drupal::currentUser()->id(),
     ]);
@@ -235,7 +256,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     \Drupal::messenger()->addMessage(new TranslatableMarkup(
         'ZIP file created: <a href=":url">%filename</a>', [
           ':url' => $url,
-          '%filename' => "export",
+          '%filename' => $zip_filename,
         ]),
     );
   }

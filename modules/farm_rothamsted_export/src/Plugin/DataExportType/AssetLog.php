@@ -86,6 +86,7 @@ class AssetLog extends DataExportTypeBase {
   public function export(array $entities, array $config = []): array {
 
     // Build file array to return.
+    $filename_prefix = $config['filename'] ?? '';
     $files = [];
 
     // Get entity IDs.
@@ -113,8 +114,8 @@ class AssetLog extends DataExportTypeBase {
       // Load and export logs.
       $logs = Log::loadMultiple($log_ids);
       $output = $this->serializeEntities($logs, 'csv', 'log', $config['log_type']);
-      $filename = "asset-{$config['log_type']}-logs-csv_export-" . date('c') . '.csv';
-      if ($file = $this->saveFile('asset-log', $filename, $output)) {
+      $filename = "$filename_prefix-asset-{$config['log_type']}-logs.csv";
+      if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();
       }
     }
@@ -145,8 +146,8 @@ class AssetLog extends DataExportTypeBase {
         $quantities = Quantity::loadMultiple($quantity_query->execute());
       }
       $output = $this->serializeEntities($quantities, 'csv', 'quantity', $config['quantity_type']);
-      $filename = "quantity-{$config['quantity_type']}-export-" . date('c') . '.csv';
-      if ($file = $this->saveFile('asset-log', $filename, $output)) {
+      $filename = "$filename_prefix-quantity-{$config['quantity_type']}.csv";
+      if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();
       }
     }
@@ -163,16 +164,17 @@ class AssetLog extends DataExportTypeBase {
     if (empty($context['sandbox'])) {
 
       // Build config for each batch step.
+      $default_config = $context['export_config'] ?? [];
       $batch_configs = [];
 
       // Include steps for each log type for exports of logs.
       foreach (array_keys(LogType::loadMultiple()) as $log_type) {
-        $batch_configs[] = ['log_type' => $log_type];
+        $batch_configs[] = ['log_type' => $log_type] + $default_config;
       }
 
       // Include steps for each quantity type for exports of quantities.
       foreach (array_keys(QuantityType::loadMultiple()) as $quantity_type) {
-        $batch_configs[] = ['quantity_type' => $quantity_type];
+        $batch_configs[] = ['quantity_type' => $quantity_type] + $default_config;
       }
 
       $context['sandbox']['batch_configs'] = $batch_configs;
@@ -184,7 +186,7 @@ class AssetLog extends DataExportTypeBase {
     $current = $context['sandbox']['progress'];
     $config = $context['sandbox']['batch_configs'][$current];
     $results = $this->export($entities, $config);
-    $context['results'] = array_merge($context['results'], $results);
+    $context['results']['files'] = array_merge($context['results']['files'] ?? [], $results);
 
     // Update finished progress.
     if (isset($config['log_type'])) {

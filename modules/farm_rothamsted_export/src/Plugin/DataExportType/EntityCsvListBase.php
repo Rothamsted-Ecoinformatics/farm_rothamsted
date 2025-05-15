@@ -21,10 +21,14 @@ abstract class EntityCsvListBase extends DataExportTypeBase {
    */
   public function export(array $entities, array $config = []): array {
 
-    $files = [];
+    // Serialize entities.
     $output = $this->serializeEntities($entities, 'csv', $this->entityTypeId);
-    $filename = "$this->entityTypeId-list-csv_export-" . date('c') . '.csv';
-    if ($file = $this->saveFile("$this->entityTypeId-list", $filename, $output)) {
+
+    // Save to file.
+    $filename_prefix = $config['filename'] ?? '';
+    $filename = "$filename_prefix-$this->entityTypeId-list.csv";
+    $files = [];
+    if ($file = $this->saveFile("$filename_prefix/$this->entityTypeId-list", $filename, $output)) {
       $files[] = $file->id();
     }
 
