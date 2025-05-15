@@ -8,18 +8,18 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\farm_rothamsted_export\Attribute\DataExportType;
 
 /**
- * Provides an asset list data export.
+ * Provides a quantity list data export.
  */
 #[DataExportType(
-  id: 'asset_list',
-  label: new TranslatableMarkup('Asset list'),
-  entity_type: 'asset',
+  id: 'quantity_list',
+  label: new TranslatableMarkup('Quantity list'),
+  entity_type: 'quantity',
 )]
-class AssetList extends EntityCsvListBase {
+class QuantityList extends EntityCsvListBase {
 
   /**
    * {@inheritdoc}
    */
-  protected string $entityTypeId = 'asset';
+  protected string $entityTypeId = 'quantity';
 
 }
