@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - farm_rothamsted_export
+id: asset_export_data
+label: 'Export data'
+type: asset
+plugin: export_data
+configuration: {  }
