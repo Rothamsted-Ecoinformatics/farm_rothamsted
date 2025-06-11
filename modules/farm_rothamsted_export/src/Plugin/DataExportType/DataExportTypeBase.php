@@ -107,6 +107,20 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
    *   The serialization result.
    */
   protected function serializeEntities(array $entities, string $format, string $entity_type_id, ?string $bundle = NULL, array $context = []): string {
+
+    // If no bundle is specified determine which entity bundles are represented.
+    $bundles = [];
+    if (!$bundle && $this->entityTypeManager->getDefinition($entity_type_id)->hasKey('bundle')) {
+      foreach ($entities as $entity) {
+        if (!in_array($entity->bundle(), $bundles)) {
+          $bundles[] = $entity->bundle();
+        }
+      }
+    }
+    if (!$bundle && count($bundles) === 1) {
+      $bundle = $bundles[0];
+    }
+
     // Serialize the entities with the csv format.
     $default_context = [
 
