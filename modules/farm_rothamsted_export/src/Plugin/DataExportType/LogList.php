@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 #[DataExportType(
   id: 'log_list',
-  label: new TranslatableMarkup('Log list'),
+  label: new TranslatableMarkup('List of Logs'),
   entity_type: 'log',
 )]
 class LogList extends DataExportTypeBase {

@@ -12,7 +12,7 @@ use Drupal\farm_rothamsted_export\Attribute\DataExportType;
  */
 #[DataExportType(
   id: 'asset_list',
-  label: new TranslatableMarkup('Asset list'),
+  label: new TranslatableMarkup('List of Assets'),
   entity_type: 'asset',
 )]
 class AssetList extends EntityCsvListBase {
