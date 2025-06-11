@@ -131,28 +131,36 @@ class AssetLog extends DataExportTypeBase {
     // Export quantity list.
     if (isset($config['quantity_type'])) {
 
-      $query = $this->database->select('quantity', 'q')
-        ->fields('q', ['id']);
-      $query->condition('q.type', $config['quantity_type']);
-
-      // Join the {log_field_data} table (via reverse reference through
-      // the {log__quantity} table).
-      $query->join('log__quantity', 'lq', 'q.id = lq.quantity_target_id');
-      $query->join('log_field_data', 'l', 'lq.entity_id = l.id');
-      $query->condition('l.id', $log_ids, 'IN');
-      $query->orderBy('l.timestamp', 'ASC');
-      $query->orderBy('l.id', 'ASC');
-
-      // Execute the query and return the results.
+      // Build list of quantities to export.
       $quantities = [];
-      if ($quantity_ids = $query->execute()->fetchCol()) {
-        $quantity_query = $this->entityTypeManager
-          ->getStorage('quantity')
-          ->getQuery()
-          ->accessCheck()
-          ->condition('id', $quantity_ids, 'IN');
-        $quantities = Quantity::loadMultiple($quantity_query->execute());
+
+      // Only query if we have log_ids for the given assets.
+      if (count($log_ids)) {
+        $query = $this->database
+          ->select('quantity', 'q')
+          ->fields('q', ['id']);
+        $query->condition('q.type', $config['quantity_type']);
+
+        // Join the {log_field_data} table (via reverse reference through
+        // the {log__quantity} table).
+        $query->join('log__quantity', 'lq', 'q.id = lq.quantity_target_id');
+        $query->join('log_field_data', 'l', 'lq.entity_id = l.id');
+        $query->condition('l.id', $log_ids, 'IN');
+        $query->orderBy('l.timestamp', 'ASC');
+        $query->orderBy('l.id', 'ASC');
+
+        // Execute the query and return the results.
+        if ($quantity_ids = $query->execute()->fetchCol()) {
+          $quantity_query = $this->entityTypeManager
+            ->getStorage('quantity')
+            ->getQuery()
+            ->accessCheck()
+            ->condition('id', $quantity_ids, 'IN');
+          $quantities = Quantity::loadMultiple($quantity_query->execute());
+        }
       }
+
+      // Serialize quantities.
       $output = $this->serializeEntities($quantities, 'csv', 'quantity', $config['quantity_type']);
 
       // Add message if no data is returned.
