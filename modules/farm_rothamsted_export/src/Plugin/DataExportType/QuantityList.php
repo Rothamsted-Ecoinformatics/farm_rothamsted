@@ -12,8 +12,8 @@ use Drupal\farm_rothamsted_export\Attribute\DataExportType;
  */
 #[DataExportType(
   id: 'quantity_list',
-  label: new TranslatableMarkup('List of Quantities'),
   entity_type: 'quantity',
+  label: new TranslatableMarkup('List of Quantities'),
 )]
 class QuantityList extends EntityCsvListBase {
 

@@ -25,8 +25,9 @@ class DataExportType extends Plugin {
    */
   public function __construct(
     public readonly string $id,
-    public readonly TranslatableMarkup $label,
     public readonly string $entity_type,
+    public readonly TranslatableMarkup $label,
+    public readonly ?TranslatableMarkup $description = NULL,
   ) {}
 
 }

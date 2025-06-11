@@ -26,8 +26,9 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 #[DataExportType(
   id: 'asset_log',
-  label: new TranslatableMarkup('Logs'),
   entity_type: 'asset',
+  label: new TranslatableMarkup('Logs'),
+  description: new TranslatableMarkup('A .zip file that contains all the raw data for the logs associated with the items you have selected. This includes a .csv file for each type of log (drilling, input, harvest, etc) as well and a .csv for each type of quantity associated with those logs (standard quantities, material quantities, etc). Please note that this will only export the current version of the data. Information associated with previous revisions is not included.'),
 )]
 class AssetLog extends DataExportTypeBase {
 
