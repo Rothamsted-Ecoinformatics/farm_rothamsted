@@ -14,6 +14,7 @@ use Drupal\farm_rothamsted_export\Attribute\DataExportType;
   id: 'quantity_list',
   entity_type: 'quantity',
   label: new TranslatableMarkup('List of Quantities'),
+  description: new TranslatableMarkup('A .csv which lists of all the items you selected. Each item you selected will appear in the .csv is a row. Each column in the .csv is field pre-filled with the data about each item (cells are left blank if no data exists). Please note that this will only export the current version of the data. Information associated with previous revisions is not included.'),
 )]
 class QuantityList extends EntityCsvListBase {
 

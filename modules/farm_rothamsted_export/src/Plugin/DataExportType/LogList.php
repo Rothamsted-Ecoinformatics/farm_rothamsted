@@ -28,6 +28,7 @@ use Symfony\Component\Serializer\SerializerInterface;
   id: 'log_list',
   entity_type: 'log',
   label: new TranslatableMarkup('List of Logs'),
+  description: new TranslatableMarkup('A .csv file for each type of log (drilling, input, harvest, etc) that you have selected, as well and a .csv for each type of quantity associated with those logs (standard quantities, material quantities, etc). Please note that this will only export the current version of the data. Information associated with previous revisions is not included.'),
 )]
 class LogList extends DataExportTypeBase {
 
