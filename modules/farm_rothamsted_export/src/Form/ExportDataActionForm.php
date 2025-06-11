@@ -98,6 +98,7 @@ class ExportDataActionForm extends ConfirmFormBase {
 
     // Get all available export type plugins.
     $export_types = $this->dataExportTypePluginManager->getDefinitions();
+    ksort($export_types);
 
     // Prepare export type options.
     $export_type_options = [];
@@ -106,14 +107,21 @@ class ExportDataActionForm extends ConfirmFormBase {
         $export_type_options[$plugin_id] = $plugin_definition['label'];
       }
     }
+
     $form['export_type'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Data types'),
-      '#description' => $this->t('Choose related data types to export.'),
       '#options' => $export_type_options,
       '#default_value' => array_keys($export_type_options),
       '#required' => TRUE,
     ];
+
+    // Add descriptions to checkboxes.
+    foreach ($export_types as $plugin_id => $plugin_definition) {
+      if ($plugin_definition['description']){
+        $form['export_type'][$plugin_id]['#description'] = $plugin_definition['description'];
+      }
+    }
 
     $form['filename'] = [
       '#type' => 'textfield',
