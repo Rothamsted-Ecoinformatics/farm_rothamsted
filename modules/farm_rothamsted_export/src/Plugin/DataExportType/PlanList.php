@@ -22,4 +22,13 @@ class PlanList extends EntityCsvListBase {
    */
   protected string $entityTypeId = 'plan';
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getIncludeColumns(string $entity_type_id, ?string $bundle = NULL) {
+    // Remove the plot column from CSV plan exports.
+    $columns = parent::getIncludeColumns($entity_type_id, $bundle);
+    return array_diff($columns, ['plot']);
+  }
+
 }
