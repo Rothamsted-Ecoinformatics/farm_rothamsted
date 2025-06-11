@@ -111,6 +111,7 @@ class ExportDataActionForm extends ConfirmFormBase {
       '#title' => $this->t('Data types'),
       '#description' => $this->t('Choose related data types to export.'),
       '#options' => $export_type_options,
+      '#default_value' => array_keys($export_type_options),
       '#required' => TRUE,
     ];
 
