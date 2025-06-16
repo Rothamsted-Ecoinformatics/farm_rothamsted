@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add new consolidated Export data action. [#468](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/468)
+
 ### Changed
 
 - Update oauth2 static scopes for pluggable granularity.[#802](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/802)
