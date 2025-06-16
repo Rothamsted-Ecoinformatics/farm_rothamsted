@@ -2,3 +2,11 @@ services:
   farm_rothamsted_export.data_export_type_plugin_manager:
     class: Drupal\farm_rothamsted_export\DataExportTypePluginManager
     parent: default_plugin_manager
+  farm_rothamsted_export.normalizer.list_string_field_item:
+    class: Drupal\farm_rothamsted_export\Normalizer\ListStringFieldItemNormalizer
+    tags:
+      - { name: normalizer, priority: 10 }
+  farm_rothamsted_export.normalizer.boolean_field_item:
+    class: Drupal\farm_rothamsted_export\Normalizer\BooleanFieldItemNormalizer
+    tags:
+      - { name: normalizer, priority: 10 }

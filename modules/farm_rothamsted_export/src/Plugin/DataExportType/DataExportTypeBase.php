@@ -135,6 +135,9 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
       'content_entity_labels' => TRUE,
       'config_entity_ids' => TRUE,
 
+      // Field value option labels.
+      'field_value_option_labels' => TRUE,
+
       // Return RFC3339 dates.
       'rfc3339_dates' => TRUE,
 
