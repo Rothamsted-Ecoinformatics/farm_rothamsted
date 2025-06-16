@@ -10,7 +10,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 /**
  * Defines an attribute for Data Export Type plugins.
  */
-#[\Attribute] #[Attribute(Attribute::TARGET_CLASS)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class DataExportType extends Plugin {
 
   /**

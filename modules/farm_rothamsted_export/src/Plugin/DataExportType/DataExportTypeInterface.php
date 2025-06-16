@@ -14,11 +14,13 @@ interface DataExportTypeInterface {
    *
    * @param array $entities
    *   Array of entities to export.
+   * @param array $config
+   *   Optional array of configuration.
    *
    * @return array
    *   Array of file entity IDs.
    */
-  public function export(array $entities): array;
+  public function export(array $entities, array $config = []): array;
 
   /**
    * Batch API callback function for exporting entities.
