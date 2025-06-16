@@ -119,7 +119,7 @@ class LogList extends DataExportTypeBase {
       }
 
       // Save to file.
-      $filename = "$filename_prefix-{$config['log_type']}-logs.csv";
+      $filename = "{$config['log_type']}-logs.csv";
       if ($file = $this->saveFile("$filename_prefix/log-list", $filename, $output)) {
         $files[] = $file->id();
       }
@@ -166,7 +166,7 @@ class LogList extends DataExportTypeBase {
       }
 
       // Save to file.
-      $filename = "$filename_prefix-quantity-{$config['quantity_type']}.csv";
+      $filename = "quantity-{$config['quantity_type']}.csv";
       if ($file = $this->saveFile("$filename_prefix/log-list", $filename, $output)) {
         $files[] = $file->id();
       }

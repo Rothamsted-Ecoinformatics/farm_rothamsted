@@ -122,7 +122,7 @@ class AssetLog extends DataExportTypeBase {
       }
 
       // Save to file.
-      $filename = "$filename_prefix-asset-{$config['log_type']}-logs.csv";
+      $filename = "asset-{$config['log_type']}-logs.csv";
       if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();
       }
@@ -169,7 +169,7 @@ class AssetLog extends DataExportTypeBase {
       }
 
       // Save to file.
-      $filename = "$filename_prefix-quantity-{$config['quantity_type']}.csv";
+      $filename = "quantity-{$config['quantity_type']}.csv";
       if ($file = $this->saveFile("$filename_prefix/asset-log", $filename, $output)) {
         $files[] = $file->id();
       }

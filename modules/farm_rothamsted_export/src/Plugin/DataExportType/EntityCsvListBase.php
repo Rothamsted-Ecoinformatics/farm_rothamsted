@@ -31,7 +31,7 @@ abstract class EntityCsvListBase extends DataExportTypeBase {
 
     // Save to file.
     $filename_prefix = $config['filename'] ?? '';
-    $filename = "$filename_prefix-$this->entityTypeId-list.csv";
+    $filename = "$this->entityTypeId-list.csv";
     $files = [];
     if ($file = $this->saveFile("$filename_prefix/$this->entityTypeId-list", $filename, $output)) {
       $files[] = $file->id();
