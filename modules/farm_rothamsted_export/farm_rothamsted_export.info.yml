@@ -3,3 +3,5 @@ description: Rothamsted Data Export Features
 type: module
 package: farmOS Custom
 core_version_requirement: ^10
+dependencies:
+  - farm_csv
