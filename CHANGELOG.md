@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.27.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/48)
+
 ### Fixed
 
 - Add dependencies for farm_rothamsted_export.
