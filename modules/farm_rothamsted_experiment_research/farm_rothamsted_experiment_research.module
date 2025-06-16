@@ -606,11 +606,15 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
   // Add entity type logic.
   switch ($entity_type_id) {
     case 'rothamsted_researcher':
-    case 'rothamsted_proposal':
     case 'rothamsted_program':
     case 'rothamsted_experiment':
     case 'rothamsted_design':
       $notification_handler->buildNewEntityAlert($entity);
+      return;
+
+    case 'rothamsted_proposal':
+      $notification_handler->buildNewEntityAlert($entity);
+      $notification_handler->buildNewProposalCreatedAlert($entity);
       return;
 
     case 'plan':

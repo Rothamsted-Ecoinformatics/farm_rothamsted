@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add new consolidated Export data action. [#468](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/468)
+- Add email alert for Reviewers when a new Proposal is created. [#814](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/814)
 
 ### Changed
 
