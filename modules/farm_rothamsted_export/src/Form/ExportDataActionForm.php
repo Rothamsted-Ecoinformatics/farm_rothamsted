@@ -123,11 +123,12 @@ class ExportDataActionForm extends ConfirmFormBase {
       }
     }
 
+    $default_name = date('Y-m-d_H-i-s');
     $form['filename'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Export filename'),
       '#required' => TRUE,
-      '#default_value' => date('c'),
+      '#default_value' => $default_name,
     ];
 
     return parent::buildForm($form, $form_state);
