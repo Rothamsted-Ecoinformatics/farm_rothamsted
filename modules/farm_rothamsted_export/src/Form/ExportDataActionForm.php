@@ -118,7 +118,7 @@ class ExportDataActionForm extends ConfirmFormBase {
 
     // Add descriptions to checkboxes.
     foreach ($export_types as $plugin_id => $plugin_definition) {
-      if ($plugin_definition['description']){
+      if ($plugin_definition['description']) {
         $form['export_type'][$plugin_id]['#description'] = $plugin_definition['description'];
       }
     }

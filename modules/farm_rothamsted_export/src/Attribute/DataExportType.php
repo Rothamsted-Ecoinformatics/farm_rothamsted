@@ -18,10 +18,12 @@ class DataExportType extends Plugin {
    *
    * @param string $id
    *   The plugin ID.
-   * @param string $label
-   *   The label for the export type.
    * @param string $entity_type
    *   The supported entity type.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup $label
+   *   The label for the export type.
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|null $description
+   *   An optional description for the export type.
    */
   public function __construct(
     public readonly string $id,
