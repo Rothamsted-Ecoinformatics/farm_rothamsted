@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Only send one email alert to named reviewers on submission of proposals. [#824](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/824)
 
+### Fixed
+
+- CSV quantity export doesn't include log info on quantity exports. [#819](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/819)
+
 ## [2.27.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/48)
 
 ### Fixed
