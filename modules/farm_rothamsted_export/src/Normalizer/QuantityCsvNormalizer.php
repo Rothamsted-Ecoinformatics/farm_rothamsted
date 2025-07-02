@@ -31,11 +31,6 @@ class QuantityCsvNormalizer extends ContentEntityNormalizer {
       $data = [
         'log_id' => $log->id(),
         'log_status' => $log->get('status')->value,
-        // PHPStan level 2+ throws the following error on the next line:
-        // Call to an undefined method
-        // Symfony\Component\Serializer\SerializerInterface::normalize().
-        // We ignore this because we are following Drupal core's pattern.
-        // @phpstan-ignore method.notFound
         'log_timestamp' => $this->serializer->normalize($log->get('timestamp')->first(), $format, $context),
         'log_type' => $log->bundle(),
         'log_name' => $log->getName(),
