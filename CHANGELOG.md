@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.27.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/48)
+
 ### Changed
 
 - Only send one email alert to named reviewers on submission of proposals. [#824](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/824)
