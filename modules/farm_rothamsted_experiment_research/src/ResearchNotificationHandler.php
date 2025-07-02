@@ -308,39 +308,6 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   }
 
   /**
-   * Build a new proposal alert for users with researcher reviewer role.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $proposal
-   *   The research proposal entity.
-   */
-  public function buildNewProposalCreatedAlert(EntityInterface $proposal) {
-
-    // Merge all the emails into an array, limiting to non-duplicate values.
-    $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
-      'status' => 1,
-      'roles' => ['rothamsted_research_reviewer'],
-    ]);
-
-    $emails = array_unique(array_map(function (UserInterface $user) {
-      return $user->getEmail();
-    }, $users));
-
-    // Build email content.
-    $entity_type_id = $proposal->getEntityTypeId();
-    $subject = "[site:name]: New Proposal Submitted";
-    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a new Proposal to FarmOS:";
-    $body[] = "[$entity_type_id:name]: [$entity_type_id:url:absolute]";
-    $body[] = "Please check the details and comment as appropriate.";
-    $body[] = "You are receiving this email because you are named as an active Reviewer in FarmOS.";
-    $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
-
-    // Send mail.
-    $params['subject_template'] = $subject;
-    $params['body_template'] = $body;
-    $this->sendMail($proposal, $emails, $params);
-  }
-
-  /**
    * Build a new alert for Rothamsted Proposal.
    *
    * @param \Drupal\Core\Entity\EntityInterface $proposal
@@ -407,6 +374,38 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $params['subject_template'] = $subject;
     $params['body_template'] = $body;
     $this->sendMail($proposal, $emails, $params);
+
+    // Also send email to research reviewers if the proposal is being submitted.
+    $body = [];
+    if ($proposal->original->get('status')->value !== 'submitted' && $proposal->get('status')->value == 'submitted') {
+
+      // Get emails for all research reviewers.
+      $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
+        'status' => 1,
+        'roles' => ['rothamsted_research_reviewer'],
+      ]);
+      $reviewer_emails = array_unique(array_map(function (UserInterface $user) {
+        return $user->getEmail();
+      }, $users));
+
+      // Do not include any users that received the previous update email.
+      // Reviewers will not be reviewing a proposal they are named on.
+      $reviewer_emails = array_diff($reviewer_emails, $emails);
+
+      // Build email content.
+      $entity_type_id = $proposal->getEntityTypeId();
+      $subject = "[site:name]: New Proposal Submitted";
+      $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a new Proposal to FarmOS:";
+      $body[] = "[$entity_type_id:name]: [$entity_type_id:url:absolute]";
+      $body[] = "Please check the details and comment as appropriate.";
+      $body[] = "You are receiving this email because you are named as an active Reviewer in FarmOS.";
+      $body[] = "If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+      // Send mail.
+      $params['subject_template'] = $subject;
+      $params['body_template'] = $body;
+      $this->sendMail($proposal, $reviewer_emails, $params);
+    }
   }
 
   /**

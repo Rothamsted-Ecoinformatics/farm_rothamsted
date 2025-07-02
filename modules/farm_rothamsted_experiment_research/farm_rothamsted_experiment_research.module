@@ -614,7 +614,6 @@ function farm_rothamsted_experiment_research_entity_insert(EntityInterface $enti
 
     case 'rothamsted_proposal':
       $notification_handler->buildNewEntityAlert($entity);
-      $notification_handler->buildNewProposalCreatedAlert($entity);
       return;
 
     case 'plan':
