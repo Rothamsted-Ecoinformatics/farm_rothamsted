@@ -169,10 +169,10 @@ display:
             field_identifier: ''
           exposed: false
       arguments:
-        role:
-          id: role
-          table: rothamsted_researcher_data
-          field: role
+        role_value:
+          id: role_value
+          table: rothamsted_researcher__role
+          field: role_value
           relationship: none
           group_type: group
           admin_label: ''

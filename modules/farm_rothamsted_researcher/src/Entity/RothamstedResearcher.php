@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
@@ -287,6 +288,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
     $fields['role'] = BaseFieldDefinition::create('list_string')
       ->setLabel(t('Role'))
       ->setDescription(t('The role the person plays in relation to experiments.'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [

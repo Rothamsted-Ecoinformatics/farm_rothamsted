@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
 use Drupal\views\Entity\View;
 use Symfony\Component\Yaml\Yaml;
 
@@ -106,4 +108,42 @@ function farm_rothamsted_researcher_post_update_2_21_comments(&$sandbox = NULL) 
   $new_definition = farm_comment_base_field_definition($comment_type_id);
   $update_manager->installFieldStorageDefinition('comment', $comment_type_id, 'farm_rothamsted_experiment_research', $new_definition);
 
+}
+
+/**
+ * Change cardinality of researcher.roles field to be unlimited.
+ */
+function farm_rothamsted_researcher_post_update_2_28_multiple_roles(&$sandbox = NULL) {
+
+  # Query all current researcher roles.
+  $database = \Drupal::database();
+  $researcher_roles = $database->select('rothamsted_researcher_data', 'rrd')
+    ->fields('rrd', ['id', 'role'])
+    ->orderBy('id')
+    ->execute()
+    ->fetchAllKeyed();
+
+  # Update field storage.
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $storage_definition = $manager->getFieldStorageDefinition('role', 'rothamsted_researcher');
+  # Change cardinality to 1 because the role field in the RothamstedResearcher
+  # class will have been updated to be unlimited when update hook is ran.
+  # This ensures the correct rothamsted_researcher_data field is updated.
+  $storage_definition->setCardinality(1);
+  $manager->uninstallFieldStorageDefinition($storage_definition);
+
+  # Change the cardinality back to unlimited and reinstall the field definition.
+  # This ensures the correct rothamsted_researcher__role table will be created.
+  $new_definition = $storage_definition->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+  $manager->installFieldStorageDefinition('role', 'rothamsted_researcher', 'farm_rothamsted_researcher', $new_definition);
+
+  # Restore researcher roles.
+  $researchers = RothamstedResearcher::loadMultiple();
+  foreach ($researcher_roles as $id => $role) {
+    if (isset($researchers[$id])) {
+      $researchers[$id]->set('role', [$role]);
+      $researchers[$id]->save();
+      \Drupal::logger('farm_rothamsted_researcher')->notice("Restored role '$role' for researcher $id");
+    }
+  }
 }

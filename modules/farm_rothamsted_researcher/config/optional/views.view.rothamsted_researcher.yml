@@ -336,10 +336,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        role:
-          id: role
-          table: rothamsted_researcher_data
-          field: role
+        role_value:
+          id: role_value
+          table: rothamsted_researcher__role
+          field: role_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -962,10 +962,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        role:
-          id: role
-          table: rothamsted_researcher_data
-          field: role
+        role_value:
+          id: role_value
+          table: rothamsted_researcher__role
+          field: role_value
           relationship: none
           group_type: group
           admin_label: ''
@@ -977,17 +977,17 @@ display:
           group: 1
           exposed: true
           expose:
-            operator_id: role_op
+            operator_id: role_value_op
             label: Role
             description: ''
             use_operator: false
-            operator: role_op
+            operator: role_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: role
+            identifier: role_value
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -1171,7 +1171,7 @@ display:
             title: title
             name_1: name_1
             job_title: job_title
-            role: role
+            role_value: role_value
             organization: organization
             department: department
             orcid: orcid
@@ -1212,9 +1212,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            role:
-              sortable: true
-              default_sort_order: asc
+            role_value:
               align: ''
               separator: ''
               empty_column: false
