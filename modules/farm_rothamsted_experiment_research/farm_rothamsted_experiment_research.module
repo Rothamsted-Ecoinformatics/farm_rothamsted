@@ -211,6 +211,9 @@ function farm_rothamsted_experiment_research_entity_field_access($operation, Fie
  */
 function farm_rothamsted_experiment_research_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
   $research_entity_types = [
+    'asset',
+    'log',
+    'quantity',
     'rothamsted_proposal',
     'rothamsted_program',
     'rothamsted_experiment',
@@ -238,48 +241,6 @@ function farm_rothamsted_experiment_research_plan_access(EntityInterface $entity
   if ($entity->bundle() != 'rothamsted_experiment') {
     return AccessResult::neutral();
   }
-
-  // Only check view, update and delete operations.
-  if (!in_array($operation, ['view', 'update', 'delete'])) {
-    return AccessResult::neutral();
-  }
-
-  // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_access().
- */
-function farm_rothamsted_experiment_research_asset_access(EntityInterface $entity, $operation, AccountInterface $account) {
-
-  // Only check view, update and delete operations.
-  if (!in_array($operation, ['view', 'update', 'delete'])) {
-    return AccessResult::neutral();
-  }
-
-  // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_access().
- */
-function farm_rothamsted_experiment_research_log_access(EntityInterface $entity, $operation, AccountInterface $account) {
-
-  // Only check view, update and delete operations.
-  if (!in_array($operation, ['view', 'update', 'delete'])) {
-    return AccessResult::neutral();
-  }
-
-  // Delegate to helper function.
-  return farm_rothamsted_experiment_research_research_entity_access($entity, $operation, $account);
-}
-
-/**
- * Implements hook_ENTITY_TYPE_access().
- */
-function farm_rothamsted_experiment_research_quantity_access(EntityInterface $entity, $operation, AccountInterface $account) {
 
   // Only check view, update and delete operations.
   if (!in_array($operation, ['view', 'update', 'delete'])) {
