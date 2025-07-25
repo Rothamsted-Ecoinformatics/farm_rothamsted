@@ -112,7 +112,6 @@ This project inherits a copy left [GNU General Public License, version 2 (GPL v2
 
 Under the terms of this license, you are free to use the code in this repository for any purpose, but if you incorporate that code into products which are released publicly, you must release the software under the same GPL v2.0 terms.
 
-Should we list any linked projects here?
 
 **INSTALLATION AND SUPPORT:**
 
