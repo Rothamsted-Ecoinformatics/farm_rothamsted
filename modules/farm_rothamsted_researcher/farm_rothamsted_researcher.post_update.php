@@ -115,7 +115,7 @@ function farm_rothamsted_researcher_post_update_2_21_comments(&$sandbox = NULL) 
  */
 function farm_rothamsted_researcher_post_update_2_28_multiple_roles(&$sandbox = NULL) {
 
-  # Query all current researcher roles.
+  // Query all current researcher roles.
   $database = \Drupal::database();
   $researcher_roles = $database->select('rothamsted_researcher_data', 'rrd')
     ->fields('rrd', ['id', 'role'])
@@ -123,21 +123,21 @@ function farm_rothamsted_researcher_post_update_2_28_multiple_roles(&$sandbox = 
     ->execute()
     ->fetchAllKeyed();
 
-  # Update field storage.
+  // Update field storage.
   $manager = \Drupal::entityDefinitionUpdateManager();
   $storage_definition = $manager->getFieldStorageDefinition('role', 'rothamsted_researcher');
-  # Change cardinality to 1 because the role field in the RothamstedResearcher
-  # class will have been updated to be unlimited when update hook is ran.
-  # This ensures the correct rothamsted_researcher_data field is updated.
+  // Change cardinality to 1 because the role field in the RothamstedResearcher
+  // class will have been updated to be unlimited when update hook is ran.
+  // This ensures the correct rothamsted_researcher_data field is updated.
   $storage_definition->setCardinality(1);
   $manager->uninstallFieldStorageDefinition($storage_definition);
 
-  # Change the cardinality back to unlimited and reinstall the field definition.
-  # This ensures the correct rothamsted_researcher__role table will be created.
+  // Change cardinality back to unlimited and reinstall the field definition.
+  // This ensures the correct rothamsted_researcher__role table will be created.
   $new_definition = $storage_definition->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
   $manager->installFieldStorageDefinition('role', 'rothamsted_researcher', 'farm_rothamsted_researcher', $new_definition);
 
-  # Restore researcher roles.
+  // Restore researcher roles.
   $researchers = RothamstedResearcher::loadMultiple();
   foreach ($researcher_roles as $id => $role) {
     if (isset($researchers[$id])) {

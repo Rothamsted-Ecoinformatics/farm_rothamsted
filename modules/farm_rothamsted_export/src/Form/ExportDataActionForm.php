@@ -319,7 +319,7 @@ class ExportDataActionForm extends ConfirmFormBase {
    */
   protected function checkEntityAccess(EntityInterface $entity, ?AccountInterface $account = NULL) {
 
-    # Check access based on user roles.
+    // Check access based on user roles.
     $result = AccessResult::forbidden();
     $roles = $account->getRoles();
     $all_access_roles = [
@@ -331,14 +331,14 @@ class ExportDataActionForm extends ConfirmFormBase {
       'rothamsted_research_editor',
     ];
 
-    # Allow access if user has all access roles.
+    // Allow access if user has all access roles.
     if (!empty(array_intersect($roles, $all_access_roles))) {
       $result = AccessResult::allowed();
     }
 
-    # If user has a researcher role, allow access if they have update access.
-    # In many cases this will delegate to research access logic that uses the
-    # "update research_assigned {entity_type}" permission.
+    // If user has a researcher role, allow access if they have update access.
+    // In many cases this will delegate to research access logic that uses the
+    // "update research_assigned {entity_type}" permission.
     elseif (!empty(array_intersect($roles, $research_assigned_roles))) {
       $result = $entity->access('update', $account, TRUE);
     }
