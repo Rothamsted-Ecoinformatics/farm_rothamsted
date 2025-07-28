@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_export\Form;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Checkboxes;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -36,6 +40,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     protected ClassResolverInterface $classResolver,
     protected RouteMatchInterface $currentRouteMatch,
     protected DataExportTypePluginManager $dataExportTypePluginManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
     PrivateTempStoreFactory $tempStore,
   ) {
     $this->tempStore = $tempStore->get('export_data_action');
@@ -50,6 +55,7 @@ class ExportDataActionForm extends ConfirmFormBase {
       $container->get('class_resolver'),
       $container->get('current_route_match'),
       $container->get('farm_rothamsted_export.data_export_type_plugin_manager'),
+      $container->get('entity_type.manager'),
       $container->get('tempstore.private'),
     );
   }
@@ -90,11 +96,40 @@ class ExportDataActionForm extends ConfirmFormBase {
 
     // Retrieve the entities from tempstore.
     $entity_type_id = $this->currentRouteMatch->getParameter('entity_type');
+    $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
     $entities = $this->tempStore->get("{$this->currentUser->id()}:$entity_type_id");
     if (empty($entities)) {
       $this->messenger()->addError($this->t('No entities selected for export.'));
       return $this->redirect('system.admin_content');
     }
+
+    // Filter out entities the user doesn't have access to.
+    $inaccessible_entities = [];
+    $accessible_entities = [];
+    foreach ($entities as $entity) {
+      if (!$this->checkEntityAccess($entity, $this->currentUser())) {
+        $inaccessible_entities[] = $entity;
+        continue;
+      }
+      $accessible_entities[] = $entity;
+    }
+
+    // Add warning message for inaccessible entities.
+    if (!empty($inaccessible_entities)) {
+      $this->messenger()->addWarning(new TranslatableMarkup(
+        'You do not have permission to export data from the below @count @entity_type because you are not named as a Researcher on the @entity_type.',
+        [
+          '@count' => count($inaccessible_entities),
+          '@entity_type' => $entity_type->getCollectionLabel(),
+        ],
+      ));
+      foreach ($inaccessible_entities as $entity) {
+        $this->messenger()->addWarning(Markup::create("<a href=\"{$entity->toUrl()->toString()}\">{$entity->label()}</a>"));
+      }
+    }
+
+    // Update tempstore to only the accessible entities.
+    $this->tempStore->set("{$this->currentUser->id()}:$entity_type_id", $accessible_entities);
 
     // Get all available export type plugins.
     $export_types = $this->dataExportTypePluginManager->getDefinitions();
@@ -269,6 +304,46 @@ class ExportDataActionForm extends ConfirmFormBase {
           '%filename' => $zip_filename,
         ]),
     );
+  }
+
+  /**
+   * Helper function to check entity access with researcher logic.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   * @param \Drupal\Core\Session\AccountInterface|null $account
+   *   The user account.
+   *
+   * @return bool
+   *   Boolean access result.
+   */
+  protected function checkEntityAccess(EntityInterface $entity, ?AccountInterface $account = NULL) {
+
+    # Check access based on user roles.
+    $result = AccessResult::forbidden();
+    $roles = $account->getRoles();
+    $all_access_roles = [
+      'rothamsted_data_admin',
+      'rothamsted_farm_manager',
+    ];
+    $research_assigned_roles = [
+      'rothamsted_research_lead',
+      'rothamsted_research_editor',
+    ];
+
+    # Allow access if user has all access roles.
+    if (!empty(array_intersect($roles, $all_access_roles))) {
+      $result = AccessResult::allowed();
+    }
+
+    # If user has a researcher role, allow access if they have update access.
+    # In many cases this will delegate to research access logic that uses the
+    # "update research_assigned {entity_type}" permission.
+    elseif (!empty(array_intersect($roles, $research_assigned_roles))) {
+      $result = $entity->access('update', $account, TRUE);
+    }
+
+    return $result->isAllowed();
   }
 
 }

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Farm manager role can create taxonomy terms. [#366](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/366)
 - Allow researchers to have multiple roles. [#685](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/685)
+- Restrict permissions for downloading experiment data to named researchers. [#825](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/825)
 
 ## [2.27.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/48)
 
