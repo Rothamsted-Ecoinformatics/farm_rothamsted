@@ -142,6 +142,7 @@ display:
           exposed: false
       arguments: {  }
       filters:
+        # @todo refactor for 4.x?
         status:
           id: status
           table: asset_field_data

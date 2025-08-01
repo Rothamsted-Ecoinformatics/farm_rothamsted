@@ -131,7 +131,6 @@ function farm_rothamsted_dev_install() {
     $group = Asset::create([
       'type' => 'group',
       'name' => $group_name,
-      'status' => 'active',
     ]);
     $group->save();
 
@@ -140,7 +139,6 @@ function farm_rothamsted_dev_install() {
       $asset = Asset::create([
         'type' => 'equipment',
         'name' => $equipment_name,
-        'status' => 'active',
       ]);
       $asset->save();
       return $asset;

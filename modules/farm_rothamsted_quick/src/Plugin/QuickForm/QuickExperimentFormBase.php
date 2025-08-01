@@ -298,7 +298,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // in the selected location(s).
         $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
           ->accessCheck(TRUE)
-          ->condition('status', 'archived', '!=');
+          ->condition('archived', FALSE);
 
         // Limit to certain asset types.
         // Allow experiment_boundary land assets.
@@ -330,7 +330,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Do not include plot assets for performance reasons.
         $location_asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
           ->accessCheck(TRUE)
-          ->condition('status', 'archived', '!=')
+          ->condition('archived', FALSE)
           ->condition('type', 'plot', '!=');
         $location_condition = $location_asset_query->orConditionGroup()
           ->condition('id', $location_id)
@@ -953,7 +953,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Load the groups.
     $group_ids = $asset_storage->getQuery()
       ->accessCheck(TRUE)
-      ->condition('status', 'active')
+      ->condition('archived', FALSE)
       ->condition('type', 'group')
       ->condition('name', $group_names, 'IN')
       ->execute();

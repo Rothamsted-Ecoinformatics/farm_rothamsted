@@ -166,7 +166,6 @@ class ExperimentPlotForm extends ExperimentFormBase {
       $plot = Asset::create([
         'type' => 'plot',
         'name' => $plot_name,
-        'status' => 'active',
         'plot_type' => 'undefined',
         'plot_number' => $i,
         'plot_id' => $i,

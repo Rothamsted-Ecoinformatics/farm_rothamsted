@@ -204,7 +204,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     $storage_locations = $this->entityTypeManager->getStorage('asset')->loadByProperties([
       'type' => 'structure',
       'structure_type' => 'storage_location',
-      'status' => 'active',
+      'archived' => FALSE,
     ]);
     $storage_location_options = array_map(function (AssetInterface $asset) {
       return $asset->label();

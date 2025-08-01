@@ -2957,6 +2957,7 @@ display:
           separator: ', '
           field_api_classes: false
       filters:
+        # @todo refactor for 4.x
         status:
           id: status
           table: rothamsted_proposal_data

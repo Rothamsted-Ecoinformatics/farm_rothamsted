@@ -683,7 +683,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $plot_ids = $asset_storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'plot')
-      ->condition('status', 'active')
+      ->condition('archived', FALSE)
       ->condition('id', $plan_plot_query, 'IN')
       ->condition('plot_number', $current, '>')
       ->range(0, $limit)
@@ -705,7 +705,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
       // Build the plot name from the feature data.
       $plot_id = $plot_attributes['plot_id'];
       $plot->set('name', "$experiment_code: $plot_id");
-      $plot->set('status', 'active');
+      $plot->set('archived', FALSE);
 
       // Build column descriptors for the plot.
       $column_descriptors = [];

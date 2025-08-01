@@ -1783,6 +1783,7 @@ display:
     position: 2
     display_options:
       arguments:
+        # @todo add archived filter
         status:
           id: status
           table: plan_field_data

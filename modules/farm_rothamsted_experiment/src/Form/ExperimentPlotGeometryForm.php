@@ -334,7 +334,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     $plot_ids = $asset_storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'plot')
-      ->condition('status', 'active')
+      ->condition('archived', FALSE)
       ->condition('id', $plan_plot_query, 'IN')
       ->condition('plot_number', $current, '>')
       ->range(0, $limit)

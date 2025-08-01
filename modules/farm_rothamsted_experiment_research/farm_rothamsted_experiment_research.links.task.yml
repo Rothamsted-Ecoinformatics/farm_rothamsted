@@ -98,6 +98,7 @@ farm_rothamsted_experiment_research.plans.active:
   parent_id: farm_rothamsted_experiment_research.plans
   route_name: view.rothamsted_experiment_plan.page_research
   route_parameters:
+    # @todo refactor for 4.x?
     status: active
   weight: 0
 
@@ -138,6 +139,7 @@ farm_rothamsted_experiment_research.plans.archived:
   parent_id: farm_rothamsted_experiment_research.plans
   route_name: view.rothamsted_experiment_plan.page_research
   route_parameters:
+    # @todo refactor for 4.x
     status: archived
   weight: 10
 
