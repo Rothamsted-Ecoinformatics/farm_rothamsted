@@ -1,0 +1,6 @@
+farm_rothamsted_researcher.current_user_researcher:
+  path: '/user/researcher-profile'
+  defaults:
+    _controller: \Drupal\farm_rothamsted_researcher\Controller\CurrentUserResearcher::redirectToResearcherProfile
+  requirements:
+    _user_is_logged_in: 'TRUE'

@@ -12,6 +12,18 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function farm_rothamsted_researcher_theme_registry_alter(&$theme_registry) {
+
+  // Register preprocess function to add link to user toolbar.
+  if (isset($theme_registry['links__toolbar_user']['preprocess functions'])) {
+    $theme_registry['links__toolbar_user']['preprocess functions'][] = 'farm_rothamsted_researcher_preprocess_links__toolbar_user';
+  }
+}
 
 /**
  * Implements hook_ENTITY_TYPE_access().
@@ -81,6 +93,23 @@ function farm_rothamsted_researcher_entity_view_display_alter(EntityViewDisplayI
       'weight' => 1,
     ]);
   }
+}
+
+/**
+ * Preprocess function to add links to the user toolbar.
+ */
+function farm_rothamsted_researcher_preprocess_links__toolbar_user(&$variables) {
+  $links = [
+    'researcher_profile' => [
+      'link' => [
+        '#type' => 'link',
+        '#title' => t('View Researcher profile'),
+        '#url' => Url::fromRoute('farm_rothamsted_researcher.current_user_researcher'),
+      ],
+      '#weight' => -10,
+    ],
+  ];
+  $variables['links'] = $links + $variables['links'];
 }
 
 /**

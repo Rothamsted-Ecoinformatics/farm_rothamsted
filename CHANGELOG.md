@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Link to Researcher profile from user toolbar. [#835](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/835)
+
 ### Changed
 
 - Farm manager role can create taxonomy terms. [#366](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/366)
