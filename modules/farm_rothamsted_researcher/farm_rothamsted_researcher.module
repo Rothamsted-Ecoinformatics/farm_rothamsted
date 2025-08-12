@@ -13,6 +13,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_theme_registry_alter().
@@ -110,6 +111,38 @@ function farm_rothamsted_researcher_preprocess_links__toolbar_user(&$variables) 
     ],
   ];
   $variables['links'] = $links + $variables['links'];
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function farm_rothamsted_researcher_entity_extra_field_info() {
+  $fields['user']['user']['display']['researcher_profile'] = [
+    'label' => t('Researcher profile roles'),
+    'description' => t('The user\'s researcher profile.'),
+    'weight' => -5,
+  ];
+  return $fields;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for user entities.
+ */
+function farm_rothamsted_researcher_user_view(array &$build, UserInterface $account, EntityViewDisplayInterface $display) {
+
+  // Query for the current user's researcher profile.
+  if ($display->getComponent('researcher_profile')) {
+    $researchers = Drupal::entityTypeManager()->getStorage('rothamsted_researcher')->loadByProperties([
+      'farm_user' => $account->id(),
+    ]);
+    /** @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher */
+    if ($researcher = reset($researchers)) {
+      $build['researcher_profile'] = [
+        '#type' => 'item',
+        '#markup' => '<h4 class="label">' . t('Researcher profile') . '</h4> ' . $researcher->toLink($researcher->label())->toString(),
+      ];
+    }
+  }
 }
 
 /**
