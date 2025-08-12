@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_roles\Hook;
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -24,6 +25,16 @@ class EntityHooks {
   public function __construct(
     protected AccountProxyInterface $currentUser,
   ) {}
+
+  /**
+   * Implements hook_entity_base_field_info_alter().
+   */
+  #[Hook('entity_base_field_info_alter')]
+  public function entityBaseFieldInfoAlter(&$fields, EntityTypeInterface $entity_type) {
+    if ($entity_type->id() === 'user' && isset($fields['roles'])) {
+      $fields['roles']->addConstraint('rothamsted_role_constraint');
+    }
+  }
 
   /**
    * Implements hook_entity_extra_field_info().
