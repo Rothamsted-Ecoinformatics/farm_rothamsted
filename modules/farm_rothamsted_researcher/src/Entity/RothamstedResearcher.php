@@ -232,6 +232,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['farm_user'] = BaseFieldDefinition::create('entity_reference')
@@ -248,11 +249,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
           'placeholder' => '',
         ],
       ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'inline',
-        'type' => 'entity_reference_label',
-      ]);
+      ->setDisplayConfigurable('view', TRUE);
 
     $fields['title'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Honorific prefix'))
@@ -269,6 +266,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['job_title'] = BaseFieldDefinition::create('string')
@@ -283,10 +281,11 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['role'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Role'))
+      ->setLabel(t('Research role'))
       ->setDescription(t('The role the person plays in relation to experiments.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRequired(TRUE)
@@ -308,6 +307,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'list_default',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['organization'] = BaseFieldDefinition::create('string')
@@ -325,6 +325,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['department'] = BaseFieldDefinition::create('string')
@@ -342,6 +343,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'string',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['orcid'] = BaseFieldDefinition::create('string')
@@ -359,6 +361,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'rothamsted_orcid_link',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     $fields['notes'] = BaseFieldDefinition::create('text_long')
@@ -372,6 +375,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayOptions('view', [
         'type' => 'text_default',
         'label' => 'inline',
+        'weight' => 10,
       ]);
 
     // Add comment field.

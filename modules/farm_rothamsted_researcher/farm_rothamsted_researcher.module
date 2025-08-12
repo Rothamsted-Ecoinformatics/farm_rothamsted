@@ -13,6 +13,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\user\UserInterface;
 
 /**
@@ -122,6 +123,11 @@ function farm_rothamsted_researcher_entity_extra_field_info() {
     'description' => t('The user\'s researcher profile.'),
     'weight' => -5,
   ];
+  $fields['rothamsted_researcher']['rothamsted_researcher']['display']['user_profile'] = [
+    'label' => t('User profile'),
+    'description' => t('The researcher user profile.'),
+    'weight' => 0,
+  ];
   return $fields;
 }
 
@@ -142,6 +148,42 @@ function farm_rothamsted_researcher_user_view(array &$build, UserInterface $acco
         '#markup' => '<h4 class="label">' . t('Researcher profile') . '</h4> ' . $researcher->toLink($researcher->label())->toString(),
       ];
     }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for rothamsted_researcher entities.
+ */
+function farm_rothamsted_researcher_rothamsted_researcher_view(array &$build, RothamstedResearcherInterface $researcher, EntityViewDisplayInterface $display) {
+  if ($display->getComponent('user_profile')) {
+
+    // Bail if researcher doesn't have a farm user.
+    if ($researcher->get('farm_user')->isEmpty()) {
+      return;
+    }
+
+    // Get referenced user.
+    $users = $researcher->get('farm_user')->referencedEntities();
+    $user = reset($users);
+
+    // Include user roles if user has access.
+    $current_user = \Drupal::currentUser();
+    $role_labels = NULL;
+    if ($user->id() === $current_user->id() || $current_user->hasPermission('administer users')) {
+      $role_labels = implode(
+        ', ',
+        array_map(function ($role) {
+          return $role->label();
+        }, $user->get('roles')->referencedEntities())
+      );
+      $role_labels = " ($role_labels)";
+    }
+
+    // Build text.
+    $build['researcher_profile'] = [
+      '#type' => 'item',
+      '#markup' => '<h4 class="label">' . t('farmOS User profile') . '</h4> ' . $user->toLink($user->label())->toString() . $role_labels,
+    ];
   }
 }
 

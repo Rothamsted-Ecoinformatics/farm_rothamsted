@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Link to Researcher profile from user toolbar. [#835](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/835)
 - Link to Researcher profile from user profile. [#834](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/834)
 - View user permissions on user profile. [#832](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/832)
+- View user permissions on researcher profile. [#833](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/833)
 
 ### Changed
 
