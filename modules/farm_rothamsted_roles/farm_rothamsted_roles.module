@@ -8,7 +8,17 @@
 declare(strict_types=1);
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ */
+function farm_rothamsted_roles_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+  if ($entity_type->id() == 'user' && isset($fields['roles'])) {
+    $fields['roles']->addConstraint('rothamsted_role_constraint');
+  }
+}
 
 /**
  * Implements hook_entity_extra_field_info().
