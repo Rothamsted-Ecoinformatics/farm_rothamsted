@@ -120,7 +120,7 @@ function farm_rothamsted_researcher_preprocess_links__toolbar_user(&$variables) 
 function farm_rothamsted_researcher_entity_extra_field_info() {
   $fields['user']['user']['display']['researcher_profile'] = [
     'label' => t('Researcher profile roles'),
-    'description' => t('The user\'s researcher profile.'),
+    'description' => t("The user's researcher profile."),
     'weight' => -5,
   ];
   $fields['rothamsted_researcher']['rothamsted_researcher']['display']['user_profile'] = [

@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Contains farm_rothamsted_roles.module.
  */
+
+declare(strict_types=1);
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\user\UserInterface;
@@ -16,7 +16,7 @@ use Drupal\user\UserInterface;
 function farm_rothamsted_roles_entity_extra_field_info() {
   $fields['user']['user']['display']['rothamsted_user_roles'] = [
     'label' => t('User roles'),
-    'description' => t('The user\'s roles and permissions.'),
+    'description' => t("The user's roles and permissions."),
     'weight' => 0,
   ];
   return $fields;
