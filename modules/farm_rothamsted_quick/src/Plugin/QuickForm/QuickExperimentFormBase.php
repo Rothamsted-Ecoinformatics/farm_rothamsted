@@ -10,7 +10,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Element\Checkboxes;
 use Drupal\asset\Entity\AssetInterface;
-use Drupal\farm_group\GroupMembershipInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
@@ -47,13 +46,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $entityTypeManager;
 
   /**
-   * The group membership service.
-   *
-   * @var \Drupal\farm_group\GroupMembershipInterface
-   */
-  protected $groupMembership;
-
-  /**
    * The asset location service.
    *
    * @var \Drupal\farm_location\AssetLocationInterface
@@ -82,11 +74,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected $tractorField = FALSE;
 
   /**
-   * The machinery equipment group names to use.
+   * The machinery equipment type names to use.
    *
    * @var string[]
    */
-  protected $machineryGroupNames = [];
+  protected $machineryEquipmentTypes = [];
 
   /**
    * Boolean indication if the quick form should have a products applied tab.
@@ -132,15 +124,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   The messenger service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
-   * @param \Drupal\farm_group\GroupMembershipInterface $group_membership
-   *   The group membership service.
    * @param \Drupal\farm_location\AssetLocationInterface $asset_location
    *   The asset location service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, GroupMembershipInterface $group_membership, AssetLocationInterface $asset_location) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetLocationInterface $asset_location) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
     $this->entityTypeManager = $entity_type_manager;
-    $this->groupMembership = $group_membership;
     $this->assetLocation = $asset_location;
   }
 
@@ -154,7 +143,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $plugin_definition,
       $container->get('messenger'),
       $container->get('entity_type.manager'),
-      $container->get('group.membership'),
       $container->get('asset.location'),
     );
   }
@@ -413,11 +401,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Build the tractor field if required.
     if ($this->tractorField) {
-      $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
+      $tractor_options = $this->getEquipmentOptions(['Tractor Equipment']);
       $setup['equipment_wrapper']['tractor'] = [
         '#type' => 'select',
         '#title' => $this->t('Tractor'),
-        '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets to the group "Tractor Equipment".'),
+        '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets as "Tractor Equipment".'),
         '#options' => $tractor_options,
         '#default_value' => $this->defaultValues['tractor'] ?? NULL,
         '#required' => TRUE,
@@ -425,13 +413,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     }
 
     // Build the machinery field if required.
-    if (!empty($this->machineryGroupNames)) {
-      $equipment_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
-      $machinery_options_string = implode(",", $this->machineryGroupNames);
+    if (!empty($this->machineryEquipmentTypes)) {
+      $equipment_options = $this->getEquipmentOptions($this->machineryEquipmentTypes);
+      $machinery_options_string = implode(",", $this->machineryEquipmentTypes);
       $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select',
         '#title' => $machinery_options_string,
-        '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets to the group "@group_names". To select more than one hold down the CTRL button and select multiple.', ['@group_names' => $machinery_options_string]),
+        '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names". To select more than one hold down the CTRL button and select multiple.', ['@equipment_type_names' => $machinery_options_string]),
         '#options' => $equipment_options,
         '#default_value' => $this->defaultValues['machinery'] ?? NULL,
         '#multiple' => TRUE,
@@ -827,11 +815,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       }, $equipment);
 
       // Tractor.
-      $tractor_options = $this->getGroupMemberOptions(['Tractor Equipment'], ['equipment']);
+      $tractor_options = $this->getEquipmentOptions(['Tractor Equipment']);
       $this->defaultValues['tractor'] = array_intersect($equipment_ids, array_keys($tractor_options));
 
       // Machinery.
-      $machinery_options = $this->getGroupMemberOptions($this->machineryGroupNames, ['equipment']);
+      $machinery_options = $this->getEquipmentOptions($this->machineryEquipmentTypes);
       $this->defaultValues['machinery'] = array_intersect($equipment_ids, array_keys($machinery_options));
 
       // Notes.
@@ -937,50 +925,28 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   }
 
   /**
-   * Helper function to load group members of a given asset type.
+   * Helper function to load equipment assets of a given equipment_type.
    *
-   * @param string[] $group_names
-   *   The group names to query.
-   * @param string[] $asset_types
-   *   The asset types to limit group members to.
+   * @param string[] $equipment_types
+   *   The equipment types to query.
    *
    * @return array
-   *   An array of asset labels keyed by the asset ID.
+   *   An array of equipment asset labels keyed by the asset ID.
    */
-  protected function getGroupMemberOptions(array $group_names, array $asset_types = []): array {
+  protected function getEquipmentOptions(array $equipment_types): array {
     $asset_storage = $this->entityTypeManager->getStorage('asset');
+    $assets = $asset_storage->loadByProperties([
+      'status' => 'active',
+      'type' => 'equipment',
+      'equipment_type.entity:taxonomy_term.name' => $equipment_types,
+    ]);
 
-    // Load the groups.
-    $group_ids = $asset_storage->getQuery()
-      ->accessCheck(TRUE)
-      ->condition('status', 'active')
-      ->condition('type', 'group')
-      ->condition('name', $group_names, 'IN')
-      ->execute();
-
-    // Bail if there are no groups.
-    if (empty($group_ids)) {
-      return [];
-    }
-
-    // Load the group members.
-    $groups = $asset_storage->loadMultiple($group_ids);
-    $group_members = $this->groupMembership->getGroupMembers($groups);
-
-    // If specified, filter group members to a single asset type.
-    if (!empty($asset_types)) {
-      $group_members = array_filter($group_members, function (AssetInterface $asset) use ($asset_types) {
-        return in_array($asset->bundle(), $asset_types);
-      });
-    }
-
-    // Build group options.
-    $group_options = array_map(function (AssetInterface $asset) {
+    // Build and return equipment options.
+    $equipment_options = array_map(function (AssetInterface $asset) {
       return $asset->label();
-    }, $group_members);
-    natsort($group_options);
-
-    return $group_options;
+    }, $assets);
+    natsort($equipment_options);
+    return $equipment_options;
   }
 
   /**

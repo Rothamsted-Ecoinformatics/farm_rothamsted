@@ -40,7 +40,7 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $machineryGroupNames = ['Harvest Equipment'];
+  protected $machineryEquipmentTypes = ['Harvest Equipment'];
 
   /**
    * {@inheritdoc}
@@ -49,9 +49,9 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
     $form = parent::buildForm($form, $form_state);
 
     // Change the tractor field to load Combine and Forage Harvester equipment.
-    $combine_options = $this->getGroupMemberOptions(['Combine and Forage Harvesters'], ['equipment']);
+    $combine_options = $this->getEquipmentOptions(['Combine and Forage Harvesters']);
     $form['setup']['equipment_wrapper']['tractor']['#title'] = $this->t('Combine/Forage Harvester');
-    $form['setup']['equipment_wrapper']['tractor']['#description'] = $this->t('Select the combine or forage harvester used for this operation. You can expand this list by adding equipment to the group “Combine and Forage Harvesters.');
+    $form['setup']['equipment_wrapper']['tractor']['#description'] = $this->t('Select the combine or forage harvester used for this operation. You can expand this list by assigning Equipment Assets as “Combine and Forage Harvesters".');
     $form['setup']['equipment_wrapper']['tractor']['#options'] = $combine_options;
 
     // Harvest data tab.

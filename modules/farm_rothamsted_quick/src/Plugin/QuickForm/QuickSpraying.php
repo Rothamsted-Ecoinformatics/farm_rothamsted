@@ -37,7 +37,7 @@ class QuickSpraying extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $machineryGroupNames = ['Pesticide Equipment'];
+  protected $machineryEquipmentTypes = ['Pesticide Equipment'];
 
   /**
    * {@inheritdoc}
@@ -101,7 +101,7 @@ class QuickSpraying extends QuickExperimentFormBase {
     $setup['nozzle_wrapper'] = $this->buildInlineWrapper();
 
     // Spray nozzle options.
-    $spray_nozzle_options = $this->getGroupMemberOptions(['Spray Nozzles'], ['equipment']);
+    $spray_nozzle_options = $this->getEquipmentOptions(['Spray Nozzles']);
     $setup['nozzle_wrapper']['nozzle_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Nozzle Type'),

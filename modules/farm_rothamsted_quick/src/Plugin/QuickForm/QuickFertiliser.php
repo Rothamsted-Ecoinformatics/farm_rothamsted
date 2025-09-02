@@ -37,7 +37,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $machineryGroupNames = ['Fertiliser Equipment'];
+  protected $machineryEquipmentTypes = ['Fertiliser Equipment'];
 
   /**
    * {@inheritdoc}

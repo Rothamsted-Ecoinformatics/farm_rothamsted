@@ -11,7 +11,6 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperiment;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgram;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposal;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcher;
-use Drupal\log\Entity\Log;
 use Drupal\plan\Entity\Plan;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
@@ -112,7 +111,7 @@ function farm_rothamsted_dev_install() {
   }
 
   // EQUIPMENT ASSETS.
-  // Define groups and equipment names.
+  // Define equipment types and equipment names.
   $equipment = [
     'Tractor Equipment' => ['Tractor 1', 'Tractor 2'],
     'Cultivation Equipment' => ['Cultivator', 'Roller'],
@@ -124,38 +123,26 @@ function farm_rothamsted_dev_install() {
     'Spray Nozzles' => ['Nozzle 1', 'Nozzle 2'],
   ];
 
-  // Populate each group.
-  foreach ($equipment as $group_name => $equipment_names) {
+  // Create each equipment type.
+  foreach ($equipment as $type => $equipment_names) {
 
-    // Create group asset.
-    $group = Asset::create([
-      'type' => 'group',
-      'name' => $group_name,
-      'status' => 'active',
+    // Create equipment_type term.
+    $equipment_type = Term::create([
+      'vid' => 'equipment_type',
+      'name' => $type,
     ]);
-    $group->save();
+    $equipment_type->save();
 
     // Create equipment assets.
-    $equipment_assets = array_map(function ($equipment_name) {
+    foreach ($equipment_names as $equipment_name) {
       $asset = Asset::create([
         'type' => 'equipment',
-        'name' => $equipment_name,
         'status' => 'active',
+        'name' => $equipment_name,
+        'equipment_type' => $equipment_type,
       ]);
       $asset->save();
-      return $asset;
-    }, $equipment_names);
-
-    // Assign equipment assets to the group.
-    $group_assignment_log = Log::create([
-      'type' => 'activity',
-      'name' => "Create $group_name equipment assets",
-      'group' => $group,
-      'asset' => $equipment_assets,
-      'is_group_assignment' => TRUE,
-      'status' => 'done',
-    ]);
-    $group_assignment_log->save();
+    }
   }
 
   // Storage location assets.
