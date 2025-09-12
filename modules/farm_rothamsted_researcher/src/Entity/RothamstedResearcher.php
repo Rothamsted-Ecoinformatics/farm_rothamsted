@@ -398,8 +398,12 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       return NULL;
     }
 
+    // Get user.
+    /** @var \Drupal\user\UserInterface $user */
+    $user = $this->get('farm_user')->entity;
+
     // Bail if not forced and emails are disabled.
-    $emails_enabled = $this->get('farm_user')->entity->get('rothamsted_notification_email')->value;
+    $emails_enabled = $user->get('rothamsted_notification_email')->value;
     if (!$force && !$emails_enabled) {
       return NULL;
     }
@@ -412,13 +416,14 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       case 'proposal':
       case 'experiment':
       case 'log':
-        if (!$force && !$this->get('farm_user')->entity->get("rothamsted_notification_$notification_type")?->value) {
+        if (!$force && !$user->get("rothamsted_notification_$notification_type")?->value) {
           return NULL;
         }
         break;
     }
 
-    return $this->get('farm_user')->entity->get('mail')->value ?? NULL;
+    // Return the user email if not blocked or prevented above.
+    return $user->isBlocked() ? NULL : $user->getEmail();
   }
 
 }

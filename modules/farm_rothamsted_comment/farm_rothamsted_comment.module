@@ -112,7 +112,7 @@ function farm_rothamsted_comment_entity_insert(EntityInterface $entity) {
   $comment = $entity;
   if (($commented = $comment->getCommentedEntity()) && $commented->hasField('owner')) {
     $emails = array_map(function (UserInterface $user) {
-      return $user->getEmail();
+      return $user->isBlocked() ? NULL : $user->getEmail();
     }, $commented->get('owner')->referencedEntities());
   }
 

@@ -242,10 +242,11 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
       $email = $user_email;
     }
 
-    // Exclude the previous farm_user email.
+    // Exclude the previous farm_user email if it is the same.
+    // Only send this email if the farm_user changed.
     if ($new_researcher && !$researcher->isNew()) {
-      if (!$researcher->original->get('farm_user')->isEmpty() && $old_user_email = $researcher->original->get('farm_user')->entity->get('mail')->value) {
-        $email = $email == $old_user_email ? NULL : $email;
+      if ($researcher->original->getNotificationEmail(TRUE, 'researcher') === $email) {
+        $email = NULL;
       }
     }
 
@@ -385,7 +386,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
         'roles' => ['rothamsted_research_reviewer'],
       ]);
       $reviewer_emails = array_unique(array_map(function (UserInterface $user) {
-        return $user->getEmail();
+        return $user->isBlocked() ? NULL : $user->getEmail();
       }, $users));
 
       // Do not include any users that received the previous update email.
@@ -708,7 +709,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     if (!$log->get('owner')->isEmpty()) {
       $owner_emails = array_map(function (UserInterface $user) {
         if ($user->get('rothamsted_notification_log')->value) {
-          return $user->getEmail();
+          return $user->isBlocked() ? NULL : $user->getEmail();
         }
         return NULL;
       }, $log->get('owner')->referencedEntities());
