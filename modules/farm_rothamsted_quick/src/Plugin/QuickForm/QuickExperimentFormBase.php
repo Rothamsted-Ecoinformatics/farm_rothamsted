@@ -207,6 +207,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $setup['asset_wrapper'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Assets'),
+      '#description' => $this->t('Select the plant assets that this log applies to. If this log relates to more than one asset in a location, select all the assets which apply.'),
     ];
 
     // Add assets tree for checkboxes.
