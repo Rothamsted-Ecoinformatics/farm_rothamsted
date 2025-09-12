@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add pagination warning to the plots tab. [#797](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/797)
+
 ### Changed
 
 - Add description text to help clarify which plant assets should be selected. [#806](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/806)

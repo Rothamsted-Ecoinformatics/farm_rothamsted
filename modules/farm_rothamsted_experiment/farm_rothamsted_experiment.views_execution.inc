@@ -102,8 +102,10 @@ function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
     unset($view->attachment_before['asset_map']);
   }
 
-  // Add map to experiment plots view..
+  // Modify the experiment plots view.
   if ($view->id() === 'rothamsted_experiment_plan_plots' && $view->current_display === 'page') {
+
+    // First add map to experiment plots view.
     $map = [
       '#type' => 'farm_map',
       '#map_type' => 'farm_rothamsted_experiment_plots',
@@ -121,6 +123,17 @@ function farm_rothamsted_experiment_views_pre_render(ViewExecutable $view) {
       ],
       'color' => 'grey',
     ];
+
+    // Add warning message if the view has multiple pages of results.
+    $pager = $view->getPager();
+    if ($pager && $pager->usePager()) {
+      $total_items = $pager->getTotalItems();
+      $items_per_page = $pager->getItemsPerPage();
+      if ($total_items > $items_per_page) {
+        $messenger = \Drupal::service('messenger');
+        $messenger->addWarning(t('Not all plots are displayed on this page. To view or add records to the full list of plots, use the Filter and set "Items per page" to "All"'));
+      }
+    }
 
     // Render the map.
     $view->attachment_before['asset_map'] = $map;
