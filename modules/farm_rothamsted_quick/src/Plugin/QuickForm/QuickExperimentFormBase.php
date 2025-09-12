@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Element\Checkboxes;
+use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
@@ -782,13 +783,45 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // This method should be overridden by subclasses. The following only
     // exists to provide an example.
     // First build and array of log information.
-    $log = $this->prepareLog($form, $form_state);
+    $log_data = $this->prepareLog($form, $form_state);
 
-    // Finally, create the log.
-    $this->createLog($log);
+    // Create the log and get the log entity.
+    $log = $this->createLog($log_data);
 
     // Clear prepopulated.
     $this->clearPrepopulatedEntities();
+
+    // Handle redirect to log view page while preserving original destination.
+    if ($log) {
+
+      // Build URL to the quick form.
+      $quick_id = $this->getQuickId();
+      $quick_form_url = Url::fromRoute("farm.quick.$quick_id")->setAbsolute()->toString();
+
+      // If there is a destination in the request add a message with a link to
+      // go back. This would happen when creating a log from the plots view.
+      $request = \Drupal::request();
+      if ($destination = $request->query->get('destination')) {
+        // Include both links: quick form and previous page.
+        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
+          '@quick_form' => $quick_form_url,
+          '@destination' => $destination,
+        ]));
+
+        // Remove destination from request to allow our redirect to work.
+        $request->query->remove('destination');
+      }
+
+      // Just include link to quick form.
+      else {
+        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a>.', [
+          '@quick_form' => $quick_form_url,
+        ]));
+      }
+
+      // Set redirect to the log view.
+      $form_state->setRedirectUrl($log->toUrl());
+    }
   }
 
   /**

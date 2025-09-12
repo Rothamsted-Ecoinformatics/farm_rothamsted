@@ -6,6 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
@@ -275,6 +276,38 @@ class QuickCommercialAsset extends QuickFormBase {
       'status' => 'done',
     ]);
     $log->save();
+
+    // Handle redirect to asset view page while preserving original destination.
+    if ($asset) {
+
+      // Build URL to the quick form.
+      $quick_id = $this->getQuickId();
+      $quick_form_url = Url::fromRoute("farm.quick.$quick_id")->setAbsolute()->toString();
+
+      // If there is a destination in the request add a message with a link to
+      // go back. This would happen when creating a log from the plots view.
+      $request = \Drupal::request();
+      if ($destination = $request->query->get('destination')) {
+        // Include both links: quick form and previous page.
+        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
+          '@quick_form' => $quick_form_url,
+          '@destination' => $destination,
+        ]));
+
+        // Remove destination from request to allow our redirect to work.
+        $request->query->remove('destination');
+      }
+
+      // Just include link to quick form.
+      else {
+        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a>.', [
+          '@quick_form' => $quick_form_url,
+        ]));
+      }
+
+      // Set redirect to the log view.
+      $form_state->setRedirectUrl($asset->toUrl());
+    }
   }
 
   /**
