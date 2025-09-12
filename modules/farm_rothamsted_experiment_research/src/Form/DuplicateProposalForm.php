@@ -19,7 +19,17 @@ class DuplicateProposalForm extends ProposalEntityForm implements EntityDuplicat
    */
   public function setEntity(EntityInterface $entity) {
     parent::setEntity($entity);
-    foreach (['name', 'design', 'plan', 'status_notes'] as $field_name) {
+
+    // Define fields to clear on duplicate.
+    $fields_to_clear = [
+      'name',
+      'design',
+      'plan',
+      'status_notes',
+      'reviewer',
+      'study_id',
+    ];
+    foreach ($fields_to_clear as $field_name) {
       $this->entity->set($field_name, NULL);
     }
     $this->entity->set('status', 'draft');

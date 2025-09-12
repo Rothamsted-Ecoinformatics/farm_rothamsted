@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Add description text to help clarify which plant assets should be selected. [#806](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/806)
+- Clear reviewer and study_id fields when duplicating proposals. [#804](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/804)
 
 ## [2.28.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/52)
 
