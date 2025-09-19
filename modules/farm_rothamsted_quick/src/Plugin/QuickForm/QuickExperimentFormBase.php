@@ -208,15 +208,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $setup['asset_wrapper'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Assets'),
-      '#description' => $this->t('Select the plant assets that this log applies to. If this log relates to more than one asset in a location, select all the assets which apply.'),
+      '#prefix' => '<div id="asset-wrapper">',
+      '#suffix' => '</div>',
     ];
 
     // Add assets tree for checkboxes.
     $setup['asset_wrapper']['assets'] = [
       '#type' => 'container',
       '#tree' => TRUE,
-      '#prefix' => '<div id="asset-wrapper">',
-      '#suffix' => '</div>',
     ];
 
     // Plot asset(s) already selected. You can only select plant or plot assets.
@@ -352,6 +351,12 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
         // Get the location for the label.
         $location = $this->entityTypeManager->getStorage('asset')->load($location_id);
+
+        // Add description above the first asset checkboxes.
+        if (!isset($setup['asset_wrapper']['assets'][0])) {
+          $setup['asset_wrapper']['description']['#weight'] = -50;
+          $setup['asset_wrapper']['description']['#markup'] = $this->t('Select the plant assets that this log applies to. If this log relates to more than one asset in a location, select all the assets which apply.');
+        }
 
         // Add asset checkboxes.
         $setup['asset_wrapper']['assets'][] = [
@@ -739,7 +744,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    *   The products render array.
    */
   public function assetCallback(array &$form, FormStateInterface $form_state) {
-    return $form['setup']['asset_wrapper']['assets'];
+    return $form['setup']['asset_wrapper'];
   }
 
   /**
