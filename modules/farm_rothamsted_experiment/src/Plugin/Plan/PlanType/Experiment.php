@@ -170,7 +170,7 @@ class Experiment extends FarmPlanType {
       ->setLabel($this->t('Columns'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
-      ->setSettings([
+      ->setSettings($file_settings + [
         'description_field' => FALSE,
         'file_extensions' => 'csv',
       ])
@@ -184,7 +184,7 @@ class Experiment extends FarmPlanType {
       ->setLabel($this->t('Column levels'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
-      ->setSettings([
+      ->setSettings($file_settings + [
         'description_field' => FALSE,
         'file_extensions' => 'csv',
       ])
@@ -198,7 +198,7 @@ class Experiment extends FarmPlanType {
       ->setLabel($this->t('Plot attributes'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
-      ->setSettings([
+      ->setSettings($file_settings + [
         'description_field' => FALSE,
         'file_extensions' => 'csv',
       ])
@@ -212,7 +212,7 @@ class Experiment extends FarmPlanType {
       ->setLabel($this->t('Plot geometries'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
-      ->setSettings([
+      ->setSettings($file_settings + [
         'description_field' => FALSE,
         'file_extensions' => 'geojson',
       ])
