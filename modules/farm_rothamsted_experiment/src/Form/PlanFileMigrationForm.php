@@ -11,6 +11,8 @@ use Drupal\Core\Url;
 use Drupal\plan\Entity\PlanInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+// phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
+
 /**
  * Form for manually migrating plan files to dedicated fields.
  */

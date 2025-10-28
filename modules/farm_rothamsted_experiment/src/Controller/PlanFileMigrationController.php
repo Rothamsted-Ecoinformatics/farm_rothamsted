@@ -6,6 +6,8 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 
+// phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
+
 /**
  * Controller for listing plans that need file migration.
  */
@@ -14,7 +16,7 @@ class PlanFileMigrationController extends ControllerBase {
   /**
    * List plans that need file migration.
    *
-   * Shows plans with column_descriptors populated but missing the 4 new file fields.
+   * Shows plans with column_descriptors but missing data in new file fields.
    *
    * @return array
    *   Render array.
