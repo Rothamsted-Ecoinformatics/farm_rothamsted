@@ -1033,6 +1033,9 @@ function farm_rothamsted_experiment_post_update_2_26_plan_status_change_actions(
   }
 }
 
+/**
+ * Add dedicated file fields for plan metadata.
+ */
 function farm_rothamsted_experiment_post_update_2_30_add_file_fields(&$sandbox = NULL) {
 
   $fields['columns_file'] = BundleFieldDefinition::create('file')

@@ -180,7 +180,7 @@ class Experiment extends FarmPlanType {
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', $simple_file_view_display_options);
-     $fields['column_levels_file'] = BundleFieldDefinition::create('file')
+    $fields['column_levels_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Column levels'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
@@ -194,7 +194,7 @@ class Experiment extends FarmPlanType {
       ])
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', $simple_file_view_display_options);
-     $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
+    $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Plot attributes'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
@@ -207,8 +207,8 @@ class Experiment extends FarmPlanType {
         'region' => 'hidden',
       ])
       ->setDisplayConfigurable('view', TRUE)
-       ->setDisplayOptions('view', $simple_file_view_display_options);
-     $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
+      ->setDisplayOptions('view', $simple_file_view_display_options);
+    $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Plot geometries'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
