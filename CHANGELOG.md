@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.29.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/53)
+
 ### Added
 
 - Add pagination warning to the plots tab. [#797](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/797)
