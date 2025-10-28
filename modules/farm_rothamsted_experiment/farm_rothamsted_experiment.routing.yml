@@ -64,3 +64,23 @@ farm_rothamsted_experiment.experiment.variable_form:
         type: entity:plan
         bundle:
           - rothamsted_experiment
+farm_rothamsted_experiment.plan_file_migration_list:
+  path: '/plan/file-migration'
+  defaults:
+    _controller: \Drupal\farm_rothamsted_experiment\Controller\PlanFileMigrationController::listPlans
+    _title: 'Plan File Migration'
+  requirements:
+    _role: 'rothamsted_data_admin'
+farm_rothamsted_experiment.plan_file_migration_form:
+  path: '/plan/{plan}/migrate-files'
+  defaults:
+    _form: \Drupal\farm_rothamsted_experiment\Form\PlanFileMigrationForm
+    _title: 'Migrate Plan Files'
+  requirements:
+    _custom_access: \Drupal\farm_rothamsted_experiment\Form\PlanFileMigrationForm::access
+  options:
+    parameters:
+      plan:
+        type: entity:plan
+        bundle:
+          - rothamsted_experiment
