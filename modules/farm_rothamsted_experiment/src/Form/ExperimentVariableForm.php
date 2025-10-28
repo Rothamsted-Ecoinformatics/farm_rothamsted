@@ -591,6 +591,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     // Finally, save the plan.
     $plan->setNewRevision(TRUE);
     $plan->setRevisionLogMessage($revision_message);
+    $plan->setRevisionUserId($this->currentUser()->id());
     $plan->save();
 
     // Redirect to the plan variables page after processing.
