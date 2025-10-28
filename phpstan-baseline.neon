@@ -2,6 +2,11 @@ parameters:
 	ignoreErrors:
 		-
 			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 1
+			path: modules/farm_rothamsted_experiment/src/Controller/PlanFileMigrationController.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
 			count: 2
 			path: modules/farm_rothamsted_experiment/src/Form/ExperimentPlotGeometryForm.php
 
@@ -9,6 +14,11 @@ parameters:
 			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
 			count: 2
 			path: modules/farm_rothamsted_experiment/src/Form/ExperimentVariableForm.php
+
+		-
+			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
+			count: 5
+			path: modules/farm_rothamsted_experiment/src/Form/PlanFileMigrationForm.php
 
 		-
 			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
