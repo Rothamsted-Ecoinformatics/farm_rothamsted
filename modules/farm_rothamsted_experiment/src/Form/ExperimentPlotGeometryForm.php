@@ -104,7 +104,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     }
 
     // Allow uploading a geojson.
-    $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
+    $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'plot_geometry_file');
     $form['geojson'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Plot geometries'),
@@ -268,7 +268,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Add the geojson file to the plan.
     if ($file_ids = $form_state->getValue('geojson')) {
       $file = $this->entityTypeManager->getStorage('file')->load(reset($file_ids));
-      $plan->get('file')->appendItem($file);
+      $plan->set('plot_geometry_file', $file);
       $plan->save();
     }
 

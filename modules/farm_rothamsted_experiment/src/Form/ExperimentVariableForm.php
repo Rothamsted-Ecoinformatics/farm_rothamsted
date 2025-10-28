@@ -90,7 +90,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
     // Add file upload fields.
     // Require all 3 CSV files to be uploaded.
-    $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'file');
+    $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'columns_file');
     $form['column_descriptors'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Column descriptors'),
@@ -578,13 +578,13 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
     // Save uploaded files.
     $files = [
-      'column_descriptors',
-      'column_levels',
-      'plot_attributes',
+      'column_descriptors' => 'columns_file',
+      'column_levels' => 'column_levels_file',
+      'plot_attributes' => 'plot_attributes_file',
     ];
-    foreach ($files as $form_key) {
+    foreach ($files as $form_key => $file_field) {
       if ($file_ids = $form_state->getValue($form_key)) {
-        $plan->get('file')->appendItem(reset($file_ids));
+        $plan->set($file_field, reset($file_ids));
       }
     }
 
