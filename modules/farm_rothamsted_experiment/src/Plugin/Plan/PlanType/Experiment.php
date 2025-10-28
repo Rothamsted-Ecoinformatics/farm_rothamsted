@@ -162,6 +162,10 @@ class Experiment extends FarmPlanType {
       'description_field' => TRUE,
       'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
     ];
+    $simple_file_view_display_options = [
+      'type' => 'file_uri_plain',
+      'label' => 'inline',
+    ];
     $fields['columns_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Columns'))
       ->setRevisionable(TRUE)
@@ -174,7 +178,8 @@ class Experiment extends FarmPlanType {
       ->setDisplayOptions('form', [
         'region' => 'hidden',
       ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', $simple_file_view_display_options);
      $fields['column_levels_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Column levels'))
       ->setRevisionable(TRUE)
@@ -187,7 +192,8 @@ class Experiment extends FarmPlanType {
       ->setDisplayOptions('form', [
         'region' => 'hidden',
       ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', $simple_file_view_display_options);
      $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Plot attributes'))
       ->setRevisionable(TRUE)
@@ -200,7 +206,8 @@ class Experiment extends FarmPlanType {
       ->setDisplayOptions('form', [
         'region' => 'hidden',
       ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+       ->setDisplayOptions('view', $simple_file_view_display_options);
      $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Plot geometries'))
       ->setRevisionable(TRUE)
@@ -213,7 +220,8 @@ class Experiment extends FarmPlanType {
       ->setDisplayOptions('form', [
         'region' => 'hidden',
       ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', $simple_file_view_display_options);
 
     $fields['agreed_quote'] = BundleFieldDefinition::create('file')
       ->setLabel($this->t('Agreed Quote'))
