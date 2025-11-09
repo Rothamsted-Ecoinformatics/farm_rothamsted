@@ -195,8 +195,12 @@ class ExperimentPlotForm extends ExperimentFormBase {
       // Append all IDs to the plan.
       $plan = Plan::load($plan_id);
       $plan->set('plot', $context['results']);
-      $plan->setRevisionLogMessage($revision_message);
+
+      // Save the plan with a new revision.
       $plan->setNewRevision(TRUE);
+      $plan->setRevisionLogMessage($revision_message);
+      $plan->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+      $plan->setRevisionUserId(\Drupal::currentUser()->id());
       $plan->save();
 
       // Add success message.
