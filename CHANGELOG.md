@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Manual form for migrating plan files. [#645](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/645)
+
+### Fixed
+
+- Fix and standarize plan revision creation across all plan forms. [#645](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/645)
+
 ## [2.29.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/53)
 
 ### Added
