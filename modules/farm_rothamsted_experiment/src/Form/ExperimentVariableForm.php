@@ -2,44 +2,26 @@
 
 namespace Drupal\farm_rothamsted_experiment\Form;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Form for uploading experiment variables.
  */
 class ExperimentVariableForm extends ExperimentFormBase {
 
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+  use AutowireTrait;
 
-  /**
-   * Constructs new form.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager service.
-   */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
-    $this->entityTypeManager = $entity_type_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity_type.manager'),
-    );
-  }
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected TimeInterface $time,
+  ) {}
 
   /**
    * {@inheritdoc}
@@ -588,9 +570,10 @@ class ExperimentVariableForm extends ExperimentFormBase {
       }
     }
 
-    // Finally, save the plan.
+    // Finally, save the plan, with a new revision.
     $plan->setNewRevision(TRUE);
     $plan->setRevisionLogMessage($revision_message);
+    $plan->setRevisionCreationTime($this->time->getRequestTime());
     $plan->setRevisionUserId($this->currentUser()->id());
     $plan->save();
 
