@@ -202,11 +202,15 @@ class QuickDrilling extends QuickExperimentFormBase {
     $additional['establishment_average'] = $this->buildQuantityField($establishment_average);
 
     // Drilling depth.
+    $drilling_depth_units_options = [
+      'cm' => 'cm',
+      'in' => 'in',
+    ];
     $additional['drilling_depth'] = $this->buildQuantityField([
       'title' => $this->t('Drilling depth'),
       'description' => $this->t('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
       'measure' => ['#value' => 'length'],
-      'units' => ['#value' => 'cm'],
+      'units' => ['#options' => $drilling_depth_units_options],
     ]);
 
     // Seed lineage.

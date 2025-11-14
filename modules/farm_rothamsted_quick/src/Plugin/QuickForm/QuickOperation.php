@@ -62,11 +62,15 @@ class QuickOperation extends QuickExperimentFormBase {
     $task['info'] = $this->buildInlineWrapper();
 
     // Depth worked.
+    $depth_worked_units_options = [
+      'cm' => 'cm',
+      'in' => 'in',
+    ];
     $task['info']['depth'] = $this->buildQuantityField([
-      'title' => $this->t('Depth worked (cm)'),
+      'title' => $this->t('Depth worked'),
       'description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
       'measure' => ['#value' => 'length'],
-      'units' => ['#value' => 'cm'],
+      'units' => ['#options' => $depth_worked_units_options],
     ]);
 
     // Working width.
