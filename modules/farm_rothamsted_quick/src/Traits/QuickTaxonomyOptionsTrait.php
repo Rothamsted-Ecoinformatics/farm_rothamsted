@@ -90,9 +90,6 @@ trait QuickTaxonomyOptionsTrait {
       $options[$term->id()] = $label;
     }
 
-    // Natural sort term options.
-    natsort($options);
-
     // Add warning if no options.
     if ($warning && empty($options)) {
       $this->addEmptyTaxonomyWarning($vocabulary_name);
