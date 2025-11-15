@@ -262,9 +262,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     $zip_path = "$directory/$zip_filename";
     $zip_path = $file_system->getDestinationFilename($zip_path, FileExists::Rename);
     $zip_real_path = $file_system->realpath($zip_path);
-    $result = $zip->open($zip_real_path, constant('ZipArchive::CREATE'));
-    if ($result !== TRUE) {
-      \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created. Error code: $result");
+    if ($zip_real_path === FALSE || !$result = $zip->open($zip_real_path, constant('ZipArchive::CREATE')) ) {
+      \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created.");
+      \Drupal::messenger()->addError(new TranslatableMarkup("Zip archive could not be created."));
+      return;
     }
 
     // Add result files to zip.
@@ -280,9 +281,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     }
 
     // Close zip archive.
-    $result = $zip->close();
-    if (!$result) {
+    if ($zip->status || !$zip->close()) {
       \Drupal::logger('farm_rothamsted_export')->warning('Zip archive could not be closed.');
+      \Drupal::messenger()->addError(new TranslatableMarkup("Zip archive could not be created."));
+      return;
     }
 
     // Create file entity for zip.
