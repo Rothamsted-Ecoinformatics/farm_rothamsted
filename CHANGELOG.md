@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Exporting data to filename with forward slashes. [#854](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/854)
+
 ### Added
 
 - Add inches to drilling and plough depth. [#849](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/849)
