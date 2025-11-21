@@ -329,8 +329,6 @@ class ExportDataActionForm extends ConfirmFormBase {
     $all_access_roles = [
       'rothamsted_data_admin',
       'rothamsted_farm_manager',
-    ];
-    $research_assigned_roles = [
       'rothamsted_research_lead',
       'rothamsted_research_editor',
     ];
@@ -340,10 +338,10 @@ class ExportDataActionForm extends ConfirmFormBase {
       $result = AccessResult::allowed();
     }
 
-    // If user has a researcher role, allow access if they have update access.
+    // Otherwise allow access if they have update access.
     // In many cases this will delegate to research access logic that uses the
     // "update research_assigned {entity_type}" permission.
-    elseif (!empty(array_intersect($roles, $research_assigned_roles))) {
+    else {
       $result = $entity->access('update', $account, TRUE);
     }
 
