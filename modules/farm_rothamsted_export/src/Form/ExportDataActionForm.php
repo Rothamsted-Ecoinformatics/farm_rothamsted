@@ -324,7 +324,6 @@ class ExportDataActionForm extends ConfirmFormBase {
   protected function checkEntityAccess(EntityInterface $entity, ?AccountInterface $account = NULL) {
 
     // Check access based on user roles.
-    $result = AccessResult::forbidden();
     $roles = $account->getRoles();
     $all_access_roles = [
       'rothamsted_data_admin',
