@@ -162,7 +162,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     $form['filename'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Export filename'),
-      '#description' => $this->t('Must be a valid filename and not contain special characters.'),
+      '#description' => $this->t('Must be a valid filename and not contain the following special characters: /\:*?\'"<>|'),
       '#required' => TRUE,
       '#default_value' => $default_name,
       '#pattern' => '[^/\\:*?\'"<>|]+',
