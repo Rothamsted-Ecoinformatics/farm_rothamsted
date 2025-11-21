@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Grant research users access to export data. [#846](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/846)
+
 ### Fixed
 
 - Exporting data to filename with forward slashes. [#854](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/854)
