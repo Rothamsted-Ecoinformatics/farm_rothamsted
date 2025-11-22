@@ -259,9 +259,9 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Temperature (Degrees C).
+    // Temperature.
     $weather['weather_info']['temperature'] = $this->buildQuantityField([
-      'title' => $this->t('Temperature (C)'),
+      'title' => $this->t('Temperature'),
       'description' => $this->t('The average temperature during spraying.'),
       'measure' => ['#value' => 'temperature'],
       'units' => ['#value' => 'C'],

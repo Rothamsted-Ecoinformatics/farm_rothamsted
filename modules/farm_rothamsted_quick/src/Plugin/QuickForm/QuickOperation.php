@@ -75,7 +75,7 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Working width.
     $task['info']['working_width'] = $this->buildQuantityField([
-      'title' => $this->t('Working width (m)'),
+      'title' => $this->t('Working width'),
       'description' => $this->t('The working width of any machinery in meters, where applicable.'),
       'measure' => ['#value' => 'length'],
       'units' => ['#value' => 'm'],
