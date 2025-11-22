@@ -5,6 +5,7 @@
  * Update hooks for farm_rothamsted.module.
  */
 
+use Drupal\quantity\Entity\Quantity;
 use Drupal\views\Entity\View;
 use Symfony\Component\Yaml\Yaml;
 
@@ -260,4 +261,125 @@ function farm_rothamsted_quick_post_update_2_11_3_fix_missing_asset_references(&
   \Drupal::database()->delete('log_revision__asset')
     ->condition('asset_target_id', 0)
     ->execute();
+}
+
+/**
+ * Update log quantity labels from quick forms.
+ */
+function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox) {
+
+  $quantity_label_map = [
+    'Working width (m)' => 'Working Width',
+    'Depth worked (cm)' => 'Depth Worked',
+    'Thousand grain weight (TGW)' => 'Thousand Grain Weight',
+    'Temperature (C)' => 'Temperature',
+  ];
+
+  $log_storage = \Drupal::entityTypeManager()->getStorage('log');
+
+  // This function will be run as a batch operation. On the first run, we will
+  // make preparations. This logic should only run once.
+  if (!isset($sandbox['current_id'])) {
+
+    // Query for logs with matching quantities.
+    $query = $log_storage
+      ->getAggregateQuery('OR')
+      ->accessCheck(FALSE)
+      ->sort('id');
+    foreach (array_keys($quantity_label_map) as $old_label) {
+      $query->condition('quantity.entity.label', $old_label);
+    }
+
+    // This returns an array of arrays like:
+    // [
+    //   "id" => "25598",
+    //   "label" => "Tractor hours (start)",
+    //   "log_field_data_id" => "7885",
+    // ]
+    $log_quantity_result = $query
+      ->groupBy('quantity.entity.id')
+      ->groupBy('quantity.entity.label')
+      ->groupBy('id')
+      ->execute();
+
+    // Filter to only the quantity labels we care about.
+    $log_quantity_result = array_filter($log_quantity_result, function ($log_quantity) use ($quantity_label_map) {
+      return isset($log_quantity['label']) && isset($quantity_label_map[$log_quantity['label']]);
+    });
+
+    // Group filtered array by log ID. This way we only update each log one time.
+    $grouped = [];
+    foreach ($log_quantity_result as $item) {
+      $grouped[$item['log_field_data_id']][] = $item;
+    }
+
+    // Save to sandbox as numerically indexed array starting at 0.
+    $sandbox['log_quantity'] = array_values($grouped);
+
+    // Track progress.
+    $sandbox['current_id'] = 0;
+    $sandbox['#finished'] = 0;
+  }
+
+  // Iterate through logs, 10 at a time.
+  $quantity_count = count($sandbox['log_quantity']);
+  $end_quantity = $sandbox['current_id'] + 10;
+  $end_quantity = $end_quantity > $quantity_count ? $quantity_count : $end_quantity;
+  for ($i = $sandbox['current_id']; $i < $end_quantity; $i++) {
+
+    // Iterate the global counter.
+    $sandbox['current_id']++;
+
+    // Get set up quantity data for the log.
+    if (empty($sandbox['log_quantity'][$sandbox['current_id']])) {
+      continue;
+    }
+    $quantity_updates = $sandbox['log_quantity'][$sandbox['current_id']];
+
+    // Load the log and quantity data.
+    if (empty($quantity_updates[0]['log_field_data_id'])) {
+      continue;
+    }
+    /** @var \Drupal\log\Entity\LogInterface $log */
+    $log = $log_storage->load($quantity_updates[0]['log_field_data_id']);
+    $log_quantity_data = $log->get('quantity')->getValue();
+
+    // Update each quantity on the log.
+    foreach ($quantity_updates as $quantity_update) {
+      $quantity = Quantity::load($quantity_update['id']);
+
+      // Update the quantity entity.
+      $old_label = $quantity->get('label')->value;
+      if (isset($quantity_label_map[$old_label])) {
+        $quantity->set('label', $quantity_label_map[$old_label])->save();
+        $quantity_revision = $quantity->getRevisionId();
+
+        // Update revision in the log quantity data array.
+        foreach ($log_quantity_data as $index => $log_quantity) {
+          if ($log_quantity['target_id'] == $quantity->id()) {
+            $log_quantity_data[$index]['target_revision_id'] = $quantity_revision;
+          }
+        }
+      }
+
+      // After quantities are updated, update the log.
+      $log->set('quantity', $log_quantity_data);
+      $log->setNewRevision();
+      $log->setRevisionCreationTime(time());
+      $log->setRevisionLogMessage('Update log quantity labels');
+      $log->save();
+
+      \Drupal::logger('test')->info("Updated log quantity labels: {$log->id()}");
+    }
+  }
+
+  // Update progress.
+  if (!empty($sandbox['log_quantity'])) {
+    $sandbox['#finished'] = $sandbox['current_id'] / count($sandbox['log_quantity']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
+
+  return NULL;
 }
