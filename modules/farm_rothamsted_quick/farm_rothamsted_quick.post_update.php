@@ -269,9 +269,9 @@ function farm_rothamsted_quick_post_update_2_11_3_fix_missing_asset_references(&
 function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox) {
 
   $quantity_label_map = [
-    'Working width (m)' => 'Working Width',
-    'Depth worked (cm)' => 'Depth Worked',
-    'Thousand grain weight (TGW)' => 'Thousand Grain Weight',
+    'Working width (m)' => 'Working width',
+    'Depth worked (cm)' => 'Depth worked',
+    'Thousand grain weight (TGW)' => 'Thousand grain weight',
     'Temperature (C)' => 'Temperature',
   ];
 

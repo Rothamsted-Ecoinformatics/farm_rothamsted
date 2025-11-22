@@ -165,7 +165,7 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Thousand grain weight.
     $additional['thousand_grain_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Thousand grain weight (TGW)'),
+      'title' => $this->t('Thousand grain weight'),
       'description' => $this->t('The average weight of 1,000 grains.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#value' => 'g'],
