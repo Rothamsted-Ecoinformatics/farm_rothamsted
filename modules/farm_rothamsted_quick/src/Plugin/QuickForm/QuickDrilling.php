@@ -73,12 +73,18 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Crop type.
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
+    $tags_identifier = 'crop';
     $drilling['crop']['crop'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Crop'),
       '#description' => $this->t('The crop being drilled.'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
+      '#mode' => 'select',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#ajax' => [
         'callback' => [$this, 'cropVarietyCallback'],
         'event' => 'change',
@@ -92,13 +98,20 @@ class QuickDrilling extends QuickExperimentFormBase {
       $crop_variety_options = $this->getTermTreeOptions('plant_type', $crop_id);
       NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
+    $tags_identifier = 'crop_variety';
     $drilling['crop']['crop_variety'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Variety(s)'),
-      '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
+      '#description' => $this->t('The variety(s) being planted.'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -138,12 +151,19 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Seed dressings.
     $seed_dressing_options = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');
+    $tags_identifier = 'seed_dressing';
     $drilling['seed_dressing'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Seed dressing(s)'),
       '#description' => $this->t("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
       '#options' => $seed_dressing_options,
       '#multiple' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Seed labels.
