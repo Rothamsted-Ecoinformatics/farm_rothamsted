@@ -12,4 +12,5 @@ dependencies:
   - farm_quantity_material
   - farm_quick
   - farm_rothamsted:farm_rothamsted
+  - tagify:tagify
   - views

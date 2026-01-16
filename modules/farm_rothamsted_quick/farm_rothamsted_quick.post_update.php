@@ -264,6 +264,16 @@ function farm_rothamsted_quick_post_update_2_11_3_fix_missing_asset_references(&
 }
 
 /**
+ * Install tagify module.
+ */
+function farm_rothamsted_quick_post_update_2_30_require_tagify(&$sandbox) {
+  // Install the tagify module.
+  if (!\Drupal::moduleHandler()->moduleExists('tagify')) {
+    \Drupal::service('module_installer')->install(['tagify']);
+  }
+}
+
+/**
  * Update log quantity labels from quick forms.
  */
 function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox) {
