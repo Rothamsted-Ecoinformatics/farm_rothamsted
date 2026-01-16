@@ -367,6 +367,7 @@ function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox)
       $log->setNewRevision();
       $log->setRevisionCreationTime(time());
       $log->setRevisionLogMessage('Update log quantity labels');
+      $log->setRevisionTranslationAffected(TRUE);
       $log->save();
 
       \Drupal::logger('test')->info("Updated log quantity labels: {$log->id()}");
