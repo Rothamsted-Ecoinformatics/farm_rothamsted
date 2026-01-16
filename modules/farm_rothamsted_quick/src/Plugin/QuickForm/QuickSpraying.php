@@ -102,12 +102,19 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Spray nozzle options.
     $spray_nozzle_options = $this->getEquipmentOptions(['Spray Nozzles']);
+    $tags_identifier = 'nozzle_type';
     $setup['nozzle_wrapper']['nozzle_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Nozzle Type'),
       '#description' => $this->t('The type of spray nozzle used, where relevant.'),
       '#options' => $spray_nozzle_options,
       '#multiple' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Pressure.
