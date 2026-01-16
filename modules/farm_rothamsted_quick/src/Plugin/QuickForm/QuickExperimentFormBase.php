@@ -409,13 +409,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getEquipmentOptions(['Tractor Equipment']);
+      $tags_identifier = 'tractor';
       $setup['equipment_wrapper']['tractor'] = [
-        '#type' => 'select',
+        '#type' => 'select_tagify',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets as "Tractor Equipment".'),
+        '#required' => TRUE,
         '#options' => $tractor_options,
         '#default_value' => $this->defaultValues['tractor'] ?? NULL,
-        '#required' => TRUE,
+        '#mode' => 'select',
+        '#identifier' => $tags_identifier,
+        '#attributes' => [
+          'class' => [$tags_identifier],
+        ],
       ];
     }
 
@@ -431,6 +437,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#default_value' => $this->defaultValues['machinery'] ?? NULL,
         '#multiple' => TRUE,
         '#required' => TRUE,
+      ];
+      $tags_identifier = 'machinery';
+      $setup['equipment_wrapper']['machinery'] = [
+        '#type' => 'select_tagify',
+        '#title' => $machinery_options_string,
+        '#description' => $this->t('Select all the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names".', ['@equipment_type_names' => $machinery_options_string]),
+        '#required' => TRUE,
+        '#multiple' => TRUE,
+        '#options' => $equipment_options,
+        '#default_value' => $this->defaultValues['machinery'] ?? [],
+        '#mode' => '',
+        '#identifier' => $tags_identifier,
+        '#attributes' => [
+          'class' => [$tags_identifier],
+        ],
       ];
     }
 
@@ -540,14 +561,38 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
             'wrapper' => "product-$i-wrapper",
           ],
         ];
+        $tags_identifier = "product_type-$i";
+        $product_wrapper['product_type'] = [
+          '#type' => 'select_tagify',
+          '#title' => $this->t('Product type'),
+          '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
+          '#required' => TRUE,
+          '#options' => $product_type_options,
+          '#mode' => 'select',
+          '#identifier' => $tags_identifier,
+          '#attributes' => [
+            'class' => [$tags_identifier],
+          ],
+          '#ajax' => [
+            'callback' => [$this, 'productTypeCallback'],
+            'event' => 'change',
+            'wrapper' => "product-$i-wrapper",
+          ],
+        ];
 
         // Product.
+        $tags_identifier = "product-$i";
         $product_wrapper['product'] = [
-          '#type' => 'select',
+          '#type' => 'select_tagify',
           '#title' => $this->t('Product'),
           '#description' => $this->t('The product used.'),
           '#options' => $product_options,
           '#required' => TRUE,
+          '#mode' => 'select',
+          '#identifier' => $tags_identifier,
+          '#attributes' => [
+            'class' => [$tags_identifier],
+          ],
           '#prefix' => "<div id='product-$i-wrapper'>",
           '#suffic' => '</div',
         ];
@@ -686,13 +731,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Operator field.
     $operator_options = $this->getUserOptions(['rothamsted_operator_basic', 'rothamsted_operator_advanced']);
-    $status['general']['owner'] = [
-      '#type' => 'select',
+    $tags_identifier = 'owner';
+    $status['owner'] = [
+      '#type' => 'select_tagify',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
-      '#options' => $operator_options,
-      '#multiple' => TRUE,
       '#required' => TRUE,
+      '#multiple' => TRUE,
+      '#default_value' => [],
+      '#options' => $operator_options,
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Job status.
