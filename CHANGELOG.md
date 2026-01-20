@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add inches to drilling and plough depth. [#849](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/849)
+- Create intention to submit altert for proposals [#862](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/862)
+
 ### Changed
 
 - Grant research users access to export data. [#846](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/846)
@@ -16,11 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Exporting data to filename with forward slashes. [#854](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/854)
 - Update old quick form quantity names. [#859](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/859)
-
-### Added
-
-- Add inches to drilling and plough depth. [#849](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/849)
-- Create intention to submit altert for proposals [#862](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/862)
 
 ## [2.29.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/53)
 
