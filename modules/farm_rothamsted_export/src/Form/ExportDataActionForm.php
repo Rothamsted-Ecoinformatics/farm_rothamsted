@@ -331,12 +331,19 @@ class ExportDataActionForm extends ConfirmFormBase {
       'rothamsted_research_lead',
       'rothamsted_research_editor',
     ];
+    $view_access_roles = [
+      'rothamsted_operator_basic',
+      'rothamsted_operator_advanced',
+    ];
 
     // Allow access if user has all access roles.
     if (!empty(array_intersect($roles, $all_access_roles))) {
       $result = AccessResult::allowed();
     }
-
+    // Allow access if user is an operator and has view access.
+    elseif (!empty(array_intersect($roles, $view_access_roles))) {
+      $result = $entity->access('view', $account, TRUE);
+    }
     // Otherwise allow access if they have update access.
     // In many cases this will delegate to research access logic that uses the
     // "update research_assigned {entity_type}" permission.
