@@ -117,7 +117,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     // Add warning message for inaccessible entities.
     if (!empty($inaccessible_entities)) {
       $this->messenger()->addWarning(new TranslatableMarkup(
-        'You do not have permission to export data from the below @count @entity_type because you are not named as a Researcher on the @entity_type.',
+        'You do not have permission to export data from the system. Please contact your Farm Data Administrator',
         [
           '@count' => count($inaccessible_entities),
           '@entity_type' => $entity_type->getCollectionLabel(),
