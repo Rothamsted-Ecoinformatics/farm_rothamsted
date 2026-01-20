@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add inches to drilling and plough depth. [#849](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/849)
+- Create intention to submit altert for proposals [#862](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/862)
 
 ## [2.29.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/53)
 
