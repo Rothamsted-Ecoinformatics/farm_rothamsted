@@ -372,7 +372,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->parentLogCategoryName)) {
       $category_options = $this->getChildTermOptionsByName('log_category', $this->parentLogCategoryName);
       $setup['log_category'] = [
-        '#type' => 'select',
+        '#type' => 'checkboxes',
         '#title' => $this->t('Log category'),
         '#required' => TRUE,
         '#options' => $category_options,
