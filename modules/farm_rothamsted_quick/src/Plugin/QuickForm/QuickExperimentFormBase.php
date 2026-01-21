@@ -429,15 +429,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryEquipmentTypes)) {
       $equipment_options = $this->getEquipmentOptions($this->machineryEquipmentTypes);
       $machinery_options_string = implode(",", $this->machineryEquipmentTypes);
-      $setup['equipment_wrapper']['machinery'] = [
-        '#type' => 'select',
-        '#title' => $machinery_options_string,
-        '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names". To select more than one hold down the CTRL button and select multiple.', ['@equipment_type_names' => $machinery_options_string]),
-        '#options' => $equipment_options,
-        '#default_value' => $this->defaultValues['machinery'] ?? NULL,
-        '#multiple' => TRUE,
-        '#required' => TRUE,
-      ];
       $tags_identifier = 'machinery';
       $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select_tagify',
