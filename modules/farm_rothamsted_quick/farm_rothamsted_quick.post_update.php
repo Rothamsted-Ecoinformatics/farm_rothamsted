@@ -376,7 +376,7 @@ function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox)
       $log->set('quantity', $log_quantity_data);
       $log->setNewRevision();
       $log->setRevisionCreationTime(time());
-      $log->setRevisionLogMessage('Update log quantity labels');
+      $log->setRevisionLogMessage('Update log quantity labels - see Github issue 859.');
       $log->setRevisionTranslationAffected(TRUE);
       $log->save();
 
