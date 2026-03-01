@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\views\join;
 
+use Drupal\views\Attribute\ViewsJoin;
 use Drupal\views\Plugin\views\join\JoinPluginBase;
 
 /**
  * Join handler to relate logs to rothamsted experiment plans using assets.
  *
  * Joins logs to assets and assets to plans via only the plan.asset field.
- *
- * @ViewsJoin("rothamsted_experiment_asset_logs")
  */
+#[ViewsJoin('rothamsted_experiment_asset_logs')]
 class RothamstedExperimentAssetLogs extends JoinPluginBase {
 
   /**

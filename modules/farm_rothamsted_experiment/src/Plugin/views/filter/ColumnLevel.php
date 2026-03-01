@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Plugin\views\filter;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\Attribute\ViewsFilter;
 use Drupal\views\Plugin\views\filter\InOperator;
 
 /**
  * Custom views filter for the plot column levels.
  *
  * @see farm_rothamsted_experiment_views_pre_view
- *
- * @ViewsFilter("column_level")
  */
+#[ViewsFilter('column_level')]
 class ColumnLevel extends InOperator {
 
   /**

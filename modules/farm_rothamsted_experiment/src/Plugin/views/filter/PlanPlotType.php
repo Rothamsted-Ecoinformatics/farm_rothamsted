@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Plugin\views\filter;
 
 use Drupal\Core\Database\Connection;
+use Drupal\views\Attribute\ViewsFilter;
 use Drupal\views\Plugin\views\filter\ManyToOne;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -12,9 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Custom views filter for the plot_type value.
  *
  * Only displays plot_type values for the plots associated with the plan.
- *
- * @ViewsFilter("plan_plot_type")
  */
+#[ViewsFilter('plan_plot_type')]
 class PlanPlotType extends ManyToOne {
 
   /**
