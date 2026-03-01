@@ -26,6 +26,14 @@ use Drupal\user\UserInterface;
   label_collection: new TranslatableMarkup('Experiments'),
   label_singular: new TranslatableMarkup('experiment'),
   label_plural: new TranslatableMarkup('experiments'),
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
   handlers: [
     'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
     'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
@@ -47,25 +55,6 @@ use Drupal\user\UserInterface;
       'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
     ],
   ],
-  base_table: 'rothamsted_experiment',
-  data_table: 'rothamsted_experiment_data',
-  revision_table: 'rothamsted_experiment_revision',
-  translatable: TRUE,
-  show_revision_ui: TRUE,
-  admin_permission: 'administer resarch experiments',
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'revision' => 'revision_id',
-    'label' => 'name',
-    'owner' => 'uid',
-    'langcode' => 'langcode',
-  ],
-  revision_metadata_keys: [
-    'revision_user' => 'revision_user',
-    'revision_created' => 'revision_created',
-    'revision_log_message' => 'revision_log_message',
-  ],
   links: [
     'canonical' => '/rothamsted/experiment/{rothamsted_experiment}',
     'collection' => '/rothamsted/experiment',
@@ -76,6 +65,17 @@ use Drupal\user\UserInterface;
     'revision' => '/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/view',
     'revision-revert-form' => '/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/revert',
     'entity-status-action-form' => '/rothamsted/experiment/change-status',
+  ],
+  admin_permission: 'administer resarch experiments',
+  base_table: 'rothamsted_experiment',
+  data_table: 'rothamsted_experiment_data',
+  revision_table: 'rothamsted_experiment_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
   ],
 )]
 class RothamstedExperiment extends RevisionableContentEntityBase implements RothamstedExperimentInterface {

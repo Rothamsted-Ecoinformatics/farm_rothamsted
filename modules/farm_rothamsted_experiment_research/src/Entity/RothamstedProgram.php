@@ -25,6 +25,14 @@ use Drupal\user\UserInterface;
   label_collection: new TranslatableMarkup('Research Programs'),
   label_singular: new TranslatableMarkup('research program'),
   label_plural: new TranslatableMarkup('research programs'),
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
   handlers: [
     'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
     'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
@@ -46,25 +54,6 @@ use Drupal\user\UserInterface;
       'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
     ],
   ],
-  base_table: 'rothamsted_program',
-  data_table: 'rothamsted_program_data',
-  revision_table: 'rothamsted_program_revision',
-  translatable: TRUE,
-  show_revision_ui: TRUE,
-  admin_permission: 'administer resarch programs',
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'revision' => 'revision_id',
-    'label' => 'name',
-    'owner' => 'uid',
-    'langcode' => 'langcode',
-  ],
-  revision_metadata_keys: [
-    'revision_user' => 'revision_user',
-    'revision_created' => 'revision_created',
-    'revision_log_message' => 'revision_log_message',
-  ],
   links: [
     'canonical' => '/rothamsted/program/{rothamsted_program}',
     'collection' => '/rothamsted/program',
@@ -75,6 +64,17 @@ use Drupal\user\UserInterface;
     'revision' => '/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/view',
     'revision-revert-form' => '/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/revert',
     'entity-status-action-form' => '/rothamsted/program/change-status',
+  ],
+  admin_permission: 'administer resarch programs',
+  base_table: 'rothamsted_program',
+  data_table: 'rothamsted_program_data',
+  revision_table: 'rothamsted_program_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
   ],
 )]
 class RothamstedProgram extends RevisionableContentEntityBase implements RothamstedProgramInterface {

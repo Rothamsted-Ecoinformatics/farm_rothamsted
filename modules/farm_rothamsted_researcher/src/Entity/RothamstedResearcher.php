@@ -24,6 +24,14 @@ use Drupal\user\UserInterface;
   label_collection: new TranslatableMarkup('Researchers'),
   label_singular: new TranslatableMarkup('researcher'),
   label_plural: new TranslatableMarkup('researchers'),
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
   handlers: [
     'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
     'list_builder' => 'Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder',
@@ -43,25 +51,6 @@ use Drupal\user\UserInterface;
       'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
     ],
   ],
-  base_table: 'rothamsted_researcher',
-  data_table: 'rothamsted_researcher_data',
-  revision_table: 'rothamsted_researcher_revision',
-  translatable: TRUE,
-  show_revision_ui: TRUE,
-  admin_permission: 'administer rothamsted resarchers',
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'revision' => 'revision_id',
-    'label' => 'name',
-    'owner' => 'uid',
-    'langcode' => 'langcode',
-  ],
-  revision_metadata_keys: [
-    'revision_user' => 'revision_user',
-    'revision_created' => 'revision_created',
-    'revision_log_message' => 'revision_log_message',
-  ],
   links: [
     'collection' => '/rothamsted/researcher',
     'canonical' => '/rothamsted/researcher/{rothamsted_researcher}',
@@ -71,6 +60,17 @@ use Drupal\user\UserInterface;
     'version-history' => '/rothamsted/researcher/{rothamsted_researcher}/revisions',
     'revision' => '/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/view',
     'revision-revert-form' => '/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/revert',
+  ],
+  admin_permission: 'administer rothamsted resarchers',
+  base_table: 'rothamsted_researcher',
+  data_table: 'rothamsted_researcher_data',
+  revision_table: 'rothamsted_researcher_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
   ],
 )]
 class RothamstedResearcher extends RevisionableContentEntityBase implements RothamstedResearcherInterface {

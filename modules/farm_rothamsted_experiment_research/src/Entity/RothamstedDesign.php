@@ -25,6 +25,14 @@ use Drupal\user\UserInterface;
   label_collection: new TranslatableMarkup('Experiment Designs'),
   label_singular: new TranslatableMarkup('experiment design'),
   label_plural: new TranslatableMarkup('experiment designs'),
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
   handlers: [
     'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
     'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
@@ -46,25 +54,6 @@ use Drupal\user\UserInterface;
       'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
     ],
   ],
-  base_table: 'rothamsted_design',
-  data_table: 'rothamsted_design_data',
-  revision_table: 'rothamsted_design_revision',
-  translatable: TRUE,
-  show_revision_ui: TRUE,
-  admin_permission: 'administer rothamsted designs',
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'revision' => 'revision_id',
-    'label' => 'name',
-    'owner' => 'uid',
-    'langcode' => 'langcode',
-  ],
-  revision_metadata_keys: [
-    'revision_user' => 'revision_user',
-    'revision_created' => 'revision_created',
-    'revision_log_message' => 'revision_log_message',
-  ],
   links: [
     'collection' => '/rothamsted/design',
     'canonical' => '/rothamsted/design/{rothamsted_design}',
@@ -75,6 +64,17 @@ use Drupal\user\UserInterface;
     'revision' => '/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/view',
     'revision-revert-form' => '/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/revert',
     'entity-status-action-form' => '/rothamsted/design/change-status',
+  ],
+  admin_permission: 'administer rothamsted designs',
+  base_table: 'rothamsted_design',
+  data_table: 'rothamsted_design_data',
+  revision_table: 'rothamsted_design_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
   ],
 )]
 class RothamstedDesign extends RevisionableContentEntityBase implements RothamstedDesignInterface {

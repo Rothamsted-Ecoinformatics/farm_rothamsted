@@ -25,6 +25,14 @@ use Drupal\user\UserInterface;
   label_collection: new TranslatableMarkup('Proposals'),
   label_singular: new TranslatableMarkup('proposal'),
   label_plural: new TranslatableMarkup('proposals'),
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
   handlers: [
     'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
     'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
@@ -47,25 +55,6 @@ use Drupal\user\UserInterface;
       'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
     ],
   ],
-  base_table: 'rothamsted_proposal',
-  data_table: 'rothamsted_proposal_data',
-  revision_table: 'rothamsted_proposal_revision',
-  translatable: TRUE,
-  show_revision_ui: TRUE,
-  admin_permission: 'administer resarch proposals',
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'revision' => 'revision_id',
-    'label' => 'name',
-    'owner' => 'uid',
-    'langcode' => 'langcode',
-  ],
-  revision_metadata_keys: [
-    'revision_user' => 'revision_user',
-    'revision_created' => 'revision_created',
-    'revision_log_message' => 'revision_log_message',
-  ],
   links: [
     'canonical' => '/rothamsted/proposal/{rothamsted_proposal}',
     'collection' => '/rothamsted/proposal/all',
@@ -77,6 +66,17 @@ use Drupal\user\UserInterface;
     'revision' => '/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/view',
     'revision-revert-form' => '/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/revert',
     'entity-status-action-form' => '/rothamsted/proposal/change-status',
+  ],
+  admin_permission: 'administer resarch proposals',
+  base_table: 'rothamsted_proposal',
+  data_table: 'rothamsted_proposal_data',
+  revision_table: 'rothamsted_proposal_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
   ],
 )]
 class RothamstedProposal extends RevisionableContentEntityBase implements RothamstedProposalInterface {
