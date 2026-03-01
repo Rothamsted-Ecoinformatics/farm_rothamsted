@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_dashboard\Plugin\Block;
 
+use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a user studies block.
- *
- * @Block(
- *   id = "rothamsted_user_studies",
- *   admin_label = @Translation("User Studies")
- * )
  */
+#[Block(
+  id: 'rothamsted_user_studies',
+  admin_label: new TranslatableMarkup('User Studies'),
+)]
 class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**

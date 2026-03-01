@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_dashboard\Plugin\Block;
 
+use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a rothamsted search block.
- *
- * @Block(
- *   id = "rothamsted_search",
- *   admin_label = @Translation("Rothamsted Search")
- * )
  */
+#[Block(
+  id: 'rothamsted_search',
+  admin_label: new TranslatableMarkup('Rothamsted Search'),
+)]
 class RothamstedSearchBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
