@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted\Plugin\Log\LogType;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_entity\Attribute\LogType;
 use Drupal\farm_entity\Plugin\Log\LogType\FarmLogType;
 
 /**
  * Provides the drilling log type.
- *
- * @LogType(
- *   id = "drilling",
- *   label = @Translation("Drilling"),
- * )
  */
+#[LogType(
+  id: 'drilling',
+  label: new TranslatableMarkup('Drilling')
+)]
 class Drilling extends FarmLogType {
 
   /**
