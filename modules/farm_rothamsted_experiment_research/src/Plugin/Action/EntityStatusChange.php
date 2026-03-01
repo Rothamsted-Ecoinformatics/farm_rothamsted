@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Plugin\Action;
 
+use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Action\Plugin\Action\EntityActionBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\farm_rothamsted_experiment_research\Plugin\Action\Derivative\EntityStatusChangeDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Action to change research entity status.
- *
- * @Action(
- *   id = "entity:status_change_action",
- *   action_label = @Translation("Change entity status"),
- *   deriver = "Drupal\farm_rothamsted_experiment_research\Plugin\Action\Derivative\EntityStatusChangeDeriver",
- * )
  */
+#[Action(
+  id: 'entity:status_change_action',
+  action_label: new TranslatableMarkup('Change entity status'),
+  deriver: EntityStatusChangeDeriver::class,
+)]
 class EntityStatusChange extends EntityActionBase {
 
   /**

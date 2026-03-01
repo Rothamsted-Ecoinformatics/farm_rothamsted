@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\Action;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Action\Attribute\Action;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\farm_quick\Plugin\Action\QuickFormActionBase;
+use Drupal\farm_rothamsted_quick\Plugin\Action\Derivative\QuickExperimentActionDeriver;
 
 /**
  * Action for completing experiment quick forms.
- *
- * @Action(
- *   id = "farm_rothamsted_quick_experiment",
- *   action_label = @Translation("Record experiment quick form"),
- *   deriver = "Drupal\farm_rothamsted_quick\Plugin\Action\Derivative\QuickExperimentActionDeriver",
- * )
  */
+#[Action(
+  id: 'farm_rothamsted_quick_experiment',
+  action_label: new TranslatableMarkup('Record experiment quick form'),
+  deriver: QuickExperimentActionDeriver::class,
+)]
 class QuickExperimentAction extends QuickFormActionBase {
 
   /**
