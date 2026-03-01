@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\Asset\AssetType;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\farm_entity\Attribute\AssetType;
 use Drupal\farm_entity\Plugin\Asset\AssetType\FarmAssetType;
 use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Provides the plot asset type.
- *
- * @AssetType(
- *   id = "plot",
- *   label = @Translation("Plot"),
- * )
  */
+#[AssetType(
+  id: 'plot',
+  label: new TranslatableMarkup('Plot'),
+)]
 class Plot extends FarmAssetType {
 
   /**
