@@ -50,7 +50,6 @@ use Drupal\user\UserInterface;
   data_table: 'rothamsted_design_data',
   revision_table: 'rothamsted_design_revision',
   translatable: TRUE,
-  revisionable: TRUE,
   show_revision_ui: TRUE,
   admin_permission: 'administer rothamsted designs',
   entity_keys: [

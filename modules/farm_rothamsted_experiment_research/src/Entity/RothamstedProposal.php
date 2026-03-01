@@ -51,7 +51,6 @@ use Drupal\user\UserInterface;
   data_table: 'rothamsted_proposal_data',
   revision_table: 'rothamsted_proposal_revision',
   translatable: TRUE,
-  revisionable: TRUE,
   show_revision_ui: TRUE,
   admin_permission: 'administer resarch proposals',
   entity_keys: [

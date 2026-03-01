@@ -50,7 +50,6 @@ use Drupal\user\UserInterface;
   data_table: 'rothamsted_program_data',
   revision_table: 'rothamsted_program_revision',
   translatable: TRUE,
-  revisionable: TRUE,
   show_revision_ui: TRUE,
   admin_permission: 'administer resarch programs',
   entity_keys: [
