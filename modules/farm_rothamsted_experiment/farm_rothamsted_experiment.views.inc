@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Provides Views data for farm_rothamsted_experiment.module.

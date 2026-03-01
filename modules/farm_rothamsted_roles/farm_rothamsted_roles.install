@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Install and uninstall functions for the farm_rothamsted_roles module.

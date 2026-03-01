@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Provides Views runtime hooks for farm_rothamsted_quick.module.

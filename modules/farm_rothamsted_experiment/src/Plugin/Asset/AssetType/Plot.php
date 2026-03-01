@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\farm_rothamsted_experiment\Plugin\Asset\AssetType;
 
 use Drupal\entity\BundleFieldDefinition;

@@ -2,6 +2,12 @@
 
 /**
  * @file
+ */
+
+declare(strict_types=1);
+
+/**
+ * @file
  * The farm rothamsted experiment research module.
  */
 
