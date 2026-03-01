@@ -2,7 +2,7 @@ name: farmOS Rothamsted Comment
 description: Rothamsted Research comment features
 type: module
 package: farmOS Custom
-core_version_requirement: ^10
+core_version_requirement: ^11
 dependencies:
   - farm:farm_comment_asset
   - farm:farm_comment_log
