@@ -5,13 +5,23 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_researcher\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\EntityViewsData;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\Routing\RevisionRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\entity\UncacheableEntityPermissionProvider;
+use Drupal\farm_rothamsted_researcher\Form\ResearcherForm;
+use Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder;
+use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
@@ -33,22 +43,22 @@ use Drupal\user\UserInterface;
     'langcode' => 'langcode',
   ],
   handlers: [
-    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
-    'list_builder' => 'Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder',
-    'permission_provider' => '\Drupal\entity\UncacheableEntityPermissionProvider',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
-    'views_data' => 'Drupal\entity\EntityViewsData',
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'list_builder' => RothamstedResearcherListBuilder::class,
+    'permission_provider' => UncacheableEntityPermissionProvider::class,
+    'view_builder' => EntityViewBuilder::class,
+    'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => 'Drupal\farm_rothamsted_researcher\Form\ResearcherForm',
-      'edit' => 'Drupal\farm_rothamsted_researcher\Form\ResearcherForm',
-      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+      'add' => ResearcherForm::class,
+      'edit' => ResearcherForm::class,
+      'delete' => ContentEntityDeleteForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
-      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionRouteProvider::class,
     ],
     'local_task_provider' => [
-      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+      'default' => DefaultSecondaryLocalTaskProvider::class,
     ],
   ],
   links: [

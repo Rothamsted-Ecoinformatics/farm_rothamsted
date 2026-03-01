@@ -5,13 +5,26 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment_research\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\EntityViewsData;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\Routing\RevisionRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\farm_rothamsted_experiment_research\Form\DuplicateProposalForm;
+use Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm;
+use Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm;
+use Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider;
+use Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder;
+use Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider;
+use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
@@ -34,25 +47,25 @@ use Drupal\user\UserInterface;
     'langcode' => 'langcode',
   ],
   handlers: [
-    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
-    'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
-    'permission_provider' => 'Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
-    'views_data' => 'Drupal\entity\EntityViewsData',
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'list_builder' => RothamstedEntityListBuilder::class,
+    'permission_provider' => ResearchEntityPermissionProvider::class,
+    'view_builder' => EntityViewBuilder::class,
+    'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => 'Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm',
-      'edit' => 'Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm',
-      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
-      'duplicate' => 'Drupal\farm_rothamsted_experiment_research\Form\DuplicateProposalForm',
-      'entity-status-action-form' => 'Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm',
+      'add' => ProposalEntityForm::class,
+      'edit' => ProposalEntityForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'duplicate' => DuplicateProposalForm::class,
+      'entity-status-action-form' => EntityStatusChangeActionForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
-      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
-      'status-change' => 'Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionRouteProvider::class,
+      'status-change' => EntityStatusChangeRouteProvider::class,
     ],
     'local_task_provider' => [
-      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+      'default' => DefaultSecondaryLocalTaskProvider::class,
     ],
   ],
   links: [
