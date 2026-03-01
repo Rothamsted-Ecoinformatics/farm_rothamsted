@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Plugin\Plan\PlanType;
 
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\farm_entity\Attribute\PlanType;
 use Drupal\farm_entity\Plugin\Plan\PlanType\FarmPlanType;
 use Drupal\link\LinkItemInterface;
 
@@ -13,12 +15,11 @@ use Drupal\link\LinkItemInterface;
  * Provides the experiment plan type.
  *
  * Renamed to be Study Plan in text labels.
- *
- * @PlanType(
- *   id = "rothamsted_experiment",
- *   label = @Translation("Study Plan"),
- * )
  */
+#[PlanType(
+  id: 'rothamsted_experiment',
+  label: new TranslatableMarkup('Study Plan'),
+)]
 class Experiment extends FarmPlanType {
 
   /**
