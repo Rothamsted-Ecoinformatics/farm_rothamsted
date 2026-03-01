@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
 /**
  * Harvest quick form.
- *
- * @QuickForm(
- *   id = "combine_harvest",
- *   label = @Translation("Harvest (Combine and Forage Harvesters)"),
- *   description = @Translation("Create combine harvest records."),
- *   helpText = @Translation("Use this form to record combine harvest records."),
- *   permissions = {
- *     "create harvest log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'combine_harvest',
+  label: new TranslatableMarkup('Harvest (Combine and Forage Harvesters)'),
+  description: new TranslatableMarkup('Create combine harvest records.'),
+  helpText: new TranslatableMarkup('Use this form to record combine harvest records.'),
+  permissions: [
+    'create harvest log',
+  ],
+)]
 class QuickCombineHarvest extends QuickExperimentFormBase {
 
   use QuickLogTrait;

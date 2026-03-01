@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 
 /**
  * Spraying quick form.
- *
- * @QuickForm(
- *   id = "spraying",
- *   label = @Translation("Spraying"),
- *   description = @Translation("Create spraying records."),
- *   helpText = @Translation("Use this form to record spraying records."),
- *   permissions = {
- *     "create input log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'spraying',
+  label: new TranslatableMarkup('Spraying'),
+  description: new TranslatableMarkup('Create spraying records.'),
+  helpText: new TranslatableMarkup('Use this form to record spraying records.'),
+  permissions: [
+    'create input log',
+  ],
+)]
 class QuickSpraying extends QuickExperimentFormBase {
 
   /**

@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
 
 /**
  * Operations quick form.
- *
- * @QuickForm(
- *   id = "field_operations",
- *   label = @Translation("Field operations"),
- *   description = @Translation("Create operation records."),
- *   helpText = @Translation("Use this form to record operation records."),
- *   permissions = {
- *     "create activity log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'field_operations',
+  label: new TranslatableMarkup('Field operations'),
+  description: new TranslatableMarkup('Create operation records.'),
+  helpText: new TranslatableMarkup('Use this form to record operation records.'),
+  permissions: [
+    'create activity log',
+  ],
+)]
 class QuickOperation extends QuickExperimentFormBase {
 
   /**

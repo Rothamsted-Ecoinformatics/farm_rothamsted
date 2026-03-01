@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 
 /**
  * Fertiliser quick form.
- *
- * @QuickForm(
- *   id = "fertiliser",
- *   label = @Translation("Fertiliser, Compost and Manure"),
- *   description = @Translation("Create fertiliser records."),
- *   helpText = @Translation("Use this form to record feriliser records."),
- *   permissions = {
- *     "create input log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'fertiliser',
+  label: new TranslatableMarkup('Fertiliser, Compost and Manure'),
+  description: new TranslatableMarkup('Create fertiliser records.'),
+  helpText: new TranslatableMarkup('Use this form to record feriliser records.'),
+  permissions: [
+    'create input log',
+  ],
+)]
 class QuickFertiliser extends QuickExperimentFormBase {
 
   /**

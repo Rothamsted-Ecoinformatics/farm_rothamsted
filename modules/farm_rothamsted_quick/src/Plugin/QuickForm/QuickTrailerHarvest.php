@@ -7,21 +7,22 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 use Drupal\farm_quick\Traits\QuickLogTrait;
 
 /**
  * Harvest quick form.
- *
- * @QuickForm(
- *   id = "trailer_harvest",
- *   label = @Translation("Harvest (Trailer/ Bale Weights)"),
- *   description = @Translation("Create trailer harvest records."),
- *   helpText = @Translation("Use this form to record trailer harvest records."),
- *   permissions = {
- *     "create harvest log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'trailer_harvest',
+  label: new TranslatableMarkup('Harvest (Trailer/ Bale Weights)'),
+  description: new TranslatableMarkup('Create trailer harvest records.'),
+  helpText: new TranslatableMarkup('Use this form to record trailer harvest records.'),
+  permissions: [
+    'create harvest log',
+  ],
+)]
 class QuickTrailerHarvest extends QuickExperimentFormBase {
 
   use QuickLogTrait;

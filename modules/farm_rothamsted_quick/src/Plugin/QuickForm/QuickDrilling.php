@@ -6,21 +6,22 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\farm_quick\Attribute\QuickForm;
 use Drupal\taxonomy\TermInterface;
 
 /**
  * Drilling quick form.
- *
- * @QuickForm(
- *   id = "drilling",
- *   label = @Translation("Drilling"),
- *   description = @Translation("Create drilling records."),
- *   helpText = @Translation("Use this form to record drilling records."),
- *   permissions = {
- *     "create drilling log",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'drilling',
+  label: new TranslatableMarkup('Drilling'),
+  description: new TranslatableMarkup('Create drilling records.'),
+  helpText: new TranslatableMarkup('Use this form to record drilling records.'),
+  permissions: [
+    'create drilling log',
+  ],
+)]
 class QuickDrilling extends QuickExperimentFormBase {
 
   /**

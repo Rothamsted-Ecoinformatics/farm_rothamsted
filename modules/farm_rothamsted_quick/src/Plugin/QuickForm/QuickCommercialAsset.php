@@ -8,8 +8,10 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\farm_quick\Attribute\QuickForm;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickAssetTrait;
 use Drupal\farm_quick\Traits\QuickLogTrait;
@@ -20,17 +22,16 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Commercial asset quick form.
- *
- * @QuickForm(
- *   id = "commercial_asset",
- *   label = @Translation("Commercial Plant Assets"),
- *   description = @Translation("Create commercial plant assets."),
- *   helpText = @Translation("Use this form to create commercial plant assets."),
- *   permissions = {
- *     "create plant asset",
- *   }
- * )
  */
+#[QuickForm(
+  id: 'commercial_asset',
+  label: new TranslatableMarkup('Commercial Plant Assets'),
+  description: new TranslatableMarkup('Create commercial plant assets.'),
+  helpText: new TranslatableMarkup('Use this form to create commercial plant assets.'),
+  permissions: [
+    'create plant asset',
+  ],
+)]
 class QuickCommercialAsset extends QuickFormBase {
 
   use QuickAssetTrait;
