@@ -247,7 +247,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Exclude the previous farm_user email if it is the same.
     // Only send this email if the farm_user changed.
     if ($new_researcher && !$researcher->isNew()) {
-      if ($researcher->original->getNotificationEmail(TRUE, 'researcher') === $email) {
+      if ($researcher->getOriginal()->getNotificationEmail(TRUE, 'researcher') === $email) {
         $email = NULL;
       }
     }
@@ -326,9 +326,9 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $dataStewards = $this->getResearcherEmails($proposal->get('data_steward'), TRUE, 'proposal');
 
     if ($new_researcher && !$proposal->isNew()) {
-      $researchLeads = array_diff($researchLeads, $this->getResearcherEmails($proposal->original->get('contact'), TRUE, 'proposal'));
-      $statisticians = array_diff($statisticians, $this->getResearcherEmails($proposal->original->get('statistician'), TRUE, 'proposal'));
-      $dataStewards = array_diff($dataStewards, $this->getResearcherEmails($proposal->original->get('data_steward'), TRUE, 'proposal'));
+      $researchLeads = array_diff($researchLeads, $this->getResearcherEmails($proposal->getOriginal()->get('contact'), TRUE, 'proposal'));
+      $statisticians = array_diff($statisticians, $this->getResearcherEmails($proposal->getOriginal()->get('statistician'), TRUE, 'proposal'));
+      $dataStewards = array_diff($dataStewards, $this->getResearcherEmails($proposal->getOriginal()->get('data_steward'), TRUE, 'proposal'));
     }
 
     // Merge all the emails into an array, limiting to non-duplicate values.
@@ -380,7 +380,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
 
     // Also send email to research reviewers if the proposal is being submitted.
     $body = [];
-    if ($proposal->original->get('status')->value !== 'submitted' && $proposal->get('status')->value == 'submitted') {
+    if ($proposal->getOriginal()->get('status')->value !== 'submitted' && $proposal->get('status')->value == 'submitted') {
 
       // Get emails for all research reviewers.
       $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
@@ -424,7 +424,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     // Get principal investigator emails.
     $emails = $this->getResearcherEmails($program->get('principal_investigator'), TRUE, 'program');
     if ($new_researcher && !$program->isNew()) {
-      $old_emails = $this->getResearcherEmails($program->original->get('principal_investigator'), TRUE, 'program');
+      $old_emails = $this->getResearcherEmails($program->getOriginal()->get('principal_investigator'), TRUE, 'program');
       $emails = array_diff($emails, $old_emails);
     }
 
@@ -641,7 +641,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $researchers = $this->getExperimentResearcherEmails($design->get('experiment')->entity, FALSE, $force);
     $statisticians = $this->getResearcherEmails($design->get('statistician'), $force, 'experiment');
     if ($new_researcher && !$design->isNew()) {
-      $old_stats = $this->getResearcherEmails($design->original->get('statistician'), $force, 'experiment');
+      $old_stats = $this->getResearcherEmails($design->getOriginal()->get('statistician'), $force, 'experiment');
       $statisticians = array_diff($statisticians, $old_stats);
     }
 
@@ -666,7 +666,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $current_emails = $this->getResearcherEmails($experiment->get('researcher'), $force, 'experiment');
 
     if ($new_researcher && !$experiment->isNew()) {
-      $old_emails = $this->getResearcherEmails($experiment->original->get('researcher'), $force, 'experiment');
+      $old_emails = $this->getResearcherEmails($experiment->getOriginal()->get('researcher'), $force, 'experiment');
       return array_diff($current_emails, $old_emails);
     }
 
@@ -819,7 +819,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   protected function getEntityFieldDifferences(EntityInterface $entity, array $excluded_fields = []): array {
 
     // Get changed fields.
-    $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->original->toArray());
+    $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->getOriginal()->toArray());
     $excluded_fields = !empty($excluded_fields) ? $excluded_fields : [
       'comment',
       'changed',
