@@ -4,81 +4,82 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
 /**
  * Defines the research proposal entity class.
- *
- * @ContentEntityType(
- *   id = "rothamsted_proposal",
- *   label = @Translation("Proposal"),
- *   label_collection = @Translation("Proposals"),
- *   label_singular = @Translation("proposal"),
- *   label_plural = @Translation("proposals"),
- *   handlers = {
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
- *     "permission_provider" = "Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\entity\EntityViewsData",
- *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
- *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *       "duplicate" = "Drupal\farm_rothamsted_experiment_research\Form\DuplicateProposalForm",
- *       "entity-status-action-form" = "Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *       "status-change" = "Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
- *     },
- *   },
- *   base_table = "rothamsted_proposal",
- *   data_table = "rothamsted_proposal_data",
- *   revision_table = "rothamsted_proposal_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer resarch proposals",
- *   entity_keys = {
- *     "id" = "id",
- *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "langcode" = "langcode",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message",
- *   },
- *   links = {
- *     "canonical" = "/rothamsted/proposal/{rothamsted_proposal}",
- *     "collection" = "/rothamsted/proposal/all",
- *     "add-form" = "/rothamsted/proposal/add",
- *     "edit-form" = "/rothamsted/proposal/{rothamsted_proposal}/edit",
- *     "delete-form" = "/rothamsted/proposal/{rothamsted_proposal}/delete",
- *     "duplicate-form" = "/rothamsted/proposal/{rothamsted_proposal}/duplicate",
- *     "version-history" = "/rothamsted/proposal/{rothamsted_proposal}/revisions",
- *     "revision" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/view",
- *     "revision-revert-form" = "/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/revert",
- *     "entity-status-action-form" = "/rothamsted/proposal/change-status"
- *   }
- * )
  */
+#[ContentEntityType(
+  id: 'rothamsted_proposal',
+  label: new TranslatableMarkup('Proposal'),
+  label_collection: new TranslatableMarkup('Proposals'),
+  label_singular: new TranslatableMarkup('proposal'),
+  label_plural: new TranslatableMarkup('proposals'),
+  handlers: [
+    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
+    'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
+    'permission_provider' => 'Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider',
+    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'views_data' => 'Drupal\entity\EntityViewsData',
+    'form' => [
+      'add' => 'Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm',
+      'edit' => 'Drupal\farm_rothamsted_experiment_research\Form\ProposalEntityForm',
+      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+      'duplicate' => 'Drupal\farm_rothamsted_experiment_research\Form\DuplicateProposalForm',
+      'entity-status-action-form' => 'Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm',
+    ],
+    'route_provider' => [
+      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'status-change' => 'Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider',
+    ],
+    'local_task_provider' => [
+      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+    ],
+  ],
+  base_table: 'rothamsted_proposal',
+  data_table: 'rothamsted_proposal_data',
+  revision_table: 'rothamsted_proposal_revision',
+  translatable: TRUE,
+  revisionable: TRUE,
+  show_revision_ui: TRUE,
+  admin_permission: 'administer resarch proposals',
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+  links: [
+    'canonical' => '/rothamsted/proposal/{rothamsted_proposal}',
+    'collection' => '/rothamsted/proposal/all',
+    'add-form' => '/rothamsted/proposal/add',
+    'edit-form' => '/rothamsted/proposal/{rothamsted_proposal}/edit',
+    'delete-form' => '/rothamsted/proposal/{rothamsted_proposal}/delete',
+    'duplicate-form' => '/rothamsted/proposal/{rothamsted_proposal}/duplicate',
+    'version-history' => '/rothamsted/proposal/{rothamsted_proposal}/revisions',
+    'revision' => '/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/view',
+    'revision-revert-form' => '/rothamsted/proposal/{rothamsted_proposal}/revisions/{rothamsted_proposal_revision}/revert',
+    'entity-status-action-form' => '/rothamsted/proposal/change-status',
+  ],
+)]
 class RothamstedProposal extends RevisionableContentEntityBase implements RothamstedProposalInterface {
 
   use EntityChangedTrait;

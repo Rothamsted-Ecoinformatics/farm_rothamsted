@@ -4,75 +4,76 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_researcher\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
 /**
  * Defines the researcher entity class.
- *
- * @ContentEntityType(
- *   id = "rothamsted_researcher",
- *   label = @Translation("Researcher"),
- *   label_collection = @Translation("Researchers"),
- *   label_singular = @Translation("researcher"),
- *   label_plural = @Translation("researchers"),
- *   handlers = {
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder",
- *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\entity\EntityViewsData",
- *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_researcher\Form\ResearcherForm",
- *       "edit" = "Drupal\farm_rothamsted_researcher\Form\ResearcherForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
- *     },
- *   },
- *   base_table = "rothamsted_researcher",
- *   data_table = "rothamsted_researcher_data",
- *   revision_table = "rothamsted_researcher_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer rothamsted resarchers",
- *   entity_keys = {
- *     "id" = "id",
- *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "langcode" = "langcode",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message",
- *   },
- *   links = {
- *     "collection" = "/rothamsted/researcher",
- *     "canonical" = "/rothamsted/researcher/{rothamsted_researcher}",
- *     "add-form" = "/rothamsted/researcher/add",
- *     "edit-form" = "/rothamsted/researcher/{rothamsted_researcher}/edit",
- *     "delete-form" = "/rothamsted/researcher/{rothamsted_researcher}/delete",
- *     "version-history" = "/rothamsted/researcher/{rothamsted_researcher}/revisions",
- *     "revision" = "/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/view",
- *     "revision-revert-form" = "/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/revert",
- *   },
- * )
  */
+#[ContentEntityType(
+  id: 'rothamsted_researcher',
+  label: new TranslatableMarkup('Researcher'),
+  label_collection: new TranslatableMarkup('Researchers'),
+  label_singular: new TranslatableMarkup('researcher'),
+  label_plural: new TranslatableMarkup('researchers'),
+  handlers: [
+    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
+    'list_builder' => 'Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder',
+    'permission_provider' => '\Drupal\entity\UncacheableEntityPermissionProvider',
+    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'views_data' => 'Drupal\entity\EntityViewsData',
+    'form' => [
+      'add' => 'Drupal\farm_rothamsted_researcher\Form\ResearcherForm',
+      'edit' => 'Drupal\farm_rothamsted_researcher\Form\ResearcherForm',
+      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+    ],
+    'route_provider' => [
+      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+    ],
+    'local_task_provider' => [
+      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+    ],
+  ],
+  base_table: 'rothamsted_researcher',
+  data_table: 'rothamsted_researcher_data',
+  revision_table: 'rothamsted_researcher_revision',
+  translatable: TRUE,
+  revisionable: TRUE,
+  show_revision_ui: TRUE,
+  admin_permission: 'administer rothamsted resarchers',
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+  links: [
+    'collection' => '/rothamsted/researcher',
+    'canonical' => '/rothamsted/researcher/{rothamsted_researcher}',
+    'add-form' => '/rothamsted/researcher/add',
+    'edit-form' => '/rothamsted/researcher/{rothamsted_researcher}/edit',
+    'delete-form' => '/rothamsted/researcher/{rothamsted_researcher}/delete',
+    'version-history' => '/rothamsted/researcher/{rothamsted_researcher}/revisions',
+    'revision' => '/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/view',
+    'revision-revert-form' => '/rothamsted/researcher/{rothamsted_researcher}/revisions/{rothamsted_researcher_revision}/revert',
+  ],
+)]
 class RothamstedResearcher extends RevisionableContentEntityBase implements RothamstedResearcherInterface {
 
   use EntityChangedTrait;

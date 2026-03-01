@@ -4,79 +4,80 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
 /**
  * Defines the research program entity class.
- *
- * @ContentEntityType(
- *   id = "rothamsted_program",
- *   label = @Translation("Research Program"),
- *   label_collection = @Translation("Research Programs"),
- *   label_singular = @Translation("research program"),
- *   label_plural = @Translation("research programs"),
- *   handlers = {
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
- *     "permission_provider" = "Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\entity\EntityViewsData",
- *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
- *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *       "entity-status-action-form" = "Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *       "status-change" = "Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
- *     },
- *   },
- *   base_table = "rothamsted_program",
- *   data_table = "rothamsted_program_data",
- *   revision_table = "rothamsted_program_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer resarch programs",
- *   entity_keys = {
- *     "id" = "id",
- *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "langcode" = "langcode",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message",
- *   },
- *   links = {
- *     "canonical" = "/rothamsted/program/{rothamsted_program}",
- *     "collection" = "/rothamsted/program",
- *     "add-form" = "/rothamsted/program/add",
- *     "edit-form" = "/rothamsted/program/{rothamsted_program}/edit",
- *     "delete-form" = "/rothamsted/program/{rothamsted_program}/delete",
- *     "version-history" = "/rothamsted/program/{rothamsted_program}/revisions",
- *     "revision" = "/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/view",
- *     "revision-revert-form" = "/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/revert",
- *     "entity-status-action-form" = "/rothamsted/program/change-status"
- *   }
- * )
  */
+#[ContentEntityType(
+  id: 'rothamsted_program',
+  label: new TranslatableMarkup('Research Program'),
+  label_collection: new TranslatableMarkup('Research Programs'),
+  label_singular: new TranslatableMarkup('research program'),
+  label_plural: new TranslatableMarkup('research programs'),
+  handlers: [
+    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
+    'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
+    'permission_provider' => 'Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider',
+    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'views_data' => 'Drupal\entity\EntityViewsData',
+    'form' => [
+      'add' => 'Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm',
+      'edit' => 'Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm',
+      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+      'entity-status-action-form' => 'Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm',
+    ],
+    'route_provider' => [
+      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'status-change' => 'Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider',
+    ],
+    'local_task_provider' => [
+      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+    ],
+  ],
+  base_table: 'rothamsted_program',
+  data_table: 'rothamsted_program_data',
+  revision_table: 'rothamsted_program_revision',
+  translatable: TRUE,
+  revisionable: TRUE,
+  show_revision_ui: TRUE,
+  admin_permission: 'administer resarch programs',
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+  links: [
+    'canonical' => '/rothamsted/program/{rothamsted_program}',
+    'collection' => '/rothamsted/program',
+    'add-form' => '/rothamsted/program/add',
+    'edit-form' => '/rothamsted/program/{rothamsted_program}/edit',
+    'delete-form' => '/rothamsted/program/{rothamsted_program}/delete',
+    'version-history' => '/rothamsted/program/{rothamsted_program}/revisions',
+    'revision' => '/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/view',
+    'revision-revert-form' => '/rothamsted/program/{rothamsted_program}/revisions/{rothamsted_program_revision}/revert',
+    'entity-status-action-form' => '/rothamsted/program/change-status',
+  ],
+)]
 class RothamstedProgram extends RevisionableContentEntityBase implements RothamstedProgramInterface {
 
   use EntityChangedTrait;

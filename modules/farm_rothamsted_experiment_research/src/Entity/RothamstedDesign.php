@@ -4,79 +4,80 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
 /**
  * Defines the rothamsted design entity class.
- *
- * @ContentEntityType(
- *   id = "rothamsted_design",
- *   label = @Translation("Experiment Design"),
- *   label_collection = @Translation("Experiment Designs"),
- *   label_singular = @Translation("experiment design"),
- *   label_plural = @Translation("experiment designs"),
- *   handlers = {
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
- *     "permission_provider" = "Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\entity\EntityViewsData",
- *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
- *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *       "entity-status-action-form" = "Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *       "status-change" = "Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
- *     },
- *   },
- *   base_table = "rothamsted_design",
- *   data_table = "rothamsted_design_data",
- *   revision_table = "rothamsted_design_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer rothamsted designs",
- *   entity_keys = {
- *     "id" = "id",
- *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "langcode" = "langcode",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message",
- *   },
- *   links = {
- *     "collection" = "/rothamsted/design",
- *     "canonical" = "/rothamsted/design/{rothamsted_design}",
- *     "add-form" = "/rothamsted/design/add",
- *     "edit-form" = "/rothamsted/design/{rothamsted_design}/edit",
- *     "delete-form" = "/rothamsted/design/{rothamsted_design}/delete",
- *     "version-history" = "/rothamsted/design/{rothamsted_design}/revisions",
- *     "revision" = "/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/view",
- *     "revision-revert-form" = "/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/revert",
- *     "entity-status-action-form" = "/rothamsted/design/change-status"
- *   },
- * )
  */
+#[ContentEntityType(
+  id: 'rothamsted_design',
+  label: new TranslatableMarkup('Experiment Design'),
+  label_collection: new TranslatableMarkup('Experiment Designs'),
+  label_singular: new TranslatableMarkup('experiment design'),
+  label_plural: new TranslatableMarkup('experiment designs'),
+  handlers: [
+    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
+    'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
+    'permission_provider' => 'Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider',
+    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'views_data' => 'Drupal\entity\EntityViewsData',
+    'form' => [
+      'add' => 'Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm',
+      'edit' => 'Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm',
+      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+      'entity-status-action-form' => 'Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm',
+    ],
+    'route_provider' => [
+      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'status-change' => 'Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider',
+    ],
+    'local_task_provider' => [
+      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+    ],
+  ],
+  base_table: 'rothamsted_design',
+  data_table: 'rothamsted_design_data',
+  revision_table: 'rothamsted_design_revision',
+  translatable: TRUE,
+  revisionable: TRUE,
+  show_revision_ui: TRUE,
+  admin_permission: 'administer rothamsted designs',
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+  links: [
+    'collection' => '/rothamsted/design',
+    'canonical' => '/rothamsted/design/{rothamsted_design}',
+    'add-form' => '/rothamsted/design/add',
+    'edit-form' => '/rothamsted/design/{rothamsted_design}/edit',
+    'delete-form' => '/rothamsted/design/{rothamsted_design}/delete',
+    'version-history' => '/rothamsted/design/{rothamsted_design}/revisions',
+    'revision' => '/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/view',
+    'revision-revert-form' => '/rothamsted/design/{rothamsted_design}/revisions/{rothamsted_design_revision}/revert',
+    'entity-status-action-form' => '/rothamsted/design/change-status',
+  ],
+)]
 class RothamstedDesign extends RevisionableContentEntityBase implements RothamstedDesignInterface {
 
   use EntityChangedTrait;

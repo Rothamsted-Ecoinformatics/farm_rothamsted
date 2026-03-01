@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Entity;
 
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
@@ -17,67 +19,66 @@ use Drupal\user\UserInterface;
 
 /**
  * Defines the research experiment entity class.
- *
- * @ContentEntityType(
- *   id = "rothamsted_experiment",
- *   label = @Translation("Experiment"),
- *   label_collection = @Translation("Experiments"),
- *   label_singular = @Translation("experiment"),
- *   label_plural = @Translation("experiments"),
- *   handlers = {
- *     "access" = "\Drupal\entity\UncacheableEntityAccessControlHandler",
- *     "list_builder" = "Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder",
- *     "permission_provider" = "Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider",
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "views_data" = "Drupal\entity\EntityViewsData",
- *     "form" = {
- *       "add" = "Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm",
- *       "edit" = "Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *       "entity-status-action-form" = "Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm",
- *     },
- *     "route_provider" = {
- *       "default" = "Drupal\entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = "\Drupal\entity\Routing\RevisionRouteProvider",
- *       "status-change" = "Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider",
- *     },
- *     "local_task_provider" = {
- *       "default" = "\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider",
- *     },
- *   },
- *   base_table = "rothamsted_experiment",
- *   data_table = "rothamsted_experiment_data",
- *   revision_table = "rothamsted_experiment_revision",
- *   translatable = TRUE,
- *   revisionable = TRUE,
- *   show_revision_ui = TRUE,
- *   admin_permission = "administer resarch experiments",
- *   entity_keys = {
- *     "id" = "id",
- *     "uuid" = "uuid",
- *     "revision" = "revision_id",
- *     "label" = "name",
- *     "owner" = "uid",
- *     "langcode" = "langcode",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_user",
- *     "revision_created" = "revision_created",
- *     "revision_log_message" = "revision_log_message",
- *   },
- *   links = {
- *     "canonical" = "/rothamsted/experiment/{rothamsted_experiment}",
- *     "collection" = "/rothamsted/experiment",
- *     "add-form" = "/rothamsted/experiment/add",
- *     "edit-form" = "/rothamsted/experiment/{rothamsted_experiment}/edit",
- *     "delete-form" = "/rothamsted/experiment/{rothamsted_experiment}/delete",
- *     "version-history" = "/rothamsted/experiment/{rothamsted_experiment}/revisions",
- *     "revision" = "/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/view",
- *     "revision-revert-form" = "/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/revert",
- *     "entity-status-action-form" = "/rothamsted/experiment/change-status"
- *   }
- * )
  */
+#[ContentEntityType(
+  id: 'rothamsted_experiment',
+  label: new TranslatableMarkup('Experiment'),
+  label_collection: new TranslatableMarkup('Experiments'),
+  label_singular: new TranslatableMarkup('experiment'),
+  label_plural: new TranslatableMarkup('experiments'),
+  handlers: [
+    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
+    'list_builder' => 'Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder',
+    'permission_provider' => 'Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider',
+    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'views_data' => 'Drupal\entity\EntityViewsData',
+    'form' => [
+      'add' => 'Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm',
+      'edit' => 'Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm',
+      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
+      'entity-status-action-form' => 'Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm',
+    ],
+    'route_provider' => [
+      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'status-change' => 'Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider',
+    ],
+    'local_task_provider' => [
+      'default' => '\Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider',
+    ],
+  ],
+  base_table: 'rothamsted_experiment',
+  data_table: 'rothamsted_experiment_data',
+  revision_table: 'rothamsted_experiment_revision',
+  translatable: TRUE,
+  revisionable: TRUE,
+  show_revision_ui: TRUE,
+  admin_permission: 'administer resarch experiments',
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'revision' => 'revision_id',
+    'label' => 'name',
+    'owner' => 'uid',
+    'langcode' => 'langcode',
+  ],
+  revision_metadata_keys: [
+    'revision_user' => 'revision_user',
+    'revision_created' => 'revision_created',
+    'revision_log_message' => 'revision_log_message',
+  ],
+  links: [
+    'canonical' => '/rothamsted/experiment/{rothamsted_experiment}',
+    'collection' => '/rothamsted/experiment',
+    'add-form' => '/rothamsted/experiment/add',
+    'edit-form' => '/rothamsted/experiment/{rothamsted_experiment}/edit',
+    'delete-form' => '/rothamsted/experiment/{rothamsted_experiment}/delete',
+    'version-history' => '/rothamsted/experiment/{rothamsted_experiment}/revisions',
+    'revision' => '/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/view',
+    'revision-revert-form' => '/rothamsted/experiment/{rothamsted_experiment}/revisions/{rothamsted_experiment_revision}/revert',
+    'entity-status-action-form' => '/rothamsted/experiment/change-status',
+  ],
+)]
 class RothamstedExperiment extends RevisionableContentEntityBase implements RothamstedExperimentInterface {
 
   use EntityChangedTrait;
