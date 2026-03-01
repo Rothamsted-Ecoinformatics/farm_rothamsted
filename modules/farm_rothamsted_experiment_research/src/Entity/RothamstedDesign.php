@@ -347,7 +347,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
     $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Previous Cropping'))
       ->setDescription(t('The crop(s) which were grown in the same location immediately before the experiment.'))
-      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler', 'default:taxonomy_term')
@@ -435,7 +435,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ->setLabel(t('Rotation Crops'))
       ->setDescription(t('The crops in the rotation.'))
       ->setRevisionable(TRUE)
-      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler', 'default:taxonomy_term')
       ->setSetting('handler_settings', [

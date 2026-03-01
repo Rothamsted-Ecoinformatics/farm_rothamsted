@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\Asset\AssetType;
 
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Attribute\AssetType;
@@ -73,7 +74,7 @@ class Plot extends FarmAssetType {
       ->setRequired(TRUE);
     $fields['column_descriptors'] = BundleFieldDefinition::create('key_value')
       ->setLabel($this->t('Column descriptors'))
-      ->setCardinality(FieldStorageConfig::CARDINALITY_UNLIMITED)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 

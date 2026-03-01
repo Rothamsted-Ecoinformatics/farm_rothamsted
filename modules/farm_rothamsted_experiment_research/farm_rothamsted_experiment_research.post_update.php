@@ -611,7 +611,7 @@ function farm_rothamsted_experiment_research_post_update_2_12_proposal_fields(&$
   $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Previous Cropping'))
     ->setDescription(t('The crops which were grown in the same location immediately before the experiment.'))
-    ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
     ->setRevisionable(TRUE)
     ->setSetting('target_type', 'taxonomy_term')
     ->setSetting('handler', 'default:taxonomy_term')
@@ -695,7 +695,7 @@ function farm_rothamsted_experiment_research_post_update_2_12_design_fields(&$sa
   $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Previous Cropping'))
     ->setDescription(t('The crops which were grown in the same location immediately before the experiment.'))
-    ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
     ->setRevisionable(TRUE)
     ->setSetting('target_type', 'taxonomy_term')
     ->setSetting('handler', 'default:taxonomy_term')
@@ -794,7 +794,7 @@ function farm_rothamsted_experiment_research_post_update_2_13_2_design_crop_fiel
     $new_field = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Rotation Crops'))
       ->setRevisionable(TRUE)
-      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
     \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
       'rotation_crop',
       'rothamsted_design',
