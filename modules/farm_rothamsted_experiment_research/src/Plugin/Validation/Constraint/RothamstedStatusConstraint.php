@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Plugin\Validation\Constraint;
 
-use Symfony\Component\Validator\Constraint;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Validation\Attribute\Constraint;
+use Symfony\Component\Validator\Constraint as SymfonyConstraint;
 
 /**
  * Checks field is required dependent on status.
- *
- * @Constraint(
- *   id = "RothamstedStatus",
- *   label = @Translation("Rothamsted Status", context = "Validation"),
- * )
  */
-class RothamstedStatusConstraint extends Constraint {
+#[Constraint(
+  id: 'RothamstedStatus',
+  label: new TranslatableMarkup('Rothamsted Status', [], ['context' => 'Validation']),
+)]
+class RothamstedStatusConstraint extends SymfonyConstraint {
 
   /**
    * Array of status that the constraint is required on.
