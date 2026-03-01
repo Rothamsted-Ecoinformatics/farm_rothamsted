@@ -10,8 +10,3 @@ services:
     class: Drupal\farm_rothamsted_export\Normalizer\BooleanFieldItemNormalizer
     tags:
       - { name: normalizer, priority: 10 }
-  farm_rothamsted_export.normalizer.quantity_csv_normalizer:
-    class: Drupal\farm_rothamsted_export\Normalizer\QuantityCsvNormalizer
-    tags:
-      - { name: normalizer, priority: 20 }
-    arguments: [ '@entity_type.manager', '@entity_type.repository', '@entity_field.manager' ]
