@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Plugin\Field\FieldFormatter;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Field\Attribute\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
  * Plugin implementation of the 'json' formatter.
- *
- * @FieldFormatter(
- *   id = "column_descriptors_tables",
- *   label = @Translation("Column descriptors tables"),
- *   field_types = {
- *     "json_native",
- *   },
- * )
  */
+#[FieldFormatter(
+  id: 'column_descriptors_tables',
+  label: new TranslatableMarkup('Column descriptors tables'),
+  field_types: [
+    'json_native',
+  ],
+)]
 class ColumnDescriptorsTables extends FormatterBase {
 
   /**

@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Field\Attribute\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\text\Plugin\Field\FieldFormatter\TextDefaultFormatter;
 
 /**
  * Plugin implementation of the plot_column_descriptor formatter.
- *
- * @FieldFormatter(
- *   id = "plot_column_descriptor",
- *   label = @Translation("Plot column descriptor"),
- *   field_types = {
- *     "key_value",
- *     "key_value_long",
- *   }
- * )
  */
+#[FieldFormatter(
+  id: 'plot_column_descriptor',
+  label: new TranslatableMarkup('Plot column descriptor'),
+  field_types: [
+    'key_value',
+    'key_value_long',
+  ],
+)]
 class PlotColumnDescriptor extends TextDefaultFormatter {
 
   /**

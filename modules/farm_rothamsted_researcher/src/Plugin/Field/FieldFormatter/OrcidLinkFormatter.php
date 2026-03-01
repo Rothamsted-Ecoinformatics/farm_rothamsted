@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_researcher\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Field\Attribute\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
  * Plugin implementation of the 'rothamsted_orcid_link' formatter.
- *
- * @FieldFormatter(
- *   id = "rothamsted_orcid_link",
- *   label = @Translation("Orcid Link"),
- *   field_types = {
- *     "string",
- *   }
- * )
  */
+#[FieldFormatter(
+  id: 'rothamsted_orcid_link',
+  label: new TranslatableMarkup('Orcid Link'),
+  field_types: [
+    'string',
+  ],
+)]
 class OrcidLinkFormatter extends FormatterBase {
 
   /**
