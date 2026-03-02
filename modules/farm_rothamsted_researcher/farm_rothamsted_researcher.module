@@ -12,9 +12,7 @@ use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Url;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\user\UserInterface;
 
@@ -86,23 +84,6 @@ function farm_rothamsted_researcher_entity_view_display_alter(EntityViewDisplayI
       'weight' => 1,
     ]);
   }
-}
-
-/**
- * Preprocess function to add links to the user toolbar.
- */
-function farm_rothamsted_researcher_preprocess_links__toolbar_user(&$variables) {
-  $links = [
-    'researcher_profile' => [
-      'link' => [
-        '#type' => 'link',
-        '#title' => t('View Researcher profile'),
-        '#url' => Url::fromRoute('farm_rothamsted_researcher.current_user_researcher'),
-      ],
-      '#weight' => -10,
-    ],
-  ];
-  $variables['links'] = $links + $variables['links'];
 }
 
 /**
@@ -178,25 +159,3 @@ function farm_rothamsted_researcher_rothamsted_researcher_view(array &$build, Ro
   }
 }
 
-/**
- * Implements hook_theme().
- */
-function farm_rothamsted_researcher_theme() {
-  return [
-    'rothamsted_researcher' => [
-      'render element' => 'elements',
-    ],
-  ];
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function farm_rothamsted_researcher_preprocess_rothamsted_researcher__full(&$variables) {
-  // Helpful $content variable for templates.
-  foreach (Element::children($variables['elements']) as $key) {
-    $variables['content'][$key] = $variables['elements'][$key];
-  }
-  $variables['#attached']['library'][] = 'farm_ui_theme/layout';
-  farm_ui_theme_build_stacked_twocol_layout($variables, 'rothamsted_researcher');
-}
