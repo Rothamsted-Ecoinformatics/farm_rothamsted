@@ -265,54 +265,6 @@ function farm_rothamsted_experiment_form_views_exposed_form_alter(&$form, FormSt
 }
 
 /**
- * Implements hook_farm_ui_theme_field_groups().
- */
-function farm_rothamsted_experiment_farm_ui_theme_field_groups(string $entity_type, string $bundle) {
-
-  // Add a field group for group membership fields on logs.
-  if ($entity_type === 'plan' && $bundle === 'rothamsted_experiment') {
-    return [
-      'locations' => [
-        'location' => 'main',
-        'title' => t('Locations'),
-        'weight' => 20,
-      ],
-      'deviations' => [
-        'location' => 'main',
-        'title' => t('Deviations'),
-        'weight' => 170,
-      ],
-    ];
-  }
-  return [];
-}
-
-/**
- * Implements hook_farm_ui_theme_field_group_items().
- */
-function farm_rothamsted_experiment_farm_ui_theme_field_group_items(string $entity_type, string $bundle) {
-  if ($entity_type === 'plan' && $bundle === 'rothamsted_experiment') {
-    return [
-      'location' => 'locations',
-      'asset' => 'locations',
-      'columns_file' => 'file',
-      'column_levels_file' => 'file',
-      'plot_attributes_file' => 'file',
-      'plot_geometry_file' => 'file',
-      'experiment_plan_link' => 'file',
-      'experiment_file_link' => 'file',
-      'other_links' => 'file',
-      'growing_conditions' => 'meta',
-      'agreed_quote' => 'meta',
-      'status_notes' => 'meta',
-      'deviations' => 'deviations',
-      'reason_for_failure' => 'deviations',
-    ];
-  }
-  return [];
-}
-
-/**
  * Plot type options helper.
  *
  * @return array
