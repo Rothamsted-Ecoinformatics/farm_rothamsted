@@ -15,6 +15,18 @@ class ThemeHooks {
   use StringTranslationTrait;
 
   /**
+   * Implements hook_theme_registry_alter().
+   */
+  #[Hook('theme_registry_alter')]
+  public function themeRegistryAlter(array &$theme_registry): void {
+
+    // Do not use the two column layout on plans.
+    if (isset($theme_registry['plan__full']['preprocess functions'])) {
+      $theme_registry['plan__full']['preprocess functions'] = array_filter($theme_registry['plan__full']['preprocess functions'], fn ($f) => $f != 'farm_ui_theme_preprocess_plan__full');
+    }
+  }
+
+  /**
    * Implements hook_farm_ui_theme_field_groups().
    */
   #[Hook('farm_ui_theme_field_groups')]
