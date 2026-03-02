@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Hook;
 
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Render\Element;
+use Drupal\farm_ui_theme\FarmUiThemeHelper;
 
 /**
  * Theme hook implementations for farm_rothamsted_experiment_research.
@@ -68,7 +69,7 @@ class ThemeHooks {
       $variables['content'][$key] = $variables['elements'][$key];
     }
     $variables['#attached']['library'][] = 'farm_ui_theme/layout';
-    farm_ui_theme_build_stacked_twocol_layout($variables, $entity_type_id);
+    FarmUiThemeHelper::buildStackedTwocolLayout($variables, $entity_type_id);
   }
 
   /**

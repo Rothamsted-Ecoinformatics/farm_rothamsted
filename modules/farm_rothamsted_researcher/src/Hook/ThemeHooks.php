@@ -8,6 +8,7 @@ use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Render\Element;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\farm_ui_theme\FarmUiThemeHelper;
 
 /**
  * Theme hook implementations for farm_rothamsted_researcher.
@@ -76,7 +77,7 @@ class ThemeHooks {
       $variables['content'][$key] = $variables['elements'][$key];
     }
     $variables['#attached']['library'][] = 'farm_ui_theme/layout';
-    farm_ui_theme_build_stacked_twocol_layout($variables, 'rothamsted_researcher');
+    FarmUiThemeHelper::buildStackedTwocolLayout($variables, 'rothamsted_researcher');
   }
 
 }
