@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Element\Checkboxes;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_location\AssetLocationInterface;
@@ -40,20 +41,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    * Constant for specifying the required product batch number.
    */
   const PRODUCT_BATCH_NUM_REQUIRED = 'required';
-
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The asset location service.
-   *
-   * @var \Drupal\farm_location\AssetLocationInterface
-   */
-  protected $assetLocation;
 
   /**
    * ID of log type the quick form creates.
@@ -114,39 +101,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
    */
   protected $defaultValues = [];
 
-  /**
-   * Constructs a QuickFormBase object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager service.
-   * @param \Drupal\farm_location\AssetLocationInterface $asset_location
-   *   The asset location service.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetLocationInterface $asset_location) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->entityTypeManager = $entity_type_manager;
-    $this->assetLocation = $asset_location;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected AccountInterface $currentUser,
+    protected AssetLocationInterface $assetLocation,
+  ) {
+    parent::__construct(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger'),
-      $container->get('entity_type.manager'),
-      $container->get('asset.location'),
+      $entityTypeManager,
+      $currentUser,
     );
   }
 

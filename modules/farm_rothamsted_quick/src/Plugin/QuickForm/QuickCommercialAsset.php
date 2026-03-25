@@ -7,7 +7,7 @@ namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
@@ -18,7 +18,6 @@ use Drupal\farm_quick\Traits\QuickLogTrait;
 use Drupal\farm_rothamsted\Traits\QuickFileTrait;
 use Drupal\farm_rothamsted_quick\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\TermInterface;
-use Psr\Container\ContainerInterface;
 
 /**
  * Commercial asset quick form.
@@ -39,43 +38,19 @@ class QuickCommercialAsset extends QuickFormBase {
   use QuickLogTrait;
   use QuickTaxonomyOptionsTrait;
 
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * Constructs a QuickFormBase object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager service.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
-    $this->entityTypeManager = $entity_type_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected AccountInterface $currentUser,
+  ) {
+    parent::__construct(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger'),
-      $container->get('entity_type.manager'),
+      $entityTypeManager,
+      $currentUser,
     );
   }
 

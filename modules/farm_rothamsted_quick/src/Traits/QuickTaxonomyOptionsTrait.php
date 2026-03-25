@@ -12,13 +12,6 @@ use Drupal\Core\Url;
 trait QuickTaxonomyOptionsTrait {
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * Helper function to build a sorted option list of child taxonomy terms.
    *
    * @param string $vocabulary_name
