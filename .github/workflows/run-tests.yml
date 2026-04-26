@@ -39,7 +39,7 @@ jobs:
         run: |
           sudo mv ${MODULE_NAME} www/${MODULE_NAME}
           docker compose exec -u www-data -T www composer config repositories.${MODULE_NAME} path ./${MODULE_NAME}
-          docker compose exec -u www-data -T www composer update
+          docker compose exec -u www-data -T www composer update -W
           docker compose exec -u www-data -T www composer require ${PACKAGE_NAME}:*
       - name: Run PHP CodeSniffer
         run: docker compose exec -u www-data -T www phpcs /opt/drupal/web/modules/${MODULE_NAME} --exclude=DrupalPractice.InfoFiles.NamespacedDependency,SlevomatCodingStandard.TypeHints.DeclareStrictTypes
