@@ -256,7 +256,7 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Weather.
     $weather['weather_info']['weather'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#title' => $this->t('Weather'),
       '#description' => $this->t('The dominant weather conditions during spraying.'),
       '#options' => $weather_types_options,
