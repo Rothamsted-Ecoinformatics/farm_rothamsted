@@ -518,7 +518,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ];
 
         // Product wrapper.
-        $product_wrapper = $this->buildInlineWrapper();
+        $product_wrapper = [];
 
         // Get values from form state.
         $product_options = [];
@@ -542,18 +542,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
         // Product type.
         $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
-        $product_wrapper['product_type'] = [
-          '#type' => 'select',
-          '#title' => $this->t('Product type'),
-          '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
-          '#options' => $product_type_options,
-          '#required' => TRUE,
-          '#ajax' => [
-            'callback' => [$this, 'productTypeCallback'],
-            'event' => 'change',
-            'wrapper' => "product-$i-wrapper",
-          ],
-        ];
         $tags_identifier = "product_type-$i";
         $product_wrapper['product_type'] = [
           '#type' => 'select_tagify',
