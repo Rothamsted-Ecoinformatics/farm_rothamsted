@@ -9,6 +9,7 @@ use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -1236,4 +1237,23 @@ function farm_rothamsted_experiment_research_post_update_2_26_research_entity_st
     $data = Yaml::parseFile($config_path);
     \Drupal::configFactory()->getEditable("system.action.$action_id")->setData($data)->save(TRUE);
   }
+}
+
+/**
+ * Create experiment_deviation field on logs.
+ */
+function farm_rothamsted_experiment_research_post_update_2_30_log_experiment_deviation_field(&$sandbox = NULL) {
+  $field_definition = BundleFieldDefinition::create('text_long')
+    ->setRevisionable(TRUE)
+    ->setCardinality(1)
+    ->setSettings([
+      'description_field' => FALSE,
+      'file_extensions' => 'csv',
+    ]);
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'experiment_deviation',
+    'log',
+    'farm_rothamsted_experiment_reserach',
+    $field_definition,
+  );
 }
