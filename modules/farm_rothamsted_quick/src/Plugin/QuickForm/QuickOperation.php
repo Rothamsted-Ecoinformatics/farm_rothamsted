@@ -47,16 +47,6 @@ class QuickOperation extends QuickExperimentFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // Change log categories to use select_tagify instead of checkboxes.
-    $tags_identifier = 'log_category';
-    $form['setup']['log_category']['#type'] = 'select_tagify';
-    $form['setup']['log_category']['#default_value'] = [];
-    $form['setup']['log_category']['#mode'] = '';
-    $form['setup']['log_category']['#identifier'] = $tags_identifier;
-    $form['setup']['log_category']['#attributes'] = [
-      'class' => [$tags_identifier],
-    ];
-
     // Add to the operation tab.
     $operation = &$form['operation'];
 
