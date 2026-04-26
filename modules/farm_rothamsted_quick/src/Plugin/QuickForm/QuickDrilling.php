@@ -68,13 +68,10 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#weight' => 1,
     ];
 
-    // Crop and variety wrapper.
-    $drilling['crop'] = $this->buildInlineWrapper();
-
     // Crop type.
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
     $tags_identifier = 'crop';
-    $drilling['crop']['crop'] = [
+    $drilling['crop'] = [
       '#type' => 'select_tagify',
       '#title' => $this->t('Crop'),
       '#description' => $this->t('The crop being drilled.'),
@@ -100,7 +97,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
     $tags_identifier = 'crop_variety';
-    $drilling['crop']['crop_variety'] = [
+    $drilling['crop_variety'] = [
       '#type' => 'select_tagify',
       '#title' => $this->t('Variety(s)'),
       '#description' => $this->t('The variety(s) being planted.'),
@@ -259,7 +256,7 @@ class QuickDrilling extends QuickExperimentFormBase {
    * Ajax callback for the crop variety field.
    */
   public function cropVarietyCallback(array $form, FormStateInterface $form_state) {
-    return $form['drilling']['crop']['crop_variety'];
+    return $form['drilling']['crop_variety'];
   }
 
   /**
