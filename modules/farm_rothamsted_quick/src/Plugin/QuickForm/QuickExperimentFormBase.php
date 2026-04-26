@@ -746,12 +746,18 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#empty_option' => $this->t('Select a flag'),
     ];
 
+    // Log experiment deviations
+    $status['experiment_deviation'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Experiment Deviations'),
+      '#description' => $this->t('Please describe any deviations from the experiment plan or observations that might affect the outcome of the experiment.'),
+    ];
+
     // Log notes.
     $status['notes'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Notes'),
       '#description' => $this->t('Any additional notes.'),
-      '#weight' => 20,
     ];
 
     // Include the job status tab.
@@ -1098,6 +1104,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'flag' => $form_state->getValue('flag'),
       'owner' => $form_state->getValue('owner'),
       'category' => $form_state->getValue('log_category', []),
+      'experiment_deviation' => $form_state->getValue('experiment_deviation'),
     ];
 
     // Save assets to log. These may be prepopulated or provided from selected
