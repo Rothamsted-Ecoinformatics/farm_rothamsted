@@ -698,14 +698,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#extended' => TRUE,
     ];
 
-    // Log notes.
-    $operation['notes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes.'),
-      '#weight' => 20,
-    ];
-
     // Include the operation tab.
     $form['operation'] = $operation;
 
@@ -752,6 +744,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
       '#empty_option' => $this->t('Select a flag'),
+    ];
+
+    // Log notes.
+    $status['notes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Notes'),
+      '#description' => $this->t('Any additional notes.'),
+      '#weight' => 20,
     ];
 
     // Include the job status tab.
