@@ -264,7 +264,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     $zip_path = "$directory/$zip_filename";
     $zip_path = $file_system->getDestinationFilename($zip_path, FileExists::Rename);
     $zip_real_path = $file_system->realpath($zip_path);
-    if ($zip_real_path === FALSE || !$result = $zip->open($zip_real_path, constant('ZipArchive::CREATE')) ) {
+    if ($zip_real_path === FALSE || !$result = $zip->open($zip_real_path, constant('ZipArchive::CREATE'))) {
       \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created.");
       \Drupal::messenger()->addError(new TranslatableMarkup("Zip archive could not be created."));
       return;

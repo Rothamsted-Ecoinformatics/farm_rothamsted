@@ -746,7 +746,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#empty_option' => $this->t('Select a flag'),
     ];
 
-    // Log experiment deviations
+    // Log experiment deviations.
     $status['experiment_deviation'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Experiment Deviations'),

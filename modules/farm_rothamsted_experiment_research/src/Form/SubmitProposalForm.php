@@ -38,7 +38,7 @@ class SubmitProposalForm extends FormBase {
     // Load current user roles.
     $current_user_roles = $this->currentUser()->getRoles();
 
-    // Must be an allowed user role or a "named" research lead to submit the proposal.
+    // Must have allowed role or be a "named" research lead to submit proposal.
     $has_allowed_role = in_array('rothamsted_data_admin', $current_user_roles) || in_array('rothamsted_farm_manager', $current_user_roles);
     $research_lead_with_access = in_array('rothamsted_research_lead', $current_user_roles) && $rothamsted_proposal->access('update');
 

@@ -64,7 +64,8 @@ class QuickOperation extends QuickExperimentFormBase {
       ],
     ];
 
-    // If the log_category_parent changed, get the new value to build log_category options.
+    // If the log_category_parent changed, get the new value to build the final
+    // log_category options.
     $category_options = [];
     if (($trigger = $form_state->getTriggeringElement())
         && NestedArray::getValue($trigger['#array_parents'], [2]) == 'log_category_parent') {
