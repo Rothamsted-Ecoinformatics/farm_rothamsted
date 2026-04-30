@@ -2,6 +2,7 @@
 
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
@@ -46,6 +47,46 @@ class QuickOperation extends QuickExperimentFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
+
+    // Change log categories to use a dependent and dynamic form field.
+    $parent_category_options = $this->getChildTermOptionsByName('log_category', $this->parentLogCategoryName, 1);
+    $form['setup']['log_category'] = [];
+    $form['setup']['log_category']['log_category_parent'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Log category type'),
+      '#options' => $parent_category_options,
+      '#default_value' => '',
+      '#empty_value' => '',
+      '#ajax' => [
+        'callback' => [$this, 'logCategoryParentCallback'],
+        'event' => 'change',
+        'wrapper' => 'log_category_wrapper',
+      ],
+    ];
+
+    // If the log_category_parent changed, get the new value to build log_category options.
+    $category_options = [];
+    if (($trigger = $form_state->getTriggeringElement())
+        && NestedArray::getValue($trigger['#array_parents'], [2]) == 'log_category_parent') {
+      if ($parent_category_id = $trigger['#value']) {
+        $category_options = $this->getTermTreeOptions('log_category', $parent_category_id);
+      }
+    }
+    // Else get the previous product_type from form state.
+    elseif ($parent_category_id = $form_state->get('log_category_parent')) {
+      $category_options = $this->getTermTreeOptions('log_category', $parent_category_id);
+    }
+    // Always save the product_type to form state.
+    $form_state->set('log_category_parent', $parent_category_id);
+
+    // Finally, add log_category single select.
+    $form['setup']['log_category']['log_category'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Log category'),
+      '#options' => $category_options,
+      '#prefix' => "<div id='log_category_wrapper'>",
+      '#suffix' => "</div>",
+    ];
 
     // Add to the operation tab.
     $operation = &$form['operation'];
@@ -152,6 +193,21 @@ class QuickOperation extends QuickExperimentFormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * Log category parent ajax callback.
+   *
+   * @param array $form
+   *   The form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   *
+   * @return array
+   *   The log category field.
+   */
+  public function logCategoryParentCallback(array &$form, FormStateInterface $form_state) {
+    return $form['setup']['log_category']['log_category'];
   }
 
   /**
