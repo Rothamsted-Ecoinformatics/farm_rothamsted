@@ -300,12 +300,6 @@ function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox)
       $query->condition('quantity.entity.label', $old_label);
     }
 
-    // This returns an array of arrays like:
-    // [
-    //   "id" => "25598",
-    //   "label" => "Tractor hours (start)",
-    //   "log_field_data_id" => "7885",
-    // ]
     $log_quantity_result = $query
       ->groupBy('quantity.entity.id')
       ->groupBy('quantity.entity.label')
@@ -317,7 +311,7 @@ function farm_rothamsted_quick_post_update_2_30_update_quantity_label(&$sandbox)
       return isset($log_quantity['label']) && isset($quantity_label_map[$log_quantity['label']]);
     });
 
-    // Group filtered array by log ID. This way we only update each log one time.
+    // Group filtered array by ID. This way we only update each log one time.
     $grouped = [];
     foreach ($log_quantity_result as $item) {
       $grouped[$item['log_field_data_id']][] = $item;
