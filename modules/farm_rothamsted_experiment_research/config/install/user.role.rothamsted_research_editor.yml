@@ -50,8 +50,8 @@ is_admin: null
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
-  - 'create rothamsted_proposal',
-  - 'duplicate any rothamsted_proposal',
+  - 'create rothamsted_proposal'
+  - 'duplicate any rothamsted_proposal'
   - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
