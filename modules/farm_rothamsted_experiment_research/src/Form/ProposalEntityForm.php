@@ -133,6 +133,17 @@ class ProposalEntityForm extends ResearchEntityForm {
       ];
     }
 
+    // Modify access to the status field.
+    if (isset($form['status'])) {
+
+      // Load current user roles.
+      $current_user_roles = $this->currentUser()->getRoles();
+
+      // Must have allowed role to change proposal status.
+      $has_allowed_role = in_array('rothamsted_data_admin', $current_user_roles) || in_array('rothamsted_farm_manager', $current_user_roles);
+      $form['status']['#access'] = $has_allowed_role;
+    }
+
     return $form;
   }
 
