@@ -57,6 +57,7 @@ class QuickOperation extends QuickExperimentFormBase {
       '#options' => $parent_category_options,
       '#default_value' => '',
       '#empty_value' => '',
+      '#required' => TRUE,
       '#ajax' => [
         'callback' => [$this, 'logCategoryParentCallback'],
         'event' => 'change',
@@ -85,6 +86,7 @@ class QuickOperation extends QuickExperimentFormBase {
       '#type' => 'select',
       '#title' => $this->t('Log category'),
       '#options' => $category_options,
+      '#required' => TRUE,
       '#prefix' => "<div id='log_category_wrapper'>",
       '#suffix' => "</div>",
     ];
