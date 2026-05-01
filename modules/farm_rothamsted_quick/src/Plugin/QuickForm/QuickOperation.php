@@ -50,14 +50,21 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Change log categories to use a dependent and dynamic form field.
     $parent_category_options = $this->getChildTermOptionsByName('log_category', $this->parentLogCategoryName, 1);
+    $tags_identifier = 'log_category_parent';
     $form['setup']['log_category'] = [];
     $form['setup']['log_category']['log_category_parent'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Log category type'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#mode' => 'select',
       '#options' => $parent_category_options,
       '#default_value' => '',
       '#empty_value' => '',
       '#required' => TRUE,
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#ajax' => [
         'callback' => [$this, 'logCategoryParentCallback'],
         'event' => 'change',
@@ -83,10 +90,16 @@ class QuickOperation extends QuickExperimentFormBase {
 
     // Finally, add log_category single select.
     $form['setup']['log_category']['log_category'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Log category'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#mode' => 'select',
       '#options' => $category_options,
       '#required' => TRUE,
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#prefix' => "<div id='log_category_wrapper'>",
       '#suffix' => "</div>",
     ];
