@@ -577,7 +577,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
             'class' => [$tags_identifier],
           ],
           '#prefix' => "<div id='product-$i-wrapper'>",
-          '#suffic' => '</div',
+          '#suffix' => '</div>',
         ];
         $products['products'][$i]['product_wrapper'] = $product_wrapper;
 
