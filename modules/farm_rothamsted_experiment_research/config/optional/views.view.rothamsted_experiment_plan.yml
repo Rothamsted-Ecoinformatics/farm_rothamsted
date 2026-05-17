@@ -1494,6 +1494,46 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        archived:
+          id: archived
+          table: plan_field_data
+          field: archived
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: archived
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Archived
+            description: ''
+            use_operator: false
+            operator: archived_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: archived
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2351,6 +2391,46 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        archived:
+          id: archived
+          table: plan_field_data
+          field: archived
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: plan
+          entity_field: archived
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Archived
+            description: ''
+            use_operator: false
+            operator: archived_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: archived
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:
