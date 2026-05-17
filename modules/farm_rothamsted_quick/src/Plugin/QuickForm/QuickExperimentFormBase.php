@@ -23,7 +23,6 @@ use Drupal\farm_rothamsted_quick\Traits\QuickQuantityFieldTrait;
 use Drupal\farm_rothamsted_quick\Traits\QuickTaxonomyOptionsTrait;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\UserInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

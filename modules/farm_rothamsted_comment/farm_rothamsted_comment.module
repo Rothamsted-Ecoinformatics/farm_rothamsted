@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * The farm rothamsted comment module.
  */
+
+declare(strict_types=1);
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\UserInterface;

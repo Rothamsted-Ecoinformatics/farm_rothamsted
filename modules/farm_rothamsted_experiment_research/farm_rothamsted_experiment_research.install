@@ -2,14 +2,10 @@
 
 /**
  * @file
+ * Install, update and uninstall for farm_rothamsted_experiment_research module.
  */
 
 declare(strict_types=1);
-
-/**
- * @file
- * Install, update and uninstall for farm_rothamsted_experiment_research module.
- */
 
 /**
  * Implements hook_install().

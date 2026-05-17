@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Contains farm_rothamsted_notification.module.
  */
 
+declare(strict_types=1);
 
 /**
  * Helper function to compare two entity object arrays.

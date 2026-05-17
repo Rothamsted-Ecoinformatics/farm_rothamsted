@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Update hooks for farm_rothamsted.module.
  */
+
+declare(strict_types=1);
 
 use Drupal\quantity\Entity\Quantity;
 use Drupal\views\Entity\View;

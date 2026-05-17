@@ -9,7 +9,6 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity\BundleFieldDefinition;
 use Drupal\farm_entity\Attribute\AssetType;
 use Drupal\farm_entity\Plugin\Asset\AssetType\FarmAssetType;
-use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Provides the plot asset type.

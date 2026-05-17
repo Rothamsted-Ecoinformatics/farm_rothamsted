@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Contains farm_rothamsted_researcher.module.
  */
+
+declare(strict_types=1);
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultAllowed;
@@ -31,4 +31,3 @@ function farm_rothamsted_researcher_rothamsted_researcher_access(EntityInterface
   // Else return neutral.
   return AccessResult::neutral();
 }
-

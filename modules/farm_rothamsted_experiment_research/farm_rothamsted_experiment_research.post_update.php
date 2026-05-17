@@ -2,14 +2,10 @@
 
 /**
  * @file
+ * Update hooks for farm_rothamsted_experiment_research.module.
  */
 
 declare(strict_types=1);
-
-/**
- * @file
- * Update hooks for farm_rothamsted_experiment_research.module.
- */
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;

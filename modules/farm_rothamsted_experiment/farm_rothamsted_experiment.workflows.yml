@@ -34,4 +34,3 @@ rothamsted_experiment_plan:
       label: 'Cancel'
       from: [ planning,active,completed,requested ]
       to: cancelled
-

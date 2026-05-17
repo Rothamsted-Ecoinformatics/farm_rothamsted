@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Contains farm_rothamsted_experiment.module.
  */
+
+declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -27,7 +27,6 @@ function farm_rothamsted_experiment_alter_plan_name(array $element, FormStateInt
   $element['value']['#description'] = t('The name of the study.');
   return $element;
 }
-
 
 /**
  * Plot type options helper.

@@ -2,14 +2,10 @@
 
 /**
  * @file
+ * The farm rothamsted experiment research module.
  */
 
 declare(strict_types=1);
-
-/**
- * @file
- * The farm rothamsted experiment research module.
- */
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -20,7 +16,6 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Render\Element;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
@@ -669,5 +664,3 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
       return;
   }
 }
-
-

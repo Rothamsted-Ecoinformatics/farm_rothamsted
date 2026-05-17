@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Post update functions for farm_rothamsted_roles module.
  */
+
+declare(strict_types=1);
 
 use Drupal\consumers\Entity\Consumer;
 
