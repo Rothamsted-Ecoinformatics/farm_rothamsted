@@ -81,12 +81,12 @@ class QuickOperation extends QuickExperimentFormBase {
     if (($trigger = $form_state->getTriggeringElement())
         && NestedArray::getValue($trigger['#array_parents'], [2]) == 'log_category_parent') {
       if ($parent_category_id = $trigger['#value']) {
-        $category_options = $this->getTermTreeOptions('log_category', $parent_category_id);
+        $category_options = $this->getTermTreeOptions('log_category', (int) $parent_category_id);
       }
     }
     // Else get the previous product_type from form state.
     elseif ($parent_category_id = $form_state->get('log_category_parent')) {
-      $category_options = $this->getTermTreeOptions('log_category', $parent_category_id);
+      $category_options = $this->getTermTreeOptions('log_category', (int) $parent_category_id);
     }
     // Always save the product_type to form state.
     $form_state->set('log_category_parent', $parent_category_id);
