@@ -19,6 +19,7 @@ use Drupal\entity\Routing\AdminHtmlRouteProvider;
 use Drupal\entity\Routing\RevisionRouteProvider;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
 use Drupal\entity\UncacheableEntityPermissionProvider;
+use Drupal\farm_comment\FarmCommentHelper;
 use Drupal\farm_rothamsted_researcher\Form\ResearcherForm;
 use Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder;
 use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
@@ -391,7 +392,7 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     // Add comment field.
-    $fields['comment'] = farm_comment_base_field_definition('rothamsted_researcher');
+    $fields['comment'] = FarmCommentHelper::commentBaseFieldDefinition('rothamsted_researcher');
     $fields['comment']->setDisplayOptions('form', [
       'type' => 'comment_default',
       'region' => 'hidden',

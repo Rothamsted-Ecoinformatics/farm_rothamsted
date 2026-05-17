@@ -19,6 +19,7 @@ use Drupal\entity\EntityViewsData;
 use Drupal\entity\Routing\AdminHtmlRouteProvider;
 use Drupal\entity\Routing\RevisionRouteProvider;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\farm_comment\FarmCommentHelper;
 use Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm;
 use Drupal\farm_rothamsted_experiment_research\Form\ResearchEntityForm;
 use Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider;
@@ -431,7 +432,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     // Add comment field.
-    $fields['comment'] = farm_comment_base_field_definition('rothamsted_program');
+    $fields['comment'] = FarmCommentHelper::commentBaseFieldDefinition('rothamsted_program');
     $fields['comment']->setDisplayOptions('form', [
       'type' => 'comment_default',
       'region' => 'hidden',

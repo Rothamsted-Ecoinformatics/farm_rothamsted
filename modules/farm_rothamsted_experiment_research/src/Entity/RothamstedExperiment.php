@@ -19,6 +19,7 @@ use Drupal\entity\EntityViewsData;
 use Drupal\entity\Routing\AdminHtmlRouteProvider;
 use Drupal\entity\Routing\RevisionRouteProvider;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\farm_comment\FarmCommentHelper;
 use Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm;
 use Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm;
 use Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider;
@@ -644,7 +645,7 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     // Add comment field.
-    $fields['comment'] = farm_comment_base_field_definition('rothamsted_experiment');
+    $fields['comment'] = FarmCommentHelper::commentBaseFieldDefinition('rothamsted_experiment');
 
     return $fields;
   }

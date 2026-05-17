@@ -18,6 +18,7 @@ use Drupal\entity\EntityViewsData;
 use Drupal\entity\Routing\AdminHtmlRouteProvider;
 use Drupal\entity\Routing\RevisionRouteProvider;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\farm_comment\FarmCommentHelper;
 use Drupal\farm_rothamsted_experiment_research\Form\DesignEntityForm;
 use Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm;
 use Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider;
@@ -1204,7 +1205,7 @@ class RothamstedDesign extends RevisionableContentEntityBase implements Rothamst
       ]);
 
     // Add comment field.
-    $fields['comment'] = farm_comment_base_field_definition('rothamsted_design');
+    $fields['comment'] = FarmCommentHelper::commentBaseFieldDefinition('rothamsted_design');
     $fields['comment']->setDisplayOptions('form', [
       'type' => 'comment_default',
       'region' => 'hidden',
