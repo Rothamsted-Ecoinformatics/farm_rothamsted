@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Plugin\QuickForm;
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
@@ -37,22 +35,6 @@ class QuickCommercialAsset extends QuickFormBase {
   use QuickFileTrait;
   use QuickLogTrait;
   use QuickTaxonomyOptionsTrait;
-
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    protected EntityTypeManagerInterface $entityTypeManager,
-    protected AccountInterface $currentUser,
-  ) {
-    parent::__construct(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $entityTypeManager,
-      $currentUser,
-    );
-  }
 
   /**
    * {@inheritdoc}
