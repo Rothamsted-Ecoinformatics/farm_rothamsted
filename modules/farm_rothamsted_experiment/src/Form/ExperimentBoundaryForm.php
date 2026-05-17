@@ -234,7 +234,6 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       'type' => 'land',
       'land_type' => 'experiment_boundary',
       'name' => $boundary_name,
-      'status' => 'active',
       'parent' => $location,
       'is_fixed' => TRUE,
       'is_location' => TRUE,

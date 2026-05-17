@@ -139,7 +139,6 @@ function farm_rothamsted_dev_install() {
     foreach ($equipment_names as $equipment_name) {
       $asset = Asset::create([
         'type' => 'equipment',
-        'status' => 'active',
         'name' => $equipment_name,
         'equipment_type' => $equipment_type,
       ]);
