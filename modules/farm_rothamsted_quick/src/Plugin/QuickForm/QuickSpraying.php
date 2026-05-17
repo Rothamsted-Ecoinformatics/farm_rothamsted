@@ -100,21 +100,26 @@ class QuickSpraying extends QuickExperimentFormBase {
     // Add weight to equipment settings.
     $setup['equipment_settings']['#weight'] = 10;
 
-    // Nozzle wrapper.
-    $setup['nozzle_wrapper'] = $this->buildInlineWrapper();
-
     // Spray nozzle options.
     $spray_nozzle_options = $this->getEquipmentOptions(['Spray Nozzles']);
-    $setup['nozzle_wrapper']['nozzle_type'] = [
-      '#type' => 'select',
+    $tags_identifier = 'nozzle_type';
+    $setup['nozzle_type'] = [
+      '#type' => 'select_tagify',
       '#title' => $this->t('Nozzle Type'),
       '#description' => $this->t('The type of spray nozzle used, where relevant.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $spray_nozzle_options,
       '#multiple' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Pressure.
-    $setup['nozzle_wrapper']['pressure'] = $this->buildQuantityField([
+    $setup['pressure'] = $this->buildQuantityField([
       'title' => $this->t('Pressure'),
       'description' => $this->t('The water pressure used when applying the product, where relevant.'),
       'measure' => ['#value' => 'pressure'],
@@ -254,7 +259,7 @@ class QuickSpraying extends QuickExperimentFormBase {
 
     // Weather.
     $weather['weather_info']['weather'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#title' => $this->t('Weather'),
       '#description' => $this->t('The dominant weather conditions during spraying.'),
       '#options' => $weather_types_options,
@@ -262,9 +267,9 @@ class QuickSpraying extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Temperature (Degrees C).
+    // Temperature.
     $weather['weather_info']['temperature'] = $this->buildQuantityField([
-      'title' => $this->t('Temperature (C)'),
+      'title' => $this->t('Temperature'),
       'description' => $this->t('The average temperature during spraying.'),
       'measure' => ['#value' => 'temperature'],
       'units' => ['#value' => 'C'],

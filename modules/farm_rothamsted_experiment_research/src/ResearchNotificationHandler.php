@@ -345,6 +345,33 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $params['subject_template'] = $subject;
     $params['body_template'] = $body;
     $this->sendMail($proposal, $emails, $params);
+
+    // Send a second "Intention to Submit" email to all Reviewers to not already
+    // named on the proposal.
+    // Get emails for all research reviewers.
+    $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
+      'status' => 1,
+      'roles' => ['rothamsted_research_reviewer'],
+    ]);
+    $reviewer_emails = array_unique(array_map(function (UserInterface $user) {
+      return $user->isBlocked() ? NULL : $user->getEmail();
+    }, $users));
+
+    // Do not include any users that received the previous update email.
+    // Reviewers will not be reviewing a proposal they are named on.
+    $reviewer_emails = array_diff($reviewer_emails, $emails);
+    $body = [];
+    $subject = "[site:name]: Intention to Submit A Proposal";
+    $body[] = "[$entity_type_id:revision_user:entity:display-name] has added a draft proposal to FarmOS:";
+    $body[] = "[$entity_type_id:name]: [$entity_type_id:url:absolute]";
+    $body[] = "This e-mail is intended to alert you that the Researcher has created a draft proposal.";
+    $body[] = "You will receive a separate e-mail once the Proposal has been submitted for review.";
+    $body[] = "You are receiving this e-mail because you are named as an active Reviewer in FarmOS. If you have any questions or queries, please contact your FarmOS Data Administrator.";
+
+    // Send mail.
+    $params['subject_template'] = $subject;
+    $params['body_template'] = $body;
+    $this->sendMail($proposal, $reviewer_emails, $params);
   }
 
   /**

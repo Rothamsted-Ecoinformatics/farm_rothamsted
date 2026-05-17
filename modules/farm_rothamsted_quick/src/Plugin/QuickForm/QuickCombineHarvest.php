@@ -115,13 +115,6 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
     // Add the harvest tab and fields to the form.
     $form['harvest'] = $harvest;
 
-    // Experimental deviations.
-    $form['job_status']['deviations'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Experimental Deviations'),
-      '#description' => $this->t('Please describe any deviations from the experiment plan where relevant. Please include anything that might affect the results of the experiment such as spraying, equipment and application errors.'),
-    ];
-
     return $form;
   }
 
@@ -162,23 +155,6 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
       'machine_yield_estimate',
     );
     return parent::getQuantities($field_keys, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function prepareNotes(array $note_fields, FormStateInterface $form_state): array {
-    // Prepend additional note fields.
-    array_unshift(
-      $note_fields,
-      ...[
-        [
-          'key' => 'deviations',
-          'label' => $this->t('Experimental Deviations'),
-        ],
-      ]
-    );
-    return parent::prepareNotes($note_fields, $form_state);
   }
 
 }

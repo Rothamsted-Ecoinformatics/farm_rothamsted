@@ -37,7 +37,18 @@ class SubmitProposalForm extends FormBase {
       return AccessResult::forbidden();
     }
 
-    return AccessResult::allowedIf($rothamsted_proposal->get('status')->value == 'draft' && $rothamsted_proposal->get('status')->access('update', $this->currentUser()));
+    // Load current user roles.
+    $current_user_roles = $this->currentUser()->getRoles();
+
+    // Must have allowed role or be a "named" research lead to submit proposal.
+    $has_allowed_role = in_array('rothamsted_data_admin', $current_user_roles) || in_array('rothamsted_farm_manager', $current_user_roles);
+    $research_lead_with_access = in_array('rothamsted_research_lead', $current_user_roles) && $rothamsted_proposal->access('update');
+
+    return AccessResult::allowedIf(
+      $rothamsted_proposal->get('status')->value == 'draft' &&
+      $rothamsted_proposal->get('status')->access('update', $this->currentUser()) &&
+      ($has_allowed_role || $research_lead_with_access)
+    );
   }
 
   /**

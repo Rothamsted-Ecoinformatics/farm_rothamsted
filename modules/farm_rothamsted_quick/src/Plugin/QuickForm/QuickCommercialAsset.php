@@ -80,37 +80,58 @@ class QuickCommercialAsset extends QuickFormBase {
 
     // Drilling year.
     $drilling_options = $this->getChildTermOptionsByName('season', 'Drilling year');
+    $tags_identifier = 'drilling_year';
     $form['drilling_year'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Drilling year'),
       '#description' => $this->t('The season in which the assets is planted. This can be expanded by adding child terms to the "Drilling year" term in the Seasons Taxonomy'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $drilling_options,
       '#required' => TRUE,
+      '#mode' => 'select',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Harvest year.
     $harvest_options = $this->getChildTermOptionsByName('season', 'Harvest year');
+    $tags_identifier = 'harvest_year';
     $form['harvest_year'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Harvest year'),
       '#description' => $this->t('The year in which the asset will be harvested. This can be expanded by adding child terms to the "Harvest year" term in the Seasons Taxonomy.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $harvest_options,
       '#required' => TRUE,
+      '#mode' => 'select',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Crop type.
     $form['crop'] = $this->buildInlineWrapper();
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
+    $tags_identifier = 'crop';
     $form['crop']['crop'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Crop(s)'),
       '#description' => $this->t('The crop(s) being drilled. This can be expanded in the Plant Types taxonomy.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
       '#ajax' => [
         'callback' => [$this, 'cropVarietyCallback'],
         'event' => 'change',
         'wrapper' => 'crop-variety-wrapper',
+      ],
+      '#mode' => 'select',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
       ],
     ];
 
@@ -120,12 +141,20 @@ class QuickCommercialAsset extends QuickFormBase {
       $crop_variety_options = $this->getTermTreeOptions('plant_type', (int) $crop_id);
       NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
+    $tags_identifier = 'plant_type';
     $form['crop']['plant_type'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Variety(s)'),
       '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];

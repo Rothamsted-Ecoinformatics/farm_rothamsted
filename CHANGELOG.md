@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.30.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/56)
+
+### Added
+
+- Add inches to drilling and plough depth. [#849](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/849)
+- Create intention to submit altert for proposals [#862](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/862)
+- Add new experiment deviation text field on logs [#871](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/871)
+
+### Changed
+
+- Grant research users access to export data. [#846](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/846)
+- Require farmOS 3.4.6. [#843](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/843)
+- Use tagify module for quick form entity reference fields [#852](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/852)
+- Change label of observation plot type to Observation/Deviation [#875](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/875)
+- Change permissions Research Lead/Editor permissions on proposals [#876](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/876)
+
+### Fixed
+
+- Exporting data to filename with forward slashes. [#854](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/854)
+- Update old quick form quantity names. [#859](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/859)
+
 ## [2.29.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/53)
 
 ### Added

@@ -221,13 +221,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       '#required' => TRUE,
     ];
 
-    // Experimental deviations.
-    $form['job_status']['deviations'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Experimental Deviations'),
-      '#description' => $this->t('Please describe any deviations from the experiment plan where relevant. Please include anything that might affect the results of the experiment such as spraying, equipment and application errors.'),
-    ];
-
     return $form;
   }
 
@@ -399,10 +392,6 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
         [
           'key' => 'storage_condition',
           'label' => $this->t('Condition of grain/ straw at storage'),
-        ],
-        [
-          'key' => 'deviations',
-          'label' => $this->t('Experimental Deviations'),
         ],
       ]
     );

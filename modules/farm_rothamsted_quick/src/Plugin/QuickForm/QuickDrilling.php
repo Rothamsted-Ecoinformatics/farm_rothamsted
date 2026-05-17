@@ -71,17 +71,21 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#weight' => 1,
     ];
 
-    // Crop and variety wrapper.
-    $drilling['crop'] = $this->buildInlineWrapper();
-
     // Crop type.
     $crop_type_options = $this->getTermTreeOptions('plant_type', 0, 1);
-    $drilling['crop']['crop'] = [
-      '#type' => 'select',
+    $tags_identifier = 'crop';
+    $drilling['crop'] = [
+      '#type' => 'select_tagify',
       '#title' => $this->t('Crop'),
       '#description' => $this->t('The crop being drilled.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
+      '#mode' => 'select',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#ajax' => [
         'callback' => [$this, 'cropVarietyCallback'],
         'event' => 'change',
@@ -95,13 +99,21 @@ class QuickDrilling extends QuickExperimentFormBase {
       $crop_variety_options = $this->getTermTreeOptions('plant_type', (int) $crop_id);
       NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
-    $drilling['crop']['crop_variety'] = [
-      '#type' => 'select',
+    $tags_identifier = 'crop_variety';
+    $drilling['crop_variety'] = [
+      '#type' => 'select_tagify',
       '#title' => $this->t('Variety(s)'),
-      '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
+      '#description' => $this->t('The variety(s) being planted.'),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
       '#prefix' => '<div id="crop-variety-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -141,12 +153,20 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Seed dressings.
     $seed_dressing_options = $this->getChildTermOptionsByName('material_type', 'Seed Dressings');
+    $tags_identifier = 'seed_dressing';
     $drilling['seed_dressing'] = [
-      '#type' => 'select',
+      '#type' => 'select_tagify',
       '#title' => $this->t('Seed dressing(s)'),
       '#description' => $this->t("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#options' => $seed_dressing_options,
       '#multiple' => TRUE,
+      '#default_value' => [],
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Seed labels.
@@ -168,7 +188,7 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Thousand grain weight.
     $additional['thousand_grain_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Thousand grain weight (TGW)'),
+      'title' => $this->t('Thousand grain weight'),
       'description' => $this->t('The average weight of 1,000 grains.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#value' => 'g'],
@@ -205,11 +225,15 @@ class QuickDrilling extends QuickExperimentFormBase {
     $additional['establishment_average'] = $this->buildQuantityField($establishment_average);
 
     // Drilling depth.
+    $drilling_depth_units_options = [
+      'cm' => 'cm',
+      'in' => 'in',
+    ];
     $additional['drilling_depth'] = $this->buildQuantityField([
       'title' => $this->t('Drilling depth'),
       'description' => $this->t('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
       'measure' => ['#value' => 'length'],
-      'units' => ['#value' => 'cm'],
+      'units' => ['#options' => $drilling_depth_units_options],
     ]);
 
     // Seed lineage.
@@ -235,7 +259,7 @@ class QuickDrilling extends QuickExperimentFormBase {
    * Ajax callback for the crop variety field.
    */
   public function cropVarietyCallback(array $form, FormStateInterface $form_state) {
-    return $form['drilling']['crop']['crop_variety'];
+    return $form['drilling']['crop_variety'];
   }
 
   /**

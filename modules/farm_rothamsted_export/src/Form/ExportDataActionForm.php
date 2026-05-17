@@ -117,7 +117,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     // Add warning message for inaccessible entities.
     if (!empty($inaccessible_entities)) {
       $this->messenger()->addWarning(new TranslatableMarkup(
-        'You do not have permission to export data from the below @count @entity_type because you are not named as a Researcher on the @entity_type.',
+        'You do not have permission to export data from the system. Please contact your Farm Data Administrator',
         [
           '@count' => count($inaccessible_entities),
           '@entity_type' => $entity_type->getCollectionLabel(),
@@ -162,8 +162,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     $form['filename'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Export filename'),
+      '#description' => $this->t('Must be a valid filename and not contain the following special characters: /\:*?\'"<>|'),
       '#required' => TRUE,
       '#default_value' => $default_name,
+      '#pattern' => '[^/\\:*?\'"<>|]+',
     ];
 
     return parent::buildForm($form, $form_state);
@@ -262,9 +264,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     $zip_path = "$directory/$zip_filename";
     $zip_path = $file_system->getDestinationFilename($zip_path, FileExists::Rename);
     $zip_real_path = $file_system->realpath($zip_path);
-    $result = $zip->open($zip_real_path, constant('ZipArchive::CREATE'));
-    if ($result !== TRUE) {
-      \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created. Error code: $result");
+    if ($zip_real_path === FALSE || !$result = $zip->open($zip_real_path, constant('ZipArchive::CREATE'))) {
+      \Drupal::logger('farm_rothamsted_export')->warning("Zip archive could not be created.");
+      \Drupal::messenger()->addError(new TranslatableMarkup("Zip archive could not be created."));
+      return;
     }
 
     // Add result files to zip.
@@ -280,9 +283,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     }
 
     // Close zip archive.
-    $result = $zip->close();
-    if (!$result) {
+    if ($zip->status || !$zip->close()) {
       \Drupal::logger('farm_rothamsted_export')->warning('Zip archive could not be closed.');
+      \Drupal::messenger()->addError(new TranslatableMarkup("Zip archive could not be created."));
+      return;
     }
 
     // Create file entity for zip.
@@ -320,26 +324,30 @@ class ExportDataActionForm extends ConfirmFormBase {
   protected function checkEntityAccess(EntityInterface $entity, ?AccountInterface $account = NULL) {
 
     // Check access based on user roles.
-    $result = AccessResult::forbidden();
     $roles = $account->getRoles();
     $all_access_roles = [
       'rothamsted_data_admin',
       'rothamsted_farm_manager',
-    ];
-    $research_assigned_roles = [
       'rothamsted_research_lead',
       'rothamsted_research_editor',
+    ];
+    $view_access_roles = [
+      'rothamsted_operator_basic',
+      'rothamsted_operator_advanced',
     ];
 
     // Allow access if user has all access roles.
     if (!empty(array_intersect($roles, $all_access_roles))) {
       $result = AccessResult::allowed();
     }
-
-    // If user has a researcher role, allow access if they have update access.
+    // Allow access if user is an operator and has view access.
+    elseif (!empty(array_intersect($roles, $view_access_roles))) {
+      $result = $entity->access('view', $account, TRUE);
+    }
+    // Otherwise allow access if they have update access.
     // In many cases this will delegate to research access logic that uses the
     // "update research_assigned {entity_type}" permission.
-    elseif (!empty(array_intersect($roles, $research_assigned_roles))) {
+    else {
       $result = $entity->access('update', $account, TRUE);
     }
 

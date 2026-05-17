@@ -342,7 +342,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->parentLogCategoryName)) {
       $category_options = $this->getChildTermOptionsByName('log_category', $this->parentLogCategoryName);
       $setup['log_category'] = [
-        '#type' => 'select',
+        '#type' => 'checkboxes',
         '#title' => $this->t('Log category'),
         '#required' => TRUE,
         '#options' => $category_options,
@@ -379,13 +379,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Build the tractor field if required.
     if ($this->tractorField) {
       $tractor_options = $this->getEquipmentOptions(['Tractor Equipment']);
+      $tags_identifier = 'tractor';
       $setup['equipment_wrapper']['tractor'] = [
-        '#type' => 'select',
+        '#type' => 'select_tagify',
         '#title' => $this->t('Tractor'),
         '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets as "Tractor Equipment".'),
+        '#placeholder' => $this->t('Start typing to search available options...'),
+        '#required' => TRUE,
         '#options' => $tractor_options,
         '#default_value' => $this->defaultValues['tractor'] ?? NULL,
-        '#required' => TRUE,
+        '#mode' => 'select',
+        '#identifier' => $tags_identifier,
+        '#attributes' => [
+          'class' => [$tags_identifier],
+        ],
       ];
     }
 
@@ -393,14 +400,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     if (!empty($this->machineryEquipmentTypes)) {
       $equipment_options = $this->getEquipmentOptions($this->machineryEquipmentTypes);
       $machinery_options_string = implode(",", $this->machineryEquipmentTypes);
+      $tags_identifier = 'machinery';
       $setup['equipment_wrapper']['machinery'] = [
-        '#type' => 'select',
+        '#type' => 'select_tagify',
         '#title' => $machinery_options_string,
-        '#description' => $this->t('Select the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names". To select more than one hold down the CTRL button and select multiple.', ['@equipment_type_names' => $machinery_options_string]),
-        '#options' => $equipment_options,
-        '#default_value' => $this->defaultValues['machinery'] ?? NULL,
-        '#multiple' => TRUE,
+        '#description' => $this->t('Select all the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names".', ['@equipment_type_names' => $machinery_options_string]),
+        '#placeholder' => $this->t('Start typing to search available options...'),
         '#required' => TRUE,
+        '#multiple' => TRUE,
+        '#options' => $equipment_options,
+        '#default_value' => $this->defaultValues['machinery'] ?? [],
+        '#mode' => '',
+        '#identifier' => $tags_identifier,
+        '#attributes' => [
+          'class' => [$tags_identifier],
+        ],
       ];
     }
 
@@ -474,7 +488,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ];
 
         // Product wrapper.
-        $product_wrapper = $this->buildInlineWrapper();
+        $product_wrapper = [];
 
         // Get values from form state.
         $product_options = [];
@@ -498,12 +512,19 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
         // Product type.
         $product_type_options = $this->getTermTreeOptions('material_type', 0, 1);
+        $tags_identifier = "product_type-$i";
         $product_wrapper['product_type'] = [
-          '#type' => 'select',
+          '#type' => 'select_tagify',
           '#title' => $this->t('Product type'),
           '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
-          '#options' => $product_type_options,
+          '#placeholder' => $this->t('Start typing to search available options...'),
           '#required' => TRUE,
+          '#options' => $product_type_options,
+          '#mode' => 'select',
+          '#identifier' => $tags_identifier,
+          '#attributes' => [
+            'class' => [$tags_identifier],
+          ],
           '#ajax' => [
             'callback' => [$this, 'productTypeCallback'],
             'event' => 'change',
@@ -512,14 +533,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         ];
 
         // Product.
+        $tags_identifier = "product-$i";
         $product_wrapper['product'] = [
-          '#type' => 'select',
+          '#type' => 'select_tagify',
           '#title' => $this->t('Product'),
           '#description' => $this->t('The product used.'),
+          '#placeholder' => $this->t('Start typing to search available options...'),
           '#options' => $product_options,
           '#required' => TRUE,
+          '#mode' => 'select',
+          '#identifier' => $tags_identifier,
+          '#attributes' => [
+            'class' => [$tags_identifier],
+          ],
           '#prefix' => "<div id='product-$i-wrapper'>",
-          '#suffic' => '</div',
+          '#suffix' => '</div>',
         ];
         $products['products'][$i]['product_wrapper'] = $product_wrapper;
 
@@ -640,14 +668,6 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#extended' => TRUE,
     ];
 
-    // Log notes.
-    $operation['notes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes.'),
-      '#weight' => 20,
-    ];
-
     // Include the operation tab.
     $form['operation'] = $operation;
 
@@ -656,13 +676,21 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Operator field.
     $operator_options = $this->getUserOptions(['rothamsted_operator_basic', 'rothamsted_operator_advanced']);
-    $status['general']['owner'] = [
-      '#type' => 'select',
+    $tags_identifier = 'owner';
+    $status['owner'] = [
+      '#type' => 'select_tagify',
       '#title' => $this->t('Operator'),
       '#description' => $this->t('The operator(s) who carried out the task.'),
-      '#options' => $operator_options,
-      '#multiple' => TRUE,
+      '#placeholder' => $this->t('Start typing to search available options...'),
       '#required' => TRUE,
+      '#multiple' => TRUE,
+      '#default_value' => [],
+      '#options' => $operator_options,
+      '#mode' => '',
+      '#identifier' => $tags_identifier,
+      '#attributes' => [
+        'class' => [$tags_identifier],
+      ],
     ];
 
     // Job status.
@@ -686,6 +714,20 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
       '#empty_option' => $this->t('Select a flag'),
+    ];
+
+    // Log experiment deviations.
+    $status['experiment_deviation'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Experiment Deviations'),
+      '#description' => $this->t('Please describe any deviations from the experiment plan or observations that might affect the outcome of the experiment.'),
+    ];
+
+    // Log notes.
+    $status['notes'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Notes'),
+      '#description' => $this->t('Any additional notes.'),
     ];
 
     // Include the job status tab.
@@ -1032,6 +1074,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'flag' => $form_state->getValue('flag'),
       'owner' => $form_state->getValue('owner'),
       'category' => $form_state->getValue('log_category', []),
+      'experiment_deviation' => $form_state->getValue('experiment_deviation'),
     ];
 
     // Save assets to log. These may be prepopulated or provided from selected
