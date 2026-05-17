@@ -117,7 +117,7 @@ class QuickCommercialAsset extends QuickFormBase {
     // Crop variety.
     $crop_variety_options = NestedArray::getValue($form_state->getStorage(), ['plant_type']) ?? [];
     if ($crop_id = $form_state->getValue('crop')) {
-      $crop_variety_options = $this->getTermTreeOptions('plant_type', $crop_id);
+      $crop_variety_options = $this->getTermTreeOptions('plant_type', (int) $crop_id);
       NestedArray::setValue($form_state->getStorage(), ['plant_type'], $crop_variety_options);
     }
     $form['crop']['plant_type'] = [

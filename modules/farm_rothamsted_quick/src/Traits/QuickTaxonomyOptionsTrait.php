@@ -37,7 +37,7 @@ trait QuickTaxonomyOptionsTrait {
     // If a parent term exists.
     $options = [];
     if ($parent_term = reset($matching_terms)) {
-      $options = $this->getTermTreeOptions($vocabulary_name, $parent_term->id(), $depth, FALSE);
+      $options = $this->getTermTreeOptions($vocabulary_name, (int) $parent_term->id(), $depth, FALSE);
     }
 
     // Add a warning if empty.
