@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_researcher\Hook;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -21,14 +22,9 @@ class EntityHooks {
   use AutowireTrait;
   use StringTranslationTrait;
 
-  /**
-   * Constructs an EntityHooks object.
-   *
-   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
-   *   The current user.
-   */
   public function __construct(
     protected AccountProxyInterface $currentUser,
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
   /**
@@ -109,7 +105,7 @@ class EntityHooks {
 
     // Query for the current user's researcher profile.
     if ($display->getComponent('researcher_profile')) {
-      $researchers = \Drupal::entityTypeManager()->getStorage('rothamsted_researcher')->loadByProperties([
+      $researchers = $this->entityTypeManager->getStorage('rothamsted_researcher')->loadByProperties([
         'farm_user' => $account->id(),
       ]);
       /** @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher */

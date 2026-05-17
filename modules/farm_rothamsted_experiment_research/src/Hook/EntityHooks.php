@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\entity\BundleFieldDefinition;
@@ -23,13 +24,8 @@ class EntityHooks {
   use AutowireTrait;
   use StringTranslationTrait;
 
-  /**
-   * Constructs an EntityHooks object.
-   *
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   */
   public function __construct(
+    protected AccountProxyInterface $currentUser,
     protected MessengerInterface $messenger,
   ) {}
 
@@ -165,7 +161,7 @@ class EntityHooks {
     }
     // Display link to submit the proposal.
     $url = Url::fromRoute('farm_rothamsted_experiment_research.proposal.submit_form', ['rothamsted_proposal' => $entity->id()], ['query' => ['destination' => $entity->toUrl()->toString()]]);
-    if ($url->access(\Drupal::currentUser())) {
+    if ($url->access($this->currentUser)) {
       $this->messenger->addWarning($this->t('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
     }
   }
