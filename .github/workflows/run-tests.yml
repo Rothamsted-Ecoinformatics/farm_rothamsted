@@ -24,8 +24,8 @@ jobs:
           path: ${{ env.MODULE_NAME }}
       - name: Run farmOS development environment containers.
         run: |
-          curl -O https://raw.githubusercontent.com/farmOS/farmOS/3.x/docker/docker-compose.testing.common.yml
-          curl -O https://raw.githubusercontent.com/farmOS/farmOS/3.x/docker/docker-compose.testing.pgsql.yml
+          curl -O https://raw.githubusercontent.com/farmOS/farmOS/4.x/docker/docker-compose.testing.common.yml
+          curl -O https://raw.githubusercontent.com/farmOS/farmOS/4.x/docker/docker-compose.testing.pgsql.yml
           docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.pgsql.yml config > docker-compose.yml
           docker compose up -d
         env:
