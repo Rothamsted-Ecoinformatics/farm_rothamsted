@@ -27,14 +27,14 @@ class RothamstedStatusConstraint extends SymfonyConstraint {
   /**
    * {@inheritDoc}
    */
-  public function getRequiredOptions() {
+  public function getRequiredOptions(): array {
     return ['requiredStatuses'];
   }
 
   /**
    * {@inheritDoc}
    */
-  public function __set($option, $value) {
+  public function __set($option, $value): void {
     if ('requiredStatuses' === $option) {
       $this->requiredStatuses = $value;
       return;
