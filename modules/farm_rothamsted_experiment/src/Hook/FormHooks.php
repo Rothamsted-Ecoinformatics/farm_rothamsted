@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_experiment\Hook;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\farm_flag\FarmFlagHelper;
 
 /**
  * Form hook implementations for farm_rothamsted_experiment.
@@ -71,7 +72,7 @@ class FormHooks {
       }
 
       // Rewrite flag options.
-      $allowed_options = farm_flag_options('plan', ['rothamsted_experiment'], TRUE);
+      $allowed_options = FarmFlagHelper::flagOptions('plan', ['rothamsted_experiment'], TRUE);
       $form['flag_value']['#options'] = $allowed_options;
     }
   }
