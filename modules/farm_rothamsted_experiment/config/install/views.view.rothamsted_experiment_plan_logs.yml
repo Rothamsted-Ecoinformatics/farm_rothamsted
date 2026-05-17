@@ -1231,8 +1231,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: select
           sub_handler: views
+          widget: select
           sub_handler_settings:
             view:
               view_name: farm_people
@@ -1280,8 +1280,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: views
+          widget: autocomplete
           sub_handler_settings:
             view:
               view_name: farm_asset_reference
@@ -1329,8 +1329,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: views
+          widget: autocomplete
           sub_handler_settings:
             view:
               view_name: farm_location_reference
@@ -1437,6 +1437,7 @@ display:
           empty_table: true
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
         options:

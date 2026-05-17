@@ -789,11 +789,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -808,8 +803,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          widget: autocomplete
           sub_handler: 'default:asset'
+          widget: autocomplete
           sub_handler_settings:
             target_bundles:
               land: land
@@ -846,11 +841,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -892,11 +882,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -941,11 +926,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
@@ -992,11 +972,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
@@ -1040,11 +1015,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -1238,6 +1208,7 @@ display:
           empty_table: true
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
         options:

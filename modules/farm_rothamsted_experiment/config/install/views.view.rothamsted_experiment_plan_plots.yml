@@ -12,7 +12,6 @@ dependencies:
     - options
     - plan
     - rest
-    - state_machine
     - user
     - views_geojson
   enforced:
@@ -618,11 +617,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -742,6 +736,7 @@ display:
           empty_table: true
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
         options:

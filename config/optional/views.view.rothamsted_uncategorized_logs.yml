@@ -829,11 +829,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
@@ -1190,8 +1185,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          widget: select
           sub_handler: views
+          widget: select
           sub_handler_settings:
             view:
               view_name: farm_people
@@ -1239,8 +1234,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          widget: autocomplete
           sub_handler: views
+          widget: autocomplete
           sub_handler_settings:
             view:
               view_name: farm_asset_reference
@@ -1288,8 +1283,8 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: true
-          widget: autocomplete
           sub_handler: views
+          widget: autocomplete
           sub_handler_settings:
             view:
               view_name: farm_location_reference
@@ -1396,6 +1391,7 @@ display:
           empty_table: true
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
         options:
