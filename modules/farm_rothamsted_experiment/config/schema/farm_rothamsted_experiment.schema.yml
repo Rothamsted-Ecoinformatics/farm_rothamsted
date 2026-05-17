@@ -26,9 +26,6 @@ views.filter.plan_plot_type:
 action.configuration.plan_active_action:
   type: action_configuration_default
   label: 'Configuration for the plan status active'
-action.configuration.plan_archived_action:
-  type: action_configuration_default
-  label: 'Configuration for the plan status archived'
 action.configuration.plan_cancelled_action:
   type: action_configuration_default
   label: 'Configuration for the plan status cancelled'
