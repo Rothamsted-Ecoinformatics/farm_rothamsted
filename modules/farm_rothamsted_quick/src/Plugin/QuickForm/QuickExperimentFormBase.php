@@ -9,11 +9,11 @@ use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Element\Checkboxes;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
+use Drupal\farm_flag\FarmFlagHelper;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\farm_quick\Plugin\QuickForm\QuickFormBase;
 use Drupal\farm_quick\Traits\QuickLogTrait;
@@ -679,7 +679,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
 
     // Flags.
-    $flag_options = farm_flag_options('log', [$this->logType]);
+    $flag_options = FarmFlagHelper::flagOptions('log', [$this->logType]);
     $status['general']['flag'] = [
       '#type' => 'select',
       '#title' => $this->t('Flag'),

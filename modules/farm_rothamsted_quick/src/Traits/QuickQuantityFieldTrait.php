@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_quick\Traits;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\quantity\QuantityHelper;
 
 /**
  * Helper functions for building quick form quantity fields.
@@ -52,7 +53,7 @@ trait QuickQuantityFieldTrait {
       'measure' => [
         '#type' => 'select',
         '#title' => $this->t('Measure'),
-        '#options' => quantity_measure_options(),
+        '#options' => QuantityHelper::quantityMeasureOptions(),
         '#weight' => 0,
       ],
       'value' => [
