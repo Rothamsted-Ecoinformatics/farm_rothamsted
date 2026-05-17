@@ -222,7 +222,7 @@ class RothamstedSearchForm extends FormBase {
   public function getFieldResults(string $query): array {
     $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
       ->accessCheck(TRUE)
-      ->condition('status', 'active')
+      ->condition('archived', FALSE)
       ->condition('type', 'land')
       ->condition('land_type', 'field')
       ->condition('name', $query, 'CONTAINS')
@@ -280,7 +280,7 @@ class RothamstedSearchForm extends FormBase {
   public function getPlantResults(string $query): array {
     $asset_query = $this->entityTypeManager->getStorage('asset')->getQuery()
       ->accessCheck(TRUE)
-      ->condition('status', 'active')
+      ->condition('archived', FALSE)
       ->condition('type', 'plant')
       ->sort('name', 'ASC');
     $or = $asset_query->orConditionGroup()
