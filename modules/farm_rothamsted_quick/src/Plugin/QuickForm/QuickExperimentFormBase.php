@@ -849,7 +849,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected function buildDefaults(Request $request) {
 
     // Build common defaults if a log is provided.
-    if ($log_id = $request->get('log')) {
+    if ($log_id = $request->query->get('log')) {
 
       // Save the log.
       $log = $this->entityTypeManager->getStorage('log')->load($log_id);
