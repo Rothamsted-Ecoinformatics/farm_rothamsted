@@ -81,6 +81,7 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
     $uid = $this->currentUser->id();
     $proposal_query = $this->entityTypeManager->getStorage('plan')->getQuery()
       ->accessCheck(TRUE)
+      ->condition('archived', FALSE)
       ->condition('type', 'rothamsted_experiment')
       ->condition('status', $plan_status, 'IN')
       ->sort('name', 'ASC');
