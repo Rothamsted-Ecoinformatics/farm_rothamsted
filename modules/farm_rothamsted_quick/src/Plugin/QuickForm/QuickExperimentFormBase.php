@@ -945,7 +945,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
   protected function getEquipmentOptions(array $equipment_types): array {
     $asset_storage = $this->entityTypeManager->getStorage('asset');
     $assets = $asset_storage->loadByProperties([
-      'status' => 'active',
+      'archived' => FALSE,
       'type' => 'equipment',
       'equipment_type.entity:taxonomy_term.name' => $equipment_types,
     ]);
