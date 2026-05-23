@@ -47,7 +47,7 @@ jobs:
       - name: Run PHPStan
         run: docker compose exec -u www-data -T www phpstan analyze -c /opt/drupal/web/modules/$MODULE_NAME/phpstan.neon /opt/drupal/web/modules/${MODULE_NAME}
       - name: Run PHPUnit tests
-        run: docker compose exec -u www-data -T www phpunit --verbose --debug /opt/drupal/web/modules/${MODULE_NAME}
+        run: docker compose exec -u www-data -T www phpunit /opt/drupal/web/modules/${MODULE_NAME}
       - name: Test installing farmOS and the module
         run: |
           docker compose exec -u www-data -T www drush site-install --db-url=pgsql://farm:farm@db/farm farm farm.modules='base'
