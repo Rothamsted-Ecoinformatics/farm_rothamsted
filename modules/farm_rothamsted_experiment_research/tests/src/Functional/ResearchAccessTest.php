@@ -857,6 +857,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Create a plot and add to the plan.
     $plot = Asset::create([
       'type' => 'plot',
+      'name' => 'Plot 1',
       'plot_id' => 1,
     ]);
     $plot->save();
@@ -996,6 +997,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     // Create a plot and add to the plan.
     $plot = Asset::create([
       'type' => 'plot',
+      'name' => 'Plot 1',
       'plot_id' => 1,
     ]);
     $plot->save();
@@ -1011,6 +1013,7 @@ class ResearchAccessTest extends FarmBrowserTestBase {
     $quantity->save();
     $log = Log::create([
       'type' => 'activity',
+      'name' => 'Activity log',
       'quantity' => $quantity,
     ]);
     $log->save();
