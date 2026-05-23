@@ -316,3 +316,21 @@ function farm_rothamsted_ppe_field_allowed_values(FieldStorageDefinitionInterfac
 function farm_rothamsted_cossh_hazard_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_cossh_hazard_options();
 }
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_removed_post_updates() {
+  return [
+    'farm_rothamsted_post_update_add_harvest_storage_location_field' => '3.x',
+    'farm_rothamsted_post_update_create_drain_structure_type2' => '3.x',
+    'farm_rothamsted_post_update_create_rothamsted_asset_parent_action' => '3.x',
+    'farm_rothamsted_post_update_create_rothamsted_uncategorized_logs_view' => '3.x',
+    'farm_rothamsted_post_update_create_seed_dressing_field' => '3.x',
+    'farm_rothamsted_post_update_remove_rothamsted_asset_parent_action' => '3.x',
+    'farm_rothamsted_post_update_2_10_1_create_rothamsted_date_format' => '3.x',
+    'farm_rothamsted_post_update_2_10_2_enable_experiment_research' => '3.x',
+    'farm_rothamsted_post_update_2_17_enable_role_submodule' => '3.x',
+    'farm_rothamsted_post_update_2_26_map_snapshot' => '3.x',
+  ];
+}

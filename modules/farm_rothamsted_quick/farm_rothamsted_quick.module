@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted_quick.module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_quick_removed_post_updates() {
+  return [
+    'farm_rothamsted_quick_post_update_create_rothamsted_quick_logs_view' => '3.x',
+    'farm_rothamsted_quick_post_update_create_rothamsted_quick_location_reference_view' => '3.x',
+    'farm_rothamsted_quick_post_update_log_categories_288' => '3.x',
+    'farm_rothamsted_quick_post_update_seed_dressing_notes_2' => '3.x',
+    'farm_rothamsted_quick_post_update_material_quantities' => '3.x',
+    'farm_rothamsted_quick_post_update_2_11_3_fix_missing_asset_references' => '3.x',
+    'farm_rothamsted_quick_post_update_2_30_require_tagify' => '3.x',
+    'farm_rothamsted_quick_post_update_2_30_update_quantity_label' => '3.x',
+  ];
+}

@@ -664,3 +664,35 @@ function farm_rothamsted_experiment_research_entity_update(EntityInterface $enti
       return;
   }
 }
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_experiment_research_removed_post_updates() {
+  return [
+    'farm_rothamsted_experiment_research_post_update_move_rotation_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_proposal_fields_6' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_statistical_design' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_program_notes' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_design_restriction_mgmt' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_experiment_code' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_11_proposal_comment' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_12_proposal_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_12_design_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_13_1_file_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_13_2_design_crop_field' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_14_add_year_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_15_add_design_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_17_proposal_comment_review' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_17_migrate_design_plot_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_17_remove_design_as_treatment_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_17_add_design_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_17_update_research_roles' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_18_remove_old_design_fields' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_19_update_proposal_postponed_status' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_21_comments' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_26_add_study_id_field' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_26_research_entity_status_change_actions' => '3.x',
+    'farm_rothamsted_experiment_research_post_update_2_30_log_experiment_deviation_field' => '3.x',
+  ];
+}

@@ -31,3 +31,17 @@ function farm_rothamsted_researcher_rothamsted_researcher_access(EntityInterface
   // Else return neutral.
   return AccessResult::neutral();
 }
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_researcher_removed_post_updates() {
+  return [
+    'farm_rothamsted_researcher_post_update_2_12_create_researcher_reference_view' => '3.x',
+    'farm_rothamsted_researcher_post_update_2_14_remove_orcid_prefix' => '3.x',
+    'farm_rothamsted_researcher_post_update_2_16_notification_field' => '3.x',
+    'farm_rothamsted_researcher_post_update_2_18_remove_email_notification_fields' => '3.x',
+    'farm_rothamsted_researcher_post_update_2_21_comments' => '3.x',
+    'farm_rothamsted_researcher_post_update_2_28_multiple_roles' => '3.x',
+  ];
+}

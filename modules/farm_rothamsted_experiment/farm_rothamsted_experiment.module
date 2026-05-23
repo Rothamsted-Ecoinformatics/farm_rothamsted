@@ -64,3 +64,33 @@ function farm_rothamsted_experiment_plot_type_options() {
 function farm_rothamsted_experiment_plot_type_field_allowed_values(FieldStorageDefinitionInterface $definition, ?ContentEntityInterface $entity = NULL, bool &$cacheable = TRUE) {
   return farm_rothamsted_experiment_plot_type_options();
 }
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_experiment_removed_post_updates() {
+  return [
+    'farm_rothamsted_experiment_post_update_create_experiment_boundary_land_type' => '3.x',
+    'farm_rothamsted_experiment_post_update_create_experiment_link_fields' => '3.x',
+    'farm_rothamsted_experiment_post_update_uninstall_people_fields' => '3.x',
+    'farm_rothamsted_experiment_post_update_create_contact_field' => '3.x',
+    'farm_rothamsted_experiment_post_update_location_field_reference_asset' => '3.x',
+    'farm_rothamsted_experiment_post_update_update_plot_location' => '3.x',
+    'farm_rothamsted_experiment_post_update_create_sponsor_experiment_admin_roles' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_10_1_enable_datetime' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_10_2_add_plan_fields' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_11_experiment_fields' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_11_remove_restriction_mgmt' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_11_cleanup_experiment_plan_fields' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_13_add_generic_link_field' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_13_migrate_experiment_code_study_period' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_13_uninstall_contact_field' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_14_uninstall_experiment_code_field' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_17_remove_roles' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_19_update_plan_terminated_status' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_19_remove_field_group' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_25_parse_asset_kml_to_wkt' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_26_plan_status_change_actions' => '3.x',
+    'farm_rothamsted_experiment_post_update_2_30_add_file_fields' => '3.x',
+  ];
+}

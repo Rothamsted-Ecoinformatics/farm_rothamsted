@@ -56,3 +56,15 @@ function farm_rothamsted_notification_compare_entity_fields(array $array1, array
   }
   return $difference;
 }
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_notification_removed_post_updates() {
+  return [
+    'farm_rothamsted_notification_post_update_2_18_move_email_notification_field' => '3.x',
+    'farm_rothamsted_notification_post_update_2_19_add_log_notification_field' => '3.x',
+    'farm_rothamsted_notification_post_update_2_21_add_fields' => '3.x',
+    'farm_rothamsted_notification_post_update_2_22_add_fields' => '3.x',
+  ];
+}

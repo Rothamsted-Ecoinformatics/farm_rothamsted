@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Contains farm_rothamsted_roles.module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_removed_post_updates().
+ */
+function farm_rothamsted_roles_removed_post_updates() {
+  return [
+    'farm_rothamsted_roles_post_update_2_19_create_consumer' => '3.x',
+  ];
+}
