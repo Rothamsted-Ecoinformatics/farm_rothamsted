@@ -600,7 +600,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
         $plan->id(),
         $experiment_code,
         $plot_attributes_mapping,
-        (boolean) $form_state->getValue('reset_geometry') ?? FALSE,
+        (bool) $form_state->getValue('reset_geometry') ?? FALSE,
         $columns_map,
         $column_levels_map,
         $revision_message,
