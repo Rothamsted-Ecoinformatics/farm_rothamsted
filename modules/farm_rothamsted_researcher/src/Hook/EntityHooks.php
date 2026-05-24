@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_researcher\Hook;
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
@@ -152,6 +156,27 @@ class EntityHooks {
         '#markup' => '<h4 class="label">' . $this->t('farmOS User profile') . '</h4> ' . $user->toLink($user->label())->toString() . $role_labels,
       ];
     }
+  }
+
+  /**
+   * Implements hook_ENTITY_TYPE_access().
+   */
+  #[Hook('rothamsted_researcher_access')]
+  public function rothamstedResearcherAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+
+    // Only check view and update operations.
+    if (!in_array($operation, ['update', 'view']) || $entity->get('farm_user')->isEmpty()) {
+      return AccessResult::neutral();
+    }
+
+    // Only check if the farm_user is the current user.
+    if ($entity->farm_user->entity->id() == $account->id()) {
+      // Allow access if the user has the view/update own permission.
+      return AccessResultAllowed::allowedIf($account->hasPermission("$operation assigned rothamsted_researcher"));
+    }
+
+    // Else return neutral.
+    return AccessResult::neutral();
   }
 
 }
