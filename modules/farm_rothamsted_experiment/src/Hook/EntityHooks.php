@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Hook;
 
-use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -18,7 +17,6 @@ use Drupal\Core\Url;
  */
 class EntityHooks {
 
-  use AutowireTrait;
   use StringTranslationTrait;
 
   /**

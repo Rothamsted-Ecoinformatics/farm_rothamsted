@@ -6,7 +6,6 @@ namespace Drupal\farm_rothamsted_researcher\Hook;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultAllowed;
-use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -23,7 +22,6 @@ use Drupal\user\UserInterface;
  */
 class EntityHooks {
 
-  use AutowireTrait;
   use StringTranslationTrait;
 
   public function __construct(

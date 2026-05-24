@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_notification\Hook;
 
-use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Url;
@@ -14,8 +13,6 @@ use Drupal\Core\Utility\Token;
  * Mail hook implementations for farm_rothamsted_notification.
  */
 class MailHooks {
-
-  use AutowireTrait;
 
   /**
    * Constructs a MailHooks object.

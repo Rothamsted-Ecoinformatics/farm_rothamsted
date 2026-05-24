@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_roles\Hook;
 
-use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -16,7 +15,6 @@ use Drupal\user\UserInterface;
  */
 class EntityHooks {
 
-  use AutowireTrait;
   use StringTranslationTrait;
 
   /**

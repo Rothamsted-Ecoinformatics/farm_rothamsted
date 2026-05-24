@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment\Hook;
 
-use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Link;
@@ -20,7 +19,6 @@ use Drupal\plan\Entity\PlanInterface;
  */
 class HelpHooks {
 
-  use AutowireTrait;
   use StringTranslationTrait;
 
   /**
