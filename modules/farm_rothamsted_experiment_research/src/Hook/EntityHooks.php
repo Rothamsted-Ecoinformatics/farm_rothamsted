@@ -17,7 +17,6 @@ use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\comment\CommentInterface;
@@ -28,8 +27,6 @@ use Drupal\farm_rothamsted_experiment_research\ResearchNotificationHandler;
  * Entity hook implementations for farm_rothamsted_experiment_research.
  */
 class EntityHooks {
-
-  use StringTranslationTrait;
 
   public function __construct(
     protected AccountProxyInterface $currentUser,
@@ -50,7 +47,7 @@ class EntityHooks {
 
       // Reference to the experiment design.
       $fields['experiment_design'] = BundleFieldDefinition::create('entity_reference')
-        ->setLabel($this->t('Experiment Design'))
+        ->setLabel(new TranslatableMarkup('Experiment Design'))
         ->setRevisionable(TRUE)
         ->setRequired(TRUE)
         ->setSetting('target_type', 'rothamsted_design')
@@ -192,7 +189,7 @@ class EntityHooks {
     // Display link to submit the proposal.
     $url = Url::fromRoute('farm_rothamsted_experiment_research.proposal.submit_form', ['rothamsted_proposal' => $entity->id()], ['query' => ['destination' => $entity->toUrl()->toString()]]);
     if ($url->access($this->currentUser)) {
-      $this->messenger->addWarning($this->t('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
+      $this->messenger->addWarning(new TranslatableMarkup('This proposal is currently in a draft state. Click here to <a href="@url">submit proposal</a>', ['@url' => $url->setAbsolute()->toString()]));
     }
   }
 

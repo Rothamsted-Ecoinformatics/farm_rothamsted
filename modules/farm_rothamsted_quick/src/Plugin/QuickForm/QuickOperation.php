@@ -57,8 +57,8 @@ class QuickOperation extends QuickExperimentFormBase {
     $form['setup']['log_category'] = [];
     $form['setup']['log_category']['log_category_parent'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Log category type'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Log category type'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#mode' => 'select',
       '#options' => $parent_category_options,
       '#default_value' => '',
@@ -94,8 +94,8 @@ class QuickOperation extends QuickExperimentFormBase {
     // Finally, add log_category single select.
     $form['setup']['log_category']['log_category'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Log category'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Log category'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#mode' => 'select',
       '#options' => $category_options,
       '#required' => TRUE,
@@ -113,7 +113,7 @@ class QuickOperation extends QuickExperimentFormBase {
     // Task tab.
     $task = [
       '#type' => 'details',
-      '#title' => $this->t('Task'),
+      '#title' => new TranslatableMarkup('Task'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -127,16 +127,16 @@ class QuickOperation extends QuickExperimentFormBase {
       'in' => 'in',
     ];
     $task['info']['depth'] = $this->buildQuantityField([
-      'title' => $this->t('Depth worked'),
-      'description' => $this->t('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
+      'title' => new TranslatableMarkup('Depth worked'),
+      'description' => new TranslatableMarkup('Put "0" for surface cultivation (e.g. rolling) or leave blank if the operation does not relate to soil movement (e.g. mowing).'),
       'measure' => ['#value' => 'length'],
       'units' => ['#options' => $depth_worked_units_options],
     ]);
 
     // Working width.
     $task['info']['working_width'] = $this->buildQuantityField([
-      'title' => $this->t('Working width'),
-      'description' => $this->t('The working width of any machinery in meters, where applicable.'),
+      'title' => new TranslatableMarkup('Working width'),
+      'description' => new TranslatableMarkup('The working width of any machinery in meters, where applicable.'),
       'measure' => ['#value' => 'length'],
       'units' => ['#value' => 'm'],
     ]);
@@ -157,8 +157,8 @@ class QuickOperation extends QuickExperimentFormBase {
     // Direction of work (driven).
     $task['info']['direction'] = [
       '#type' => 'select',
-      '#title' => $this->t('Direction of work driven'),
-      '#description' => $this->t('The direction driven, where relevant.'),
+      '#title' => new TranslatableMarkup('Direction of work driven'),
+      '#description' => new TranslatableMarkup('The direction driven, where relevant.'),
       '#options' => array_combine($direction_options, $direction_options),
       '#weight' => 12,
     ];
@@ -166,7 +166,7 @@ class QuickOperation extends QuickExperimentFormBase {
     // Plough thrown (if applicable).
     $task['info']['thrown'] = [
       '#type' => 'select',
-      '#title' => $this->t('Plough thrown (if applicable)'),
+      '#title' => new TranslatableMarkup('Plough thrown (if applicable)'),
       '#options' => array_combine($direction_options, $direction_options),
       '#weight' => 13,
     ];
@@ -177,8 +177,8 @@ class QuickOperation extends QuickExperimentFormBase {
       'gal' => 'gal',
     ];
     $task['water_volume'] = $this->buildQuantityField([
-      'title' => $this->t('Water volume'),
-      'description' => $this->t('The total amount of water used.'),
+      'title' => new TranslatableMarkup('Water volume'),
+      'description' => new TranslatableMarkup('The total amount of water used.'),
       'measure' => ['#value' => 'volume'],
       'units' => ['#options' => $water_volume_units_options],
     ]);
@@ -188,8 +188,8 @@ class QuickOperation extends QuickExperimentFormBase {
       'mm' => 'mm',
     ];
     $task['water_rate'] = $this->buildQuantityField([
-      'title' => $this->t('Water rate'),
-      'description' => $this->t('Used for recording irrigation. The amount of water applied in mm as a rain gauge would record it. A water rate of 1mm = 10m3 water/ha. For older systems measuring in inches, 24mm is equivalent to an inch of rain (12mm for half an inch).'),
+      'title' => new TranslatableMarkup('Water rate'),
+      'description' => new TranslatableMarkup('Used for recording irrigation. The amount of water applied in mm as a rain gauge would record it. A water rate of 1mm = 10m3 water/ha. For older systems measuring in inches, 24mm is equivalent to an inch of rain (12mm for half an inch).'),
       'measure' => ['#value' => 'length'],
       'units' => ['#options' => $water_rate_units_options],
     ]);
@@ -206,8 +206,8 @@ class QuickOperation extends QuickExperimentFormBase {
     // Justification/Target.
     $operation['justification_target'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Justification/Target'),
-      '#description' => $this->t('The reason the operation is necessary, and any target pest(s) where applicable.'),
+      '#title' => new TranslatableMarkup('Justification/Target'),
+      '#description' => new TranslatableMarkup('The reason the operation is necessary, and any target pest(s) where applicable.'),
       '#weight' => 15,
     ];
 
@@ -272,15 +272,15 @@ class QuickOperation extends QuickExperimentFormBase {
       ...[
         [
           'key' => 'direction',
-          'label' => $this->t('Direction of work driven'),
+          'label' => new TranslatableMarkup('Direction of work driven'),
         ],
         [
           'key' => 'thrown',
-          'label' => $this->t('Plough thrown'),
+          'label' => new TranslatableMarkup('Plough thrown'),
         ],
         [
           'key' => 'justification_target',
-          'label' => $this->t('Justification/Target'),
+          'label' => new TranslatableMarkup('Justification/Target'),
         ],
       ]
     );

@@ -13,7 +13,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\user\UserInterface;
 
@@ -21,8 +21,6 @@ use Drupal\user\UserInterface;
  * Entity hook implementations for farm_rothamsted_researcher.
  */
 class EntityHooks {
-
-  use StringTranslationTrait;
 
   public function __construct(
     protected AccountProxyInterface $currentUser,
@@ -87,13 +85,13 @@ class EntityHooks {
   #[Hook('entity_extra_field_info')]
   public function entityExtraFieldInfo(): array {
     $fields['user']['user']['display']['researcher_profile'] = [
-      'label' => $this->t('Researcher profile roles'),
-      'description' => $this->t("The user's researcher profile."),
+      'label' => new TranslatableMarkup('Researcher profile roles'),
+      'description' => new TranslatableMarkup("The user's researcher profile."),
       'weight' => -5,
     ];
     $fields['rothamsted_researcher']['rothamsted_researcher']['display']['user_profile'] = [
-      'label' => $this->t('User profile'),
-      'description' => $this->t('The researcher user profile.'),
+      'label' => new TranslatableMarkup('User profile'),
+      'description' => new TranslatableMarkup('The researcher user profile.'),
       'weight' => 0,
     ];
     return $fields;
@@ -114,7 +112,7 @@ class EntityHooks {
       if ($researcher = reset($researchers)) {
         $build['researcher_profile'] = [
           '#type' => 'item',
-          '#markup' => '<h4 class="label">' . $this->t('Researcher profile') . '</h4> ' . $researcher->toLink($researcher->label())->toString(),
+          '#markup' => '<h4 class="label">' . new TranslatableMarkup('Researcher profile') . '</h4> ' . $researcher->toLink($researcher->label())->toString(),
         ];
       }
     }
@@ -151,7 +149,7 @@ class EntityHooks {
       // Build text.
       $build['researcher_profile'] = [
         '#type' => 'item',
-        '#markup' => '<h4 class="label">' . $this->t('farmOS User profile') . '</h4> ' . $user->toLink($user->label())->toString() . $role_labels,
+        '#markup' => '<h4 class="label">' . new TranslatableMarkup('farmOS User profile') . '</h4> ' . $user->toLink($user->label())->toString() . $role_labels,
       ];
     }
   }

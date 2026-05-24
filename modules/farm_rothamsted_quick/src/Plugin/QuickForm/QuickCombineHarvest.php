@@ -53,22 +53,22 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
 
     // Change the tractor field to load Combine and Forage Harvester equipment.
     $combine_options = $this->getEquipmentOptions(['Combine and Forage Harvesters']);
-    $form['setup']['equipment_wrapper']['tractor']['#title'] = $this->t('Combine/Forage Harvester');
-    $form['setup']['equipment_wrapper']['tractor']['#description'] = $this->t('Select the combine or forage harvester used for this operation. You can expand this list by assigning Equipment Assets as “Combine and Forage Harvesters".');
+    $form['setup']['equipment_wrapper']['tractor']['#title'] = new TranslatableMarkup('Combine/Forage Harvester');
+    $form['setup']['equipment_wrapper']['tractor']['#description'] = new TranslatableMarkup('Select the combine or forage harvester used for this operation. You can expand this list by assigning Equipment Assets as “Combine and Forage Harvesters".');
     $form['setup']['equipment_wrapper']['tractor']['#options'] = $combine_options;
 
     // Harvest data tab.
     $harvest = [
       '#type' => 'details',
-      '#title' => $this->t('Harvest Data'),
+      '#title' => new TranslatableMarkup('Harvest Data'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
 
     $harvest['harvest_lot_number'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Harvest lot number'),
-      '#description' => $this->t('The RRES harvest number, where applicable.'),
+      '#title' => new TranslatableMarkup('Harvest lot number'),
+      '#description' => new TranslatableMarkup('The RRES harvest number, where applicable.'),
     ];
 
     // Common trailer weight units.
@@ -80,8 +80,8 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
 
     // Machine yield estimate.
     $harvest['machine_yield_estimate'] = $this->buildQuantityField([
-      'title' => $this->t('Machine yield estimate'),
-      'description' => $this->t('The machine yield estimate as produced by the combine or forage harvester.'),
+      'title' => new TranslatableMarkup('Machine yield estimate'),
+      'description' => new TranslatableMarkup('The machine yield estimate as produced by the combine or forage harvester.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
@@ -89,8 +89,8 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
     // Harvest form.
     $harvest['operation']['harvest_form'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Harvest form'),
-      '#description' => $this->t('Please upload the harvest form where relevant for experiments.'),
+      '#title' => new TranslatableMarkup('Harvest form'),
+      '#description' => new TranslatableMarkup('Please upload the harvest form where relevant for experiments.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validFileExtensions,
@@ -102,8 +102,8 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
     // Digital harvest records.
     $harvest['operation']['digital_harvest_records'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Digital harvest record(s)'),
-      '#description' => $this->t('Please upload any digital records associated with this harvest (yields, crop samples, etc).'),
+      '#title' => new TranslatableMarkup('Digital harvest record(s)'),
+      '#description' => new TranslatableMarkup('Please upload any digital records associated with this harvest (yields, crop samples, etc).'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validFileExtensions,

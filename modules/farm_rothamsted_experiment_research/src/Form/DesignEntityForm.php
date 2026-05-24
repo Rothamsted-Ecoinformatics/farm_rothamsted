@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Form;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Design entity form class.
@@ -18,7 +19,7 @@ class DesignEntityForm extends ResearchEntityForm {
   public function getTabDefinitions() {
     return [
       'description' => [
-        'title' => $this->t('Description'),
+        'title' => new TranslatableMarkup('Description'),
         'weight' => 0,
         'fields' => [
           'experiment',
@@ -30,7 +31,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'rotation' => [
-        'title' => $this->t('Rotation'),
+        'title' => new TranslatableMarkup('Rotation'),
         'weight' => 5,
         'fields' => [
           'previous_cropping',
@@ -44,7 +45,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'layout' => [
-        'title' => $this->t('In-Field Layout'),
+        'title' => new TranslatableMarkup('In-Field Layout'),
         'weight' => 10,
         'fields' => [
           'layout_description',
@@ -54,7 +55,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'statistical_design' => [
-        'title' => $this->t('Statistical Design'),
+        'title' => new TranslatableMarkup('Statistical Design'),
         'weight' => 15,
         'fields' => [
           'objective',
@@ -74,7 +75,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'restriction' => [
-        'title' => $this->t('Restrictions'),
+        'title' => new TranslatableMarkup('Restrictions'),
         'weight' => 20,
         'fields' => [
           'restriction_crop',
@@ -93,7 +94,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_seed' => [
-        'title' => $this->t('Seed'),
+        'title' => new TranslatableMarkup('Seed'),
         'weight' => 25,
         'fields' => [
           'mgmt_seed_treatments',
@@ -102,7 +103,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_cultivation' => [
-        'title' => $this->t('Cultivation'),
+        'title' => new TranslatableMarkup('Cultivation'),
         'weight' => 25,
         'fields' => [
           'mgmt_ploughing',
@@ -111,7 +112,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_planting' => [
-        'title' => $this->t('Planting'),
+        'title' => new TranslatableMarkup('Planting'),
         'weight' => 25,
         'fields' => [
           'mgmt_planting_date',
@@ -122,7 +123,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_spraying' => [
-        'title' => $this->t('Spraying'),
+        'title' => new TranslatableMarkup('Spraying'),
         'weight' => 25,
         'fields' => [
           'mgmt_fungicide',
@@ -134,14 +135,14 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_irrigation' => [
-        'title' => $this->t('Irrigation'),
+        'title' => new TranslatableMarkup('Irrigation'),
         'weight' => 25,
         'fields' => [
           'mgmt_irrigation',
         ],
       ],
       'mgmt_nutrition' => [
-        'title' => $this->t('Nutrition'),
+        'title' => new TranslatableMarkup('Nutrition'),
         'weight' => 25,
         'fields' => [
           'mgmt_organic_amendments',
@@ -155,7 +156,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_harvest' => [
-        'title' => $this->t('Harvest'),
+        'title' => new TranslatableMarkup('Harvest'),
         'weight' => 25,
         'fields' => [
           'mgmt_grain_harvest',
@@ -164,7 +165,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_post_harvest' => [
-        'title' => $this->t('Post-harvest'),
+        'title' => new TranslatableMarkup('Post-harvest'),
         'weight' => 25,
         'fields' => [
           'mgmt_post_harvest',
@@ -172,14 +173,14 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'mgmt_other' => [
-        'title' => $this->t('Other'),
+        'title' => new TranslatableMarkup('Other'),
         'weight' => 25,
         'fields' => [
           'mgmt_other',
         ],
       ],
       'file' => [
-        'title' => $this->t('Files'),
+        'title' => new TranslatableMarkup('Files'),
         'weight' => 28,
         'fields' => [
           'file',
@@ -188,7 +189,7 @@ class DesignEntityForm extends ResearchEntityForm {
         ],
       ],
       'status' => [
-        'title' => $this->t('Status'),
+        'title' => new TranslatableMarkup('Status'),
         'weight' => 30,
         'fields' => [
           'status',
@@ -207,8 +208,8 @@ class DesignEntityForm extends ResearchEntityForm {
     $has_rotation = !$this->entity->get('rotation_name')->isEmpty();
     $form['add_rotation'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Add rotation'),
-      '#description' => $this->t('If the design is a rotation for the experiment please define the rotation below.'),
+      '#title' => new TranslatableMarkup('Add rotation'),
+      '#description' => new TranslatableMarkup('If the design is a rotation for the experiment please define the rotation below.'),
       '#default_value' => $has_rotation,
       // This weight works to render below Rotation treatment but is fragile.
       '#weight' => 40,
@@ -226,7 +227,7 @@ class DesignEntityForm extends ResearchEntityForm {
     $management_tab = 'tab_management';
     $form[$management_tab] = [
       '#type' => 'details',
-      '#title' => $this->t('Management'),
+      '#title' => new TranslatableMarkup('Management'),
       '#group' => 'tabs',
       '#weight' => 25,
     ];

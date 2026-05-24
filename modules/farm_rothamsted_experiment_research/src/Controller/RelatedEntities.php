@@ -9,6 +9,7 @@ use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
@@ -29,7 +30,7 @@ class RelatedEntities extends ControllerBase {
    *   Title.
    */
   public function title() {
-    return $this->t('Quick Links');
+    return new TranslatableMarkup('Quick Links');
   }
 
   /**
@@ -330,7 +331,7 @@ class RelatedEntities extends ControllerBase {
         '#theme' => 'admin_block',
         '#weight' => 0,
         '#block' => [
-          'title' => $this->t('Programs'),
+          'title' => new TranslatableMarkup('Programs'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $program_links,
@@ -351,7 +352,7 @@ class RelatedEntities extends ControllerBase {
         '#theme' => 'admin_block',
         '#weight' => 10,
         '#block' => [
-          'title' => $this->t('Proposals'),
+          'title' => new TranslatableMarkup('Proposals'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $proposal_links,
@@ -372,7 +373,7 @@ class RelatedEntities extends ControllerBase {
         '#theme' => 'admin_block',
         '#weight' => 20,
         '#block' => [
-          'title' => $this->t('Experiments'),
+          'title' => new TranslatableMarkup('Experiments'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $experiment_links,
@@ -393,7 +394,7 @@ class RelatedEntities extends ControllerBase {
         '#theme' => 'admin_block',
         '#weight' => 40,
         '#block' => [
-          'title' => $this->t('Designs'),
+          'title' => new TranslatableMarkup('Designs'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $design_links,
@@ -414,7 +415,7 @@ class RelatedEntities extends ControllerBase {
         '#theme' => 'admin_block',
         '#weight' => 60,
         '#block' => [
-          'title' => $this->t('Plans'),
+          'title' => new TranslatableMarkup('Plans'),
           'content' => [
             '#theme' => 'admin_block_content',
             '#content' => $plan_links,

@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Checkboxes;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_flag\FarmFlagHelper;
@@ -141,7 +142,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Setup tab.
     $setup = [
       '#type' => 'details',
-      '#title' => $this->t('Setup'),
+      '#title' => new TranslatableMarkup('Setup'),
       '#group' => 'tabs',
       '#weight' => -10,
     ];
@@ -149,7 +150,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Products applied tab.
     $products = [
       '#type' => 'details',
-      '#title' => $this->t('Products applied'),
+      '#title' => new TranslatableMarkup('Products applied'),
       '#group' => 'tabs',
       '#weight' => 5,
     ];
@@ -157,7 +158,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Operation tab.
     $operation = [
       '#type' => 'details',
-      '#title' => $this->t('Operation'),
+      '#title' => new TranslatableMarkup('Operation'),
       '#group' => 'tabs',
       '#weight' => 10,
     ];
@@ -165,7 +166,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Job status tab.
     $status = [
       '#type' => 'details',
-      '#title' => $this->t('Job Status'),
+      '#title' => new TranslatableMarkup('Job Status'),
       '#group' => 'tabs',
       '#weight' => 15,
     ];
@@ -176,7 +177,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Assets wrapper.
     $setup['asset_wrapper'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Assets'),
+      '#title' => new TranslatableMarkup('Assets'),
       '#prefix' => '<div id="asset-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -189,7 +190,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Plot asset(s) already selected. You can only select plant or plot assets.
     if (!empty($assets)) {
-      $setup['asset_wrapper']['#description'] = $this->t('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
+      $setup['asset_wrapper']['#description'] = new TranslatableMarkup('The plant asset that this log relates to. These are prepopulated and cannot be changed. Start a new quick form to select individual assets.');
 
       // Build asset options.
       $asset_options = array_map(function (AssetInterface $asset) {
@@ -206,7 +207,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       // Add button to clear prepopulated.
       $setup['asset_wrapper']['clear'] = [
         '#type' => 'submit',
-        '#value' => $this->t('Clear selected'),
+        '#value' => new TranslatableMarkup('Clear selected'),
         '#submit' => [
           [$this, 'clearPrepopulatedEntitiesCallback'],
         ],
@@ -219,8 +220,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       // Location.
       $setup['location'] = [
         '#type' => 'entity_autocomplete',
-        '#title' => $this->t('Location'),
-        '#description' => $this->t('Search by field locations to add plant assets that this log relates to.'),
+        '#title' => new TranslatableMarkup('Location'),
+        '#description' => new TranslatableMarkup('Search by field locations to add plant assets that this log relates to.'),
         '#target_type' => 'asset',
         '#selection_handler' => 'views',
         '#selection_settings' => [
@@ -324,13 +325,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Add description above the first asset checkboxes.
         if (!isset($setup['asset_wrapper']['assets'][0])) {
           $setup['asset_wrapper']['description']['#weight'] = -50;
-          $setup['asset_wrapper']['description']['#markup'] = $this->t('Select the plant assets that this log applies to. If this log relates to more than one asset in a location, select all the assets which apply.');
+          $setup['asset_wrapper']['description']['#markup'] = new TranslatableMarkup('Select the plant assets that this log applies to. If this log relates to more than one asset in a location, select all the assets which apply.');
         }
 
         // Add asset checkboxes.
         $setup['asset_wrapper']['assets'][] = [
           '#type' => 'checkboxes',
-          '#title' => $this->t('Assets in %name', ['%name' => $location->label()]),
+          '#title' => new TranslatableMarkup('Assets in %name', ['%name' => $location->label()]),
           '#options' => $asset_options,
           '#required' => TRUE,
         ];
@@ -342,7 +343,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $category_options = $this->getChildTermOptionsByName('log_category', $this->parentLogCategoryName);
       $setup['log_category'] = [
         '#type' => 'checkboxes',
-        '#title' => $this->t('Log category'),
+        '#title' => new TranslatableMarkup('Log category'),
         '#required' => TRUE,
         '#options' => $category_options,
         '#multiple' => TRUE,
@@ -355,8 +356,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Scheduled date and time.
     $setup['time']['timestamp'] = [
       '#type' => 'datetime',
-      '#title' => $this->t('Operation start date and time'),
-      '#description' => $this->t('The start date and time of the operation.'),
+      '#title' => new TranslatableMarkup('Operation start date and time'),
+      '#description' => new TranslatableMarkup('The start date and time of the operation.'),
       '#default_value' => new DrupalDateTime(),
       '#date_time_element' => 'time',
       '#required' => TRUE,
@@ -365,8 +366,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Tractor hours start.
     $setup['time']['tractor_hours_start'] = $this->buildQuantityField([
-      'title' => $this->t('Tractor hours (start)'),
-      'description' => $this->t('The number of tractor hours displayed at the start of the job.'),
+      'title' => new TranslatableMarkup('Tractor hours (start)'),
+      'description' => new TranslatableMarkup('The number of tractor hours displayed at the start of the job.'),
       'measure' => ['#value' => 'count'],
       'units' => ['#value' => 'hours'],
       'required' => TRUE,
@@ -381,9 +382,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $tags_identifier = 'tractor';
       $setup['equipment_wrapper']['tractor'] = [
         '#type' => 'select_tagify',
-        '#title' => $this->t('Tractor'),
-        '#description' => $this->t('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets as "Tractor Equipment".'),
-        '#placeholder' => $this->t('Start typing to search available options...'),
+        '#title' => new TranslatableMarkup('Tractor'),
+        '#description' => new TranslatableMarkup('Select the tractor used for this operation. You can expand the list by assigning Equipment Assets as "Tractor Equipment".'),
+        '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
         '#required' => TRUE,
         '#options' => $tractor_options,
         '#default_value' => $this->defaultValues['tractor'] ?? NULL,
@@ -403,8 +404,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $setup['equipment_wrapper']['machinery'] = [
         '#type' => 'select_tagify',
         '#title' => $machinery_options_string,
-        '#description' => $this->t('Select all the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names".', ['@equipment_type_names' => $machinery_options_string]),
-        '#placeholder' => $this->t('Start typing to search available options...'),
+        '#description' => new TranslatableMarkup('Select all the equipment used for this operation. You can expand the list by assigning Equipment Assets as "@equipment_type_names".', ['@equipment_type_names' => $machinery_options_string]),
+        '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
         '#required' => TRUE,
         '#multiple' => TRUE,
         '#options' => $equipment_options,
@@ -420,23 +421,23 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Equipment settings.
     $setup['equipment_settings'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Equipment Settings'),
-      '#description' => $this->t('An option to include any notes on the specific equipment settings used.'),
+      '#title' => new TranslatableMarkup('Equipment Settings'),
+      '#description' => new TranslatableMarkup('An option to include any notes on the specific equipment settings used.'),
       '#default_value' => $this->defaultValues['notes']['Equipment Settings'] ?? NULL,
     ];
 
     // Recommendation Number - text - optional.
     $setup['recommendation_number'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Recommendation Number'),
-      '#description' => $this->t('A recommendation or reference number from the agronomist or crop consultant.'),
+      '#title' => new TranslatableMarkup('Recommendation Number'),
+      '#description' => new TranslatableMarkup('A recommendation or reference number from the agronomist or crop consultant.'),
     ];
 
     // Recommendation files.
     $setup['recommendation_files'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Recommendation files'),
-      '#description' => $this->t('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
+      '#title' => new TranslatableMarkup('Recommendation files'),
+      '#description' => new TranslatableMarkup('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validFileExtensions,
@@ -452,7 +453,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $product_values = range($this->productsMinimum, 10);
     $products['product_count'] = [
       '#type' => 'select',
-      '#title' => $this->t('How many products?'),
+      '#title' => new TranslatableMarkup('How many products?'),
       '#options' => array_combine($product_values, $product_values),
       '#default_value' => $this->productsMinimum,
       '#ajax' => [
@@ -481,7 +482,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Fieldset for each product.
         $products['products'][$i] = [
           '#type' => 'details',
-          '#title' => $this->t('Product @number', ['@number' => $i + 1]),
+          '#title' => new TranslatableMarkup('Product @number', ['@number' => $i + 1]),
           '#collapsible' => TRUE,
           '#open' => TRUE,
         ];
@@ -514,9 +515,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         $tags_identifier = "product_type-$i";
         $product_wrapper['product_type'] = [
           '#type' => 'select_tagify',
-          '#title' => $this->t('Product type'),
-          '#description' => $this->t('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
-          '#placeholder' => $this->t('Start typing to search available options...'),
+          '#title' => new TranslatableMarkup('Product type'),
+          '#description' => new TranslatableMarkup('A list of different product types (manure, compost, fertiliser, etc). The list can be expanded or amended in the inputs taxonomy.'),
+          '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
           '#required' => TRUE,
           '#options' => $product_type_options,
           '#mode' => 'select',
@@ -535,9 +536,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         $tags_identifier = "product-$i";
         $product_wrapper['product'] = [
           '#type' => 'select_tagify',
-          '#title' => $this->t('Product'),
-          '#description' => $this->t('The product used.'),
-          '#placeholder' => $this->t('Start typing to search available options...'),
+          '#title' => new TranslatableMarkup('Product'),
+          '#description' => new TranslatableMarkup('The product used.'),
+          '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
           '#options' => $product_options,
           '#required' => TRUE,
           '#mode' => 'select',
@@ -553,7 +554,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         // Product application rate units.
         $application_rate_units_options = $this->getChildTermOptionsByName('unit', 'Volume per unit area');
         $product_application_rate = [
-          'title' => $this->t('Product rate'),
+          'title' => new TranslatableMarkup('Product rate'),
           'type' => ['#value' => 'material'],
           'measure' => ['#value' => 'rate'],
           'units' => ['#options' => $application_rate_units_options],
@@ -565,14 +566,14 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         if ($this->productBatchNum !== FALSE) {
           $products['products'][$i]['batch_number'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Product batch number'),
-            '#description' => $this->t('The unique product batch number, as provided by the product manufacturer.'),
+            '#title' => new TranslatableMarkup('Product batch number'),
+            '#description' => new TranslatableMarkup('The unique product batch number, as provided by the product manufacturer.'),
           ];
 
           // Make the product batch number required if specified.
           if ($this->productBatchNum === self::PRODUCT_BATCH_NUM_REQUIRED) {
             $products['products'][$i]['batch_number']['#required'] = TRUE;
-            $products['products'][$i]['batch_number']['#description'] .= ' ' . $this->t('If there is no batch number available, please write NA.');
+            $products['products'][$i]['batch_number']['#description'] .= ' ' . new TranslatableMarkup('If there is no batch number available, please write NA.');
           }
         }
       }
@@ -580,8 +581,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       // Product labels.
       $products['product_labels'] = [
         '#type' => 'managed_file',
-        '#title' => $this->t('Product labels'),
-        '#description' => $this->t('Please photograph the product labels where relevant.'),
+        '#title' => new TranslatableMarkup('Product labels'),
+        '#description' => new TranslatableMarkup('Please photograph the product labels where relevant.'),
         '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
         '#upload_validators' => [
           'file_validate_extensions' => self::$validImageExtensions,
@@ -601,22 +602,22 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $hour_options = range(0, 12);
     $operation['time']['time_taken']['hours'] = [
       '#type' => 'select',
-      '#title' => $this->t('Time taken: Hours'),
+      '#title' => new TranslatableMarkup('Time taken: Hours'),
       '#options' => array_combine($hour_options, $hour_options),
       '#required' => TRUE,
     ];
     $minute_options = range(0, 45, 15);
     $operation['time']['time_taken']['minutes'] = [
       '#type' => 'select',
-      '#title' => $this->t('Minutes'),
+      '#title' => new TranslatableMarkup('Minutes'),
       '#options' => array_combine($minute_options, $minute_options),
       '#required' => TRUE,
     ];
 
     // Tractor hours end.
     $operation['time']['tractor_hours_end'] = $this->buildQuantityField([
-      'title' => $this->t('Tractor hours (end)'),
-      'description' => $this->t('The number of tractor hours displayed at the emd of the job.'),
+      'title' => new TranslatableMarkup('Tractor hours (end)'),
+      'description' => new TranslatableMarkup('The number of tractor hours displayed at the emd of the job.'),
       'measure' => ['#value' => 'count'],
       'units' => ['#value' => 'hours'],
       'required' => TRUE,
@@ -628,8 +629,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       'gal' => 'gal',
     ];
     $fuel_use = [
-      'title' => $this->t('Fuel use'),
-      'description' => $this->t('The amount of fuel used.'),
+      'title' => new TranslatableMarkup('Fuel use'),
+      'description' => new TranslatableMarkup('The amount of fuel used.'),
       'measure' => ['#value' => 'volume'],
       'units' => ['#options' => $fuel_use_units_options],
       'border' => FALSE,
@@ -644,8 +645,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Crop Photographs.
     $operation['photographs']['crop_photographs'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Crop Photograph(s)'),
-      '#description' => $this->t('A photograph of the crop, if applicable.'),
+      '#title' => new TranslatableMarkup('Crop Photograph(s)'),
+      '#description' => new TranslatableMarkup('A photograph of the crop, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validImageExtensions,
@@ -657,8 +658,8 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     // Photographs of paper records.
     $operation['photographs']['photographs_of_paper_records'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Photographs of paper record(s)'),
-      '#description' => $this->t('One or more photographs of any paper records, if applicable.'),
+      '#title' => new TranslatableMarkup('Photographs of paper record(s)'),
+      '#description' => new TranslatableMarkup('One or more photographs of any paper records, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validImageExtensions,
@@ -678,9 +679,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $tags_identifier = 'owner';
     $status['owner'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Operator'),
-      '#description' => $this->t('The operator(s) who carried out the task.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Operator'),
+      '#description' => new TranslatableMarkup('The operator(s) who carried out the task.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#required' => TRUE,
       '#multiple' => TRUE,
       '#default_value' => [],
@@ -694,13 +695,13 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     // Job status.
     $status_options = [
-      'done' => $this->t('Done'),
-      'pending' => $this->t('Pending'),
+      'done' => new TranslatableMarkup('Done'),
+      'pending' => new TranslatableMarkup('Pending'),
     ];
     $status['general']['job_status'] = [
       '#type' => 'select',
-      '#title' => $this->t('Job status'),
-      '#description' => $this->t('The current status of the job.'),
+      '#title' => new TranslatableMarkup('Job status'),
+      '#description' => new TranslatableMarkup('The current status of the job.'),
       '#options' => $status_options,
       '#required' => TRUE,
     ];
@@ -709,24 +710,24 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $flag_options = FarmFlagHelper::flagOptions('log', [$this->logType]);
     $status['general']['flag'] = [
       '#type' => 'select',
-      '#title' => $this->t('Flag'),
-      '#description' => $this->t('Flag this job if it is a priority, requires monitoring or review.'),
+      '#title' => new TranslatableMarkup('Flag'),
+      '#description' => new TranslatableMarkup('Flag this job if it is a priority, requires monitoring or review.'),
       '#options' => $flag_options,
-      '#empty_option' => $this->t('Select a flag'),
+      '#empty_option' => new TranslatableMarkup('Select a flag'),
     ];
 
     // Log experiment deviations.
     $status['experiment_deviation'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Experiment Deviations'),
-      '#description' => $this->t('Please describe any deviations from the experiment plan or observations that might affect the outcome of the experiment.'),
+      '#title' => new TranslatableMarkup('Experiment Deviations'),
+      '#description' => new TranslatableMarkup('Please describe any deviations from the experiment plan or observations that might affect the outcome of the experiment.'),
     ];
 
     // Log notes.
     $status['notes'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes.'),
+      '#title' => new TranslatableMarkup('Notes'),
+      '#description' => new TranslatableMarkup('Any additional notes.'),
     ];
 
     // Include the job status tab.
@@ -737,7 +738,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
+      '#value' => new TranslatableMarkup('Submit'),
     ];
 
     return $form;
@@ -819,7 +820,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $request = \Drupal::request();
       if ($destination = $request->query->get('destination')) {
         // Include both links: quick form and previous page.
-        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
+        $this->messenger()->addStatus(new TranslatableMarkup('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
           '@quick_form' => $quick_form_url,
           '@destination' => $destination,
         ]));
@@ -830,7 +831,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
       // Just include link to quick form.
       else {
-        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a>.', [
+        $this->messenger()->addStatus(new TranslatableMarkup('Return to <a href="@quick_form">quick form</a>.', [
           '@quick_form' => $quick_form_url,
         ]));
       }
@@ -1118,7 +1119,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
     $note_fields = [];
     $note_fields[] = [
       'key' => 'recommendation_number',
-      'label' => $this->t('Recommendation Number'),
+      'label' => new TranslatableMarkup('Recommendation Number'),
     ];
 
     // Add products applied product batch numbers to the notes field.
@@ -1137,11 +1138,11 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
 
     $note_fields[] = [
       'key' => 'equipment_settings',
-      'label' => $this->t('Equipment Settings'),
+      'label' => new TranslatableMarkup('Equipment Settings'),
     ];
     $note_fields[] = [
       'key' => 'notes',
-      'label' => $this->t('Additional notes'),
+      'label' => new TranslatableMarkup('Additional notes'),
     ];
 
     // Prepare notes and split onto separate lines.
@@ -1228,7 +1229,7 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       $minutes = $time_taken['minutes'];
       $quantities[] = [
         'type' => 'standard',
-        'label' => (string) $this->t('Time taken'),
+        'label' => (string) new TranslatableMarkup('Time taken'),
         'value' => $hours + $minutes / 60,
         'measure' => 'time',
         'units' => 'hours',

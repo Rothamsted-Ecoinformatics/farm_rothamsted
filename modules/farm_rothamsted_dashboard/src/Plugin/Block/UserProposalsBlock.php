@@ -103,10 +103,10 @@ class UserProposalsBlock extends BlockBase implements ContainerFactoryPluginInte
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Status'),
+          'data' => new TranslatableMarkup('Status'),
         ],
         [
-          'data' => $this->t('Name'),
+          'data' => new TranslatableMarkup('Name'),
         ],
       ],
       '#rows' => [],

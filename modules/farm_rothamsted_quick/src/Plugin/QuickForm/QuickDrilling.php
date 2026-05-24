@@ -58,7 +58,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Drilling tab.
     $drilling = [
       '#type' => 'details',
-      '#title' => $this->t('Drilling'),
+      '#title' => new TranslatableMarkup('Drilling'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -66,7 +66,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Additional information tab.
     $additional = [
       '#type' => 'details',
-      '#title' => $this->t('Additional information'),
+      '#title' => new TranslatableMarkup('Additional information'),
       '#group' => 'tabs',
       '#weight' => 1,
     ];
@@ -76,9 +76,9 @@ class QuickDrilling extends QuickExperimentFormBase {
     $tags_identifier = 'crop';
     $drilling['crop'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Crop'),
-      '#description' => $this->t('The crop being drilled.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Crop'),
+      '#description' => new TranslatableMarkup('The crop being drilled.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
       '#mode' => 'select',
@@ -102,9 +102,9 @@ class QuickDrilling extends QuickExperimentFormBase {
     $tags_identifier = 'crop_variety';
     $drilling['crop_variety'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Variety(s)'),
-      '#description' => $this->t('The variety(s) being planted.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Variety(s)'),
+      '#description' => new TranslatableMarkup('The variety(s) being planted.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#required' => TRUE,
@@ -130,8 +130,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       'plants/ha' => 'plants/ha',
     ];
     $seed_rate = [
-      'title' => $this->t('Seed rate'),
-      'description' => $this->t('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
+      'title' => new TranslatableMarkup('Seed rate'),
+      'description' => new TranslatableMarkup('The number of seeds drilled per unit area. This is an agronomic decision based on the crop, the season and the growing conditions.'),
       'measure' => ['#value' => 'rate'],
       'units' => ['#options' => $seed_rate_units_options],
       'required' => TRUE,
@@ -144,8 +144,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       'units/ha' => 'units/ha',
     ];
     $drilling['drilling_rate'] = $this->buildQuantityField([
-      'title' => $this->t('Drilling rate'),
-      'description' => $this->t('The volume of seed drilled per unit area. This information must be provided as it is essential information for scientists wanting to analyse the crop data.'),
+      'title' => new TranslatableMarkup('Drilling rate'),
+      'description' => new TranslatableMarkup('The volume of seed drilled per unit area. This information must be provided as it is essential information for scientists wanting to analyse the crop data.'),
       'measure' => ['#value' => 'rate'],
       'units' => ['#options' => $drilling_rate_units_options],
       'required' => TRUE,
@@ -156,9 +156,9 @@ class QuickDrilling extends QuickExperimentFormBase {
     $tags_identifier = 'seed_dressing';
     $drilling['seed_dressing'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Seed dressing(s)'),
-      '#description' => $this->t("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Seed dressing(s)'),
+      '#description' => new TranslatableMarkup("Please record the seed dressings applied either by the farm or by the supplier. You can expand this list by adding additional products under 'Seed Dressings' on the Material Types taxonomy."),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $seed_dressing_options,
       '#multiple' => TRUE,
       '#default_value' => [],
@@ -172,8 +172,8 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Seed labels.
     $drilling['seed_labels'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Seed labels'),
-      '#description' => $this->t('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
+      '#title' => new TranslatableMarkup('Seed labels'),
+      '#description' => new TranslatableMarkup('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validImageExtensions,
@@ -188,24 +188,24 @@ class QuickDrilling extends QuickExperimentFormBase {
 
     // Thousand grain weight.
     $additional['thousand_grain_weight'] = $this->buildQuantityField([
-      'title' => $this->t('Thousand grain weight'),
-      'description' => $this->t('The average weight of 1,000 grains.'),
+      'title' => new TranslatableMarkup('Thousand grain weight'),
+      'description' => new TranslatableMarkup('The average weight of 1,000 grains.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#value' => 'g'],
     ]);
 
     // Germination rate.
     $additional['germination_rate'] = $this->buildQuantityField([
-      'title' => $this->t('Seed Germination Test Result'),
-      'description' => $this->t('The germination rate of the seed batch, measured by placing 50 to 100 seeds in a sealed tupperware box lined with wet kitchen roll and counting the number of seeds germinated after 10 - 14 days.'),
+      'title' => new TranslatableMarkup('Seed Germination Test Result'),
+      'description' => new TranslatableMarkup('The germination rate of the seed batch, measured by placing 50 to 100 seeds in a sealed tupperware box lined with wet kitchen roll and counting the number of seeds germinated after 10 - 14 days.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
 
     // Target plant population.
     $target_plant_population = [
-      'title' => $this->t('Target plant population'),
-      'description' => $this->t('The target population for plant establishment after drilling.'),
+      'title' => new TranslatableMarkup('Target plant population'),
+      'description' => new TranslatableMarkup('The target population for plant establishment after drilling.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#options' => $target_plant_population_units_options],
     ];
@@ -217,8 +217,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       '%' => '%',
     ];
     $establishment_average = [
-      'title' => $this->t('Establishment average'),
-      'description' => $this->t('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
+      'title' => new TranslatableMarkup('Establishment average'),
+      'description' => new TranslatableMarkup('The estimated plant establishment after drilling as a percentage. This is usually based on previous field records over the last 2- 5 years.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#options' => $establishment_average_units_options],
     ];
@@ -230,8 +230,8 @@ class QuickDrilling extends QuickExperimentFormBase {
       'in' => 'in',
     ];
     $additional['drilling_depth'] = $this->buildQuantityField([
-      'title' => $this->t('Drilling depth'),
-      'description' => $this->t('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
+      'title' => new TranslatableMarkup('Drilling depth'),
+      'description' => new TranslatableMarkup('The estimate of the depth at which the seed was drilled. It is important to take this info account when reviewing establishment avarages.'),
       'measure' => ['#value' => 'length'],
       'units' => ['#options' => $drilling_depth_units_options],
     ]);
@@ -239,8 +239,8 @@ class QuickDrilling extends QuickExperimentFormBase {
     // Seed lineage.
     $additional['seed_lineage'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Seed lineage'),
-      '#description' => $this->t('The plant asset(s) which the seed came from.'),
+      '#title' => new TranslatableMarkup('Seed lineage'),
+      '#description' => new TranslatableMarkup('The plant asset(s) which the seed came from.'),
     ];
 
     // Add the additional information tab and fields to the form.
@@ -346,7 +346,7 @@ class QuickDrilling extends QuickExperimentFormBase {
       ...[
         [
           'key' => 'seed_lineage',
-          'label' => $this->t('Seed lineage'),
+          'label' => new TranslatableMarkup('Seed lineage'),
         ],
       ]
     );

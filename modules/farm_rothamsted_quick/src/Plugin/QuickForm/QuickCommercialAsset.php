@@ -44,8 +44,8 @@ class QuickCommercialAsset extends QuickFormBase {
     // Field/location.
     $form['location'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Field/Location'),
-      '#description' => $this->t('The field in which the asset is planted. If the area is not present in the list, it can be added as a new land asset.'),
+      '#title' => new TranslatableMarkup('Field/Location'),
+      '#description' => new TranslatableMarkup('The field in which the asset is planted. If the area is not present in the list, it can be added as a new land asset.'),
       '#target_type' => 'asset',
       '#selection_handler' => 'views',
       '#selection_settings' => [
@@ -65,9 +65,9 @@ class QuickCommercialAsset extends QuickFormBase {
     $tags_identifier = 'drilling_year';
     $form['drilling_year'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Drilling year'),
-      '#description' => $this->t('The season in which the assets is planted. This can be expanded by adding child terms to the "Drilling year" term in the Seasons Taxonomy'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Drilling year'),
+      '#description' => new TranslatableMarkup('The season in which the assets is planted. This can be expanded by adding child terms to the "Drilling year" term in the Seasons Taxonomy'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $drilling_options,
       '#required' => TRUE,
       '#mode' => 'select',
@@ -82,9 +82,9 @@ class QuickCommercialAsset extends QuickFormBase {
     $tags_identifier = 'harvest_year';
     $form['harvest_year'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Harvest year'),
-      '#description' => $this->t('The year in which the asset will be harvested. This can be expanded by adding child terms to the "Harvest year" term in the Seasons Taxonomy.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Harvest year'),
+      '#description' => new TranslatableMarkup('The year in which the asset will be harvested. This can be expanded by adding child terms to the "Harvest year" term in the Seasons Taxonomy.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $harvest_options,
       '#required' => TRUE,
       '#mode' => 'select',
@@ -100,9 +100,9 @@ class QuickCommercialAsset extends QuickFormBase {
     $tags_identifier = 'crop';
     $form['crop']['crop'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Crop(s)'),
-      '#description' => $this->t('The crop(s) being drilled. This can be expanded in the Plant Types taxonomy.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Crop(s)'),
+      '#description' => new TranslatableMarkup('The crop(s) being drilled. This can be expanded in the Plant Types taxonomy.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $crop_type_options,
       '#required' => TRUE,
       '#ajax' => [
@@ -126,9 +126,9 @@ class QuickCommercialAsset extends QuickFormBase {
     $tags_identifier = 'plant_type';
     $form['crop']['plant_type'] = [
       '#type' => 'select_tagify',
-      '#title' => $this->t('Variety(s)'),
-      '#description' => $this->t('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
-      '#placeholder' => $this->t('Start typing to search available options...'),
+      '#title' => new TranslatableMarkup('Variety(s)'),
+      '#description' => new TranslatableMarkup('The variety(s) being planted. To select more than one option on a desktop PC hold down the CTRL button on and select multiple.'),
+      '#placeholder' => new TranslatableMarkup('Start typing to search available options...'),
       '#options' => $crop_variety_options,
       '#multiple' => TRUE,
       '#default_value' => [],
@@ -146,8 +146,8 @@ class QuickCommercialAsset extends QuickFormBase {
     // automatically generated on submission.
     $form['custom_name'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Customize plant asset name'),
-      '#description' => $this->t('The name of the commercial crop asset. Defaults to: "[Harvest year] [Location]: [Crop] ([Variety])"'),
+      '#title' => new TranslatableMarkup('Customize plant asset name'),
+      '#description' => new TranslatableMarkup('The name of the commercial crop asset. Defaults to: "[Harvest year] [Location]: [Crop] ([Variety])"'),
       '#default_value' => FALSE,
       '#ajax' => [
         'callback' => [$this, 'plantNameCallback'],
@@ -161,7 +161,7 @@ class QuickCommercialAsset extends QuickFormBase {
     if ($form_state->getValue('custom_name', FALSE)) {
       $form['name_wrapper']['name'] = [
         '#type' => 'textfield',
-        '#title' => $this->t('Plant asset name'),
+        '#title' => new TranslatableMarkup('Plant asset name'),
         '#maxlength' => 255,
         '#default_value' => $this->generatePlantName($form_state),
         '#required' => TRUE,
@@ -171,8 +171,8 @@ class QuickCommercialAsset extends QuickFormBase {
     // Associated files.
     $form['file'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Associated files'),
-      '#description' => $this->t('The option to upload one or more files relating to this plant asset.'),
+      '#title' => new TranslatableMarkup('Associated files'),
+      '#description' => new TranslatableMarkup('The option to upload one or more files relating to this plant asset.'),
       '#upload_location' => $this->getFileUploadLocation('asset', 'plant', 'file'),
       '#upload_validators' => [
         'file_validate_extensions' => self::$validFileExtensions,
@@ -184,8 +184,8 @@ class QuickCommercialAsset extends QuickFormBase {
     // Asset notes.
     $form['notes'] = [
       '#type' => 'text_format',
-      '#title' => $this->t('Notes'),
-      '#description' => $this->t('Any additional notes, not captured above.'),
+      '#title' => new TranslatableMarkup('Notes'),
+      '#description' => new TranslatableMarkup('Any additional notes, not captured above.'),
       '#format' => 'default',
     ];
 
@@ -258,7 +258,7 @@ class QuickCommercialAsset extends QuickFormBase {
     $locations = $form_state->getValue('location');
     $log = $this->createLog([
       'type' => 'activity',
-      'name' => $this->t('Move @asset to @location', ['@asset' => $asset->label(), '@location' => implode(', ', $location_names)]),
+      'name' => new TranslatableMarkup('Move @asset to @location', ['@asset' => $asset->label(), '@location' => implode(', ', $location_names)]),
       'asset' => $asset,
       'location' => $locations,
       'is_movement' => TRUE,
@@ -278,7 +278,7 @@ class QuickCommercialAsset extends QuickFormBase {
       $request = \Drupal::request();
       if ($destination = $request->query->get('destination')) {
         // Include both links: quick form and previous page.
-        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
+        $this->messenger()->addStatus(new TranslatableMarkup('Return to <a href="@quick_form">quick form</a> or <a href="@destination">previous page</a>.', [
           '@quick_form' => $quick_form_url,
           '@destination' => $destination,
         ]));
@@ -289,7 +289,7 @@ class QuickCommercialAsset extends QuickFormBase {
 
       // Just include link to quick form.
       else {
-        $this->messenger()->addStatus($this->t('Return to <a href="@quick_form">quick form</a>.', [
+        $this->messenger()->addStatus(new TranslatableMarkup('Return to <a href="@quick_form">quick form</a>.', [
           '@quick_form' => $quick_form_url,
         ]));
       }

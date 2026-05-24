@@ -35,11 +35,11 @@ class ColumnDescriptorsTables extends FormatterBase {
 
     // Build the table header once.
     $table_header = [
-      $this->t('ID'),
-      $this->t('Name'),
-      $this->t('Description'),
-      $this->t('Quantity'),
-      $this->t('Units'),
+      new TranslatableMarkup('ID'),
+      new TranslatableMarkup('Name'),
+      new TranslatableMarkup('Description'),
+      new TranslatableMarkup('Quantity'),
+      new TranslatableMarkup('Units'),
     ];
 
     // Build tables for each delta. In practice this is just one.
@@ -69,7 +69,7 @@ class ColumnDescriptorsTables extends FormatterBase {
         // Some factor URLs are just identifiers for Rothamsted.
         try {
           $url = Url::fromUri($column['ontology_uri'] ?? '')->setAbsolute()->toString();
-          $column_id = $this->t('<a href=":column_level_link">@column_id</a>', [':column_level_link' => $url, '@column_id' => $column['column_id']]);
+          $column_id = new TranslatableMarkup('<a href=":column_level_link">@column_id</a>', [':column_level_link' => $url, '@column_id' => $column['column_id']]);
         }
         catch (\Exception $e) {
           $column_id = $column['column_id'];

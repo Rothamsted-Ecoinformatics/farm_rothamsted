@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_researcher\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -50,7 +51,7 @@ class CurrentUserResearcher extends ControllerBase implements ContainerInjection
     }
 
     // If no researcher found, redirect and show an error message.
-    $this->messenger()->addWarning($this->t('No researcher profile found for the current user.'));
+    $this->messenger()->addWarning(new TranslatableMarkup('No researcher profile found for the current user.'));
     return new RedirectResponse((new Url('entity.user.canonical', ['user' => $current_user->id()]))->toString());
   }
 

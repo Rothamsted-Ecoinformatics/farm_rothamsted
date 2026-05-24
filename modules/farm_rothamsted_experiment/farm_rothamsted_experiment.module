@@ -10,6 +10,7 @@ declare(strict_types=1);
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Preprocess function to change the name field title and description.
@@ -23,8 +24,8 @@ use Drupal\Core\Form\FormStateInterface;
  *   The element.
  */
 function farm_rothamsted_experiment_alter_plan_name(array $element, FormStateInterface $form_state) {
-  $element['value']['#title'] = t('Study Name');
-  $element['value']['#description'] = t('The name of the study.');
+  $element['value']['#title'] = new TranslatableMarkup('Study Name');
+  $element['value']['#description'] = new TranslatableMarkup('The name of the study.');
   return $element;
 }
 
@@ -36,15 +37,15 @@ function farm_rothamsted_experiment_alter_plan_name(array $element, FormStateInt
  */
 function farm_rothamsted_experiment_plot_type_options() {
   return [
-    'baseline' => t('Baseline'),
-    'blank' => t('Blank plot'),
-    'calibration' => t('Calibration plot'),
-    'discontinued' => t('Discontinued plot'),
-    'guard' => t('Guard plot'),
-    'observation_demonstration' => t('Observation/Demonstration plot'),
-    'seed_multiplication' => t('Seed multiplication'),
-    'treated' => t('Treated plot'),
-    'undefined' => t('Undefined'),
+    'baseline' => new TranslatableMarkup('Baseline'),
+    'blank' => new TranslatableMarkup('Blank plot'),
+    'calibration' => new TranslatableMarkup('Calibration plot'),
+    'discontinued' => new TranslatableMarkup('Discontinued plot'),
+    'guard' => new TranslatableMarkup('Guard plot'),
+    'observation_demonstration' => new TranslatableMarkup('Observation/Demonstration plot'),
+    'seed_multiplication' => new TranslatableMarkup('Seed multiplication'),
+    'treated' => new TranslatableMarkup('Treated plot'),
+    'undefined' => new TranslatableMarkup('Undefined'),
   ];
 }
 

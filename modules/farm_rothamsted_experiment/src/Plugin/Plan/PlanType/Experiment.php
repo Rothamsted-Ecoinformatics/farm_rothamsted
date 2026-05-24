@@ -50,8 +50,8 @@ class Experiment extends FarmPlanType {
       // Plot reference field.
       'plot' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Plots'),
-        'description' => $this->t('Plot assets associated with this experiment.'),
+        'label' => new TranslatableMarkup('Plots'),
+        'description' => new TranslatableMarkup('Plot assets associated with this experiment.'),
         'target_type' => 'asset',
         'target_bundle' => 'plot',
         'multiple' => TRUE,
@@ -60,8 +60,8 @@ class Experiment extends FarmPlanType {
       // General fields.
       'abbreviation' => [
         'type' => 'string',
-        'label' => $this->t('Study Abbreviation'),
-        'description' => $this->t('An abbreviation of the study name.'),
+        'label' => new TranslatableMarkup('Study Abbreviation'),
+        'description' => new TranslatableMarkup('An abbreviation of the study name.'),
         'weight' => [
           'form' => 0,
           'view' => 0,
@@ -69,8 +69,8 @@ class Experiment extends FarmPlanType {
       ],
       'study_period_id' => [
         'type' => 'string',
-        'label' => $this->t('Study Period ID'),
-        'description' => $this->t('The unique identifier for the study, for example 2020/R/CS/790.'),
+        'label' => new TranslatableMarkup('Study Period ID'),
+        'description' => new TranslatableMarkup('The unique identifier for the study, for example 2020/R/CS/790.'),
         'required' => TRUE,
         'weight' => [
           'form' => 5,
@@ -79,8 +79,8 @@ class Experiment extends FarmPlanType {
       ],
       'cost_code' => [
         'type' => 'string',
-        'label' => $this->t('Cost Code'),
-        'description' => $this->t('The cost code associated with the project.'),
+        'label' => new TranslatableMarkup('Cost Code'),
+        'description' => new TranslatableMarkup('The cost code associated with the project.'),
         'multiple' => TRUE,
         'weight' => [
           'form' => 40,
@@ -89,8 +89,8 @@ class Experiment extends FarmPlanType {
       ],
       'location' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Field Location(s)'),
-        'description' => $this->t('The field(s) or location(s) of the experiment.'),
+        'label' => new TranslatableMarkup('Field Location(s)'),
+        'description' => new TranslatableMarkup('The field(s) or location(s) of the experiment.'),
         'target_type' => 'asset',
         'target_bundle' => 'land',
         'multiple' => TRUE,
@@ -102,8 +102,8 @@ class Experiment extends FarmPlanType {
       // Trial design fields.
       'plant_type' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Crop(s)'),
-        'description' => $this->t('The crop(s) planted in the experiment.'),
+        'label' => new TranslatableMarkup('Crop(s)'),
+        'description' => new TranslatableMarkup('The crop(s) planted in the experiment.'),
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'crop_family',
         'auto_create' => FALSE,
@@ -116,24 +116,24 @@ class Experiment extends FarmPlanType {
       // Plan status fields.
       'status_notes' => [
         'type' => 'text_long',
-        'label' => $this->t('Status notes'),
-        'description' => $this->t('Any notes about the Study plan status.'),
+        'label' => new TranslatableMarkup('Status notes'),
+        'description' => new TranslatableMarkup('Any notes about the Study plan status.'),
       ],
       'deviations' => [
         'type' => 'text_long',
-        'label' => $this->t('Deviations from plan'),
-        'description' => $this->t('Any deviations from the original statistical design.'),
+        'label' => new TranslatableMarkup('Deviations from plan'),
+        'description' => new TranslatableMarkup('Any deviations from the original statistical design.'),
         'multiple' => TRUE,
       ],
       'growing_conditions' => [
         'type' => 'text_long',
-        'label' => $this->t('Growing Conditions'),
-        'description' => $this->t('A description of the growing conditions, where relevant.'),
+        'label' => new TranslatableMarkup('Growing Conditions'),
+        'description' => new TranslatableMarkup('A description of the growing conditions, where relevant.'),
       ],
       'reason_for_failure' => [
         'type' => 'text_long',
-        'label' => $this->t('Reason for Failure'),
-        'description' => $this->t('Notes about the cause of crop failure, where relevant.'),
+        'label' => new TranslatableMarkup('Reason for Failure'),
+        'description' => new TranslatableMarkup('Notes about the cause of crop failure, where relevant.'),
         'multiple' => TRUE,
       ],
     ];
@@ -170,7 +170,7 @@ class Experiment extends FarmPlanType {
       'label' => 'inline',
     ];
     $fields['columns_file'] = BundleFieldDefinition::create('file')
-      ->setLabel($this->t('Columns'))
+      ->setLabel(new TranslatableMarkup('Columns'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
       ->setSettings($file_settings + [
@@ -184,7 +184,7 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', $simple_file_view_display_options);
     $fields['column_levels_file'] = BundleFieldDefinition::create('file')
-      ->setLabel($this->t('Column levels'))
+      ->setLabel(new TranslatableMarkup('Column levels'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
       ->setSettings($file_settings + [
@@ -198,7 +198,7 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', $simple_file_view_display_options);
     $fields['plot_attributes_file'] = BundleFieldDefinition::create('file')
-      ->setLabel($this->t('Plot attributes'))
+      ->setLabel(new TranslatableMarkup('Plot attributes'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
       ->setSettings($file_settings + [
@@ -212,7 +212,7 @@ class Experiment extends FarmPlanType {
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', $simple_file_view_display_options);
     $fields['plot_geometry_file'] = BundleFieldDefinition::create('file')
-      ->setLabel($this->t('Plot geometries'))
+      ->setLabel(new TranslatableMarkup('Plot geometries'))
       ->setRevisionable(TRUE)
       ->setCardinality(1)
       ->setSettings($file_settings + [
@@ -227,8 +227,8 @@ class Experiment extends FarmPlanType {
       ->setDisplayOptions('view', $simple_file_view_display_options);
 
     $fields['agreed_quote'] = BundleFieldDefinition::create('file')
-      ->setLabel($this->t('Agreed Quote'))
-      ->setDescription($this->t('The final agreed quotation for the work proposed.'))
+      ->setLabel(new TranslatableMarkup('Agreed Quote'))
+      ->setDescription(new TranslatableMarkup('The final agreed quotation for the work proposed.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($file_field_settings)
@@ -250,7 +250,7 @@ class Experiment extends FarmPlanType {
 
     // Experiment file link fields.
     $fields['experiment_plan_link'] = BundleFieldDefinition::create('link')
-      ->setLabel($this->t('Experiment plan'))
+      ->setLabel(new TranslatableMarkup('Experiment plan'))
       ->setRequired(FALSE)
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -269,7 +269,7 @@ class Experiment extends FarmPlanType {
         'view' => 0,
       ]);
     $fields['experiment_file_link'] = BundleFieldDefinition::create('link')
-      ->setLabel($this->t('Experiment file'))
+      ->setLabel(new TranslatableMarkup('Experiment file'))
       ->setRequired(FALSE)
       ->setRevisionable(TRUE)
       ->setSettings([
@@ -288,7 +288,7 @@ class Experiment extends FarmPlanType {
         'view' => 5,
       ]);
     $fields['other_links'] = BundleFieldDefinition::create('link')
-      ->setLabel($this->t('Other links'))
+      ->setLabel(new TranslatableMarkup('Other links'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRequired(FALSE)
       ->setRevisionable(TRUE)
@@ -310,7 +310,7 @@ class Experiment extends FarmPlanType {
 
     // Column descriptors.
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
-      ->setLabel($this->t('Column descriptors'))
+      ->setLabel(new TranslatableMarkup('Column descriptors'))
       ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
@@ -318,8 +318,8 @@ class Experiment extends FarmPlanType {
 
     // Integer year fields.
     $fields['drilling_year'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Planting Year'))
-      ->setDescription($this->t('The planting year for the study.'))
+      ->setLabel(new TranslatableMarkup('Planting Year'))
+      ->setDescription(new TranslatableMarkup('The planting year for the study.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -335,8 +335,8 @@ class Experiment extends FarmPlanType {
         'view' => 30,
       ]);
     $fields['harvest_year'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Harvest Year'))
-      ->setDescription($this->t('The year the experiment is to be harvested.'))
+      ->setLabel(new TranslatableMarkup('Harvest Year'))
+      ->setDescription(new TranslatableMarkup('The year the experiment is to be harvested.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -354,8 +354,8 @@ class Experiment extends FarmPlanType {
 
     // Additional fields added with 2.10.
     $fields['study_description'] = BundleFieldDefinition::create('text_long')
-      ->setLabel($this->t('Description'))
-      ->setDescription($this->t('A description of the study period.'))
+      ->setLabel(new TranslatableMarkup('Description'))
+      ->setDescription(new TranslatableMarkup('A description of the study period.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -369,8 +369,8 @@ class Experiment extends FarmPlanType {
         'weight' => 10,
       ]);
     $fields['study_number'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Study number'))
-      ->setDescription($this->t('A consecutive number that can be used to identify the study.'))
+      ->setLabel(new TranslatableMarkup('Study number'))
+      ->setDescription(new TranslatableMarkup('A consecutive number that can be used to identify the study.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setDisplayConfigurable('form', TRUE)
@@ -385,8 +385,8 @@ class Experiment extends FarmPlanType {
         'weight' => 15,
       ]);
     $fields['current_phase'] = BundleFieldDefinition::create('string')
-      ->setLabel($this->t('Current Phase'))
-      ->setDescription($this->t('The current phase that the rotation is in.'))
+      ->setLabel(new TranslatableMarkup('Current Phase'))
+      ->setDescription(new TranslatableMarkup('The current phase that the rotation is in.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -400,8 +400,8 @@ class Experiment extends FarmPlanType {
         'weight' => 25,
       ]);
     $fields['cost_code_allocation'] = BundleFieldDefinition::create('text_long')
-      ->setLabel($this->t('Cost code allocation'))
-      ->setDescription($this->t('List the cost codes and percentage allocations.'))
+      ->setLabel(new TranslatableMarkup('Cost code allocation'))
+      ->setDescription(new TranslatableMarkup('List the cost codes and percentage allocations.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

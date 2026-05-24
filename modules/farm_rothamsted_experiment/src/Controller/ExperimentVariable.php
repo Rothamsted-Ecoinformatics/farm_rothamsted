@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_experiment\Controller;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -25,7 +26,7 @@ class ExperimentVariable extends ControllerBase {
     // Add button if no variables exist.
     if ($plan->get('column_descriptors')->isEmpty()) {
       $url = Url::fromRoute('farm_rothamsted_experiment.experiment.variable_form', ['plan' => $plan->id()])->setAbsolute()->toString();
-      $message = $this->t('No experiment variables have been uploaded. <a href=":url">Add variables</a>', [':url' => $url]);
+      $message = new TranslatableMarkup('No experiment variables have been uploaded. <a href=":url">Add variables</a>', [':url' => $url]);
       $this->messenger()->addWarning($message);
       return [];
     }
@@ -34,7 +35,7 @@ class ExperimentVariable extends ControllerBase {
       'label' => 'visually_hidden',
       'settings' => [],
     ]);
-    $render['#title'] = $this->t('Experiment variables');
+    $render['#title'] = new TranslatableMarkup('Experiment variables');
     return $render;
   }
 

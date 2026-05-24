@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_dashboard\Hook;
 
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Dashboard hook implementations for farm_rothamsted_dashboard.
  */
 class DashboardHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Implements hook_farm_dashboard_groups().
@@ -24,7 +22,7 @@ class DashboardHooks {
         'rothamsted_user_studies' => [
           '#type' => 'details',
           '#open' => FALSE,
-          '#title' => $this->t('My Studies'),
+          '#title' => new TranslatableMarkup('My Studies'),
           '#weight' => 105,
           '#attributes' => [
             'class' => ['dashboard-pane'],
@@ -33,7 +31,7 @@ class DashboardHooks {
         'rothamsted_user_proposals' => [
           '#type' => 'details',
           '#open' => FALSE,
-          '#title' => $this->t('My Proposals'),
+          '#title' => new TranslatableMarkup('My Proposals'),
           '#weight' => 110,
           '#attributes' => [
             'class' => ['dashboard-pane'],
@@ -51,7 +49,7 @@ class DashboardHooks {
     return [
       'rothamsted_search' => [
         'block' => 'rothamsted_search',
-        'title' => $this->t('Search'),
+        'title' => new TranslatableMarkup('Search'),
         'region' => 'top',
         'weight' => 100,
       ],

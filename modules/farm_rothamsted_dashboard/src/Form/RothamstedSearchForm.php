@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\PluralTranslatableMarkup;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -75,16 +76,16 @@ class RothamstedSearchForm extends FormBase {
     // Define entity type search options.
     $entity_types = [
       'land_asset' => [
-        'label' => $this->t('Field'),
-        'help' => $this->t('Search by field name'),
+        'label' => new TranslatableMarkup('Field'),
+        'help' => new TranslatableMarkup('Search by field name'),
       ],
       'plant_asset' => [
-        'label' => $this->t('Crop asset'),
-        'help' => $this->t('Search by plant asset name or plant type'),
+        'label' => new TranslatableMarkup('Crop asset'),
+        'help' => new TranslatableMarkup('Search by plant asset name or plant type'),
       ],
       'experiment' => [
-        'label' => $this->t('Experiment'),
-        'help' => $this->t('Search by experiment name, code or researcher'),
+        'label' => new TranslatableMarkup('Experiment'),
+        'help' => new TranslatableMarkup('Search by experiment name, code or researcher'),
       ],
     ];
     $entity_type_options = array_map(function ($option) {
@@ -95,7 +96,7 @@ class RothamstedSearchForm extends FormBase {
     $selected_entity_type = $form_state->hasValue('entity_type') ? $form_state->getValue('entity_type') : $default;
     $form['wrapper']['entity_type'] = [
       '#type' => 'select',
-      '#title' => $this->t('Entity type'),
+      '#title' => new TranslatableMarkup('Entity type'),
       '#title_display' => 'visually_hidden',
       '#options' => $entity_type_options,
       '#default_value' => $default,
@@ -111,7 +112,7 @@ class RothamstedSearchForm extends FormBase {
 
     $form['wrapper']['search'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Search'),
+      '#title' => new TranslatableMarkup('Search'),
       '#title_display' => 'visually_hidden',
       '#attributes' => [
         'placeholder' => $entity_types[$selected_entity_type]['help'] ?? NULL,
@@ -127,7 +128,7 @@ class RothamstedSearchForm extends FormBase {
     $form['wrapper']['submit'] = [
       '#type' => 'submit',
       '#submit' => ['::searchCallback'],
-      '#value' => $this->t('Search'),
+      '#value' => new TranslatableMarkup('Search'),
       '#ajax' => [
         'callback' => '::resultsCallback',
       ],
@@ -244,10 +245,10 @@ class RothamstedSearchForm extends FormBase {
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Name'),
+          'data' => new TranslatableMarkup('Name'),
         ],
         [
-          'data' => $this->t('Status'),
+          'data' => new TranslatableMarkup('Status'),
         ],
       ],
       '#rows' => [],
@@ -305,13 +306,13 @@ class RothamstedSearchForm extends FormBase {
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Name'),
+          'data' => new TranslatableMarkup('Name'),
         ],
         [
-          'data' => $this->t('Plant type'),
+          'data' => new TranslatableMarkup('Plant type'),
         ],
         [
-          'data' => $this->t('Status'),
+          'data' => new TranslatableMarkup('Status'),
         ],
       ],
       '#rows' => [],
@@ -371,19 +372,19 @@ class RothamstedSearchForm extends FormBase {
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Experiment'),
+          'data' => new TranslatableMarkup('Experiment'),
         ],
         [
-          'data' => $this->t('Abbreviation'),
+          'data' => new TranslatableMarkup('Abbreviation'),
         ],
         [
-          'data' => $this->t('Code'),
+          'data' => new TranslatableMarkup('Code'),
         ],
         [
-          'data' => $this->t('Researchers'),
+          'data' => new TranslatableMarkup('Researchers'),
         ],
         [
-          'data' => $this->t('Status'),
+          'data' => new TranslatableMarkup('Status'),
         ],
       ],
       '#rows' => [],
@@ -459,19 +460,19 @@ class RothamstedSearchForm extends FormBase {
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Design'),
+          'data' => new TranslatableMarkup('Design'),
         ],
         [
-          'data' => $this->t('Experiment'),
+          'data' => new TranslatableMarkup('Experiment'),
         ],
         [
-          'data' => $this->t('Statisticians'),
+          'data' => new TranslatableMarkup('Statisticians'),
         ],
         [
-          'data' => $this->t('Start'),
+          'data' => new TranslatableMarkup('Start'),
         ],
         [
-          'data' => $this->t('End'),
+          'data' => new TranslatableMarkup('End'),
         ],
       ],
       '#rows' => [],
@@ -543,16 +544,16 @@ class RothamstedSearchForm extends FormBase {
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Study plan'),
+          'data' => new TranslatableMarkup('Study plan'),
         ],
         [
-          'data' => $this->t('Study Period ID'),
+          'data' => new TranslatableMarkup('Study Period ID'),
         ],
         [
-          'data' => $this->t('Design'),
+          'data' => new TranslatableMarkup('Design'),
         ],
         [
-          'data' => $this->t('Location'),
+          'data' => new TranslatableMarkup('Location'),
         ],
       ],
       '#rows' => [],
@@ -594,7 +595,7 @@ class RothamstedSearchForm extends FormBase {
     return [
       '#type' => 'table',
       '#caption' => [
-        '#markup' => $this->t('<strong>@label:</strong> No results for search query "@query"', ['@label' => $label, '@query' => $query]),
+        '#markup' => new TranslatableMarkup('<strong>@label:</strong> No results for search query "@query"', ['@label' => $label, '@query' => $query]),
       ],
     ];
   }

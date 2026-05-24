@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Form;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\asset\Entity\Asset;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
@@ -40,15 +41,15 @@ class ExperimentPlotForm extends ExperimentFormBase {
     // Ensure experiment boundary exists.
     $boundary = $this->experimentBoundary($plan);
     if (empty($boundary)) {
-      $this->messenger()->addWarning($this->t('An experiment boundary is required before you can create plots.'));
+      $this->messenger()->addWarning(new TranslatableMarkup('An experiment boundary is required before you can create plots.'));
       return $this->redirect('farm_rothamsted_experiment.experiment_boundary_form', ['plan' => $plan->id()]);
     }
 
     // Enter the number of plots to create.
     $form['plot_count'] = [
       '#type' => 'number',
-      '#title' => $this->t('Number of plots'),
-      '#description' => $this->t('Enter the number of plots to create for this Study Plan. This cannot be changed after plots are created.'),
+      '#title' => new TranslatableMarkup('Number of plots'),
+      '#description' => new TranslatableMarkup('Enter the number of plots to create for this Study Plan. This cannot be changed after plots are created.'),
       '#min' => 1,
       '#step' => 1,
       '#required' => TRUE,
@@ -58,7 +59,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
     $has_plots = !$plan->get('plot')->isEmpty();
     if ($has_plots) {
       $this->messenger()->addError(
-        $this->t(
+        new TranslatableMarkup(
           'The experiment %experiment already has plots that cannot be added or removed.',
           [
             '%experiment' => $plan->label(),
@@ -71,8 +72,8 @@ class ExperimentPlotForm extends ExperimentFormBase {
     $plan_label = $plan->label();
     $form['revision_message'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Revision message'),
-      '#description' => $this->t('Describe the reason for this change.'),
+      '#title' => new TranslatableMarkup('Revision message'),
+      '#description' => new TranslatableMarkup('Describe the reason for this change.'),
       '#default_value' => "Create $plan_label plots.",
       '#required' => TRUE,
     ];
@@ -81,7 +82,7 @@ class ExperimentPlotForm extends ExperimentFormBase {
       '#type' => 'actions',
       'submit' => [
         '#type' => 'submit',
-        '#value' => $this->t('Create plots'),
+        '#value' => new TranslatableMarkup('Create plots'),
         '#disabled' => $has_plots,
       ],
     ];
@@ -124,9 +125,9 @@ class ExperimentPlotForm extends ExperimentFormBase {
     ];
     $batch = [
       'operations' => $operations,
-      'title' => $this->t('Creating plots'),
-      'progress_message' => $this->t('Creating plots'),
-      'error_message' => $this->t('Error creating plots.'),
+      'title' => new TranslatableMarkup('Creating plots'),
+      'progress_message' => new TranslatableMarkup('Creating plots'),
+      'error_message' => new TranslatableMarkup('Error creating plots.'),
     ];
     batch_set($batch);
   }

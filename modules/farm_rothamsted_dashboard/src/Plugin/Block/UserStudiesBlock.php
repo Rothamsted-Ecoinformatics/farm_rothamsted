@@ -101,23 +101,23 @@ class UserStudiesBlock extends BlockBase implements ContainerFactoryPluginInterf
       '#caption' => $caption,
       '#header' => [
         [
-          'data' => $this->t('Status'),
+          'data' => new TranslatableMarkup('Status'),
         ],
         [
-          'data' => $this->t('Study Period ID'),
+          'data' => new TranslatableMarkup('Study Period ID'),
         ],
         [
-          'data' => $this->t('Study'),
+          'data' => new TranslatableMarkup('Study'),
         ],
 
         [
-          'data' => $this->t('Design'),
+          'data' => new TranslatableMarkup('Design'),
         ],
         [
-          'data' => $this->t('Experiment'),
+          'data' => new TranslatableMarkup('Experiment'),
         ],
         [
-          'data' => $this->t('Location'),
+          'data' => new TranslatableMarkup('Location'),
         ],
       ],
       '#rows' => [],

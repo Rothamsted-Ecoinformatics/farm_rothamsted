@@ -7,15 +7,13 @@ namespace Drupal\farm_rothamsted_comment\Hook;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\log\Entity\LogInterface;
 
 /**
  * Form hook implementations for farm_rothamsted_comment.
  */
 class FormHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Implements hook_form_alter().
@@ -36,7 +34,7 @@ class FormHooks {
     // Add checkbox to flag log for review.
     $form['log_flag_review'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Flag that the Log "Needs Review"'),
+      '#title' => new TranslatableMarkup('Flag that the Log "Needs Review"'),
       '#default_value' => $default,
     ];
     $form['actions']['submit']['#submit'][] = [self::class, 'logFlagSubmit'];
@@ -93,7 +91,7 @@ class FormHooks {
       $log->setNewRevision(TRUE);
       $log->setRevisionUser($comment->getOwner());
       // phpcs:ignore
-      $log->setRevisionLogMessage(t($message, ['@user' => $comment->getOwner()->getDisplayName()]));
+      $log->setRevisionLogMessage(new TranslatableMarkup($message, ['@user' => $comment->getOwner()->getDisplayName()]));
       $log->save();
     }
   }

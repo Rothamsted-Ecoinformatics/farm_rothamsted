@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_notification\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\UserInterface;
 
 /**
@@ -33,15 +34,15 @@ class UserNotificationForm extends FormBase {
 
     $form['enabled'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Email notifications'),
-      '#description' => $this->t('Switch off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'),
+      '#title' => new TranslatableMarkup('Email notifications'),
+      '#description' => new TranslatableMarkup('Switch off all e-mail notifications. Please note that there are some e-mail notifications which cannot be switched off for authentic purposes. For example if someone creates a Research Profile on your behalf, or if someone names you on a Research Program, Proposal, Experiment or Design.'),
       '#default_value' => $user->get('rothamsted_notification_email')->value,
     ];
 
     $form['researcher'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Researcher Profile notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to your Researcher profile in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits your Researcher profile (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#title' => new TranslatableMarkup('Researcher Profile notifications'),
+      '#description' => new TranslatableMarkup('Switch on/off e-mail notifications relating to changes to your Researcher profile in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits your Researcher profile (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_researcher')->value,
       '#states' => [
         'disabled' => [
@@ -52,8 +53,8 @@ class UserNotificationForm extends FormBase {
 
     $form['program'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Research Program notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#title' => new TranslatableMarkup('Research Program notifications'),
+      '#description' => new TranslatableMarkup('Switch on/off e-mail notifications relating to changes to a or any Research Programs you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Research Program where you are named as a PI (e.g. an administrator). This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_program')->value,
       '#states' => [
         'disabled' => [
@@ -64,8 +65,8 @@ class UserNotificationForm extends FormBase {
 
     $form['proposal'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Proposal notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Proposals you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Proposal you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#title' => new TranslatableMarkup('Proposal notifications'),
+      '#description' => new TranslatableMarkup('Switch on/off e-mail notifications relating to changes to a or any Proposals you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits a Proposal you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_proposal')->value,
       '#states' => [
         'disabled' => [
@@ -76,8 +77,8 @@ class UserNotificationForm extends FormBase {
 
     $form['experiment'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Experiment notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications relating to changes to a or any Experiment, Design or Plan you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits an Experiment, Design or Plan you are associated with. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
+      '#title' => new TranslatableMarkup('Experiment notifications'),
+      '#description' => new TranslatableMarkup('Switch on/off e-mail notifications relating to changes to a or any Experiment, Design or Plan you are associated with in FarmOS. If this is switched off, you will no longer receive notifications if someone other than you edits an Experiment, Design or Plan you are associated with. This is on by default. If you leave it on, you will receive e-mails as soon as any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_experiment')->value,
       '#states' => [
         'disabled' => [
@@ -88,8 +89,8 @@ class UserNotificationForm extends FormBase {
 
     $form['log'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Log notifications'),
-      '#description' => $this->t('Switch on/off e-mail notifications for logs. If this is switched of you will no longer receive notifications when someone (e.g. farm staff) adds or edits the logs associated with the experiments you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as new logs are added or any changes are made.'),
+      '#title' => new TranslatableMarkup('Log notifications'),
+      '#description' => new TranslatableMarkup('Switch on/off e-mail notifications for logs. If this is switched of you will no longer receive notifications when someone (e.g. farm staff) adds or edits the logs associated with the experiments you are named on. This is on by default. If you leave it on, you will receive e-mails as soon as new logs are added or any changes are made.'),
       '#default_value' => $user->get('rothamsted_notification_log')->value,
       '#states' => [
         'disabled' => [
@@ -102,7 +103,7 @@ class UserNotificationForm extends FormBase {
       '#type' => 'actions',
       'submit' => [
         '#type' => 'submit',
-        '#value' => $this->t('Save'),
+        '#value' => new TranslatableMarkup('Save'),
       ],
     ];
 
@@ -123,7 +124,7 @@ class UserNotificationForm extends FormBase {
       $user->set('rothamsted_notification_experiment', $form_state->getValue('experiment', FALSE));
       $user->set('rothamsted_notification_log', $form_state->getValue('log', FALSE));
       $user->save();
-      $this->messenger()->addStatus($this->t('Updated notification settings.'));
+      $this->messenger()->addStatus(new TranslatableMarkup('Updated notification settings.'));
     }
   }
 

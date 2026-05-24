@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\plan\Entity\Plan;
@@ -18,8 +18,6 @@ use Drupal\plan\Entity\PlanInterface;
  * Help hook implementations for farm_rothamsted_experiment.
  */
 class HelpHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Constructs a HelpHooks object.
@@ -44,7 +42,7 @@ class HelpHooks {
     }
 
     // Default values for plan log help text.
-    $title = $this->t('Help');
+    $title = new TranslatableMarkup('Help');
     $description = NULL;
     $asset_list = TRUE;
     $plot_link = TRUE;
@@ -52,19 +50,19 @@ class HelpHooks {
     // Customize help text for each log view.
     switch ($route_name) {
       case 'view.rothamsted_experiment_plan_logs.page':
-        $title = $this->t('All logs associated with this experiment');
-        $description = $this->t('This page includes all logs referencing plots or other assets associated with this experiment.');
+        $title = new TranslatableMarkup('All logs associated with this experiment');
+        $description = new TranslatableMarkup('This page includes all logs referencing plots or other assets associated with this experiment.');
         break;
 
       case 'view.rothamsted_experiment_plan_logs.page_plot':
-        $title = $this->t('Logs referencing plots');
-        $description = $this->t("This page includes logs that reference the experiment plots.");
+        $title = new TranslatableMarkup('Logs referencing plots');
+        $description = new TranslatableMarkup("This page includes logs that reference the experiment plots.");
         $asset_list = FALSE;
         break;
 
       case 'view.rothamsted_experiment_plan_logs.page_asset':
-        $title = $this->t('Logs referencing other experiment assets');
-        $description = $this->t('This page includes logs that reference other assets associated with this experiment.');
+        $title = new TranslatableMarkup('Logs referencing other experiment assets');
+        $description = new TranslatableMarkup('This page includes logs that reference other assets associated with this experiment.');
         $plot_link = FALSE;
         break;
     }
@@ -90,7 +88,7 @@ class HelpHooks {
     // Add link to plots page.
     if ($plot_link) {
       $plot_url = Url::fromRoute('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
-      $link = Link::fromTextAndUrl($this->t('Plots'), $plot_url);
+      $link = Link::fromTextAndUrl(new TranslatableMarkup('Plots'), $plot_url);
       $details['list']['#items'][] = $link->toRenderable();
     }
 

@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_export\Plugin\Action\Derivative;
 
 use Drupal\Core\Action\Plugin\Action\Derivative\EntityActionDeriverBase;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Provides an action deriver for the export data action.
@@ -23,7 +24,7 @@ class ExportDataDeriver extends EntityActionDeriverBase {
       foreach ($this->getApplicableEntityTypes() as $entity_type_id => $entity_type) {
         $definition = $base_plugin_definition;
         $definition['type'] = $entity_type_id;
-        $definition['label'] = $this->t('Export data');
+        $definition['label'] = new TranslatableMarkup('Export data');
         $definition['confirm_form_route_name'] = 'entity.' . $entity_type->id() . '.export_data_action_form';
         $definitions[$entity_type_id] = $definition;
       }

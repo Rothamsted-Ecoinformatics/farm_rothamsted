@@ -27,7 +27,7 @@ class Drilling extends FarmLogType {
     $field_info = [
       'plant_type' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Crop/variety'),
+        'label' => new TranslatableMarkup('Crop/variety'),
         'description' => "Enter this crop/variety drilled.",
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'plant_type',
@@ -41,8 +41,8 @@ class Drilling extends FarmLogType {
       ],
       'seed_dressing' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Seed dressing'),
-        'description' => $this->t('Seed dressing applied by either the farm or the supplier.'),
+        'label' => new TranslatableMarkup('Seed dressing'),
+        'description' => new TranslatableMarkup('Seed dressing applied by either the farm or the supplier.'),
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'material_type',
         'auto_create' => FALSE,

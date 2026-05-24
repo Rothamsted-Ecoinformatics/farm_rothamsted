@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\Datetime\Entity\DateFormat;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Implements hook_install().
@@ -15,7 +16,7 @@ use Drupal\Core\Datetime\Entity\DateFormat;
 function farm_rothamsted_install() {
   DateFormat::create([
     'id' => 'farm_rothamsted_date',
-    'label' => t('Rothamsted date format'),
+    'label' => new TranslatableMarkup('Rothamsted date format'),
     'pattern' => 'd/m/Y',
     'locked' => TRUE,
   ])->save();

@@ -6,15 +6,13 @@ namespace Drupal\farm_rothamsted_experiment\Hook;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\farm_flag\FarmFlagHelper;
 
 /**
  * Form hook implementations for farm_rothamsted_experiment.
  */
 class FormHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Implements hook_form_FORM_ID_alter().
@@ -47,7 +45,7 @@ class FormHooks {
       // Add column descriptors fieldset.
       $form['column_descriptors'] = [
         '#type' => 'fieldset',
-        '#title' => $this->t('Column descriptors'),
+        '#title' => new TranslatableMarkup('Column descriptors'),
         '#attached' => [
           'library' => ['farm_rothamsted_experiment/column_descriptors_filters'],
         ],

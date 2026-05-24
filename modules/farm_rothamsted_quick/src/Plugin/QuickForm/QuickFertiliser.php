@@ -65,7 +65,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Rename the products applied tab to be Fertiliser.
     $fertiliser = $form['products'];
-    $fertiliser['#title'] = $this->t('Fertiliser');
+    $fertiliser['#title'] = new TranslatableMarkup('Fertiliser');
 
     // Add to the operations tab.
     $operation = $form['operation'];
@@ -73,7 +73,7 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // Health & safety tab.
     $health_and_safety = [
       '#type' => 'details',
-      '#title' => $this->t('Health &amp; Safety'),
+      '#title' => new TranslatableMarkup('Health &amp; Safety'),
       '#group' => 'tabs',
       '#weight' => 6,
     ];
@@ -86,8 +86,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Treated area.
     $fertiliser['treated_wrapper']['machine_treated_area'] = $this->buildQuantityField([
-      'title' => $this->t('Machine treated area'),
-      'description' => $this->t('The total area to which the combined product(s) were applied, as recorded by the tractor or other equipment. If part of a hectare, please give the area to two decimal places.'),
+      'title' => new TranslatableMarkup('Machine treated area'),
+      'description' => new TranslatableMarkup('The total area to which the combined product(s) were applied, as recorded by the tractor or other equipment. If part of a hectare, please give the area to two decimal places.'),
       'measure' => ['#value' => 'area'],
       'units' => ['#value' => 'ha'],
       'required' => TRUE,
@@ -95,8 +95,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Field treated area.
     $fertiliser['treated_wrapper']['field_treated_area'] = $this->buildQuantityField([
-      'title' => $this->t('Field treated area'),
-      'description' => $this->t('The total field area to which the combined product(s) were applied, to two decimal places. If part of a hectare, please give the area to two decimal places.'),
+      'title' => new TranslatableMarkup('Field treated area'),
+      'description' => new TranslatableMarkup('The total field area to which the combined product(s) were applied, to two decimal places. If part of a hectare, please give the area to two decimal places.'),
       'measure' => ['#value' => 'area'],
       'units' => ['#value' => 'ha'],
       'required' => TRUE,
@@ -107,8 +107,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Total applied.
     $fertiliser['treated_wrapper']['total_applied'] = $this->buildQuantityField([
-      'title' => $this->t('Total applied'),
-      'description' => $this->t('The total amount of product required to cover the field area(s).'),
+      'title' => new TranslatableMarkup('Total applied'),
+      'description' => new TranslatableMarkup('The total amount of product required to cover the field area(s).'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $total_applied_unit_options],
       'required' => TRUE,
@@ -116,8 +116,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
 
     // Target application rate.
     $fertiliser['treated_wrapper']['target_application_rate'] = $this->buildQuantityField([
-      'title' => $this->t('Target application rate'),
-      'description' => $this->t('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
+      'title' => new TranslatableMarkup('Target application rate'),
+      'description' => new TranslatableMarkup('The volume of product per unit area that needs to be applied in order to achieve the desired nutrient rate(s).'),
       'measure' => ['#value' => 'rate'],
       'units' => ['#options' => $application_rate_units_options],
     ]);
@@ -134,8 +134,8 @@ class QuickFertiliser extends QuickExperimentFormBase {
     // COSSH Hazard Assessments.
     $health_and_safety['cossh_hazard'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('COSSH Hazard Assessments'),
-      '#description' => $this->t('The COSHH assessments which need to be considered.'),
+      '#title' => new TranslatableMarkup('COSSH Hazard Assessments'),
+      '#description' => new TranslatableMarkup('The COSHH assessments which need to be considered.'),
       '#options' => farm_rothamsted_cossh_hazard_options(),
       '#required' => TRUE,
     ];

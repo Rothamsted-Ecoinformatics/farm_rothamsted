@@ -71,14 +71,14 @@ class ExportDataActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Export data');
+    return new TranslatableMarkup('Export data');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->t('Choose data types to export. A zip file will be created with the specified export filename.');
+    return new TranslatableMarkup('Choose data types to export. A zip file will be created with the specified export filename.');
   }
 
   /**
@@ -99,7 +99,7 @@ class ExportDataActionForm extends ConfirmFormBase {
     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
     $entities = $this->tempStore->get("{$this->currentUser->id()}:$entity_type_id");
     if (empty($entities)) {
-      $this->messenger()->addError($this->t('No entities selected for export.'));
+      $this->messenger()->addError(new TranslatableMarkup('No entities selected for export.'));
       return $this->redirect('system.admin_content');
     }
 
@@ -145,7 +145,7 @@ class ExportDataActionForm extends ConfirmFormBase {
 
     $form['export_type'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Data types'),
+      '#title' => new TranslatableMarkup('Data types'),
       '#options' => $export_type_options,
       '#default_value' => array_keys($export_type_options),
       '#required' => TRUE,
@@ -161,8 +161,8 @@ class ExportDataActionForm extends ConfirmFormBase {
     $default_name = date('Y-m-d_H-i-s');
     $form['filename'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Export filename'),
-      '#description' => $this->t('Must be a valid filename and not contain the following special characters: /\:*?\'"<>|'),
+      '#title' => new TranslatableMarkup('Export filename'),
+      '#description' => new TranslatableMarkup('Must be a valid filename and not contain the following special characters: /\:*?\'"<>|'),
       '#required' => TRUE,
       '#default_value' => $default_name,
       '#pattern' => '[^/\\:*?\'"<>|]+',
@@ -194,10 +194,10 @@ class ExportDataActionForm extends ConfirmFormBase {
     $batch = [
       'operations' => $operations,
       'finished' => [self::class, 'batchFinished'],
-      'title' => $this->t('Exporting data'),
-      'init_message' => $this->t('Exporting data...'),
-      'progress_message' => $this->t('Exporting data...'),
-      'error_message' => $this->t('Error exporting data.'),
+      'title' => new TranslatableMarkup('Exporting data'),
+      'init_message' => new TranslatableMarkup('Exporting data...'),
+      'progress_message' => new TranslatableMarkup('Exporting data...'),
+      'error_message' => new TranslatableMarkup('Error exporting data.'),
     ];
     batch_set($batch);
   }

@@ -29,7 +29,7 @@ class Plot extends FarmAssetType {
     $field_info = [
       'plant_type' => [
         'type' => 'entity_reference',
-        'label' => $this->t('Crop'),
+        'label' => new TranslatableMarkup('Crop'),
         'description' => "Enter this plot asset's crop.",
         'target_type' => 'taxonomy_term',
         'target_bundle' => 'plant_type',
@@ -39,12 +39,12 @@ class Plot extends FarmAssetType {
       ],
       'plot_id' => [
         'type' => 'string',
-        'label' => $this->t('Plot ID'),
+        'label' => new TranslatableMarkup('Plot ID'),
         'required' => TRUE,
       ],
       'plot_type' => [
         'type' => 'list_string',
-        'label' => $this->t('Plot type'),
+        'label' => new TranslatableMarkup('Plot type'),
         'allowed_values_function' => 'farm_rothamsted_experiment_plot_type_field_allowed_values',
       ],
     ];
@@ -54,25 +54,25 @@ class Plot extends FarmAssetType {
 
     /* Create remaining special field types. */
     $fields['plot_number'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Plot number'))
-      ->setDescription($this->t('Numeric integer unique to each plot.'))
+      ->setLabel(new TranslatableMarkup('Plot number'))
+      ->setDescription(new TranslatableMarkup('Numeric integer unique to each plot.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
     $fields['column'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Column'))
+      ->setLabel(new TranslatableMarkup('Column'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
     $fields['row'] = BundleFieldDefinition::create('integer')
-      ->setLabel($this->t('Row'))
+      ->setLabel(new TranslatableMarkup('Row'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
     $fields['column_descriptors'] = BundleFieldDefinition::create('key_value')
-      ->setLabel($this->t('Column descriptors'))
+      ->setLabel(new TranslatableMarkup('Column descriptors'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);

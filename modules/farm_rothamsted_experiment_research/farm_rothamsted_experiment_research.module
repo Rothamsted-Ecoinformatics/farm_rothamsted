@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Allowed values callback function for experiment category.
@@ -35,16 +36,16 @@ function farm_rothamsted_experiment_research_experiment_category_field_allowed_v
  */
 function farm_rothamsted_experiment_research_experiment_category_options(): array {
   return [
-    'reserve_site' => t('Reserve Site'),
-    'annual_crop_experiment' => t('Annual Crop Experiment'),
-    'crop_sequence_experiment' => t('Crop Sequence Experiment'),
-    'classical_experiment' => t('Classical Experiment'),
-    'energy_crop_experiment' => t('Energy Crop Experiment'),
-    'genetically_modified_experiment' => t('Genetically Modified Experiment'),
-    'genetically_edited_experiment' => t('Genetically Edited Experiment'),
-    'longterm_experiment' => t('Longterm Experiment'),
-    'seed_bulking_plots' => t('Seed Bulking Plots'),
-    'other' => t('Other'),
+    'reserve_site' => new TranslatableMarkup('Reserve Site'),
+    'annual_crop_experiment' => new TranslatableMarkup('Annual Crop Experiment'),
+    'crop_sequence_experiment' => new TranslatableMarkup('Crop Sequence Experiment'),
+    'classical_experiment' => new TranslatableMarkup('Classical Experiment'),
+    'energy_crop_experiment' => new TranslatableMarkup('Energy Crop Experiment'),
+    'genetically_modified_experiment' => new TranslatableMarkup('Genetically Modified Experiment'),
+    'genetically_edited_experiment' => new TranslatableMarkup('Genetically Edited Experiment'),
+    'longterm_experiment' => new TranslatableMarkup('Longterm Experiment'),
+    'seed_bulking_plots' => new TranslatableMarkup('Seed Bulking Plots'),
+    'other' => new TranslatableMarkup('Other'),
   ];
 }
 
@@ -77,49 +78,49 @@ function farm_rothamsted_experiment_research_statistical_design_field_allowed_va
 function farm_rothamsted_experiment_research_statistical_design_options(?string $blocking_structure = NULL): array {
   $all_options = [
     'crd' => [
-      'crd' => t('Completely Randomised Design'),
+      'crd' => new TranslatableMarkup('Completely Randomised Design'),
     ],
     'rcbd' => [
-      'rcbd' => t('Randomised Complete Block Design'),
+      'rcbd' => new TranslatableMarkup('Randomised Complete Block Design'),
     ],
     'rbd' => [
-      'bibd' => t('Balanced Incomplete Block Design'),
-      'ubd' => t('Unequal Block Design'),
-      'ad' => t('Alpha Design'),
-      'cd' => t('Cyclic Design'),
-      'description' => t('Other (see description)'),
+      'bibd' => new TranslatableMarkup('Balanced Incomplete Block Design'),
+      'ubd' => new TranslatableMarkup('Unequal Block Design'),
+      'ad' => new TranslatableMarkup('Alpha Design'),
+      'cd' => new TranslatableMarkup('Cyclic Design'),
+      'description' => new TranslatableMarkup('Other (see description)'),
     ],
     'nrbd' => [
-      'ibd' => t('Incomplete Block Design'),
-      'ad' => t('Alpha Design'),
-      'cd' => t('Cyclic Design'),
-      'description' => t('Other (see description)'),
+      'ibd' => new TranslatableMarkup('Incomplete Block Design'),
+      'ad' => new TranslatableMarkup('Alpha Design'),
+      'cd' => new TranslatableMarkup('Cyclic Design'),
+      'description' => new TranslatableMarkup('Other (see description)'),
     ],
     'rrcd' => [
-      'ls' => t('Latin Square'),
-      'cls' => t('Complete Latin Square'),
-      'qcls' => t('Quasi-Complete Latin Square'),
-      'lsd' => t('Lattice Square Design'),
-      'description' => t('Other (see description)'),
+      'ls' => new TranslatableMarkup('Latin Square'),
+      'cls' => new TranslatableMarkup('Complete Latin Square'),
+      'qcls' => new TranslatableMarkup('Quasi-Complete Latin Square'),
+      'lsd' => new TranslatableMarkup('Lattice Square Design'),
+      'description' => new TranslatableMarkup('Other (see description)'),
     ],
     'nrrcd' => [
-      'description' => t('See Description'),
+      'description' => new TranslatableMarkup('See Description'),
     ],
     'spd' => [
-      'spd' => t('Split Plot Design'),
-      'smpd' => t('Split Main Plots Design'),
-      'sspd' => t('Split-split Plot Design'),
-      'ccd' => t('Criss-cross (Strip Plot) Design'),
-      'description' => t('Other (see description)'),
+      'spd' => new TranslatableMarkup('Split Plot Design'),
+      'smpd' => new TranslatableMarkup('Split Main Plots Design'),
+      'sspd' => new TranslatableMarkup('Split-split Plot Design'),
+      'ccd' => new TranslatableMarkup('Criss-cross (Strip Plot) Design'),
+      'description' => new TranslatableMarkup('Other (see description)'),
     ],
     'ad' => [
-      'description' => t('See Description'),
+      'description' => new TranslatableMarkup('See Description'),
     ],
     'nr' => [
-      'description' => t('See Description'),
+      'description' => new TranslatableMarkup('See Description'),
     ],
     'other' => [
-      'description' => t('See Description'),
+      'description' => new TranslatableMarkup('See Description'),
     ],
   ];
 

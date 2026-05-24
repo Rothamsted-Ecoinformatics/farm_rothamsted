@@ -13,6 +13,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\file\FileInterface;
 use Drupal\file\FileRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -181,7 +182,7 @@ abstract class DataExportTypeBase extends PluginBase implements DataExportTypeIn
 
     // If file creation failed, bail with a warning.
     catch (\Exception $e) {
-      $this->messenger()->addWarning($this->t('Could not create file.'));
+      $this->messenger()->addWarning(new TranslatableMarkup('Could not create file.'));
       return NULL;
     }
 

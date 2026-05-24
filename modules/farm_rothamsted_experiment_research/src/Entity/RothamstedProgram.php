@@ -179,8 +179,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
     $fields += static::revisionLogBaseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the research program.'))
+      ->setLabel(new TranslatableMarkup('Name'))
+      ->setDescription(new TranslatableMarkup('The name of the research program.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -197,8 +197,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
-      ->setDescription(t('The user ID of author of the research program.'))
+      ->setLabel(new TranslatableMarkup('Author'))
+      ->setDescription(new TranslatableMarkup('The user ID of author of the research program.'))
       ->setRevisionable(TRUE)
       ->setDefaultValueCallback(static::class . '::getCurrentUserId')
       ->setSetting('target_type', 'user')
@@ -212,8 +212,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the research program was created.'))
+      ->setLabel(new TranslatableMarkup('Authored on'))
+      ->setDescription(new TranslatableMarkup('The time that the research program was created.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -225,20 +225,20 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the research program was last edited.'))
+      ->setLabel(new TranslatableMarkup('Changed'))
+      ->setDescription(new TranslatableMarkup('The time that the research program was last edited.'))
       ->setRevisionable(TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Status'))
-      ->setDescription(t('The status of the program.'))
+      ->setLabel(new TranslatableMarkup('Status'))
+      ->setDescription(new TranslatableMarkup('The status of the program.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
-        'requested' => t('Requested'),
-        'active' => t('Active'),
-        'completed' => t('Completed'),
-        'archived' => t('Archived'),
+        'requested' => new TranslatableMarkup('Requested'),
+        'active' => new TranslatableMarkup('Active'),
+        'completed' => new TranslatableMarkup('Completed'),
+        'archived' => new TranslatableMarkup('Archived'),
       ])
       ->setDefaultValue('requested')
       ->setDisplayConfigurable('form', TRUE)
@@ -255,8 +255,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['project_code'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Project code'))
-      ->setDescription(t('The project code assigned to the Research Programme.'))
+      ->setLabel(new TranslatableMarkup('Project code'))
+      ->setDescription(new TranslatableMarkup('The project code assigned to the Research Programme.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -276,8 +276,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['abbreviation'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Abbreviation'))
-      ->setDescription(t('The abbreviated name of the Research Programme.'))
+      ->setLabel(new TranslatableMarkup('Abbreviation'))
+      ->setDescription(new TranslatableMarkup('The abbreviated name of the Research Programme.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
@@ -294,7 +294,7 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['principal_investigator'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Principal Investigators'))
+      ->setLabel(new TranslatableMarkup('Principal Investigators'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
@@ -314,8 +314,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['funder'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Funders'))
-      ->setDescription(t('The name of the organisation funding the Research Program.'))
+      ->setLabel(new TranslatableMarkup('Funders'))
+      ->setDescription(new TranslatableMarkup('The name of the organisation funding the Research Program.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('allowed_values', [
@@ -365,8 +365,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['grant_code'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Funder Grant codes'))
-      ->setDescription(t('The code assigned to the Research Program by the funder.'))
+      ->setLabel(new TranslatableMarkup('Funder Grant codes'))
+      ->setDescription(new TranslatableMarkup('The code assigned to the Research Program by the funder.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayConfigurable('form', TRUE)
@@ -383,8 +383,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['start'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Start date'))
-      ->setDescription(t('The start date of the program.'))
+      ->setLabel(new TranslatableMarkup('Start date'))
+      ->setDescription(new TranslatableMarkup('The start date of the program.'))
       ->setRevisionable(TRUE)
       ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
@@ -401,8 +401,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['end'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('End date'))
-      ->setDescription(t('The end date of the program.'))
+      ->setLabel(new TranslatableMarkup('End date'))
+      ->setDescription(new TranslatableMarkup('The end date of the program.'))
       ->setRevisionable(TRUE)
       ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
@@ -419,8 +419,8 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
       ]);
 
     $fields['notes'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Notes'))
-      ->setDescription(t('Notes about the research program.'))
+      ->setLabel(new TranslatableMarkup('Notes'))
+      ->setDescription(new TranslatableMarkup('Notes about the research program.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Defines the cossh hazard assessments options.
@@ -18,21 +19,21 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
  */
 function farm_rothamsted_cossh_hazard_options() {
   return [
-    'explosive' => t('Explosive'),
-    'oxidising' => t('Oxidising'),
-    'flammable' => t('Flammable'),
-    'highly_flammable' => t('Highly Flammable'),
-    'extremely_flammable' => t('Extremely Flammable'),
-    'harmful' => t('Harmful'),
-    'irritant' => t('Irritant'),
-    'corrosive' => t('Corrosive'),
-    'toxic' => t('Toxic'),
-    'danger_to_environment' => t('Danger to Environment'),
-    'carcinogenic' => t('Carcinogenic'),
-    'mutagenic' => t('Mutagenic'),
-    'toxic_for_reproduction' => t('Toxic for Reproduction'),
-    'sensitising' => t('Sensitising'),
-    'none' => t('None'),
+    'explosive' => new TranslatableMarkup('Explosive'),
+    'oxidising' => new TranslatableMarkup('Oxidising'),
+    'flammable' => new TranslatableMarkup('Flammable'),
+    'highly_flammable' => new TranslatableMarkup('Highly Flammable'),
+    'extremely_flammable' => new TranslatableMarkup('Extremely Flammable'),
+    'harmful' => new TranslatableMarkup('Harmful'),
+    'irritant' => new TranslatableMarkup('Irritant'),
+    'corrosive' => new TranslatableMarkup('Corrosive'),
+    'toxic' => new TranslatableMarkup('Toxic'),
+    'danger_to_environment' => new TranslatableMarkup('Danger to Environment'),
+    'carcinogenic' => new TranslatableMarkup('Carcinogenic'),
+    'mutagenic' => new TranslatableMarkup('Mutagenic'),
+    'toxic_for_reproduction' => new TranslatableMarkup('Toxic for Reproduction'),
+    'sensitising' => new TranslatableMarkup('Sensitising'),
+    'none' => new TranslatableMarkup('None'),
   ];
 }
 
@@ -44,10 +45,10 @@ function farm_rothamsted_cossh_hazard_options() {
  */
 function farm_rothamsted_ppe_options() {
   return [
-    'face_shield' => t('Face Shield'),
-    'coveralls' => t('Coveralls'),
-    'gloves' => t('Gloves'),
-    'apron' => t('Apron'),
+    'face_shield' => new TranslatableMarkup('Face Shield'),
+    'coveralls' => new TranslatableMarkup('Coveralls'),
+    'gloves' => new TranslatableMarkup('Gloves'),
+    'apron' => new TranslatableMarkup('Apron'),
   ];
 }
 

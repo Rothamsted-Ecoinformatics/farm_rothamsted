@@ -10,6 +10,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -110,7 +111,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getConfirmText() {
-    return $this->t('Continue');
+    return new TranslatableMarkup('Continue');
   }
 
   /**
@@ -142,7 +143,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
     // Build status field.
     $form['status'] = [
       '#type' => 'select',
-      '#title' => $this->t('Status'),
+      '#title' => new TranslatableMarkup('Status'),
       '#description' => $field_definitions['status']->getDescription(),
       '#options' => $options,
       '#required' => TRUE,
@@ -185,7 +186,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
             }
           }
           $this->messenger()->addWarning(
-            $this->t('Could not change status of <a href=":entity_link">%entity_label</a>. The following fields are required and incomplete: %fields',
+            new TranslatableMarkup('Could not change status of <a href=":entity_link">%entity_label</a>. The following fields are required and incomplete: %fields',
               [
                 ':entity_link' => $entity->toUrl()->setAbsolute()->toString(),
                 '%entity_label' => $entity->label(),

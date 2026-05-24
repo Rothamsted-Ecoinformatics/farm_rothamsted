@@ -6,7 +6,7 @@ namespace Drupal\farm_rothamsted_quick\Plugin\Action\Derivative;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\farm_quick\QuickFormPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,7 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriverInterface {
 
-  use StringTranslationTrait;
 
   /**
    * The quick form manager.
@@ -74,7 +73,7 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
       foreach ($this->getApplicableQuickForms() as $quick_form_id => $quick_form_definition) {
         $definition = $base_plugin_definition;
         $definition['type'] = 'asset';
-        $definition['label'] = $this->t('@quick_form_label Quick Form Action', ['@quick_form_label' => $quick_form_definition->getLabel()]);
+        $definition['label'] = new TranslatableMarkup('@quick_form_label Quick Form Action', ['@quick_form_label' => $quick_form_definition->getLabel()]);
         $definition['confirm_form_route_name'] = "farm.quick.$quick_form_id";
         $definitions[$quick_form_id] = $definition;
       }

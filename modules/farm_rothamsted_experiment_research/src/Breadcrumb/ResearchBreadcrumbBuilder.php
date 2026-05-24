@@ -8,15 +8,13 @@ use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\system\PathBasedBreadcrumbBuilder;
 
 /**
  * Build research breadcrumbs.
  */
 class ResearchBreadcrumbBuilder extends PathBasedBreadcrumbBuilder {
-
-  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
@@ -51,34 +49,34 @@ class ResearchBreadcrumbBuilder extends PathBasedBreadcrumbBuilder {
 
       case 'entity.rothamsted_program.canonical':
         /** @var \Drupal\asset\Entity\AssetInterface $asset */
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Research Programs'), 'entity.rothamsted_program.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
         break;
 
       case 'entity.rothamsted_experiment.canonical':
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Research Programs'), 'entity.rothamsted_program.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Experiments'), 'entity.rothamsted_experiment.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Experiments'), 'entity.rothamsted_experiment.collection'));
         break;
 
       case 'entity.rothamsted_design.canonical':
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Research Programs'), 'entity.rothamsted_program.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Experiments'), 'entity.rothamsted_experiment.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Designs'), 'entity.rothamsted_design.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Experiments'), 'entity.rothamsted_experiment.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Designs'), 'entity.rothamsted_design.collection'));
         break;
 
       case 'entity.plan.canonical':
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Research Programs'), 'entity.rothamsted_program.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Experiments'), 'entity.rothamsted_experiment.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Designs'), 'entity.rothamsted_design.collection'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Plans'), 'view.rothamsted_experiment_plan.page_research'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Experiments'), 'entity.rothamsted_experiment.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Designs'), 'entity.rothamsted_design.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Plans'), 'view.rothamsted_experiment_plan.page_research'));
         break;
 
       case 'entity.rothamsted_researcher.canonical':
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Home'), '<front>'));
-        $breadcrumb->addLink(Link::createFromRoute($this->t('Research Programs'), 'entity.rothamsted_program.collection'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
+        $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
         break;
 
     }

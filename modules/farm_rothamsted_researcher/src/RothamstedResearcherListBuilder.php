@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_researcher;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * List builder for researchers.
@@ -16,9 +17,9 @@ class RothamstedResearcherListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['name'] = $this->t('Name');
-    $header['organization'] = $this->t('Organisation');
-    $header['department'] = $this->t('Department');
+    $header['name'] = new TranslatableMarkup('Name');
+    $header['organization'] = new TranslatableMarkup('Organisation');
+    $header['department'] = new TranslatableMarkup('Department');
     return $header + parent::buildHeader();
   }
 

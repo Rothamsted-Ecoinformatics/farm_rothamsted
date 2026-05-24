@@ -7,7 +7,7 @@ namespace Drupal\farm_rothamsted_experiment\Hook;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\plan\Entity\Plan;
 use Drupal\views\ViewExecutable;
 
@@ -15,8 +15,6 @@ use Drupal\views\ViewExecutable;
  * Views hook implementations for farm_rothamsted_experiment.
  */
 class ViewsHooks {
-
-  use StringTranslationTrait;
 
   public function __construct(
     protected readonly RouteMatchInterface $routeMatch,
@@ -46,48 +44,48 @@ class ViewsHooks {
 
     // Add a reverse relationship for all experiment plan logs.
     $data['log_field_data']['reverse__rothamsted_experiment_log'] = [
-      'title' => $this->t('Study Plan'),
-      'help' => $this->t('Relate each log with the rothamsted study plan ALL.'),
+      'title' => new TranslatableMarkup('Study Plan'),
+      'help' => new TranslatableMarkup('Relate each log with the rothamsted study plan ALL.'),
       'relationship' => [
         'id' => 'standard',
         'join_id' => 'rothamsted_experiment_logs',
         'base' => 'plan_field_data',
         'base field' => 'id',
         'relationship table' => 'rothamsted_experiment_plan_logs',
-        'label' => $this->t('Plan'),
-        'group' => $this->t('Log'),
+        'label' => new TranslatableMarkup('Plan'),
+        'group' => new TranslatableMarkup('Log'),
         'entity_type' => 'plan',
       ],
     ];
 
     // Add a reverse relationship for only experiment plan logs via plan.asset.
     $data['log_field_data']['reverse__rothamsted_experiment_asset_log'] = [
-      'title' => $this->t('Study Plan'),
-      'help' => $this->t('Relate each log with the rothamsted study plan ASSET.'),
+      'title' => new TranslatableMarkup('Study Plan'),
+      'help' => new TranslatableMarkup('Relate each log with the rothamsted study plan ASSET.'),
       'relationship' => [
         'id' => 'standard',
         'join_id' => 'rothamsted_experiment_asset_logs',
         'base' => 'plan_field_data',
         'base field' => 'id',
         'relationship table' => 'rothamsted_experiment_plan_asset_logs',
-        'label' => $this->t('Plan'),
-        'group' => $this->t('Log'),
+        'label' => new TranslatableMarkup('Plan'),
+        'group' => new TranslatableMarkup('Log'),
         'entity_type' => 'plan',
       ],
     ];
 
     // Add a reverse relationship for only experiment plan logs via plan.plot.
     $data['log_field_data']['reverse__rothamsted_experiment_plot_log'] = [
-      'title' => $this->t('Study Plan'),
-      'help' => $this->t('Relate each log with the rothamsted study plan PLOT.'),
+      'title' => new TranslatableMarkup('Study Plan'),
+      'help' => new TranslatableMarkup('Relate each log with the rothamsted study plan PLOT.'),
       'relationship' => [
         'id' => 'standard',
         'join_id' => 'rothamsted_experiment_plot_logs',
         'base' => 'plan_field_data',
         'base field' => 'id',
         'relationship table' => 'rothamsted_experiment_plan_plot_logs',
-        'label' => $this->t('Plan'),
-        'group' => $this->t('Log'),
+        'label' => new TranslatableMarkup('Plan'),
+        'group' => new TranslatableMarkup('Log'),
         'entity_type' => 'plan',
       ],
     ];
@@ -204,7 +202,7 @@ class ViewsHooks {
 
       // Add "All locations" layer.
       $map['#map_settings']['asset_type_layers']['all_locations'] = [
-        'label' => $this->t('All locations'),
+        'label' => new TranslatableMarkup('All locations'),
         'filters' => [
           'is_location' => 1,
         ],
@@ -217,7 +215,7 @@ class ViewsHooks {
         $total_items = $pager->getTotalItems();
         $items_per_page = $pager->getItemsPerPage();
         if ($total_items > $items_per_page) {
-          $this->messenger->addWarning($this->t('Not all plots are displayed on this page. To view or add records to the full list of plots, use the Filter and set "Items per page" to "All"'));
+          $this->messenger->addWarning(new TranslatableMarkup('Not all plots are displayed on this page. To view or add records to the full list of plots, use the Filter and set "Items per page" to "All"'));
         }
       }
 

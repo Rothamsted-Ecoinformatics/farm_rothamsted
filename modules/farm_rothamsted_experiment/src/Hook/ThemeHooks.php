@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Hook;
 
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Theme hook implementations for farm_rothamsted_experiment.
  */
 class ThemeHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Implements hook_theme_registry_alter().
@@ -36,12 +34,12 @@ class ThemeHooks {
       return [
         'locations' => [
           'location' => 'main',
-          'title' => $this->t('Locations'),
+          'title' => new TranslatableMarkup('Locations'),
           'weight' => 20,
         ],
         'deviations' => [
           'location' => 'main',
-          'title' => $this->t('Deviations'),
+          'title' => new TranslatableMarkup('Deviations'),
           'weight' => 170,
         ],
       ];

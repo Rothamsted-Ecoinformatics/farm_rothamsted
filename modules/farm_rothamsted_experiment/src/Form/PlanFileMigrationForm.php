@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -68,10 +69,10 @@ class PlanFileMigrationForm extends FormBase {
     ];
 
     $plan_link = \Drupal::service('link_generator')->generate($plan->label(), $plan->toUrl());
-    $migration_list_link = \Drupal::service('link_generator')->generate($this->t('Back to migration list'), Url::fromRoute('farm_rothamsted_experiment.plan_file_migration_list'));
+    $migration_list_link = \Drupal::service('link_generator')->generate(new TranslatableMarkup('Back to migration list'), Url::fromRoute('farm_rothamsted_experiment.plan_file_migration_list'));
     $form['plan_info'] = [
       '#type' => 'item',
-      '#markup' => $this->t('<p>@back</p><h2>Migrate files for Plan #@id: @link</h2>', [
+      '#markup' => new TranslatableMarkup('<p>@back</p><h2>Migrate files for Plan #@id: @link</h2>', [
         '@back' => $migration_list_link,
         '@id' => $plan->id(),
         '@link' => $plan_link,
@@ -89,7 +90,7 @@ class PlanFileMigrationForm extends FormBase {
     if (empty($files)) {
       $form['no_files'] = [
         '#type' => 'item',
-        '#markup' => $this->t('This plan has no files attached.'),
+        '#markup' => new TranslatableMarkup('This plan has no files attached.'),
       ];
       return $form;
     }
@@ -98,13 +99,13 @@ class PlanFileMigrationForm extends FormBase {
     $form['files'] = [
       '#type' => 'table',
       '#header' => [
-        $this->t('Filename'),
-        $this->t('Created'),
-        $this->t('User'),
-        $this->t('Download'),
-        $this->t('Action'),
+        new TranslatableMarkup('Filename'),
+        new TranslatableMarkup('Created'),
+        new TranslatableMarkup('User'),
+        new TranslatableMarkup('Download'),
+        new TranslatableMarkup('Action'),
       ],
-      '#empty' => $this->t('No files found.'),
+      '#empty' => new TranslatableMarkup('No files found.'),
     ];
 
     $user_storage = $this->entityTypeManager->getStorage('user');
@@ -118,11 +119,11 @@ class PlanFileMigrationForm extends FormBase {
       // Get the user who uploaded the file.
       $uid = $file->getOwnerId();
       $user = $user_storage->load($uid);
-      $username = $user ? $user->getDisplayName() : $this->t('Unknown');
+      $username = $user ? $user->getDisplayName() : new TranslatableMarkup('Unknown');
 
       // Build download link.
       $download_url = Url::fromUri(\Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri()));
-      $download_link = \Drupal::service('link_generator')->generate($this->t('Download'), $download_url);
+      $download_link = \Drupal::service('link_generator')->generate(new TranslatableMarkup('Download'), $download_url);
 
       $form['files'][$file_id]['filename'] = [
         '#plain_text' => $file->getFilename(),
@@ -143,12 +144,12 @@ class PlanFileMigrationForm extends FormBase {
       $form['files'][$file_id]['action'] = [
         '#type' => 'select',
         '#options' => [
-          '' => $this->t('- No action -'),
-          'archive' => $this->t('Archive (remove from file field)'),
-          'columns_file' => $this->t('Move to Columns file'),
-          'column_levels_file' => $this->t('Move to Column Levels file'),
-          'plot_attributes_file' => $this->t('Move to Plot Attributes file'),
-          'plot_geometry_file' => $this->t('Move to Plot Geometry file'),
+          '' => new TranslatableMarkup('- No action -'),
+          'archive' => new TranslatableMarkup('Archive (remove from file field)'),
+          'columns_file' => new TranslatableMarkup('Move to Columns file'),
+          'column_levels_file' => new TranslatableMarkup('Move to Column Levels file'),
+          'plot_attributes_file' => new TranslatableMarkup('Move to Plot Attributes file'),
+          'plot_geometry_file' => new TranslatableMarkup('Move to Plot Geometry file'),
         ],
         '#default_value' => '',
       ];
@@ -156,8 +157,8 @@ class PlanFileMigrationForm extends FormBase {
 
     $form['revision_message'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Revision message'),
-      '#description' => $this->t('Describe the changes made during this migration.'),
+      '#title' => new TranslatableMarkup('Revision message'),
+      '#description' => new TranslatableMarkup('Describe the changes made during this migration.'),
       '#required' => TRUE,
     ];
 
@@ -167,12 +168,12 @@ class PlanFileMigrationForm extends FormBase {
 
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Migrate files'),
+      '#value' => new TranslatableMarkup('Migrate files'),
     ];
 
     $form['actions']['cancel'] = [
       '#type' => 'link',
-      '#title' => $this->t('Cancel'),
+      '#title' => new TranslatableMarkup('Cancel'),
       '#url' => Url::fromRoute('farm_rothamsted_experiment.plan_file_migration_list'),
       '#attributes' => ['class' => ['button']],
     ];
@@ -208,7 +209,7 @@ class PlanFileMigrationForm extends FormBase {
 
       // Check if this destination field is already assigned.
       if ($destination_fields[$action] !== NULL) {
-        $form_state->setErrorByName("files][$file_id][action", $this->t('Multiple files cannot be assigned to the same destination field. Another file is already assigned to @field.', [
+        $form_state->setErrorByName("files][$file_id][action", new TranslatableMarkup('Multiple files cannot be assigned to the same destination field. Another file is already assigned to @field.', [
           '@field' => $action,
         ]));
       }
@@ -227,7 +228,7 @@ class PlanFileMigrationForm extends FormBase {
     $plan = $this->entityTypeManager->getStorage('plan')->load($plan_id);
 
     if (!$plan) {
-      $this->messenger()->addError($this->t('Plan not found.'));
+      $this->messenger()->addError(new TranslatableMarkup('Plan not found.'));
       return;
     }
 
@@ -288,7 +289,7 @@ class PlanFileMigrationForm extends FormBase {
     $plan->save();
 
     $plan_link = $plan->toLink($plan->label())->toString();
-    $this->messenger()->addStatus($this->t('Files have been migrated successfully for @plan.', [
+    $this->messenger()->addStatus(new TranslatableMarkup('Files have been migrated successfully for @plan.', [
       '@plan' => $plan_link,
     ]));
 

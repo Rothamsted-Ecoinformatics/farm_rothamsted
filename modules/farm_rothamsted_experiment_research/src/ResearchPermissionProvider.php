@@ -8,7 +8,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity\EntityPermissionProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,7 +17,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ResearchPermissionProvider implements EntityPermissionProviderInterface, ContainerInjectionInterface {
 
-  use StringTranslationTrait;
 
   /**
    * The entity type manager.
@@ -125,12 +124,12 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
     $entity_type_id = $entity_type->id();
     $plural_label = $entity_type->getPluralLabel();
     $permissions["view research_assigned $entity_type_id"] = [
-      'title' => $this->t('View research-assigned @type', [
+      'title' => new TranslatableMarkup('View research-assigned @type', [
         '@type' => $plural_label,
       ]),
     ];
     $permissions["update research_assigned $entity_type_id"] = [
-      'title' => $this->t('Update research-assigned @type', [
+      'title' => new TranslatableMarkup('Update research-assigned @type', [
         '@type' => $plural_label,
       ]),
     ];
@@ -154,7 +153,7 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
     foreach ($bundles as $bundle_id => $bundle_info) {
       $permissions["view research_assigned $bundle_id $entity_type_id"] = [
-        'title' => $this->t(
+        'title' => new TranslatableMarkup(
           'View research-assigned @bundle @entity_type',
           [
             '@bundle' => $bundle_info['label'],
@@ -163,7 +162,7 @@ class ResearchPermissionProvider implements EntityPermissionProviderInterface, C
         ),
       ];
       $permissions["update research_assigned $bundle_id $entity_type_id"] = [
-        'title' => $this->t(
+        'title' => new TranslatableMarkup(
           'Update research-assigned @bundle @entity_type',
           [
             '@bundle' => $bundle_info['label'],

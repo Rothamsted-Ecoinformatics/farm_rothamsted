@@ -10,6 +10,7 @@ use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -66,7 +67,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
     // Ensure plots have been created.
     $has_plots = !$plan->get('plot')->isEmpty();
     if (!$has_plots) {
-      $this->messenger()->addWarning($this->t('Create experiment plots before uploading experiment variables.'));
+      $this->messenger()->addWarning(new TranslatableMarkup('Create experiment plots before uploading experiment variables.'));
       return $this->redirect('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $plan->id()]);
     }
 
@@ -77,8 +78,8 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'columns_file');
     $form['column_descriptors'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Column descriptors'),
-      '#description' => $this->t('CSV file containing the column descriptor definitions.'),
+      '#title' => new TranslatableMarkup('Column descriptors'),
+      '#description' => new TranslatableMarkup('CSV file containing the column descriptor definitions.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
@@ -87,8 +88,8 @@ class ExperimentVariableForm extends ExperimentFormBase {
     ];
     $form['column_levels'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Column Levels'),
-      '#description' => $this->t('CSV file containing the column level definitions for each column descriptor.'),
+      '#title' => new TranslatableMarkup('Column Levels'),
+      '#description' => new TranslatableMarkup('CSV file containing the column level definitions for each column descriptor.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
@@ -98,8 +99,8 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
     $form['plot_attributes'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Plot attributes'),
-      '#description' => $this->t('CSV file containing each plot number, id, type and column assignments.'),
+      '#title' => new TranslatableMarkup('Plot attributes'),
+      '#description' => new TranslatableMarkup('CSV file containing each plot number, id, type and column assignments.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['csv'],
       ],
@@ -109,23 +110,23 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
     $form['validate_plot_ids'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Validate Plot IDs'),
-      '#description' => $this->t('Plot IDs are sequential numbers matching the Plot Number by default. Only uncheck this box if you are confident that you are uploading attributes for correct plot number and plot ID pairs.'),
+      '#title' => new TranslatableMarkup('Validate Plot IDs'),
+      '#description' => new TranslatableMarkup('Plot IDs are sequential numbers matching the Plot Number by default. Only uncheck this box if you are confident that you are uploading attributes for correct plot number and plot ID pairs.'),
       '#default_value' => TRUE,
     ];
 
     $form['reset_geometry'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Reset Plot geometries'),
-      '#description' => $this->t('Check this box to reset the geometry on all plots. This may be useful when correcting Plot IDs and Plot Numbers.'),
+      '#title' => new TranslatableMarkup('Reset Plot geometries'),
+      '#description' => new TranslatableMarkup('Check this box to reset the geometry on all plots. This may be useful when correcting Plot IDs and Plot Numbers.'),
       '#default_value' => FALSE,
     ];
 
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Revision message'),
-      '#description' => $this->t('Describe the reason for this change.'),
+      '#title' => new TranslatableMarkup('Revision message'),
+      '#description' => new TranslatableMarkup('Describe the reason for this change.'),
       '#required' => TRUE,
     ];
 
@@ -133,7 +134,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#type' => 'actions',
       'submit' => [
         '#type' => 'submit',
-        '#value' => $this->t('Submit'),
+        '#value' => new TranslatableMarkup('Submit'),
       ],
     ];
     return $form;
@@ -170,7 +171,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
       foreach ($file_names as $index => $file_name) {
         if ($index < $uploaded_index) {
           if (empty($file_data[$file_name])) {
-            $form_state->setError($form[$uploaded_file], $this->t('%file_name must be uploaded first.', ['%file_name' => $file_name]));
+            $form_state->setError($form[$uploaded_file], new TranslatableMarkup('%file_name must be uploaded first.', ['%file_name' => $file_name]));
             return;
           }
         }
@@ -178,7 +179,7 @@ class ExperimentVariableForm extends ExperimentFormBase {
 
       // Ensure the file was parsed.
       if (empty($file_data[$uploaded_file])) {
-        $form_state->setError($form[$uploaded_file], $this->t('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
+        $form_state->setError($form[$uploaded_file], new TranslatableMarkup('Failed to parse %file_name.', ['%file_name' => $uploaded_file]));
         return;
       }
 
@@ -608,9 +609,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
     ];
     $batch = [
       'operations' => $operations,
-      'title' => $this->t('Updating plot attributes'),
-      'progress_message' => $this->t('Updating plot attributes'),
-      'error_message' => $this->t('Error updating plot attributes.'),
+      'title' => new TranslatableMarkup('Updating plot attributes'),
+      'progress_message' => new TranslatableMarkup('Updating plot attributes'),
+      'error_message' => new TranslatableMarkup('Error updating plot attributes.'),
     ];
     batch_set($batch);
   }

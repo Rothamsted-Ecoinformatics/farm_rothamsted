@@ -100,7 +100,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     if (!empty($boundary)) {
       $boundary_url = $boundary->toUrl()->setAbsolute()->toString();
       $this->messenger()->addWarning(
-        $this->t(
+        new TranslatableMarkup(
           'The experiment %experiment already has a boundary: <a href="@boundary_url">%boundary</a>',
           [
             '%experiment' => $plan->label(),
@@ -116,15 +116,15 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     $form['required_message'] = [
       '#type'  => 'html_tag',
       '#tag'   => 'p',
-      '#value' => $this->t('The experiment location is required to create an experiment boundary. Verify that this is correct before creating the experiment boundary.'),
+      '#value' => new TranslatableMarkup('The experiment location is required to create an experiment boundary. Verify that this is correct before creating the experiment boundary.'),
     ];
 
     // Location for the experiment boundary parents.
     $default_locations = $plan->get('location')->referencedEntities();
     $form['location'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Experiment location'),
-      '#description' => $this->t('The fields in which the experiment is located.'),
+      '#title' => new TranslatableMarkup('Experiment location'),
+      '#description' => new TranslatableMarkup('The fields in which the experiment is located.'),
       '#target_type' => 'asset',
       '#selection_handler' => 'views',
       '#selection_settings' => [
@@ -142,8 +142,8 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
 
     $form['geometry'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Experiment Boundary KML File'),
-      '#description' => $this->t('If you have a KML file with GIS coordinates for the experiment boundary, please add it here.'),
+      '#title' => new TranslatableMarkup('Experiment Boundary KML File'),
+      '#description' => new TranslatableMarkup('If you have a KML file with GIS coordinates for the experiment boundary, please add it here.'),
       '#upload_location' => 'private://kml',
       '#upload_validators' => [
         'file_validate_extensions' => ['kml'],
@@ -157,8 +157,8 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     ];
     $form['custom_name'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Customize experiment boundary name'),
-      '#description' => $this->t('The name of the experiment boundary. Defaults to: "[Study Period] ([Study Plan name])"'),
+      '#title' => new TranslatableMarkup('Customize experiment boundary name'),
+      '#description' => new TranslatableMarkup('The name of the experiment boundary. Defaults to: "[Study Period] ([Study Plan name])"'),
       '#default_value' => FALSE,
       '#ajax' => [
         'callback' => [$this, 'boundaryNameCallback'],
@@ -168,7 +168,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     if ($form_state->getValue('custom_name', FALSE)) {
       $form['name_wrapper']['name'] = [
         '#type' => 'textfield',
-        '#title' => $this->t('Experiment boundary name'),
+        '#title' => new TranslatableMarkup('Experiment boundary name'),
         '#maxlength' => 255,
         '#default_value' => $this->generateBoundaryName($form_state),
         '#required' => TRUE,
@@ -178,8 +178,8 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Revision message'),
-      '#description' => $this->t('Describe the reason for this change.'),
+      '#title' => new TranslatableMarkup('Revision message'),
+      '#description' => new TranslatableMarkup('Describe the reason for this change.'),
       '#default_value' => 'Create experiment boundary.',
       '#required' => TRUE,
     ];
@@ -189,7 +189,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       '#type' => 'actions',
       'submit' => [
         '#type' => 'submit',
-        '#value' => $this->t('Create boundary'),
+        '#value' => new TranslatableMarkup('Create boundary'),
       ],
     ];
 
@@ -260,7 +260,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
     // Add message.
     $boundary_url = $boundary->toUrl()->setAbsolute()->toString();
     $this->messenger()->addStatus(
-      $this->t(
+      new TranslatableMarkup(
         'Created experiment boundary: <a href="@boundary_url">%boundary</a>',
         [
           '@boundary_url' => $boundary_url,

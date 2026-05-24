@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment_research\Form;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Experiment entity form class. */
@@ -16,7 +17,7 @@ class ExperimentEntityForm extends ResearchEntityForm {
   public function getTabDefinitions() {
     return [
       'description' => [
-        'title' => $this->t('Description'),
+        'title' => new TranslatableMarkup('Description'),
         'weight' => 0,
         'fields' => [
           'program',
@@ -32,7 +33,7 @@ class ExperimentEntityForm extends ResearchEntityForm {
         ],
       ],
       'permission' => [
-        'title' => $this->t('Permissions'),
+        'title' => new TranslatableMarkup('Permissions'),
         'weight' => 10,
         'fields' => [
           'confidential_treatment',
@@ -44,7 +45,7 @@ class ExperimentEntityForm extends ResearchEntityForm {
         ],
       ],
       'file' => [
-        'title' => $this->t('Files'),
+        'title' => new TranslatableMarkup('Files'),
         'weight' => 15,
         'fields' => [
           'file',
@@ -53,7 +54,7 @@ class ExperimentEntityForm extends ResearchEntityForm {
         ],
       ],
       'status' => [
-        'title' => $this->t('Status'),
+        'title' => new TranslatableMarkup('Status'),
         'weight' => 20,
         'fields' => [
           'status',

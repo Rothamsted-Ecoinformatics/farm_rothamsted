@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment_research\Form;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Proposal entity form class. */
@@ -16,7 +17,7 @@ class ProposalEntityForm extends ResearchEntityForm {
   public function getTabDefinitions() {
     return [
       'description' => [
-        'title' => $this->t('Description'),
+        'title' => new TranslatableMarkup('Description'),
         'weight' => 0,
         'fields' => [
           'name',
@@ -29,7 +30,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'design' => [
-        'title' => $this->t('Statistical Design'),
+        'title' => new TranslatableMarkup('Statistical Design'),
         'weight' => 5,
         'fields' => [
           'planting_year',
@@ -44,7 +45,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'layout' => [
-        'title' => $this->t('In-Field Layout'),
+        'title' => new TranslatableMarkup('In-Field Layout'),
         'weight' => 7,
         'fields' => [
           'field_layout',
@@ -53,7 +54,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'restriction' => [
-        'title' => $this->t('Restrictions'),
+        'title' => new TranslatableMarkup('Restrictions'),
         'weight' => 10,
         'fields' => [
           'previous_cropping',
@@ -75,7 +76,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'management' => [
-        'title' => $this->t('Farm Management'),
+        'title' => new TranslatableMarkup('Farm Management'),
         'weight' => 15,
         'fields' => [
           'experiment_management',
@@ -87,7 +88,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'file' => [
-        'title' => $this->t('Files'),
+        'title' => new TranslatableMarkup('Files'),
         'weight' => 20,
         'fields' => [
           'initial_quote',
@@ -97,7 +98,7 @@ class ProposalEntityForm extends ResearchEntityForm {
         ],
       ],
       'status' => [
-        'title' => $this->t('Status'),
+        'title' => new TranslatableMarkup('Status'),
         'weight' => 25,
         'fields' => [
           'experiment',

@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_experiment\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
@@ -43,7 +44,7 @@ class PlanFileMigrationController extends ControllerBase {
 
     if (empty($plan_ids)) {
       return [
-        '#markup' => $this->t('No plans require file migration.'),
+        '#markup' => new TranslatableMarkup('No plans require file migration.'),
       ];
     }
 
@@ -60,20 +61,20 @@ class PlanFileMigrationController extends ControllerBase {
         $plan->id(),
         $plan->label(),
         $last_updated,
-        Link::fromTextAndUrl($this->t('Migrate files'), $migrate_url),
+        Link::fromTextAndUrl(new TranslatableMarkup('Migrate files'), $migrate_url),
       ];
     }
 
     $build = [
       '#type' => 'table',
       '#header' => [
-        $this->t('Plan ID'),
-        $this->t('Plan Name'),
-        $this->t('Last Updated'),
-        $this->t('Actions'),
+        new TranslatableMarkup('Plan ID'),
+        new TranslatableMarkup('Plan Name'),
+        new TranslatableMarkup('Last Updated'),
+        new TranslatableMarkup('Actions'),
       ],
       '#rows' => $rows,
-      '#empty' => $this->t('No plans require file migration.'),
+      '#empty' => new TranslatableMarkup('No plans require file migration.'),
     ];
 
     return $build;

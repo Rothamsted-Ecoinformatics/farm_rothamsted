@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_quick\Traits;
 
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\quantity\QuantityHelper;
 
 /**
  * Helper functions for building quick form quantity fields.
  */
 trait QuickQuantityFieldTrait {
-
-  use StringTranslationTrait;
 
   /**
    * Helper function to build a render array for a quantity field.
@@ -52,7 +50,7 @@ trait QuickQuantityFieldTrait {
       ],
       'measure' => [
         '#type' => 'select',
-        '#title' => $this->t('Measure'),
+        '#title' => new TranslatableMarkup('Measure'),
         '#options' => QuantityHelper::quantityMeasureOptions(),
         '#weight' => 0,
       ],
@@ -67,7 +65,7 @@ trait QuickQuantityFieldTrait {
       ],
       'label' => [
         '#type' => 'textfield',
-        '#title' => $this->t('Label'),
+        '#title' => new TranslatableMarkup('Label'),
         '#weight' => 15,
         '#size' => 15,
       ],
@@ -132,7 +130,7 @@ trait QuickQuantityFieldTrait {
       // Add entity_autocomplete.
       $units += [
         '#type' => 'entity_autocomplete',
-        '#placeholder' => $this->t('Units'),
+        '#placeholder' => new TranslatableMarkup('Units'),
         '#target_type' => 'taxonomy_term',
         '#selection_handler' => 'default',
         '#selection_settings' => [

@@ -9,15 +9,13 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
  * Entity hook implementations for farm_rothamsted_experiment.
  */
 class EntityHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Constructs an EntityHooks object.
@@ -56,13 +54,13 @@ class EntityHooks {
     // Ensure experiment boundary exists.
     if (empty($boundary)) {
       $url = Url::fromRoute('farm_rothamsted_experiment.experiment_boundary_form', ['plan' => $entity->id()])->setAbsolute()->toString();
-      $this->messenger->addWarning($this->t('No experiment boundary has been created. <a href=":link">Create experiment boundary</a>', [':link' => $url]));
+      $this->messenger->addWarning(new TranslatableMarkup('No experiment boundary has been created. <a href=":link">Create experiment boundary</a>', [':link' => $url]));
     }
 
     $has_plots = !$entity->get('plot')->isEmpty();
     if (!$has_plots) {
       $url = Url::fromRoute('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $entity->id()])->setAbsolute()->toString();
-      $this->messenger->addWarning($this->t('No experiment plots have been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
+      $this->messenger->addWarning(new TranslatableMarkup('No experiment plots have been created. <a href=":link">Create experiment plots</a>', [':link' => $url]));
     }
 
     // Create details for each field group.
@@ -74,12 +72,12 @@ class EntityHooks {
       ],
       'meta' => [
         'location' => 'sidebar',
-        'title' => $this->t('Status'),
+        'title' => new TranslatableMarkup('Status'),
         'weight' => 0,
       ],
       'file' => [
         'location' => 'main',
-        'title' => $this->t('Files'),
+        'title' => new TranslatableMarkup('Files'),
         'weight' => 150,
       ],
     ] + $this->moduleHandler->invokeAll('farm_ui_theme_field_groups', ['plan', 'rothamsted_experiment']);

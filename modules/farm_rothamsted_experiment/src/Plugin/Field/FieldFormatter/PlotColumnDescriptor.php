@@ -46,8 +46,8 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     // Limit which column_id is shown.
     $form['column_id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Column ID'),
-      '#description' => $this->t('Only display column descriptors for a given column ID.'),
+      '#title' => new TranslatableMarkup('Column ID'),
+      '#description' => new TranslatableMarkup('Only display column descriptors for a given column ID.'),
       '#default_value' => $this->getSetting('column_id'),
       '#weight' => 2,
     ];
@@ -55,8 +55,8 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     // Column descriptors.
     $form['column_levels'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Column levels'),
-      '#description' => $this->t('Column level mapping. Only to be used programmatically.'),
+      '#title' => new TranslatableMarkup('Column levels'),
+      '#description' => new TranslatableMarkup('Column level mapping. Only to be used programmatically.'),
       '#default_value' => $this->getSetting('column_levels'),
       '#weight' => 2,
       '#disabled' => TRUE,
@@ -65,18 +65,18 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     // Display raw values.
     $form['raw'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Raw values'),
+      '#title' => new TranslatableMarkup('Raw values'),
       '#default_value' => $this->getSetting('raw'),
-      '#description' => $this->t('Display the raw column level ID instead of the column level name.'),
+      '#description' => new TranslatableMarkup('Display the raw column level ID instead of the column level name.'),
       '#weight' => 3,
     ];
 
     // Allow the formatter to hide the key.
     $form['value_only'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Value only'),
+      '#title' => new TranslatableMarkup('Value only'),
       '#default_value' => $this->getSetting('value_only'),
-      '#description' => $this->t('Make the formatter hide the "Key" part of the field and display the "Value" only.'),
+      '#description' => new TranslatableMarkup('Make the formatter hide the "Key" part of the field and display the "Value" only.'),
       '#weight' => 4,
     ];
     return $form;
@@ -91,7 +91,7 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     $key = $this->getSetting('value_only') ? '' : ' [Key] : ';
 
     // Add a summary for the key field.
-    $summary[] = $this->t('Display format: @key [Value].', ['@key' => $key]);
+    $summary[] = new TranslatableMarkup('Display format: @key [Value].', ['@key' => $key]);
 
     return $summary;
   }

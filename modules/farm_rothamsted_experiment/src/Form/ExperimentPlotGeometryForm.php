@@ -12,6 +12,7 @@ use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\plan\Entity\Plan;
 use Drupal\plan\Entity\PlanInterface;
 
@@ -76,14 +77,14 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Ensure plots have been created.
     $has_plots = !$plan->get('plot')->isEmpty();
     if (!$has_plots) {
-      $this->messenger()->addWarning($this->t('Create experiment plots before uploading plot geometry.'));
+      $this->messenger()->addWarning(new TranslatableMarkup('Create experiment plots before uploading plot geometry.'));
       return $this->redirect('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $plan->id()]);
     }
 
     // Ensure plot variables have been uploaded. This ensures geometry will
     // have proper plot ID and plot number values.
     if ($plan->get('column_descriptors')->isEmpty()) {
-      $this->messenger()->addWarning($this->t('Upload experiment variables before uploading plot geometry.'));
+      $this->messenger()->addWarning(new TranslatableMarkup('Upload experiment variables before uploading plot geometry.'));
       return $this->redirect('farm_rothamsted_experiment.experiment.variable_form', ['plan' => $plan->id()]);
     }
 
@@ -91,8 +92,8 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     $plan_file_location = $this->getFileUploadLocation('plan', 'rothamsted_experiment', 'plot_geometry_file');
     $form['geojson'] = [
       '#type' => 'managed_file',
-      '#title' => $this->t('Plot geometries'),
-      '#description' => $this->t('GeoJSON file containing each plot number, plot ID and geometry.'),
+      '#title' => new TranslatableMarkup('Plot geometries'),
+      '#description' => new TranslatableMarkup('GeoJSON file containing each plot number, plot ID and geometry.'),
       '#upload_validators' => [
         'file_validate_extensions' => ['geojson'],
       ],
@@ -104,8 +105,8 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // Revision message.
     $form['revision_message'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Revision message'),
-      '#description' => $this->t('Describe the reason for this change.'),
+      '#title' => new TranslatableMarkup('Revision message'),
+      '#description' => new TranslatableMarkup('Describe the reason for this change.'),
       '#required' => TRUE,
     ];
 
@@ -113,7 +114,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       '#type' => 'actions',
       'submit' => [
         '#type' => 'submit',
-        '#value' => $this->t('Submit'),
+        '#value' => new TranslatableMarkup('Submit'),
       ],
     ];
     return $form;
@@ -280,9 +281,9 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     ];
     $batch = [
       'operations' => $operations,
-      'title' => $this->t('Updating plot geometries'),
-      'progress_message' => $this->t('Updating plot geometries'),
-      'error_message' => $this->t('Error updating plot geometries.'),
+      'title' => new TranslatableMarkup('Updating plot geometries'),
+      'progress_message' => new TranslatableMarkup('Updating plot geometries'),
+      'error_message' => new TranslatableMarkup('Error updating plot geometries.'),
     ];
     batch_set($batch);
   }

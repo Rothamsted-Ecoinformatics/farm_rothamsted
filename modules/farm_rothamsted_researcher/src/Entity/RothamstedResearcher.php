@@ -173,8 +173,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
     $fields += static::revisionLogBaseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the person.'))
+      ->setLabel(new TranslatableMarkup('Name'))
+      ->setDescription(new TranslatableMarkup('The name of the person.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -192,8 +192,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
-      ->setDescription(t('The user ID of author of the researcher.'))
+      ->setLabel(new TranslatableMarkup('Author'))
+      ->setDescription(new TranslatableMarkup('The user ID of author of the researcher.'))
       ->setRevisionable(TRUE)
       ->setDefaultValueCallback(static::class . '::getCurrentUserId')
       ->setSetting('target_type', 'user')
@@ -207,8 +207,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the researcher was created.'))
+      ->setLabel(new TranslatableMarkup('Authored on'))
+      ->setDescription(new TranslatableMarkup('The time that the researcher was created.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -220,18 +220,18 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the researcher was last edited.'))
+      ->setLabel(new TranslatableMarkup('Changed'))
+      ->setDescription(new TranslatableMarkup('The time that the researcher was last edited.'))
       ->setRevisionable(TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Status'))
-      ->setDescription(t('The status of the researcher.'))
+      ->setLabel(new TranslatableMarkup('Status'))
+      ->setDescription(new TranslatableMarkup('The status of the researcher.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
-        'active' => t('Active'),
-        'archived' => t('Archived'),
+        'active' => new TranslatableMarkup('Active'),
+        'archived' => new TranslatableMarkup('Archived'),
       ])
       ->setDefaultValue('active')
       ->setDisplayConfigurable('form', TRUE)
@@ -249,8 +249,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['farm_user'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('farmOS user profile'))
-      ->setDescription(t('The user profile if they have access to farmOS.'))
+      ->setLabel(new TranslatableMarkup('farmOS user profile'))
+      ->setDescription(new TranslatableMarkup('The user profile if they have access to farmOS.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setDisplayConfigurable('form', TRUE)
@@ -265,8 +265,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['title'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Honorific prefix'))
-      ->setDescription(t('The title or honorific prefix of the person.'))
+      ->setLabel(new TranslatableMarkup('Honorific prefix'))
+      ->setDescription(new TranslatableMarkup('The title or honorific prefix of the person.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -283,8 +283,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['job_title'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Job title'))
-      ->setDescription(t('The job title of the researcher.'))
+      ->setLabel(new TranslatableMarkup('Job title'))
+      ->setDescription(new TranslatableMarkup('The job title of the researcher.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -298,19 +298,19 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['role'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Research role'))
-      ->setDescription(t('The role the person plays in relation to experiments.'))
+      ->setLabel(new TranslatableMarkup('Research role'))
+      ->setDescription(new TranslatableMarkup('The role the person plays in relation to experiments.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRequired(TRUE)
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [
-        'data_curator' => t('Data Curator'),
-        'lead_scientist' => t('Lead Scientist'),
-        'post_doctoral_research_scientist' => t('Post-Doctoral Research Scientist'),
-        'phd_student' => t('PhD Student'),
-        'research_technician' => t('Research Technician'),
-        'statistician' => t('Statistician'),
-        'other' => t('Other'),
+        'data_curator' => new TranslatableMarkup('Data Curator'),
+        'lead_scientist' => new TranslatableMarkup('Lead Scientist'),
+        'post_doctoral_research_scientist' => new TranslatableMarkup('Post-Doctoral Research Scientist'),
+        'phd_student' => new TranslatableMarkup('PhD Student'),
+        'research_technician' => new TranslatableMarkup('Research Technician'),
+        'statistician' => new TranslatableMarkup('Statistician'),
+        'other' => new TranslatableMarkup('Other'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -324,8 +324,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['organization'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Organization'))
-      ->setDescription(t('The name of the organization the person works for.'))
+      ->setLabel(new TranslatableMarkup('Organization'))
+      ->setDescription(new TranslatableMarkup('The name of the organization the person works for.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -342,8 +342,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['department'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Department'))
-      ->setDescription(t('The name of the department the person belongs to.'))
+      ->setLabel(new TranslatableMarkup('Department'))
+      ->setDescription(new TranslatableMarkup('The name of the department the person belongs to.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -360,8 +360,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['orcid'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Orcid ID'))
-      ->setDescription(t("The person's OrcidID. See https://orcid.org/ for further details and to register."))
+      ->setLabel(new TranslatableMarkup('Orcid ID'))
+      ->setDescription(new TranslatableMarkup("The person's OrcidID. See https://orcid.org/ for further details and to register."))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -378,8 +378,8 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['notes'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Notes'))
-      ->setDescription(t('Additional notes about the person and their responsibilities.'))
+      ->setLabel(new TranslatableMarkup('Notes'))
+      ->setDescription(new TranslatableMarkup('Additional notes about the person and their responsibilities.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',

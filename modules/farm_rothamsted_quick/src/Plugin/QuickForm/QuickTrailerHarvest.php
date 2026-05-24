@@ -76,7 +76,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Grass/Straw Bales tab.
     $bales = [
       '#type' => 'details',
-      '#title' => $this->t('Grass/Straw Bales'),
+      '#title' => new TranslatableMarkup('Grass/Straw Bales'),
       '#group' => 'tabs',
       '#weight' => 0,
     ];
@@ -84,8 +84,8 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Total number of bales.
     $bales_units_options = $this->getChildTermOptionsByName('unit', 'Grass/Straw Bale Types', 1);
     $bales['total_number_bales'] = $this->buildQuantityField([
-      'title' => $this->t('Total number of bales'),
-      'description' => $this->t('Please give the total number of bales from this harvest and state if the bale is wrapped or not.'),
+      'title' => new TranslatableMarkup('Total number of bales'),
+      'description' => new TranslatableMarkup('Please give the total number of bales from this harvest and state if the bale is wrapped or not.'),
       'measure' => ['#value' => 'count'],
       'units' => ['#options' => $bales_units_options],
     ]);
@@ -105,7 +105,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Trailer Load tab.
     $trailer = [
       '#type' => 'details',
-      '#title' => $this->t('Trailer Load'),
+      '#title' => new TranslatableMarkup('Trailer Load'),
       '#group' => 'tabs',
       '#weight' => 1,
     ];
@@ -118,8 +118,8 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
     // Tare.
     $trailer['tare'] = $this->buildQuantityField([
-      'title' => $this->t('Trailer tare'),
-      'description' => $this->t('The weight of the trailer, as measured on the scales.'),
+      'title' => new TranslatableMarkup('Trailer tare'),
+      'description' => new TranslatableMarkup('The weight of the trailer, as measured on the scales.'),
       'measure' => ['#value' => 'weight'],
       'units' => ['#options' => $trailer_weight_units],
     ]);
@@ -128,7 +128,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     $trailer_count = range(1, 25);
     $trailer['trailer_load_count'] = [
       '#type' => 'select',
-      '#title' => $this->t('How many trailer loads?'),
+      '#title' => new TranslatableMarkup('How many trailer loads?'),
       '#options' => array_combine($trailer_count, $trailer_count),
       '#default_value' => 1,
       '#ajax' => [
@@ -153,8 +153,8 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
       // Trailer weight. Allow the user to select either Gross or Nett weight.
       $trailer['trailer_loads'][$i]['weight'] = $this->buildQuantityField([
-        'title' => $this->t('Trailer @count weight', ['@count' => $i + 1]),
-        'description' => $this->t('The weight of the trailer + harvested grain, as measured on the scales.'),
+        'title' => new TranslatableMarkup('Trailer @count weight', ['@count' => $i + 1]),
+        'description' => new TranslatableMarkup('The weight of the trailer + harvested grain, as measured on the scales.'),
         'measure' => ['#value' => 'weight'],
         'units' => ['#options' => $trailer_weight_units],
       ]);
@@ -173,15 +173,15 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Moisture content.
     $trailer['moisture_wrapper'] = $this->buildInlineWrapper();
     $trailer['moisture_wrapper']['moisture_content'] = $this->buildQuantityField([
-      'title' => $this->t('Moisture content'),
-      'description' => $this->t('The moisture content of the grain at the harvest.'),
+      'title' => new TranslatableMarkup('Moisture content'),
+      'description' => new TranslatableMarkup('The moisture content of the grain at the harvest.'),
       'measure' => ['#value' => 'ratio'],
       'units' => ['#value' => '%'],
     ]);
     $trailer['moisture_wrapper']['moisture_time'] = [
       '#type' => 'datetime',
-      '#title' => $this->t('Moisture content time'),
-      '#description' => $this->t('The time the moisture content was taken.'),
+      '#title' => new TranslatableMarkup('Moisture content time'),
+      '#description' => new TranslatableMarkup('The time the moisture content was taken.'),
       '#date_date_element' => 'none',
       '#date_time_element' => 'time',
       '#attributes' => ['step' => 60],
@@ -190,14 +190,14 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     // Grain sample number.
     $trailer['grain_sample_number'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Grain sample number'),
-      '#description' => $this->t('If a grain sample is taken from this trailer for testing and analysis, please record the sample number here.'),
+      '#title' => new TranslatableMarkup('Grain sample number'),
+      '#description' => new TranslatableMarkup('If a grain sample is taken from this trailer for testing and analysis, please record the sample number here.'),
     ];
 
     // Condition of the grain at storage.
     $trailer['storage_condition'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Condition of the grain/ straw at storage'),
+      '#title' => new TranslatableMarkup('Condition of the grain/ straw at storage'),
     ];
 
     // Add the harvest tab and fields to the form.
@@ -215,8 +215,8 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
     natsort($storage_location_options);
     $form['operation']['storage_location'] = [
       '#type' => 'select',
-      '#title' => $this->t('Storage location'),
-      '#description' => $this->t('Please select the location where the grain/ straw is being stored. This list can be expanded by creating new Storage Location structure assets.'),
+      '#title' => new TranslatableMarkup('Storage location'),
+      '#description' => new TranslatableMarkup('Please select the location where the grain/ straw is being stored. This list can be expanded by creating new Storage Location structure assets.'),
       '#options' => $storage_location_options,
       '#required' => TRUE,
     ];
@@ -255,7 +255,7 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
         // Ensure all weight units are the same.
         if ($trailer_weight['units'] != $weight_units) {
-          $form_state->setErrorByName("trailer_loads][$i][weight][units", $this->t('All trailer weights must be the same units.'));
+          $form_state->setErrorByName("trailer_loads][$i][weight][units", new TranslatableMarkup('All trailer weights must be the same units.'));
         }
 
         // Ensure gross weights have a tare weight.
@@ -266,17 +266,17 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
 
             // Ensure the tare is provided.
             if (!is_numeric($tare['value'])) {
-              $form_state->setErrorByName('tare', $this->t('A tare weight must be provided for gross trailer weights.'));
+              $form_state->setErrorByName('tare', new TranslatableMarkup('A tare weight must be provided for gross trailer weights.'));
             }
 
             // Ensure the tare units match.
             if ($tare['units'] != $trailer_weight['units']) {
-              $form_state->setErrorByName('tare', $this->t('The tare units must match the trailer weight units.'));
+              $form_state->setErrorByName('tare', new TranslatableMarkup('The tare units must match the trailer weight units.'));
             }
 
             // Ensure the tare is less than the trailer weight.
             if ($tare['value'] >= $trailer_weight['value']) {
-              $form_state->setErrorByName('tare', $this->t('The tare weight must be less than the trailer weight.'));
+              $form_state->setErrorByName('tare', new TranslatableMarkup('The tare weight must be less than the trailer weight.'));
             }
           }
         }
@@ -387,11 +387,11 @@ class QuickTrailerHarvest extends QuickExperimentFormBase {
       ...[
         [
           'key' => 'grain_sample_number',
-          'label' => $this->t('Grain sample number'),
+          'label' => new TranslatableMarkup('Grain sample number'),
         ],
         [
           'key' => 'storage_condition',
-          'label' => $this->t('Condition of grain/ straw at storage'),
+          'label' => new TranslatableMarkup('Condition of grain/ straw at storage'),
         ],
       ]
     );

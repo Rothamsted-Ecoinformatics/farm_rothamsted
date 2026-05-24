@@ -180,8 +180,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
     $fields += static::revisionLogBaseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the experiment.'))
+      ->setLabel(new TranslatableMarkup('Name'))
+      ->setDescription(new TranslatableMarkup('The name of the experiment.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -199,8 +199,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
-      ->setDescription(t('The user ID of author of the research experiment.'))
+      ->setLabel(new TranslatableMarkup('Author'))
+      ->setDescription(new TranslatableMarkup('The user ID of author of the research experiment.'))
       ->setRevisionable(TRUE)
       ->setDefaultValueCallback(static::class . '::getCurrentUserId')
       ->setSetting('target_type', 'user')
@@ -214,8 +214,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the research experiment was created.'))
+      ->setLabel(new TranslatableMarkup('Authored on'))
+      ->setDescription(new TranslatableMarkup('The time that the research experiment was created.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -227,13 +227,13 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the research experiment was last edited.'))
+      ->setLabel(new TranslatableMarkup('Changed'))
+      ->setDescription(new TranslatableMarkup('The time that the research experiment was last edited.'))
       ->setRevisionable(TRUE);
 
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Research Programs'))
-      ->setDescription(t('The research program which this experiment is part of.'))
+      ->setLabel(new TranslatableMarkup('Related Research Programs'))
+      ->setDescription(new TranslatableMarkup('The research program which this experiment is part of.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -256,17 +256,17 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['status'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Status'))
-      ->setDescription(t('The status of the experiment.'))
+      ->setLabel(new TranslatableMarkup('Status'))
+      ->setDescription(new TranslatableMarkup('The status of the experiment.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
-        'requested' => t('Requested'),
-        'planning' => t('Planning'),
-        'active' => t('Active'),
-        'completed' => t('Completed'),
-        'cancelled' => t('Cancelled'),
-        'archived' => t('Archived'),
+        'requested' => new TranslatableMarkup('Requested'),
+        'planning' => new TranslatableMarkup('Planning'),
+        'active' => new TranslatableMarkup('Active'),
+        'completed' => new TranslatableMarkup('Completed'),
+        'cancelled' => new TranslatableMarkup('Cancelled'),
+        'archived' => new TranslatableMarkup('Archived'),
       ])
       ->setDefaultValue('requested')
       ->setDisplayConfigurable('form', TRUE)
@@ -283,8 +283,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['status_notes'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Status notes'))
-      ->setDescription(t('Any notes about the experiment status.'))
+      ->setLabel(new TranslatableMarkup('Status notes'))
+      ->setDescription(new TranslatableMarkup('Any notes about the experiment status.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -300,8 +300,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['code'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Experiment code'))
-      ->setDescription(t('The experiment code.'))
+      ->setLabel(new TranslatableMarkup('Experiment code'))
+      ->setDescription(new TranslatableMarkup('The experiment code.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
@@ -320,8 +320,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['abbreviation'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Abbreviation'))
-      ->setDescription(t('The abbreviated name of the experiment.'))
+      ->setLabel(new TranslatableMarkup('Abbreviation'))
+      ->setDescription(new TranslatableMarkup('The abbreviated name of the experiment.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -337,8 +337,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Description'))
-      ->setDescription(t('A description of the experiment.'))
+      ->setLabel(new TranslatableMarkup('Description'))
+      ->setDescription(new TranslatableMarkup('A description of the experiment.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -350,8 +350,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['category'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Category'))
-      ->setDescription(t('The experiment category.'))
+      ->setLabel(new TranslatableMarkup('Category'))
+      ->setDescription(new TranslatableMarkup('The experiment category.'))
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_experiment_category_field_allowed_values')
       ->setDisplayConfigurable('form', TRUE)
@@ -365,8 +365,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['start'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Start year'))
-      ->setDescription(t('The start year of the experiment.'))
+      ->setLabel(new TranslatableMarkup('Start year'))
+      ->setDescription(new TranslatableMarkup('The start year of the experiment.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -381,8 +381,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['end'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('End year'))
-      ->setDescription(t('The end year of the experiment.'))
+      ->setLabel(new TranslatableMarkup('End year'))
+      ->setDescription(new TranslatableMarkup('The end year of the experiment.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -397,8 +397,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['researcher'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Researchers'))
-      ->setDescription(t('Researchers that are associated with this experiment.'))
+      ->setLabel(new TranslatableMarkup('Researchers'))
+      ->setDescription(new TranslatableMarkup('Researchers that are associated with this experiment.'))
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
@@ -418,8 +418,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['website'] = BaseFieldDefinition::create('link')
-      ->setLabel(t('Website'))
-      ->setDescription(t('The URL for the experiment website.'))
+      ->setLabel(new TranslatableMarkup('Website'))
+      ->setDescription(new TranslatableMarkup('The URL for the experiment website.'))
       ->setRevisionable(TRUE)
       ->setSettings([
         'title' => DRUPAL_DISABLED,
@@ -436,13 +436,13 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['confidential_treatment'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Confidential treatments'))
-      ->setDescription(t('Are the treatments being applied in this experiment confidential?'))
+      ->setLabel(new TranslatableMarkup('Confidential treatments'))
+      ->setDescription(new TranslatableMarkup('Are the treatments being applied in this experiment confidential?'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSettings([
-        'on_label' => t('Yes'),
-        'off_label' => t('No'),
+        'on_label' => new TranslatableMarkup('Yes'),
+        'off_label' => new TranslatableMarkup('No'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -458,26 +458,26 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['data_license'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Data license'))
-      ->setDescription(t('The license associated with the experiment data.'))
+      ->setLabel(new TranslatableMarkup('Data license'))
+      ->setDescription(new TranslatableMarkup('The license associated with the experiment data.'))
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values', [
-        'public_domain' => t('Public Domain'),
-        'cc0' => t('CC0 (No Rights Reserved, Public Domain'),
-        'pddl' => t('PDDL (Open Data Commons Public Domain Dedication and License)'),
-        'cc-by' => t('CC-BY (Attribution)'),
-        'cdla-permissive' => t('CDLA-Permissive (Community Data License Agreement – Permissive)'),
-        'odc-by' => t('ODC-BY (Open Data Commons Attribution License)'),
-        'cc-by-sa' => t('CC BY-SA (Attribution-ShareAlike)'),
-        'cdla-sharing' => t('CDLA-Sharing (Community Data License Agreement)'),
-        'odc-odbl' => t('ODC-ODbL (Open Data Commons Open Database License)'),
-        'cc-by-nc' => t('CC BY-NC (Attribution-NonCommercial)'),
-        'cc-by-nd' => t('CC BY-ND (Attribution-NoDerivatives)'),
-        'cc-by-nc-sa' => t('CC BY-NC-SA (Attribution-NonCommercial-ShareAlike)'),
-        'cc-by-nc-nd' => t('CC BY-NC-ND (Attribution-NonCommercial-NoDerivatives)'),
-        'c' => t('Commercial Copyright (c)'),
-        'none' => t('No license specified'),
-        'other' => t('Other'),
+        'public_domain' => new TranslatableMarkup('Public Domain'),
+        'cc0' => new TranslatableMarkup('CC0 (No Rights Reserved, Public Domain'),
+        'pddl' => new TranslatableMarkup('PDDL (Open Data Commons Public Domain Dedication and License)'),
+        'cc-by' => new TranslatableMarkup('CC-BY (Attribution)'),
+        'cdla-permissive' => new TranslatableMarkup('CDLA-Permissive (Community Data License Agreement – Permissive)'),
+        'odc-by' => new TranslatableMarkup('ODC-BY (Open Data Commons Attribution License)'),
+        'cc-by-sa' => new TranslatableMarkup('CC BY-SA (Attribution-ShareAlike)'),
+        'cdla-sharing' => new TranslatableMarkup('CDLA-Sharing (Community Data License Agreement)'),
+        'odc-odbl' => new TranslatableMarkup('ODC-ODbL (Open Data Commons Open Database License)'),
+        'cc-by-nc' => new TranslatableMarkup('CC BY-NC (Attribution-NonCommercial)'),
+        'cc-by-nd' => new TranslatableMarkup('CC BY-ND (Attribution-NoDerivatives)'),
+        'cc-by-nc-sa' => new TranslatableMarkup('CC BY-NC-SA (Attribution-NonCommercial-ShareAlike)'),
+        'cc-by-nc-nd' => new TranslatableMarkup('CC BY-NC-ND (Attribution-NonCommercial-NoDerivatives)'),
+        'c' => new TranslatableMarkup('Commercial Copyright (c)'),
+        'none' => new TranslatableMarkup('No license specified'),
+        'other' => new TranslatableMarkup('Other'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -490,8 +490,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['data_access'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Data Access Statement'))
-      ->setDescription(t('A description of how the data can be accessed.'))
+      ->setLabel(new TranslatableMarkup('Data Access Statement'))
+      ->setDescription(new TranslatableMarkup('A description of how the data can be accessed.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayConfigurable('form', TRUE)
@@ -508,8 +508,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['data_access_notes'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Data Access Notes'))
-      ->setDescription(t('Any notes associated with the data license.'))
+      ->setLabel(new TranslatableMarkup('Data Access Notes'))
+      ->setDescription(new TranslatableMarkup('Any notes associated with the data license.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setDisplayConfigurable('form', TRUE)
@@ -526,13 +526,13 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['public_release'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Public release'))
-      ->setDescription(t('Is there a public release date for this data?'))
+      ->setLabel(new TranslatableMarkup('Public release'))
+      ->setDescription(new TranslatableMarkup('Is there a public release date for this data?'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSettings([
-        'on_label' => t('Yes'),
-        'off_label' => t('No'),
+        'on_label' => new TranslatableMarkup('Yes'),
+        'off_label' => new TranslatableMarkup('No'),
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -548,8 +548,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['public_release_date'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(t('Public release date'))
-      ->setDescription(t('The public release date associated with this data.'))
+      ->setLabel(new TranslatableMarkup('Public release date'))
+      ->setDescription(new TranslatableMarkup('The public release date associated with this data.'))
       ->setRevisionable(TRUE)
       ->setSetting('datetime_type', DateTimeItem::DATETIME_TYPE_DATE)
       ->setDisplayConfigurable('form', TRUE)
@@ -577,8 +577,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       'file_extensions' => 'csv doc docx gz geojson gpx kml kmz logz mp3 odp ods odt ogg pdf ppt pptx tar tif tiff txt wav xls xlsx zip',
     ];
     $fields['file'] = BaseFieldDefinition::create('file')
-      ->setLabel(t('File'))
-      ->setDescription(t('Upload files associated with this experiment.'))
+      ->setLabel(new TranslatableMarkup('File'))
+      ->setDescription(new TranslatableMarkup('Upload files associated with this experiment.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($file_field_settings)
@@ -602,8 +602,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       'file_extensions' => 'png gif jpg jpeg',
     ];
     $fields['image'] = BaseFieldDefinition::create('image')
-      ->setLabel(t('Image'))
-      ->setDescription(t('Upload files associated with this experiment.'))
+      ->setLabel(new TranslatableMarkup('Image'))
+      ->setDescription(new TranslatableMarkup('Upload files associated with this experiment.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($image_field_settings)
@@ -626,8 +626,8 @@ class RothamstedExperiment extends RevisionableContentEntityBase implements Roth
       ]);
 
     $fields['link'] = BaseFieldDefinition::create('link')
-      ->setLabel(t('Links'))
-      ->setDescription(t('Links to external website and documents associated with the experiment.'))
+      ->setLabel(new TranslatableMarkup('Links'))
+      ->setDescription(new TranslatableMarkup('Links to external website and documents associated with the experiment.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings([

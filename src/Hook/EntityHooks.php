@@ -10,7 +10,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\farm_field\FarmFieldFactoryInterface;
 use Drupal\inline_entity_form\Plugin\Field\FieldWidget\InlineEntityFormComplex;
 
@@ -18,8 +18,6 @@ use Drupal\inline_entity_form\Plugin\Field\FieldWidget\InlineEntityFormComplex;
  * Entity hook implementations for farm_rothamsted.
  */
 class EntityHooks {
-
-  use StringTranslationTrait;
 
   public function __construct(
     protected readonly FarmFieldFactoryInterface $farmFieldFactory,
@@ -39,8 +37,8 @@ class EntityHooks {
       // Add storage_location field.
       $field_info = [
         'type' => 'entity_reference',
-        'label' => $this->t('Storage location'),
-        'description' => $this->t('The harvest storage location.'),
+        'label' => new TranslatableMarkup('Storage location'),
+        'description' => new TranslatableMarkup('The harvest storage location.'),
         'target_type' => 'asset',
         'target_bundle' => 'structure',
         'multiple' => TRUE,
@@ -58,8 +56,8 @@ class EntityHooks {
       // Add COSSH Hazard field.
       $options = [
         'type' => 'list_string',
-        'label' => $this->t('COSSH Hazard Assessments'),
-        'description' => $this->t('The COSHH assessments which need to be considered when handling fertilisers.'),
+        'label' => new TranslatableMarkup('COSSH Hazard Assessments'),
+        'description' => new TranslatableMarkup('The COSHH assessments which need to be considered when handling fertilisers.'),
         'allowed_values_function' => 'farm_rothamsted_cossh_hazard_field_allowed_values',
         'multiple' => TRUE,
         'weight' => [
@@ -72,8 +70,8 @@ class EntityHooks {
       // Add PPE field.
       $options = [
         'type' => 'list_string',
-        'label' => $this->t('PPE'),
-        'description' => $this->t('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used.'),
+        'label' => new TranslatableMarkup('PPE'),
+        'description' => new TranslatableMarkup('The protective clothing and equipment required for a specific job. Select all that apply to confirm they have been used.'),
         'allowed_values_function' => 'farm_rothamsted_ppe_field_allowed_values',
         'multiple' => TRUE,
         'weight' => [

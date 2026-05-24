@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_quick\Traits;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
@@ -109,10 +110,10 @@ trait QuickTaxonomyOptionsTrait {
     $url = new Url('entity.taxonomy_vocabulary.overview_form', ['taxonomy_vocabulary' => $vocabulary_name]);
     $url = $url->toString();
     if (empty($child_name)) {
-      $configure_text = $this->t('No @label terms found. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url]);
+      $configure_text = new TranslatableMarkup('No @label terms found. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url]);
     }
     else {
-      $configure_text = $this->t('No child terms found for %child. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url, '%child' => $child_name]);
+      $configure_text = new TranslatableMarkup('No child terms found for %child. Add a @label term <a href="@url">here</a>.', ['@label' => $vocab->label(), '@url' => $url, '%child' => $child_name]);
     }
     $this->messenger()->addWarning($configure_text);
   }

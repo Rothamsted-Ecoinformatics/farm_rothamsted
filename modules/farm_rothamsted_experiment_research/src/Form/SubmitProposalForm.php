@@ -8,6 +8,7 @@ use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
 
@@ -58,13 +59,13 @@ class SubmitProposalForm extends FormBase {
 
     // Build form. See ConfirmFormBase.
     $form_state->set('entity', $rothamsted_proposal);
-    $form['#title'] = $this->t('Submit Proposal: %proposal', ['%proposal' => $rothamsted_proposal->label()]);
+    $form['#title'] = new TranslatableMarkup('Submit Proposal: %proposal', ['%proposal' => $rothamsted_proposal->label()]);
     $form['#attributes']['class'][] = 'confirmation';
-    $form['description'] = ['#markup' => $this->t('This proposal is currently in a draft state. Are you sure you want to submit?')];
+    $form['description'] = ['#markup' => new TranslatableMarkup('This proposal is currently in a draft state. Are you sure you want to submit?')];
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit Proposal'),
+      '#value' => new TranslatableMarkup('Submit Proposal'),
       '#button_type' => 'primary',
     ];
 
@@ -84,7 +85,7 @@ class SubmitProposalForm extends FormBase {
 
     $form['actions']['cancel'] = [
       '#type' => 'link',
-      '#title' => $this->t('Cancel'),
+      '#title' => new TranslatableMarkup('Cancel'),
       '#attributes' => ['class' => ['button', 'dialog-cancel']],
       '#url' => $url,
       '#cache' => [
@@ -111,7 +112,7 @@ class SubmitProposalForm extends FormBase {
     if ($entity) {
       $entity->set('status', 'submitted');
       $entity->save();
-      $this->messenger()->addStatus($this->t('Submitted proposal'));
+      $this->messenger()->addStatus(new TranslatableMarkup('Submitted proposal'));
       $form_state->setRedirect('entity.rothamsted_proposal.canonical', ['rothamsted_proposal' => $entity->id()]);
     }
   }

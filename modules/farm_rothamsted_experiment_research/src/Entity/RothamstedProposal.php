@@ -182,8 +182,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
     $fields += static::revisionLogBaseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the proposal. If the experiment is already in FarmOS, please be consistent in how you name the proposal each year. For example "WGIN Diversity (2023)" should "WGIN Diversity (2024)" in the following cropping year.'))
+      ->setLabel(new TranslatableMarkup('Name'))
+      ->setDescription(new TranslatableMarkup('The name of the proposal. If the experiment is already in FarmOS, please be consistent in how you name the proposal each year. For example "WGIN Diversity (2023)" should "WGIN Diversity (2024)" in the following cropping year.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -201,8 +201,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
-      ->setDescription(t('The user ID of author of the research proposal.'))
+      ->setLabel(new TranslatableMarkup('Author'))
+      ->setDescription(new TranslatableMarkup('The user ID of author of the research proposal.'))
       ->setRevisionable(TRUE)
       ->setDefaultValueCallback(static::class . '::getCurrentUserId')
       ->setSetting('target_type', 'user')
@@ -216,8 +216,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Authored on'))
-      ->setDescription(t('The time that the research propsal was created.'))
+      ->setLabel(new TranslatableMarkup('Authored on'))
+      ->setDescription(new TranslatableMarkup('The time that the research propsal was created.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
@@ -229,12 +229,12 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the research proposal was last edited.'))
+      ->setLabel(new TranslatableMarkup('Changed'))
+      ->setDescription(new TranslatableMarkup('The time that the research proposal was last edited.'))
       ->setRevisionable(TRUE);
 
     $fields['study_id'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Study ID'))
+      ->setLabel(new TranslatableMarkup('Study ID'))
       ->setRevisionable(TRUE)
       ->setSetting('max_length', 255)
       ->setSetting('text_processing', 0)
@@ -250,8 +250,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['program'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Research Programs'))
-      ->setDescription(t('The research program which this proposal is part of.'))
+      ->setLabel(new TranslatableMarkup('Research Programs'))
+      ->setDescription(new TranslatableMarkup('The research program which this proposal is part of.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
@@ -274,8 +274,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['experiment'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Experiments'))
-      ->setDescription(t('The experiment(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
+      ->setLabel(new TranslatableMarkup('Related Experiments'))
+      ->setDescription(new TranslatableMarkup('The experiment(s) relating to this proposal. If this is the second or subsequent year of an experiment that has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, leave this blank and add it after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_experiment')
@@ -297,8 +297,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['design'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Designs'))
-      ->setDescription(t('The experiment design relating to this proposal. If this design has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, or if you wish to change the design from previous years, a new design will have to added after the proposal is approved.'))
+      ->setLabel(new TranslatableMarkup('Related Designs'))
+      ->setDescription(new TranslatableMarkup('The experiment design relating to this proposal. If this design has already been added to FarmOS, please select it here before submitting the proposal. If this is the first year of the experiment, or if you wish to change the design from previous years, a new design will have to added after the proposal is approved.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_design')
@@ -320,8 +320,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['plan'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Related Study Plans'))
-      ->setDescription(t('The study plan relating to this proposal. If this plan has already been added to FarmOS, please select it here before submitting the proposal.'))
+      ->setLabel(new TranslatableMarkup('Related Study Plans'))
+      ->setDescription(new TranslatableMarkup('The study plan relating to this proposal. If this plan has already been added to FarmOS, please select it here before submitting the proposal.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'plan')
@@ -354,8 +354,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['contact'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Contacts'))
-      ->setDescription(t('List researchers that are contacts for this proposal.'))
+      ->setLabel(new TranslatableMarkup('Contacts'))
+      ->setDescription(new TranslatableMarkup('List researchers that are contacts for this proposal.'))
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
@@ -383,8 +383,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['statistician'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Statistician'))
-      ->setDescription(t('Please select the statistician associated with this proposal.'))
+      ->setLabel(new TranslatableMarkup('Statistician'))
+      ->setDescription(new TranslatableMarkup('Please select the statistician associated with this proposal.'))
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
@@ -414,8 +414,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['data_steward'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Data Steward'))
-      ->setDescription(t('Please select the data steward associated with this proposal.'))
+      ->setLabel(new TranslatableMarkup('Data Steward'))
+      ->setDescription(new TranslatableMarkup('Please select the data steward associated with this proposal.'))
       ->setRequired(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
@@ -445,8 +445,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['experiment_category'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Experiment category'))
-      ->setDescription(t('The experiment category.'))
+      ->setLabel(new TranslatableMarkup('Experiment category'))
+      ->setDescription(new TranslatableMarkup('The experiment category.'))
       ->setRevisionable(TRUE)
       ->setSetting('allowed_values_function', 'farm_rothamsted_experiment_research_experiment_category_field_allowed_values')
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['approved', 'archived']])
@@ -461,8 +461,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['research_question'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Research questions'))
-      ->setDescription(t('The research question you expect to answer with the experiment, and how it relates to the research program.'))
+      ->setLabel(new TranslatableMarkup('Research questions'))
+      ->setDescription(new TranslatableMarkup('The research question you expect to answer with the experiment, and how it relates to the research program.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -477,8 +477,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     // Integer year fields.
     $fields['planting_year'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Planting Year'))
-      ->setDescription(t('The planting year for the study.'))
+      ->setLabel(new TranslatableMarkup('Planting Year'))
+      ->setDescription(new TranslatableMarkup('The planting year for the study.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -492,8 +492,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         'label' => 'inline',
       ]);
     $fields['harvest_year'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Harvest Year'))
-      ->setDescription(t('The year the experiment is to be harvested.'))
+      ->setLabel(new TranslatableMarkup('Harvest Year'))
+      ->setDescription(new TranslatableMarkup('The year the experiment is to be harvested.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 1800)
       ->setSetting('max', 3000)
@@ -508,8 +508,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['crop'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Crops'))
-      ->setDescription(t('The crops being proposed for study.'))
+      ->setLabel(new TranslatableMarkup('Crops'))
+      ->setDescription(new TranslatableMarkup('The crops being proposed for study.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'taxonomy_term')
@@ -539,8 +539,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['previous_cropping'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Previous Cropping'))
-      ->setDescription(t('If necessary, you can request that your experiment is planted in a field currently planted with a specific crop. You can also add multiple options. For example, if you are studying second wheat, you can request that the experiment is drilled in a field which is currently planted with winter wheat or spring wheat. Requests will be accommodated where possible.'))
+      ->setLabel(new TranslatableMarkup('Previous Cropping'))
+      ->setDescription(new TranslatableMarkup('If necessary, you can request that your experiment is planted in a field currently planted with a specific crop. You can also add multiple options. For example, if you are studying second wheat, you can request that the experiment is drilled in a field which is currently planted with winter wheat or spring wheat. Requests will be accommodated where possible.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'taxonomy_term')
@@ -569,8 +569,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['num_treatments'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Number of Treatment Factors'))
-      ->setDescription(t('The number of treatment factors being tested in the experiment, where a treatment factor is a variable under the control of the experimenter (sometimes also called explanatory variables) with two or more levels.'))
+      ->setLabel(new TranslatableMarkup('Number of Treatment Factors'))
+      ->setDescription(new TranslatableMarkup('The number of treatment factors being tested in the experiment, where a treatment factor is a variable under the control of the experimenter (sometimes also called explanatory variables) with two or more levels.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -585,8 +585,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['treatment'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Treatment factors'))
-      ->setDescription(t('A description of the treatment factor(s) being tested in the experiment, with a list of the factor levels where applicable. Please add a new box for each treatment factor. For example: "Fungicide exposure (high, medium, low, none)" in one box and "Plant Breed Line (Cadenza, KWS Zyatt, KWS Extase) in another.'))
+      ->setLabel(new TranslatableMarkup('Treatment factors'))
+      ->setDescription(new TranslatableMarkup('A description of the treatment factor(s) being tested in the experiment, with a list of the factor levels where applicable. Please add a new box for each treatment factor. For example: "Fungicide exposure (high, medium, low, none)" in one box and "Plant Breed Line (Cadenza, KWS Zyatt, KWS Extase) in another.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -600,8 +600,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['num_replicates'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Number of Replicates'))
-      ->setDescription(t('The number of times each factor level combination is repeated in the experiment.'))
+      ->setLabel(new TranslatableMarkup('Number of Replicates'))
+      ->setDescription(new TranslatableMarkup('The number of times each factor level combination is repeated in the experiment.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -616,8 +616,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['num_plots_total'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Total number of plots'))
-      ->setDescription(t('The total number of plots being proposed.'))
+      ->setLabel(new TranslatableMarkup('Total number of plots'))
+      ->setDescription(new TranslatableMarkup('The total number of plots being proposed.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -632,8 +632,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['statistical_design'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Statistical Design'))
-      ->setDescription(t('Describe the statistical design associated with the proposal.'))
+      ->setLabel(new TranslatableMarkup('Statistical Design'))
+      ->setDescription(new TranslatableMarkup('Describe the statistical design associated with the proposal.'))
       ->setRevisionable(TRUE)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
       ->setDisplayConfigurable('form', TRUE)
@@ -647,8 +647,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['measurements'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Measurements'))
-      ->setDescription(t('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
+      ->setLabel(new TranslatableMarkup('Measurements'))
+      ->setDescription(new TranslatableMarkup('Describe the measurements you propose to take, approximate dates and who is responsible for taking the measurements. This should include measurements to be taken by the farm (yields, etc), measurements to be taken by the Sponsor, and measurements which will be taken by external consultants.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->addConstraint('RothamstedStatus', ['requiredStatuses' => ['submitted', 'approved', 'rejected', 'archived']])
@@ -662,8 +662,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['requested_location'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Requested Field Location'))
-      ->setDescription(t('If you have any specific location(s) where you would like to site the experiment, please include them here. PLEASE NOTE THAT THIS AT THE FARMS DISCRETION AND NOT GUARANTEED.'))
+      ->setLabel(new TranslatableMarkup('Requested Field Location'))
+      ->setDescription(new TranslatableMarkup('If you have any specific location(s) where you would like to site the experiment, please include them here. PLEASE NOTE THAT THIS AT THE FARMS DISCRETION AND NOT GUARANTEED.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'asset')
       ->setSetting('handler', 'views')
@@ -690,8 +690,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['unsuitable_location'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Unsuitable Field Location'))
-      ->setDescription(t('Please select any field locations which are not suitable for this proposal'))
+      ->setLabel(new TranslatableMarkup('Unsuitable Field Location'))
+      ->setDescription(new TranslatableMarkup('Please select any field locations which are not suitable for this proposal'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'asset')
       ->setSetting('handler', 'views')
@@ -718,8 +718,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['field_layout'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('In-Field layout'))
-      ->setDescription(t('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))
+      ->setLabel(new TranslatableMarkup('In-Field layout'))
+      ->setDescription(new TranslatableMarkup('Please describe how you would propose to lay the experiment out in the field (guard rows, row spacing, number of plots per row, etc) and any limitations that would affect where the experiment can be situated.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -731,8 +731,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['plot_length'] = BaseFieldDefinition::create('float')
-      ->setLabel(t('Plot length'))
-      ->setDescription(t('The proposed plot length.'))
+      ->setLabel(new TranslatableMarkup('Plot length'))
+      ->setDescription(new TranslatableMarkup('The proposed plot length.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setSetting('suffix', 'm')
@@ -747,8 +747,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['plot_width'] = BaseFieldDefinition::create('float')
-      ->setLabel(t('Plot width'))
-      ->setDescription(t('The proposed plot width.'))
+      ->setLabel(new TranslatableMarkup('Plot width'))
+      ->setDescription(new TranslatableMarkup('The proposed plot width.'))
       ->setRevisionable(TRUE)
       ->setSetting('min', 0)
       ->setSetting('suffix', 'm')
@@ -765,62 +765,62 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
     $restriction_fields = [
       'restriction_crop' => [
         'boolean' => [
-          'label' => t('Crop Management Restrictions'),
-          'description' => t('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
+          'label' => new TranslatableMarkup('Crop Management Restrictions'),
+          'description' => new TranslatableMarkup('Are there any restrictions that affect how the crop(s) in the experiment will be managed (cultivations, pesticide applications, etc?)'),
         ],
         'text' => [
-          'label' => t('Description of Crop Management Restrictions'),
-          'description' => t('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
+          'label' => new TranslatableMarkup('Description of Crop Management Restrictions'),
+          'description' => new TranslatableMarkup('Please describe the crop management restrictions. Note: All aspects of crop management will need to be discussed in detail with the trials team once the proposal has been approved.'),
         ],
       ],
       'restriction_gm' => [
         'boolean' => [
-          'label' => t('Genetically Modified (GM) Material'),
-          'description' => t('Does the proposal include any genetically modified (GM) material?'),
+          'label' => new TranslatableMarkup('Genetically Modified (GM) Material'),
+          'description' => new TranslatableMarkup('Does the proposal include any genetically modified (GM) material?'),
         ],
         'text' => [
-          'label' => t('Description of GM material'),
-          'description' => t('Please describe the GM materials.'),
+          'label' => new TranslatableMarkup('Description of GM material'),
+          'description' => new TranslatableMarkup('Please describe the GM materials.'),
         ],
       ],
       'restriction_ge' => [
         'boolean' => [
-          'label' => t('Genetically Edited (GE) Material'),
-          'description' => t('Does the proposal include any genetically edited (GE) material?'),
+          'label' => new TranslatableMarkup('Genetically Edited (GE) Material'),
+          'description' => new TranslatableMarkup('Does the proposal include any genetically edited (GE) material?'),
         ],
         'text' => [
-          'label' => t('Description of GE material'),
-          'description' => t('Please describe the GE materials.'),
+          'label' => new TranslatableMarkup('Description of GE material'),
+          'description' => new TranslatableMarkup('Please describe the GE materials.'),
         ],
       ],
       'restriction_off_label' => [
         'boolean' => [
-          'label' => t('Off-label Products'),
-          'description' => t('Does this proposal require the use of off-label or uncertified products (e.g. pesticides, growth regulators)?'),
+          'label' => new TranslatableMarkup('Off-label Products'),
+          'description' => new TranslatableMarkup('Does this proposal require the use of off-label or uncertified products (e.g. pesticides, growth regulators)?'),
         ],
         'text' => [
-          'label' => t('Description of off-label products'),
-          'description' => t('Please describe the off-label products.'),
+          'label' => new TranslatableMarkup('Description of off-label products'),
+          'description' => new TranslatableMarkup('Please describe the off-label products.'),
         ],
       ],
       'restriction_licence_perm' => [
         'boolean' => [
-          'label' => t('Licence and Permissions'),
-          'description' => t('Does the proposal require any other specialist licences or permissions?'),
+          'label' => new TranslatableMarkup('Licence and Permissions'),
+          'description' => new TranslatableMarkup('Does the proposal require any other specialist licences or permissions?'),
         ],
         'text' => [
-          'label' => t('Licence and Permissions'),
-          'description' => t('Please describe the licence/permission restrictions.'),
+          'label' => new TranslatableMarkup('Licence and Permissions'),
+          'description' => new TranslatableMarkup('Please describe the licence/permission restrictions.'),
         ],
       ],
       'restriction_physical' => [
         'boolean' => [
-          'label' => t('Physical Obstructions'),
-          'description' => t('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
+          'label' => new TranslatableMarkup('Physical Obstructions'),
+          'description' => new TranslatableMarkup('Are there any physical obstructions in the field that will interfere with farm equipment and general management of the experiment?'),
         ],
         'text' => [
           'label' => 'Physical Obstructions',
-          'description' => t('Please describe the physical obstructions.'),
+          'description' => new TranslatableMarkup('Please describe the physical obstructions.'),
         ],
       ],
     ];
@@ -833,8 +833,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
         ->setRevisionable(TRUE)
         ->setRequired(TRUE)
         ->setSettings([
-          'on_label' => t('Yes'),
-          'off_label' => t('No'),
+          'on_label' => new TranslatableMarkup('Yes'),
+          'off_label' => new TranslatableMarkup('No'),
         ])
         ->setDisplayConfigurable('form', TRUE)
         ->setDisplayOptions('form', [
@@ -866,8 +866,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     // Other restrictions.
     $fields['restriction_other'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Other restrictions'))
-      ->setDescription(t('If there are any other restrictions not covered above, please add them below'))
+      ->setLabel(new TranslatableMarkup('Other restrictions'))
+      ->setDescription(new TranslatableMarkup('If there are any other restrictions not covered above, please add them below'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
@@ -882,8 +882,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
 
     // Management fields.
     $fields['experiment_management'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Experiment management'))
-      ->setDescription(t('The management strategy for the associated experiment.'))
+      ->setLabel(new TranslatableMarkup('Experiment management'))
+      ->setDescription(new TranslatableMarkup('The management strategy for the associated experiment.'))
       ->setRevisionable(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
@@ -895,34 +895,34 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $management_options = [
-      'farm' => t('Farm'),
-      'sponsor' => t('Sponsor'),
-      'other' => t('Other'),
+      'farm' => new TranslatableMarkup('Farm'),
+      'sponsor' => new TranslatableMarkup('Sponsor'),
+      'other' => new TranslatableMarkup('Other'),
     ];
     $management_fields = [
       'management_seed_supply' => [
-        'label' => t('Seed Supply'),
-        'description' => t('Who will supply the seed for this experiment. Please select multiple if this is a shared responsibility.'),
+        'label' => new TranslatableMarkup('Seed Supply'),
+        'description' => new TranslatableMarkup('Who will supply the seed for this experiment. Please select multiple if this is a shared responsibility.'),
         'options' => $management_options,
       ],
       'management_seed_treatment' => [
-        'label' => t('Seed Treatment'),
-        'description' => t('If the seed needs to be treated, please state who is responsible for this. Please select multiple if this is a shared responsibility.'),
-        'options' => $management_options + ['supplier' => t('Supplier')],
+        'label' => new TranslatableMarkup('Seed Treatment'),
+        'description' => new TranslatableMarkup('If the seed needs to be treated, please state who is responsible for this. Please select multiple if this is a shared responsibility.'),
+        'options' => $management_options + ['supplier' => new TranslatableMarkup('Supplier')],
       ],
       'management_pesticide' => [
-        'label' => t('Pesticide Applications'),
-        'description' => t('Who is responsible for the pesticide applications? Please select multiple if this is a shared responsibility.'),
+        'label' => new TranslatableMarkup('Pesticide Applications'),
+        'description' => new TranslatableMarkup('Who is responsible for the pesticide applications? Please select multiple if this is a shared responsibility.'),
         'options' => $management_options,
       ],
       'management_nutrition' => [
-        'label' => t('Nutrition Applications'),
-        'description' => t('Who is responsible for the nutrient applications? Please select multiple if this is a shared responsibility."'),
+        'label' => new TranslatableMarkup('Nutrition Applications'),
+        'description' => new TranslatableMarkup('Who is responsible for the nutrient applications? Please select multiple if this is a shared responsibility."'),
         'options' => $management_options,
       ],
       'management_harvest' => [
-        'label' => t('Harvest'),
-        'description' => t('Who is responsible for harvesting the experiment? Please select multiple if this is a shared responsibility.'),
+        'label' => new TranslatableMarkup('Harvest'),
+        'description' => new TranslatableMarkup('Who is responsible for harvesting the experiment? Please select multiple if this is a shared responsibility.'),
         'options' => $management_options,
       ],
     ];
@@ -960,8 +960,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
     ];
 
     $fields['initial_quote'] = BaseFieldDefinition::create('file')
-      ->setLabel(t('Initial Quote'))
-      ->setDescription(t('Preliminary quotations for the work proposed.'))
+      ->setLabel(new TranslatableMarkup('Initial Quote'))
+      ->setDescription(new TranslatableMarkup('Preliminary quotations for the work proposed.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($file_field_settings)
@@ -982,8 +982,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['file'] = BaseFieldDefinition::create('file')
-      ->setLabel(t('File'))
-      ->setDescription(t('Upload files associated with this proposal.'))
+      ->setLabel(new TranslatableMarkup('File'))
+      ->setDescription(new TranslatableMarkup('Upload files associated with this proposal.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($file_field_settings)
@@ -1007,8 +1007,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       'file_extensions' => 'png gif jpg jpeg',
     ];
     $fields['image'] = BaseFieldDefinition::create('image')
-      ->setLabel(t('Image'))
-      ->setDescription(t('Upload files associated with this proposal.'))
+      ->setLabel(new TranslatableMarkup('Image'))
+      ->setDescription(new TranslatableMarkup('Upload files associated with this proposal.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings($image_field_settings)
@@ -1031,8 +1031,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['link'] = BaseFieldDefinition::create('link')
-      ->setLabel(t('Links'))
-      ->setDescription(t('Links to external website and documents associated with the proposal.'))
+      ->setLabel(new TranslatableMarkup('Links'))
+      ->setDescription(new TranslatableMarkup('Links to external website and documents associated with the proposal.'))
       ->setRevisionable(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSettings([
@@ -1050,8 +1050,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['reviewer'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Reviewers'))
-      ->setDescription(t('The researchers who have reviewed this proposal.'))
+      ->setLabel(new TranslatableMarkup('Reviewers'))
+      ->setDescription(new TranslatableMarkup('The researchers who have reviewed this proposal.'))
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setSetting('target_type', 'rothamsted_researcher')
       ->setDisplayConfigurable('form', TRUE)
@@ -1071,19 +1071,19 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['status'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Status'))
-      ->setDescription(t('The status of the proposal.'))
+      ->setLabel(new TranslatableMarkup('Status'))
+      ->setDescription(new TranslatableMarkup('The status of the proposal.'))
       ->setRevisionable(TRUE)
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
-        'draft' => t('Draft'),
-        'submitted' => t('Submitted'),
-        'approved' => t('Approved'),
-        'rejected' => t('Rejected'),
-        'planning' => t('Planning'),
-        'completed' => t('Completed'),
-        'cancelled' => t('Cancelled'),
-        'archived' => t('Archived'),
+        'draft' => new TranslatableMarkup('Draft'),
+        'submitted' => new TranslatableMarkup('Submitted'),
+        'approved' => new TranslatableMarkup('Approved'),
+        'rejected' => new TranslatableMarkup('Rejected'),
+        'planning' => new TranslatableMarkup('Planning'),
+        'completed' => new TranslatableMarkup('Completed'),
+        'cancelled' => new TranslatableMarkup('Cancelled'),
+        'archived' => new TranslatableMarkup('Archived'),
       ])
       ->setDefaultValue('draft')
       ->setDisplayConfigurable('form', TRUE)
@@ -1100,8 +1100,8 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
       ]);
 
     $fields['status_notes'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(t('Status notes'))
-      ->setDescription(t('Any notes about the proposal status.'))
+      ->setLabel(new TranslatableMarkup('Status notes'))
+      ->setDescription(new TranslatableMarkup('Any notes about the proposal status.'))
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [

@@ -7,15 +7,13 @@ namespace Drupal\farm_rothamsted_roles\Hook;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\UserInterface;
 
 /**
  * Entity hook implementations for farm_rothamsted_roles.
  */
 class EntityHooks {
-
-  use StringTranslationTrait;
 
   /**
    * Constructs an EntityHooks object.
@@ -33,8 +31,8 @@ class EntityHooks {
   #[Hook('entity_extra_field_info')]
   public function entityExtraFieldInfo(): array {
     $fields['user']['user']['display']['rothamsted_user_roles'] = [
-      'label' => $this->t('User roles'),
-      'description' => $this->t("The user's roles and permissions."),
+      'label' => new TranslatableMarkup('User roles'),
+      'description' => new TranslatableMarkup("The user's roles and permissions."),
       'weight' => 0,
     ];
     return $fields;
@@ -52,7 +50,7 @@ class EntityHooks {
       }, $account->get('roles')->referencedEntities());
       $build['rothamsted_user_roles'] = [
         '#type' => 'item',
-        '#markup' => '<h4 class="label">' . $this->t('User roles') . '</h4> ' . implode(', ', $role_labels),
+        '#markup' => '<h4 class="label">' . new TranslatableMarkup('User roles') . '</h4> ' . implode(', ', $role_labels),
       ];
     }
   }

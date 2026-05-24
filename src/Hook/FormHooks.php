@@ -7,7 +7,7 @@ namespace Drupal\farm_rothamsted\Hook;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_location\AssetLocationInterface;
 use Drupal\system\Entity\Action;
@@ -16,8 +16,6 @@ use Drupal\system\Entity\Action;
  * Form hook implementations for farm_rothamsted.
  */
 class FormHooks {
-
-  use StringTranslationTrait;
 
   public function __construct(
     protected readonly AssetLocationInterface $assetLocation,
@@ -78,21 +76,21 @@ class FormHooks {
     // Add disabled textfield displaying the current location.
     $form['rothamsted_current_location_wrapper']['rothamsted_current_location'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Current location'),
-      '#description' => $this->t('The current location of the asset. This can be changed by creating a new movement log with the "Move asset" button.'),
+      '#title' => new TranslatableMarkup('Current location'),
+      '#description' => new TranslatableMarkup('The current location of the asset. This can be changed by creating a new movement log with the "Move asset" button.'),
       '#disabled' => TRUE,
       '#default_value' => $current_location_string,
     ];
 
     // Include the latest movement log in the field description.
     if ($latest_log = $this->assetLocation->getMovementLog($asset)) {
-      $form['rothamsted_current_location_wrapper']['rothamsted_current_location']['#description'] .= ' ' . $this->t('Latest movement log: <a href=":uri">%log_label</a>', [':uri' => $latest_log->toUrl()->toString(), '%log_label' => $latest_log->label()]);
+      $form['rothamsted_current_location_wrapper']['rothamsted_current_location']['#description'] .= ' ' . new TranslatableMarkup('Latest movement log: <a href=":uri">%log_label</a>', [':uri' => $latest_log->toUrl()->toString(), '%log_label' => $latest_log->label()]);
     }
 
     // Add button to move the asset.
     $form['rothamsted_current_location_wrapper']['rothamsted_current_location_move'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Move asset'),
+      '#value' => new TranslatableMarkup('Move asset'),
       '#submit' => [[static::class, 'assetFormMoveSubmit']],
     ];
 
