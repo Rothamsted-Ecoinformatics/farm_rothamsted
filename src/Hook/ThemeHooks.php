@@ -35,8 +35,8 @@ class ThemeHooks {
       $description = $variables['element']['#description'];
 
       // Update the field element title in $variables.
-      // This is necessary because claro's preprocess hook uses the element title
-      // and will always run after our hook because claro is a theme.
+      // This is necessary because claro's preprocess hook uses the element
+      // title and will always run after our hook because claro is a theme.
       // @see claro_preprocess_field_multiple_value_form.
       $variables['element']['#title'] = "$title: $description";
       unset($variables['description']);
