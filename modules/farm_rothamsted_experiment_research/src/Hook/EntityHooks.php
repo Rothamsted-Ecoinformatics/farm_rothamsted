@@ -423,8 +423,8 @@ class EntityHooks {
     // Add cache tags to all other access results. This ensures that secondary
     // task items are rebuilt on the entity page when other entities change.
     // For example, if a researcher is removed from an Experiment entity,
-    // the plan should be updated to not have the "edit" tab. Without these cache
-    // tags the previous result can be cached.
+    // the plan should be updated to not have the "edit" tab. Without these
+    // cache tags the previous result can be cached.
     $research_entity_cache_tags = [
       'rothamsted_researcher_list',
       'rothamsted_proposal_list',
