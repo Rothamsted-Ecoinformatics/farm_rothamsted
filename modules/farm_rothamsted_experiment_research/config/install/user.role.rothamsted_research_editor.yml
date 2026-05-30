@@ -4,6 +4,7 @@ dependencies:
   module:
     - farm_role
     - farm_rothamsted_experiment
+    - farm_rothamsted_experiment_research
     - farm_setup
     - taxonomy
   enforced:
@@ -50,8 +51,8 @@ is_admin: null
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
+  - 'create rothamsted_experiment plan boundary'
   - 'create rothamsted_proposal'
   - 'duplicate any rothamsted_proposal'
-  - 'create rothamsted_experiment plan boundary'
   - 'upload rothamsted_experiment plan geometries'
   - 'upload rothamsted_experiment plan variables'
