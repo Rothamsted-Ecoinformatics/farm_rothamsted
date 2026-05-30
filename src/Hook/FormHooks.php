@@ -20,7 +20,7 @@ class FormHooks {
 
   public function __construct(
     protected readonly AssetLocationInterface $assetLocation,
-    protected QuickFormInstanceManagerInterface $quickFormManager,
+    protected QuickFormInstanceManagerInterface $quickFormInstanceManager,
   ) {
   }
 
@@ -51,7 +51,7 @@ class FormHooks {
     }
 
     // Make sure the movement quick form is enabled.
-    $quick_form = $this->quickFormManager->getInstance('movement');
+    $quick_form = $this->quickFormInstanceManager->getInstance('movement');
     if ($quick_form === NULL || !$quick_form->status()) {
       return;
     }
