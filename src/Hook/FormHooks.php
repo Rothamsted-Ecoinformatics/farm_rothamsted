@@ -10,6 +10,7 @@ use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\asset\Entity\AssetInterface;
 use Drupal\farm_location\AssetLocationInterface;
+use Drupal\farm_quick\QuickFormInstanceManagerInterface;
 use Drupal\system\Entity\Action;
 
 /**
@@ -19,6 +20,7 @@ class FormHooks {
 
   public function __construct(
     protected readonly AssetLocationInterface $assetLocation,
+    protected QuickformInstanceManagerInterface $quickFormManager,
   ) {
   }
 
@@ -49,9 +51,7 @@ class FormHooks {
     }
 
     // Make sure the movement quick form is enabled.
-    /** @var \Drupal\farm_quick\QuickFormInstanceManagerInterface $quick_form_manager */
-    $quick_form_manager = \Drupal::service('quick_form.instance_manager');
-    $quick_form = $quick_form_manager->getInstance('movement');
+    $quick_form = $this->quickFormManager->getInstance('movement');
     if ($quick_form === NULL || !$quick_form->status()) {
       return;
     }
