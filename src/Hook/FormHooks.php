@@ -20,7 +20,7 @@ class FormHooks {
 
   public function __construct(
     protected readonly AssetLocationInterface $assetLocation,
-    protected QuickformInstanceManagerInterface $quickFormManager,
+    protected QuickFormInstanceManagerInterface $quickFormManager,
   ) {
   }
 
