@@ -7,6 +7,7 @@ dependencies:
     - farm_setup
     - log
     - plan
+    - quantity
     - taxonomy
   enforced:
     module:
@@ -48,12 +49,12 @@ label: 'Restricted Viewer'
 weight: 5
 is_admin: null
 permissions:
-  - 'access farm setup'
-  - 'access taxonomy overview'
   - 'access asset collection'
-  - 'view all asset revisions'
+  - 'access farm setup'
   - 'access log collection'
-  - 'view all log revisions'
   - 'access plan collection'
-  - 'view all plan revisions'
   - 'access quantity collection'
+  - 'access taxonomy overview'
+  - 'view all asset revisions'
+  - 'view all log revisions'
+  - 'view all plan revisions'
