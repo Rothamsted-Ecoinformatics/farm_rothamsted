@@ -700,7 +700,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'view any plan'
+          perm: 'access plan collection'
       cache:
         type: tag
         options: {  }

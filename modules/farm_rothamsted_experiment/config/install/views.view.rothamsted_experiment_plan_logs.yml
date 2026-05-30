@@ -783,7 +783,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'view any log'
+          perm: 'access log collection'
       cache:
         type: tag
         options: {  }

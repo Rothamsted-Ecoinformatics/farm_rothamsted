@@ -904,7 +904,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'view any rothamsted_experiment plan'
+          perm: 'access plan collection'
       cache:
         type: tag
         options: {  }
