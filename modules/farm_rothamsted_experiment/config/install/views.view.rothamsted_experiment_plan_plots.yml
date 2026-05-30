@@ -380,7 +380,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'view any asset'
+          perm: 'access asset collection'
       cache:
         type: none
         options: {  }
