@@ -1,10 +1,13 @@
 langcode: en
 status: true
 dependencies:
+  config:
+    - taxonomy.vocabulary.log_category
   module:
     - log
     - options
     - state_machine
+    - taxonomy
     - user
   enforced:
     module:

@@ -3,12 +3,14 @@ status: true
 dependencies:
   config:
     - plan.type.rothamsted_experiment
+    - taxonomy.vocabulary.log_category
   module:
     - entity_reference_revisions
     - log
     - options
     - plan
     - state_machine
+    - taxonomy
     - user
   enforced:
     module:

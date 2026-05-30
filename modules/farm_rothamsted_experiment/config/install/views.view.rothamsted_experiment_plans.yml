@@ -3,10 +3,12 @@ status: false
 dependencies:
   config:
     - plan.type.rothamsted_experiment
+    - taxonomy.vocabulary.crop_family
   module:
     - options
     - plan
     - state_machine
+    - taxonomy
     - user
   enforced:
     module:

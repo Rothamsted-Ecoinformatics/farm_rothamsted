@@ -3,11 +3,13 @@ status: true
 dependencies:
   config:
     - plan.type.rothamsted_experiment
+    - taxonomy.vocabulary.crop_family
   module:
     - farm_rothamsted_experiment_research
     - options
     - plan
     - state_machine
+    - taxonomy
     - text
     - user
   enforced:
