@@ -1,14 +1,14 @@
-name: Run 2.x tests
+name: Run tests
 on:
   schedule:
     - cron: '0 8 * * *' # Run at 8AM UTC.
   push:
     branches:
-      - '2.x'
-      - '2.x-**'
+      - '3.x'
+      - '3.x-**'
   pull_request:
     branches:
-      - '2.x'
+      - '3.x'
 
 jobs:
   run-tests:
