@@ -17,6 +17,10 @@ class UpdateHooks {
   #[Hook('farm_update_managed_config')]
   public function farmUpdateManagedConfig() {
     return [
+      'user.role.rothamsted_research_editor',
+      'user.role.rothamsted_research_lead',
+      'user.role.rothamsted_research_restricted_viewer',
+      'user.role.rothamsted_research_reviewer',
       'views.view.rothamsted_experiment',
       'views.view.rothamsted_experiment_design',
       'views.view.rothamsted_experiment_plan',
