@@ -7,7 +7,6 @@ namespace Drupal\farm_rothamsted_roles\Plugin\Validation\Constraint;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -64,11 +63,11 @@ class RothamstedRoleConstraintValidator extends ConstraintValidator implements C
       // Operator roles can be combined with any of the researcher roles.
       $operator_roles = [
         'rothamsted_operator_basic',
-        'rothamsted_operator_advanced'
+        'rothamsted_operator_advanced',
       ];
       $research_roles = [
         'rothamsted_research_lead',
-        'rothamsted_research_editor'
+        'rothamsted_research_editor',
       ];
       $has_operator = count(array_intersect($operator_roles, $role_ids)) > 0;
       $has_research = count(array_intersect($research_roles, $role_ids)) > 0;
@@ -85,4 +84,5 @@ class RothamstedRoleConstraintValidator extends ConstraintValidator implements C
       }
     }
   }
+
 }
