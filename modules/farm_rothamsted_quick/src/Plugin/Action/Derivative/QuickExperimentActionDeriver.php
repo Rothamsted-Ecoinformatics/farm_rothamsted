@@ -7,7 +7,6 @@ namespace Drupal\farm_rothamsted_quick\Plugin\Action\Derivative;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\farm_quick\QuickFormPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,7 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @see \Drupal\farm_rothamsted_quick\Plugin\Action\QuickExperimentAction
  */
 class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriverInterface {
-
 
   /**
    * The quick form manager.
@@ -29,13 +27,10 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
   /**
    * Constructs a new QuickExperimentActionDeriver object.
    *
-   * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
-   *   The string translation service.
    * @param \Drupal\farm_quick\QuickFormPluginManager $quick_form_manager
    *   The quick form manager service.
    */
-  public function __construct(TranslationInterface $string_translation, QuickFormPluginManager $quick_form_manager) {
-    $this->stringTranslation = $string_translation;
+  public function __construct(QuickFormPluginManager $quick_form_manager) {
     $this->quickFormManager = $quick_form_manager;
   }
 
@@ -44,7 +39,6 @@ class QuickExperimentActionDeriver extends DeriverBase implements ContainerDeriv
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
-      $container->get('string_translation'),
       $container->get('plugin.manager.quick_form'),
     );
   }
