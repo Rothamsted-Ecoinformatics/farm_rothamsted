@@ -50,6 +50,10 @@ is_admin: null
 permissions:
   - 'access farm setup'
   - 'access taxonomy overview'
+  - 'access asset collection'
   - 'view all asset revisions'
+  - 'access log collection'
   - 'view all log revisions'
+  - 'access plan collection'
   - 'view all plan revisions'
+  - 'access quantity collection'
