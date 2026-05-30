@@ -10,7 +10,7 @@ rothamsted_farm_manager:
       status: true
     password:
       status: true
-  granularity_id: 'role'
+  granularity_id: 'managed_role'
   granularity_configuration:
     role: 'rothamsted_farm_manager'
 rothamsted_data_admin:
@@ -25,6 +25,6 @@ rothamsted_data_admin:
       status: true
     password:
       status: true
-  granularity_id: 'role'
+  granularity_id: 'managed_role'
   granularity_configuration:
     role: 'rothamsted_data_admin'
