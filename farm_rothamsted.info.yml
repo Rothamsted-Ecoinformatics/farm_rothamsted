@@ -13,6 +13,7 @@ dependencies:
   - farm_material_type
   - farm_plant
   - farm_plant_type
+  - farm_quick
   - farm_rei:farm_rei
   - farm_structure
   - farm_ui_theme
