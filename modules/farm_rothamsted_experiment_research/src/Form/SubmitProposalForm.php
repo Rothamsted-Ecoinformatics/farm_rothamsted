@@ -111,6 +111,10 @@ class SubmitProposalForm extends FormBase {
     $entity = $form_state->get('entity');
     if ($entity) {
       $entity->set('status', 'submitted');
+      $entity->setNewRevision();
+      $entity->setRevisionUserId($this->currentUser()->id());
+      $entity->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+      $entity->setRevisionLogMessage((string) (new TranslatableMarkup('Submit proposal')));
       $entity->save();
       $this->messenger()->addStatus(new TranslatableMarkup('Submitted proposal'));
       $form_state->setRedirect('entity.rothamsted_proposal.canonical', ['rothamsted_proposal' => $entity->id()]);
