@@ -18,43 +18,35 @@ class ThemeHooks {
    */
   #[Hook('theme')]
   public function theme(): array {
+    $preprocess = ThemeHooks::class . '::preprocessRothamstedResearchEntity';
     return [
       'rothamsted_proposal' => [
         'render element' => 'elements',
         'template' => 'rothamsted-research-entity',
-        'preprocess functions' => [
-          'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
-        ],
+        'preprocess functions' => [$preprocess],
       ],
       'rothamsted_program' => [
         'render element' => 'elements',
         'template' => 'rothamsted-research-entity',
-        'preprocess functions' => [
-          'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
-        ],
+        'preprocess functions' => [$preprocess],
       ],
       'rothamsted_experiment' => [
         'render element' => 'elements',
         'template' => 'rothamsted-research-entity',
-        'preprocess functions' => [
-          'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
-        ],
+        'preprocess functions' => [$preprocess],
       ],
       'rothamsted_design' => [
         'render element' => 'elements',
         'template' => 'rothamsted-research-entity',
-        'preprocess functions' => [
-          'farm_rothamsted_experiment_research_preprocess_rothamsted_research_entity',
-        ],
+        'preprocess functions' => [$preprocess],
       ],
     ];
   }
 
   /**
-   * Implements hook_preprocess_HOOK().
+   * Preprocess function for research entity themes.
    */
-  #[Hook('preprocess_rothamsted_research_entity')]
-  public function preprocessRothamstedResearchEntity(array &$variables): void {
+  public static function preprocessRothamstedResearchEntity(array &$variables): void {
 
     // Make sure this is a research entity.
     if (isset($variables['theme_hook_original']) && isset($variables['elements']["#{$variables['theme_hook_original']}"])) {
