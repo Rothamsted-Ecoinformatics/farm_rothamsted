@@ -14,16 +14,16 @@ trait QuickFileTrait {
   /**
    * The valid file extensions.
    *
-   * @var string[]
+   * @var string
    */
-  protected static array $validFileExtensions = ['pdf doc docx csv xls xlsx'];
+  protected static string $validFileExtensions = 'pdf doc docx csv xls xlsx';
 
   /**
    * The valid image file extensions.
    *
-   * @var string[]
+   * @var string
    */
-  protected static array $validImageExtensions = ['png gif jpg jpeg'];
+  protected static string $validImageExtensions = 'png gif jpg jpeg';
 
   /**
    * Helper function to get the managed_file upload location.

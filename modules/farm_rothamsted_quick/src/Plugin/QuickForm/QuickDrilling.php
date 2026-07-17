@@ -176,7 +176,9 @@ class QuickDrilling extends QuickExperimentFormBase {
       '#description' => new TranslatableMarkup('Photograph(s) of the seed label taken prior to drilling or confirm the right seed batch and variety was used.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validImageExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,

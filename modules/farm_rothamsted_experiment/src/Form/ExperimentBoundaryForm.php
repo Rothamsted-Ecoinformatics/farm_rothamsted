@@ -146,7 +146,9 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
       '#description' => new TranslatableMarkup('If you have a KML file with GIS coordinates for the experiment boundary, please add it here.'),
       '#upload_location' => 'private://kml',
       '#upload_validators' => [
-        'file_validate_extensions' => ['kml'],
+        'FileExtension' => [
+          'extensions' => 'kml',
+        ],
       ],
     ];
 

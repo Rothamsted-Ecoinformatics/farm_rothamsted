@@ -93,7 +93,9 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
       '#description' => new TranslatableMarkup('Please upload the harvest form where relevant for experiments.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validFileExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validFileExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,
@@ -106,7 +108,9 @@ class QuickCombineHarvest extends QuickExperimentFormBase {
       '#description' => new TranslatableMarkup('Please upload any digital records associated with this harvest (yields, crop samples, etc).'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validFileExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validFileExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,

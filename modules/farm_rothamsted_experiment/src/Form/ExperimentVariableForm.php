@@ -81,7 +81,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#title' => new TranslatableMarkup('Column descriptors'),
       '#description' => new TranslatableMarkup('CSV file containing the column descriptor definitions.'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
+        'FileExtension' => [
+          'extensions' => 'csv',
+        ],
       ],
       '#upload_location' => $plan_file_location,
       '#limit_validation_errors' => [],
@@ -91,7 +93,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#title' => new TranslatableMarkup('Column Levels'),
       '#description' => new TranslatableMarkup('CSV file containing the column level definitions for each column descriptor.'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
+        'FileExtension' => [
+          'extensions' => 'csv',
+        ],
       ],
       '#upload_location' => $plan_file_location,
       '#limit_validation_errors' => [],
@@ -102,7 +106,9 @@ class ExperimentVariableForm extends ExperimentFormBase {
       '#title' => new TranslatableMarkup('Plot attributes'),
       '#description' => new TranslatableMarkup('CSV file containing each plot number, id, type and column assignments.'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
+        'FileExtension' => [
+          'extensions' => 'csv',
+        ],
       ],
       '#upload_location' => $plan_file_location,
       '#limit_validation_errors' => [],

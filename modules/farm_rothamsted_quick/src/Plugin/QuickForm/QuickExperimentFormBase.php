@@ -440,7 +440,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => new TranslatableMarkup('A PDF, word or excel file with the agronomist or crop consultant recommendations.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'file'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validFileExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validFileExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,
@@ -585,7 +587,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
         '#description' => new TranslatableMarkup('Please photograph the product labels where relevant.'),
         '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
         '#upload_validators' => [
-          'file_validate_extensions' => self::$validImageExtensions,
+          'FileExtension' => [
+            'extensions' => self::$validImageExtensions,
+          ],
         ],
         '#multiple' => TRUE,
         '#extended' => TRUE,
@@ -649,7 +653,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => new TranslatableMarkup('A photograph of the crop, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validImageExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,
@@ -662,7 +668,9 @@ abstract class QuickExperimentFormBase extends QuickFormBase {
       '#description' => new TranslatableMarkup('One or more photographs of any paper records, if applicable.'),
       '#upload_location' => $this->getFileUploadLocation('log', $this->logType, 'image'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validImageExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validImageExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,

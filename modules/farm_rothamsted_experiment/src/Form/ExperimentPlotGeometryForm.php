@@ -95,7 +95,9 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
       '#title' => new TranslatableMarkup('Plot geometries'),
       '#description' => new TranslatableMarkup('GeoJSON file containing each plot number, plot ID and geometry.'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['geojson'],
+        'FileExtension' => [
+          'extensions' => 'geojson',
+        ],
       ],
       '#upload_location' => $plan_file_location,
       '#limit_validation_errors' => [],

@@ -175,7 +175,9 @@ class QuickCommercialAsset extends QuickFormBase {
       '#description' => new TranslatableMarkup('The option to upload one or more files relating to this plant asset.'),
       '#upload_location' => $this->getFileUploadLocation('asset', 'plant', 'file'),
       '#upload_validators' => [
-        'file_validate_extensions' => self::$validFileExtensions,
+        'FileExtension' => [
+          'extensions' => self::$validFileExtensions,
+        ],
       ],
       '#multiple' => TRUE,
       '#extended' => TRUE,
