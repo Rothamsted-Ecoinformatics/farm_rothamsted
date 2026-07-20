@@ -1994,8 +1994,11 @@ display:
           entity_type: rothamsted_design
           entity_field: experiment
           plugin_id: entity_reference
-          operator: or
-          value: {  }
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
           group: 1
           exposed: true
           expose:
@@ -2013,15 +2016,20 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
-              farm_manager: '0'
-              farm_operator: '0'
-              rothamsted_experiment_admin: '0'
-              rothamsted_sponsor: '0'
-              farm_viewer: '0'
-              farm_worker: '0'
+              farm_account_admin: '0'
+              rothamsted_data_admin: '0'
+              rothamsted_farm_manager: '0'
+              rothamsted_farm_viewer: '0'
+              rothamsted_operator_advanced: '0'
+              rothamsted_operator_basic: '0'
+              rothamsted_research_lead: '0'
               rothamsted_research_editor: '0'
-              rothamsted_research_viewer: '0'
+              rothamsted_research_reviewer: '0'
+              rothamsted_research_restricted_viewer: '0'
             reduce: false
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
           is_grouped: false
           group_info:
             label: ''
