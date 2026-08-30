@@ -27,6 +27,7 @@ third_party_settings:
               - plot
               - structure
               - sensor
+              - water
           log:
             create:
               - observation
