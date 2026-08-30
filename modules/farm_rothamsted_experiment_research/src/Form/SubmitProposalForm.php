@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Form;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Form\FormBase;
@@ -16,6 +17,11 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterfac
  * Confirmation form for submitting proposals.
  */
 class SubmitProposalForm extends FormBase {
+
+  public function __construct(
+    protected TimeInterface $time,
+  ) {
+  }
 
   /**
    * {@inheritdoc}
@@ -113,7 +119,7 @@ class SubmitProposalForm extends FormBase {
       $entity->set('status', 'submitted');
       $entity->setNewRevision();
       $entity->setRevisionUserId($this->currentUser()->id());
-      $entity->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+      $entity->setRevisionCreationTime($this->time->getRequestTime());
       $entity->setRevisionLogMessage((string) (new TranslatableMarkup('Submit proposal')));
       $entity->save();
       $this->messenger()->addStatus(new TranslatableMarkup('Submitted proposal'));
