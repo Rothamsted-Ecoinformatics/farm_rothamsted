@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Cast plot_id to string when uploading plot geojson [#897](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/897)
+
 ## [2.30.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/56)
 
 ### Added

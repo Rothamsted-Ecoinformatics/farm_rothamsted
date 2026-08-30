@@ -176,7 +176,7 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
         $this->messenger()->addError($error_msg);
         return;
       }
-      $plot_mapping[(int) $plot_number] = $plot_id;
+      $plot_mapping[(int) $plot_number] = (string) $plot_id;
     }
     ksort($plot_mapping);
 
