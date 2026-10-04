@@ -20,7 +20,7 @@ class ListStringFieldItemNormalizer extends FieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($field_item, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+  public function normalize($field_item, $format = NULL, array $context = []): array {
     /** @var \Drupal\options\Plugin\Field\FieldType\ListStringItem $field_item */
 
     // Return the list string option label if field_value_option_labels is set.

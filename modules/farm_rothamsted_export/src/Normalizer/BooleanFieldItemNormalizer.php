@@ -20,7 +20,7 @@ class BooleanFieldItemNormalizer extends FieldItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function normalize($field_item, $format = NULL, array $context = []): array|string|int|float|bool|\ArrayObject|null {
+  public function normalize($field_item, $format = NULL, array $context = []): array {
     /** @var \Drupal\Core\Field\Plugin\Field\FieldType\BooleanItem $field_item */
 
     // Return boolean label if field_value_option_labels is set.
