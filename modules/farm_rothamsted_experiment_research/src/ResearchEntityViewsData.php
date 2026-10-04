@@ -6,7 +6,6 @@ namespace Drupal\farm_rothamsted_experiment_research;
 
 use Drupal\entity\EntityViewsData;
 
-
 /**
  * Duplicates farmos core FarmEntityViewsData class.
  *
@@ -78,6 +77,5 @@ class ResearchEntityViewsData extends EntityViewsData {
       }
     }
   }
-
 
 }
