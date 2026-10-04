@@ -347,6 +347,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
     $this->sendMail($proposal, $emails, $params);
 
     // Send a second "Intention to Submit" email to all Reviewers to not already
+    // Don't send "Intention to Submit" if this was only triggered to alert new researchers.
+    if ($new_researcher) {
+      return;
+    }
     // named on the proposal.
     // Get emails for all research reviewers.
     $users = $this->entityTypeManager->getStorage('user')->loadByProperties([
