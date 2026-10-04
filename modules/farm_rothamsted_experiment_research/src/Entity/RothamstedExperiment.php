@@ -15,7 +15,6 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
-use Drupal\entity\EntityViewsData;
 use Drupal\entity\Routing\AdminHtmlRouteProvider;
 use Drupal\entity\Routing\RevisionRouteProvider;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
@@ -23,6 +22,7 @@ use Drupal\farm_comment\FarmCommentHelper;
 use Drupal\farm_rothamsted_experiment_research\Form\EntityStatusChangeActionForm;
 use Drupal\farm_rothamsted_experiment_research\Form\ExperimentEntityForm;
 use Drupal\farm_rothamsted_experiment_research\ResearchEntityPermissionProvider;
+use Drupal\farm_rothamsted_experiment_research\ResearchEntityViewsData;
 use Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder;
 use Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider;
 use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
@@ -52,7 +52,7 @@ use Drupal\user\UserInterface;
     'list_builder' => RothamstedEntityListBuilder::class,
     'permission_provider' => ResearchEntityPermissionProvider::class,
     'view_builder' => EntityViewBuilder::class,
-    'views_data' => EntityViewsData::class,
+    'views_data' => ResearchEntityViewsData::class,
     'form' => [
       'add' => ExperimentEntityForm::class,
       'edit' => ExperimentEntityForm::class,
