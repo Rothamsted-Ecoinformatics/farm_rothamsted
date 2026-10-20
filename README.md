@@ -4,7 +4,7 @@
 
 This project contains custom FarmOS Modules for [Rothamsted Research](https://www.rothamsted.ac.uk/).
 
-These customised [Rothamsted FarmOS Modules](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules) are extensions to FarmOS that are designed to capture research quality farm management and field experiment data. The system in in active daily use on all three of Rothamsted’s Field Experimental Stations (Harpenden/ Woburn, Brooms Barn and North Wyke).
+These customised [Rothamsted FarmOS Modules](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules) are extensions to FarmOS that are designed to capture research quality farm management and field experiment data. The system in in active daily use on all three of Rothamsted’s Field Experimental Stations (Harpenden/ Woburn, Brooms Barn and North Wyke).
 
 Currently there are eight modules designed to support the implementation of two key features. The key features are:
 
@@ -24,7 +24,7 @@ Contributors:
 
 - [**Barnaby Norman**](https://github.com/barnabynorman)**.** Contributor to the Rothamsted Quick Forms
 
-**KEY FEATURE:** [**ROTHAMSTED QUICK FORMS**](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_quick/src/Plugin/QuickForm)
+**KEY FEATURE:** [**ROTHAMSTED QUICK FORMS**](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_quick/src/Plugin/QuickForm)
 
 The Rothamsted Quick forms are set of data collection forms designed to standardise the way data is captured and stored in FarmOS. The current list of quick forms includes:
 
@@ -38,7 +38,7 @@ The Rothamsted Quick forms are set of data collection forms designed to standard
 
 **KEY FEATURE: ROTHAMSTED EXPERIMENT MODULES**
 
-The Rothamsted Experiment Module is a set of six custom [entity types](https://www.drupal.org/docs/7/api/entity-api/an-introduction-to-entities) that are used to store data about different elements of an experiment. Each module is designed to align with the ISA and MIAPPE standards. The current list of entity types includes:
+The Rothamsted Experiment Module is a set of six custom [entity types](https://www.drupal.org/docs/drupal-apis/entity-api/entity-types) that are used to store data about different elements of an experiment. Each module is designed to align with the ISA and MIAPPE standards. The current list of entity types includes:
 
 - **Researchers:** metadata that describes the individual people who are associated with the Research. Researchers can be named on Research Programs, Proposals and Experiments. Researchers who are in the system as Statisticians can be named on Designs.
 - **Research Programs:** metadata that describes the Research Program that funds the research. It is primarily designed for government and philanthropic funding but can also record commercial research contracts. Experiments and Proposals can be linked to one or more Research Programs.
@@ -51,11 +51,11 @@ The Rothamsted Experiment Module is a set of six custom [entity types](https://w
 
 FarmOS is built using Drupal, which is a modular web content management service (WMS). Drupal allows users to combine different modules to create a website that it tailored to their specific needs. FarmOS both uses existing Drupal modules and creates new custom modules specific to FarmOS. The Rothamsted implementation of FarmOS uses these modules to deliver the core services and then extends them to enable the above features but adding eight additional modules which are specific to Rothamsted. The Rothamsted modules include:
 
-- **Rothamsted Quick Forms (**[farm_rothamsted_quick](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_quick"%20\o%20"farm_rothamsted_quick)**):** A module which contains all of the Rothamsted Quick Forms
+- **Rothamsted Quick Forms (**[farm_rothamsted_quick](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_quick"%20\o%20"farm_rothamsted_quick)**):** A module which contains all of the Rothamsted Quick Forms
 - **Rothamsted Experiment Modules:**
-  - **Study Plans** ([farm_rothamsted_experiment](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_experiment"%20\o%20"farm_rothamsted_experiment)): a module specific to the study plans, which also adds plots as a new asset type and ‘_experiment boundary_’ as a new category for land assets. Users can upload ontologically tagged variables using a .csv uploader, and this uploader is also used to tag plots with their treatments. Users also have the option to upload a GeoJSON with the plot. These were previously called Experiment Plans, but were renamed as Study Plans when we adopted the MIAPPE and ISA Standards.
-  - **Research Metadata** ([farm_rothamsted_experiment_research](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_experiment_research"%20\o%20"farm_rothamsted_experiment_research)): Drupal entities which capture MIAPPE and ISA compliant metadata for Research Programs, Proposals, Experiments and Designs.
-  - **Researcher Metadata (**[farm_rothamsted_researcher](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_researcher"%20\o%20"farm_rothamsted_researcher)): A Drupal entity that captures MIAPPE and ISA compliant metadata for the Researchers associated with the Research Metadata.
+  - **Study Plans** ([farm_rothamsted_experiment](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_experiment"%20\o%20"farm_rothamsted_experiment)): a module specific to the study plans, which also adds plots as a new asset type and ‘_experiment boundary_’ as a new category for land assets. Users can upload ontologically tagged variables using a .csv uploader, and this uploader is also used to tag plots with their treatments. Users also have the option to upload a GeoJSON with the plot. These were previously called Experiment Plans, but were renamed as Study Plans when we adopted the MIAPPE and ISA Standards.
+  - **Research Metadata** ([farm_rothamsted_experiment_research](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_experiment_research"%20\o%20"farm_rothamsted_experiment_research)): Drupal entities which capture MIAPPE and ISA compliant metadata for Research Programs, Proposals, Experiments and Designs.
+  - **Researcher Metadata (**[farm_rothamsted_researcher](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_researcher"%20\o%20"farm_rothamsted_researcher)): A Drupal entity that captures MIAPPE and ISA compliant metadata for the Researchers associated with the Research Metadata.
 - **Roles:** Customised FarmOS roles for Rothamsted staff. This module replaces the three existing FarmOS roles (Manager, Worker and Viewer) and adds five new roles:
   - **Manager** is replaced by **Farm Manager**.
   - **Viewer** is replaced by **Farm Viewer**.
@@ -69,10 +69,10 @@ FarmOS is built using Drupal, which is a modular web content management service 
     - **Research Reviewers** is a new role designed to support our internal scientific review processes; and
     - **Restricted Viewers** is an new role which allows people who do not work at Rothamsted to view the data associated with experiments that they are named on.
 
-- **Export data** ([farm_rothamsted_export](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_export"%20\o%20"farm_rothamsted_export)) This module exports allows users to export the raw data associated with the Rothamsted Experiment Module as .csv files packaged in a .zip file. It also extends the export functionality in FarmOS core to so users to export all the raw data associated with multiple assets and/or multiple logs using the same .zip format for packaged .csv files.
-- **Comments** ([farm_rothamsted_comment](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_comment"%20\o%20"farm_rothamsted_comment)): This module allows users to record comments on the Research Module entities. It also gives reviewers special permission to comment on a Proposal and then mark that Proposal as Reviewed with a name, date and timestamp. It also does e-mail notifications for comments. This module only adds comments to Research module, extending the core comment functionality FarmOS.
-- **E-mail Notifications** ([farm_rothamsted_notification](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_notification"%20\o%20"farm_rothamsted_notification)): This module controls the e-mail notifications sent to staff who are named on specific Research Programs, Proposals, Experiment and Designs.
-- **Dashboard customisation** ([farm_rothamsted_dashboard](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/2.x/modules/farm_rothamsted_dashboard"%20\o%20"farm_rothamsted_dashboard)): This module customised the Rothamsted dashboard, and adds specific search functionality to make it easer to find experiments, plant assets and field locations.
+- **Export data** ([farm_rothamsted_export](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_export"%20\o%20"farm_rothamsted_export)) This module exports allows users to export the raw data associated with the Rothamsted Experiment Module as .csv files packaged in a .zip file. It also extends the export functionality in FarmOS core to so users to export all the raw data associated with multiple assets and/or multiple logs using the same .zip format for packaged .csv files.
+- **Comments** ([farm_rothamsted_comment](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_comment"%20\o%20"farm_rothamsted_comment)): This module allows users to record comments on the Research Module entities. It also gives reviewers special permission to comment on a Proposal and then mark that Proposal as Reviewed with a name, date and timestamp. It also does e-mail notifications for comments. This module only adds comments to Research module, extending the core comment functionality FarmOS.
+- **E-mail Notifications** ([farm_rothamsted_notification](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_notification"%20\o%20"farm_rothamsted_notification)): This module controls the e-mail notifications sent to staff who are named on specific Research Programs, Proposals, Experiment and Designs.
+- **Dashboard customisation** ([farm_rothamsted_dashboard](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_dashboard"%20\o%20"farm_rothamsted_dashboard)): This module customised the Rothamsted dashboard, and adds specific search functionality to make it easer to find experiments, plant assets and field locations.
 
 **OUR CONTRIBUTIONS TO THE FARMOS COMMUNITY:**
 
