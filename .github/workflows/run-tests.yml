@@ -4,11 +4,10 @@ on:
     - cron: '0 8 * * *' # Run at 8AM UTC.
   push:
     branches:
-      - '3.x'
-      - '3.x-**'
+      - '*'
   pull_request:
     branches:
-      - '3.x'
+      - '*'
 
 jobs:
   run-tests:
