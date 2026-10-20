@@ -18,10 +18,10 @@ This project is maintained by
 - [**Michael Stenta**](https://github.com/mstenta) **(FarmOS).** FarmOS Founder and Lead Maintainer.
 - [**Paul Weidner**](https://github.com/paul121) **(FarmOS).** FarmOS Co-Maintainer; Lead Maintainer for the Rothamsted Modules
 - [**Richard Ostler**](https://github.com/richardostler) **(Rothamsted Research).** Head of Agri-Informatics at Rothamsted; Principal Data Scientist for the Rothamsted Modules.
-- [**Dr Aislinn Pearson**](https://github.com/aislinnpearson) **(Rothamsted Research).** Agricultural Ecologist; Product Owner for the Rothamsted Modules
+
 
 Contributors:
-
+- [**Dr Aislinn Pearson**](https://github.com/aislinnpearson) **(Previously Rothamsted Research).** Agricultural Ecologist; Former Product Owner for the Rothamsted Modules
 - [**Barnaby Norman**](https://github.com/barnabynorman)**.** Contributor to the Rothamsted Quick Forms
 
 **KEY FEATURE:** [**ROTHAMSTED QUICK FORMS**](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/tree/main/modules/farm_rothamsted_quick/src/Plugin/QuickForm)
