@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Compatibility with farmOS v4
+- Compatibility with Drupal 11
+- Support for strict types [#767](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/767)
+- Add constraint to restrict different rothamsted role combinations [#580](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/897)
+
 ### Fixed
 - Cast plot_id to string when uploading plot geojson [#897](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/897)
 - Can't filter plans by Experiment [#910](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/910)
