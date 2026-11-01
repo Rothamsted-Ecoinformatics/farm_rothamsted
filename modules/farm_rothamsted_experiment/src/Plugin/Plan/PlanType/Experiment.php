@@ -311,7 +311,7 @@ class Experiment extends FarmPlanType {
     // Column descriptors.
     $fields['column_descriptors'] = BundleFieldDefinition::create('json_native')
       ->setLabel(new TranslatableMarkup('Column descriptors'))
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
       ->setRevisionable(TRUE)
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
