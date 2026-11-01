@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Error thrown when searching for Fields and Crop Assets on dashboard [#917](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/917)
+- Validation failure when attempting to bulk change statuses of Study Plans [#919](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/919)
 
 ## [3.0.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-10-27
 
