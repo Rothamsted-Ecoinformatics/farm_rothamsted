@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Error thrown when searching for Fields and Crop Assets on dashboard [#917](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/917)
+
 ## [3.0.0](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-10-27
 
 ### Added

@@ -247,9 +247,6 @@ class RothamstedSearchForm extends FormBase {
         [
           'data' => new TranslatableMarkup('Name'),
         ],
-        [
-          'data' => new TranslatableMarkup('Status'),
-        ],
       ],
       '#rows' => [],
     ];
@@ -260,9 +257,6 @@ class RothamstedSearchForm extends FormBase {
       $render['results']['#rows'][$entity->id()] = [
         [
           'data' => $entity->toLink($entity->label()),
-        ],
-        [
-          'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
         ],
       ];
     }
@@ -311,9 +305,6 @@ class RothamstedSearchForm extends FormBase {
         [
           'data' => new TranslatableMarkup('Plant type'),
         ],
-        [
-          'data' => new TranslatableMarkup('Status'),
-        ],
       ],
       '#rows' => [],
     ];
@@ -327,9 +318,6 @@ class RothamstedSearchForm extends FormBase {
         ],
         [
           'data' => $entity->get('plant_type')->view(['label' => 'visually_hidden']),
-        ],
-        [
-          'data' => $entity->get('status')->view(['label' => 'visually_hidden']),
         ],
       ];
     }
