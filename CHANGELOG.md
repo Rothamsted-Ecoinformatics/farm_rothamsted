@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Users lost access to Taxonomy pages [#918](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/918)
+
 ## [3.0.1](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-11-01
 
 ### Fixed
