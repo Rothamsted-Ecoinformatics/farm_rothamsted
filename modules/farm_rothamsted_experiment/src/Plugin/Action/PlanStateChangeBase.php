@@ -84,7 +84,7 @@ abstract class PlanStateChangeBase extends EntityActionBase {
     // Deny access if the workflow does not support the target state.
     if (empty($target_state)) {
       $result = $result->orIf(AccessResult::forbidden(
-        new TranslatableMarkup('The %workflow workflow does not support the %target_state state.', ['%workflow' => $workflow->getLabel(), '%target_state' => $this->targetState])->render(),
+        (string) new TranslatableMarkup('The %workflow workflow does not support the %target_state state.', ['%workflow' => $workflow->getLabel(), '%target_state' => $this->targetState])->render(),
       ));
     }
     // Else check that a transition exists to the desired target state.
@@ -92,7 +92,7 @@ abstract class PlanStateChangeBase extends EntityActionBase {
       $transition = $workflow->findTransition($state_item->getOriginalId(), $this->targetState);
       $result = $result->orIf(AccessResult::forbiddenIf(
         empty($transition) || !$state_item->isTransitionAllowed($transition->getId()),
-        new TranslatableMarkup('The state transition from %original_state to %target_state is not allowed.', ['%original' => $state_item->getOriginalLabel(), '%target_state' => $target_state->getLabel()]),
+        (string) new TranslatableMarkup('The state transition from %original_state to %target_state is not allowed.', ['%original' => $state_item->getOriginalLabel(), '%target_state' => $target_state->getLabel()]),
       ));
     }
 
