@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Form;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -17,6 +18,8 @@ use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterfac
  * Confirmation form for submitting proposals.
  */
 class SubmitProposalForm extends FormBase {
+
+  use AutowireTrait;
 
   public function __construct(
     protected TimeInterface $time,
