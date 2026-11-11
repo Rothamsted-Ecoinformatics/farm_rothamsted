@@ -292,7 +292,7 @@ class ExperimentBoundaryForm extends ExperimentFormBase {
   protected function generateBoundaryName(FormStateInterface $form_state): string {
     if ($plan = Plan::load($form_state->getValue('plan_id'))) {
       $study_period = $plan->get('study_period_id')->value;
-      return new TranslatableMarkup('@study_period (@plan_name): Experiment Boundary', ['@study_period' => $study_period, '@plan_name' => $plan->label()]);
+      return (string) new TranslatableMarkup('@study_period (@plan_name): Experiment Boundary', ['@study_period' => $study_period, '@plan_name' => $plan->label()]);
     }
     return '';
   }
