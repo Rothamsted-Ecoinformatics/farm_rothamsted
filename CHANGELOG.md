@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Experiment proposals are not viewable [#925](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/925)
 - Error when attempting to create an Experiment Boundary [#930](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/930)
 
+### Removed
+
+- Remove Move Asset button from Asset Location tab [#927](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/927)
+
 ## [3.0.2](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-11-01
 
 ### Fixed
