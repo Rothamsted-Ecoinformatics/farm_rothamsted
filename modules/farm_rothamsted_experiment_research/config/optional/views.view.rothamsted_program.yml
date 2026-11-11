@@ -935,7 +935,7 @@ display:
           entity_field: principal_investigator
           plugin_id: entity_reference
           operator: or
-          value: null
+          value: {  }
           group: 1
           exposed: true
           expose:

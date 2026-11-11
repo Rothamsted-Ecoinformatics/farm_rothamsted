@@ -1052,7 +1052,7 @@ display:
           entity_field: statistician
           plugin_id: entity_reference
           operator: or
-          value: null
+          value: {  }
           group: 1
           exposed: true
           expose:
@@ -1101,7 +1101,7 @@ display:
           entity_field: data_steward
           plugin_id: entity_reference
           operator: or
-          value: null
+          value: {  }
           group: 1
           exposed: true
           expose:
@@ -1150,7 +1150,7 @@ display:
           entity_field: contact
           plugin_id: entity_reference
           operator: or
-          value: null
+          value: {  }
           group: 1
           exposed: true
           expose:
