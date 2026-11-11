@@ -1052,7 +1052,7 @@ display:
           entity_field: statistician
           plugin_id: entity_reference
           operator: or
-          value: {  }
+          value: null
           group: 1
           exposed: true
           expose:
@@ -1066,7 +1066,7 @@ display:
             identifier: statistician_target_id
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
             reduce: false
@@ -1083,14 +1083,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          sub_handler: 'default:rothamsted_researcher'
+          sub_handler: views
           widget: autocomplete
           sub_handler_settings:
-            target_bundles: null
-            sort:
-              field: _none
-              direction: ASC
-            auto_create: false
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
         data_steward_target_id:
           id: data_steward_target_id
           table: rothamsted_proposal__data_steward
@@ -1102,7 +1101,7 @@ display:
           entity_field: data_steward
           plugin_id: entity_reference
           operator: or
-          value: {  }
+          value: null
           group: 1
           exposed: true
           expose:
@@ -1116,7 +1115,7 @@ display:
             identifier: data_steward_target_id
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
             reduce: false
@@ -1133,14 +1132,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          sub_handler: 'default:rothamsted_researcher'
+          sub_handler: views
           widget: autocomplete
           sub_handler_settings:
-            target_bundles: null
-            sort:
-              field: _none
-              direction: ASC
-            auto_create: false
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
         contact_target_id:
           id: contact_target_id
           table: rothamsted_proposal__contact
@@ -1152,7 +1150,7 @@ display:
           entity_field: contact
           plugin_id: entity_reference
           operator: or
-          value: {  }
+          value: null
           group: 1
           exposed: true
           expose:
@@ -1183,14 +1181,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          sub_handler: 'default:rothamsted_researcher'
+          sub_handler: views
           widget: autocomplete
           sub_handler_settings:
-            target_bundles: null
-            sort:
-              field: name
-              direction: ASC
-            auto_create: false
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
       filter_groups:
         operator: AND
         groups:

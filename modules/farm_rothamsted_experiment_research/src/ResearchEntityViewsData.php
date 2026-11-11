@@ -31,6 +31,7 @@ class ResearchEntityViewsData extends EntityViewsData {
         'rothamsted_experiment',
         'roamsted_design',
         'rothamsted_proposal',
+        'rothamsted_researcher',
       ];
       if (!in_array($target_type, $target_types)) {
         continue;

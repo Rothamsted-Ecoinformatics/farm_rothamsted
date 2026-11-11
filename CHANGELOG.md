@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Experiment proposals are not viewable [#925](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/925)
 - Error when attempting to create an Experiment Boundary [#930](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/930)
+- Duplicates in research views [#926](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/926)
 
 ### Removed
 

@@ -1,4 +1,3 @@
-uuid: 33bb1351-125b-4794-9d3e-db52ee4ea702
 langcode: en
 status: true
 dependencies:
@@ -919,7 +918,7 @@ display:
           entity_field: statistician
           plugin_id: entity_reference
           operator: or
-          value: {  }
+          value: null
           group: 1
           exposed: true
           expose:
@@ -950,14 +949,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          sub_handler: 'default:rothamsted_researcher'
+          sub_handler: views
           widget: autocomplete
           sub_handler_settings:
-            target_bundles: null
-            sort:
-              field: name
-              direction: ASC
-            auto_create: false
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
         blocking_structure:
           id: blocking_structure
           table: rothamsted_design_data

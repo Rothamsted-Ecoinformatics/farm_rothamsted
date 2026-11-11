@@ -935,7 +935,7 @@ display:
           entity_field: principal_investigator
           plugin_id: entity_reference
           operator: or
-          value: {  }
+          value: null
           group: 1
           exposed: true
           expose:
@@ -966,14 +966,13 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-          sub_handler: 'default:rothamsted_researcher'
+          sub_handler: views
           widget: autocomplete
           sub_handler_settings:
-            target_bundles: null
-            sort:
-              field: name
-              direction: ASC
-            auto_create: false
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
         funder_value:
           id: funder_value
           table: rothamsted_program__funder
