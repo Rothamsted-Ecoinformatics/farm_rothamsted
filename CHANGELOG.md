@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.3](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-11-11
+
 ### Fixed
 
 - Experiment proposals are not viewable [#925](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/925)
