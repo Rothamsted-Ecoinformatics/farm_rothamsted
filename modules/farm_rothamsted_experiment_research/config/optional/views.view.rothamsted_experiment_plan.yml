@@ -1,3 +1,4 @@
+uuid: dfbc7ca9-c334-4896-8156-d7f9d9c5f66a
 langcode: en
 status: true
 dependencies:
@@ -15,6 +16,8 @@ dependencies:
   enforced:
     module:
       - farm_rothamsted_experiment_research
+_core:
+  default_config_hash: U61qirbDS3baW596PIX5bT7sIZizIyVHYoPoQh0_BVA
 id: rothamsted_experiment_plan
 label: 'Rothamsted Study Plan'
 module: views
@@ -1496,6 +1499,109 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
+        statistician_target_id:
+          id: statistician_target_id
+          table: rothamsted_design__statistician
+          field: statistician_target_id
+          relationship: experiment_design_target_id
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_design
+          entity_field: statistician
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: statistician_target_id_op
+            label: Statisticians
+            description: ''
+            use_operator: false
+            operator: statistician_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: statistician_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          sub_handler: views
+          widget: autocomplete
+          sub_handler_settings:
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
+        researcher_target_id:
+          id: researcher_target_id
+          table: rothamsted_experiment__researcher
+          field: researcher_target_id
+          relationship: experiment
+          group_type: group
+          admin_label: ''
+          entity_type: rothamsted_experiment
+          entity_field: researcher
+          plugin_id: entity_reference
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: researcher_target_id_op
+            label: Researchers
+            description: ''
+            use_operator: false
+            operator: researcher_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: researcher_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          sub_handler: views
+          widget: autocomplete
+          sub_handler_settings:
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
+          reference_views:
+            view:
+              view_name: rothamsted_researcher_reference
+              display_name: entity_reference
+              arguments: {  }
         archived:
           id: archived
           table: plan_field_data
