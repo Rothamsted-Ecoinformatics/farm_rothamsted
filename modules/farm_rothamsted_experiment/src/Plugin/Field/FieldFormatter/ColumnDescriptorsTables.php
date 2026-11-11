@@ -49,7 +49,7 @@ class ColumnDescriptorsTables extends FormatterBase {
       $tables = [];
 
       // Build table for each factor.
-      $columns = Json::decode($item->value);
+      $columns = Json::decode($item->get('value')->getValue());
       foreach ($columns as $column) {
 
         // Protect against this formatter being used for other json fields.

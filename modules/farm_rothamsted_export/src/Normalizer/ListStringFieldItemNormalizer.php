@@ -26,8 +26,9 @@ class ListStringFieldItemNormalizer extends FieldItemNormalizer {
     // Return the list string option label if field_value_option_labels is set.
     if (isset($context['field_value_option_labels']) && $context['field_value_option_labels'] === TRUE) {
       $options = $field_item->getPossibleOptions();
-      if (isset($options[$field_item->value])) {
-        return (string) $options[$field_item->value];
+      $value = $field_item->get('value')->getValue();
+      if (isset($options[$value])) {
+        return (string) $options[$value];
       }
     }
 

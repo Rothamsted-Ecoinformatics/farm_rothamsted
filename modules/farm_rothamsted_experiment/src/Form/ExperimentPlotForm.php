@@ -115,7 +115,6 @@ class ExperimentPlotForm extends ExperimentFormBase {
     $form_state->setRedirect('view.rothamsted_experiment_plan_plots.page', ['plan' => $plan->id()]);
 
     $study_period = $plan->get('study_period_id')->value;
-    /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $plot_field */
     $plot_count = $form_state->getValue('plot_count', 1);
 
     // Build batch operations to update plot geometries.

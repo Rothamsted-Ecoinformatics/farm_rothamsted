@@ -48,7 +48,6 @@ class ResearchBreadcrumbBuilder extends PathBasedBreadcrumbBuilder {
     switch ($route_match->getRouteName()) {
 
       case 'entity.rothamsted_program.canonical':
-        /** @var \Drupal\asset\Entity\AssetInterface $asset */
         $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Home'), '<front>'));
         $breadcrumb->addLink(Link::createFromRoute(new TranslatableMarkup('Research Programs'), 'entity.rothamsted_program.collection'));
         break;

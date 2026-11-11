@@ -47,7 +47,7 @@ class ExperimentVariable extends ControllerBase {
    */
   public function variablesList(PlanInterface $plan) {
 
-    $raw_columns = $plan->get('column_descriptors')->first()->value;
+    $raw_columns = $plan->get('column_descriptors')->first()->get('value')->getValue();
     $columns = Json::decode($raw_columns);
 
     $items = [];

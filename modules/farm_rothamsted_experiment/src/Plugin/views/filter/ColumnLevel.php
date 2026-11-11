@@ -17,6 +17,13 @@ use Drupal\views\Plugin\views\filter\InOperator;
 class ColumnLevel extends InOperator {
 
   /**
+   * SQL query.
+   *
+   * @var \Drupal\views\Plugin\views\query\Sql
+   */
+  public $query = NULL;
+
+  /**
    * {@inheritdoc}
    */
   public function buildExposedForm(&$form, FormStateInterface $form_state) {

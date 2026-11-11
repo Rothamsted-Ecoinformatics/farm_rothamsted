@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_comment\Hook;
 
+use Drupal\comment\CommentInterface;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
@@ -23,7 +24,7 @@ class FormHooks {
 
     // Bail if not the right form.
     $form_object = $form_state->getFormObject();
-    if ($form_id != 'comment_log_form' || !$form_object instanceof EntityFormInterface) {
+    if ($form_id != 'comment_log_form' || !$form_object instanceof EntityFormInterface || !$form_object->getEntity() instanceof CommentInterface) {
       return;
     }
 
@@ -55,12 +56,17 @@ class FormHooks {
       return;
     }
 
+    // Bail if not the right form.
+    $form_object = $form_state->getFormObject();
+    if (!$form_object instanceof EntityFormInterface || !$form_object->getEntity() instanceof CommentInterface) {
+      return;
+    }
+    $comment = $form_object->getEntity();
+
     // Check if the box was checked to flag the log for review.
     $review_flag = $form_state->getValue('log_flag_review');
 
     // Check that we have a commented log.
-    /** @var \Drupal\comment\CommentInterface $comment */
-    $comment = $form_state->getFormObject()->getEntity();
     $log = $comment->getCommentedEntity();
     if (($log instanceof LogInterface) && $log->hasField('flag')) {
 

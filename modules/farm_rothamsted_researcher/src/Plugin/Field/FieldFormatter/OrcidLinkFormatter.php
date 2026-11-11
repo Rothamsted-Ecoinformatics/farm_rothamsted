@@ -30,10 +30,11 @@ class OrcidLinkFormatter extends FormatterBase {
 
     foreach ($items as $delta => $item) {
       if (!$item->isEmpty()) {
+        $value = $item->get('value')->getValue();
         $elements[$delta] = [
           '#type' => 'link',
-          '#url' => Url::fromUri("https://orcid.org/$item->value"),
-          '#title' => $item->value,
+          '#url' => Url::fromUri("https://orcid.org/$value"),
+          '#title' => $value,
         ];
       }
     }

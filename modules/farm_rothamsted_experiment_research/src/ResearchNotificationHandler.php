@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_experiment_research;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Mail\MailManagerInterface;
@@ -14,8 +15,11 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\comment\CommentInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface;
 use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface;
+use Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface;
 use Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface;
 use Drupal\log\Entity\LogInterface;
+use Drupal\plan\Entity\PlanInterface;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -146,10 +150,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Log entities.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $log
+   * @param \Drupal\log\Entity\LogInterface $log
    *   The log entity.
    */
-  public function buildNewLogAlert(EntityInterface $log) {
+  public function buildNewLogAlert(LogInterface $log) {
 
     // Build email content.
     $entity_type_id = $log->getEntityTypeId();
@@ -171,10 +175,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Log entities.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $log
+   * @param \Drupal\log\Entity\LogInterface $log
    *   The log entity.
    */
-  public function buildUpdatedLogAlert(EntityInterface $log) {
+  public function buildUpdatedLogAlert(LogInterface $log) {
 
     // Build email content.
     $entity_type_id = $log->getEntityTypeId();
@@ -231,12 +235,12 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Rothamsted researcher.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $researcher
+   * @param \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher
    *   The researcher entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
    */
-  protected function buildNewRothamstedResearcherAlert(EntityInterface $researcher, bool $new_researcher = FALSE) {
+  protected function buildNewRothamstedResearcherAlert(RothamstedResearcherInterface $researcher, bool $new_researcher = FALSE) {
 
     // Check the farm_user.
     $email = NULL;
@@ -276,10 +280,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Rothamsted researcher.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $researcher
+   * @param \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher
    *   The researcher entity.
    */
-  protected function buildUpdatedRothamstedResearcherAlert(EntityInterface $researcher) {
+  protected function buildUpdatedRothamstedResearcherAlert(RothamstedResearcherInterface $researcher) {
 
     // Check the farm_user.
     $email = NULL;
@@ -313,12 +317,12 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Rothamsted Proposal.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $proposal
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface $proposal
    *   The research proposal entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
    */
-  protected function buildNewRothamstedProposalAlert(EntityInterface $proposal, bool $new_researcher = FALSE) {
+  protected function buildNewRothamstedProposalAlert(RothamstedProposalInterface $proposal, bool $new_researcher = FALSE) {
 
     // Get the researchers from the research proposal entity.
     $researchLeads = $this->getResearcherEmails($proposal->get('contact'), TRUE, 'proposal');
@@ -382,10 +386,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Rothamsted Proposal.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $proposal
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface $proposal
    *   The research proposal entity.
    */
-  protected function buildUpdatedRothamstedProposalAlert(EntityInterface $proposal) {
+  protected function buildUpdatedRothamstedProposalAlert(RothamstedProposalInterface $proposal) {
 
     // Get the researchers from the research proposal entity.
     $researchLeads = $this->getResearcherEmails($proposal->get('contact'), FALSE, 'proposal');
@@ -446,12 +450,12 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Rothamsted Program.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $program
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface $program
    *   The program entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
    */
-  protected function buildNewRothamstedProgramAlert(EntityInterface $program, bool $new_researcher = FALSE) {
+  protected function buildNewRothamstedProgramAlert(RothamstedProgramInterface $program, bool $new_researcher = FALSE) {
 
     // Get principal investigator emails.
     $emails = $this->getResearcherEmails($program->get('principal_investigator'), TRUE, 'program');
@@ -477,10 +481,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Rothamsted Program.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $program
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface $program
    *   The program entity.
    */
-  protected function buildUpdatedRothamstedProgramAlert(EntityInterface $program) {
+  protected function buildUpdatedRothamstedProgramAlert(RothamstedProgramInterface $program) {
 
     // Get principal investigator emails.
     $emails = $this->getResearcherEmails($program->get('principal_investigator'), FALSE, 'program');
@@ -552,12 +556,12 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Rothamsted Design.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $design
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface $design
    *   The design entity.
    * @param bool $new_researcher
    *   Boolean if emails should only send to new researchers.
    */
-  protected function buildNewRothamstedDesignAlert(EntityInterface $design, bool $new_researcher = FALSE) {
+  protected function buildNewRothamstedDesignAlert(RothamstedDesignInterface $design, bool $new_researcher = FALSE) {
 
     $emails = $this->getDesignResearcherEmails($design, $new_researcher, TRUE);
 
@@ -579,10 +583,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Rothamsted Design.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $design
+   * @param \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface $design
    *   The design entity.
    */
-  protected function buildUpdatedRothamstedDesignAlert(EntityInterface $design) {
+  protected function buildUpdatedRothamstedDesignAlert(RothamstedDesignInterface $design) {
 
     $emails = $this->getDesignResearcherEmails($design, FALSE, FALSE);
 
@@ -606,10 +610,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build a new alert for Plan.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $plan
+   * @param \Drupal\plan\Entity\PlanInterface $plan
    *   The plan entity.
    */
-  protected function buildNewPlanAlert(EntityInterface $plan) {
+  protected function buildNewPlanAlert(PlanInterface $plan) {
     $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity, FALSE, TRUE);
 
     // Build email content.
@@ -631,10 +635,10 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Build an updated alert for Plan.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $plan
+   * @param \Drupal\plan\Entity\PlanInterface $plan
    *   The plan entity.
    */
-  protected function buildUpdatedPlanAlert(EntityInterface $plan) {
+  protected function buildUpdatedPlanAlert(PlanInterface $plan) {
     $emails = $this->getDesignResearcherEmails($plan->get('experiment_design')->entity, FALSE, FALSE);
 
     // Build email content.
@@ -840,7 +844,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
   /**
    * Helper function to build a list of changed field values.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
    *   The entity with fields.
    * @param array $excluded_fields
    *   Array of fields to exclude. Defaults to sensible list.
@@ -848,7 +852,7 @@ class ResearchNotificationHandler implements ContainerInjectionInterface {
    * @return string[]
    *   A string describing the changed fields.
    */
-  protected function getEntityFieldDifferences(EntityInterface $entity, array $excluded_fields = []): array {
+  protected function getEntityFieldDifferences(FieldableEntityInterface $entity, array $excluded_fields = []): array {
 
     // Get changed fields.
     $all_field_changes = farm_rothamsted_notification_compare_entity_fields($entity->toArray(), $entity->getOriginal()->toArray());

@@ -116,7 +116,8 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
     foreach ($items as $delta => $item) {
 
       // Skip items that don't match the configured key value.
-      if (!empty($this->getSetting('column_id')) && $item->key != $this->getSetting('column_id')) {
+      $key = $item->get('key')->getValue();
+      if (!empty($this->getSetting('column_id')) && $key != $this->getSetting('column_id')) {
         continue;
       }
 
@@ -124,7 +125,7 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
       // checked.
       if (!$this->getSetting('value_only')) {
         $elements[$delta]['key'] = [
-          '#plain_text' => nl2br($item->key . ' : '),
+          '#plain_text' => nl2br($key . ' : '),
         ];
       }
       // Add the value to the render array.
@@ -132,9 +133,10 @@ class PlotColumnDescriptor extends TextDefaultFormatter {
         $elements[$delta]['value'] = $value_elements[$delta];
       }
       else {
-        if (isset($column_levels[(int) $item->value - 1])) {
+        $value = $item->get('value')->getValue();
+        if (isset($column_levels[(int) $value - 1])) {
           $elements[$delta]['value'] = [
-            '#plain_text' => $column_levels[(int) $item->value - 1],
+            '#plain_text' => $column_levels[(int) $value - 1],
           ];
         }
       }

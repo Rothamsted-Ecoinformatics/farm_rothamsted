@@ -213,6 +213,8 @@ class RelatedEntities extends ControllerBase {
     // Experiment references the programs.
     $programs = [];
     if ($experiment = $rothamsted_design->get('experiment')->entity) {
+      /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface $experiment */
+      /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface[] $programs */
       $programs = $experiment->get('program')->referencedEntities();
     }
 
@@ -247,7 +249,10 @@ class RelatedEntities extends ControllerBase {
     $experiment = NULL;
     $programs = [];
     if ($design = $plan->get('experiment_design')->entity) {
+      /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedDesignInterface $design */
       if ($experiment = $design->get('experiment')->entity) {
+        /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface $experiment */
+        /** @var \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProgramInterface[] $programs */
         $programs = $experiment->get('program')->referencedEntities();
       }
     }

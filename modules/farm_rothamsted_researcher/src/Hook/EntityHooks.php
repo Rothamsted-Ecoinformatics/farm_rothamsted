@@ -8,7 +8,6 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Session\AccountInterface;
@@ -108,8 +107,8 @@ class EntityHooks {
       $researchers = $this->entityTypeManager->getStorage('rothamsted_researcher')->loadByProperties([
         'farm_user' => $account->id(),
       ]);
-      /** @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher */
       if ($researcher = reset($researchers)) {
+        /** @var \Drupal\farm_rothamsted_researcher\Entity\RothamstedResearcherInterface $researcher */
         $build['researcher_profile'] = [
           '#type' => 'item',
           '#markup' => '<h4 class="label">' . new TranslatableMarkup('Researcher profile') . '</h4> ' . $researcher->toLink($researcher->label())->toString(),
@@ -158,7 +157,7 @@ class EntityHooks {
    * Implements hook_ENTITY_TYPE_access().
    */
   #[Hook('rothamsted_researcher_access')]
-  public function rothamstedResearcherAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+  public function rothamstedResearcherAccess(RothamstedResearcherInterface $entity, $operation, AccountInterface $account) {
 
     // Only check view and update operations.
     if (!in_array($operation, ['update', 'view']) || $entity->get('farm_user')->isEmpty()) {
@@ -166,7 +165,7 @@ class EntityHooks {
     }
 
     // Only check if the farm_user is the current user.
-    if ($entity->farm_user->entity->id() == $account->id()) {
+    if ($entity->get('farm_user')->entity->id() == $account->id()) {
       // Allow access if the user has the view/update own permission.
       return AccessResultAllowed::allowedIf($account->hasPermission("$operation assigned rothamsted_researcher"));
     }

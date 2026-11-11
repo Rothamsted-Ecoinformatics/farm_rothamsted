@@ -23,6 +23,7 @@ class FormHooks {
     if (!$form_object instanceof EntityFormInterface) {
       return;
     }
+    /** @var \Drupal\user\UserInterface $user */
     $user = $form_object->getEntity();
     $form['account']['mail']['#disabled'] = !$user->get('mail')->access('edit');
   }

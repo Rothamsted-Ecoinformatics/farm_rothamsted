@@ -291,7 +291,7 @@ class QuickDrilling extends QuickExperimentFormBase {
     $crop_name = $this->entityTypeManager->getStorage('taxonomy_term')->load($crop)->label();
 
     // Get the crop/variety names.
-    /** @var \Drupal\taxonomy\TermInterface[] $variety */
+    /** @var \Drupal\taxonomy\TermInterface[] $varieties */
     $varieties = $form_state->getValue('crop_variety', []);
     $variety_names = [];
     foreach ($varieties as $variety) {

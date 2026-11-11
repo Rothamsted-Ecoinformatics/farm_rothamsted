@@ -6,6 +6,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Hook;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -197,7 +198,7 @@ class EntityHooks {
    * Implements hook_ENTITY_TYPE_insert().
    */
   #[Hook('comment_insert')]
-  public function commentInsert(EntityInterface $entity): void {
+  public function commentInsert(CommentInterface $entity): void {
     if ($entity->bundle() == 'rothamsted_proposal' && $entity->get('proposal_review')->value) {
       $this->updateProposalReviewer($entity);
     }
@@ -207,7 +208,7 @@ class EntityHooks {
    * Implements hook_ENTITY_TYPE_update().
    */
   #[Hook('comment_update')]
-  public function commentUpdate(EntityInterface $entity): void {
+  public function commentUpdate(CommentInterface $entity): void {
     if ($entity->bundle() == 'rothamsted_proposal' && $entity->get('proposal_review')->value) {
       $this->updateProposalReviewer($entity);
     }
@@ -410,7 +411,7 @@ class EntityHooks {
    * associated with a researcher that is assigned to the experiment atop
    * the research hierarchy.
    */
-  protected function researchEntityAccess(EntityInterface $entity, string $operation, AccountInterface $account): AccessResult {
+  protected function researchEntityAccess(ContentEntityInterface $entity, string $operation, AccountInterface $account): AccessResult {
 
     // Allow access if the user is an experiment admin.
     if ($account->hasPermission('administer rothamsted_experiment plan')) {

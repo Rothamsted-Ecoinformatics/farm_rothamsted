@@ -7,6 +7,7 @@ namespace Drupal\farm_rothamsted_experiment_research\Form;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -38,7 +39,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
   /**
    * The assets to create logs for.
    *
-   * @var \Drupal\Core\Entity\EntityInterface[]
+   * @var \Drupal\Core\Entity\ContentEntityInterface[]
    */
   protected $entities;
 
@@ -136,7 +137,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
     $options = [];
     $entity_storage = $this->entityTypeManager->getStorage($this->entityType->id());
     $default_entity = $entity_storage->create();
-    if ($options_provider = $field_definitions['status']->getOptionsProvider($field_definitions['status']->getMainPropertyName(), $default_entity)) {
+    if ($field_definitions['status'] instanceof FieldStorageDefinitionInterface && $options_provider = $field_definitions['status']->getOptionsProvider($field_definitions['status']->getMainPropertyName(), $default_entity)) {
       $options = $options_provider->getPossibleOptions($this->user);
     }
 

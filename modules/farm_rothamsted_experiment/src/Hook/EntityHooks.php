@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_experiment\Hook;
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\plan\Entity\PlanInterface;
 
 /**
  * Entity hook implementations for farm_rothamsted_experiment.
@@ -34,7 +34,7 @@ class EntityHooks {
    * Implements hook_ENTITY_TYPE_view().
    */
   #[Hook('plan_view')]
-  public function planView(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, string $view_mode): void {
+  public function planView(array &$build, PlanInterface $entity, EntityViewDisplayInterface $display, string $view_mode): void {
 
     // Only modify experiment plans.
     if ($entity->bundle() !== 'rothamsted_experiment') {
