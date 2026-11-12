@@ -15,40 +15,40 @@ use Drupal\user\EntityOwnerInterface;
 interface RothamstedProposalInterface extends ContentEntityInterface, EntityChangedInterface, RevisionLogInterface, EntityOwnerInterface {
 
   /**
-   * Gets the experiment name.
+   * Gets the proposal name.
    *
    * @return string
-   *   The experiment name.
+   *   The proposal name.
    */
   public function getName();
 
   /**
-   * Sets the experiment name.
+   * Sets the proposal name.
    *
    * @param string $name
-   *   The experiment name.
+   *   The proposal name.
    *
-   * @return \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface
-   *   The experiment entity.
+   * @return \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface
+   *   The proposal entity.
    */
   public function setName($name);
 
   /**
-   * Gets the experiment creation timestamp.
+   * Gets the proposal creation timestamp.
    *
    * @return int
-   *   Creation timestamp of the experiment.
+   *   Creation timestamp of the proposal.
    */
   public function getCreatedTime();
 
   /**
-   * Sets the experiment creation timestamp.
+   * Sets the proposal creation timestamp.
    *
    * @param int $timestamp
-   *   Creation timestamp of the experiment.
+   *   Creation timestamp of the proposal.
    *
-   * @return \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedExperimentInterface
-   *   The experiment entity.
+   * @return \Drupal\farm_rothamsted_experiment_research\Entity\RothamstedProposalInterface
+   *   The proposal entity.
    */
   public function setCreatedTime($timestamp);
 

@@ -44,6 +44,7 @@ class RothamstedExperimentPlotLogs extends JoinPluginBase {
 
     // Add join condition.
     $condition = "log_field_data.id = %alias.log_id";
+    // @phpstan-ignore offsetAccess.notFound
     $select_query->addJoin($this->type, $sub_query, $table['alias'], $condition);
   }
 

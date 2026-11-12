@@ -16,7 +16,7 @@ class ResearcherAccessTest extends FarmBrowserTestBase {
   /**
    * Test user.
    *
-   * @var \Drupal\user\Entity\User
+   * @var \Drupal\user\UserInterface
    */
   protected $user;
 

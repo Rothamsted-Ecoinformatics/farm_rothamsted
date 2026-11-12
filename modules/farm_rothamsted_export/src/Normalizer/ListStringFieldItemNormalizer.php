@@ -28,7 +28,7 @@ class ListStringFieldItemNormalizer extends FieldItemNormalizer {
       $options = $field_item->getPossibleOptions();
       $value = $field_item->get('value')->getValue();
       if (isset($options[$value])) {
-        return (string) $options[$value];
+        return [(string) $options[$value]];
       }
     }
 

@@ -42,6 +42,8 @@ class ExperimentPlotForm extends ExperimentFormBase {
     $boundary = $this->experimentBoundary($plan);
     if (empty($boundary)) {
       $this->messenger()->addWarning(new TranslatableMarkup('An experiment boundary is required before you can create plots.'));
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return $this->redirect('farm_rothamsted_experiment.experiment_boundary_form', ['plan' => $plan->id()]);
     }
 

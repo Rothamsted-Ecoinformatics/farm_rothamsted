@@ -5,30 +5,14 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_researcher\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Controller that provides routes for the current user researcher.
  */
-class CurrentUserResearcher extends ControllerBase implements ContainerInjectionInterface {
-
-  public function __construct(
-    protected $entityTypeManager,
-  ) {
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity_type.manager')
-    );
-  }
+class CurrentUserResearcher extends ControllerBase {
 
   /**
    * Redirect to the current user's researcher entity.
@@ -40,7 +24,7 @@ class CurrentUserResearcher extends ControllerBase implements ContainerInjection
 
     // Query for the current user's researcher profile.
     $current_user = $this->currentUser();
-    $researchers = $this->entityTypeManager->getStorage('rothamsted_researcher')->loadByProperties([
+    $researchers = $this->entityTypeManager()->getStorage('rothamsted_researcher')->loadByProperties([
       'farm_user' => $current_user->id(),
     ]);
 

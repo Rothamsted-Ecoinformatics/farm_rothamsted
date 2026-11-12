@@ -28,7 +28,6 @@ use Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRoutePr
 use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
 use Drupal\link\LinkItemInterface;
 use Drupal\user\EntityOwnerTrait;
-use Drupal\user\UserInterface;
 
 /**
  * Defines the research proposal entity class.
@@ -133,36 +132,6 @@ class RothamstedProposal extends RevisionableContentEntityBase implements Rotham
    */
   public function setCreatedTime($timestamp) {
     $this->set('created', $timestamp);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwner() {
-    return $this->get('uid')->entity;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwnerId() {
-    return $this->get('uid')->target_id;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwnerId($uid) {
-    $this->set('uid', $uid);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwner(UserInterface $account) {
-    $this->set('uid', $account->id());
     return $this;
   }
 

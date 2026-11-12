@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_rothamsted_export\Form;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -21,17 +22,18 @@ use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
 use Drupal\farm_rothamsted_export\DataExportTypePluginManager;
 use Drupal\file\Entity\File;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a form for configuring and confirming data export.
  */
 class ExportDataActionForm extends ConfirmFormBase {
 
+  use AutowireTrait;
+
   /**
    * The tempstore object.
    *
-   * @var \Drupal\Core\TempStore\SharedTempStore
+   * @var \Drupal\Core\TempStore\PrivateTempStore
    */
   protected $tempStore;
 
@@ -44,20 +46,6 @@ class ExportDataActionForm extends ConfirmFormBase {
     PrivateTempStoreFactory $tempStore,
   ) {
     $this->tempStore = $tempStore->get('export_data_action');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('current_user'),
-      $container->get('class_resolver'),
-      $container->get('current_route_match'),
-      $container->get('farm_rothamsted_export.data_export_type_plugin_manager'),
-      $container->get('entity_type.manager'),
-      $container->get('tempstore.private'),
-    );
   }
 
   /**
@@ -100,6 +88,8 @@ class ExportDataActionForm extends ConfirmFormBase {
     $entities = $this->tempStore->get("{$this->currentUser->id()}:$entity_type_id");
     if (empty($entities)) {
       $this->messenger()->addError(new TranslatableMarkup('No entities selected for export.'));
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return $this->redirect('system.admin_content');
     }
 

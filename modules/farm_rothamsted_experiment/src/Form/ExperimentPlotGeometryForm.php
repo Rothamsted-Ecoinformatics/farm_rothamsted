@@ -78,6 +78,8 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     $has_plots = !$plan->get('plot')->isEmpty();
     if (!$has_plots) {
       $this->messenger()->addWarning(new TranslatableMarkup('Create experiment plots before uploading plot geometry.'));
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return $this->redirect('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $plan->id()]);
     }
 
@@ -85,6 +87,8 @@ class ExperimentPlotGeometryForm extends ExperimentFormBase {
     // have proper plot ID and plot number values.
     if ($plan->get('column_descriptors')->isEmpty()) {
       $this->messenger()->addWarning(new TranslatableMarkup('Upload experiment variables before uploading plot geometry.'));
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return $this->redirect('farm_rothamsted_experiment.experiment.variable_form', ['plan' => $plan->id()]);
     }
 

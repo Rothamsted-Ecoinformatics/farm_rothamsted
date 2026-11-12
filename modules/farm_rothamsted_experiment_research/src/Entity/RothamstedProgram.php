@@ -27,7 +27,6 @@ use Drupal\farm_rothamsted_experiment_research\RothamstedEntityListBuilder;
 use Drupal\farm_rothamsted_experiment_research\Routing\EntityStatusChangeRouteProvider;
 use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
 use Drupal\user\EntityOwnerTrait;
-use Drupal\user\UserInterface;
 
 /**
  * Defines the research program entity class.
@@ -130,36 +129,6 @@ class RothamstedProgram extends RevisionableContentEntityBase implements Rothams
    */
   public function setCreatedTime($timestamp) {
     $this->set('created', $timestamp);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwner() {
-    return $this->get('uid')->entity;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwnerId() {
-    return $this->get('uid')->target_id;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwnerId($uid) {
-    $this->set('uid', $uid);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwner(UserInterface $account) {
-    $this->set('uid', $account->id());
     return $this;
   }
 

@@ -24,7 +24,6 @@ use Drupal\farm_rothamsted_researcher\Form\ResearcherForm;
 use Drupal\farm_rothamsted_researcher\RothamstedResearcherListBuilder;
 use Drupal\farm_ui_menu\Menu\DefaultSecondaryLocalTaskProvider;
 use Drupal\user\EntityOwnerTrait;
-use Drupal\user\UserInterface;
 
 /**
  * Defines the researcher entity class.
@@ -124,36 +123,6 @@ class RothamstedResearcher extends RevisionableContentEntityBase implements Roth
    */
   public function setCreatedTime($timestamp) {
     $this->set('created', $timestamp);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwner() {
-    return $this->get('uid')->entity;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwnerId() {
-    return $this->get('uid')->target_id;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwnerId($uid) {
-    $this->set('uid', $uid);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwner(UserInterface $account) {
-    $this->set('uid', $account->id());
     return $this;
   }
 

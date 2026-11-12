@@ -68,6 +68,8 @@ class ExperimentVariableForm extends ExperimentFormBase {
     $has_plots = !$plan->get('plot')->isEmpty();
     if (!$has_plots) {
       $this->messenger()->addWarning(new TranslatableMarkup('Create experiment plots before uploading experiment variables.'));
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return $this->redirect('farm_rothamsted_experiment.experiment_plot_form', ['plan' => $plan->id()]);
     }
 

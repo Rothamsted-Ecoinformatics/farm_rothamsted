@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_rothamsted_experiment_research\Form;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -14,7 +15,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -22,10 +22,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class EntityStatusChangeActionForm extends ConfirmFormBase {
 
+  use AutowireTrait;
+
   /**
    * The tempstore factory.
    *
-   * @var \Drupal\Core\TempStore\SharedTempStore
+   * @var \Drupal\Core\TempStore\PrivateTempStore
    */
   protected $tempStore;
 
@@ -50,18 +52,6 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
     PrivateTempStoreFactory $temp_store_factory,
   ) {
     $this->tempStore = $temp_store_factory->get('research_entity_status_change_confirm');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity_type.manager'),
-      $container->get('entity_field.manager'),
-      $container->get('current_user'),
-      $container->get('tempstore.private'),
-    );
   }
 
   /**
@@ -105,7 +95,7 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return '';
+    return new TranslatableMarkup('The status will be updated.');
   }
 
   /**
@@ -122,6 +112,8 @@ class EntityStatusChangeActionForm extends ConfirmFormBase {
     $this->entityType = $this->entityTypeManager->getDefinition($entity_type_id);
     $this->entities = $this->tempStore->get($this->user->id() . ':' . $entity_type_id);
     if (empty($entity_type_id) || empty($this->entities)) {
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return new RedirectResponse($this->getCancelUrl()
         ->setAbsolute()
         ->toString());
