@@ -29,7 +29,7 @@ class BooleanFieldItemNormalizer extends FieldItemNormalizer {
         $field_item->getFieldDefinition()->getSetting('on_label') :
         $field_item->getFieldDefinition()->getSetting('off_label');
       if ($setting) {
-        return (string) $setting;
+        return [(string) $setting];
       }
     }
 

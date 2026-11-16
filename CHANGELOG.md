@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix TypeError: Return value must be of type array, string returned in BooleanFieldItemNormalizer->normalize() [#933](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/issues/933)
+
 ## [3.0.3](https://github.com/Rothamsted-Ecoinformatics/farm_rothamsted/milestone/54) 2026-11-11
 
 ### Fixed
