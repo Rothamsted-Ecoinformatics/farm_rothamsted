@@ -6,6 +6,6 @@ core_version_requirement: ^11
 dependencies:
   - farm_api
   - farm_role
-  - farm_role_account_admin
+  #- farm_role_account_admin
   - farm_rothamsted:farm_rothamsted
   - simple_oauth_password_grant:simple_oauth_password_grant
